@@ -89,7 +89,7 @@ class UploadAttachments(BrowserView):
             attachments.add(obj)
             obj = attachments.get(obj.id)
             try:
-                handle_file_creation(obj, None)
+                handle_file_creation(obj, None, async=False)
             except Exception as e:
                 log.warn('Could not get previews for attachment: {0}, '
                          u'{1}: {2}'.format(

@@ -17,12 +17,14 @@ from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.utils import update_task_status
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
@@ -452,7 +454,7 @@ class Sidebar(BaseTile):
                 url=url,
                 creator=api.user.get(username=r['Creator']),
                 modified=r['modified'],
-                subject=r['Subject'],
+                subject=r.get('Subject', ()),
                 UID=r['UID'],
                 path=r.getPath()
             ))
@@ -482,7 +484,6 @@ class Sidebar(BaseTile):
         It returns the items based on the selected grouping (and later may
         take sorting, archiving etc into account)
         """
-        catalog = api.portal.get_tool("portal_catalog")
         current_path = '/'.join(self.context.getPhysicalPath())
         sidebar_search = self.request.get('sidebar-search', None)
         query = {}
@@ -502,11 +503,14 @@ class Sidebar(BaseTile):
         if sidebar_search:
             # User has typed a search query
 
+            sitesearch = getUtility(ISiteSearch)
+            query['path'] = current_path
             # XXX plone only allows * as postfix.
             # With solr we might want to do real substr
-            query['SearchableText'] = '%s*' % sidebar_search
-            query['path'] = current_path
-            results = self._extract_attrs(catalog.searchResults(query))
+            response = sitesearch.query(phrase='%s*' % sidebar_search,
+                                        filters=query,
+                                        step=99999)
+            results = self._extract_attrs(response)
 
         elif self.request.get('groupname'):
             # User has clicked on a specific group header
@@ -946,3 +950,22 @@ class Sidebar(BaseTile):
             sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def folders(self):
+        """
+        Return a list of ancestor containers, from the workspace to the current
+        context.
+        """
+        context = self.context
+        root = parent_workspace(context)
+        root_path = root.getPhysicalPath()
+        remaining_path = context.getPhysicalPath()[len(root_path):]
+        if not remaining_path:
+            return []
+        current = root
+        folders = [current]
+        for next_id in remaining_path:
+            current = current[next_id]
+            if current != context:
+                folders.append(current)
+        return folders

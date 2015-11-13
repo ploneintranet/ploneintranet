@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 def update_task_status(self, return_status_message=False):
     """
     opens or closes tasks
-    is used by workspace sidebar and dashboard
+    is used by workspace view/sidebar and dashboard
     """
     current_tasks = self.request.form.get('current-tasks', [])
     active_tasks = self.request.form.get('active-tasks', [])

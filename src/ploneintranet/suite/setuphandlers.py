@@ -27,7 +27,6 @@ from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from plone.app.event.base import localized_now
 
-
 log = logging.getLogger(__name__)
 
 # commits are needed in interactive but break in test mode
@@ -299,17 +298,14 @@ def workspaces_spec(context):
                      },
                     {'title': 'Open Market Day',
                      'type': 'Event',
-                     'state': 'published',
                      'start': tomorrow,
                      'end': tomorrow + timedelta(hours=8)},
                     {'title': 'Plone Conf',
                      'type': 'Event',
-                     'state': 'published',
                      'start': next_month,
                      'end': next_month + timedelta(days=3, hours=8)},
                     {'title': "Yesterday's gone",
                      'type': 'Event',
-                     'state': 'published',
                      'owner': 'allan_neece',
                      'start': tomorrow - timedelta(days=3),
                      'end': tomorrow - timedelta(days=2)},
@@ -549,7 +545,10 @@ def caseworkspaces_spec(context):
     return caseworkspaces
 
 
-def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
+def create_caseworkspaces(caseworkspaces,
+                          container='workspaces',
+                          force=False,
+                          workflow_policy='case_workflow'):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
@@ -580,7 +579,7 @@ def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
-        wfconfig.setPolicyIn('case_workflow')
+        wfconfig.setPolicyIn(workflow_policy)
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)

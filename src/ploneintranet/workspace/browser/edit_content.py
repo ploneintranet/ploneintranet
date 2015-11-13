@@ -30,7 +30,6 @@ class EditFolder(BrowserView):
         if modified and not errors:
             api.portal.show_message(
                 _("Item edited."), request=self.request, type="success")
-            self.context.reindexObject()
             notify(ObjectModifiedEvent(self.context))
 
         if errors:

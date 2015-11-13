@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
+# import transaction
+from AccessControl.SecurityManagement import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.User import UnrestrictedUser
 from DateTime import DateTime
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
+# from ploneintranet.async.tasks import ReindexObject
+# from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
+from zope.container.interfaces import INameChooser
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
@@ -49,15 +57,17 @@ class AddContent(BrowserView):
             pass
 
         form = self.request.form
+        title = form.get('title')
+        id = form.get('id')
+        derived_id = id or title
+        new_id = idnormalizer.normalize(derived_id)
         new = None
 
         # BBB: this should be moved to a proper validate function!
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
-                title = form.get('title')
-                case_id = idnormalizer.normalize(title)
-                new = create_case_from_template(template_id, case_id)
+                new = create_case_from_template(template_id, new_id)
             else:
                 api.portal.show_message(
                     _('Please specify which Case Template to use'),
@@ -66,11 +76,14 @@ class AddContent(BrowserView):
                 )
         else:
             container = self.context
+            chooser = INameChooser(container)
+            new_id = chooser.chooseName(new_id, container)
             new = api.content.create(
                 container=container,
                 type=self.portal_type,
+                id=new_id,
                 title=self.title,
-                safe_id=True,
+                safe_id=False,
             )
 
         if not new:
@@ -92,20 +105,40 @@ class AddContent(BrowserView):
                     participant_policy = 'publishers'
                 else:
                     raise AttributeError
-
+            old_security_manager = getSecurityManager()
+            acl_users = api.portal.get_tool('acl_users')
+            tmp_user = UnrestrictedUser(
+                'Workspace Init', '', ['TeamManager'], '')
+            tmp_acl_user = tmp_user.__of__(acl_users)
+            newSecurityManager(None, tmp_acl_user)
+            try:
                 new.set_external_visibility(external_visibility)
-                new.join_policy = join_policy
-                new.participant_policy = participant_policy
+            except:
+                raise
+            finally:
+                setSecurityManager(old_security_manager)
+
+            acl_users = api.portal.get_tool('acl_users')
+            if acl_users.ZCacheable_enabled():
+                acl_users.ZCacheable_invalidate()
+
+            new.join_policy = join_policy
+            new.participant_policy = participant_policy
 
         modified, errors = dexterity_update(new)
 
-        if modified and not errors:
+        if not errors:
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
+            # if ASYNC_ENABLED:
+            #     transaction.commit()
+            #     ReindexObject(new, self.request)(countdown=5)
+            # else:
             new.reindexObject()
+
             notify(ObjectModifiedEvent(new))
 
-        if errors:
+        else:
             api.portal.show_message(
                 _("There was a problem: %s." % errors),
                 request=self.request,

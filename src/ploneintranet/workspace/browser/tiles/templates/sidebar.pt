@@ -21,6 +21,7 @@
             <div class="button-bar functions" id="selector-functions">
               <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+
                 <a href="/open-market-committee"
                    class="button icon-left-open pat-inject"
                    data-pat-inject="source: #workspace-documents; target: #workspace-documents"
@@ -145,7 +146,7 @@
                 </div>
 
                 <div class="folder-intro">
-                  <h4 class="folder-title">
+                  <h4 class="folder-title"><tal:repeat repeat="folder view/folders"><a class="pat-inject" href="${folder/absolute_url}#workspace-documents">${folder/title}</a> &gt; </tal:repeat>
                     <tal:block content="context/Title" />
                     <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"
                        tal:condition="view/can_edit"
@@ -304,8 +305,8 @@ Supported types include (class names):
           <tal:tasks condition="python:ws.is_case or tasks">
             <form method="post" class="pat-autosubmit pat-inject"
                   tal:define="ws view/workspace"
-                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
-                  tal:attributes="action string:${ws/absolute_url}/@@sidebar.default">
+                  data-pat-inject="source: #workspace-tickets; target: #workspace-tickets${python:ws.is_case and ' && source: .timeline; target: .timeline' or ''}"
+                  tal:attributes="action string:${ws/absolute_url}">
 
               <tal:workspace_tasks tal:condition="not: ws/is_case">
                 <fieldset class="object-list tasks pat-checklist">
@@ -379,7 +380,7 @@ Supported types include (class names):
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
                          tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
-                         tal:condition="python:milestone['transition_id']"
+                         tal:condition="python:milestone['transition_enabled']"
                          tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['reopen_transition']"

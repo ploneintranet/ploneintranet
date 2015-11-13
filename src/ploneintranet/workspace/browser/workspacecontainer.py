@@ -3,6 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
@@ -29,9 +30,9 @@ class Workspaces(BrowserView):
 
     def sort_options(self):
         options = [{'value': 'alphabet',
-                    'content': 'Alphabetical'},
+                    'content': _(u'Alphabetical')},
                    {'value': 'newest',
-                    'content': 'Newest workspaces on top'},
+                    'content': _(u'Newest workspaces on top')},
                    # Not yet implemented
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}
@@ -40,11 +41,11 @@ class Workspaces(BrowserView):
 
     def workspace_types(self):
         options = [{'value': '',
-                    'content': 'All workspace types'},
+                    'content': _(u'All workspace types')},
                    {'value': 'ploneintranet.workspace.workspacefolder',
-                    'content': 'Generic workspaces'},
+                    'content': _(u'Generic workspaces')},
                    {'value': 'ploneintranet.workspace.case',
-                    'content': 'Cases'}
+                    'content': _(u'Cases')}
                    ]
         return options
 
@@ -52,7 +53,9 @@ class Workspaces(BrowserView):
     def workspaces(self):
         ''' The list of my workspaces
         '''
-        return my_workspaces(self.context, self.request)
+        return my_workspaces(self.context,
+                             self.request,
+                             include_activities=False)
 
 
 class AddView(BrowserView):

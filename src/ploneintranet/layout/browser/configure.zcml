@@ -33,14 +33,6 @@
       />
 
   <browser:page
-      name="apps.html"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".apps.Apps"
-      permission="zope.Public"
-      template="templates/apps.pt"
-  />
-
-  <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
@@ -69,6 +61,14 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="date-picker-i18n.json"
+      class=".date_picker.I18nJSONView"
+      permission="zope2.View"
+      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      />
+
 
   <plone:tile
       name="tasks.tile"
@@ -80,6 +80,14 @@
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
+
+    <browser:page
+      name="apps.html"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".apps.Apps"
+      permission="zope2.View"
+      template="templates/apps.pt"
+    />
 
   <plone:tile
       name="news.tile"

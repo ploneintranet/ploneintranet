@@ -4,7 +4,9 @@ from plone.memoize.view import memoize
 from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from zope.component import getUtility
 from zope.component import queryUtility
 from ploneintranet.layout.utils import shorten
 
@@ -36,20 +38,21 @@ class WorkspacesTile(Tile):
     def workspaces(self):
         """ The list of my workspaces
         """
-        return my_workspaces(self.context, workspace_types=self.workspace_type)
+        return my_workspaces(self.context, workspace_types=self.workspace_type,
+                             include_activities=False)
 
 
 def my_workspaces(context,
                   request=None,
                   workspace_types=['ploneintranet.workspace.workspacefolder',
-                                   'ploneintranet.workspace.case']):
+                                   'ploneintranet.workspace.case'],
+                  include_activities=True):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
     """
 
     # determine sorting order (default: alphabetical)
     sort_by = "sortable_title"
-    order = "ascending"
     searchable_text = None
 
     if request:
@@ -60,46 +63,65 @@ def my_workspaces(context,
                     "is not yet possible")
             elif request.sort == "newest":
                 sort_by = "modified"
-                order = "reverse"
         if 'SearchableText' in request:
-            searchable_text = request['SearchableText']
+            searchable_text = request['SearchableText'].strip()
         if 'workspace_type' in request and request.get('workspace_type'):
             workspace_types = request['workspace_type']
 
-    pc = api.portal.get_tool('portal_catalog')
     portal = api.portal.get()
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
 
-    query = dict(object_provides=(
-        'ploneintranet.workspace.workspacefolder.IWorkspaceFolder'),
+    pc = api.portal.get_tool('portal_catalog')
+    review_states = list(pc.uniqueValuesFor('review_state'))
+    review_states.remove('rejected')
+    review_states.remove('archived')
+
+    query = dict(
         portal_type=workspace_types,
-        sort_on=sort_by,
-        sort_order=order,
-        path=ws_path)
+        path=ws_path,
+        review_state=review_states)
+
+    sitesearch = getUtility(ISiteSearch)
 
     if searchable_text:
-        query['SearchableText'] = searchable_text + '*'
-
-    brains = pc(query)
+        response = sitesearch.query(phrase=searchable_text,
+                                    filters=query,
+                                    step=99999)
+    else:
+        response = sitesearch.query(filters=query, step=99999)
 
     workspaces = []
-    for brain in brains:
-        css_class = escape_id_to_class(brain.getId)
-        if brain.portal_type == 'ploneintranet.workspace.case':
+    for item in response:
+        path_components = item.path.split('/')
+        id = path_components[-1]
+        css_class = escape_id_to_class(id)
+        if item.portal_type == 'ploneintranet.workspace.case':
             css_class = 'type-case ' + css_class
+
+        activities = []
+        if include_activities:
+            obj = portal.restrictedTraverse(path_components)
+            activities = get_workspace_activities(obj)
+
         workspaces.append({
-            'id': brain.getId,
-            'title': brain.Title,
-            'description': brain.Description,
-            'url': brain.getURL(),
-            'activities': get_workspace_activities(brain),
+            'id': id,
+            'title': item.title,
+            'description': item.description,
+            'url': item.url,
+            'activities': activities,
             'class': css_class,
+            'modified': item.modified
         })
+
+    if sort_by == 'modified':
+        workspaces.sort(key=lambda item: item['modified'], reverse=True)
+    else:
+        workspaces.sort(key=lambda item: item['title'].lower())
     return workspaces
 
 
-def get_workspace_activities(brain, limit=1):
+def get_workspace_activities(obj, limit=1):
     """ Return the workspace activities sorted by reverse chronological
     order
 
@@ -109,7 +131,7 @@ def get_workspace_activities(brain, limit=1):
      - the title value contains the absolute date and time of the post
     """
     mb = queryUtility(IMicroblogTool)
-    items = mb.context_values(brain.getObject(), limit=limit)
+    items = mb.context_values(obj, limit=limit)
     mtool = api.portal.get_tool('portal_membership')
     results = []
     for item in items:

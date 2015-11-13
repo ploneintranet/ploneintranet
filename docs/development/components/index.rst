@@ -11,7 +11,6 @@ Component Packages
     workspace
     search
     invitations
-    async
     filepreviews
     network
     pagerank

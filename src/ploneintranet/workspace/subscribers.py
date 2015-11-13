@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 import logging
 from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
+from plone.app.textfield.value import RichTextValue
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
@@ -210,7 +212,6 @@ def update_todo_state(obj, event):
     depending on the state of the Case.
     """
     obj.set_appropriate_state()
-    obj.reindexObject()
 
 
 def update_todos_state(obj, event):
@@ -222,10 +223,14 @@ def update_todos_state(obj, event):
     current_path = '/'.join(obj.getPhysicalPath())
     brains = pc(path=current_path, portal_type='todo')
     for brain in brains:
-        todo = brain.getObject()
-        execute_as_manager(_update_todo_state, todo)
+        execute_as_manager(_update_todo_state, brain)
 
 
-def _update_todo_state(todo):
+def _update_todo_state(brain):
+    todo = brain.getObject()
     todo.set_appropriate_state()
-    todo.reindexObject()
+
+
+def set_default_body_text(obj, event):
+    default_text = obj.translate(_(u'Add text here'))
+    obj.text = RichTextValue(raw=u'<p>{} …</p>'.format(default_text))

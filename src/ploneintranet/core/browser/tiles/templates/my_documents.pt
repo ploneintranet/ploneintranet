@@ -5,8 +5,11 @@
 
   <body tal:define="my_documents view/my_documents">
     <div class="library portlet span-1" id="portlet-library" tal:condition="my_documents">
-      <div class="content">
-        <h2 class="portlet-title" i18n:translate="">Library</h2>
+      <div class="content"
+           tal:define="path request/form/path;
+                       root python:context.get(path)"
+           tal:condition="root">
+        <h2 class="portlet-title"><a href="${root/absolute_url}" i18n:translate="" tal:content="string:my_docs_heading_${root/id}"/></h2>
         <ul class="menu links">
           <tal:my_document repeat="my_document my_documents">
             <li class="my_document" tal:attributes="title my_document/Title">

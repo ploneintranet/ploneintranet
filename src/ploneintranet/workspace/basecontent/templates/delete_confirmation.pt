@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
+
+    <body>
+
+        <metal:main fill-slot="main"
+            tal:define="useSelf python:context_state.is_structural_folder() and not context_state.is_default_page();
+                        folder_warning python:useSelf and context.portal_type != 'Topic';
+                        number_of_objects_to_delete python:folder_warning and view.items_to_delete">
+
+        <h1 class="documentFirstHeading"
+            i18n:translate=""
+            tal:condition="view/is_locked">
+            This item can not be deleted because it is currently locked by another user.
+        </h1>
+
+        <tal:block condition="not:view/is_locked">
+            <h1 class="documentFirstHeading"
+                i18n:translate=""
+                tal:condition="folder_warning">
+                Delete folder
+            </h1>
+
+            <h1 class="documentFirstHeading"
+                i18n:translate=""
+                tal:condition="not:folder_warning">
+                Delete <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/portal_type"></tal:block>
+            </h1>
+
+            <div class="panel-body">
+                <article>
+                    <p tal:condition="not:folder_warning" i18n:translate="">
+                        You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="" i18n:domain="plone" tal:content="context/portal_type"></tal:block>. Are you sure?
+                    </p>
+
+                    <p tal:condition="folder_warning">
+                        <tal:block i18n:translate="">You are about to delete this folder. Are you sure?</tal:block>
+                        <span i18n:translate="" tal:condition="python:number_of_objects_to_delete>1">
+                            (This will delete a total of <tal:block i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</tal:block> items.)
+                        </span>
+                    </p>
+
+                    <ul>
+                        <li tal:content="context/@@plone_context_state/object_title">The item title (ID)</li>
+                    </ul>
+
+                    <form metal:use-macro="context/@@ploneform-macros/titlelessform">
+                        <metal:actions fill-slot="actions">
+                            <div class="buttons panel-footer">
+
+                                <button type="submit" name="form.buttons.Delete" class="icon-ok-circle" i18n:translate="">
+                                    I am sure, delete now
+                                </button>
+
+                                <button type="button" class="close-panel icon-cancel-circle" i18n:domain="plone" i18n:translate="">
+                                    Cancel
+                                </button>
+
+                            </div>
+                        </metal:actions>
+                    </form>
+                </article>
+            </div>
+
+
+        </tal:block>
+
+        </metal:main>
+    </body>
+</html>

@@ -17,12 +17,8 @@
   <div class="post-header">
     <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
     <p class="byline">
-      <em class="action" i18n:translate="label_posted">posted</em>
-      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
-
-      <tal:location condition="here/title|nothing">
-        in <a href="${here/url}">${here/title}</a>
-      </tal:location>
+      <em class="action" i18n:translate="">posted</em> <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
+      <tal:location condition="here/title|nothing"> in <a href="${here/url}">${here/title}</a></tal:location>
 
       <!-- XXX: This is not yet implemented -->
       <!--label class="visibility pat-select bare">

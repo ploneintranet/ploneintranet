@@ -16,10 +16,10 @@
         <div class="panel-body" tal:define="templates view/templates">
           <fieldset class="vertical">
             <label>
-              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" />
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" i18n:attributes="placeholder" />
             </label>
             <label>
-              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+              <textarea placeholder="Workspace description" rows="6" name="description" i18n:attributes="placeholder"></textarea>
             </label>
             <label>
               <select name="portal_type">
@@ -39,7 +39,7 @@
 
                 <fieldset class="group pat-checklist radio" tal:condition="python: len(templates) <=6">
                     <label tal:repeat="template templates">
-                      <input type="radio" name="template_id" checked="checked" tal:attributes="value template/id">
+                      <input type="radio" name="template_id" tal:attributes="value template/id">
                       ${template/Title}
                     </label>
                 </fieldset>

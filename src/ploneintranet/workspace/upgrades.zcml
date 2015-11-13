@@ -19,4 +19,12 @@
         handler=".upgrades.reset_empty_tags"
         profile="ploneintranet.workspace:default" />
 
+    <genericsetup:upgradeStep
+        title="Reload registry"
+        description="Adding review_state to the ploneintranet.search.filter_fields"
+        source="*"
+        destination="0005"
+        handler=".upgrades.reload_registry"
+        profile="ploneintranet.workspace:default" />
+
 </configure>

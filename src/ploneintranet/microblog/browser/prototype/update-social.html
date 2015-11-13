@@ -8,7 +8,7 @@
     <body>
 
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
-<metal:macro define-macro="main">
+<metal:macro define-macro="main" i18n:domain="ploneintranet">
   <tal:block tal:define="portal_url portal_url|here/portal_url">
     <div
         class="ploneintranet"
@@ -62,7 +62,7 @@
               ><em class="placeholder">${placeholder|newpostbox_view/placeholder}</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
-                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
+                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).fullname;
                 display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
                 ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"

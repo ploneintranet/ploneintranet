@@ -205,10 +205,21 @@ I can follow Esmeralda
     Wait Until Page contains element  css=button[title="You are now following Esmeralda Claassen. Click to unfollow."]
 
 I can see upcoming events
-    Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
+    Page Should Contain Element  xpath=//a[.='Plone Conf']
 
 Older events are hidden
     Element should not be visible  jquery=div#older-events a
+
+I can delete an old event
+    Click Element  css=div#older-events h3
+    Mouse Over  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Focus  xpath=//div[@id='older-events']//li[@class='cal-event']
+    Click Element  css=div#older-events button[type='submit']
+    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Click Button    I am sure, delete now
+    Wait Until Page Contains    has been deleted    5
+    Element should not be visible  css=#workspace-documents
+    Element should be visible  css=#workspace-events
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -497,7 +508,7 @@ I cannot edit an event because of validation
 
 Then I can delete an event
     [arguments]  ${title}
-    Click link  jquery=a:contains("${title}")
+    Click link  ${title}
     Wait Until Page Contains Element  css=div.event-details
     Wait until element is visible  css=.meta-bar .icon-trash
     Click Element  css=.meta-bar .icon-trash
@@ -506,7 +517,6 @@ Then I can delete an event
     Wait Until Page Contains  has been deleted
     Element should not be visible  css=#workspace-documents
     Element should be visible  css=#workspace-events
-    Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20

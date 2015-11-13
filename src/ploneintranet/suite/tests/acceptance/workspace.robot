@@ -46,6 +46,12 @@ Member can view sidebar events
       And I can see upcoming events
     Older events are hidden
 
+Owner can delete sidebar events
+    Comment  In the test setup, we made the workspace member allen_neece owner of an old event
+    Given I am in a workspace as a workspace member
+    I can go to the sidebar events tile
+    I can delete an old event
+
 # The following tests are commented out, since we currently have no concept
 # for adding tasks in a workspace. Relying on globally available tasks (the
 # reason why these tests used to be passing) is not valid.

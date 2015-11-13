@@ -31,3 +31,15 @@ ZIP = ('application/zip',
        'application/x-zip-compressed')
 URI = ('text/x-uri')
 NEWS = ('message/news')
+
+
+# Transition icons for the MetroMap
+
+TRANSITION_ICONS = {
+    'transfer_to_department': 'icon-right-hand',
+    'finalise': 'icon-pin',
+    'submit': 'icon-right-circle',
+    'decide': 'icon-hammer',
+    'close': 'icon-cancel-circle',
+    'archive': 'icon-archive',
+}

@@ -1,4 +1,5 @@
 from Products.CMFPlone.utils import safe_unicode
+from collections import defaultdict
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform.z2 import processInputs
@@ -11,7 +12,6 @@ from z3c.form.interfaces import NO_VALUE
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
-
 import logging
 
 log = logging.getLogger(__name__)
@@ -44,7 +44,7 @@ def dexterity_update(obj, request=None):
     Utility method to update the fields of all the schemas of the Dexterity
     object 'obj'.
     """
-    modified = False
+    modified = defaultdict(list)
     if not request:
         request = obj.REQUEST
     # Call processInputs to decode strings to unicode, otherwise the
@@ -103,6 +103,6 @@ def dexterity_update(obj, request=None):
                     dm.query() != value or
                     interfaces.IObject.providedBy(field)):
                 dm.set(value)
-                modified = True
+                modified[schema].append(name)
 
-    return modified, errors
+    return dict(modified), errors

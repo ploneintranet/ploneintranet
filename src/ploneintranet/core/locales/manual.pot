@@ -17,6 +17,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ploneintranet\n"
 
+
+#. Default: "My profile"
+msgid "My profile"
+msgstr ""
+
 msgid "workspacefolders"
 msgstr ""
 
@@ -30,6 +35,9 @@ msgid "Word 2007 document"
 msgstr ""
 
 msgid "PowerPoint 2007 presentation"
+msgstr ""
+
+msgid "ODT document"
 msgstr ""
 
 msgid "Zip archive"
@@ -69,6 +77,14 @@ msgid "Case Workspace"
 msgstr ""
 
 msgid "Person"
+msgstr ""
+
+#. Default: "My Documents"
+msgid "my_docs_heading_workspaces"
+msgstr ""
+
+#. Default: "Library"
+msgid "my_docs_heading_library"
 msgstr ""
 
 #: ../layout/browser/templates/dashboard.pt

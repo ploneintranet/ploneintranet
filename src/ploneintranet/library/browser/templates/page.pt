@@ -10,6 +10,7 @@
   Based on prototype/_site/synode/index.html
 </tal:comment>
 
+
 <metal:content fill-slot="content">
   <div class="container">
 

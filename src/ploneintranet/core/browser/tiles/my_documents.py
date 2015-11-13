@@ -13,6 +13,8 @@ class MyDocumentsTile(Tile):
         permission to view.
         """
         catalog = api.portal.get_tool('portal_catalog')
+        portal_id = api.portal.get().id
+        path = '{}/{}'.format(portal_id, self.request.form.get('path'))
 
         recently_modified_items = catalog.searchResults(
             object_provides=[
@@ -23,5 +25,6 @@ class MyDocumentsTile(Tile):
             sort_on='modified',
             sort_limit=10,
             sort_order='descending',
+            path=path,
         )
         return recently_modified_items

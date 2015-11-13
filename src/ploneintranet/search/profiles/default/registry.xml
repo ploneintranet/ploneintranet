@@ -12,6 +12,7 @@
       <element>friendly_type_name</element>
       <element>portal_type</element>
       <element>path</element>
+      <element>review_state</element>
     </value>
   </record>
 

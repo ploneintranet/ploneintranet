@@ -29,6 +29,8 @@
                   data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
+                  <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibilty -->
+                  <a class="button pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar" tal:attributes="href context/aq_parent/absolute_url" tal:content="context/aq_parent/Title">Name of parent goes here</a>
 
                   <span class="title-group">
                     <h1 class="doc-title" id="document-title">${context/title}</h1>
@@ -95,11 +97,21 @@
                   <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
                 </article>
 
+                <tal:c condition="python: context.portal_type == 'File'">
                 <article class="document preview" tal:condition="view/is_available">
                   <tal:previews tal:repeat="preview view/previews">
                     <img src="${preview}" />
                   </tal:previews>
                 </article>
+                <article class="document preview" tal:condition="not:view/is_available">
+                  <p class="message no-preview">
+                        <strong class="title" tal:content="context/Title">projection-material.doc</strong>
+                        <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
+                        <em class="byline" tal:condition="view/is_allowed_document_type" i18n:translate="">Preview being generated</em>
+                        <em class="byline" tal:condition="not:view/is_allowed_document_type" i18n:translate="">No preview available</em>
+                  </p>
+                </article>
+                </tal:c>
 
                 <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                   <figure>

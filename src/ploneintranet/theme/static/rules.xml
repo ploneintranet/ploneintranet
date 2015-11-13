@@ -69,28 +69,24 @@
 
   <!-- Login Form -->
   <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
-    <theme href="generated/index.html" />
+    <theme href="generated/index_ikath.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
-    <replace css:theme-children="figure.splash">
-        <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
-    </replace>
-    <replace css:theme=".colofon">
-  		<p class="colofon">
-  			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
-  		</p>
-      
-    </replace>
   </rules>
 
-  <rules css:if-content="body.portaltype-event,
-                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view,
-                         body.portaltype-ploneintranet-workspace-case.template-view,
-                         body.app-workspace.portaltype-document,
-                         body.app-workspace.portaltype-file,
-                         body.app-workspace.portaltype-image,
+  <rules css:if-content="body.portaltype-event, 
+                         body.portaltype-ploneintranet-workspace-workspacefolder.template-view, 
+                         body.portaltype-ploneintranet-workspace-case.template-view, 
+                         body.app-workspace.portaltype-document, 
+                         body.app-workspace.portaltype-file, 
+                         body.app-workspace.portaltype-image, 
                          body.app-workspace.portaltype-folder">
                          <theme href="generated/minutes-of-2014-06-09/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+  <rules css:if-content="body.template-case-manager">
+    <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>

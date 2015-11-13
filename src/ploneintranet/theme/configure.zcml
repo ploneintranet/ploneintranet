@@ -45,4 +45,8 @@
 
     <include package="z3c.jbot" file="meta.zcml" />
 
+    <adapter factory=".widgets.PatDatePickerConverter" />
+    <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
+    <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+
 </configure>
