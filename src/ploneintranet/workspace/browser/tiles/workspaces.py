@@ -72,9 +72,15 @@ def my_workspaces(context,
     ws_folder = portal.get("workspaces")
     ws_path = "/".join(ws_folder.getPhysicalPath())
 
+    pc = api.portal.get_tool('portal_catalog')
+    review_states = list(pc.uniqueValuesFor('review_state'))
+    review_states.remove('rejected')
+    review_states.remove('archived')
+
     query = dict(
         portal_type=workspace_types,
-        path=ws_path)
+        path=ws_path,
+        review_state=review_states)
 
     sitesearch = getUtility(ISiteSearch)
 
