@@ -41,7 +41,7 @@
     </value>
   </record>
 
-  <record name="ploneintranet.search.solr.phrase_field_boosts">
+  <record name="ploneintranet.search.phrase_field_boosts">
     <field type="plone.registry.field.Dict">
       <title>Phrase query field and associated boost values</title>
       <description>Solr Boost values used to compute relevency for queries.</description>
@@ -58,7 +58,7 @@
     </value>
   </record>
 
-  <record name="ploneintranet.search.solr.spellchecker.accuracy">
+  <record name="ploneintranet.search.spellchecker.accuracy">
     <field type="plone.registry.field.Dict">
       <title>Solr spellchecking settings</title>
       <description>Various spelling checking properties</description>

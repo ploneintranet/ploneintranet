@@ -1,17 +1,18 @@
+import collections
 import logging
 
 from scorched import SolrInterface
+from scorched import search
 from zope.component import adapter
 from zope.interface import implementer
 
-from .. import base
-from ..interfaces import ISearchResponse
-from ..interfaces import ISearchResult
+from . import base
+from .interfaces import ISearchResponse
+from .interfaces import ISearchResult
 from .interfaces import IConnection
 from .interfaces import IConnectionConfig
 from .interfaces import IQuery
 from .interfaces import IResponse
-from .search import Search
 
 
 logger = logging.getLogger(__name__)
@@ -23,12 +24,6 @@ def connection(config):
     """Adapt Solr configuration to connection/query interface."""
     logger.info('Connecting to Solr on %s', config.url)
     return SolrInterface(config.url)
-
-
-@implementer(IQuery)
-@adapter(IConnection)
-def search_query(connection):
-    return Search(connection)
 
 
 @implementer(ISearchResponse)
@@ -85,3 +80,56 @@ class SearchResult(base.SearchResult):
     @property
     def path(self):
         return self.context['path_string']
+
+
+class SpellcheckOptions(search.Options):
+    """Alternate SpellcheckOptions implementation.
+
+    This implements sub-options for the Solr spellchecker.
+    The scorched implementation just allows turning it on.
+
+    This may be pushed back upstream if deemed successfull.
+    """
+    option_name = 'spellcheck'
+    opts = {
+        'accuracy': float,
+        'collate': bool,
+        'maxCollations': int,
+        'onlyMorePopular': bool,
+        'extendedResults': bool,
+        'q': str,
+        'reload': bool,
+        'build': bool,
+    }
+
+    def __init__(self, original=None):
+        super(SpellcheckOptions, self).__init__()
+        fields = collections.defaultdict(dict)
+        self.fields = getattr(original, 'fields', fields)
+
+    def field_names_in_opts(self, opts, fields):
+        if fields:
+            opts[self.option_name] = True
+
+
+class Search(search.SolrSearch):
+
+    def _init_common_modules(self):
+        super(Search, self)._init_common_modules()
+        self.spellchecker = SpellcheckOptions()
+
+    def spellcheck(self, **kw):
+        newself = self.clone()
+        spellchecker = newself.spellchecker
+        query = kw.get('q', u'')
+        # XXX: unicode?
+        if isinstance(query, unicode):
+            kw['q'] = query.encode('utf-8')
+        spellchecker.update(**kw)
+        return newself
+
+
+@implementer(IQuery)
+@adapter(IConnection)
+def search_query(connection):
+    return Search(connection)
