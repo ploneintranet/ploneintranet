@@ -52,53 +52,120 @@ class ISearchResult(Interface):
     title = schema.TextLine(title=_(u'The title of this search result'))
 
     description = schema.TextLine(
-        title=_(u'The description of this search result'))
+        title=_(u'The description of this search result')
+    )
 
     contact_email = schema.TextLine(
-        title=_(u'A contact email address for this search result'))
+        title=_(u'A contact email address for this search result')
+    )
 
     contact_telephone = schema.TextLine(
-        title=_(u'The description of this search result'))
+        title=_(u'The description of this search result')
+    )
 
     portal_type = schema.TextLine(
-        title=_(u'The portal type of this search result'))
+        title=_(u'The portal type of this search result')
+    )
 
     friendly_type_name = schema.TextLine(
-        title=_(u'The friendly label for the type of search result'))
+        title=_(u'The friendly label for the type of search result')
+    )
 
     highlighted_summary = schema.Text(
-        title=_(u'A highlighted summary of this search result'))
+        title=_(u'A highlighted summary of this search result')
+    )
 
     preview_image_path = schema.ASCIILine(
         title=_(u'The relative path to a preview image'
-                u'representing this search result'))
+                u'representing this search result')
+    )
 
     preview_image_url = schema.ASCIILine(
         title=_(u'The absolute URL for a preview image '
-                u'representing search result'))
+                u'representing search result')
+    )
 
     path = schema.ASCIILine(
-        title=_(u'The relative path to the content for this search result'))
+        title=_(u'The relative path to the content for this search result')
+    )
 
     url = schema.ASCIILine(
         title=_(u'The absolute URL to the content for this search result '
-                u'based on the path and the host in the current request'))
+                u'based on the path and the host in the current request')
+    )
 
 
 class ISearchResponse(Interface):
     """Defines a common API for search query responses."""
 
     spell_corrected_search = schema.TextLine(
-        title=_(u'Spell corrected search string'))
+        title=_(u'Spell corrected search string')
+    )
 
     facets = schema.Dict(
-        title=_(u'A dictionary of facets and available values'))
+        title=_(u'A dictionary of facets and available values')
+    )
 
     total_results = schema.Int(
-        title=_(u'The total number of results generated from the query'))
+        title=_(u'The total number of results generated from the query')
+    )
 
     def __iter__():
         """Search responses should implement the `Iterable` protocol.
 
         Iteratating over this object should yield search results.
         """
+
+
+class IConnectionConfig(Interface):
+    """Represents details of a Solr connection."""
+
+    host = schema.ASCIILine()
+    port = schema.Int()
+    basepath = schema.ASCIILine()
+    core = schema.ASCIILine()
+    url = schema.ASCIILine(
+        description=_(u'The URL that will resolve to a SOLR core.')
+    )
+
+
+class IMaintenance(Interface):
+    """Perform maintenance on the Solr server.
+
+    Each method implemented here should communicate with
+    the remote Solr instance, and perform some operation.
+
+    All operations should be synchronous.
+    """
+
+    def build_spellchcker():
+        """Build the Solr spell-checker."""
+
+    def reindex_all():
+        """Re-index all objects."""
+
+    def sync():
+        """Synchronize with portal_catalog."""
+
+
+# Marker interfaces used to hook up scorched to the ZCA.
+
+class IConnection(Interface):
+    """Marker."""
+
+
+class IQuery(Interface):
+    """Marker."""
+
+
+class IResponse(Interface):
+    """Marker."""
+
+    query_params = schema.Dict(
+        description=u'Used to normalize spelling sugestions.',
+        required=True
+    )
+
+
+class IContentAdder(Interface):
+    """Marker."""

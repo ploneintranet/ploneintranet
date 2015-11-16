@@ -3,6 +3,6 @@
   <record name="ploneintranet.search.facet_fields" remove="true" />
   <record name="ploneintranet.search.phrase_fields" remove="true" />
   <record name="ploneintranet.search.filter_fields" remove="true" />
-  <record name="ploneintranet.search.solr.phrase_field_boosts" remove="true" />
-  <record name="ploneintranet.search.solr.spellchecker.accuracy" remove="true" />
+  <record name="ploneintranet.search.phrase_field_boosts" remove="true" />
+  <record name="ploneintranet.search.spellchecker.accuracy" remove="true" />
 </records>

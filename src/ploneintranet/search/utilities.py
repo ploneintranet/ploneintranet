@@ -10,8 +10,8 @@ from zope.interface import implementer
 from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFPlone.utils import safe_unicode
 
-from .. import base
-from ..interfaces import ISiteSearch
+from . import base
+from .interfaces import ISiteSearch
 from .interfaces import IConnectionConfig
 from .interfaces import IConnection
 from .interfaces import IMaintenance

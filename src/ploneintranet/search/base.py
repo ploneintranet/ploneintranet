@@ -46,7 +46,7 @@ class NoOpQueryMethod(object):
     other way.
 
     Assigning an instance of this class to a method name which usually
-    forms part of an abstract API will result in a `pass through` call.
+    forms part of an abstract API will result in a ``pass through`` call.
     """
 
     def __init__(self, reason='Not supported by backend'):
@@ -92,6 +92,8 @@ class SearchResult(object):
         self.contact_telephone = context.get('telephone')
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
+            # XXX: Should this list of types should be fetched from
+            # the registry to allow for extensibility?
             if self.portal_type in ('Image', 'Document', 'News Item'):
                 self.preview_image_path = \
                     '{.path}/@@images/image/preview'.format(self)
@@ -101,7 +103,6 @@ class SearchResult(object):
                     pi_api.previews.get_thumbnail_url(
                         portal.restrictedTraverse(self.path.encode('ascii')),
                         relative=True)
-
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
                 self)

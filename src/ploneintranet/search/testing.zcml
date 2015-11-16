@@ -5,8 +5,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ploneintranet.search.solr.tests">
 
-  <include package="ploneintranet.search.solr"
-           file="meta.zcml" />
+  <include package="ploneintranet.search" file="meta.zcml" />
 
   <solr:connection host="localhost"
                    port="8984"

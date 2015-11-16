@@ -3,7 +3,7 @@ from plone import api
 from plone.browserlayer.utils import registered_layers
 from ploneintranet.search.testing import IntegrationTestCase
 
-PROJECTNAME = 'ploneintranet.search'
+PROJECT_NAME = 'ploneintranet.search'
 
 
 class TestInstall(IntegrationTestCase):
@@ -14,7 +14,7 @@ class TestInstall(IntegrationTestCase):
 
     def test_product_is_installed(self):
         qi = self.portal['portal_quickinstaller']
-        self.assertTrue(qi.isProductInstalled(PROJECTNAME))
+        self.assertTrue(qi.isProductInstalled(PROJECT_NAME))
 
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
@@ -33,10 +33,10 @@ class TestUninstall(IntegrationTestCase):
         self.portal = self.layer['portal']
         self.qi = self.portal['portal_quickinstaller']
         with api.env.adopt_roles(['Manager']):
-            self.qi.uninstallProducts(products=[PROJECTNAME])
+            self.qi.uninstallProducts(products=[PROJECT_NAME])
 
     def test_uninstalled(self):
-        self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
+        self.assertFalse(self.qi.isProductInstalled(PROJECT_NAME))
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
