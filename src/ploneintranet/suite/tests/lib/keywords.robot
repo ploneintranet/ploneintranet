@@ -498,11 +498,11 @@ I cannot edit an event because of validation
 Then I can delete an event
     [arguments]  ${title}
     Click link  jquery=a:contains("${title}")
+    Wait Until Page Contains Element  css=div.event-details
     ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
     ### Solutions proposed on the web address this programmatically with a combination of looping
     ### and exception handling. I wouldn't know of an equivalent solution in robot.
     sleep  2
-    Wait Until Page Contains Element  css=div.event-details
     Wait until element is visible  css=.meta-bar .icon-trash
     Click Element  css=.meta-bar .icon-trash
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
