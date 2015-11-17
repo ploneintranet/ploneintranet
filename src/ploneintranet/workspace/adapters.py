@@ -299,12 +299,6 @@ class MetroMap(object):
                and not open_tasks):
                 finished = True
 
-            # only current state can be closed
-            if (state == current_state and can_manage and not open_tasks):
-                next_transition_enabled = True
-            else:
-                next_transition_enabled = False
-
             # get the id and title of the next transition, for display on the
             # metromap
             next_transition_id = metromap_list[index].get('next_transition')
@@ -313,6 +307,13 @@ class MetroMap(object):
                     cwf.transitions.get(next_transition_id).title)
             else:
                 transition_title = ''
+
+            # only current state can be closed, archived state cannot be closed
+            if (state == current_state and can_manage and not open_tasks
+                    and next_transition_id):
+                next_transition_enabled = True
+            else:
+                next_transition_enabled = False
 
             # reopen only the before-current step, only for admins
             reopen_transition = None
