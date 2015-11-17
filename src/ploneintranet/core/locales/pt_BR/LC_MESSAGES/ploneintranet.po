@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-10-21 11:36+0000\n"
+"POT-Creation-Date: 2015-11-17 14:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Add tags"
 msgstr ""
 
-#: ../workspace/subscribers.py:237
+#: ../workspace/subscribers.py:235
 msgid "Add text here"
 msgstr ""
 
@@ -122,27 +122,27 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:385
+#: ../workspace/browser/tiles/sidebar.py:387
 msgid "All Authors"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:381
+#: ../workspace/browser/tiles/sidebar.py:383
 msgid "All Dates"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:389
+#: ../workspace/browser/tiles/sidebar.py:391
 msgid "All Letters"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:383
+#: ../workspace/browser/tiles/sidebar.py:385
 msgid "All Tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:635
+#: ../workspace/browser/tiles/sidebar.py:639
 msgid "All Time"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:387
+#: ../workspace/browser/tiles/sidebar.py:389
 msgid "All Types"
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:285
+#: ../workspace/browser/tiles/sidebar.py:287
 msgid "Attributes changed."
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Available fields/columns"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:391
+#: ../workspace/browser/tiles/sidebar.py:393
 msgid "Back"
 msgstr ""
 
@@ -309,7 +309,7 @@ msgstr ""
 msgid "Consume"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:35
+#: ../userprofile/browser/templates/userprofile.pt:36
 msgid "Contact"
 msgstr ""
 
@@ -479,7 +479,7 @@ msgstr ""
 msgid "Edit name/description"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:106
+#: ../userprofile/browser/templates/userprofile.pt:107
 msgid "Edit profile"
 msgstr ""
 
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:73
+#: ../userprofile/browser/templates/userprofile.pt:74
 msgid "Followers ${num_followers}"
 msgstr ""
 
@@ -574,7 +574,7 @@ msgstr ""
 msgid "Following"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:96
+#: ../userprofile/browser/templates/userprofile.pt:97
 msgid "Following ${num_following}"
 msgstr ""
 
@@ -586,11 +586,11 @@ msgstr ""
 msgid "From"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:87
+#: ../userprofile/browser/templates/userprofile.pt:88
 msgid "Full list of followers"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:67
+#: ../userprofile/browser/templates/userprofile.pt:68
 msgid "Full list of people ${name_of_followee} follows."
 msgstr ""
 
@@ -665,7 +665,7 @@ msgstr ""
 msgid "Inbox"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:94
+#: ../userprofile/browser/templates/userprofile.pt:95
 #: ../workspace/browser/templates/sharingviewlet.pt:4
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:44
 msgid "Info"
@@ -693,7 +693,7 @@ msgstr ""
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:123
+#: ../workspace/browser/add_content.py:132
 msgid "Item created."
 msgstr ""
 
@@ -701,20 +701,16 @@ msgstr ""
 msgid "Item edited."
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:630
+#: ../workspace/browser/tiles/sidebar.py:634
 msgid "Items modified last month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:624
+#: ../workspace/browser/tiles/sidebar.py:628
 msgid "Items modified last week"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:618
+#: ../workspace/browser/tiles/sidebar.py:622
 msgid "Items modified today"
-msgstr ""
-
-#: ../workspace/browser/tiles/sidebar.py:636
-msgid "Items since ever"
 msgstr ""
 
 msgid "JPEG image"
@@ -736,11 +732,11 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:629
+#: ../workspace/browser/tiles/sidebar.py:633
 msgid "Last Month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:623
+#: ../workspace/browser/tiles/sidebar.py:627
 msgid "Last Week"
 msgstr ""
 
@@ -823,11 +819,11 @@ msgstr ""
 msgid "Member"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:178
+#: ../workspace/browser/tiles/sidebar.py:180
 msgid "Member(s) added"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:183
+#: ../workspace/browser/tiles/sidebar.py:185
 msgid "Member(s) removed"
 msgstr ""
 
@@ -874,7 +870,7 @@ msgstr ""
 msgid "Moderate"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:47
+#: ../userprofile/browser/templates/userprofile.pt:48
 msgid "More information about"
 msgstr ""
 
@@ -900,7 +896,7 @@ msgstr ""
 msgid "My profile"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:119
+#: ../userprofile/browser/templates/userprofile.pt:120
 msgid "Name"
 msgstr ""
 
@@ -996,6 +992,10 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
+#: ../workspace/browser/tiles/sidebar.py:640
+msgid "Older"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:487
 msgid "Older events"
 msgstr ""
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:67
+#: ../workspace/browser/add_content.py:73
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1163,7 +1163,7 @@ msgstr ""
 msgid "Rich text"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:190
+#: ../workspace/browser/tiles/sidebar.py:192
 msgid "Role updated"
 msgstr ""
 
@@ -1429,7 +1429,7 @@ msgstr ""
 msgid "The userid this action is for"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:68
+#: ../workspace/basecontent/baseviews.py:72
 msgid "The workflow state has been changed."
 msgstr ""
 
@@ -1453,16 +1453,16 @@ msgstr ""
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:293
+#: ../workspace/browser/tiles/sidebar.py:295
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:80
+#: ../workspace/basecontent/baseviews.py:83
 msgid "There was a problem:"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:129
-#: ../workspace/browser/edit_content.py:38
+#: ../workspace/browser/add_content.py:143
+#: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr ""
 
@@ -1486,7 +1486,7 @@ msgstr ""
 msgid "Time Zone"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:93
+#: ../userprofile/browser/templates/userprofile.pt:94
 msgid "Timeline"
 msgstr ""
 
@@ -1499,7 +1499,7 @@ msgid "To:"
 msgstr ""
 
 #: ../search/browser/templates/all_results.pt:39
-#: ../workspace/browser/tiles/sidebar.py:617
+#: ../workspace/browser/tiles/sidebar.py:621
 msgid "Today"
 msgstr ""
 
@@ -1532,7 +1532,7 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:193
+#: ../workspace/browser/tiles/sidebar.py:195
 msgid "Unknown function"
 msgstr ""
 
@@ -1637,7 +1637,7 @@ msgstr ""
 msgid "Workspace policy"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:246
+#: ../workspace/browser/tiles/sidebar.py:248
 msgid "Workspace security policy changes saved"
 msgstr ""
 
@@ -1678,7 +1678,7 @@ msgstr ""
 msgid "You can become a member of this workspace"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:161
+#: ../workspace/browser/tiles/sidebar.py:163
 msgid "You do not have permission to change the workspace policy"
 msgstr ""
 
@@ -1686,7 +1686,7 @@ msgstr ""
 msgid "Your Inbox"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:76
+#: ../workspace/basecontent/baseviews.py:80
 msgid "Your changes have been saved."
 msgstr ""
 
@@ -1718,6 +1718,11 @@ msgstr ""
 msgid "author"
 msgstr ""
 
+#. Default: "Close"
+#: ../layout/viewlets/globalstatusmessage.py:21
+msgid "button_close"
+msgstr ""
+
 msgid "cases"
 msgstr ""
 
@@ -1727,7 +1732,7 @@ msgid "date"
 msgstr ""
 
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:183
+#: ../workspace/browser/add_content.py:197
 msgid "dates_hijacked"
 msgstr ""
 
@@ -1742,7 +1747,7 @@ msgid "download"
 msgstr ""
 
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:309
+#: ../workspace/browser/tiles/sidebar.py:311
 msgid "drop_files_here"
 msgstr ""
 
@@ -1762,7 +1767,7 @@ msgid "expand/reduce sidebar"
 msgstr ""
 
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:214
+#: ../workspace/browser/tiles/sidebar.py:216
 msgid "external_visibility_label"
 msgstr ""
 
@@ -1813,7 +1818,7 @@ msgid "items matched your search."
 msgstr ""
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:213
+#: ../workspace/browser/tiles/sidebar.py:215
 msgid "join_policy_label"
 msgstr ""
 
@@ -1915,7 +1920,7 @@ msgid "number_of_members"
 msgstr ""
 
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:216
+#: ../workspace/browser/tiles/sidebar.py:218
 msgid "participant_policy_label"
 msgstr ""
 
@@ -1924,7 +1929,7 @@ msgstr ""
 msgid "placeholder"
 msgstr ""
 
-#: ../workspace/browser/tiles/workspaces.py:120
+#: ../workspace/browser/tiles/workspaces.py:136
 msgid "posted"
 msgstr ""
 

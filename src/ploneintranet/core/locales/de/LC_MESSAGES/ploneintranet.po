@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-10-21 11:36+0000\n"
+"POT-Creation-Date: 2015-11-17 14:45+0000\n"
 "PO-Revision-Date: 2015-07-17 17:24+0000\n"
 "Last-Translator: Armin Stross-Radschinski <developer@acsr.de>\n"
 "Language-Team: German (http://www.transifex.com/p/plone-intranet/language/de/)\n"
@@ -94,7 +94,7 @@ msgstr "Füge ein 'aktuelle Nachrichten' Portlet hinzu."
 msgid "Add tags"
 msgstr "Tags hinzufügen"
 
-#: ../workspace/subscribers.py:237
+#: ../workspace/subscribers.py:235
 msgid "Add text here"
 msgstr "Text eingeben"
 
@@ -129,27 +129,27 @@ msgstr "Erweiterte Berechtigungen"
 msgid "All"
 msgstr "Alles"
 
-#: ../workspace/browser/tiles/sidebar.py:385
+#: ../workspace/browser/tiles/sidebar.py:387
 msgid "All Authors"
 msgstr "Alle Autoren"
 
-#: ../workspace/browser/tiles/sidebar.py:381
+#: ../workspace/browser/tiles/sidebar.py:383
 msgid "All Dates"
 msgstr "Alle Zeitpunkte"
 
-#: ../workspace/browser/tiles/sidebar.py:389
+#: ../workspace/browser/tiles/sidebar.py:391
 msgid "All Letters"
 msgstr "Alle Buchstaben"
 
-#: ../workspace/browser/tiles/sidebar.py:383
+#: ../workspace/browser/tiles/sidebar.py:385
 msgid "All Tags"
 msgstr "Alle Tags"
 
-#: ../workspace/browser/tiles/sidebar.py:635
+#: ../workspace/browser/tiles/sidebar.py:639
 msgid "All Time"
 msgstr "Alle Zeiträume"
 
-#: ../workspace/browser/tiles/sidebar.py:387
+#: ../workspace/browser/tiles/sidebar.py:389
 msgid "All Types"
 msgstr "Alle Typen"
 
@@ -220,7 +220,7 @@ msgstr "Dokumente anhängen"
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: ../workspace/browser/tiles/sidebar.py:285
+#: ../workspace/browser/tiles/sidebar.py:287
 msgid "Attributes changed."
 msgstr "Attribut geändert"
 
@@ -236,7 +236,7 @@ msgstr "Autor dieses Dokuments"
 msgid "Available fields/columns"
 msgstr "Verfügbare Felder/Spalten"
 
-#: ../workspace/browser/tiles/sidebar.py:391
+#: ../workspace/browser/tiles/sidebar.py:393
 msgid "Back"
 msgstr "Zurück"
 
@@ -316,7 +316,7 @@ msgstr "Bedingung nicht erfüllt für {} in Zeile {}."
 msgid "Consume"
 msgstr "Lesen"
 
-#: ../userprofile/browser/templates/userprofile.pt:35
+#: ../userprofile/browser/templates/userprofile.pt:36
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -486,7 +486,7 @@ msgstr "\"Aktuelle Nachrichten\" Portlet bearbeiten"
 msgid "Edit name/description"
 msgstr "Name/Beschreibung bearbeiten"
 
-#: ../userprofile/browser/templates/userprofile.pt:106
+#: ../userprofile/browser/templates/userprofile.pt:107
 msgid "Edit profile"
 msgstr "Profil bearbeiten"
 
@@ -571,7 +571,7 @@ msgstr "Folgen"
 msgid "Followers"
 msgstr "Mir folgen"
 
-#: ../userprofile/browser/templates/userprofile.pt:73
+#: ../userprofile/browser/templates/userprofile.pt:74
 msgid "Followers ${num_followers}"
 msgstr "Mir folgen ${num_followers}"
 
@@ -581,7 +581,7 @@ msgstr "Mir folgen ${num_followers}"
 msgid "Following"
 msgstr "Folge ich"
 
-#: ../userprofile/browser/templates/userprofile.pt:96
+#: ../userprofile/browser/templates/userprofile.pt:97
 msgid "Following ${num_following}"
 msgstr "Folge ich ${num_following}"
 
@@ -593,11 +593,11 @@ msgstr "Für Geschäfte wird die Sicherheit durch den geschäftseigenen Arbeitsa
 msgid "From"
 msgstr "Von"
 
-#: ../userprofile/browser/templates/userprofile.pt:87
+#: ../userprofile/browser/templates/userprofile.pt:88
 msgid "Full list of followers"
 msgstr "Liste aller Personen, die mir folgen"
 
-#: ../userprofile/browser/templates/userprofile.pt:67
+#: ../userprofile/browser/templates/userprofile.pt:68
 msgid "Full list of people ${name_of_followee} follows."
 msgstr "Liste aller Personen, denen ${name_of_followee} folgt"
 
@@ -672,7 +672,7 @@ msgstr "Benutzer aus Datei importieren"
 msgid "Inbox"
 msgstr "Eingangskorb"
 
-#: ../userprofile/browser/templates/userprofile.pt:94
+#: ../userprofile/browser/templates/userprofile.pt:95
 #: ../workspace/browser/templates/sharingviewlet.pt:4
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:44
 msgid "Info"
@@ -700,7 +700,7 @@ msgstr "Lade Benutzer in diesen Arbeitsraum ein (per E-Mail)"
 msgid "Invitees"
 msgstr "Eingeladen"
 
-#: ../workspace/browser/add_content.py:123
+#: ../workspace/browser/add_content.py:132
 msgid "Item created."
 msgstr "Element angelegt."
 
@@ -708,21 +708,17 @@ msgstr "Element angelegt."
 msgid "Item edited."
 msgstr "Element bearbeitet."
 
-#: ../workspace/browser/tiles/sidebar.py:630
+#: ../workspace/browser/tiles/sidebar.py:634
 msgid "Items modified last month"
 msgstr "Objekte, die im letzten Monat geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:624
+#: ../workspace/browser/tiles/sidebar.py:628
 msgid "Items modified last week"
 msgstr "Objekte, die letzte Woche geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:618
+#: ../workspace/browser/tiles/sidebar.py:622
 msgid "Items modified today"
 msgstr "Objekte, die sich heute geändert haben"
-
-#: ../workspace/browser/tiles/sidebar.py:636
-msgid "Items since ever"
-msgstr "Alle bisherigen Objekte"
 
 msgid "JPEG image"
 msgstr "JPEG"
@@ -743,11 +739,11 @@ msgstr "Jetzt registrieren!"
 msgid "Last Modified"
 msgstr "Zuletzt bearbeitet"
 
-#: ../workspace/browser/tiles/sidebar.py:629
+#: ../workspace/browser/tiles/sidebar.py:633
 msgid "Last Month"
 msgstr "Letzten Monat"
 
-#: ../workspace/browser/tiles/sidebar.py:623
+#: ../workspace/browser/tiles/sidebar.py:627
 msgid "Last Week"
 msgstr "Letzte Woche"
 
@@ -830,11 +826,11 @@ msgstr "Markiere den Inhalt als \"Muss\" für alle Benutzer"
 msgid "Member"
 msgstr "Mitglied"
 
-#: ../workspace/browser/tiles/sidebar.py:178
+#: ../workspace/browser/tiles/sidebar.py:180
 msgid "Member(s) added"
 msgstr "Benutzer hinzugefügt"
 
-#: ../workspace/browser/tiles/sidebar.py:183
+#: ../workspace/browser/tiles/sidebar.py:185
 msgid "Member(s) removed"
 msgstr "Benutzer entfernt"
 
@@ -881,7 +877,7 @@ msgstr "MockFolder"
 msgid "Moderate"
 msgstr "Moderieren"
 
-#: ../userprofile/browser/templates/userprofile.pt:47
+#: ../userprofile/browser/templates/userprofile.pt:48
 msgid "More information about"
 msgstr "Mehr über…"
 
@@ -907,7 +903,7 @@ msgstr "Mein Netzwerk"
 msgid "My profile"
 msgstr "Mein Profil"
 
-#: ../userprofile/browser/templates/userprofile.pt:119
+#: ../userprofile/browser/templates/userprofile.pt:120
 msgid "Name"
 msgstr "Name"
 
@@ -1003,6 +999,10 @@ msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 msgid "Ok"
 msgstr "Ok"
 
+#: ../workspace/browser/tiles/sidebar.py:640
+msgid "Older"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:487
 msgid "Older events"
 msgstr "Ältere Termine"
@@ -1094,7 +1094,7 @@ msgstr "Wählen Sie die verantwortliche Abteilung"
 msgid "Planned"
 msgstr "Geplant"
 
-#: ../workspace/browser/add_content.py:67
+#: ../workspace/browser/add_content.py:73
 msgid "Please specify which Case Template to use"
 msgstr "Bitte geben Sie eine Vorlage an"
 
@@ -1170,7 +1170,7 @@ msgstr "Meilenstein erneut öffnen"
 msgid "Rich text"
 msgstr "Text"
 
-#: ../workspace/browser/tiles/sidebar.py:190
+#: ../workspace/browser/tiles/sidebar.py:192
 msgid "Role updated"
 msgstr "Rolle bearbeitet"
 
@@ -1436,7 +1436,7 @@ msgstr "Der Benutzer (oder die Gruppe), der diese Aufgabe angefordert hat."
 msgid "The userid this action is for"
 msgstr "Die Benutzer ID für diese Aktion"
 
-#: ../workspace/basecontent/baseviews.py:68
+#: ../workspace/basecontent/baseviews.py:72
 msgid "The workflow state has been changed."
 msgstr "Der Workflow-Status wurde geändert"
 
@@ -1460,16 +1460,16 @@ msgstr "Dieser Arbeitsraum ist nur für Personen zugänglich, die eingeladen wur
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr "Der Arbeitsraum ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue Mitglieder hinzufügen. Sobald man Mitglied in der Arbeitsgruppe ist, kann man grundsätzlich alles tun. Nichts in dieser Gruppe ist je sichtbar für Nichtmitglieder."
 
-#: ../workspace/browser/tiles/sidebar.py:293
+#: ../workspace/browser/tiles/sidebar.py:295
 msgid "There was a problem updating the content: %s."
 msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 
-#: ../workspace/basecontent/baseviews.py:80
+#: ../workspace/basecontent/baseviews.py:83
 msgid "There was a problem:"
 msgstr "Es ist ein Problem aufgetreten:"
 
-#: ../workspace/browser/add_content.py:129
-#: ../workspace/browser/edit_content.py:38
+#: ../workspace/browser/add_content.py:143
+#: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr "Es ist ein Problem aufgetreten: %s."
 
@@ -1493,7 +1493,7 @@ msgstr "Zeit"
 msgid "Time Zone"
 msgstr "Zeitzone"
 
-#: ../userprofile/browser/templates/userprofile.pt:93
+#: ../userprofile/browser/templates/userprofile.pt:94
 msgid "Timeline"
 msgstr "Zeitleiste"
 
@@ -1506,7 +1506,7 @@ msgid "To:"
 msgstr "An:"
 
 #: ../search/browser/templates/all_results.pt:39
-#: ../workspace/browser/tiles/sidebar.py:617
+#: ../workspace/browser/tiles/sidebar.py:621
 msgid "Today"
 msgstr "Heute"
 
@@ -1539,7 +1539,7 @@ msgstr "Unentschieden"
 msgid "Unfollow"
 msgstr "Nicht weiter folgen"
 
-#: ../workspace/browser/tiles/sidebar.py:193
+#: ../workspace/browser/tiles/sidebar.py:195
 msgid "Unknown function"
 msgstr "Unbekannte Funktion"
 
@@ -1644,7 +1644,7 @@ msgstr "Mitglieder des Arbeitsraums können Inhalte lesen, hinzufügen und publi
 msgid "Workspace policy"
 msgstr "Richtlinie des Arbeitsraums"
 
-#: ../workspace/browser/tiles/sidebar.py:246
+#: ../workspace/browser/tiles/sidebar.py:248
 msgid "Workspace security policy changes saved"
 msgstr "Die Änderungen an der Sicherheitsrichtlinie des Arbeitsräumes wurden gesichert."
 
@@ -1685,7 +1685,7 @@ msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen 
 msgid "You can become a member of this workspace"
 msgstr "Sie können ein Mitglied dieses Arbeitsraums werden."
 
-#: ../workspace/browser/tiles/sidebar.py:161
+#: ../workspace/browser/tiles/sidebar.py:163
 msgid "You do not have permission to change the workspace policy"
 msgstr "Sie haben nicht die erforderlichen Berechtigungen um die Richtlinien des Arbeitsraums zu ändern."
 
@@ -1693,7 +1693,7 @@ msgstr "Sie haben nicht die erforderlichen Berechtigungen um die Richtlinien des
 msgid "Your Inbox"
 msgstr "Inbox"
 
-#: ../workspace/basecontent/baseviews.py:76
+#: ../workspace/basecontent/baseviews.py:80
 msgid "Your changes have been saved."
 msgstr "Die Änderungen wurden gespeichert."
 
@@ -1725,6 +1725,11 @@ msgstr "Sie haben die folgenden ${num_users} Mitglieder ausgewählt um sie aus d
 msgid "author"
 msgstr "Autor"
 
+#. Default: "Close"
+#: ../layout/viewlets/globalstatusmessage.py:21
+msgid "button_close"
+msgstr "Schließen"
+
 msgid "cases"
 msgstr "Geschäfte"
 
@@ -1734,7 +1739,7 @@ msgid "date"
 msgstr "Datum"
 
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:183
+#: ../workspace/browser/add_content.py:197
 msgid "dates_hijacked"
 msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
@@ -1749,7 +1754,7 @@ msgid "download"
 msgstr "Herunterladen"
 
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:309
+#: ../workspace/browser/tiles/sidebar.py:311
 msgid "drop_files_here"
 msgstr "Dateien hierhin schieben oder klicken zum Durchsuchen."
 
@@ -1769,7 +1774,7 @@ msgid "expand/reduce sidebar"
 msgstr "Seitenleiste aus-/einklappen"
 
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:214
+#: ../workspace/browser/tiles/sidebar.py:216
 msgid "external_visibility_label"
 msgstr "Sichtbarkeit von Aussen"
 
@@ -1823,7 +1828,7 @@ msgid "items matched your search."
 msgstr "Treffer für die Suche"
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:213
+#: ../workspace/browser/tiles/sidebar.py:215
 msgid "join_policy_label"
 msgstr "Teilnahmerichtlinie"
 
@@ -1925,7 +1930,7 @@ msgid "number_of_members"
 msgstr "${no_members} Mitglieder"
 
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:216
+#: ../workspace/browser/tiles/sidebar.py:218
 msgid "participant_policy_label"
 msgstr "Teilnehmerrichtlinie"
 
@@ -1934,7 +1939,7 @@ msgstr "Teilnehmerrichtlinie"
 msgid "placeholder"
 msgstr "Beschreibung"
 
-#: ../workspace/browser/tiles/workspaces.py:120
+#: ../workspace/browser/tiles/workspaces.py:136
 msgid "posted"
 msgstr "abgeschickt"
 
