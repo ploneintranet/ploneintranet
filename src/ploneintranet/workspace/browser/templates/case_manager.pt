@@ -57,8 +57,8 @@
                       <label><tal:block i18n:translate="">Case type</tal:block>
                         <select name="case_type" class="focus">
                           <option value="" i18n:translate="">Pick case type</option>
-                          <tal:r tal:repeat="case_type python:view.get_field_indexes('case_type')">
-                            <option value="${case_type}" selected="${python: request.get('case_type') == case_type and 'selected' or None}">${case_type}</option>
+                          <tal:r tal:repeat="case_type python:view.case_types()">
+                            <option value="${case_type/value}" selected="${python: request.get('case_type') == case_type.value and 'selected' or None}">${case_type/title}</option>
                           </tal:r>
                         </select>
                       </label>

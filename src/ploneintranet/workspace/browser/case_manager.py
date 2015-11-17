@@ -4,6 +4,8 @@ from plone import api
 from ploneintranet.workspace.config import TRANSITION_ICONS
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.publisher.browser import BrowserView
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 def percent_complete(task_details):
@@ -157,3 +159,11 @@ class CaseManagerView(BrowserView):
                 brain['start'].strftime('%d.%m.%Y'),
                 brain['Title'])
         return ''
+
+    def case_types(self):
+        case_types = \
+            api.portal.get_registry_record('ikath.intranet.case_types')
+        terms = [SimpleTerm(value=ct, token=ct, title=case_types[ct])
+                 for ct in case_types]
+        terms.sort(cmp=lambda x, y: cmp(x.title, y.title))
+        return SimpleVocabulary(terms)
