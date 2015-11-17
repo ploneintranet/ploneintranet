@@ -233,4 +233,5 @@ def _update_todo_state(brain):
 
 def set_default_body_text(obj, event):
     default_text = obj.translate(_(u'Add text here'))
-    obj.text = RichTextValue(raw=u'<p>{} …</p>'.format(default_text))
+    if not obj.text:
+        obj.text = RichTextValue(raw=u'<p>{} …</p>'.format(default_text))
