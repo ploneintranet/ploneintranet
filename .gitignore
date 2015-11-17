@@ -18,7 +18,7 @@ docs/make.bat
 eggs/
 Gemfile.lock
 include/
-lib/
+./lib/
 libreoffice/
 local/
 node_modules/
