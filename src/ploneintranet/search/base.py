@@ -92,6 +92,7 @@ class SearchResult(object):
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
         self.mimetype = context.get('mimetype', None)
+
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):

@@ -146,6 +146,10 @@ class ContentIndexer(object):
         schema_fields = schema.get('fields', ())
         return {f['name'] for f in schema_fields if f.get('required')}
 
+    def _schema_fields(self, schema):
+        schema_fields = schema.get('fields', [])
+        return {fdef['name'] for fdef in schema_fields}
+
     def _data_attributes(self, schema, attributes):
         """Retrive the set of attribute names that should be index.
 
@@ -157,27 +161,19 @@ class ContentIndexer(object):
         :param attributes: Optional sequence of SOLR attributes names.
         :type attributes: collections.Sequence
         """
-        schema_fields = schema.get('fields', [])
-        fielddef_map = {fdef['name']: fdef for fdef in schema_fields}
+        schema_fields = self._schema_fields(schema)
 
-        # SOLR now supports partial updates.
-        # If we are asked to index only a single attribute, that's fine.
-
-        # XXX Intercept here to avoid that we kill records when only
-        # reindexing workflow state
-        attributes = None
-        # /XXX
-
-        attr_names = set(fielddef_map)
+        # partial updates are not (yet) supported in scorched
         if attributes is None:
-            attributes = attr_names
+            idx_attrs = set(schema_fields)
         else:
-            attr_names &= set(attributes)
+            idx_attrs = set(attributes)
 
-        # If no matching attributes found, bail out here
-        # (nothing to update in solr)
-        if not attr_names:
-            return []
+        # Use all schema fields we have an intersection, or bail
+        if idx_attrs & schema_fields:
+            idx_attrs = schema_fields
+        else:
+            return set()
 
         # The uniqueKey must be present in the payload sent to SOLR
         # Ensure the unique key is always supplied.
@@ -186,11 +182,11 @@ class ContentIndexer(object):
             raise EnvironmentError(
                 'Solr schema missing required `uniqueKey`'
             )
-        attr_names.add(unique_key)
+        idx_attrs.add(unique_key)
 
         # Remove attributes that should never exist on a Plone object.
-        attr_names -= self._solr_only_attrs
-        return attr_names
+        idx_attrs -= self._solr_only_attrs
+        return idx_attrs
 
     def _indexable_wrapper(self, obj):
         """Adapt the content object in the usual Plone way to access indexable values.
