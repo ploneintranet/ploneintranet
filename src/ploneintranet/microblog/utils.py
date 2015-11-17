@@ -3,7 +3,7 @@ from BTrees import LLBTree
 
 
 def longkeysortreverse(
-        btreeish, minv=None, maxv=None, limit=None, reverse=True):
+        btreeish, minv=None, maxv=None, limit=None):
     """Performance optimized keyspace accessor.
     Returns an iterable of btreeish keys, reverse sorted by key.
     Expects a btreeish with long(microsec) keys.
@@ -19,8 +19,7 @@ def longkeysortreverse(
         # no optimization
         keys = [x for x in accessor(min=minv, max=maxv)]
         keys.sort()
-        if reverse:
-            keys.reverse()
+        keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -34,8 +33,7 @@ def longkeysortreverse(
         tmin = long(tmax - 3600 * 1e6)
         keys = [x for x in accessor(min=tmin, max=tmax)]
         keys.sort()
-        if reverse:
-            keys.reverse()
+        keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -47,8 +45,7 @@ def longkeysortreverse(
         tmin = long(tmax - 23 * 3600 * 1e6)
         keys = [x for x in accessor(min=tmin, max=tmax)]
         keys.sort()
-        if reverse:
-            keys.reverse()
+        keys.reverse()
         for key in keys:
             yield key
             i += 1
@@ -59,8 +56,7 @@ def longkeysortreverse(
         tmax = tmin
         keys = [x for x in accessor(max=tmax)]
         keys.sort()
-        if reverse:
-            keys.reverse()
+        keys.reverse()
         for key in keys:
             yield key
             i += 1

@@ -231,10 +231,12 @@ class StatusUpdateView(BrowserView):
     def comment_views(self):
         ''' Return the way we can reply to this activity
         '''
-        return [
+        replies = list(self.context.replies())
+        replies.reverse()
+        replies_rendered = [
             api.content.get_view(
                 'statusupdate_view',
                 reply,
-                self.request,
-            ).as_comment for reply in self.context.replies()
-        ]
+                self.request).as_comment
+            for reply in replies]
+        return replies_rendered
