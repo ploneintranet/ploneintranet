@@ -63,7 +63,7 @@
                                              assignee_id assignee/getId|nothing"
                                  tal:condition="assignee">
 	                            <a href="" class="pat-avatar "  id="">
-                                  <img src="${portal_url}/@@avatars/${assignee_id}"
+                                  <img src="${portal_url}/@@avatars/${assignee_id}/@@avatar_profile.jpg"
                                        alt="${python:assignee.getProperty('fullname') or assignee_id}"
                                        title="${assignee/Description}"/>
 	                            </a>
@@ -90,7 +90,7 @@
 
           </div>
           <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
-
+          <form id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
           <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
         </div>
 
