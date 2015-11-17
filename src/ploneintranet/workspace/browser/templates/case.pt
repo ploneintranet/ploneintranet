@@ -63,7 +63,7 @@
                                              assignee_id assignee/getId|nothing"
                                  tal:condition="assignee">
 	                            <a href="" class="pat-avatar "  id="">
-                                  <img src="${portal_url}/@@avatars/${assignee_id}/@@avatar_profile.jpg"
+                                  <img src="${portal_url}/@@avatars/${assignee_id}"
                                        alt="${python:assignee.getProperty('fullname') or assignee_id}"
                                        title="${assignee/Description}"/>
 	                            </a>
