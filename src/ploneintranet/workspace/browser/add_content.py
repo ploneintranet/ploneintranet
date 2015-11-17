@@ -99,13 +99,13 @@ class AddContent(BrowserView):
 
         modified, errors = dexterity_update(new)
 
-        if modified and not errors:
+        if not errors:
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
             new.reindexObject()
             notify(ObjectModifiedEvent(new))
 
-        if errors:
+        else:
             api.portal.show_message(
                 _("There was a problem: %s." % errors),
                 request=self.request,
