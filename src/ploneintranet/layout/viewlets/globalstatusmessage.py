@@ -18,4 +18,4 @@ class GlobalStatusMessage(ViewletBase):
         for m in messages:
             m.id = idnormalizer.normalize(m.message)
         self.messages = messages
-        self.closetext = _(u"Close")
+        self.closetext = _(u"button_close", default=u"Close")

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-11-17 13:25+0000\n"
+"POT-Creation-Date: 2015-11-17 14:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,10 +254,6 @@ msgstr ""
 
 #: ../todo/browser/todo_view.py:70
 msgid "Changes applied"
-msgstr ""
-
-#: ../layout/viewlets/globalstatusmessage.py:21
-msgid "Close"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:381
@@ -1536,6 +1532,11 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:39
 msgid "author"
+msgstr ""
+
+#. Default: "Close"
+#: ../layout/viewlets/globalstatusmessage.py:21
+msgid "button_close"
 msgstr ""
 
 msgid "cases"

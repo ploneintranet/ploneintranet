@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2015-11-17 13:25+0000\n"
+"POT-Creation-Date: 2015-11-17 14:26+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -260,10 +260,6 @@ msgstr ""
 #: ../todo/browser/todo_view.py:70
 msgid "Changes applied"
 msgstr "Les modifications ont été appliquées"
-
-#: ../layout/viewlets/globalstatusmessage.py:21
-msgid "Close"
-msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:381
 msgid "Close milestone"
@@ -1542,6 +1538,11 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/sidebar.pt:39
 msgid "author"
 msgstr "auteur"
+
+#. Default: "Close"
+#: ../layout/viewlets/globalstatusmessage.py:21
+msgid "button_close"
+msgstr ""
 
 msgid "cases"
 msgstr ""
