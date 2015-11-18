@@ -29,10 +29,11 @@ class TestTiles(BaseViewTest):
         su.date = DateTime('2008/02/14 18:43')
         mb = queryUtility(IMicroblogTool)
         mb.add(su)
-        workspaces = tile.workspaces()
+        workspaces = tile.workspaces(include_activities=True)
         self.assertEqual(len(workspaces), 1)
 
         demo_ws = workspaces[0]
+
         activities = demo_ws['activities']
         self.assertEqual(len(activities), 1)
         self.assertDictEqual(
