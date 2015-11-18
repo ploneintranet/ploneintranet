@@ -35,11 +35,11 @@ class WorkspacesTile(Tile):
         return shorten(text, length=60)
 
     @memoize
-    def workspaces(self):
+    def workspaces(self, include_activities=False):
         """ The list of my workspaces
         """
         return my_workspaces(self.context, workspace_types=self.workspace_type,
-                             include_activities=False)
+                             include_activities=include_activities)
 
 
 def my_workspaces(context,
