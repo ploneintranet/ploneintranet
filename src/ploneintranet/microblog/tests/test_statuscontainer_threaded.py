@@ -72,7 +72,8 @@ class TestStatusContainer_Tags(unittest.TestCase):
         container.add(sc)
         # get all thread items from parent status.id
         keys = [x for x in container.thread_keys(thread_id=status.id)]
-        self.assertEqual([status.id, sa.id, sb.id, sc.id], keys)
+        # comments are reversed by default (like status updates)
+        self.assertEqual([sc.id, sb.id, sa.id, status.id], keys)
 
     def test_values(self):
         container = StatusContainer()
@@ -91,7 +92,8 @@ class TestStatusContainer_Tags(unittest.TestCase):
         container.add(sc)
         # get all thread items from parent status.id
         values = [x for x in container.thread_values(thread_id=status.id)]
-        self.assertEqual([status, sa, sb, sc], values)
+        # comments are reversed by default (like status updates)
+        self.assertEqual([sc, sb, sa, status], values)
 
     def test_items(self):
         container = StatusContainer()
@@ -110,7 +112,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         container.add(sc)
         # get all thread items from parent status.id
         values = [x[1] for x in container.thread_items(thread_id=status.id)]
-        self.assertEqual([status, sa, sb, sc], values)
+        self.assertEqual([sc, sb, sa, status], values)
 
     def test_get_thread_by_thread_item(self):
         container = StatusContainer()
@@ -132,7 +134,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         if getattr(si, 'thread_id'):
             values = [x[1] for x in
                       container.thread_items(thread_id=si.thread_id)]
-            self.assertEqual([status, sa, sb, sc], values)
+            self.assertEqual([sc, sb, sa, status], values)
 
     def test_get_nothing_by_none_thread_item(self):
         container = StatusContainer()

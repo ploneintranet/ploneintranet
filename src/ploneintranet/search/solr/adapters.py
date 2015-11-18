@@ -56,12 +56,8 @@ class SearchResponse(base.SearchResponse):
         suggestions = spellcheck.get('suggestions', [])
         if len(suggestions) < 1:
             return None
-        query_params = self.context.query_params
-        orig_phrase = query_params['phrase']
-        collation = spellcheck['collations'][-1]
-        suggested = u''.join(x.upper() if y.isupper() else x
-                             for (x, y) in zip(collation, orig_phrase))
-        return suggested
+        collated = spellcheck['collations'][-1]
+        return collated
 
     @property
     def facets(self):

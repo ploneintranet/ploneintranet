@@ -57,11 +57,15 @@ class SiteSearch(base.SiteSearch):
     def _paginate(self, query, start, step):
         return dict(query, batch_start=start, batch_step=step)
 
-    def _execute(self, query, debug=False, **kw):
+    def execute(self, query, secure=True, **kw):
         start = query.pop('batch_start', 0)
         step = query.pop('batch_step', 100)
-        catalog = api.portal.get_tool('portal_catalog')
-        brains = catalog.searchResults(query)
+        catalog = api.portal.get_tool(name='portal_catalog')
+        if secure:
+            search = catalog.searchResults
+        else:
+            search = catalog.unrestrictedSearchResults
+        brains = search(query)
         return Batch(brains, step, start)
 
 

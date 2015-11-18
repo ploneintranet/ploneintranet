@@ -318,11 +318,12 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
 
         # These corrected spellings should work (depending on configuration.
         self._check_spellcheck_response(u'anathar', u'another')
-        self._check_spellcheck_response(u'Rcichad', u'Richard')
-        self._check_spellcheck_response(u'Anather', u'Another')
-        self._check_spellcheck_response(u'Perplaxed', u'Perplexed')
-        self._check_spellcheck_response(u"Reining cots n' dags",
-                                        u"Raining cats n' dogs")
+        self._check_spellcheck_response(u'Rcichad', u'richard')
+        self._check_spellcheck_response(u'Anather', u'another')
+        self._check_spellcheck_response(u'Perplaxed', u'perplexed')
+        self._check_spellcheck_response(u'Peplexed', u'perplexed')
+        self._check_spellcheck_response(u"reining cots n' dags",
+                                        u"raining cats n' dogs")
 
     def test_date_range_query(self):
         util = self._make_utility()

@@ -7,6 +7,7 @@ import logging
 from plone import api
 from plone.api.validation import at_least_one_of
 from ploneintranet import api as pi_api
+from scorched.search import LuceneQuery
 from zope import globalrequest
 
 from .interfaces import ISearchResult
@@ -89,6 +90,7 @@ class SearchResult(object):
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
+        self.modified = context['modified']
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):
@@ -203,28 +205,29 @@ class SiteSearchProtocol:
 
     @abc.abstractmethod
     def _create_query_object(self, phrase):
-        """Return the query object to be executed from the given `phrase`."""
+        """Create a scorched query object for the given ``phrase``.
 
-    @abc.abstractmethod
-    def _apply_security(self, query):
-        """Apply a security filter to the query.
+        Apply any boost paramters based on plone.app.registry entries.
 
-        This should Plone's `allowedRolesAndUsers` index into account.
-        Return a copy of the query object with the security filter applied.
+        :return: The query object to be executed from the given ``phrase``.
         """
 
     @abc.abstractmethod
-    def _apply_filters(self, query, filters=None):
+    def _apply_filters(self, query, filters):
         """Build a filtered phrase query.
 
-        Return a query object that can be further filtered.
+        Ensure filters are a subset of those configured via plone.app.registry.
+
+        :return: A query object that can be further filtered.
         """
 
     @abc.abstractmethod
     def _apply_facets(self, query):
         """Apply parameters such that the query response will be faceted.
 
-        Return a copy of the modified `query`.
+        Ensure facets are a subset of those configured via plone.app.registry.
+
+        :return: A copy of the modified `query`.
         """
 
     @abc.abstractmethod
@@ -233,27 +236,20 @@ class SiteSearchProtocol:
 
         `start_date` and `end_date` will never both be `None`.
 
-        Return a copy of the query with date range applied.
+        :return: A copy of the query with date range applied.
         """
 
     @abc.abstractmethod
     def _paginate(self, query, start, step):
-        """Paginate the query object.
+        """Paginate the query object by ``start`` and ``step``.
 
-        Return a copy of the query object with `start` and `step` pagination
-        parameters applied.
-        """
-
-    @abc.abstractmethod
-    def _execute(self, query, **kw):
-        """Execute the query.
-
-        Return an object that can be adapted to ISearchResponse.
+        :return: A copy of the query object with `start` and `step` pagination
+                 parameters applied.
         """
 
     @abc.abstractmethod
     def _apply_spellchecking(self, query, phrase):
-        """Optionally apply paramters such that the query is spell-checked.
+        """Optionally apply parameters such that the given ``phrase`` is spell-checked.
 
         Return a copy of the modified `query`.
         """
@@ -273,13 +269,28 @@ class SiteSearchProtocol:
               end_date=None,
               start=0,
               step=None,
-              _debug=False):
+              debug=False):
         """Implement a site search query protocol.
 
         Return an object implementing `ISearchResponse`.
 
         :seealso: ploneintranet.search.interfaces.ISearchResponse
         :seealso: ploneintranet.search.interfaces.ISiteSearch.query
+        """
+
+    @abc.abstractmethod
+    def execute(self, query, secure=True, **kw):
+        """Execute the query.
+
+        Return an object that can be adapted to ISearchResponse.
+
+        Subclasses should provide the means to filter results based on a
+        security context, which should be on by default.
+
+        :param query: The query object.
+        :type query: scorched.search.Search
+        :param secure: Whether or not to apply security to search results.
+        :type secure: bool
         """
 
 
@@ -296,7 +307,13 @@ class SiteSearch(object):
 
     def __apply_filters(self, query, filters):
         filter_fields = set(self.filter_fields)
-        for fname in set(filters):
+        if isinstance(filters, LuceneQuery):
+            names = filters.terms.keys()
+            for sq in filters.subqueries:
+                names.extend(sq.terms.keys())
+        else:
+            names = filters
+        for fname in set(names):
             if fname not in filter_fields:
                 msg = 'Invalid facet field {field!r}'.format(field=fname)
                 raise LookupError(msg)
@@ -326,14 +343,13 @@ class SiteSearch(object):
             query = self._paginate(query, start, step)
         if debug:
             query = self._apply_debug(query)
-        query = self._apply_security(query)
-        response = self._execute(query,
-                                 phrase=phrase,
-                                 start_date=start_date,
-                                 end_date=end_date,
-                                 start=start,
-                                 step=step,
-                                 debug=debug)
+        response = self.execute(query,
+                                phrase=phrase,
+                                start_date=start_date,
+                                end_date=end_date,
+                                start=start,
+                                step=step,
+                                debug=debug)
         return ISearchResponse(response)
 
 SiteSearchProtocol.register(SiteSearch)

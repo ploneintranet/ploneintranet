@@ -384,7 +384,7 @@ class BaseStatusContainer(Persistent, Explicit):
         mapping = self._threadid_mapping.get(thread_id) or [thread_id]
         mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
-                                  min, max, limit, reverse=False)
+                                  min, max, limit)
 
     # --- USER ACCESSORS ---
 
