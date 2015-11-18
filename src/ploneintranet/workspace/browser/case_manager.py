@@ -89,15 +89,10 @@ class CaseManagerView(BrowserView):
             if form.get(field):
                 query[field] = form.get(field)
 
-        # Assume trailing * for fulltext search
-        if 'SearchableText' in query:
-            searchable_text = query['SearchableText']
-            del query['SearchableText']
-
         sitesearch = getUtility(ISiteSearch)
 
-        if searchable_text:
-            response = sitesearch.query(phrase=searchable_text,
+        if 'SearchableText' in form:
+            response = sitesearch.query(phrase=form['SearchableText'],
                                         filters=query,
                                         step=99999)
         else:
@@ -112,7 +107,7 @@ class CaseManagerView(BrowserView):
             path_components = item.path.split('/')
             obj = portal.restrictedTraverse(path_components)
             tasks = obj.tasks()
-            days_running = int(DateTime() - item.created)
+            days_running = int(DateTime() - DateTime(item.context['created']))
             recent_modifications = len(
                 pc(
                     path=item.path,
@@ -120,10 +115,12 @@ class CaseManagerView(BrowserView):
                 )
             )
             cases.append({
-                'uid': item.uid,
+                'uid': item.context['UID'],
                 'title': item.title,
                 'description': item.description,
                 'url': item.url,
+                'created': item.context['created'],
+                'modified': item.context['modified'],
                 'mm_seq': IMetroMap(obj).metromap_sequence,
                 'tasks': tasks,
                 'percent_complete': percent_complete(tasks),

@@ -126,11 +126,11 @@
                           </p>
                           <p class="stat">
                             <strong class="value">${case/days_running}</strong>
-                            <em class="name" i18n:translate="">>Days running</em>
+                            <em class="name" i18n:translate="">Days running</em>
                           </p>
                           <p class="stat">
                             <strong class="value">${case/recent_modifications}</strong>
-                            <em class="name" i18n:translate="">>Modifications past 7 days</em>
+                            <em class="name" i18n:translate="">Modifications past 7 days</em>
                           </p>
                         </div>
                       </article>
