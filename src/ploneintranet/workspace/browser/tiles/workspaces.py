@@ -52,7 +52,7 @@ def my_workspaces(context,
     """
 
     # determine sorting order (default: alphabetical)
-    sort_by = "sortable_title"
+    sort_by = "modified"
     searchable_text = None
 
     if request:
@@ -61,6 +61,8 @@ def my_workspaces(context,
                 raise NotImplementedError(
                     "Sorting by activity"
                     "is not yet possible")
+            elif request.sort == "alphabet":
+                sort_by = "sortable_title"
             elif request.sort == "newest":
                 sort_by = "modified"
         if 'SearchableText' in request:
