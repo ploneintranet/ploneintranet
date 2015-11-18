@@ -20,3 +20,7 @@ def reset_empty_tags(context):
         obj.subject = ()
         obj.reindexObject()
         logger.info('Reset tags for {}'.format(obj.absolute_url()))
+
+def reload_registry(context):
+    logger.info('reload portal registry')
+    context.runImportStepFromProfile(default_profile, 'plone.app.registry')

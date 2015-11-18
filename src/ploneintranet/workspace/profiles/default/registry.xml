@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<records>
+
+  <record name="ploneintranet.search.filter_fields">
+    <value purge="false">
+      <element>review_state</element>
+    </value>
+  </record>
+
+</records>
