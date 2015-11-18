@@ -76,8 +76,10 @@ def my_workspaces(context,
 
     pc = api.portal.get_tool('portal_catalog')
     review_states = list(pc.uniqueValuesFor('review_state'))
-    review_states.remove('rejected')
-    review_states.remove('archived')
+    if 'rejected' in review_states:
+        review_states.remove('rejected')
+    if 'archived' in review_states:
+        review_states.remove('archived')
 
     query = dict(
         portal_type=workspace_types,

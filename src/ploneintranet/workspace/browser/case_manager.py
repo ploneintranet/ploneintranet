@@ -1,8 +1,10 @@
 from DateTime import DateTime
 from Products.CMFPlone.PloneBatch import Batch
 from plone import api
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.config import TRANSITION_ICONS
 from ploneintranet.workspace.interfaces import IMetroMap
+from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -48,11 +50,10 @@ class CaseManagerView(BrowserView):
 
         b_size = int(form.get('b_size', 5))
         b_start = int(form.get('b_start', 0))
+        sort_by = 'modified'
 
         query = {
             'portal_type': 'ploneintranet.workspace.case',
-            'sort_on': 'modified',
-            'sort_order': 'reversed',
             'path': ws_path,
         }
 
@@ -89,31 +90,40 @@ class CaseManagerView(BrowserView):
                 query[field] = form.get(field)
 
         # Assume trailing * for fulltext search
-        if 'SearchableText' in query and \
-                not query['SearchableText'].endswith('*'):
-            query['SearchableText'] += '*'
+        if 'SearchableText' in query:
+            searchable_text = query['SearchableText']
+            del query['SearchableText']
 
-        brains = pc(query)
+        sitesearch = getUtility(ISiteSearch)
+
+        if searchable_text:
+            response = sitesearch.query(phrase=searchable_text,
+                                        filters=query,
+                                        step=99999)
+        else:
+            response = sitesearch.query(filters=query, step=99999)
+
+        # brains = pc(query)
         cases = []
-        for idx, brain in enumerate(brains):
-            if brain is None or idx < b_start or idx > b_start + b_size:
+        for idx, item in enumerate(response):
+            if item is None or idx < b_start or idx > b_start + b_size:
                 cases.append(None)
                 continue
-
-            obj = brain.getObject()
+            path_components = item.path.split('/')
+            obj = portal.restrictedTraverse(path_components)
             tasks = obj.tasks()
-            days_running = int(DateTime() - brain.created)
+            days_running = int(DateTime() - item.created)
             recent_modifications = len(
                 pc(
-                    path=brain.getPath(),
+                    path=item.path,
                     modified={'query': DateTime() - 7, 'range': 'min'},
                 )
             )
             cases.append({
-                'id': brain.getId,
-                'title': brain.Title,
-                'description': brain.Description,
-                'url': brain.getURL(),
+                'uid': item.uid,
+                'title': item.title,
+                'description': item.description,
+                'url': item.url,
                 'mm_seq': IMetroMap(obj).metromap_sequence,
                 'tasks': tasks,
                 'percent_complete': percent_complete(tasks),
@@ -122,6 +132,11 @@ class CaseManagerView(BrowserView):
                 'existing_users_by_id': obj.existing_users_by_id(),
                 'view': obj.restrictedTraverse('view'),
             })
+
+        if sort_by == 'modified':
+            cases.sort(key=lambda item: item['modified'], reverse=True)
+        else:
+            cases.sort(key=lambda item: item['title'].lower())
 
         return Batch(cases, b_size, b_start)
 
