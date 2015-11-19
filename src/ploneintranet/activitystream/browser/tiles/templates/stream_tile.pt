@@ -14,7 +14,8 @@
                 class="functions pat-autosubmit pat-inject">
 	    <label class="filters item pat-select bare">
 	      <select name="stream_filter">
-		<option value="all">All activities</option>
+		<option value="all"
+                        tal:attributes="selected python:filter=='all'">All activities</option>
 		<option value="network"
                         tal:attributes="selected python:filter=='network'">Only activities from people I follow</option>
                 <!--
