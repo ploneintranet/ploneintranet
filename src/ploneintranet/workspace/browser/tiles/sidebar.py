@@ -431,7 +431,10 @@ class Sidebar(BaseTile):
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
-                if r['portal_type'] in view_types:
+                # Solr returns URLs with /view appended, but the portal catalog
+                # doesn't.
+                if (r['portal_type'] in view_types
+                    and not url.endswith('/view')):
                     url = "%s/view" % url
                 # What exactly do we need to inject, and where?
                 dpi = (
