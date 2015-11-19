@@ -92,13 +92,18 @@ class CaseManagerView(BrowserView):
         sitesearch = getUtility(ISiteSearch)
 
         if 'SearchableText' in form:
-            response = sitesearch.query(phrase=form['SearchableText'],
-                                        filters=query,
-                                        step=99999)
+            response = list(
+                sitesearch.query(
+                    phrase=form['SearchableText'], filters=query, step=99999)
+            )
         else:
-            response = sitesearch.query(filters=query, step=99999)
+            response = list(sitesearch.query(filters=query, step=99999))
 
-        # brains = pc(query)
+        if sort_by == 'modified':
+            response.sort(key=lambda item: item.modified, reverse=True)
+        else:
+            response.sort(key=lambda item: item.title.lower())
+
         cases = []
         for idx, item in enumerate(response):
             if item is None or idx < b_start or idx > b_start + b_size:
@@ -129,11 +134,6 @@ class CaseManagerView(BrowserView):
                 'existing_users_by_id': obj.existing_users_by_id(),
                 'view': obj.restrictedTraverse('view'),
             })
-
-        if sort_by == 'modified':
-            cases.sort(key=lambda item: item['modified'], reverse=True)
-        else:
-            cases.sort(key=lambda item: item['title'].lower())
 
         return Batch(cases, b_size, b_start)
 
