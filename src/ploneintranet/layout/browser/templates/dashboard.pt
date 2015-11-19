@@ -35,6 +35,10 @@
           <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
           <div data-tile="./@@tasks.tile"/>
           <div data-tile="./@@my_documents.tile?path=workspaces"/>
+          <div class="portlet span-1 stamp right" id="portlet-activity-stream">
+            <form data-tile="./@@newpostbox.tile"/>
+            <div data-tile="./@@activitystream.tile?network=1"/>
+          </div>
 
         </div>
 
