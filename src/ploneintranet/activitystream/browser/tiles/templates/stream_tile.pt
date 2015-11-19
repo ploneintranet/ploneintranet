@@ -10,6 +10,7 @@
           </h2-->
           
           <form tal:attributes="action string:${context_url}/@@activitystream.tile#activity-stream"
+                tal:condition="request/stream_filter_menu|filter"
                 class="functions pat-autosubmit pat-inject">
 	    <label class="filters item pat-select bare">
 	      <select name="stream_filter">
