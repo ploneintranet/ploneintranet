@@ -1,12 +1,17 @@
+*~
 *.egg-info
 *.mo
 *.pyc
+.bash*
 .bundle/
+.buildout/
 .cache/
 .dbus/
+.gitconfig
 .installed.cfg
 .mozilla/
 .mr.developer.cfg
+.pypirc
 .ssh/
 .Python
 pip-selfcheck.json

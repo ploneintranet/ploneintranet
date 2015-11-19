@@ -116,13 +116,12 @@ docker-build: .ssh/known_hosts  ## Create docker container
 docker-run:  ## Start docker container
 	docker run -i -t \
                 --net=host \
-                -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
-                -v $(HOME)/.buildout:/.buildout \
                 -v /var/tmp:/var/tmp \
-                -v $(HOME)/.bashrc:/.bashrc \
-                -v $(HOME)/.pypirc:/.pypirc \
-                -v $(HOME)/.gitconfig:/.gitconfig \
-                -v $(HOME)/.gitignore:/.gitignore \
+                -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
+                -v $(HOME)/.buildout:/app/.buildout \
+                -v $(HOME)/.bashrc:/app/.bashrc \
+                -v $(HOME)/.pypirc:/app/.pypirc \
+                -v $(HOME)/.gitconfig:/app/.gitconfig \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
 		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
 		-e LC_ALL=en_US.UTF-8 \
