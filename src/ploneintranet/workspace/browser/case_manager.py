@@ -1,6 +1,8 @@
+from datetime import datetime
 from DateTime import DateTime
 from Products.CMFPlone.PloneBatch import Batch
 from plone import api
+from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.config import TRANSITION_ICONS
 from ploneintranet.workspace.interfaces import IMetroMap
@@ -57,26 +59,6 @@ class CaseManagerView(BrowserView):
             'path': ws_path,
         }
 
-        for date in ['created', 'modified', 'due']:
-            if form.get('earliest_' + date) and form.get('latest_' + date):
-                query[date] = {
-                    'query': (
-                        DateTime(form.get('earliest_' + date)),
-                        DateTime(form.get('latest_' + date))
-                    ),
-                    'range': 'min:max',
-                }
-            elif form.get('earliest_' + date):
-                query[date] = {
-                    'query': DateTime(form.get('earliest_' + date)),
-                    'range': 'min',
-                }
-            elif form.get('latest_' + date):
-                query[date] = {
-                    'query': DateTime(form.get('latest_' + date)),
-                    'range': 'max',
-                }
-
         case_status = form.get('status')
         if case_status:
             if case_status == "open":
@@ -89,23 +71,35 @@ class CaseManagerView(BrowserView):
             if form.get(field):
                 query[field] = form.get(field)
 
-        sitesearch = getUtility(ISiteSearch)
+        solr_query = self.prepare_solr_query(
+            phrase=form.get('SearchableText'), query=query)
 
-        if 'SearchableText' in form:
-            response = list(
-                sitesearch.query(
-                    phrase=form['SearchableText'], filters=query, step=99999)
-            )
-        else:
-            response = list(sitesearch.query(filters=query, step=99999))
+        date_query = {}
+        for date_field in ['created', 'modified', 'due']:
+            earliest = form.get('earliest_' + date_field)
+            earliest_dt = earliest and datetime.strptime(earliest, '%Y-%m-%d')
+            latest = form.get('latest_' + date_field)
+            latest_dt = latest and datetime.strptime(latest, '%Y-%m-%d')
+            if earliest and latest:
+                date_query[date_field+'__range'] = (earliest_dt, latest_dt)
+            elif earliest:
+                date_query[date_field+'__lt'] = earliest_dt
+            elif latest:
+                date_query[date_field+'__gt'] = latest_dt
+
+        if date_query:
+            solr_query = solr_query.filter(**date_query)
+
+        response = solr_query.execute()
+        results = [i for i in ISearchResponse(response)]
 
         if sort_by == 'modified':
-            response.sort(key=lambda item: item.modified, reverse=True)
+            results.sort(key=lambda item: item.modified, reverse=True)
         else:
-            response.sort(key=lambda item: item.title.lower())
+            results.sort(key=lambda item: item.title.lower())
 
         cases = []
-        for idx, item in enumerate(response):
+        for idx, item in enumerate(results):
             if item is None or idx < b_start or idx > b_start + b_size:
                 cases.append(None)
                 continue
@@ -179,3 +173,11 @@ class CaseManagerView(BrowserView):
                  for ct in case_types]
         terms.sort(cmp=lambda x, y: cmp(x.title, y.title))
         return SimpleVocabulary(terms)
+
+    def prepare_solr_query(phrase=None, query=None):
+        sitesearch = getUtility(ISiteSearch)
+        solr_query = sitesearch._create_query_object(phrase)
+        solr_query = sitesearch._apply_filters(solr_query, filters=query)
+        solr_query = sitesearch._apply_facets(solr_query)
+        solr_query = sitesearch._apply_security(query)
+        return solr_query
