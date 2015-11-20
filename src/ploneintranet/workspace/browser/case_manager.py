@@ -1,6 +1,8 @@
+from datetime import datetime
 from DateTime import DateTime
 from Products.CMFPlone.PloneBatch import Batch
 from plone import api
+from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.config import TRANSITION_ICONS
 from ploneintranet.workspace.interfaces import IMetroMap
@@ -57,26 +59,6 @@ class CaseManagerView(BrowserView):
             'path': ws_path,
         }
 
-        for date in ['created', 'modified', 'due']:
-            if form.get('earliest_' + date) and form.get('latest_' + date):
-                query[date] = {
-                    'query': (
-                        DateTime(form.get('earliest_' + date)),
-                        DateTime(form.get('latest_' + date))
-                    ),
-                    'range': 'min:max',
-                }
-            elif form.get('earliest_' + date):
-                query[date] = {
-                    'query': DateTime(form.get('earliest_' + date)),
-                    'range': 'min',
-                }
-            elif form.get('latest_' + date):
-                query[date] = {
-                    'query': DateTime(form.get('latest_' + date)),
-                    'range': 'max',
-                }
-
         case_status = form.get('status')
         if case_status:
             if case_status == "open":
@@ -89,30 +71,42 @@ class CaseManagerView(BrowserView):
             if form.get(field):
                 query[field] = form.get(field)
 
-        # Assume trailing * for fulltext search
-        if 'SearchableText' in query:
-            searchable_text = query['SearchableText']
-            del query['SearchableText']
+        solr_query = self.prepare_solr_query(
+            phrase=form.get('SearchableText'), query=query)
 
-        sitesearch = getUtility(ISiteSearch)
+        date_query = {}
+        for date_field in ['created', 'modified', 'due']:
+            earliest = form.get('earliest_' + date_field)
+            earliest_dt = earliest and datetime.strptime(earliest, '%Y-%m-%d')
+            latest = form.get('latest_' + date_field)
+            latest_dt = latest and datetime.strptime(latest, '%Y-%m-%d')
+            if earliest and latest:
+                date_query[date_field+'__range'] = (earliest_dt, latest_dt)
+            elif earliest:
+                date_query[date_field+'__lt'] = earliest_dt
+            elif latest:
+                date_query[date_field+'__gt'] = latest_dt
 
-        if searchable_text:
-            response = sitesearch.query(phrase=searchable_text,
-                                        filters=query,
-                                        step=99999)
+        if date_query:
+            solr_query = solr_query.filter(**date_query)
+
+        response = solr_query.execute()
+        results = [i for i in ISearchResponse(response)]
+
+        if sort_by == 'modified':
+            results.sort(key=lambda item: item.modified, reverse=True)
         else:
-            response = sitesearch.query(filters=query, step=99999)
+            results.sort(key=lambda item: item.title.lower())
 
-        # brains = pc(query)
         cases = []
-        for idx, item in enumerate(response):
+        for idx, item in enumerate(results):
             if item is None or idx < b_start or idx > b_start + b_size:
                 cases.append(None)
                 continue
             path_components = item.path.split('/')
             obj = portal.restrictedTraverse(path_components)
             tasks = obj.tasks()
-            days_running = int(DateTime() - item.created)
+            days_running = int(DateTime() - DateTime(item.context['created']))
             recent_modifications = len(
                 pc(
                     path=item.path,
@@ -120,10 +114,12 @@ class CaseManagerView(BrowserView):
                 )
             )
             cases.append({
-                'uid': item.uid,
+                'uid': item.context['UID'],
                 'title': item.title,
                 'description': item.description,
                 'url': item.url,
+                'created': item.context['created'],
+                'modified': item.context['modified'],
                 'mm_seq': IMetroMap(obj).metromap_sequence,
                 'tasks': tasks,
                 'percent_complete': percent_complete(tasks),
@@ -132,11 +128,6 @@ class CaseManagerView(BrowserView):
                 'existing_users_by_id': obj.existing_users_by_id(),
                 'view': obj.restrictedTraverse('view'),
             })
-
-        if sort_by == 'modified':
-            cases.sort(key=lambda item: item['modified'], reverse=True)
-        else:
-            cases.sort(key=lambda item: item['title'].lower())
 
         return Batch(cases, b_size, b_start)
 
@@ -182,3 +173,11 @@ class CaseManagerView(BrowserView):
                  for ct in case_types]
         terms.sort(cmp=lambda x, y: cmp(x.title, y.title))
         return SimpleVocabulary(terms)
+
+    def prepare_solr_query(phrase=None, query=None):
+        sitesearch = getUtility(ISiteSearch)
+        solr_query = sitesearch._create_query_object(phrase)
+        solr_query = sitesearch._apply_filters(solr_query, filters=query)
+        solr_query = sitesearch._apply_facets(solr_query)
+        solr_query = sitesearch._apply_security(query)
+        return solr_query
