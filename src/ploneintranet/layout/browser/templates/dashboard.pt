@@ -35,7 +35,7 @@
           <div data-tile="./@@my_documents.tile"/>
 	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form data-tile="./@@newpostbox.tile"/>
-            <div data-tile="./@@activitystream.tile?network=1"/>
+            <div data-tile="./@@activitystream.tile?stream_filter_menu=1"/>
           </div>
         </div>
 

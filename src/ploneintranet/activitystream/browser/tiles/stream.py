@@ -23,7 +23,6 @@ class StreamTile(Tile):
         self.request = request
         # BBB: the or None should be moved to the microblog methods
         self.tag = self.data.get('tag') or None
-        self.explore = 'network' not in self.data
         if 'last_seen' in request:
             self.last_seen = request.get('last_seen')
         else:
@@ -82,6 +81,7 @@ class StreamTile(Tile):
         The activity are sorted by reverse chronological order
         '''
         container = piapi.microblog.get_microblog()
+        stream_filter = self.request.get('stream_filter')
 
         if self.microblog_context:
             # support ploneintranet.workspace integration
@@ -99,8 +99,24 @@ class StreamTile(Tile):
                 limit=self.count,
                 tag=self.tag
             )
+        elif stream_filter == 'network':
+            # Only activities from people I follow
+            graph = api.portal.get_tool("ploneintranet_network")
+            userid = api.user.get_current().id
+            following = graph.unpack(
+                graph.get_following(u'user', userid))
+            following.append(userid)  # show own updates, as well
+            statusupdates = container.user_values(
+                following,
+                max=self.next_max,
+                limit=self.count,
+                tag=self.tag
+            )
+        elif stream_filter in ('interactions', 'posted', 'likes'):
+            raise NotImplementedError("unsupported stream filter: %s"
+                                      % stream_filter)
         else:
-            # default implementation
+            # default implementation: all activities
             statusupdates = container.values(
                 max=self.next_max,
                 limit=self.count,
