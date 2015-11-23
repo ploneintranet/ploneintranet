@@ -13,11 +13,11 @@ Contributors
 - Blaz Bratanic
 - Bogdan Girman
 - Carsten Senger
-- Cédric Messiant
 - Cillian de Róiste
 - Claudio Kirchhoff
 - Coen van der Kamp
 - Cornelis G. A. Kolbach
+- Cédric Messiant
 - Daniel Marks
 - Eric Brehault
 - Fred van Dijk
@@ -35,6 +35,7 @@ Contributors
 - Maarten Kling
 - Manuel Reinhardt
 - Matt Hamilton
+- Matt Russell
 - Matthew Sital-Singh
 - Maurits van Rees
 - Nathan Van Gheem
@@ -50,4 +51,3 @@ Contributors
 - Thomas Desvenain
 - Timo Stollenwerk
 - Wolfgang Thomas
-- Matt Russell
