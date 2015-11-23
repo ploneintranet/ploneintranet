@@ -1,53 +1,53 @@
 Contributors
 ============
 
-- Adam Castle 
-- Adam Forsythe-Cheasley 
-- Adrian White 
-- Albert Casado 
-- Alessandro Pisa 
-- Alexander Pilz 
-- Andrew Mleczko 
-- Ben Ackland 
-- Ben Cole 
-- Blaz Bratanic 
-- Bogdan Girman 
-- Carsten Senger 
-- Cédric Messiant 
-- Cillian de Róiste 
-- Claudio Kirchhoff 
-- Coen van der Kamp 
-- Cornelis G. A. Kolbach 
-- Daniel Marks 
-- Eric Brehault 
-- Fred van Dijk 
-- Fulvio Casali 
-- Giacomo Spettoli 
-- Gil Forcada 
+- Adam Castle
+- Adam Forsythe-Cheasley
+- Adrian White
+- Albert Casado
+- Alessandro Pisa
+- Alexander Pilz
+- Andrew Mleczko
+- Ben Ackland
+- Ben Cole
+- Blaz Bratanic
+- Bogdan Girman
+- Carsten Senger
+- Cédric Messiant
+- Cillian de Róiste
+- Claudio Kirchhoff
+- Coen van der Kamp
+- Cornelis G. A. Kolbach
+- Daniel Marks
+- Eric Brehault
+- Fred van Dijk
+- Fulvio Casali
+- Giacomo Spettoli
+- Gil Forcada
 - Guido A.J. Stevens (PROJECT LEAD)
-- Héctor Velarde 
-- Izhar Firdaus 
-- JC Brand 
-- Johannes Raggam 
-- Kees Hink 
-- Leonardo J. Caballero G 
-- Lewis Dexter Litanzios 
-- Maarten Kling 
-- Manuel Reinhardt 
-- Matt Hamilton 
-- Matthew Sital-Singh 
-- Maurits van Rees 
-- Nathan Van Gheem 
-- Patrick Gerken 
-- Paul Tax 
-- Philip Bauer 
-- Ramon Navarro Bosch 
-- Rapolas K 
-- Roel Bruggink 
-- Silvio Tomatis 
-- Simone Deponti 
+- Héctor Velarde
+- Izhar Firdaus
+- JC Brand
+- Johannes Raggam
+- Kees Hink
+- Leonardo J. Caballero G
+- Lewis Dexter Litanzios
+- Maarten Kling
+- Manuel Reinhardt
+- Matt Hamilton
+- Matthew Sital-Singh
+- Maurits van Rees
+- Nathan Van Gheem
+- Patrick Gerken
+- Paul Tax
+- Philip Bauer
+- Ramon Navarro Bosch
+- Rapolas K
+- Roel Bruggink
+- Silvio Tomatis
+- Simone Deponti
 - Stefania Trabucchi
-- Thomas Desvenain 
-- Timo Stollenwerk 
+- Thomas Desvenain
+- Timo Stollenwerk
 - Wolfgang Thomas
 - Matt Russell
