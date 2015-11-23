@@ -174,10 +174,10 @@ class CaseManagerView(BrowserView):
         terms.sort(cmp=lambda x, y: cmp(x.title, y.title))
         return SimpleVocabulary(terms)
 
-    def prepare_solr_query(phrase=None, query=None):
+    def prepare_solr_query(self, phrase=None, query=None):
         sitesearch = getUtility(ISiteSearch)
         solr_query = sitesearch._create_query_object(phrase)
         solr_query = sitesearch._apply_filters(solr_query, filters=query)
         solr_query = sitesearch._apply_facets(solr_query)
-        solr_query = sitesearch._apply_security(query)
+        solr_query = sitesearch._apply_security(solr_query)
         return solr_query
