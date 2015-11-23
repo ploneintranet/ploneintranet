@@ -11,4 +11,7 @@
   <adapter name="mimetype" factory=".indexers.mimetype_link" />
   <adapter name="mimetype" factory=".indexers.mimetype_newsitem" />
 
+  <adapter name="due" factory=".indexers.due_dexterity" />
+  <adapter name="due" factory=".indexers.due_case" />
+
 </configure>
