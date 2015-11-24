@@ -81,11 +81,11 @@ class CaseManagerView(BrowserView):
             latest = form.get('latest_' + date_field)
             latest_dt = latest and datetime.strptime(latest, '%Y-%m-%d')
             if earliest and latest:
-                date_query[date_field+'__range'] = (earliest_dt, latest_dt)
+                date_query[date_field + '__range'] = (earliest_dt, latest_dt)
             elif earliest:
-                date_query[date_field+'__lt'] = earliest_dt
+                date_query[date_field + '__lt'] = earliest_dt
             elif latest:
-                date_query[date_field+'__gt'] = latest_dt
+                date_query[date_field + '__gt'] = latest_dt
 
         if date_query:
             solr_query = solr_query.filter(**date_query)
@@ -180,4 +180,5 @@ class CaseManagerView(BrowserView):
         solr_query = sitesearch._apply_filters(solr_query, filters=query)
         solr_query = sitesearch._apply_facets(solr_query)
         solr_query = sitesearch._apply_security(solr_query)
+        solr_query = sitesearch._paginate(solr_query, start=0, step=9999)
         return solr_query
