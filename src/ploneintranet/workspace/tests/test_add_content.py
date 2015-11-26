@@ -1,8 +1,34 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
 import os
 import unittest
+
+html_input = u"""Intro of Plone Intranet
+<h1>Overview</h1>
+<p><span class="random">Plone Intranet</span> is über-cool.
+<ul>
+<li>Red</li>
+<li>Yellow
+<li>Green</li>
+</ul>
+<blockquote>It's the awesomest thing.</blockquote>
+<strong>Get your copy today!</strong>
+"""
+
+# All tags are properly closed. All text is properly wrapped.
+# Unwanted tags get removed.
+html_cleaned = u"""<p>Intro of Plone Intranet</p>
+<h1>Overview</h1>
+<p>Plone Intranet is über-cool.</p>
+<ul>
+<li>Red</li>
+<li>Yellow</li>
+<li>Green</li>
+</ul>
+<p>It's the awesomest thing.
+<strong>Get your copy today!</strong></p>"""
 
 
 class TestAddContent(FunctionalBaseTestCase):
@@ -103,3 +129,20 @@ class TestAddContent(FunctionalBaseTestCase):
         self.browser.getControl(name='form.buttons.create').click()
         new = self.workspace['my-folder']
         self.assertEqual(new.portal_type, 'Folder')
+
+    def test_add_content_document_cleaned_html(self):
+        self.browser_login_as_site_administrator()
+        self.browser.open('%s/@@add_content' % self.workspace.absolute_url())
+        self.browser.getControl(name='title').value = 'Cleanup test'
+        self.browser.getControl(name='form.buttons.create').click()
+        new = self.workspace['cleanup-test']
+        # Since the textarea is hidden, we cannot get it as a control from the
+        # form. Therefore, add the text as parameter to the request and
+        # directly call the update method
+        self.request.form['text'] = html_input
+        dexterity_update(new, self.request)
+        self.assertEqual(new.portal_type, 'Document')
+        self.assertEqual(new.title, u'Cleanup test')
+        # Ignore differences in line breaks, only the semantics matter.
+        self.assertEqual(
+            new.text.raw.replace('\n', ''), html_cleaned.replace('\n', ''))
