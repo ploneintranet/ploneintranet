@@ -33,7 +33,7 @@ DocumentCleaner = htmllaundry.cleaners.LaundryCleaner(
     page_structure=False,
     remove_unknown_tags=False,
     allow_tags=[
-        'blockquote', 'a', 'img', 'em', 'p', 'strong',
+        'a', 'img', 'em', 'p', 'strong',
         'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'ol', 'li', 'sub', 'sup',
         'abbr', 'acronym', 'dl', 'dt', 'dd', 'cite',
         'dft', 'br', 'table', 'tr', 'td', 'th', 'thead',
