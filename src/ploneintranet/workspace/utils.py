@@ -12,6 +12,7 @@ from zope.i18nmessageid import MessageFactory
 from collective.workspace.interfaces import IWorkspace
 from urllib2 import urlparse
 import config
+import htmllaundry
 import mimetypes
 import logging
 
@@ -27,6 +28,32 @@ TYPE_MAP = {'Event': 'event',
             'Document': 'rich',
             'todo': 'task',
             'ploneintranet.workspace.workspacefolder': 'workspace'}
+
+DocumentCleaner = htmllaundry.cleaners.LaundryCleaner(
+    page_structure=False,
+    remove_unknown_tags=False,
+    allow_tags=[
+        'blockquote', 'a', 'img', 'em', 'p', 'strong',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'ol', 'li', 'sub', 'sup',
+        'abbr', 'acronym', 'dl', 'dt', 'dd', 'cite',
+        'dft', 'br', 'table', 'tr', 'td', 'th', 'thead',
+        'tbody', 'tfoot'],
+    safe_attrs_only=True,
+    add_nofollow=True,
+    scripts=True,
+    javascript=True,
+    comments=False,
+    style=True,
+    links=False,
+    meta=False,
+    processing_instructions=False,
+    frames=False,
+    annoying_tags=False
+)
+
+
+def sanitize_html(input, cleaner=DocumentCleaner, wrap='p'):
+    return htmllaundry.utils.sanitize(input, cleaner, wrap)
 
 
 def get_storage(clear=False):

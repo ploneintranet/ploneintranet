@@ -1,8 +1,11 @@
 from Products.CMFPlone.utils import safe_unicode
 from collections import defaultdict
+from plone.app.textfield.interfaces import IRichTextValue
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform.z2 import processInputs
+from ploneintranet.workspace.utils import sanitize_html
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
@@ -74,6 +77,11 @@ def dexterity_update(obj, request=None):
 
             if raw is NO_VALUE:
                 continue
+
+            if IRichTextValue.providedBy(raw):
+                raw = RichTextValue(
+                    raw=sanitize_html(safe_unicode(raw.raw)),
+                    mimeType=raw.mimeType, outputMimeType=raw.outputMimeType)
 
             value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
