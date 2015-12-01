@@ -99,10 +99,16 @@ class SearchResult(object):
                     '{.path}/@@images/image/preview'.format(self)
             else:
                 portal = api.portal.get()
-                self.preview_image_path = \
-                    pi_api.previews.get_thumbnail_url(
-                        portal.restrictedTraverse(self.path.encode('ascii')),
-                        relative=True)
+                try:
+                    obj = portal.restrictedTraverse(self.path.encode('ascii'))
+                except KeyError:
+                    logger.error("Cannot traverse to %s", self.path)
+                    self.title = "ERROR %s" % self.title
+                else:
+                    self.preview_image_path = \
+                        pi_api.previews.get_thumbnail_url(
+                            obj,
+                            relative=True)
 
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
