@@ -67,6 +67,18 @@ Please do not add users in this control panel, it won't work.
 
 If you're using AD/LDAP to manage users, you may want to manage roles and groups via LDAP instead. YMMV.
 
+Avatar images
+-------------
+
+After creating users with bulk upload, you can add avatar images as follows:
+
+- In the siteroot, via the Barceloneta interface on cms.localhost:8080, add a Folder 'avatars' to the portal root
+
+- Upload images into this folder with ids like 'johndoe.jpg' matching userid 'johndoe'
+
+- Run ``http://portal_url/avatars/@@import-avatars``
+
+
 
 External authentication and/or data sources (e.g. AD/LDAP)
 ==========================================================
