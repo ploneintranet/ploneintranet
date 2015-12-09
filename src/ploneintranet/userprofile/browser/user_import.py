@@ -14,12 +14,48 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.userprofile import exc as custom_exc
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
+from plone.namedfile.file import NamedBlobImage
 from zope.component import getUtility
 from zope import schema
 
 
 USER_PORTAL_TYPE = "ploneintranet.userprofile.userprofile"
 logger = logging.getLogger(__name__)
+
+
+class ImportAvatarsView(BrowserView):
+    """ Small helper to get new portraits in until we have a proper editor.
+
+    - In the siteroot, via cms.portalurl, add Folder 'avatars'
+    - Upload images into this folder with ids like 'johndoe.jpg'
+    - Run http://portal/avatars/@@import-avatars
+
+    This view is based on an iKath view but bound to Container instead
+    of SiteRoot in order to avoid conflicts with that view definition.
+    """
+    def __call__(self):
+        """
+        """
+        imgs = self.context
+        portal = api.portal.get()
+        profiles = portal.profiles
+        i = 0
+        for profile in profiles:
+            portrait_filename = "%s.jpg" % profile
+            portrait = getattr(imgs, profile, None)
+            if not portrait:
+                portrait = getattr(imgs, portrait_filename, None)
+            if portrait:
+                image = NamedBlobImage(
+                    data=str(portrait.image.data),
+                    filename=portrait_filename.decode('utf-8'))
+                getattr(profiles, profile).portrait = image
+                getattr(profiles, profile).reindexObject()
+                transaction.commit()
+                i += 1
+
+        logger.info("imported %s portraits", i)
+        return "done %s portraits" % str(i)
 
 
 class CSVImportView(BrowserView):
@@ -136,6 +172,7 @@ class CSVImportView(BrowserView):
 
         if message_type == 'error':
             transaction.abort()
+            logger.error(message)
 
         api.portal.show_message(
             message=message,
