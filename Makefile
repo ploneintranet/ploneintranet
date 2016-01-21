@@ -122,6 +122,7 @@ docker-run:  ## Start docker container
                 -v $(HOME)/.bashrc:/app/.bashrc \
                 -v $(HOME)/.pypirc:/app/.pypirc \
                 -v $(HOME)/.gitconfig:/app/.gitconfig \
+                -v $(HOME)/.gitignore_global:/app/.gitignore_global \
                 -e SSH_AUTH_SOCK=/tmp/auth.sock \
 		-e PYTHON_EGG_CACHE=/var/tmp/python-eggs \
 		-e LC_ALL=en_US.UTF-8 \
