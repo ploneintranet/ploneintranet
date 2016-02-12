@@ -158,4 +158,3 @@ The manager can invite Alice to join the Example Case from the menu
 *** Keywords ***
 
 # See lib/keywords.robot in the section "case related keywords"
-

@@ -12,7 +12,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.library.browser import utils
-from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.search.interfaces import ISiteSearch, ISearchResponse
 
 log = getLogger(__name__)
 
@@ -165,23 +165,31 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = safe_unicode(urllib.unquote(name))
         return self
 
-    def query(self, filters={}, **kwargs):
-        """Helper method that adds self.request_tag to
-        search phrase.
-
-        Because the search API treats multiple tags as an OR query,
-        whereas we need an AND query, we use phrase AND tags
-        as a workaround to ensure that for each subtag, only
-        results are shown matching both the request_tag and the subtag.
-
-        Note that this is not a 100% workaround - it will match
-        documents that match the request_tag in any field, even if the
-        document is not actually tagged with the request_tag.
+    def query(self, path=None, tag=None, portal_types=None):
+        """Helper method for Solr power search:
+        - adds self.request_tag to search phrase
+        - sorts on title
         """
+        Q = self.sitesearch.Q
+        _query = self.sitesearch.connection.query()
+        lucene_query = Q()
+        if path:
+            lucene_query &= Q(path_parents=path)
+        if tag:
+            lucene_query &= Q(tags=safe_unicode(tag))
         if self.request_tag:
-            return self.sitesearch.query(self.request_tag, filters, **kwargs)
-        else:
-            return self.sitesearch.query(filters=filters, **kwargs)
+            lucene_query &= Q(tags=self.request_tag)
+        if portal_types:
+            subquery = Q()
+            for pt in portal_types:
+                subquery |= Q(portal_type=pt)
+            lucene_query &= subquery
+
+        _query = _query.filter(lucene_query)
+        _query = _query.facet_by('tags')
+        _query = _query.sort_by('Title')
+        response = self.sitesearch.execute(_query)
+        return ISearchResponse(response)
 
     def info(self):
         if self.request_tag:
@@ -208,7 +216,7 @@ class LibraryTagView(LibraryBaseView):
     def _children(self):
         """Expose tag facet for library or section"""
         path = '/'.join(self.context.getPhysicalPath())
-        response = self.query(filters=dict(path=path))
+        response = self.query(path=path)
         struct = []
         for _tag in self._tags_facet(response):
             url = "%s/tag/%s" % (self.context.absolute_url(),
@@ -220,17 +228,15 @@ class LibraryTagView(LibraryBaseView):
                            content=[])
             if self.request_tag:
                 section['content'] = self._content_children(path, _tag)
-                section['count'] = len(section['content'])
             else:
                 section['subtags'] = self._subtags_children(path, _tag)
-                section['count'] = len(section['subtags'])
             struct.append(section)
-        return sorted(struct, key=lambda x: x['count'])
+        return struct
 
     def _subtags_children(self, path, tag):
         """List tags co-occurring with <tag>"""
-        response = self.query(filters=dict(path=path,
-                                           tags=tag))
+        response = self.query(path=path,
+                              tag=tag)
         children = []
         for _tag in self._tags_facet(response):
             if _tag == tag:
@@ -244,10 +250,9 @@ class LibraryTagView(LibraryBaseView):
 
     def _content_children(self, path, tag):
         """List content tagged as <tag>"""
-        response = self.query(filters=dict(path=path,
-                                           tags=tag,
-                                           portal_type=utils.pageish),
-                              step=100)
+        response = self.query(path=path,
+                              tag=tag,
+                              portal_types=utils.pageish)
         children = []
         for child in response:
             children.append(dict(title=child.title,
@@ -257,7 +262,7 @@ class LibraryTagView(LibraryBaseView):
     def _tags_facet(self, searchresponse):
         """
         ZCatalog returns <str> Solr returns <unicode>.
-        We force everything into unicode.
+        We force everything into unicode and sort abc.
         """
-        return [safe_unicode(t)
-                for t in searchresponse.facets.get('tags', [])]
+        return sorted([safe_unicode(t)
+                       for t in searchresponse.facets.get('tags', [])])

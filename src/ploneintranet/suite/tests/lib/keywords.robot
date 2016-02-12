@@ -499,6 +499,10 @@ Then I can delete an event
     [arguments]  ${title}
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
+    ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
+    ### Solutions proposed on the web address this programmatically with a combination of looping
+    ### and exception handling. I wouldn't know of an equivalent solution in robot.
+    sleep  2
     Wait until element is visible  css=.meta-bar .icon-trash
     Click Element  css=.meta-bar .icon-trash
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
@@ -770,23 +774,31 @@ I mark a new task complete
 
 I select the task check box
     [arguments]  ${title}
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    ### Without the following sleep statement the 'Wait until' statement that follows it
+    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
+    ### This leads to errors later on when the box is assumed to be checked.
+    sleep  4
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I unselect the task check box
     [arguments]  ${title}
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    ### Without the following sleep statement the 'Wait until' statement that follows it
+    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
+    ### This leads to errors later on when the box is assumed to be checked.
+    sleep  4
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see a task is complete
     [arguments]  ${title}
-    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
-    Checkbox Should Be Selected  xpath=(//label[@class='checked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I see a task is open
     [arguments]  ${title}
-    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
-    Checkbox Should Not Be Selected  xpath=(//label[@class='unchecked']//a[@title='${title}'])/preceding-sibling::input[1]
+    Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see the task quality check has state
     [arguments]  ${state}
@@ -817,6 +829,7 @@ I can add a new task
 I can close a milestone
     [arguments]  ${milestone}
     I can open a milestone task panel  ${milestone}
+    Wait Until Page Contains Element  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
@@ -834,6 +847,10 @@ I can reopen a milestone
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
+    ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
+    ### Solutions proposed on the web address this programmatically with a combination of looping
+    ### and exception handling. I wouldn't know of an equivalent solution in robot.
+    sleep  2
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
 I can open a milestone task panel

@@ -95,6 +95,18 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.search,
+            context=configurationContext
+        )
+
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.docconv.client,
+            context=configurationContext
+        )
+
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
@@ -109,6 +121,8 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.layout:default')
         applyProfile(portal, 'ploneintranet.network:default')
+        applyProfile(portal, 'ploneintranet.search:default')
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
 
