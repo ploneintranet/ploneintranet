@@ -52,7 +52,9 @@ class Workspaces(BrowserView):
     def workspaces(self):
         ''' The list of my workspaces
         '''
-        return my_workspaces(self.context, self.request)
+        return my_workspaces(self.context,
+                             self.request,
+                             include_activities=False)
 
 
 class AddView(BrowserView):
