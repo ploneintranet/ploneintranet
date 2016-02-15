@@ -6,13 +6,11 @@ from plone import api
 from plone.app.layout.globals.interfaces import IViewView
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import view
-from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.library.browser import utils
-from ploneintranet.search.interfaces import ISiteSearch, ISearchResponse
 
 log = getLogger(__name__)
 
@@ -88,23 +86,28 @@ class LibraryBaseView(BrowserView):
     def sections(self):
         """Return toplevel section navigation"""
         app = self.app()
-        sections = app.objectValues()
+        path = '/'.join(app.getPhysicalPath())
+        sections = utils.query(path,
+                               portal_types=['ploneintranet.library.section'])
         current_url = self.request['ACTUAL_URL']
+        current_path = current_url.split('/')
         current_nav = app
         for s in sections:
-            if current_url.startswith(s.absolute_url()):
+            # /foo/bar/baz is in /foo/bar BUT
+            # /foo/bar-1 is not in /foo/bar
+            if current_url.startswith(s.url) \
+               and (set(current_path) >= set(s.path.split('/'))):
                 current_nav = s
                 break
-
         app_current = (app == current_nav) and 'current' or ''
         menu = [dict(title=_("All topics"),
                      absolute_url=app.absolute_url(),
                      current=app_current)]
 
         for s in sections:
-            s_current = (s == current_nav) and 'current' or ''
-            menu.append(dict(title=s.Title,
-                             absolute_url=s.absolute_url(),
+            s_current = (s.path == current_nav.path) and 'current' or ''
+            menu.append(dict(title=s.title,
+                             absolute_url=s.url,
                              current=s_current))
         return menu
 
@@ -156,7 +159,6 @@ class LibraryTagView(LibraryBaseView):
 
     def __init__(self, context, request):
         super(LibraryTagView, self).__init__(context, request)
-        self.sitesearch = getUtility(ISiteSearch)
         self.request_tag = None
         self.enabled = True  # only in solr
 
@@ -165,31 +167,20 @@ class LibraryTagView(LibraryBaseView):
         self.request_tag = safe_unicode(urllib.unquote(name))
         return self
 
-    def query(self, path=None, tag=None, portal_types=None):
+    def query(self, path=None, tag=None, portal_types=None, debug=False):
         """Helper method for Solr power search:
         - adds self.request_tag to search phrase
         - sorts on title
         """
-        Q = self.sitesearch.Q
-        _query = self.sitesearch.connection.query()
-        lucene_query = Q()
-        if path:
-            lucene_query &= Q(path_parents=path)
+        tags = []
         if tag:
-            lucene_query &= Q(tags=safe_unicode(tag))
+            tags.append(tag)
         if self.request_tag:
-            lucene_query &= Q(tags=self.request_tag)
-        if portal_types:
-            subquery = Q()
-            for pt in portal_types:
-                subquery |= Q(portal_type=pt)
-            lucene_query &= subquery
-
-        _query = _query.filter(lucene_query)
-        _query = _query.facet_by('tags')
-        _query = _query.sort_by('Title')
-        response = self.sitesearch.execute(_query)
-        return ISearchResponse(response)
+            tags.append(self.request_tag)
+        return utils.query(path, tags, portal_types,
+                           facet_by='tags',
+                           sort_by='Title',
+                           debug=debug)
 
     def info(self):
         if self.request_tag:

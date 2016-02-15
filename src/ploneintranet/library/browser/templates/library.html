@@ -130,13 +130,6 @@
                  tal:attributes="href child/absolute_url">
 	        <h3 tal:content="child/title">page title</h3>
                 <p class="hero"
-                   tal:define="has_img child/context/image|nothing;
-                               scales child/context/@@images|nothing;"
-                   tal:condition="python:has_img and scales" >
-                   <!-- images must not have height and width attrs, this is determined by styling -->
-                  <img tal:attributes="src string:${child/absolute_url}/@@images/image/preview" />
-                </p>
-                <p class="hero"
                    tal:condition="child/preview">
                   <img tal:attributes="src string:${child/preview}" title="preview image"/>
                 </p>
