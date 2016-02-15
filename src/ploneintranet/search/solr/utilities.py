@@ -230,6 +230,10 @@ class SiteSearch(base.SiteSearch):
         if secure:
             query = self._apply_security(query)
         response = query.execute()
+        if kw.get('debug'):
+            # you will have to reformat path_parents for solr console queries
+            # path_parents:\\/Plone\\/foo -> path_parents:"/Plone/foo"
+            logger.info(query.debug().options())
         query_params = self._collect_query_params(ISiteSearch, dict(kw))
         response.query_params = query_params
         return response
