@@ -579,10 +579,6 @@ I browse to a Consumer workspace
     Go To  ${PLONE_URL}/workspaces/service-announcements
     Click Link  link=Documents
 
-I browse to a Consumer workspace
-    Go To  ${PLONE_URL}/workspaces/service-announcements
-    Click Link  link=Documents
-
 I browse to a document
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
