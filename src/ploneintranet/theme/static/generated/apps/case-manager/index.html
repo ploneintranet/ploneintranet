@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title> | Folio Intranet</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> | Plone Intranet</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" href="/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="/style/colours.css" type="text/css">
 		<script data-main="/bundles/main" src="/bundles/ploneintranet.js" type="text/javascript"></script>
@@ -13,104 +13,111 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="sidebar-normal gh-collapsed sidebar-left-closed focus-listing  generic application-case-manager ">
-		<div class="application-case-manager" id="content">
-    <div id="document-body">
+	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open focus-listing   application-case-manager application- ">
+		<div id="content" class="state-on">
+	<div id="application-body" class="application- application-case-manager">
 		<div id="document-content" class="cases-overview">
-			<div class="row">
-				<aside class="four columns pat-bumper case-filters">
-			        <form class="pat-inject pat-autosubmit" action="/apps/case-manager/index.html#case-mats">
-			        	<fieldset class="vertical">
-			        		<label>
-			        			Search
-			        			<input type="search" placeholder="Search in title and description" />
-			        		</label>
-			        		<label>
-			        			Role filter
-			        			<select>
-			        				<option>Only cases that I manage</option>
-			        				<option>All cases that I'm involved with</option>
-			        				<option>All cases that I have access to</option>
-			        			</select>
-			        		</label>
-			        		<label>
-			        			Bearbeitende Einheit
-			        			<select>
-			        				<option>All departments</option>
-			        				<option>Präsidiales</option>
-			        				<option>Jugend- und Spezialseelsorge</option>
-			        			</select>
-			        		</label>
-			        		<label>
-			        			Applicant
-			        			<select>
-			        				<option>Any applicant</option>
-			        				<option>Liz Baker</option>
-			        				<option>John Doe</option>
-			        			</select>
-			        		</label>
-			        		<label>
-			        			Assigned user
-			        			<select>
-			        				<option>Any user</option>
-			        				<option>Liz Baker</option>
-			        				<option>John Doe</option>
-			        			</select>
-			        		</label>
-			        		<label>
-			        			Type of case
-			        			<select>
-			        				<option>All case types</option>
-			        				<option>Motion</option>
-			        				<option>Petition</option>
-		                            <option>Interpellation</option>
-			        			</select>
-			        		</label>
+	<div class="row">
+		<aside class="four columns pat-bumper case-filters">
+	        <form class="pat-inject pat-autosubmit" action="/apps/case-manager/index.html#case-mats">
+	        	<fieldset class="vertical">
+	        		<label>
+	        			Search
+	        			<input type="search" placeholder="Search in title and description" />
+	        		</label>
+	        		<label>
+	        			Role filter
+	        			<select>
+	        				<option>Only cases that I manage</option>
+	        				<option>All cases that I'm involved with</option>
+	        				<option>All cases that I have access to</option>
+	        			</select>
+	        		</label>
+	        		<label>
+	        			Bearbeitende Einheit
+	        			<select>
+	        				<option>All departments</option>
+	        				<option>Präsidiales</option>
+	        				<option>Jugend- und Spezialseelsorge</option>
+	        			</select>
+	        		</label>
+	        		<label>
+	        			Applicant
+	        			<select>
+	        				<option>Any applicant</option>
+	        				<option>Liz Baker</option>
+	        				<option>John Doe</option>
+	        			</select>
+	        		</label>
+	        		<label>
+	        			Assigned user
+	        			<select>
+	        				<option>Any user</option>
+	        				<option>Liz Baker</option>
+	        				<option>John Doe</option>
+	        			</select>
+	        		</label>
+	        		<label>
+	        			Type of case
+	        			<select>
+	        				<option>All case types</option>
+	        				<option>Motion</option>
+	        				<option>Petition</option>
+                            <option>Interpellation</option>
+	        			</select>
+	        		</label>
+	        		<label>
+	        			Assigned to event
+	        			<select>
+	        				<option>Any or no event assigned</option>
+	        				<option>Synodal Council Session - 15.7.2015</option>
+                            <option>Synodal Council Session - 30.7.2015</option>
+                            <option>Synodal Council Session - 16.8.2015</option>
+                            <option>Synodal Session - 12.11.2015</option>
+	        			</select>
+	        		</label>
 
-			        		<label>
-			        			Assigned to event
-			        			<select>
-			        				<option>Any or no event assigned</option>
-			        				<option>Synodal Council Session - 15.7.2015</option>
-		                            <option>Synodal Council Session - 30.7.2015</option>
-		                            <option>Synodal Council Session - 16.8.2015</option>
-		                            <option>Synodal Session - 12.11.2015</option>
-			        			</select>
-			        		</label>
 
-			        		<!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
+        			<fieldset class="group">
+        				<legend>Archived</legend>
+		        		<label class="pat-checklist">
+		        			<input type="checkbox" name="archived" /> Show archived workspaces
+		        		</label>
+        			</fieldset>
+	        		<!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
-		        			<fieldset class="group row date-range">
-		        				<label class="six columns">
-		        					Earliest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        				<label class="six columns">
-		        					Latest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        			</fieldset>
+        			<fieldset class="group row date-range">
+        				<label class="six columns">
+        					Earliest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        				<label class="six columns">
+        					Latest creation date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        			</fieldset>
 
-		        			<fieldset class="group row date-range">
-		        				<label class="six columns">
-		        					Earliest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        				<label class="six columns">
-		        					Latest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        			</fieldset>
+        			<fieldset class="group row date-range">
+        				<label class="six columns">
+        					Earliest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        				<label class="six columns">
+        					Latest modification date <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        			</fieldset>
 
-		        			<fieldset class="group row date-range">
-		        				<label class="six columns">
-		        					Earliest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        				<label class="six columns">
-		        					Latest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
-		        				</label>
-		        			</fieldset>
-		        		</fieldset>
-		        	</form>
-				</aside>
-				<div class="eight columns" id="case-mats">
-					<!-- Dear beloved developer, this design is immature and therefor those tedious design and markup changes will inevitably occur. Herewith my apologies :). -->
+        			<fieldset class="group row date-range">
+        				<label class="six columns">
+        					Earliest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        				<label class="six columns">
+        					Latest deadline <input placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8"/>
+        				</label>
+        			</fieldset>
+
+        		</fieldset>
+        	</form>
+		</aside>
+		<div class="eight columns" id="case-mats">
+			<!-- Dear beloved developer, this design is immature and therefor those tedious design and markup changes will inevitably occur. Herewith my apologies :). -->
 
 <div class="case-mat">
 	<article class="summary row">
@@ -144,6 +151,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -426,6 +437,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -443,6 +482,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -800,6 +843,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -873,6 +944,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-6" class="step-background  state-open ">
 								<p class="step-label icon icon-ok">
@@ -883,6 +958,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -1359,6 +1462,38 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -1376,6 +1511,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -1666,6 +1805,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -1731,6 +1898,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-10" class="step-background  state-open ">
 								<p class="step-label icon icon-mail-alt">
@@ -1741,6 +1912,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -2014,6 +2213,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-11" class="step-background  state-open ">
 								<p class="step-label icon icon-folder-open">
@@ -2024,6 +2227,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -2340,6 +2571,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-1" class="step-background  state-closed ">
 								<p class="step-label icon icon-help-circled">
@@ -2558,6 +2793,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -2575,6 +2838,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -2932,6 +3199,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -3005,6 +3300,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-6" class="step-background  state-open ">
 								<p class="step-label icon icon-ok">
@@ -3015,6 +3314,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -3491,6 +3818,38 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -3508,6 +3867,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -3798,6 +4161,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -3863,6 +4254,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-10" class="step-background  state-open ">
 								<p class="step-label icon icon-mail-alt">
@@ -3873,6 +4268,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -4146,6 +4569,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-11" class="step-background  state-open ">
 								<p class="step-label icon icon-folder-open">
@@ -4368,6 +4795,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -4376,10 +4831,10 @@
 	</ul>
 </div>
 
-<div class="case-mat">
+<div class="case-mat state-archived">
 	<article class="summary row">
 		<h2 class="case-title twelve columns">
-			<a href="" target="case">Another case</a>
+			<a href="" target="case">Another case <strong class="icon-archive workspace-state archived">Archived</strong></a>
 		</h2>
 		<p class="description four columns">
 			"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
@@ -4408,6 +4863,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -4690,6 +5149,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -4707,6 +5194,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -5064,6 +5555,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -5137,6 +5656,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-6" class="step-background  state-open ">
 								<p class="step-label icon icon-ok">
@@ -5147,6 +5670,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -5623,6 +6174,38 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -5640,6 +6223,10 @@
 				</h3>
 
 				<ul>
+					
+						
+					
+						
 					
 						
 					
@@ -5930,6 +6517,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -5995,6 +6610,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-10" class="step-background  state-open ">
 								<p class="step-label icon icon-mail-alt">
@@ -6005,6 +6624,34 @@
 
 								
 							</li>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 						
 					
 						
@@ -6278,6 +6925,10 @@
 						
 					
 						
+					
+						
+					
+						
 							
 							<li id="item-11" class="step-background  state-open ">
 								<p class="step-label icon icon-folder-open">
@@ -6500,6 +7151,34 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
 				</ul>
 
 				
@@ -6508,18 +7187,21 @@
 	</ul>
 </div>
 
-				</div>
-			</div>
 		</div>
-    </div>
+	</div>
 </div>
+	</div>
+	
+</div>
+
+<a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 
 <header id="global-header">
 
     <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
     <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu" title="Menu">Menu</a>
 
-    <a id="site-logo" href="/dashboard.html" class="logo">Folio Intranet</a>
+    <a id="site-logo" href="/dashboard.html" class="logo">Plone Intranet</a>
 
     <nav class="breadcrumbs">
         
@@ -6536,6 +7218,8 @@
 		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
 	</a>    
 
+        
+        <button title="Toggle the onscreen help system on or off" id="osh-toggle" class="icon iconified icon-help-circle osh-toggle pat-toggle" data-pat-toggle="selector: body; value: osh-on osh-off; store: local">?</button>
 
         <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
 
@@ -6553,15 +7237,54 @@
 
     <nav class="tabs navigation  portal-tabs" id="portal-tabs">
 	<h2 class="title">Menu</h2>
+	<a href="/feedback/osh.html#osh-portal-dashboard" id="osh-target-portal-dashboard" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 	<a href="/dashboard.html" >Dashboard</a>
+
+	<a href="/feedback/osh.html#osh-portal-news" id="osh-target-portal-news" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 	<a href="/news.html" >News</a>
+
+	<a href="/feedback/osh.html#osh-portal-library" id="osh-target-portal-library" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 	<a href="/library.html" >Library</a>
+
+	<a href="/feedback/osh.html#osh-portal-workspaces" id="osh-target-portal-workspaces" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 	<a href="/workspaces.html" >Workspaces</a>
+
 <!-- 		<a href="#" >Messages</a> -->
+	<a href="/feedback/osh.html#osh-portal-apps" id="osh-target-portal-apps" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 	<a href="/apps.html" >Apps</a>
 </nav>
 </header>
 
-
+		<style type="text/css">
+			
+				.tiles .tile.workspace.type-regular .link,
+				.workspace-type-regular #workspace-name,
+				.super-space-preview.workspace-type-regular:before, 
+				.workspace-preview.workspace-type-regular:before {
+					background-color: #828282;
+				}
+			
+				.tiles .tile.workspace.type-case .link,
+				.workspace-type-case #workspace-name,
+				.super-space-preview.workspace-type-case:before, 
+				.workspace-preview.workspace-type-case:before {
+					background-color: #DE7F00;
+				}
+			
+				.tiles .tile.workspace.type-project .link,
+				.workspace-type-project #workspace-name,
+				.super-space-preview.workspace-type-project:before, 
+				.workspace-preview.workspace-type-project:before {
+					background-color: purple;
+				}
+			
+				.tiles .tile.workspace.type-steering-committee .link,
+				.workspace-type-steering-committee #workspace-name,
+				.super-space-preview.workspace-type-steering-committee:before, 
+				.workspace-preview.workspace-type-steering-committee:before {
+					background-color: green;
+				}
+			
+		</style>
 	</body>
 </html>

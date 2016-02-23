@@ -160,6 +160,16 @@
 .icon-manager:before { content: '\e879'; } /* '' */
 .icon-docs:before { content: '\e87a'; } /* '' */
 .icon-angle-double-right:before { content: '\e87b'; } /* '' */
+.icon-workspace:before { content: '\e87c'; } /* '' */
+.icon-bookmark-empty:before { content: '\e87d'; } /* '' */
+.icon-mobile:before { content: '\e87e'; } /* '' */
+.icon-circles:before { content: '\e87f'; } /* '' */
+.icon-star-circled:before { content: '\e880'; } /* '' */
+.icon-newspaper-angle:before { content: '\e881'; } /* '' */
+.icon-megaphone:before { content: '\e882'; } /* '' */
+.icon-lightbulb:before { content: '\e883'; } /* '' */
+.icon-boilerplate:before { content: '\e884'; } /* '' */
+.icon-history:before { content: '\e885'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
