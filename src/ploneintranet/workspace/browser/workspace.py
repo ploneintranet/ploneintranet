@@ -94,7 +94,7 @@ class ImagePickerJson(BrowserView):
         )
         images = []
         for img in results:
-            images.append(dict(thumb='%s/@@images/image/thumb' % img.getURL(),
+            images.append(dict(thumb='%s/@@images/image/preview' % img.getURL(),
                                url=img.getURL(),
                                title=img['Title'],
                                id=img['getId']))
