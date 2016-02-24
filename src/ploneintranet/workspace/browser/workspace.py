@@ -77,6 +77,31 @@ def format_users_json(users):
     return dumps(formatted_users)
 
 
+class ImagePickerJson(BrowserView):
+    """
+    Returns Images in current Workspace in a redactor json format
+    [
+    { "thumb": "/media/air-canada-landmark-agreement.jpg", "url": "/media/air-canada-landmark-agreement.jpg", "title": "Air Canada Landmark Agreement", "id": 1  },
+    { "thumb": "/media/air-france-a380.jpg", "url": "/media/air-france-a380.jpg", "title": "A380", "id": 2  }
+    ]
+    """
+
+    def __call__(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        results = catalog(
+            portal_type='Image',
+            path={'query': '/'.join(self.context.getPhysicalPath())}
+        )
+        images = []
+        for img in results:
+            images.append(dict(thumb='%s/@@images/image/thumb' % img.getURL(),
+                               url=img.getURL(),
+                               title=img['Title'],
+                               id=img['getId']))
+
+        return dumps(images)
+
+
 class ImagePickerPanel(BrowserView):
     """
     Renders HTML for the image picker panel/modal of pat-raptor.
