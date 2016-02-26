@@ -12,6 +12,10 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+*** Variables ***
+
+${BROWSER}  Chrome
+
 *** Test Cases ***
 
 Member can change the title of a document

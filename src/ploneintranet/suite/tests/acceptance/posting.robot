@@ -10,6 +10,7 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+
 *** Variable ***
 
 ${MESSAGE1}    I am so excited, this is super!

@@ -10,6 +10,10 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+*** Variables ***
+
+${BROWSER}  Chrome
+
 *** Test Cases ***
 
 Alice is notified about a post she is in
