@@ -658,26 +658,28 @@ The document has the new description
     Page Should Contain  New description ☀
 
 I tag the item
+    [arguments]  ${tag}
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
-    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  NewTag☃,
-    click element  xpath=//h1[@id="document-title"]
+    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  ${tag},
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 I tag the item with a suggestion
+    [arguments]  ${search_for}  ${selection}
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
-    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
-    Wait Until Page Contains  ag☃
-    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
-    click element  xpath=//h1[@id="document-title"]
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  ${search_for}
+    Wait until element is visible  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
@@ -687,6 +689,7 @@ I clear the tag for an item
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The metadata has the new tag
     Click Link  link=Toggle extra metadata
