@@ -213,4 +213,5 @@ I can mention a user and search for a user
     Input text    css=input[name=usersearch]  ${username2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]  2
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(),'${username2}')][1]  2
     Click element    css=textarea.pat-content-mirror
