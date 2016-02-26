@@ -14,8 +14,7 @@ Test Teardown  Close all browsers
 
 *** Variables ***
 
-# Run this with Firefox as Chrome and Phantom apparently have problems attaching files
-${BROWSER}  Firefox
+${BROWSER}  Chrome
 
 *** Test Cases ***
 
