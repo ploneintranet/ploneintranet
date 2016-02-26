@@ -469,7 +469,7 @@ I can edit an event
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
@@ -489,7 +489,7 @@ I cannot edit an event because of validation
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
