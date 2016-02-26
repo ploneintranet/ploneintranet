@@ -445,6 +445,9 @@ I can create a new event
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
+    Wait Until Page Contains  Item created
+    Click Button  Close
+
 
 I cannot create a new event
     [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
@@ -472,8 +475,10 @@ I can edit an event
     Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
+    Click Element   css=input[name='location']
     Select From List  timezone  ${timezone}
     Click Button  Save
+    Wait Until Element Is Visible  css=div.pat-notification-panel.success
     Wait Until Page Contains  Your changes have been saved.
     Click Button  Close
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
