@@ -19,6 +19,7 @@ ${USERNAME1}   Alice Lindström
 ${USERNAME2}   Silvio De Paoli
 ${TAG1}        Rain
 ${TAG2}        Sun
+${BROWSER}     Chrome
 
 
 *** Test Cases ***
