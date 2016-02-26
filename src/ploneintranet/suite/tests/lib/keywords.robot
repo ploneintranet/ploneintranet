@@ -321,11 +321,12 @@ I can change Allan's role to Moderator
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Wait until element is visible    css=button[value='remove']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
-    Wait until page contains element  css=.pat-modal button[type=submit]
+    Wait until element is visible  css=.pat-modal button[type=submit]
     Click Button  Ok
-    Wait until page contains  Member(s) removed
+    Wait until element is visible   css=div.pat-notification-panel.success
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
