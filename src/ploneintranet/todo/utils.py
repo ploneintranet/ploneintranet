@@ -1,6 +1,8 @@
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
 def update_task_status(self, return_status_message=False):
@@ -21,10 +23,11 @@ def update_task_status(self, return_status_message=False):
         if brain.UID in active_tasks:
             if state in ["open", "planned"]:
                 api.content.transition(obj, "finish")
+                notify(ObjectModifiedEvent(obj))
         else:
             if state == "done":
                 obj.reopen()
-        obj.reindexObject()
+                notify(ObjectModifiedEvent(obj))
 
     if return_status_message:
         api.portal.show_message(
