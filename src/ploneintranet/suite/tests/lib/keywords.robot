@@ -254,7 +254,7 @@ I can invite Alice to join the workspace from the menu
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until page contains  Add user
+    Wait until element is visible  xpath=//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
@@ -648,6 +648,8 @@ I change the title
     Wait Until Page Contains  New title ♥
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The document has the new title
     Wait Until Page Contains Element  xpath=//div[@id='document-body']//textarea[@name='title'][text()='New title ♥']
@@ -658,6 +660,8 @@ I change the description
     Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The document has the new description
     Page Should Contain  New description ☀
