@@ -14,6 +14,10 @@ Test Teardown  Close all browsers
 
 # Suite Setup  Set Selenium speed  0.5s
 
+*** Variables ***
+
+${BROWSER}  Chrome
+
 *** Test Cases ***
 
 Manager can create a workspace
