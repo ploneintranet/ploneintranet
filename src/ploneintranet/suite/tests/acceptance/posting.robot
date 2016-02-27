@@ -108,8 +108,7 @@ Neil can tag a post
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
 
 Neil can tag a post by searching for a tag
-    Given I am logged in as the user neil_wichmann
-    when I am in a workspace as a workspace member
+    Given I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE2}
     then I can add a tag and search for a tag    ${TAG1}  ${TAG2}
     When I submit the status update
