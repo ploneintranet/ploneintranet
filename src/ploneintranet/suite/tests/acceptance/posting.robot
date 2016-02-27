@@ -200,6 +200,7 @@ I can add a tag and search for a tag
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag2}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
 I can mention a user and search for a user
