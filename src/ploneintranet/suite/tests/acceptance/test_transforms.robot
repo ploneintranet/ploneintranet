@@ -10,10 +10,6 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
-*** Variables ***
-
-${BROWSER}  Chrome
-
 *** Test Cases ***
 
 Page contains just one meta for viewport

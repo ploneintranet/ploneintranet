@@ -10,11 +10,6 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
-*** Variables ***
-
-${BROWSER}  Chrome
-
-
 *** Test Cases ***
 
 Content Editors can copy and paste content

@@ -10,10 +10,6 @@ Library  DebugLibrary
 Test Setup  Open test browser
 Test Teardown  Close all browsers
 
-*** Variables ***
-
-${BROWSER}  Chrome
-
 *** Test Cases ***
 
 Allan can see the search button in header

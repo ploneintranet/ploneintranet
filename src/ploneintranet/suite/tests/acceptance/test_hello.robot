@@ -9,10 +9,6 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
-*** Variables ***
-
-${BROWSER}  Chrome
-
 *** Test Cases ***
 
 Site Administrator can access dashboard

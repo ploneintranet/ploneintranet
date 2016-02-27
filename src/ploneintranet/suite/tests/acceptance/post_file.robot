@@ -12,10 +12,6 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
-*** Variables ***
-
-${BROWSER}  Chrome
-
 *** Test Cases ***
 
 Alice can attach a file to a post
