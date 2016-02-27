@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0b2 (unreleased)
+------------------
+
+- Fresh jenkins installation
+
+
 1.0b1 (2015-10-02)
 ------------------
 
