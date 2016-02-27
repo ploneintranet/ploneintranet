@@ -9,7 +9,7 @@
   <append content='/html/head/base' theme='/html/head' />
 
   <drop theme="/html/head/meta[@name='viewport']" />
-  <copy theme="/html/head/meta" content="/html/head/meta" />
+  <copy theme="/html/head" content="/html/head/meta" />
   <!-- remove the script and style from the prototype… -->
   <drop theme="/html/head/script" />
   <drop theme="/html/head/link" />
