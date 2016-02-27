@@ -657,6 +657,7 @@ The document has the new title
 I change the description
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
@@ -786,6 +787,7 @@ I select the task centric view
     Wait Until Page Contains  Tasks
 
 I mark a new task complete
+    Wait until element is visible  xpath=(//a[@title='Todo soon'])
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
     Wait until Page Contains  Task state changed
 
