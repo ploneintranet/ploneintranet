@@ -11,6 +11,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.library.browser import utils
+from ploneintranet.search.interfaces import ISearchResult
 
 log = getLogger(__name__)
 
@@ -105,7 +106,10 @@ class LibraryBaseView(BrowserView):
                      current=app_current)]
 
         for s in sections:
-            s_current = (s.path == current_nav.path) and 'current' or ''
+            current_path = (
+                ISearchResult.providedBy(current_nav) and current_nav.path or
+                "/".join(current_nav.getPhysicalPath()))
+            s_current = (s.path == current_path) and 'current' or ''
             menu.append(dict(title=s.title,
                              absolute_url=s.url,
                              current=s_current))
