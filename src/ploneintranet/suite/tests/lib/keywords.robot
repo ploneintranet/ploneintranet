@@ -265,6 +265,7 @@ I give the Consumer role to Allan
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Consumers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
@@ -275,6 +276,7 @@ I give the Producer role to Allan
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
@@ -287,6 +289,7 @@ I give the Admin role to Allan
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Admins
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
@@ -298,6 +301,7 @@ I can remove the Producer role from Allan
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains  Remove special role
     Click Link  Remove special role
+    Wait until element is visible  xpath=//div[@class='panel-content']//button[@value='role']
     Click Button  I am sure, remove role now
     Wait until page contains  Role updated
     Click button  Close
@@ -528,6 +532,7 @@ The upload appears in the stream
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
 I submit the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
@@ -536,6 +541,7 @@ I submit the content item
     Wait until page does not contain  The workflow state has been changed
 
 I retract the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
@@ -544,6 +550,7 @@ I retract the content item
     Wait until page does not contain  The workflow state has been changed
 
 I can publish the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
     Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
