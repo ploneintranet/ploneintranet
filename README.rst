@@ -1,3 +1,5 @@
+<a href='http://ci3.syslab.com/job/quaive-master-complete/'><img src='http://ci3.syslab.com/job/quaive-master-complete/badge/icon'></a>
+
 Plone Intranet
 ==============
 
