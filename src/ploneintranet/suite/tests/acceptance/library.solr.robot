@@ -49,6 +49,7 @@ I browse to the library
 
 I browse to a section
     I browse to the library
+    Wait until element is visible  xpath=//div[@id='lib-groups']//h3/a[text()='Human Resources']
     Click Link  Human Resources
 
 I browse to a folder
@@ -57,6 +58,7 @@ I browse to a folder
 
 I browse to a document
     I browse to a section
+    Wait until element is visible  xpath=//div[@id='lib-groups']//h3[text()='Holidays']
     Click Link  Holidays
 
 I switch to the by-tags listing
