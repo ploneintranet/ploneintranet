@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Boilerplate library | Plone Intranet</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="/style/screen.css" type="text/css">
+		<link rel="stylesheet" href="/style/colours.css" type="text/css">
+		<script data-main="/bundles/main" src="/bundles/ploneintranet.js" type="text/javascript"></script>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<link rel="icon" type="image/png" href="/media/favicon.png" />
+		<!--[if IE]>
+				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
+		<![endif]-->
+	</head>
+	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open focus-listing   application-boilerplate-library application- ">
+		<div id="content" class="state-on">
+	<div id="application-body" class="application- application-boilerplate-library">
+		<div id="document-body">
+	<div id="document-content">
+		<div class="application-welcome-info">
+			<article class="pat-rich" id="boilerplate-library-introduction">
+				<a href="help/instruction.txt" class="pat-inject" data-pat-inject="target: #boilerplate-library-introduction; trigger: autoload; data-type: markdown">Thank you for using the boilerplate library!</a>
+			</article>
+		</div>
+	</div>
+</div>
+<aside class="sidebar left" id="sidebar">
+    <div id="sidebar-content">
+        <div class="item-selector mode-follow" id="selector">
+    
+        <div class="button-bar functions" id="selector-functions">
+            <div class="contextual buttons float-before" id="selector-contextual-functions">
+                
+                    
+                        <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
+                        <form action="./#selector-items" class="pat-inject pat-autosubmit">
+                            <label class="pat-select bare">Group by
+                                <select name="browse-mode">
+                                    <option value="folder">folder</option>
+                                    <option value="label">tag</option>
+                                    <!-- When documents are sorted by document type, the icons for the groups are the document type icons such as these are available for 'Rich page', 'PowerPoint', 'Word', etc -->
+                                    <option value="type">document type</option>
+                                    <!-- When the groups are author names, the author avatar is used as an icon. -->
+                                    <option value="author">author</option>
+                                    <!-- Date could have groupings in 3 levels: Year, Month, Day. The first level would show years in the group labels. -->
+                                    <option value="date">date</option>
+                                    <!-- The first letter option shows a group for each letter of the alphabet. Only letters that are used as the first letter of the document names are shown, so there are no empty groups. Letters (and numbers) are alphabetically sorted. Letters are displayed in the labels as capital letters. -->
+                                    <option value="letter">first letter</option>
+                                </select>
+                            </label>
+                        </form>
+                    
+                
+            </div>
+
+            <div class="quick-functions">
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
+                
+                
+                
+                 
+                
+                    <a title="Create new boilerplate" href="/panel-create-boilerplate.html#document-content" class="create-boilerplate pat-modal icon-plus" data-pat-modal="class: large">Create boilerplate</a>
+                
+                
+                    <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                
+            </div>
+        </div>
+    
+    
+
+    
+        <form class="search-box pat-inject pat-autosubmit" action="#selector-items">
+            <label>
+                <input name="" type="search" placeholder="Search" />
+                <button type="submit">Search</button>
+            </label>
+        </form>
+    
+
+    <form class="search-result docs  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="selector-items">
+        <fieldset class="checklist pat-checklist docs ">
+
+            
+                <div class="batch-functions">
+                    <div class="button-bar">
+                        <span class="float-before button-cluster select-buttons">
+                            <button type="button" class="select-all" title="Select all">All</button>
+                            <button type="button" class="deselect-all" title="Deslect all">None</button>
+                        </span>
+                        <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Cancel</button>
+                    </div>
+                    <div class="button-bar">
+                        <span class="float-before button-cluster">
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="cut"
+                                    class="float-before icon-cut no-label pat-depends"
+                                    data-pat-depends="condition: false; action: enable"
+                                    formaction="/feedback/banner-notifications.html#documents-cut"
+                                    title="Cut">Cut</button>
+                            <button type="submit"
+                                    name="batch-function"
+                                    value="copy"
+                                    formaction="/feedback/banner-notifications.html#documents-copied"
+                                    class="float-before icon-copy no-label pat-depends"
+                                    data-pat-depends="condition: false; action: enable"
+                                    title="Copy">Copy</button>
+                            <button disabled
+                                    type="submit"
+                                    name="batch-function"
+                                    value="paste"
+                                    formaction="/apps/boilerplate-library/#items"
+                                    class="float-before icon-paste no-label"
+                                    title="Paste">Paste</button>
+                        </span>
+                        <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
+                        <button formaction="/feedback/batch-delete.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="delete"
+                                class="float-before icon-trash no-label pat-depends"
+                                data-pat-depends="condition: false; action: enable"
+                                title="Delete">Delete</button>
+                        <button type="submit"
+                                name="batch-function"
+                                value="rename"
+                                formaction="/feedback/batch-rename.html#content"
+                                class="float-before icon-rename no-label pat-depends"
+                                data-pat-depends="condition: false; action: enable"
+                                title="Rename">Rename</button>
+                        <button formaction="/feedback/batch-tag.html#content"
+                                type="submit"
+                                name="batch-function"
+                                value="tag"
+                                class="float-before icon-tags no-label pat-depends"
+                                data-pat-depends="condition:false ; action: enable;"
+                                title="Re-tag">Re-tag</button>
+                        <!-- <button type="submit"
+                                name="batch-function"
+                                value="tag"
+                                class="float-before icon-export pat-depends"
+                                data-pat-depends="condition: false; action: enable"
+                                title="Share">Share</button> -->
+                        <span class="float-before button-cluster">
+                            <button formaction="/feedback/batch-send.html#content"
+                            type="submit"
+                            name="batch-function"
+                            value="send"
+                            class="float-before no-label icon-mail pat-depends"
+                            data-pat-depends="condition: false; action: enable"
+                            title="Send selected document(s)">Send</button>
+                            <button formaction="/feedback/batch-share.html#content"
+                            type="submit"
+                            name="batch-function"
+                            value="send"
+                            class="float-before icon-export pat-depends"
+                            data-pat-depends="condition: false; action: enable"
+                            title="Post selected document(s) on a timeline">Share</button>
+                        </span>
+                    </div>
+                </div>
+            
+
+            
+
+            
+                
+
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        
+                            <!-- Each document has a class name on the label element that indicates the document type.
+
+                            Supported types include (class names):
+
+                            - type-presentation
+                            - type-slide
+                            - type-date
+                            - type-event
+                            - type-user
+                            - type-tag
+                            - type-powerpoint
+                            - type-word
+                            - type-zip
+                            - type-video
+                            - type-excel
+                            - type-sound
+                            - type-image
+                            - type-code
+                            - type-rich
+                            - type-pdf
+
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item document type-text-boilerplate has-description">
+                                <input name="report" type="checkbox" />
+                                <a href="/report#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record">
+                                    <strong class="title">Report</strong>
+                                    
+                                        <dfn class="byline">A default structure for reports such as management reports and evaluations.</dfn>
+                                    
+                                </a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="author meta-column" title="Author of this document">
+                                        Liz Baker
+                                    </a>
+                                    <time class="modification-date meta-column" title="Date and time of the latest modification">
+                                        <!-- January 17, 2000 -->
+                                        2000-01-17 00:00:00 +0100
+                                    </time>
+                                    <nav class="tag-cloud tags meta-column">
+                                        <!-- <a href="/library-tag-mitgliederbeitraege.html" class="tag">Mitgliederbeiträge</a>  -->
+                                        <a href="#" class="tag">Finanzplanung</a>
+                                        <a href="#" class="tag">Statuten</a>
+                                    </nav>
+                                </div>
+                            </label>
+                        
+                    
+                
+                    
+                        
+                            <!-- Each document has a class name on the label element that indicates the document type.
+
+                            Supported types include (class names):
+
+                            - type-presentation
+                            - type-slide
+                            - type-date
+                            - type-event
+                            - type-user
+                            - type-tag
+                            - type-powerpoint
+                            - type-word
+                            - type-zip
+                            - type-video
+                            - type-excel
+                            - type-sound
+                            - type-image
+                            - type-code
+                            - type-rich
+                            - type-pdf
+
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item document type-text-boilerplate has-description">
+                                <input name="memo" type="checkbox" />
+                                <a href="/memo#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record">
+                                    <strong class="title">Memo</strong>
+                                    
+                                        <dfn class="byline">A default structure for short notes, messages and announcements.</dfn>
+                                    
+                                </a>
+                                <div class="additional-meta-data">
+                                    <a href="/guido-stevens/" class="author meta-column" title="Author of this document">
+                                        Liz Baker
+                                    </a>
+                                    <time class="modification-date meta-column" title="Date and time of the latest modification">
+                                        <!-- January 17, 2000 -->
+                                        2000-01-17 00:00:00 +0100
+                                    </time>
+                                    <nav class="tag-cloud tags meta-column">
+                                        <!-- <a href="/library-tag-mitgliederbeitraege.html" class="tag">Mitgliederbeiträge</a>  -->
+                                        <a href="#" class="tag">Finanzplanung</a>
+                                        <a href="#" class="tag">Statuten</a>
+                                    </nav>
+                                </div>
+                            </label>
+                        
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+
+            
+
+        </fieldset>
+
+<!--         
+            <div class="button-bar bottom form-submit pat-bumper">
+                <button type="submit" class="pat-button close-panel">Save</button>
+                <button type="reset" class="pat-button close-panel">Cancel</button>
+            </div>
+         -->
+    </form>
+
+    
+        <!-- <div class="button-bar create-buttons">
+            <a href="/panel-create-document.html#document-content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
+            <a href="/panel-create-folder.html#document-content" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
+        </div> -->
+        
+    
+
+    
+
+    
+        <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
+            <!-- <h3 class="trigger selector-toggle-select">
+                Functions…
+            </h3> -->
+            <ul class="menu">
+                <li>
+                    <a href="/panel-create-document.html#document-content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large">Create document</a>
+                </li>
+                <li>
+                    <a href="/panel-create-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Create folder</a>
+                </li>
+                <li>
+                    <a href="/open-market-committee/#sidebar" class="icon-paste create-document pat-inject">Paste</a>
+                </li>
+                
+                    <li>
+                        <a href="/panel-rename-folder.html#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large">Change folder name or&nbsp;description</a>
+                    </li>
+                
+                <li>
+                    <label class=" icon-upload-cloud"><input multiple type="file"> Upload file(s)</label>
+                </li>
+                <li>
+                    
+                        <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                    
+                </li>
+            </ul>
+        </div>
+
+        <div hidden id="selector-create-menu">
+            <ul class="menu">
+                <li>
+                    <a class="icon-document" href="#">Text document</a>
+                </li>
+
+                <li>
+                    <a class="icon-slides">Slideshow</a>
+                </li>
+
+                <li>
+                    <a class="icon-calendar">Event</a>
+                </li>
+
+
+                <li>
+                    <a class="icon-linkdd">Weblink</a>
+                </li>
+
+                <li>
+                    <a class="icon-upload" href="#">Upload file(s)</a>
+                </li>
+            </ul>
+        </div>
+    
+
+    
+
+</div>
+
+    </div>
+</aside>
+	</div>
+	
+</div>
+
+<a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+
+<header id="global-header">
+
+    <a id="hamburger-desktop" class="hamburger-menu pat-toggle" data-pat-toggle="selector: body; value: gh-expanded gh-collapsed; store: local">Toggle menu</a>
+    <a href="/dashboard.html#portal-tabs" id="hamburger-mobile" class="hamburger-menu pat-modal" data-pat-modal="class: hamburger-menu" title="Menu">Menu</a>
+
+    <a id="site-logo" href="/dashboard.html" class="logo">Plone Intranet</a>
+
+    <nav class="breadcrumbs">
+        
+            <a class="current" href="#">Boilerplate library</a>
+        
+
+        
+    </nav>
+
+    
+
+        
+	<a href="/feedback/personal-menu.html#content" class="pat-avatar pat-tooltip" data-pat-tooltip='position-list: tr; position-policy: force; trigger: click; source: ajax' id="user-avatar">
+		<img src="/media/avatar-liz.jpg" alt="Liz Baker" />
+	</a>    
+
+        
+        <button title="Toggle the onscreen help system on or off" id="osh-toggle" class="icon iconified icon-help-circle osh-toggle pat-toggle" data-pat-toggle="selector: body; value: osh-on osh-off; store: local">?</button>
+
+        <!-- <button id="buddies-toggle" class="icon iconified icon-chat im chat pat-toggle" data-pat-toggle="selector: body; value: buddies-off buddies-on">Messages <sup id="online-count" class="counter digit-2">7</sup></button> -->
+
+        <a href="/notifications.html#notifications" id="notification-link" class="icon iconified icon-bell pat-tooltip" data-pat-tooltip="source: ajax; position-list: tr; position-policy: force;">
+            Notifications <sup id="online-count" class="counter digit-2">4</sup>
+        </a>
+    
+
+    <form action="/search-results.html" class="search" id="global-nav-search">
+        <label>
+            <input class="search" name="SearchableText" placeholder="Search through content…" type="text">
+        </label>
+        <button name="submit" tabindex="-1" type="submit" value="submit">Search</button>
+    </form>
+
+    <nav class="tabs navigation  portal-tabs" id="portal-tabs">
+	<h2 class="title">Menu</h2>
+	<a href="/feedback/osh.html#osh-portal-dashboard" id="osh-target-portal-dashboard" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+	<a href="/dashboard.html" >Dashboard</a>
+
+	<a href="/feedback/osh.html#osh-portal-news" id="osh-target-portal-news" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+	<a href="/news.html" >News</a>
+
+	<a href="/feedback/osh.html#osh-portal-library" id="osh-target-portal-library" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+	<a href="/library.html" >Library</a>
+
+	<a href="/feedback/osh.html#osh-portal-workspaces" id="osh-target-portal-workspaces" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+	<a href="/workspaces.html" >Workspaces</a>
+
+<!-- 		<a href="#" >Messages</a> -->
+	<a href="/feedback/osh.html#osh-portal-apps" id="osh-target-portal-apps" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+	<a href="/apps.html" >Apps</a>
+</nav>
+</header>
+
+		<style type="text/css">
+			
+				.tiles .tile.workspace.type-regular .link,
+				.workspace-type-regular #workspace-name,
+				.super-space-preview.workspace-type-regular:before, 
+				.workspace-preview.workspace-type-regular:before {
+					background-color: #828282;
+				}
+			
+				.tiles .tile.workspace.type-case .link,
+				.workspace-type-case #workspace-name,
+				.super-space-preview.workspace-type-case:before, 
+				.workspace-preview.workspace-type-case:before {
+					background-color: #7FBDAF;
+				}
+			
+				.tiles .tile.workspace.type-project .link,
+				.workspace-type-project #workspace-name,
+				.super-space-preview.workspace-type-project:before, 
+				.workspace-preview.workspace-type-project:before {
+					background-color: #958DC6;
+				}
+			
+				.tiles .tile.workspace.type-steering-committee .link,
+				.workspace-type-steering-committee #workspace-name,
+				.super-space-preview.workspace-type-steering-committee:before, 
+				.workspace-preview.workspace-type-steering-committee:before {
+					background-color: green;
+				}
+			
+		</style>
+	</body>
+</html>

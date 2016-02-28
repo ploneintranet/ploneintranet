@@ -1,0 +1,21 @@
+**Thank you for using Boilerplate library!** The boilerplate libary is used to create skeletons for text documents that can be reused in workspaces. Boilerplates help your colleages to produce documents faster and to stay compliant with organisational standards.
+
+## 1. Browsing and creating boilerplates
+
+In the sidebar on the left hand side of the screen you can find boilerplates by browsing its folders/tags or by searching. The sidebar search field will search all the boilerplates that are inside the Boilerplate library app.
+
+When you click on the name of a boilerplate, it will appear on the right hand side of the screen where you can edit it, provided you have sufficient permissions.
+
+Create a new boilerplate by clicking on the plus sign in the sidebar. 
+
+## 2. Categorise the boilerplate
+
+![Create new document panel](help/adding-categories.png)
+
+When a user wants to create a new document in a workspace, he gets the option of basing his document on a boilerplate as a starting point. The boilerplates are organised in categories. You add your boilerplates to these or to new categories, by entering one or more cagory names in the category field.
+
+## 3. Use the boilerplate
+
+![Create new document panel](help/create-new-document.png)
+
+Go to a worksspace and select the documents module from the left hand side bar. Then click on the plus sign to create a new document. A panel appears that allows you to give a name and description to your new document and to select a boilerplate as a starting point for your text. These are the boilerplates that come from this Boilerplate library app.

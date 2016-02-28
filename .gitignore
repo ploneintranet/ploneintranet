@@ -6,6 +6,7 @@
 .bundle/
 .buildout/
 .cache/
+.config/
 .dbus/
 .gitconfig
 .installed.cfg
@@ -29,6 +30,7 @@ include/
 libreoffice/
 local/
 node_modules/
+.pki/
 parts/
 /prototype
 release/

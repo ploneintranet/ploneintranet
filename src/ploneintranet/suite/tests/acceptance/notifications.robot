@@ -10,6 +10,7 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+
 *** Test Cases ***
 
 Alice is notified about a post she is in

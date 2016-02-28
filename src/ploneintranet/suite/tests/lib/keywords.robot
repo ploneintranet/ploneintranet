@@ -249,11 +249,12 @@ I can invite Alice to join the workspace
 I can invite Alice to join the workspace from the menu
     Wait Until Page Contains Element  link=Functions
     Click Link  link=Functions
+    Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until page contains  Add user
+    Wait until element is visible  xpath=//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
@@ -264,6 +265,7 @@ I give the Consumer role to Allan
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Consumers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
@@ -274,6 +276,7 @@ I give the Producer role to Allan
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Producers
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
@@ -286,6 +289,7 @@ I give the Admin role to Allan
     Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
+    Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Admins
     Click Button  css=.pat-modal button[type=submit]
     Wait until page contains  Role updated
@@ -297,6 +301,7 @@ I can remove the Producer role from Allan
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains  Remove special role
     Click Link  Remove special role
+    Wait until element is visible  xpath=//div[@class='panel-content']//button[@value='role']
     Click Button  I am sure, remove role now
     Wait until page contains  Role updated
     Click button  Close
@@ -321,11 +326,12 @@ I can change Allan's role to Moderator
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Wait until element is visible    css=button[value='remove']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
-    Wait until page contains element  css=.pat-modal button[type=submit]
+    Wait until element is visible  css=.pat-modal button[type=submit]
     Click Button  Ok
-    Wait until page contains  Member(s) removed
+    Wait until element is visible   css=div.pat-notification-panel.success
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
@@ -445,6 +451,9 @@ I can create a new event
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Button  css=#form-buttons-create
+    Wait Until Page Contains  Item created
+    Click Button  Close
+
 
 I cannot create a new event
     [arguments]  ${title}  ${start}  ${end}  ${organizer}=Allan Neece  ${invitees}=Dollie Nocera
@@ -469,11 +478,13 @@ I can edit an event
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click Element  jquery=.event-list a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
+    Click Element   css=input[name='location']
     Select From List  timezone  ${timezone}
     Click Button  Save
+    Wait Until Element Is Visible  css=div.pat-notification-panel.success
     Wait Until Page Contains  Your changes have been saved.
     Click Button  Close
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
@@ -489,7 +500,7 @@ I cannot edit an event because of validation
     Wait until element is visible  jquery=.event-list a:contains("${title}")
     Click link  jquery=a:contains("${title}")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar input[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
@@ -521,24 +532,30 @@ The upload appears in the stream
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
 I submit the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
     Wait until page contains  Close
     Click button  Close
+    Wait until page does not contain  The workflow state has been changed
 
 I retract the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Wait until page contains  The workflow state has been changed
     Wait until page contains  Close
     Click button  Close
+    Wait until page does not contain  The workflow state has been changed
 
 I can publish the content item
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
     Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
     Click button  Close
+    Wait until page does not contain  The workflow state has been changed
 
 I cannot publish the content item
     Click element    xpath=//fieldset[@id='workflow-menu']
@@ -634,6 +651,8 @@ I change the title
     Wait Until Page Contains  New title ♥
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The document has the new title
     Wait Until Page Contains Element  xpath=//div[@id='document-body']//textarea[@name='title'][text()='New title ♥']
@@ -641,34 +660,39 @@ The document has the new title
 I change the description
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input Text  xpath=//textarea[@name='description']  New description ☀
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The document has the new description
     Page Should Contain  New description ☀
 
 I tag the item
+    [arguments]  ${tag}
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
-    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  NewTag☃,
-    click element  xpath=//h1[@id="document-title"]
+    Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  ${tag},
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 I tag the item with a suggestion
+    [arguments]  ${search_for}  ${selection}
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
-    Input text  xpath=//input[@placeholder='Tags']/../div//input  NewT
-    Wait Until Page Contains  ag☃
-    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), 'ag☃')]
-    click element  xpath=//h1[@id="document-title"]
+    Input text  xpath=//input[@placeholder='Tags']/../div//input  ${search_for}
+    Wait until element is visible  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
+    Click Element  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
@@ -678,6 +702,7 @@ I clear the tag for an item
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
+    Wait Until Page Does Not Contain  Your changes have been saved
 
 The metadata has the new tag
     Click Link  link=Toggle extra metadata
@@ -765,6 +790,7 @@ I select the task centric view
     Wait Until Page Contains  Tasks
 
 I mark a new task complete
+    Wait until element is visible  xpath=(//a[@title='Todo soon'])
     Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
     Wait until Page Contains  Task state changed
 

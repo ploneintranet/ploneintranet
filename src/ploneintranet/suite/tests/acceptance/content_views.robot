@@ -12,6 +12,7 @@ Variables  variables.py
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+
 *** Test Cases ***
 
 Member can change the title of a document
@@ -31,16 +32,16 @@ Member can change the description of a document
 Member can tag a document
     Given I am in a workspace as a workspace member
     And I browse to a document
-    And I tag the item
+    And I tag the item  DocumentNewTag☃
     And I view the document
     Then the metadata has the new tag
 
 Member can tag a document with a tag suggestion
     Given I am in a workspace as a workspace member
     And I browse to a document
-    And I tag the item
+    And I tag the item  SuggestDocumentNewTag☃
     And I clear the tag for an item
-    And I tag the item with a suggestion
+    And I tag the item with a suggestion  NewT  SuggestDocument
     Then the metadata has the new tag
 
 Member can change the title of an image
@@ -60,7 +61,7 @@ Member can change the description of an image
 Member can tag an image
     Given I am in a workspace as a workspace member
     And I browse to an image
-    And I tag the item
+    And I tag the item  ImageNewTag☃
     And I view the image
     Then the metadata has the new tag
 
@@ -72,9 +73,9 @@ Member can replace an image
 Member can tag an image with a tag suggestion
     Given I am in a workspace as a workspace member
     And I browse to an image
-    And I tag the item
+    And I tag the item  SuggestImageNewTag☃
     And I clear the tag for an item
-    And I tag the item with a suggestion
+    And I tag the item with a suggestion  NewT  SuggestImage
     Then the metadata has the new tag
 
 Member can change the title of a file
@@ -94,7 +95,7 @@ Member can change the description of a file
 Member can tag a file
     Given I am in a workspace as a workspace member
     And I browse to a file
-    And I tag the item
+    And I tag the item  FileNewTag☃
     And I view the file
     Then the metadata has the new tag
 
@@ -107,9 +108,9 @@ Member can replace a file
 Member can tag a file with a tag suggestion
     Given I am in a workspace as a workspace member
     And I browse to a file
-    And I tag the item
+    And I tag the item  SuggestFileNewTag☃
     And I clear the tag for an item
-    And I tag the item with a suggestion
+    And I tag the item with a suggestion  NewT  SuggestFile
     Then the metadata has the new tag
 
 Member cannot see delete button on a read only document

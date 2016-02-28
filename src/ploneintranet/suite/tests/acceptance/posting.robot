@@ -10,6 +10,7 @@ Library  DebugLibrary
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
+
 *** Variable ***
 
 ${MESSAGE1}    I am so excited, this is super!
@@ -19,7 +20,6 @@ ${USERNAME1}   Alice Lindström
 ${USERNAME2}   Silvio De Paoli
 ${TAG1}        Rain
 ${TAG2}        Sun
-
 
 *** Test Cases ***
 
@@ -108,8 +108,7 @@ Neil can tag a post
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
 
 Neil can tag a post by searching for a tag
-    Given I am logged in as the user neil_wichmann
-    when I am in a workspace as a workspace member
+    Given I am in a workspace as a workspace member
     and I write a status update    ${MESSAGE2}
     then I can add a tag and search for a tag    ${TAG1}  ${TAG2}
     When I submit the status update
@@ -200,6 +199,7 @@ I can add a tag and search for a tag
     Input text    css=input[name=tagsearch]  ${tag2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]  2
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag2}')][1]  2
     Click element    css=textarea.pat-content-mirror
 
 I can mention a user and search for a user
@@ -212,4 +212,5 @@ I can mention a user and search for a user
     Input text    css=input[name=usersearch]  ${username2}
     Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]  2
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(),'${username2}')][1]  2
     Click element    css=textarea.pat-content-mirror
