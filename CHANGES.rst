@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - Fresh jenkins installation
+- Upgrade to Plone 5.0.2
 
 
 1.0b1 (2015-10-02)
