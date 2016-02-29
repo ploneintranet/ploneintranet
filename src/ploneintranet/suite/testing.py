@@ -6,6 +6,11 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
+from zope.component import getUtility
+
+from ploneintranet.search.solr.testing import (SOLR_ENABLED,
+                                               SOLR_FIXTURE,
+                                               PloneIntranetSearchSolrLayer)
 
 
 class PloneIntranetSuite(PloneSandboxLayer):
@@ -83,6 +88,38 @@ class PloneIntranetSuite(PloneSandboxLayer):
         z2.uninstallProduct(app, 'Products.membrane')
 
 
+class PloneIntranetSuiteSolr(PloneIntranetSuite, PloneIntranetSearchSolrLayer):
+
+    defaultBases = (
+        PLONE_APP_CONTENTTYPES_FIXTURE,
+        PLONE_APP_TILES_FIXTURE,
+        SOLR_FIXTURE,
+    )
+
+    def setUpZope(self, app, configurationContext):
+        super(PloneIntranetSuiteSolr, self).setUpZope(
+            app,
+            configurationContext)
+
+        if not SOLR_ENABLED:
+            return
+
+        import ploneintranet.search.solr
+        self.loadZCML(package=ploneintranet.search.solr)
+        self.loadZCML(package=ploneintranet.search.solr,
+                      name='testing.zcml')
+
+    def tearDownPloneSite(self, portal):
+            self.applyProfile(portal, 'ploneintranet.suite:uninstall')
+
+            if not SOLR_ENABLED:
+                return
+
+            # Final purge
+            from ploneintranet.search.solr.interfaces import IMaintenance
+            getUtility(IMaintenance).purge()
+
+
 PLONEINTRANET_SUITE = PloneIntranetSuite()
 
 PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
@@ -98,3 +135,11 @@ PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
            AUTOLOGIN_LIBRARY_FIXTURE,
            z2.ZSERVER_FIXTURE),
     name="PLONEINTRANET_SUITE_ROBOT")
+
+PLONEINTRANET_SUITE_SOLR = PloneIntranetSuiteSolr()
+
+PLONEINTRANET_SUITE_SOLR_ROBOT = FunctionalTesting(
+    bases=(PLONEINTRANET_SUITE_SOLR,
+           AUTOLOGIN_LIBRARY_FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PLONEINTRANET_SUITE_SOLR_ROBOT")
