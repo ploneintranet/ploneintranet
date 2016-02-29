@@ -8,6 +8,7 @@
 .cache/
 .config/
 .dbus/
+.gem/
 .gitconfig
 .installed.cfg
 .mozilla/
