@@ -35,7 +35,7 @@
                           <input type="hidden" name="is_division-empty-marker" value="true" />
                         </label>
                     </fieldset>
-                    <fieldset class="vertical">
+                    <fieldset class="vertical pat-depends" data-pat-depends="condition:is_division != selected">
                         <label class="pat-select">
                           <span tal:omit-tag="" i18n:translate="">This belongs to a division</span>
                           <select name="division">
@@ -48,6 +48,7 @@
                           </select>
                         </label>
                     </fieldset>
+                    
                     <!-- Not implemented yet -->
                     <!--fieldset class="vertical">
                       <label class="pat-checklist">

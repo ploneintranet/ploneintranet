@@ -45,7 +45,7 @@ class Workspaces(BrowserView):
 
     def grouping_options(self):
         options = [{'value': '',
-                    'content': 'None'},
+                    'content': 'No grouping'},
                    {'value': 'division',
                     'content': 'Group by division'},
                    # Not yet implemented
@@ -71,11 +71,15 @@ class Workspaces(BrowserView):
                                    self.request,
                                    include_activities=False)
         self.divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        division_uids = [x.token for x in self.divisions]
 
         division_map = defaultdict(list)
         for workspace in workspaces:
             # Note: Already sorted as source list is sorted
-            division_map[workspace['uid']].append(workspace)
+            if workspace['uid'] in division_uids:
+                division_map[workspace['uid']].append(workspace)
+            else:
+                division_map[workspace['division']].append(workspace)
 
         return division_map
 
