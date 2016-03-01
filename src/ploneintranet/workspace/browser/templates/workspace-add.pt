@@ -28,6 +28,17 @@
               </select>
             </label>
 
+            <label class="pat-select">
+              Division 
+              <select name="division">
+                <!-- For now we want to enforce at least one -->
+                <!--option value="">None</option-->
+                <option value="" tal:repeat="division python:view.divisions()" tal:content="division/value" tal:attributes="value division/token">
+                    Division
+                </option>
+              </select>
+            </label>
+
             <fieldset class="focus pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.case">
               <label >
                 <span tal:omit-tag="" i18n:translate="">Pick a Case Template</span>
@@ -45,7 +56,7 @@
                 </fieldset>
               </label>
             </fieldset>
-
+          
             <fieldset class="pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
               <fieldset class="pat-checklist radio pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
                 <label><input type="radio" value="1" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Locked down, secret workspace</span></label>

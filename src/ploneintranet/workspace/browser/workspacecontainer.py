@@ -102,6 +102,10 @@ class AddView(BrowserView):
         portal = api.portal.get()
         return portal.get(TEMPLATES_FOLDER).objectValues()
 
+    def divisions(self):
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
+
 
 class WorkspaceTabsTile(Tile):
 

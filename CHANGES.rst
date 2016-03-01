@@ -12,7 +12,9 @@ Changelog
   portal, you will need to reimport the configuration registry step of 
   pi.search to enable the new division index) 
   [pilz]
-
+- When adding workspaces, a user can assign it to a division. He  can select  
+  the divisions he is allowed to see.
+  [pilz]
 
 1.0b1 (2015-10-02)
 ------------------
