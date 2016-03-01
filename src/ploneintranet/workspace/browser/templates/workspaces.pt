@@ -20,6 +20,13 @@
                  </select>
             </label>
             <label class="bare pat-select">
+              <select name="grouping">
+                <tal:r repeat="o view/grouping_options">
+                    <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                </tal:r>
+              </select>
+            </label>
+            <label class="bare pat-select">
                 <select name="workspace_type">
                   <tal:r repeat="o view/workspace_types">
                     <option tal:attributes="value o/value; selected python:request.get('workspace_type')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
@@ -31,24 +38,69 @@
                <span tal:replace="structure context/@@authenticator/authenticator"/>
             </div>
              <input type="search" placeholder="Search workspaces" focus name="SearchableText" tal:attributes="value request/SearchableText | nothing">
-         </form>
+        </form>
 
-        <div id="workspaces" class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
-          <div class="grid-sizer four columns"></div>
-          <tal:r repeat="w view/workspaces">
 
-            <div class="tile workspace four columns  workspace-open-market-committee"
-                 tal:attributes="class string:tile workspace four columns ${w/class}">
-              <a href="/open-market-committee" class="link"
-                 tal:attributes="href w/url">
-                <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                <p class="description" tal:content="w/description">
-                    The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                </p>
-              </a>
+        <tal:no_grouping condition="python:request.get('grouping', '') == ''">
+            <div id="workspaces" class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+              <div class="grid-sizer four columns"></div>
+
+              <tal:r repeat="w view/workspaces">
+                <div class="tile workspace four columns  workspace-open-market-committee"
+                     tal:attributes="class string:tile workspace four columns ${w/class}">
+                  <a href="/open-market-committee" class="link"
+                     tal:attributes="href w/url">
+                    <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                    <p class="description" tal:content="w/description" tal:condition="w/description">
+                        The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                    </p>
+                  </a>
+                </div>
+              <tal:r>
             </div>
-          </tal:r>
-        </div>
+        </tal:no_grouping>
+
+        <tal:group_by_division condition="python:request.get('grouping', 'division') == ''">
+          <tal:def define="wbd view/workspaces_by_division; divisions view/divisions">
+            <tal:r repeat="division divisions">
+                <section>
+                  <article class="pat-rich canvas-intro">
+                    <h1 class="group-title" tal:content="division/value">
+                      <tal:value condition="division/value" content="division/value"/>
+                      <span tal:condition="not:division/value" i18n:translate="">Ungrouped</span>
+                      Division Title
+                    </h1>
+                    <p class="description" tal:content="division/title" tal:condition="division/title">
+                      Division Description
+                    </p>
+                  </article>
+                  <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="workspaces">
+                    <div class="grid-sizer four columns"></div>
+                    <tal:r repeat="w python:wbd[division.token]">
+                      <div class="tile workspace four columns  workspace-open-market-committee"
+                           tal:attributes="class string:tile workspace four columns ${w/class}">
+                        <a href="/open-market-committee" class="link"
+                           tal:attributes="href w/url">
+                          <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                          <p class="description" tal:content="w/description" tal:condition="w/description">
+                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                          </p>
+                        </a>
+                      </div>
+                    <tal:r>
+
+                  </div>
+                </section>
+            </tal:r>
+          </tal:def>
+        </tal:group_by_division>
+
+        <tal:group_by_workspace_type condition="python:request.get('grouping', 'workspace_type') == ''">
+
+            <!-- Not implemented yet -->
+        
+        </tal:group_by_workspace_type>
+
       </div>
 
     </metal:content>

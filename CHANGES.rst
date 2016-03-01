@@ -6,6 +6,12 @@ Changelog
 
 - Fresh jenkins installation
 - Upgrade to Plone 5.0.2
+- Add division support for workspaces. 
+  (This includes an update to the solr schema. You might need to make sure your
+  solr is rebuilt to get the new fields included. If you use an existing
+  portal, you will need to reimport the configuration registry step of 
+  pi.search to enable the new division index)
+  [pilz]
 
 
 1.0b1 (2015-10-02)

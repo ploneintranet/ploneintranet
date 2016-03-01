@@ -12,6 +12,8 @@
       <element>friendly_type_name</element>
       <element>portal_type</element>
       <element>path</element>
+      <element>is_division</element>
+      <element>division</element>
     </value>
   </record>
 
@@ -24,6 +26,7 @@
     <value>
       <element>tags</element>
       <element>friendly_type_name</element>
+      <element>is_division</element>
     </value>
   </record>
 

@@ -3,6 +3,7 @@ from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
 from plone.app.contenttypes.interfaces import ILink
 from plone.app.contenttypes.interfaces import INewsItem
+from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from plone.indexer.decorator import indexer
 from utils import guess_mimetype
 
@@ -38,3 +39,15 @@ def mimetype_link(object, **kw):
 @indexer(INewsItem)
 def mimetype_newsitem(object, **kw):
     return 'message/news'
+
+
+@indexer(IWorkspaceFolder)
+def is_division(object, **kw):
+    """Indexes if this object represents a division"""
+    return getattr(object, 'is_division', False)
+
+
+@indexer(IWorkspaceFolder)
+def division(object, **kw):
+    """Indexes the division UID if present"""
+    return getattr(object, 'division', '')

@@ -27,6 +27,22 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
         required=False,
         default=False,
     )
+    is_division = schema.Bool(
+        title=_(
+            u"label_workspace_is_division",
+            u"Is this workspace representing a division?"),
+        description=_(
+            u"Divisions represent sections of the overall "
+            u"organisation and appear "
+            u"as groupings on the workspace overview."),
+        required=False,
+        default=False,
+    )
+    division = schema.TextLine(
+        title=_(u'label_workspace_division', u'Belongs to this Devision'),
+        required=False,
+        default=u'',
+    )
     email = schema.TextLine(
         title=_(u'label_workspace_email', u'E-mail address'),
         required=False,

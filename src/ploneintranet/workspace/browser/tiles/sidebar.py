@@ -23,16 +23,20 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
+from zope.schema.interfaces import IVocabularyFactory
 import logging
+
 
 log = logging.getLogger(__name__)
 
 
 FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'todo']
+vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
 class BaseTile(BrowserView):
@@ -297,6 +301,11 @@ class SidebarSettingsAdvanced(BaseTile):
                     )
 
         return self.render()
+
+    def divisions(self):
+        """ return available divisions """
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
 
 
 class Sidebar(BaseTile):

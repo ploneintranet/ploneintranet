@@ -9,12 +9,11 @@
         <div id="workspace-settings" tal:define="ws view/workspace">
 
             <div class="tabs-content">
-                <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
-                    <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+                <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
+                  <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
                 </aside>
-                <form action="#" method="post" class="pat-inject pat-autosubmit"
-                            tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;
-                                            data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
+                <form action="#" method="post" class="pat-inject pat-autosubmit" data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content"
+                            tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;">
                     <fieldset class="vertical">
                         <label>
                             <span tal:omit-tag="" i18n:translate="workspace_email_address">
@@ -29,6 +28,36 @@
                                             disabled not: view/can_manage_workspace"/>
                         </label>
                     </fieldset>
+                    <fieldset class="pat-checklist">
+                        <label>
+                          This represents a division
+                          <input type="checkbox" name="is_division" value="selected" tal:attributes="checked python:getattr(context, 'is_division', False) == True and 'checked' or None"/>
+                          <input type="hidden" name="is_division-empty-marker" value="true" />
+                        </label>
+                    </fieldset>
+                    <fieldset class="vertical">
+                        <label class="pat-select">
+                          <span tal:omit-tag="" i18n:translate="">This belongs to a division</span>
+                          <select name="division">
+                            <option i18n:translate="" value="">None</option>
+                            <tal:divisions repeat="division view/divisions">
+                              <option tal:condition="python:division.token != context.UID()" tal:content="division/value" tal:attributes="value division/token; selected python:getattr(context, 'division', None) == division.token and 'selected' or None">
+                              Division
+                            </option>
+                          </tal:divisions>
+                          </select>
+                        </label>
+                    </fieldset>
+                    <!-- Not implemented yet -->
+                    <!--fieldset class="vertical">
+                      <label class="pat-checklist">
+                        Archive workspace
+                        <input type="checkbox" name="archived" />
+                      </label>
+                      <p class="pat-message pat-depends warning" data-pat-depends="archived">
+                        This workspace was archived on <time>16 April 2015</time>. Archived workspaces are hidden from the <a href="/workspaces">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
+                      </p>
+                    </fieldset-->
                 </form>
             </div>
         </div>
