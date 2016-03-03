@@ -257,6 +257,34 @@ class WorkspaceFolder(Container):
         else:
             return ''
 
+    def member_and_group_prefill(self, context, field, default=None):
+        """
+        Return JSON for pre-filling a pat-autosubmit field with the values for
+        that field
+        """
+        acl_users = api.portal.get_tool('acl_users')
+        field_value = getattr(context, field, default)
+        if not field_value:
+            return ''
+        assigned_users = field_value.split(',')
+        prefill = {}
+        for assignee_id in assigned_users:
+            user = api.user.get(assignee_id)
+            if user:
+                prefill[assignee_id] = user.getProperty('fullname')
+            else:
+                group = acl_users.getGroupById(assignee_id)
+                if group:
+                    prefill[assignee_id] = group.getName()
+        if prefill:
+            return dumps(prefill)
+        else:
+            return ''
+
+    def belongs_to(self, name):
+        """ checks if this case belongs to a certain division """
+        return belongs_to(self, name)
+
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):
     """
