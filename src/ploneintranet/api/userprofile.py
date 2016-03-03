@@ -29,6 +29,23 @@ def get_users(**kwargs):
     return (x.getObject() for x in search_results)
 
 
+def get_users_from_userids_and_groupids(ids=None):
+    """
+    Given a list of userids and groupids return the set of users
+    """
+    acl_users = plone_api.portal.get_tool('acl_users')
+    users = set()
+    for id in ids:
+        group = acl_users.getGroupById(id)
+        if group:
+            [users.add(user) for user in group.getGroupMembers()]
+        else:
+            user = acl_users.getUserById(id)
+            if user:
+                users.add(user)
+    return users
+
+
 def get(username):
     """Get a Plone Intranet user profile by username
 
