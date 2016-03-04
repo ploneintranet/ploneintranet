@@ -34,16 +34,18 @@ def get_users_from_userids_and_groupids(ids=None):
     Given a list of userids and groupids return the set of users
     """
     acl_users = plone_api.portal.get_tool('acl_users')
-    users = set()
+    users = {}
     for id in ids:
         group = acl_users.getGroupById(id)
         if group:
-            [users.add(user) for user in group.getGroupMembers()]
+            for user in group.getGroupMembers():
+                user_ob = acl_users.getUserById(user.getId())
+                users[user_ob.getProperty('email')] = user_ob
         else:
-            user = acl_users.getUserById(id)
-            if user:
-                users.add(user)
-    return users
+            user_ob = acl_users.getUserById(id)
+            if user_ob:
+                users[user_ob.getProperty('email')] = user_ob
+    return users.values()
 
 
 def get(username):
