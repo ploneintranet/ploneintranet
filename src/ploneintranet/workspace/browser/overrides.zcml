@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+
+  <browser:page
+      for="*"
+      name="external_edit"
+      class=".enable_externaleditor.EditView"
+      permission="cmf.ModifyPortalContent"
+      layer="collective.externaleditor.interfaces.IExternalEditorLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="externalEditorEnabled"
+      class=".enable_externaleditor.EnabledView"
+      allowed_attributes="available"
+      permission="zope2.View"
+      layer="collective.externaleditor.interfaces.IExternalEditorLayer"
+      />
+
+</configure>

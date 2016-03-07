@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<registry>
+    <record name="ploneintranet.workspace.externaleditor_always_activated">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="ploneintranet.workspace" ns0:translate="help_externaleditor_always_activated">When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used.</description>
+          <required>False</required>
+          <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="ploneintranet.workspace" ns0:translate="label_externaleditor_always_activated">External Editor always activated.</title>
+        </field>
+        <value>False</value>
+    </record>
+</registry>
