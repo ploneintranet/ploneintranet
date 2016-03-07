@@ -37,7 +37,7 @@
 
                   <div class="quick-functions">
                     <a href="${context/absolute_url}/external_edit"
-                       tal:condition="context/externalEditorEnabled/available"
+                       tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit"
                        class="${view/icon_class} iconified">Open in External Editor</a>
                     <a tal:condition="view/can_edit" href="${context/absolute_url}/delete_confirmation#content" title="Delete this document" i18n:attributes="title" data-pat-inject="source: #content" class="pat-modal icon-trash iconified" i18n:translate="">Delete</a>
                     <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
