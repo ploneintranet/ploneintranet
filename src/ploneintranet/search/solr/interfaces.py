@@ -56,3 +56,37 @@ class IResponse(Interface):
 
 class IContentAdder(Interface):
     """Marker."""
+
+
+class ICheckIndexable(Interface):
+    """ Check if an object is indexable """
+
+    def __call__():
+        """ Return `True`, if context is indexable and `False`otherwise
+        """
+
+
+class ISolrMaintenanceView(Interface):
+    """ solr maintenance view for clearing, re-indexing content etc """
+
+    def optimize():
+        """ optimize solr indexes """
+
+    def clear():
+        """ clear all data from solr, i.e. delete all indexed objects """
+
+    def reindex(batch=1000, skip=0):
+        """ find all contentish objects (meaning all objects derived from one
+            of the catalog mixin classes) and (re)indexes them """
+
+    def sync(batch=1000):
+        """ sync the solr index with the portal catalog;  records contained
+            in the catalog but not in solr will be indexed and records not
+            contained in the catalog can be optionally removed;  this can
+            be used to ensure consistency between zope and solr after the
+            solr server has been unavailable etc """
+
+    def cleanup(batch=1000):
+        """ remove entries from solr that don't have a corresponding Zope
+            object  or have a different UID than the real object"""
+

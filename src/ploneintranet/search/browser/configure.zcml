@@ -53,4 +53,14 @@
        layer="..interfaces.IPloneintranetSearchLayer"
        />
 
+    <browser:page
+        for="*"
+        name="solr-maintenance"
+        class=".maintenance.SolrMaintenanceView"
+        allowed_interface="..solr.interfaces.ISolrMaintenanceView"
+        permission="cmf.ManagePortal" />
+
+    <adapter
+        factory=".maintenance.BaseIndexable" />
+
 </configure>
