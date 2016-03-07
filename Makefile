@@ -35,7 +35,7 @@ fetchrelease: ## Download and install the latest javascript bundle into the them
 
 prototype:: ## Get the latest version of the prototype
 	@if [ ! -d "prototype" ]; then \
-		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
+		git clone git@github.com:quaive/ploneintranet.prototype.git prototype; \
 	else \
 		cd prototype && git pull; \
 	fi;
