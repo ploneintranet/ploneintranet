@@ -18,7 +18,6 @@
   <include package="ploneintranet.microblog" />
 
 
-
   <!-- does NOT include Owner, in contrast with collective.workspace: Manage roster -->
   <permission
       id="ploneintranet.workspace.ManageWorkspace"
