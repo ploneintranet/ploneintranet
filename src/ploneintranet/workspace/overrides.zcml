@@ -6,12 +6,16 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet.workspace">
 
-  <browser:page
-      name="edit-roster"
-      for="collective.workspace.interfaces.IHasWorkspace"
-      class=".browser.roster.EditRoster"
-      permission="collective.workspace.ViewRoster"
-      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
-      />
+  <include package=".browser" file="overrides.zcml" />
+
+  <!-- This overrides file hasn't been included so far, hence the following -->
+  <!-- is apparently not being used -->
+  <!-- <browser:page -->
+  <!--     name="edit-roster" -->
+  <!--     for="collective.workspace.interfaces.IHasWorkspace" -->
+  <!--     class=".browser.roster.EditRoster" -->
+  <!--     permission="collective.workspace.ViewRoster" -->
+  <!--     layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer" -->
+  <!--     /> -->
 
 </configure>
