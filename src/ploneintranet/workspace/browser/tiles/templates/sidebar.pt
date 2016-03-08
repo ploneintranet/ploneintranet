@@ -111,13 +111,9 @@
                               title="Paste">Paste</button>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button type="submit"
-                            name="batch-function"
-                            value="delete"
-                            class="float-before icon-trash no-label pat-depends"
-                            data-pat-depends="condition:cart_items or false; action: enable"
-                            i18n:translate="" i18n:attributes="title"
-                            title="Delete">Delete</button>
+                    <button class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; keep: true; patterns: pat-modal"
+                            i18n:translate="" i18n:attributes="title">Delete</button>
+
                     <!--button type="submit"
                             name="batch-function"
                             value="rename"
@@ -187,7 +183,7 @@ Supported types include (class names):
                 <tal:block repeat="item view/items">
                   <label class="item document type-event has-description"
                          tal:attributes="class item/cls">
-                    <input name="cart_items" tal:define="uid python:item.get('UID', None)" tal:condition="uid" tal:attributes="id string:cart-${item/id}; value uid | nothing" type="checkbox" />
+                    <input type="checkbox" class="pat-shopping-cart" data-pat-shopping-cart="id: ${item/UID}"/>
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"

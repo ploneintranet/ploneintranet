@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """A Cart Action for deleting all items listed in cart."""
 
-from plone import api
 from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
 
 NAME = 'delete'
 TITLE = u'Delete'
@@ -48,3 +50,32 @@ class DeleteAction(object):
             type="success")
 
         cart_view._clear()
+
+
+class DeleteView(BrowserView):
+
+    titles = []
+
+    @property
+    def items(self):
+        items = []
+        cart_items = self.request.form.get('shopping-cart')
+        if cart_items:
+            uids = cart_items.split(',')
+            for uid in uids:
+                obj = api.content.get(UID=uid)
+                if obj:
+                    items.append(obj)
+        return items
+
+    def confirm(self):
+        index = ViewPageTemplateFile("templates/confirm.pt")
+        return index(self)
+
+    def delete(self):
+        uids = self.request.form.get('uids', [])
+        for uid in uids:
+            obj = api.content.get(UID=uid)
+            self.titles.append(obj.Title())
+            api.content.delete(obj)
+        self.request.response.redirect(self.context.absolute_url())

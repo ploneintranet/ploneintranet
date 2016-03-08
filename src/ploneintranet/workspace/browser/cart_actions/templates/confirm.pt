@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  
+  <h1 i18n:translate="">Batch delete</h1>
+
+  <form method="POST" action="cart-delete">
+
+    <div class="panel-body"
+         tal:define="items view/items">
+      <article>
+	    <p>
+		  You've selected the following <strong>${python:len(items)}</strong> items to be deleted. Are you sure? (un-tick to exclude from deletion)
+	    </p>
+      </article>
+
+
+      <fieldset class="pat-checklist">
+        <tal:item repeat="item items">
+	      <label>
+		    <input checked="checked" type="checkbox" name="uids:list" value="${item/UID}"/> ${item/Title}
+	      </label>
+	      <br />
+        </tal:item>
+	  </fieldset>
+    </div>
+
+    <div class="buttons panel-footer">
+      <span tal:replace="structure context/@@authenticator/authenticator"/>
+
+      <button type="submit" class="icon-ok-circle pat-shopping-cart"
+              data-pat-shopping-cart="action: empty">
+        I am sure, delete now
+      </button>
+      <button type="button" class="close-panel icon-cancel-circle">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+</html>
