@@ -89,4 +89,3 @@ class ISolrMaintenanceView(Interface):
     def cleanup(batch=1000):
         """ remove entries from solr that don't have a corresponding Zope
             object  or have a different UID than the real object"""
-

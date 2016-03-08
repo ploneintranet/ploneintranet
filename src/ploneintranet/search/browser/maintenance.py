@@ -2,13 +2,11 @@
 """ This code heavily relies on the maintenance code of collective.solr and
     strives to provide a similar service """
 from logging import getLogger
-from datetime import datetime
 
 from time import time, clock, strftime
 from Acquisition import aq_base
 
 from BTrees.IIBTree import IITreeSet
-from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from zope.interface import implements
@@ -417,7 +415,8 @@ class SolrMaintenanceView(BrowserView):
     #         log('handled batch of %d items, commiting\n' % len(res))
     #         conn.commit()
     #         start += batch
-    #         resp = SolrResponse(conn.search(q='*:*', rows=batch, start=start))
+    #         resp = SolrResponse(conn.search(
+    #             q='*:*', rows=batch, start=start))
     #         res = resp.results()
     #     finished_msg = 'solr cleanup finished, %s item(s) removed, ' + \
     #         '%s item(s) reindexed\n'
