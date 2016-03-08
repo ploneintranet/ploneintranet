@@ -773,14 +773,14 @@ I can delete a case
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
+    Wait Until Page Contains    has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
+    Wait Until Page Contains    has been deleted
 
 I go to the dashboard
     Go To  ${PLONE_URL}
@@ -901,7 +901,7 @@ I can mention the user
     Click link    link=Mention people
     Wait Until Element Is visible    xpath=//form[@id='postbox-users']
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]
     Click element    css=textarea.pat-content-mirror
 
 # *** search related keywords ***
