@@ -360,9 +360,11 @@ class SolrMaintenanceView(BrowserView):
 
     # XXX I keep this for the engaged listener as this can also be achieved
     # with the sync
-    # def cleanup(self, batch=1000):
-    #     """ remove entries from solr that don't have a corresponding Zope
-    #         object or have a different UID than the real object"""
+    def cleanup(self, batch=1000):
+        """ remove entries from solr that don't have a corresponding Zope
+            object or have a different UID than the real object"""
+        # cleanup is required by the interface definition
+        raise NotImplementedError()
     #     manager = queryUtility(ISolrConnectionManager)
     #     proc = SolrIndexProcessor(manager)
     #     conn = manager.getConnection()
