@@ -6,10 +6,8 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
-from zope.component import getUtility
 
-from ploneintranet.search.solr.testing import (SOLR_ENABLED,
-                                               SOLR_FIXTURE,
+from ploneintranet.search.solr.testing import (SOLR_FIXTURE,
                                                PloneIntranetSearchSolrLayer)
 
 
@@ -88,36 +86,38 @@ class PloneIntranetSuite(PloneSandboxLayer):
         z2.uninstallProduct(app, 'Products.membrane')
 
 
-class PloneIntranetSuiteSolr(PloneIntranetSuite, PloneIntranetSearchSolrLayer):
+class PloneIntranetSuiteSolr(PloneIntranetSearchSolrLayer,
+                             PloneIntranetSuite):
+    """A solr-enabled suite layer with testcontent.
+    We don't use PloneIntranetSearchSolrTestContentLayer since that does
+    not load all our suite dependencies. Instead, we mixin PloneIntranetSuite.
+
+    NOTE we don't support solr rollbacks so use solr read-only for now
+    - which is why we don't purge after every test
+    - we only purge when tearing down the layer
+    """
 
     defaultBases = (
+        SOLR_FIXTURE,
         PLONE_APP_CONTENTTYPES_FIXTURE,
         PLONE_APP_TILES_FIXTURE,
-        SOLR_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
-        super(PloneIntranetSuiteSolr, self).setUpZope(
-            app,
-            configurationContext)
+        # first activate solr
+        PloneIntranetSearchSolrLayer.setUpZope(self, app, configurationContext)
+        # then load the testcontent
+        PloneIntranetSuite.setUpZope(self, app, configurationContext)
 
-        if not SOLR_ENABLED:
-            return
-
-        import ploneintranet.search.solr
-        self.loadZCML(package=ploneintranet.search.solr)
-        self.loadZCML(package=ploneintranet.search.solr,
-                      name='testing.zcml')
+    # setUpPloneSite is identical in both superclasses
 
     def tearDownPloneSite(self, portal):
-            self.applyProfile(portal, 'ploneintranet.suite:uninstall')
+        # also uninstalls the suite
+        PloneIntranetSearchSolrLayer.tearDownPloneSite(self, portal)
 
-            if not SOLR_ENABLED:
-                return
-
-            # Final purge
-            from ploneintranet.search.solr.interfaces import IMaintenance
-            getUtility(IMaintenance).purge()
+    def testTearDown(self):
+        # Skip purging after every test
+        pass
 
 
 PLONEINTRANET_SUITE = PloneIntranetSuite()

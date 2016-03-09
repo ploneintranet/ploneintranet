@@ -35,10 +35,10 @@ Library document shows navigation
     Page should contain  All topics
     Page should contain  Library
 
-#Library tag view is enabled
-#    Given I browse to the library
-#    When I switch to the by-tags listing
-#    Wait until page contains  I ♥ UTF-8
+Library tag view is enabled
+    Given I browse to the library
+    When I switch to the by-tags listing
+    Wait until page contains  I ♥ UTF-8
 
 *** Keywords ***
 
