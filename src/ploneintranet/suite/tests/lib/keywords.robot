@@ -152,6 +152,12 @@ I can go to the sidebar events tile
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
 
+I can open the workspace advanced settings tab
+    Click Link  link=Workspace settings and about
+    Wait until page contains  Advanced
+    Click link  link=Advanced
+    Wait until page contains  Workspace e-mail address
+
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
     Wait until page contains  Security
@@ -162,6 +168,19 @@ I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
     Wait until page contains element  css=#member-list
+
+I can turn the workspace into a division
+    Click element  xpath=//input[@name='is_division']/../..
+    Wait until element is visible  xpath=//input[@value='selected' and @checked='checked']/../..
+
+I can list the workspaces grouped by division
+    Go To  ${PLONE_URL}/workspaces
+    Click element  xpath=//select[@name='grouping']
+    Click element  xpath=//option[@value='division']
+    
+I can see the division
+    [arguments]  ${title}
+    Wait Until Element Is Visible  xpath=//h1[text()='${title}']
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
