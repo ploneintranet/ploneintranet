@@ -34,9 +34,23 @@ class CaseView(WorkspaceView):
         """
         mm_seq = self.metromap_sequence
         if mm_seq[milestone_id].get('finished'):
-            return 'finished'
+            state = 'finished'
+        elif is_last and mm_seq[second_last_milestone_id].get('finished'):
+            tasks = self.context.tasks()
+            if not tasks[milestone_id]:
+                state = 'finished'
+        return state
+
+    @property
+    def transition_icons(self):
+        context = self.context
+        workflow = IMetroMap(context)._metromap_workflow
+        if not workflow:
+            return {}
+        if 'transition_icons' in workflow.variables:
+            return workflow.getInfoFor(context, 'transition_icons', {})
         else:
-            return 'unfinished'
+            return {}
 
 
 class CaseWorkflowGuardView(BrowserView):

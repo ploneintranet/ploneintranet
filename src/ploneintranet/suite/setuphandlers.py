@@ -552,7 +552,8 @@ def caseworkspaces_spec(context):
 def create_caseworkspaces(caseworkspaces,
                           container='workspaces',
                           force=False,
-                          workflow_policy='case_workflow'):
+                          workflow_policy='case_workflow',
+                          portal_type='ploneintranet.workspace.case'):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
@@ -575,11 +576,14 @@ def create_caseworkspaces(caseworkspaces,
         contents = w.pop('contents', None)
         members = w.pop('members', [])
         state = w.pop('state', None)
-        caseworkspace = api.content.create(
-            container=ws_folder,
-            type='ploneintranet.workspace.case',
-            **w
-        )
+        try:
+            caseworkspace = api.content.create(
+                container=ws_folder,
+                type=portal_type,
+                **w
+            )
+        except:
+            continue
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
