@@ -15,6 +15,12 @@ class TestMaintenanceView(testing.FunctionalTestCase):
                                name="solr-maintenance")
         self.view = view.__of__(self.portal)
 
+        def monkey_mklog(*args):
+            def log(msg, timestamp=True):
+                pass
+            return log
+        self.view.mklog = monkey_mklog
+
     def assertOK(self, *ignore):
         self.assertEqual(200, self.request.response.status)
 
