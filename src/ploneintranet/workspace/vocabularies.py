@@ -1,6 +1,5 @@
-from ploneintranet.search.interfaces import ISiteSearch
 from Products.CMFPlone.utils import safe_unicode
-from zope.component import getUtility
+from plone import api
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import implements
@@ -23,14 +22,14 @@ class DivisionsVocabulary(object):
 
     def __call__(self, context, request=None, query=None):
         """ Returns all divisions that are currently available in the index"""
-        sitesearch = getUtility(ISiteSearch)
-        query = dict(is_division=True)
-        results = sitesearch.query(filters=query).results
+        catalog = api.portal.get_tool('portal_catalog')
+        results = catalog(is_division=True)
 
         items = [
-            SimpleTerm(safe_unicode(i['Title']), i['UID'],
-                       safe_unicode(i['Description']))
-            for i in sorted(results, lambda a, b: a['Title'] < b['Title'])
+            SimpleTerm(safe_unicode(i.Title),
+                       i.UID,
+                       safe_unicode(i.Description))
+            for i in sorted(results, lambda a, b: a.Title < b.Title)
         ]
         return SimpleVocabulary(items)
 
