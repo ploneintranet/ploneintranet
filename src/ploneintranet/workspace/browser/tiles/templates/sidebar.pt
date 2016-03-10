@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs pat-inject" action="${here/absolute_url}/@@cart#items" id="items">
+            <form class="search-result docs pat-inject" id="items" data-pat-inject="source: None; target: None;">
               <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
@@ -113,30 +113,18 @@
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
                     <button class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; keep: true; patterns: pat-modal"
                             i18n:translate="" i18n:attributes="title">Delete</button>
-
-                    <!--button type="submit"
-                            name="batch-function"
-                            value="rename"
-                            formaction="/feedback/batch-rename.html#content"
-                            class="float-before icon-rename no-label pat-depends"
-                            data-pat-depends="condition:cart_items or  false; action: enable"
-                            i18n:translate="" i18n:attributes="title"
-                            title="Rename">Rename</button-->
-                    <!--button formaction="/feedback/batch-tag.html#content"
-                            type="submit"
-                            name="batch-function"
-                            value="tag"
-                            class="float-before icon-tags no-label pat-depends"
-                            data-pat-depends="condition:false or event-traces-through-time and (not projection-materials ) and (not minutes ) and (not manage-information ) ; action: enable;"
-                            i18n:translate="" i18n:attributes="title"
-                            title="Re-tag">Re-tag</button-->
-                    <!--button type="submit"
-                            name="batch-function"
-                            value="share"
-                            class="float-before icon-export pat-depends"
-                            data-pat-depends="condition:cart_items or  false; action: enable"
-                            i18n:translate="" i18n:attributes="title"
-                            title="Share">Share</button-->
+                    <span class="float-before button-cluster">
+                      <button class="float-before no-label icon-mail pat-shopping-cart"
+                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; keep: true; patterns: pat-modal"
+                              title="Send selected document(s)">Send</button>
+                      <!-- <button formaction="/feedback/batch-share.html#content" -->
+                      <!--         type="submit" -->
+                      <!--         name="batch-function" -->
+                      <!--         value="send" -->
+                      <!--         class="float-before icon-export pat-depends" -->
+                      <!--         data-pat-depends="condition: false; action: enable" -->
+                      <!--         title="Post selected document(s) on a timeline">Share</button> -->
+                    </span>
                   </div>
                 </div>
 

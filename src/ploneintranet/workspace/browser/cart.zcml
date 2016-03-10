@@ -24,10 +24,17 @@
   <browser:pages
       for="*"
       permission="cmf.ModifyPortalContent"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
       class=".cart_actions.delete.DeleteView">
     <browser:page name="cart-delete" attribute="delete"/>
     <browser:page name="cart-delete-confirm" attribute="confirm"/>
+  </browser:pages>
+
+  <browser:pages
+      for="*"
+      permission="zope2.View"
+      class=".cart_actions.mail.MailView">
+    <browser:page name="cart-mail" attribute="send"/>
+    <browser:page name="cart-mail-confirm" attribute="confirm"/>
   </browser:pages>
 
   <!-- Action registration -->
