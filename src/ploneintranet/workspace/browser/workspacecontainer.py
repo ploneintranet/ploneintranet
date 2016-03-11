@@ -1,4 +1,5 @@
 from Acquisition import aq_inner
+from collections import defaultdict
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
@@ -8,6 +9,10 @@ from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
 from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
+from zope.schema.interfaces import IVocabularyFactory
+from zope.component import getUtility
+
+vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
 class Workspaces(BrowserView):
@@ -38,6 +43,17 @@ class Workspaces(BrowserView):
                    ]
         return options
 
+    def grouping_options(self):
+        options = [{'value': '',
+                    'content': 'No grouping'},
+                   {'value': 'division',
+                    'content': 'Group by division'},
+                   # Not yet implemented
+                   # {'value': 'workspace_type',
+                   #  'content': 'Group by workspace type'}
+                   ]
+        return options
+
     def workspace_types(self):
         options = [{'value': '',
                     'content': 'All workspace types'},
@@ -47,6 +63,25 @@ class Workspaces(BrowserView):
                     'content': 'Cases'}
                    ]
         return options
+
+    def workspaces_by_division(self):
+        ''' returns workspaces grouped by division
+        '''
+        workspaces = my_workspaces(self.context,
+                                   self.request,
+                                   include_activities=False)
+        self.divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        division_uids = [x.token for x in self.divisions]
+
+        division_map = defaultdict(list)
+        for workspace in workspaces:
+            # Note: Already sorted as source list is sorted
+            if workspace['uid'] in division_uids:
+                division_map[workspace['uid']].append(workspace)
+            else:
+                division_map[workspace['division']].append(workspace)
+
+        return division_map
 
     @memoize
     def workspaces(self):
@@ -66,6 +101,10 @@ class AddView(BrowserView):
     def templates(self):
         portal = api.portal.get()
         return portal.get(TEMPLATES_FOLDER).objectValues()
+
+    def divisions(self):
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
 
 
 class WorkspaceTabsTile(Tile):

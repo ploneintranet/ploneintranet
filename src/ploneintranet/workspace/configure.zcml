@@ -131,6 +131,11 @@
      handler=".subscribers.content_object_moved"
      />
 
+  <utility
+    component=".vocabularies.DivisionsVocabularyFactory"
+    name="ploneintranet.workspace.vocabularies.Divisions"
+    />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Workspace]"

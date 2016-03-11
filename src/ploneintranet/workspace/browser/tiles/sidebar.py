@@ -23,16 +23,20 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
+from zope.schema.interfaces import IVocabularyFactory
 import logging
+
 
 log = logging.getLogger(__name__)
 
 
 FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'todo']
+vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
 class BaseTile(BrowserView):
@@ -45,6 +49,32 @@ class BaseTile(BrowserView):
 
     def __call__(self):
         return self.render()
+
+    def _basic_save(self):
+        ''' Performs a simple save of entered attributes.
+            Not all sidebars need this
+        '''
+        form = self.request.form
+        ws = self.workspace()
+        if self.request.method == 'POST' and form:
+            if self.can_manage_workspace():
+                modified, errors = dexterity_update(self.context)
+
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    ws.reindexObject()
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
 
     def status_messages(self):
         """
@@ -121,6 +151,12 @@ class BaseTile(BrowserView):
 class SidebarSettingsGeneral(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-general.pt')
+
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        self._basic_save()
+        return self.render()
 
 
 class SidebarSettingsMembers(BaseTile):
@@ -297,6 +333,11 @@ class SidebarSettingsAdvanced(BaseTile):
                     )
 
         return self.render()
+
+    def divisions(self):
+        """ return available divisions """
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
 
 
 class Sidebar(BaseTile):
