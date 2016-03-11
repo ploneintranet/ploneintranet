@@ -93,7 +93,7 @@
                             i18n:translate="" i18n:attributes="title">Cut</button>
                       <button type="button" class="pat-shopping-cart float-before icon-copy no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-copy#global-statusmessage; contents: keep; patterns: pat-inject" title="Copy"
                               i18n:translate="" i18n:attributes="title">Copy</button>
-                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste; patterns: pat-inject" title="Paste"
+                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste; contents: keep; patterns: pat-inject" title="Paste"
                             i18n:translate="" i18n:attributes="title">Paste</button>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
