@@ -130,11 +130,10 @@ PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
     bases=(PLONEINTRANET_SUITE, ),
     name="PLONEINTRANET_SUITE_FUNCTIONAL")
 
-PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
-    bases=(PLONEINTRANET_SUITE,
-           AUTOLOGIN_LIBRARY_FIXTURE,
-           z2.ZSERVER_FIXTURE),
-    name="PLONEINTRANET_SUITE_ROBOT")
+# Having both non-solr and a solr layered robot tests
+# breaks on premature z2 teardown.
+# So now running all robot tests on solr enabled stack.
+# NB: solr is not actually used outside search and library.
 
 PLONEINTRANET_SUITE_SOLR = PloneIntranetSuiteSolr()
 
