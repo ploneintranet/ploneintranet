@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs pat-inject" id="items" data-pat-inject="source: None; target: None;">
+            <form class="search-result docs" id="items">
               <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
@@ -89,33 +89,19 @@
                   </div>
                   <div class="button-bar">
                     <span class="float-before button-cluster">
-                      <button type="submit"
-                              name="batch-function"
-                              value="cut"
-                              class="float-before icon-cut no-label pat-depends"
-                              data-pat-depends="condition:cart_items or false; action: enable"
-                              i18n:translate="" i18n:attributes="title"
-                              title="Cut">Cut</button>
-                      <button type="submit"
-                              name="batch-function"
-                              value="copy"
-                              class="float-before icon-copy no-label pat-depends"
-                              data-pat-depends="condition:cart_items or false; action: enable"
-                              i18n:translate="" i18n:attributes="title"
-                              title="Copy">Copy</button>
-                      <button type="submit"
-                              name="batch-function"
-                              value="paste"
-                              class="float-before icon-paste no-label"
-                              i18n:translate="" i18n:attributes="title"
-                              title="Paste">Paste</button>
+                      <button type="button" class="pat-shopping-cart float-before icon-cut no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-cut#global-statusmessage; contents: keep; patterns: pat-inject" title="Cut"
+                            i18n:translate="" i18n:attributes="title">Cut</button>
+                      <button type="button" class="pat-shopping-cart float-before icon-copy no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-copy#global-statusmessage; contents: keep; patterns: pat-inject" title="Copy"
+                              i18n:translate="" i18n:attributes="title">Copy</button>
+                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste; patterns: pat-inject" title="Paste"
+                            i18n:translate="" i18n:attributes="title">Paste</button>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; keep: true; patterns: pat-modal"
+                    <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal"
                             i18n:translate="" i18n:attributes="title">Delete</button>
                     <span class="float-before button-cluster">
-                      <button class="float-before no-label icon-mail pat-shopping-cart"
-                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; keep: true; patterns: pat-modal"
+                      <button type="button" class="float-before no-label icon-mail pat-shopping-cart"
+                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal"
                               title="Send selected document(s)">Send</button>
                       <!-- <button formaction="/feedback/batch-share.html#content" -->
                       <!--         type="submit" -->

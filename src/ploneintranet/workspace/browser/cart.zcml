@@ -37,34 +37,22 @@
     <browser:page name="cart-mail-confirm" attribute="confirm"/>
   </browser:pages>
 
-  <!-- Action registration -->
-
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.copy.CopyAction"
-      name="copy"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      permission="cmf.ModifyPortalContent"
+      class=".cart_actions.cut.CutView"
+      name="cart-cut"/>
 
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.cut.CutAction"
-      name="cut"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      class=".cart_actions.copy.CopyView"
+      permission="zope2.View"
+      name="cart-copy"/>
 
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.delete.DeleteAction"
-      name="delete"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
-
-  <adapter
-      for="*"
-      factory=".cart_actions.download.DownloadAction"
-      name="download"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      class=".cart_actions.paste.PasteView"
+      permission="cmf.ModifyPortalContent"
+      name="cart-paste"/>
 
 </configure>

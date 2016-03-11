@@ -1,27 +1,15 @@
 # -*- coding: utf-8 -*-
-"""A Cart Action for deleting all items listed in cart."""
-
 from OFS.CopySupport import _cb_encode
 from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
 from plone import api
-
-NAME = 'cut'
-TITLE = u'Cut'
-WEIGHT = 17
+from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 
-class CutAction(object):
+class CutView(BaseCartView):
     """Cut Action implementation that performs "cut" on the items in cart."""
 
-    name = NAME
-    title = TITLE
-    weight = WEIGHT
-
-    def __init__(self, context):
-        self.context = context
-
-    def run(self):
+    def __call__(self):
         """Cut all items currently in cart and add them to clipboard.
 
         The tricky part here is that the method that Plone uses
@@ -31,30 +19,13 @@ class CutAction(object):
         stuff that manage_cutObjects does in our own way.
 
         """
-        cart_view = self.context.restrictedTraverse('cart')
-        request = self.context.REQUEST
-        cart = cart_view.cart
 
-        # create a list of "Monik-ed" object paths for those objects
-        # that we will store into clipboard
+        request = self.request
         obj_list = []
-
-        for obj_uuid in cart:
-            obj = api.content.get(UID=obj_uuid)
-            if obj is None:
-                # An object that is in cart was apparently deleted by someone
-                # else and dosn't exist anymore, so there's nothing to do.
-                continue
-
-            if obj.wl_isLocked():
-                continue
-
-            if not obj.cb_isMoveable():
-                continue
-
-            m = Moniker(obj)
-            obj_list.append(m.dump())
-
+        for obj in self.items:
+            if obj and obj.cb_isMoveable() and not obj.wl_isLocked():
+                m = Moniker(obj)
+                obj_list.append(m.dump())
         # now store cutdata into a cookie
         # TODO: what if there's nothing in the list?
         ct_data = (1, obj_list)
@@ -66,9 +37,8 @@ class CutAction(object):
         request['__cp'] = ct_data
 
         api.portal.show_message(
-            message="{0} item(s) cut.".format(len(obj_list)),
+            message="{0} Files were cut and moved to your cloud clipboard.".format(len(obj_list)),
             request=request,
-            type="info")
-
-        portal = api.portal.get()
-        response.redirect(portal.absolute_url())
+            type="info",
+        )
+        self.request.response.redirect(self.context.absolute_url())
