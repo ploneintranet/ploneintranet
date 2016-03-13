@@ -8,14 +8,12 @@
 
   <include package=".browser" file="overrides.zcml" />
 
-  <!-- This overrides file hasn't been included so far, hence the following -->
-  <!-- is apparently not being used -->
-  <!-- <browser:page -->
-  <!--     name="edit-roster" -->
-  <!--     for="collective.workspace.interfaces.IHasWorkspace" -->
-  <!--     class=".browser.roster.EditRoster" -->
-  <!--     permission="collective.workspace.ViewRoster" -->
-  <!--     layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer" -->
-  <!--     /> -->
+  <browser:page
+      name="edit-roster"
+      for="collective.workspace.interfaces.IHasWorkspace"
+      class=".browser.roster.EditRoster"
+      permission="collective.workspace.ViewRoster"
+      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+  />
 
 </configure>
