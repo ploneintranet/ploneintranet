@@ -4,7 +4,15 @@
   <index name="friendly_type_name" meta_type="KeywordIndex">
     <indexed_attr value="friendly_type_name"/>
   </index>
+  <index name="is_division" meta_type="BooleanIndex">
+    <indexed_attr value="is_division"/>
+  </index>
+  <index name="division" meta_type="UUIDIndex">
+    <indexed_attr value="division"/>
+  </index>
 
   <column value="friendly_type_name"/>
+  <column value="is_division"/>
+  <column value="division"/>
 
 </object>

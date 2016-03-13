@@ -9,10 +9,10 @@
       <div id="workspace-settings">
 
         <div class="tabs-content" tal:define="ws view/workspace">
-          <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
+          <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
             <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
           </aside>
-          <form action="#" tal:attributes="action string:${ws/absolute_url}/@@sidebar.default" method="post" class="pat-inject pat-autosubmit" data-pat-inject="target: #document-content::before; source: .sidebar-status-message">
+          <form action="#" tal:attributes="action string:${ws/absolute_url}/sidebar.settings.general" method="post" class="pat-inject pat-autosubmit" data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content">
             <fieldset class="vertical">
               <label>
                 <span tal:omit-tag="" i18n:translate="workspace_title">

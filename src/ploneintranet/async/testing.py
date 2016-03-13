@@ -4,6 +4,7 @@ import base64
 import os
 import socket
 import subprocess
+import sys
 import time
 import unittest
 
@@ -40,6 +41,17 @@ class CeleryLayer(Layer):
         self.worker = None
         if not self._celery_running():
             self._celery_worker()
+            i = 0
+            while i < 10:
+                if self._celery_running():
+                    sys.stdout.write('[Celery connected] ')
+                    break
+                else:
+                    i += 1
+                    time.sleep(1)
+        if not self._celery_running():
+            raise EnvironmentError(
+                'Celery could not be started (is Redis running?)')
 
     def tearDown(self):
         """Stop celery but only if we started it"""

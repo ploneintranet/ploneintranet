@@ -23,4 +23,26 @@
         <element>ploneintranet</element>
       </value>
     </records>
+    <record name="plone.contains_objects" interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema" field="contains_objects">
+      <field type="plone.registry.field.List">
+        <default>
+          <element>Folder</element>
+          <element>Large Plone Folder</element>
+          <element>Plone Site</element>
+        </default>
+        <description>Enter a list of content types which can contain other objects. Format is one contenttype per line.</description>
+        <missing_value/>
+        <required>False</required>
+        <title>Contains objects</title>
+        <value_type type="plone.registry.field.TextLine"/>
+      </field>
+      <value>
+        <element>Folder</element>
+        <element>Large Plone Folder</element>
+        <element>Plone Site</element>
+        <element>ploneintranet.library.app</element>
+        <element>ploneintranet.library.folder</element>
+        <element>ploneintranet.library.section</element>
+      </value>
+    </record>
 </registry>

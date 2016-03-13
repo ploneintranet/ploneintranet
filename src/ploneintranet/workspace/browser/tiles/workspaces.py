@@ -100,12 +100,14 @@ def my_workspaces(context,
 
         workspaces.append({
             'id': id,
+            'uid': item.context['UID'],
             'title': item.title,
             'description': item.description,
             'url': item.url,
             'activities': activities,
             'class': css_class,
-            'modified': item.modified
+            'modified': item.modified,
+            'division': item.context.get('division', '')
         })
 
     if sort_by == 'modified':

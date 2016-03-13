@@ -24,6 +24,14 @@ Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
      Then I can create a new workspace    My user workspace
 
+Alice can create a division and list workspaces by division
+    Given I am logged in as the user alice_lindstrom
+      And I can create a new workspace  Aerospace
+      And I can open the workspace advanced settings tab
+     When I can turn the workspace into a division
+      And I can list the workspaces grouped by division
+     Then I can see the division  Aerospace
+
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
      when I can go to the Open Market Committee Workspace
