@@ -11,6 +11,8 @@
   <include package="collective.indexing" />
   <include file="meta.zcml" />
 
+  <include package=".browser" />
+
   <!-- Querying -->
 
   <class class="scorched.connection.SolrInterface">

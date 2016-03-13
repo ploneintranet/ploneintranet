@@ -190,6 +190,13 @@ INTEGRATION_TESTING = IntegrationTesting(
     name='PloneIntranetSearchSolrLayer:Integration'
 )
 
+# no testcontent. create another fixture if you want that
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PloneIntranetSearchSolrLayer:Functional")
+
+
 ROBOT_TESTING = FunctionalTesting(
     bases=(TEST_CONTENT_FIXTURE,
            PLONE_ROBOT_TESTING,
@@ -211,3 +218,20 @@ class IntegrationTestCase(testing.IntegrationTestCase):
             from pprint import pprint
             pprint(json.loads(self._last_response))
         return super(IntegrationTestCase, self).failureException(msg)
+
+
+class FunctionalTestCase(testing.FunctionalTestCase):
+
+    _last_response = NotImplemented
+    layer = FUNCTIONAL_TESTING
+
+    def setUp(self):
+        super(FunctionalTestCase, self).setUp()
+        if not SOLR_ENABLED:
+            self.skipTest('Skipping SOLR tests - SOLR not enabled')
+
+    def failureException(self, msg):
+        if isinstance(self._last_response, str):
+            from pprint import pprint
+            pprint(json.loads(self._last_response))
+        return super(FunctionalTestCase, self).failureException(msg)

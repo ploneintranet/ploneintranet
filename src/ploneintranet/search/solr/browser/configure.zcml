@@ -1,0 +1,22 @@
+<configure
+     xmlns="http://namespaces.zope.org/zope"
+     xmlns:i18n="http://namespaces.zope.org/i18n"
+     xmlns:five="http://namespaces.zope.org/five"
+     xmlns:browser="http://namespaces.zope.org/browser"
+     xmlns:plone="http://namespaces.plone.org/plone"
+     i18n_domain="ploneintranet">
+
+  <browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        name="solr-maintenance"
+        class=".maintenance.SolrMaintenanceView"
+        allowed_interface="..interfaces.ISolrMaintenanceView"
+        permission="cmf.ManagePortal"
+        layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
+        />
+
+  <adapter
+        factory=".maintenance.BaseIndexable" />
+
+
+</configure>
