@@ -35,7 +35,8 @@ class CopyView(BaseCartView):
         request['__cp'] = cp_data
 
         api.portal.show_message(
-            message="{0} Files were copied to your cloud clipboard.".format(len(obj_list)),
+            message="{0} Files were copied to your cloud clipboard.".format(
+                len(obj_list)),
             request=request,
             type="info",
         )

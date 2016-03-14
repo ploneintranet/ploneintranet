@@ -37,7 +37,9 @@ class CutView(BaseCartView):
         request['__cp'] = ct_data
 
         api.portal.show_message(
-            message="{0} Files were cut and moved to your cloud clipboard.".format(len(obj_list)),
+            message=(
+                "{0} Files were cut and moved to your cloud clipboard."
+            ).format(len(obj_list)),
             request=request,
             type="info",
         )

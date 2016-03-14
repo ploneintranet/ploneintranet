@@ -34,7 +34,8 @@ class MailView(BaseCartView):
         form = self.request.form
         message = form.get('message')
         current_user = api.user.get_current()
-        from_name = current_user.getProperty('fullname') or current_user.getId()
+        from_name = (
+            current_user.getProperty('fullname') or current_user.getId())
         from_email = current_user.getProperty('email') or ''
         from_address = '{} <{}>'.format(from_name, from_email)
         msg["From"] = from_address
