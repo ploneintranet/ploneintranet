@@ -7,6 +7,9 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 
+from ploneintranet.search.solr.testing import (SOLR_FIXTURE,
+                                               PloneIntranetSearchSolrLayer)
+
 
 class PloneIntranetSuite(PloneSandboxLayer):
 
@@ -83,6 +86,40 @@ class PloneIntranetSuite(PloneSandboxLayer):
         z2.uninstallProduct(app, 'Products.membrane')
 
 
+class PloneIntranetSuiteSolr(PloneIntranetSearchSolrLayer,
+                             PloneIntranetSuite):
+    """A solr-enabled suite layer with testcontent.
+    We don't use PloneIntranetSearchSolrTestContentLayer since that does
+    not load all our suite dependencies. Instead, we mixin PloneIntranetSuite.
+
+    NOTE we don't support solr rollbacks so use solr read-only for now
+    - which is why we don't purge after every test
+    - we only purge when tearing down the layer
+    """
+
+    defaultBases = (
+        SOLR_FIXTURE,
+        PLONE_APP_CONTENTTYPES_FIXTURE,
+        PLONE_APP_TILES_FIXTURE,
+    )
+
+    def setUpZope(self, app, configurationContext):
+        # first activate solr
+        PloneIntranetSearchSolrLayer.setUpZope(self, app, configurationContext)
+        # then load the testcontent
+        PloneIntranetSuite.setUpZope(self, app, configurationContext)
+
+    # setUpPloneSite is identical in both superclasses
+
+    def tearDownPloneSite(self, portal):
+        # also uninstalls the suite
+        PloneIntranetSearchSolrLayer.tearDownPloneSite(self, portal)
+
+    def testTearDown(self):
+        # Skip purging after every test
+        pass
+
+
 PLONEINTRANET_SUITE = PloneIntranetSuite()
 
 PLONEINTRANET_SUITE_INTEGRATION = IntegrationTesting(
@@ -93,8 +130,15 @@ PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
     bases=(PLONEINTRANET_SUITE, ),
     name="PLONEINTRANET_SUITE_FUNCTIONAL")
 
-PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
-    bases=(PLONEINTRANET_SUITE,
+# Having both non-solr and a solr layered robot tests
+# breaks on premature z2 teardown.
+# So now running all robot tests on solr enabled stack.
+# NB: solr is not actually used outside search and library.
+
+PLONEINTRANET_SUITE_SOLR = PloneIntranetSuiteSolr()
+
+PLONEINTRANET_SUITE_SOLR_ROBOT = FunctionalTesting(
+    bases=(PLONEINTRANET_SUITE_SOLR,
            AUTOLOGIN_LIBRARY_FIXTURE,
            z2.ZSERVER_FIXTURE),
-    name="PLONEINTRANET_SUITE_ROBOT")
+    name="PLONEINTRANET_SUITE_SOLR_ROBOT")

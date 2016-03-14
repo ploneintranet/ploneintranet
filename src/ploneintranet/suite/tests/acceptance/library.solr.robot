@@ -35,10 +35,10 @@ Library document shows navigation
     Page should contain  All topics
     Page should contain  Library
 
-#Library tag view is enabled
-#    Given I browse to the library
-#    When I switch to the by-tags listing
-#    Wait until page contains  I ♥ UTF-8
+Library tag view is enabled
+    Given I browse to the library
+    When I switch to the by-tags listing
+    Wait until page contains  I ♥ UTF-8
 
 *** Keywords ***
 
@@ -49,6 +49,7 @@ I browse to the library
 
 I browse to a section
     I browse to the library
+    Wait until element is visible  xpath=//div[@id='lib-groups']//h3/a[text()='Human Resources']
     Click Link  Human Resources
 
 I browse to a folder
@@ -57,6 +58,7 @@ I browse to a folder
 
 I browse to a document
     I browse to a section
+    Wait until element is visible  xpath=//div[@id='lib-groups']//h3[text()='Holidays']
     Click Link  Holidays
 
 I switch to the by-tags listing
