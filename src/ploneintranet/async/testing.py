@@ -77,6 +77,8 @@ class CeleryLayer(Layer):
                 command,
                 stderr=subprocess.PIPE
             )
+            print command
+            print res
             return "online" in res
         except subprocess.CalledProcessError:
             return False
