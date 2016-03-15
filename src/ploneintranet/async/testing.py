@@ -60,16 +60,17 @@ class CeleryLayer(Layer):
         super(CeleryLayer, self).tearDown()
 
     def _celery_worker(self):
-        # allow root for gitlab-ci, only impacts tests run as root
-        # does not run root unless the tests are run as root
-        command = ['C_FORCE_ROOT=true %s/celery' % _BUILDOUT_BIN_DIR,
+        # allow root worker for gitlab-ci, only impacts tests run as root
+        # does not run as root unless the tests are also run as root
+        command = ['%s/celery' % _BUILDOUT_BIN_DIR,
                    '-A', self.tasks, 'worker']
         self.worker = subprocess.Popen(
             command,
             close_fds=True,
             cwd=_BUILDOUT_BIN_DIR,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
+            env={'C_FORCE_ROOT': 'true'}
         )
         print('Celery worker (PID:{0.pid})'.format(self.worker))
 
