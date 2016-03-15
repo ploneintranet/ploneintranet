@@ -72,15 +72,16 @@ class CeleryLayer(Layer):
 
     def _celery_running(self):
         command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'status']
+        print(command)
         try:
             res = subprocess.check_output(
                 command,
                 stderr=subprocess.PIPE
             )
-            print command
-            print res
+            print(res)
             return "online" in res
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError, exc:
+            print(exc)
             return False
 
 
