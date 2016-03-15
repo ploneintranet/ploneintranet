@@ -106,7 +106,7 @@ jsrelease: prototype
 # docker.io
 # see comments for using boot2docker on MacOSX
 
-PROJECT=ploneintranet
+PROJECT=quaive/ploneintranet-dev
 
 docker-build: .ssh/known_hosts  ## Create docker container
 	docker build -t $(PROJECT) .
@@ -118,7 +118,6 @@ docker-run:  ## Start docker container
                 --net=host \
                 -v /var/tmp:/var/tmp \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
-                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.bashrc:/app/.bashrc \
                 -v $(HOME)/.pypirc:/app/.pypirc \
                 -v $(HOME)/.gitconfig:/app/.gitconfig \
