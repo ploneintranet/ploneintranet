@@ -1,9 +1,10 @@
 before_script:
   - /etc/init.d/redis-server restart
   - make gitlab-ci
+  - Xvfb :99 1>/dev/null 2>&1 &
 
 alltests:
   script:
     - bin/code-analysis
-    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 make test
+    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test -s ploneintranet.async
 

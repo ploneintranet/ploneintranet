@@ -170,7 +170,7 @@ test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot'
 
 test:: ## 	 Run all tests, including robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -s ploneintranet.async
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 ####################################################################
