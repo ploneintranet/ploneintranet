@@ -6,5 +6,5 @@ before_script:
 alltests:
   script:
     - bin/code-analysis
-    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test -s ploneintranet.async
+    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test
 
