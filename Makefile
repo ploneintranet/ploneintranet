@@ -138,6 +138,9 @@ docker-run:  ## Start docker container
 devel: bin/buildout  ## 	 Run development buildout
 	bin/buildout
 
+gitlab-ci: bin/buildout
+	bin/buildout -c gitlab-ci.cfg
+
 bin/buildout: bin/python2.7
 	@bin/pip install -r requirements.txt
 
