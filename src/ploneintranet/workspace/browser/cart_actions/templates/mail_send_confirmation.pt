@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  
+  <h1 i18n:translate="">Batch send</h1>
+
+  <form method="POST" action="cart-mail" class="pat-validation" data-pat-validation="disable-selector: #form-buttons-send">
+
+    <div class="panel-body"
+         tal:define="items view/items">
+
+      <article class="pat-rich">
+        <p class="discrete">
+          You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses.
+        </p>
+      </article>
+      <fieldset class="vertical">
+        <label>
+          <input type="text" class="pat-autosuggest" required="required" name="recipients" data-pat-autosuggest="ajax-data-type: json; ajax-url: ${view/workspace/absolute_url}/allusers.json; prefill-json: ${python:view.workspace.member_prefill(context, attrs['name'])}" placeholder="Recipients…" />
+        </label>
+        <fieldset class="group update-social">
+
+          <!-- The IDs of of selected users and selected tags must be pre- or suffixed to avoid that the tags and mentions end up in the postboxes 'behind' the modal on the page itself in the comment trail. The forms of the tags and mentions tooltips should be aware of these pre/suffices. -->
+
+          <p class="content-mirror"><span class="text"><em class="placeholder">Write a message to the recipient(s)…</em></span><em class="selected-users" id="selected-users"></em><em class="selected-tags" id="selected-tags"></em>
+          </p>
+          <textarea autofocus="autofocus" placeholder="Write a message to the recipient(s)…" class="pat-content-mirror" name="message"></textarea>
+        </fieldset> 
+      </fieldset>
+      <div class="attachments">
+
+        <tal:item repeat="item view/attachable_objs">
+          <tal:preview define="previews python:view.get_previews(item);
+                               has_preview previews/has_preview;">
+            <section class="document document-preview ${previews/class}">
+              <figure>
+                <img src="${previews/url}" tal:condition="has_preview"/>
+                <figcaption tal:define="byline item/Description">
+                  <strong class="title">${item/Title} <span class="page-counter icon-docs" tal:condition="has_preview">${previews/page_count}x</span></strong>
+                  <em class="byline" tal:condition="byline">${byline}</em>
+                </figcaption>
+              </figure>
+            </section>
+          </tal:preview>
+          <input type="hidden" name="uids:list" value="${item/UID}"/>
+        </tal:item> 
+
+      </div>
+    </div>
+    
+    <div class="buttons panel-footer">
+      <button id="form-buttons-send" type="submit" class="icon-ok-circle pat-shopping-cart"
+              data-pat-shopping-cart="action: empty"> Send </button>
+      <button type="button" class="close-panel icon-cancel-circle"> Cancel </button>
+    </div>
+
+  </form>
+</html>
