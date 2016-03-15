@@ -1,11 +1,9 @@
-services:
-  - redis:latest
-  
 before_script:
+  - /etc/init.d/redis restart
   - make gitlab-ci
 
 alltests:
   script:
     - bin/code-analysis
-    - make test
+    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 make test
 

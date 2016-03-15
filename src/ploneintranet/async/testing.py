@@ -50,8 +50,8 @@ class CeleryLayer(Layer):
                     i += 1
                     time.sleep(1)
         if not self._celery_running():
-            raise EnvironmentError(
-                'Celery could not be started (is Redis running?)')
+            # Do not raise. Let test_dispatch figure out what is wrong.
+            print('Celery could not be started (is Redis running?)')
 
     def tearDown(self):
         """Stop celery but only if we started it"""

@@ -163,14 +163,14 @@ solr-clean:
 # firefox localhost:55001/plone
 # To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
 test-robot: ## Run robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test -t 'robot'
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -t 'robot'
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot'
 
 test:: ## 	 Run all tests, including robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test
+	Xvfb :99 1>/dev/null 2>&1 & HOME=/app DISPLAY=:99 bin/test -s ploneintranet.async
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 ####################################################################
