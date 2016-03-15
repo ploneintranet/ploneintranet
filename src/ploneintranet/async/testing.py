@@ -60,7 +60,10 @@ class CeleryLayer(Layer):
         super(CeleryLayer, self).tearDown()
 
     def _celery_worker(self):
-        command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'worker']
+        # allow root for gitlab-ci, only impacts tests run as root
+        # does not run root unless the tests are run as root
+        command = ['C_FORCE_ROOT=true %s/celery' % _BUILDOUT_BIN_DIR,
+                   '-A', self.tasks, 'worker']
         self.worker = subprocess.Popen(
             command,
             close_fds=True,
@@ -72,17 +75,13 @@ class CeleryLayer(Layer):
 
     def _celery_running(self):
         command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'status']
-        print(command)
         try:
             res = subprocess.check_output(
                 command,
                 stderr=subprocess.PIPE
             )
-            print(res)
             return "online" in res
-        except subprocess.CalledProcessError, exc:
-            print(exc)
-            time.sleep(60 * 60)
+        except subprocess.CalledProcessError:
             return False
 
 
