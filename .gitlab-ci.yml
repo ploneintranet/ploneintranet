@@ -1,5 +1,5 @@
 before_script:
-  - /etc/init.d/redis restart
+  - /etc/init.d/redis-server restart
   - make gitlab-ci
 
 alltests:
