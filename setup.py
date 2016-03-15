@@ -115,7 +115,7 @@ setup(name='ploneintranet',
           ],
           'docconv': [
               'slc.docconv',
-              'plone.async',
+              'plone.app.async',
               'BeautifulSoup',
           ],
           'pagerank': [
