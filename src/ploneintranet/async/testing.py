@@ -82,6 +82,7 @@ class CeleryLayer(Layer):
             return "online" in res
         except subprocess.CalledProcessError, exc:
             print(exc)
+            time.sleep(60 * 60)
             return False
 
 
