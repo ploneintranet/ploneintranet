@@ -19,7 +19,7 @@
       </article>
       <fieldset class="vertical">
         <label>
-          <input type="text" class="pat-autosuggest" required="required" name="recipients" data-pat-autosuggest="ajax-data-type: json; ajax-url: ${view/workspace/absolute_url}/allusers.json; prefill-json: ${python:view.workspace.member_prefill(context, attrs['name'])}" placeholder="Recipients…" />
+          <input type="text" class="pat-autosuggest" required="required" name="recipients" data-pat-autosuggest="ajax-data-type: json; ajax-url: ${context/portal_url}/allusers.json; prefill-json: ${python:view.workspace.member_prefill(context, attrs['name'])}" placeholder="Recipients…" />
         </label>
         <fieldset class="group update-social">
 

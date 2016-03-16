@@ -47,26 +47,30 @@ class MailView(BaseCartView):
         if not recipients:
             # Should we show an error notification?
             log.debug('No recipients were selected, no email has been sent.')
+
         to_addresses = []
-        for recipient in recipients:
+        for recipient in recipients.split(','):
             to_user = api.user.get(recipient)
             if not to_user:
-                continue
-            name = to_user.getProperty('fullname') or to_user.getId()
-            email = to_user.getProperty('email')
-            to_addresses.append('{} <{}>'.format(name, email))
+                to_addresses.append(recipient)
+            else:
+                name = to_user.getProperty('fullname') or to_user.getId()
+                email = to_user.getProperty('email')
+                to_addresses.append('{} <{}>'.format(name, email))
 
         msg["To"] = ', '.join(to_addresses)
 
-        for obj in self.attachable_objs():
-            att = MIMEBase(*obj.content_type().split("/"))
-            att.set_payload(obj.file.data)
-            att.add_header(
-                'Content-Disposition',
-                'attachment',
-                filename=obj.Title(),
-            )
-            msg.attach(att)
+        for uid in form.get('uids'):
+            obj = api.content.get(UID=uid)
+            if obj:
+                att = MIMEBase(*obj.content_type().split("/"))
+                att.set_payload(obj.file.data)
+                att.add_header(
+                    'Content-Disposition',
+                    'attachment',
+                    filename=obj.Title(),
+                )
+                msg.attach(att)
 
         mailhost = api.portal.get_tool('MailHost')
         try:
