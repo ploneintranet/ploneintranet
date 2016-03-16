@@ -7,10 +7,10 @@
   
   <h1 i18n:translate="">Batch send</h1>
 
-  <form method="POST" action="cart-mail" class="pat-validation" data-pat-validation="disable-selector: #form-buttons-send">
+  <form method="POST" action="cart-mail" class="pat-validation" data-pat-validation="disable-selector: #form-buttons-send"
+        tal:define="items view/attachable_objs">
 
-    <div class="panel-body"
-         tal:define="items view/items">
+    <div class="panel-body" tal:condition="items">
 
       <article class="pat-rich">
         <p class="discrete">
@@ -32,7 +32,7 @@
       </fieldset>
       <div class="attachments">
 
-        <tal:item repeat="item view/attachable_objs">
+        <tal:item repeat="item items">
           <tal:preview define="previews python:view.get_previews(item);
                                has_preview previews/has_preview;">
             <section class="document document-preview ${previews/class}">
@@ -50,10 +50,19 @@
 
       </div>
     </div>
+
+    <div class="panel-body" tal:condition="not:items">
+      <article class="pat-rich">
+        <p class="discrete">
+          Only files can be sent by email.
+        </p>
+      </article>
+    </div>
     
     <div class="buttons panel-footer">
       <button id="form-buttons-send" type="submit" class="icon-ok-circle pat-shopping-cart"
-              data-pat-shopping-cart="action: empty"> Send </button>
+              data-pat-shopping-cart="action: empty"
+              tal:condition="items"> Send </button>
       <button type="button" class="close-panel icon-cancel-circle"> Cancel </button>
     </div>
 

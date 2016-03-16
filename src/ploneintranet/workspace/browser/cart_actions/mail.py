@@ -80,9 +80,11 @@ class MailView(BaseCartView):
         We can only attach files. When implemented, we will also attach the PDF
         version of Documents
         """
+        objs = []
         for obj in self.items:
             if IFile.providedBy(obj) or IImage.providedBy(obj):
-                yield obj
+                objs.append(obj)
+        return objs
 
     def get_previews(self, obj):
         portal = api.portal.get()
