@@ -4,6 +4,7 @@ from plone.app.contenttypes.interfaces import IImage
 from plone.app.contenttypes.interfaces import ILink
 from plone.app.contenttypes.interfaces import INewsItem
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
+from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
 from utils import guess_mimetype
 
@@ -41,10 +42,26 @@ def mimetype_newsitem(object, **kw):
     return 'message/news'
 
 
+@indexer(IDexterityContent)
+def is_division_dexterity(obj):
+    """
+    dummy to prevent indexing child objects
+    """
+    raise AttributeError("This field should not indexed here!")
+
+
 @indexer(IWorkspaceFolder)
 def is_division(object, **kw):
     """Indexes if this object represents a division"""
     return getattr(object, 'is_division', False)
+
+
+@indexer(IDexterityContent)
+def division_dexterity(obj):
+    """
+    dummy to prevent indexing child objects
+    """
+    raise AttributeError("This field should not indexed here!")
 
 
 @indexer(IWorkspaceFolder)
