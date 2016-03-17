@@ -1,5 +1,6 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
+from base64 import b64encode
 from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer.utils import allowedDocumentType
 from email.mime.base import MIMEBase
@@ -62,9 +63,10 @@ class MailView(BaseCartView):
 
         for uid in form.get('uids'):
             obj = api.content.get(UID=uid)
-            if obj:
-                att = MIMEBase(*obj.content_type().split("/"))
-                att.set_payload(obj.file.data)
+            if obj and hasattr(obj, 'file'):
+                att = MIMEBase(*obj.file.contentType.split("/"))
+                att.set_payload(b64encode(obj.file.data))
+                att.add_header('Content-Transfer-Encoding', 'base64')
                 att.add_header(
                     'Content-Disposition',
                     'attachment',
