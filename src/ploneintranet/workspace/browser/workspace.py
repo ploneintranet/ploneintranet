@@ -166,7 +166,7 @@ class AllUserAndGroupsJSONView(BrowserView):
         q = self.request.get('q', '').lower()
         acl_users = api.portal.get_tool('acl_users')
         results = []
-        groups = acl_users.searchGroups(title=q)
+        groups = acl_users.searchGroups(id=q)
         if groups:
             for group in groups:
                 results.append({'id': group['id'], 'text': group['title'],})
