@@ -1,9 +1,9 @@
 # coding=utf-8
-import json
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.baseviews import ContentView
 from urllib import urlencode
+from ploneintranet.workspace.basecontent.utils import get_selection_classes
 
 
 class EventView(ContentView):
@@ -45,15 +45,4 @@ class EventView(ContentView):
 
     def get_selection_classes(self, field, default=None):
         """ identify all groups in the invitees """
-        acl_users = api.portal.get_tool('acl_users')
-        field_value = getattr(self.context, field, default)
-        if not field_value:
-            return ''
-        assigned_users = field_value.split(',')
-        selection_classes = {}
-        for assignee_id in assigned_users:
-            group = acl_users.getGroupById(assignee_id)
-            if group:
-                selection_classes[group.getProperty('title')] = ["group"]
-
-        return json.dumps(selection_classes)
+        return get_selection_classes(self.context, field, default)

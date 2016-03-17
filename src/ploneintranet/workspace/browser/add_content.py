@@ -11,6 +11,7 @@ from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from ploneintranet.workspace.basecontent.utils import get_selection_classes
 
 
 class AddContent(BrowserView):
@@ -215,3 +216,7 @@ class AddEvent(AddContent):
         if minutes == "60":
             minutes = "00"
         return hours + ":" + minutes
+
+    def get_selection_classes(self, field, default=None):
+        """ identify all groups in the invitees """
+        return get_selection_classes(self.context, field, default)
