@@ -34,6 +34,16 @@ class MailView(BaseCartView):
 
         form = self.request.form
         message = form.get('message')
+        message += "\n\n"
+        message += _("""The following items have been shared with you:""")
+        attachable_uids = form.get('attachable_uids', [])
+        unattachable_uids = form.get('unattachable_uids', [])
+        all_uids = attachable_uids + unattachable_uids
+        for uid in all_uids:
+            obj = api.content.get(UID=uid)
+            if obj:
+                message += """
+* {}/view""".format(obj.absolute_url())
         current_user = api.user.get_current()
         from_name = (
             current_user.getProperty('fullname') or current_user.getId())
@@ -61,7 +71,7 @@ class MailView(BaseCartView):
 
         msg["To"] = ', '.join(to_addresses)
 
-        for uid in form.get('uids'):
+        for uid in attachable_uids:
             obj = api.content.get(UID=uid)
             if obj and hasattr(obj, 'file'):
                 att = MIMEBase(*obj.file.contentType.split("/"))
