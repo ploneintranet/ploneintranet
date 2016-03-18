@@ -109,11 +109,14 @@ class PloneIntranetSuiteSolr(PloneIntranetSearchSolrLayer,
         # then load the testcontent
         PloneIntranetSuite.setUpZope(self, app, configurationContext)
 
-    # setUpPloneSite is identical in both superclasses
+    def setUpPloneSite(self, portal):
+        self.purge_solr()
+        PloneIntranetSuite.setUpPloneSite(self, portal)
 
     def tearDownPloneSite(self, portal):
         # also uninstalls the suite
-        PloneIntranetSearchSolrLayer.tearDownPloneSite(self, portal)
+        PloneIntranetSuite.tearDownPloneSite(self, portal)
+        self.purge_solr()
 
     def testTearDown(self):
         # Skip purging after every test
