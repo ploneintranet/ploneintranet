@@ -135,9 +135,11 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
                       name='testing.zcml')
 
     def testTearDown(self):
+        self.purge_solr()
+
+    def purge_solr(self):
         if not SOLR_ENABLED:
             return
-
         from .interfaces import IMaintenance
         getUtility(IMaintenance).purge()
 
@@ -163,6 +165,8 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         z2.installProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
+        # in case a previous teardown failed
+        self.purge_solr()
         # setup the default workflow
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
@@ -170,13 +174,7 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
 
     def tearDownPloneSite(self, portal):
         self.applyProfile(portal, 'ploneintranet.suite:uninstall')
-
-        if not SOLR_ENABLED:
-            return
-
-        # Final purge
-        from .interfaces import IMaintenance
-        getUtility(IMaintenance).purge()
+        self.purge_solr()
 
     def testTearDown(self):
         # Skip purging after every test
