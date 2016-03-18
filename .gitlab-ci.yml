@@ -5,8 +5,12 @@ before_script:
   - test -d /tmp/coverage && rm -rf /tmp/coverage
   - test -f .coverage && rm .coverage
 
-alltests:
+norobot:
   script:
     - bin/code-analysis
-    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test --coverage=/tmp/coverage
+    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test --coverage=/tmp/coverage -t '!robot'
+
+robot:
+  script:
+    - LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 DISPLAY=:99 bin/test --coverage=/tmp/coverage -t 'robot'
 
