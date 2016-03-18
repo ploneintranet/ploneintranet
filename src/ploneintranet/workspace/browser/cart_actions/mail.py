@@ -73,9 +73,15 @@ class MailView(BaseCartView):
 
         for uid in attachable_uids:
             obj = api.content.get(UID=uid)
-            if obj and hasattr(obj, 'file'):
-                att = MIMEBase(*obj.file.contentType.split("/"))
-                att.set_payload(b64encode(obj.file.data))
+            if obj:
+                if hasattr(obj, 'file'):
+                    file_obj = obj.file
+                elif hasattr(obj, 'image'):
+                    file_obj = obj.image
+                else:
+                    continue
+                att = MIMEBase(*file_obj.contentType.split("/"))
+                att.set_payload(b64encode(file_obj.data))
                 att.add_header('Content-Transfer-Encoding', 'base64')
                 att.add_header(
                     'Content-Disposition',
@@ -103,6 +109,13 @@ class MailView(BaseCartView):
         return objs
 
     def get_previews(self, obj):
+        if IImage.providedBy(obj):
+            return {
+                'class': '',
+                'url': '{}/@@images/image'.format(obj.absolute_url()),
+                'page_count': 1,
+                'has_preview': True,
+            }
         portal = api.portal.get()
         gsettings = GlobalSettings(portal)
 
