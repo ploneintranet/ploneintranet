@@ -2,8 +2,8 @@ before_script:
   - /etc/init.d/redis-server restart
   - make gitlab-ci
   - Xvfb :99 1>/dev/null 2>&1 &
-  - [ -d /tmp/coverage ] && rm -rf /tmp/coverage
-  - [ -f .coverage ] && rm .coverage
+  - test -d /tmp/coverage && rm -rf /tmp/coverage
+  - test -f .coverage && rm .coverage
 
 alltests:
   script:
