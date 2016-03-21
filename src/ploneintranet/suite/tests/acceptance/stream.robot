@@ -44,6 +44,5 @@ I cannot see updates by
 
 I filter the stream as
     [arguments]  ${stream_filter}
-    Click element  xpath=//select[@name='stream_filter']
     Click element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}']
-    Wait until element is visible  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}'][@selected='selected']
+    Wait until page contains element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}'][@selected='selected']
