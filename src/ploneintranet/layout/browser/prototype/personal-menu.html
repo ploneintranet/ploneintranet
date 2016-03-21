@@ -21,6 +21,16 @@
             <a class="icon-cog" href="${portal_url}/@@my-profile#person-info">Personal settings</a>
           </li>
       </tal:temporarily_disabled>
+      <li class="change-avatar profile">
+        <form action="#" id="change-personal-image"
+              method="post"
+              tal:attributes="action request/URL0"
+              data-pat-inject="source: .pat-notification::element; target: #global-header::after"
+              class="pat-inject pat-autosubmit">
+        <label>Change personal image <input type="file" name="portrait" value=""/></label>
+            <input type="hidden" name="submit" value="submit"/>
+        </form>
+      </li>
       <li>
         <a class="icon-exit" href="${portal_url}/logout">Logout</a>
       </li>
