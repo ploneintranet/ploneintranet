@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
 from base64 import b64encode
@@ -33,16 +34,16 @@ class MailView(BaseCartView):
         msg = MIMEMultipart()
 
         form = self.request.form
-        message = form.get('message')
-        message += "\n\n"
-        message += _("""The following items have been shared with you:""")
+        message = safe_unicode(form.get('message'))
+        message += u"\n\n"
+        message += _(u"""The following items have been shared with you:""")
         attachable_uids = form.get('attachable_uids', [])
         unattachable_uids = form.get('unattachable_uids', [])
         all_uids = attachable_uids + unattachable_uids
         for uid in all_uids:
             obj = api.content.get(UID=uid)
             if obj:
-                message += """
+                message += u"""
 * {}/view""".format(obj.absolute_url())
         current_user = api.user.get_current()
         from_name = (
@@ -95,6 +96,12 @@ class MailView(BaseCartView):
             mailhost.send(msg.as_string())
         except MailHostError, e:
             log.error(e.message)
+
+        api.portal.show_message(
+            message="Email sent.",
+            request=self.request,
+            type="info",
+        )
         self.request.response.redirect(self.context.absolute_url())
 
     def attachable_objs(self):
