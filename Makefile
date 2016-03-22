@@ -119,6 +119,7 @@ docker-run:  ## Start docker container
                 -v /var/tmp:/var/tmp \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
                 -v $(HOME)/.bashrc:/app/.bashrc \
+                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.pypirc:/app/.pypirc \
                 -v $(HOME)/.gitconfig:/app/.gitconfig \
                 -v $(HOME)/.gitignore_global:/app/.gitignore_global \
