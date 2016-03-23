@@ -15,6 +15,7 @@ import ploneintranet.activitystream
 import ploneintranet.invitations
 import ploneintranet.layout
 import ploneintranet.microblog
+import ploneintranet.microblog.statuscontainer
 import ploneintranet.network
 import ploneintranet.theme
 import ploneintranet.userprofile
@@ -53,6 +54,8 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.microblog,
             context=configurationContext
         )
+        # Force microblog to disable async mode !!!
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
 
         xmlconfig.file(
             'configure.zcml',
@@ -123,6 +126,8 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         z2.installProduct(app, 'Products.membrane')
 
     def tearDownZope(self, app):
+        # reset sync mode
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
