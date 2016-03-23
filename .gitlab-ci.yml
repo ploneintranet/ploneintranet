@@ -6,12 +6,13 @@ before_script:
   - /etc/init.d/redis-server start
   - Xvfb :99 1>/dev/null 2>&1 &
 
+robot:
+  script:
+    - DISPLAY=:99 bin/test -t 'robot'
+
 norobot:
   script:
     - bin/code-analysis
     - bin/test -t '!robot'
 
-robot:
-  script:
-    - DISPLAY=:99 bin/test -t 'robot'
 
