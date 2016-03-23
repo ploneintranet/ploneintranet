@@ -160,7 +160,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
             su._context2uuid(content)
         )
 
-    def test_content_context(self):
+    def test_content_context_subscriber(self):
         doc = api.content.create(
             container=self.portal,
             type='Document',
@@ -174,7 +174,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         self.assertEqual(None, su.microblog_context)
         self.assertEqual(doc, su.content_context)
 
-    def test_content_context_reply(self):
+    def test_thread_content_context(self):
         doc = api.content.create(
             container=self.portal,
             type='Document',
