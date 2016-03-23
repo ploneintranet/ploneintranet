@@ -160,30 +160,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su2 = StatusUpdate('foo', thread_id=su1.id)
         self.assertEqual(f1, su2.microblog_context)
 
-    def test_attachments(self):
-        su = StatusUpdate('foo bar')
-        attachments = IAttachmentStorage(su)
-
-        f = ATFile('data.dat')
-        attachments.add(f)
-        self.assertEqual([k for k in attachments.keys()], [f.getId()])
-        attachments.remove(f.getId())
-        self.assertEqual(len(attachments.keys()), 0)
-
-    def test_statusupdate_mentions(self):
-        test_user = api.user.create(
-            email='test@example.com',
-            username='testuser',
-            properties={
-                'fullname': 'Test User'
-            }
-        )
-        userid = test_user.getId()
-        fullname = test_user.getProperty('fullname')
-        su = StatusUpdate('foo', mention_ids=[userid])
-        self.assertEqual(su.mentions, {userid: fullname})
-
-    def test_statusupdate_content(self):
+    def test_content(self):
         doc = api.content.create(
             container=self.portal,
             type='Document',
@@ -197,3 +174,26 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = found[0]
         self.assertEqual(None, su.microblog_context)
         self.assertEqual(doc, su.content_context)
+
+    def test_attachments(self):
+        su = StatusUpdate('foo bar')
+        attachments = IAttachmentStorage(su)
+
+        f = ATFile('data.dat')
+        attachments.add(f)
+        self.assertEqual([k for k in attachments.keys()], [f.getId()])
+        attachments.remove(f.getId())
+        self.assertEqual(len(attachments.keys()), 0)
+
+    def test__mentions(self):
+        test_user = api.user.create(
+            email='test@example.com',
+            username='testuser',
+            properties={
+                'fullname': 'Test User'
+            }
+        )
+        userid = test_user.getId()
+        fullname = test_user.getProperty('fullname')
+        su = StatusUpdate('foo', mention_ids=[userid])
+        self.assertEqual(su.mentions, {userid: fullname})
