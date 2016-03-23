@@ -56,7 +56,7 @@ class MockContext(Acquisition.Implicit):
     implements(IMicroblogContext)
 
 
-class TestStatusContainer(unittest.TestCase):
+class TestStatusContainerMicroblogContext(unittest.TestCase):
 
     def setUp(self):
         self.container = StatusContainer()
@@ -148,7 +148,7 @@ class TestStatusContainer(unittest.TestCase):
         self.assertEqual([self.su1], values)
 
 
-class TestNestedStatusContainer(unittest.TestCase):
+class TestStatusContainerNestedMicroblogContext(unittest.TestCase):
 
     layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
