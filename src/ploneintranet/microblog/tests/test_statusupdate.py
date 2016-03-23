@@ -134,7 +134,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
     def test_microblog_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
-            def _init_microblog_context(self, thread_id, context):
+            def _init_microblog_context(self, *args, **kwargs):
                 pass
         su = OldStatusUpdate('foo')
         # old data has new code accessors
@@ -191,6 +191,32 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su2 = StatusUpdate('foo', thread_id=su1.id)
         self.assertEqual(None, su2.microblog_context)
         self.assertEqual(doc, su2.content_context)
+
+    def test_content_context_subscriber_sets_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        su1 = found[0]
+        self.assertEqual(f1, su1.microblog_context)
+
+    def test_content_context_init_sets_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.assertEqual(f1, su1.microblog_context)
 
     def test_attachments(self):
         su = StatusUpdate('foo bar')

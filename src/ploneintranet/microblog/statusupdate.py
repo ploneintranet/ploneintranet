@@ -44,7 +44,9 @@ class StatusUpdate(Persistent):
         self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
-        self._init_microblog_context(thread_id, microblog_context)
+        self._init_microblog_context(thread_id,
+                                     microblog_context,
+                                     content_context)
         self._init_content_context(thread_id, content_context)
         self.tags = tags
 
@@ -62,7 +64,9 @@ class StatusUpdate(Persistent):
         self.creator = member.getUserName()
 
     # for unittest subclassing
-    def _init_microblog_context(self, thread_id, context):
+    def _init_microblog_context(self, thread_id,
+                                microblog_context,
+                                content_context=None):
         """Set the right security context.
         If thread_id is given, the context of the thread parent is used
         and the given context arg is ignored.
@@ -76,7 +80,9 @@ class StatusUpdate(Persistent):
             self._microblog_context_uuid = parent._microblog_context_uuid
         # thread_id takes precedence over microblog_context arg!
         else:
-            m_context = piapi.microblog.get_microblog_context(context)
+            # derive microblog_context from content_context if necessary
+            m_context = piapi.microblog.get_microblog_context(
+                microblog_context or content_context)
             self._microblog_context_uuid = self._context2uuid(m_context)
 
     # for unittest subclassing

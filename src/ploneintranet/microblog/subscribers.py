@@ -14,10 +14,9 @@ def content_published(obj, event):
         return
 
     creator = obj.Creator()
-    mb_context = pi_api.microblog.get_microblog_context(obj)
+    # microblog_context is automatically derived from content_context
     pi_api.microblog.statusupdate.create(
         obj.Title(),
         userid=creator,
-        microblog_context=mb_context,
         content_context=obj,
     )
