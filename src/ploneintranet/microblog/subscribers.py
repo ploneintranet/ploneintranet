@@ -19,5 +19,5 @@ def content_published(obj, event):
         obj.Title(),
         userid=creator,
         microblog_context=mb_context,
-        content=obj,
+        content_context=obj,
     )

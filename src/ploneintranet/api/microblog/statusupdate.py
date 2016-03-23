@@ -28,7 +28,7 @@ def create(
     user=None,
     userid=None,
     time=None,
-    content=None,
+    content_context=None,
 ):
     """Create a status update (post).
 
@@ -47,8 +47,8 @@ def create(
     :param time: time when the post should happen. By default the current time.
     :type time: datetime object
 
-    :param content: a content referenced we are talking about
-    :type content: content object
+    :param content_context: a content referenced we are talking about
+    :type content_context: content object
 
     :returns: Newly created statusupdate
     :rtype: StatusUpdate object
@@ -59,7 +59,7 @@ def create(
         thread_id=thread_id,
         mention_ids=mention_ids,
         tags=tags,
-        content=content,
+        content_context=content_context,
     )
     # By default the post is done by the current user
     # Passing a userid or user allows to post as a different user

@@ -73,15 +73,6 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertIsNone(su._microblog_context_uuid)
 
-    def test_status_update_with_content(self):
-        content = object()
-        su = MockStatusUpdate('foo bar', content=content)
-        self.assertTrue(IContentStatusUpdate.providedBy(su))
-        self.assertEqual(
-            su._content_context_uuid,
-            su._context2uuid(content)
-        )
-
     def test_microblog_context_uuid(self):
         import Acquisition
 
@@ -160,13 +151,21 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su2 = StatusUpdate('foo', thread_id=su1.id)
         self.assertEqual(f1, su2.microblog_context)
 
-    def test_content(self):
+    def test_content_context_mocked(self):
+        content = object()
+        su = MockStatusUpdate('foo bar', content_context=content)
+        self.assertTrue(IContentStatusUpdate.providedBy(su))
+        self.assertEqual(
+            su._content_context_uuid,
+            su._context2uuid(content)
+        )
+
+    def test_content_context(self):
         doc = api.content.create(
             container=self.portal,
             type='Document',
             title='My document',
         )
-
         self.assertEqual(0, len([x for x in self.container.values()]))
         api.content.transition(doc, to_state='published')
         found = [x for x in self.container.values()]
@@ -175,7 +174,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         self.assertEqual(None, su.microblog_context)
         self.assertEqual(doc, su.content_context)
 
-    def test_content_reply(self):
+    def test_content_context_reply(self):
         doc = api.content.create(
             container=self.portal,
             type='Document',
