@@ -45,7 +45,7 @@ class StatusUpdate(Persistent):
         self._init_userid()
         self._init_creator()
         self._init_microblog_context(thread_id, microblog_context)
-        self._init_content_context(content)
+        self._init_content_context(thread_id, content)
         self.tags = tags
 
         if content:
@@ -80,13 +80,16 @@ class StatusUpdate(Persistent):
             self._microblog_context_uuid = self._context2uuid(m_context)
 
     # for unittest subclassing
-    def _init_content_context(self, content):
+    def _init_content_context(self, thread_id, content):
         ''' We store the uuid as a reference of a content
         related to this status update
-
-        FIXME: support thread_id akin to above.
         '''
-        self._content_context_uuid = self._context2uuid(content)
+        from ploneintranet import api as piapi  # FIXME circular dependency
+        if thread_id:
+            parent = piapi.microblog.statusupdate.get(thread_id)
+            self._content_context_uuid = parent._content_context_uuid
+        else:
+            self._content_context_uuid = self._context2uuid(content)
 
     def _init_mentions(self, mention_ids):
         self.mentions = {}
