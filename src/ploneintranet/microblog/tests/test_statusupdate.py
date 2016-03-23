@@ -182,3 +182,18 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         fullname = test_user.getProperty('fullname')
         su = StatusUpdate('foo', mention_ids=[userid])
         self.assertEqual(su.mentions, {userid: fullname})
+
+    def test_statusupdate_content(self):
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+
+        self.assertEqual(0, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(1, len(found))
+        su = found[0]
+        self.assertEqual(None, su.microblog_context)
+        self.assertEqual(doc, su.content_context)
