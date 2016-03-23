@@ -79,4 +79,7 @@ def create(
 
     microblog = queryUtility(IMicroblogTool)
     microblog.add(status_obj)
+    # take care - statusupdate may still be queued for storage
+    # and not actually written into the container yet
+    # this may change the status_obj.id
     return status_obj
