@@ -2,6 +2,7 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:metal="http://xml.zope.org/namespaces/metal"
     xmlns:tal="http://xml.zope.org/namespaces/tal"
+
     metal:use-macro="context/main_template/macros/master">
 
 <body>
@@ -22,9 +23,9 @@
           </li>
       </tal:temporarily_disabled>
       <li class="change-avatar profile">
-        <form action="#" id="change-personal-image"
+        <form action="${here/absolute_url}/personal-menu.html" id="change-personal-image"
               method="post"
-              tal:attributes="action request/URL0"
+              enctype="multipart/form-data"
               data-pat-inject="source: .pat-notification::element; target: #global-header::after"
               class="pat-inject pat-autosubmit">
         <label>Change personal image <input type="file" name="portrait" value=""/></label>
