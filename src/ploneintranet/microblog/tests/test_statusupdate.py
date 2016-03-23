@@ -11,6 +11,7 @@ from plone import api
 
 from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+import ploneintranet.microblog.statuscontainer
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IContentStatusUpdate
@@ -44,6 +45,10 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+
+    def tearDown(self):
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
 
     def test_implements(self):
         self.assertTrue(IStatusUpdate.implementedBy(StatusUpdate))
