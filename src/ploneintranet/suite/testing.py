@@ -48,7 +48,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.loadZCML(package=ploneintranet.microblog)
         # Force microblog to disable async mode !!!
         import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+        ploneintranet.microblog.statuscontainer.ASYNC = False
 
         import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
@@ -85,7 +85,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
     def tearDownZope(self, app):
         # reset sync mode
         import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
+        ploneintranet.microblog.statuscontainer.ASYNC = True
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
         z2.uninstallProduct(app, 'collective.indexing')

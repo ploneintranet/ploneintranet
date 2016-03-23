@@ -52,11 +52,14 @@ class TestQueueStatusContainer(unittest.TestCase):
         self.container = StatusContainer()
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
+        self._orig_max = \
+            ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 50
 
     def tearDown(self):
         tearDownContainer(self.container)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
+        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = \
+            self._orig_max
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(IStatusContainer, StatusContainer))

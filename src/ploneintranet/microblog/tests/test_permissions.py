@@ -54,10 +54,10 @@ class TestPermissions(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.mb_tool = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
+        ploneintranet.microblog.statuscontainer.ASYNC = False
 
     def tearDown(self):
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
+        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_add_read_member(self):
         setRoles(self.portal, TEST_USER_ID, ('Member',))
