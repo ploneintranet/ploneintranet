@@ -14,7 +14,6 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.userprofile import exc as custom_exc
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
-from plone.namedfile.file import NamedBlobImage
 from zope.component import getUtility
 from zope import schema
 
