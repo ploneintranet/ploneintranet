@@ -52,6 +52,14 @@
       />
 
   <browser:page
+      for="plone.dexterity.interfaces.IDexterityContainer"
+      name="import-avatars"
+      class=".user_import.ImportAvatarsView"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="import-users"
       class=".user_import.CSVImportView"
@@ -74,7 +82,7 @@
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
-  
+
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="sync"
