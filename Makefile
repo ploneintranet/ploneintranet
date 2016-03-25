@@ -106,7 +106,7 @@ jsrelease: prototype
 # docker.io
 # see comments for using boot2docker on MacOSX
 
-PROJECT=ploneintranet
+PROJECT=quaive/ploneintranet-dev
 
 docker-build: .ssh/known_hosts  ## Create docker container
 	docker build -t $(PROJECT) .
@@ -118,8 +118,8 @@ docker-run:  ## Start docker container
                 --net=host \
                 -v /var/tmp:/var/tmp \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
-                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.bashrc:/app/.bashrc \
+                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.pypirc:/app/.pypirc \
                 -v $(HOME)/.gitconfig:/app/.gitconfig \
                 -v $(HOME)/.gitignore_global:/app/.gitignore_global \
@@ -138,6 +138,9 @@ docker-run:  ## Start docker container
 
 devel: bin/buildout  ## 	 Run development buildout
 	bin/buildout
+
+gitlab-ci: bin/buildout
+	bin/buildout -c gitlab-ci.cfg
 
 bin/buildout: bin/python2.7
 	@bin/pip install -r requirements.txt
@@ -161,14 +164,14 @@ solr-clean:
 # firefox localhost:55001/plone
 # To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
 test-robot: ## Run robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test -t 'robot'
+	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot'
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot'
 
 test:: ## 	 Run all tests, including robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test
+	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 ####################################################################
