@@ -8,7 +8,6 @@ import ploneintranet.api as pi_api
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from json import dumps
-from json import loads
 
 
 class BaseWorkspaceView(BrowserView):
@@ -169,7 +168,8 @@ class AllUserAndGroupsJSONView(BrowserView):
         groups = acl_users.searchGroups(id=q)
         if groups:
             for group in groups:
-                results.append({'id': group['id'], 'text': group['title'],})
+                text = group['title'] or group['id']
+                results.append({'id': group['id'], 'text': text})
         users = pi_api.userprofile.get_users(SearchableText=u'{}*'.format(q))
         for user in users:
             fullname = user.Title()
