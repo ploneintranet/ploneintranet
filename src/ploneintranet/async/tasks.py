@@ -47,7 +47,7 @@ class GeneratePreview(AbstractPost):
     Usage::
 
       from ploneintranet.async.tasks import GeneratePreview
-      GeneratePreview(self.context, self.request)()
+      GeneratePreview(self.context, self.request)(countdown=5)
 
     Mind the final call parentheses.
 
