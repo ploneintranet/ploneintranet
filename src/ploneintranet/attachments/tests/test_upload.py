@@ -81,7 +81,7 @@ class TestUpload(IntegrationTestCase):
         # Test image previews
         urls = upload_view.get_thumbs_urls(self.image)
         self.assertTrue(len(urls) == 1)
-        self.assertTrue('test-image/small' in urls[0])
+        self.assertTrue('@@images' in urls[0])
 
         # Test a File instance that contains an image
         urls = upload_view.get_thumbs_urls(self.fileimage)
