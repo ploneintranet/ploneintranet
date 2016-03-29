@@ -1,6 +1,6 @@
 import os
 import transaction
-# import unittest
+import unittest
 
 from plone import api
 from plone.namedfile.file import NamedBlobFile
@@ -16,7 +16,7 @@ TEST_FILENAME = u'test.odt'
 class TestTasks(FunctionalTestCase):
     """Extra task tests, separate from the async framework tests."""
 
-    # @unittest.skip("This is just a skel. Please complete me.")
+    @unittest.skip("This only works if ASYNC_ENABLED is True.")
     def test_preview(self):
         """Verify async preview generation"""
         if not self.redis_running():
@@ -26,6 +26,7 @@ class TestTasks(FunctionalTestCase):
         ff = open(os.path.join(os.path.dirname(__file__), TEST_FILENAME), 'r')
         self.filedata = ff.read()
         ff.close()
+        # Temporarily enable Async
         self.testfile = api.content.create(
             type='File',
             id='test-file',
@@ -39,6 +40,7 @@ class TestTasks(FunctionalTestCase):
         generator = tasks.GeneratePreview(context, self.request)
         result = generator()
         self.waitfor(result, timeout=15.0)
+
         # we need to commit in order to see the other transaction
         # now go and check that the preview has been generated
         transaction.commit()
