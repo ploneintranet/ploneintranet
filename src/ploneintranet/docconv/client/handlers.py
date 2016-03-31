@@ -29,9 +29,11 @@ def content_added_in_workspace(obj, event):
 
 
 def content_edited_in_workspace(obj, event):
-    if obj.REQUEST.form.get('file') or\
-       obj.REQUEST.form.get('form.widgets.IFileField.file') or\
-       obj.REQUEST.get('method') == 'PUT':
+    if (getattr(obj.REQUEST, 'form', None) and (
+        obj.REQUEST.form.get('file') or
+        obj.REQUEST.form.get('form.widgets.IFileField.file') or
+        obj.REQUEST.get('method') == 'PUT'
+    )):
         pi_api.previews.generate_previews(obj)
 
 

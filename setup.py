@@ -72,6 +72,7 @@ setup(name='ploneintranet',
           'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
+          'collective.monkeypatcher',
       ],
       extras_require={
           'test': [
