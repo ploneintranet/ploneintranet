@@ -2,6 +2,7 @@
     <body>
         <div id="activity-stream"
              class="activity-stream"
+             i18n:domain="ploneintranet"
              tal:define="filter request/stream_filter|nothing;
                          context_url here/absolute_url|here/context/absolute_url;">
 
@@ -14,9 +15,9 @@
                 class="functions pat-autosubmit pat-inject">
 	    <label class="filters item pat-select bare">
 	      <select name="stream_filter">
-		<option value="all"
+		<option value="all" i18n:translate=""
                         tal:attributes="selected python:filter=='all'">All activities</option>
-		<option value="network"
+		<option value="network" i18n:translate=""
                         tal:attributes="selected python:filter=='network'">Only activities from people I follow</option>
                 <!--
 		<option value="interactions">Interactions with other people</option>
@@ -34,7 +35,8 @@
             <a tal:condition="not:view/stop_asking"
                tal:attributes="href string:${context_url}/@@activitystream.tile?stream_filter=${filter}&last_seen=${view/last_seen}"
                class="pat-inject infinite-scrolling-trigger"
-               data-pat-inject="trigger: autoload-visible; source: .activities; target: self::element">Loading more posts…</a>
+               data-pat-inject="trigger: autoload-visible; source: .activities; target: self::element">
+               <tal:trans i18n:translate="info_loading_more_posts">Loading more posts</tal:trans>…</a>
           </div>
         </div>
     </body>

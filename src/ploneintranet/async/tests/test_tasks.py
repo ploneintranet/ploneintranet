@@ -1,32 +1,53 @@
+import os
 import transaction
-import unittest
-
+from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from plone import api
-from ploneintranet.async import tasks
+from plone.namedfile.file import NamedBlobFile
 
+from ploneintranet import api as pi_api
+from ploneintranet.async import tasks
 from ploneintranet.async.testing import FunctionalTestCase
+
+TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
+TEST_FILENAME = u'test.odt'
 
 
 class TestTasks(FunctionalTestCase):
     """Extra task tests, separate from the async framework tests."""
 
-    @unittest.skip("This is just a skel. Please complete me.")
     def test_preview(self):
         """Verify async preview generation"""
+
+        if not ASYNC_ENABLED:
+            print("Skipping preview test")
+            return
+
         if not self.redis_running():
             self.fail("requires redis")
             return
 
-        # FIXME: set up a test file
-        context = self.portal.whatever.testfile
+        ff = open(os.path.join(os.path.dirname(__file__), TEST_FILENAME), 'r')
+        self.filedata = ff.read()
+        ff.close()
+        # Temporarily enable Async
+        self.testfile = api.content.create(
+            type='File',
+            id='test-file',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.portal)
+
+        context = getattr(self.portal, 'test-file')
+        self.assertFalse(pi_api.previews.has_previews(context))
+
         generator = tasks.GeneratePreview(context, self.request)
         result = generator()
-        self.waitfor(result)
-        # we need to commit in order to see the other transaction
-        transaction.commit()
+        self.waitfor(result, timeout=15.0)
 
+        # we need to commit in order to see the other transaction
         # now go and check that the preview has been generated
-        self.assertTrue("Some check on context")
+        transaction.commit()
+        self.assertTrue(pi_api.previews.has_previews(context))
 
     def test_reindex(self):
         """Verify object reindexing"""
