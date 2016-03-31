@@ -26,6 +26,10 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <subscriber for="zope.container.interfaces.IContainerModifiedEvent"
+              handler=".handlers.reindex_object_positions" />
+
+
   <include package="collective.monkeypatcher" />
 
   <monkey:patch
