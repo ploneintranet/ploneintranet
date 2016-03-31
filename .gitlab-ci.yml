@@ -14,5 +14,6 @@ norobot:
   script:
     - bin/code-analysis
     - bin/test -t '!robot'
+    - ASYNC_ENABLED=true bin/test -s ploneintranet.async
 
 

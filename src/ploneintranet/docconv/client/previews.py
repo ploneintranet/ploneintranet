@@ -146,6 +146,44 @@ def get(obj, scale='normal'):
     return previews
 
 
+def is_allowed_document_type(obj):
+    """ Check if object can actually be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if object can be converted
+    :rtype: boolean
+    """
+    site = getPortal(obj)
+    gsettings = GlobalSettings(site)
+
+    return allowedDocumentType(obj, gsettings.auto_layout_file_types)
+
+
+def converting(obj):
+    """ Check if object is currently being converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if converting, False if no longer converting
+    :rtype: boolean
+    """
+    settings = Settings(obj)
+    return settings.converting
+
+
+def successfully_converted(obj):
+    """ Check if object could be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if successfully converted, False if conversion failed
+    :rtype: boolean
+    """
+    settings = Settings(obj)
+    return settings.successfully_converted
+
+
 def has_previews(obj):
     """Test if the object has generated previews.
 
@@ -272,10 +310,10 @@ def generate_previews(obj, event=None):
     gsettings = GlobalSettings(site)
 
     if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
+        log.info('Object type is not in available file types for conversion.')
         return
 
     if gsettings.auto_convert:
-        # ASYNC HERE
         converter = Converter(obj)
         if not converter.can_convert:
             return

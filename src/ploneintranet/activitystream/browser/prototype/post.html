@@ -114,9 +114,10 @@
         <tal:stream_image condition="is_image">
 	  <section class="image preview">
 	    <figure>
-              <img src="/media/preview_thumb_1.jpg" alt=""
+              <img src="${attachment/img_src}/large"
+                   alt=""
                    tal:condition="has_preview"
-                   tal:attributes="src attachment/img_src" />
+                   />
 	    </figure>
 	    <p class="overlay" tal:condition="nothing">
               <!-- XXX images gallery view not implemented yet -->
