@@ -21,7 +21,8 @@ def sections_of(context):
     path = '/'.join(path_elements)
     path_depth = len(path_elements) + 1
     results = query(
-        path=path, path_depth=path_depth, portal_types=types_to_show)
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     struct = []
     for item in results:
         if item.portal_type in hidden:
@@ -53,7 +54,8 @@ def children_of(context):
     path = '/'.join(path_elements)
     path_depth = len(path_elements) + 1
     results = query(
-        path=path, path_depth=path_depth, portal_types=types_to_show)
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     content = []
     for item in results:
         if item.portal_type in hidden:

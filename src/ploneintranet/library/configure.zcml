@@ -5,6 +5,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="ploneintranet">
 
   <include package=".browser" />
@@ -24,5 +25,19 @@
       description="Uninstall Library for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-      
+
+  <subscriber for="zope.container.interfaces.IContainerModifiedEvent"
+              handler=".handlers.reindex_object_positions" />
+
+
+  <include package="collective.monkeypatcher" />
+
+  <monkey:patch
+      description="This works around issue fixed in https://github.com/plone/plone.app.content/pull/81"
+      class="plone.app.content.browser.contents.rearrange.OrderContentsBaseAction"
+      original="getOrdering"
+      replacement=".patches.patched_getOrdering"
+      />
+
+
 </configure>
