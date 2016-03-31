@@ -3,6 +3,7 @@
   <version>0005</version>
   <dependencies>
     <dependency>profile-collective.externaleditor:default</dependency>
+    <dependency>profile-ploneintranet.async:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>
