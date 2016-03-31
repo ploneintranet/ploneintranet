@@ -1,7 +1,6 @@
 import os
 import transaction
-import unittest
-
+from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from plone import api
 from plone.namedfile.file import NamedBlobFile
 
@@ -16,9 +15,13 @@ TEST_FILENAME = u'test.odt'
 class TestTasks(FunctionalTestCase):
     """Extra task tests, separate from the async framework tests."""
 
-    @unittest.skip("This only works if ASYNC_ENABLED is True.")
     def test_preview(self):
         """Verify async preview generation"""
+
+        if not ASYNC_ENABLED:
+            print("Skipping preview test")
+            return
+
         if not self.redis_running():
             self.fail("requires redis")
             return
