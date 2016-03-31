@@ -309,7 +309,7 @@ def path_string(obj, **kwargs):
 @indexer(Interface)
 def path_depth(obj, **kwargs):
     """Return the depth of the physical path to the object."""
-    return len('/'.join(obj.getPhysicalPath()))
+    return len(obj.getPhysicalPath())
 
 
 @indexer(Interface)
