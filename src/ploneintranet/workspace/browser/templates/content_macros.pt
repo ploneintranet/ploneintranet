@@ -5,7 +5,7 @@
       i18n:domain="ploneintranet">
   <body>
 
-    <metal:task_fields
+    <metal:task_fields i18n:domain="ploneintranet"
         define-macro="task_fields"
         tal:define="
             read_only read_only|not:view/can_edit;
@@ -70,13 +70,16 @@
       </tal:case_todo>
     </metal:task_fields>
 
-    <metal:event_fields define-macro="event_fields"
+    <metal:event_fields define-macro="event_fields" i18n:domain="ploneintranet"
                         tal:define="read_only python:not view.can_edit">
 
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
       <label class="location">
-        <span tal:omit-tag="" i18n:translate="">Location</span> <input name="location" type="text" value="" tal:attributes="disabled read_only; value context/location | nothing" />
+        <span tal:omit-tag="" i18n:translate="">Location</span> <input
+        placeholder="Enter a location"
+        i18n:attributes="placeholder"
+        name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
       </label>
       <br/>
       <label class="organiser">

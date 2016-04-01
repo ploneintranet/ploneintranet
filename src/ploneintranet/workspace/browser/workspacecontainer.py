@@ -4,6 +4,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
@@ -33,10 +34,10 @@ class Workspaces(BrowserView):
         return super(Workspaces, self).__call__()
 
     def sort_options(self):
-        options = [{'value': 'alphabet',
-                    'content': 'Alphabetical'},
-                   {'value': 'newest',
-                    'content': 'Newest workspaces on top'},
+        options = [{'value': 'newest',
+                    'content': _(u'Newest workspaces on top')},
+                   {'value': 'alphabet',
+                    'content': _(u'Alphabetical')},
                    # Not yet implemented
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}
@@ -45,9 +46,9 @@ class Workspaces(BrowserView):
 
     def grouping_options(self):
         options = [{'value': '',
-                    'content': 'No grouping'},
+                    'content': _(u'No grouping')},
                    {'value': 'division',
-                    'content': 'Group by division'},
+                    'content': _(u'Group by division')},
                    # Not yet implemented
                    # {'value': 'workspace_type',
                    #  'content': 'Group by workspace type'}
@@ -56,11 +57,11 @@ class Workspaces(BrowserView):
 
     def workspace_types(self):
         options = [{'value': '',
-                    'content': 'All workspace types'},
+                    'content': _(u'All workspace types')},
                    {'value': 'ploneintranet.workspace.workspacefolder',
-                    'content': 'Generic workspaces'},
+                    'content': _(u'Generic workspaces')},
                    {'value': 'ploneintranet.workspace.case',
-                    'content': 'Cases'}
+                    'content': _(u'Cases')},
                    ]
         return options
 
