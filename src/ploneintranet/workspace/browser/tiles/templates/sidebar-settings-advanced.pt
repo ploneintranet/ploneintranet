@@ -30,7 +30,8 @@
                     </fieldset>
                     <fieldset class="pat-checklist">
                         <label>
-                          This represents a division
+                          <span tal:omit-tag="" i18n:translate="workspace_is_division">
+                          This represents a division</span>
                           <input type="checkbox" name="is_division" value="selected" tal:attributes="checked python:getattr(context, 'is_division', False) == True and 'checked' or None"/>
                           <input type="hidden" name="is_division-empty-marker" value="true" />
                         </label>
@@ -48,7 +49,7 @@
                           </select>
                         </label>
                     </fieldset>
-                    
+
                     <!-- Not implemented yet -->
                     <!--fieldset class="vertical">
                       <label class="pat-checklist">
