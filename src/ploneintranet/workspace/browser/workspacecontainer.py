@@ -34,10 +34,10 @@ class Workspaces(BrowserView):
         return super(Workspaces, self).__call__()
 
     def sort_options(self):
-        options = [{'value': 'newest',
-                    'content': _(u'Newest workspaces on top')},
-                   {'value': 'alphabet',
+        options = [{'value': 'alphabet',
                     'content': _(u'Alphabetical')},
+                   {'value': 'newest',
+                    'content': _(u'Newest workspaces on top')},
                    # Not yet implemented
                    # {'value': 'activity',
                    #  'content': 'Most active workspaces on top'}
