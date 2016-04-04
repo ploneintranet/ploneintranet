@@ -28,7 +28,7 @@
               enctype="multipart/form-data"
               data-pat-inject="source: .pat-notification::element; target: #global-header::after"
               class="pat-inject pat-autosubmit">
-        <label>Change personal image <input type="file" name="portrait" value=""/></label>
+            <label>Change personal image <input type="file" name="portrait" value=""/></label>
             <input type="hidden" name="submit" value="submit"/>
         </form>
       </li>
