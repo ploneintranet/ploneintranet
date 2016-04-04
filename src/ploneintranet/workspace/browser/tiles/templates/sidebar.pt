@@ -15,7 +15,7 @@
         </ul>
       </div>
 
-      <div id="sidebar-content" class="pat-stacks" tal:define="ws view/workspace; ws_view nocall:ws/@@view">
+      <div id="sidebar-content" class="pat-stacks" tal:define="ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token;">
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
@@ -89,11 +89,11 @@
                   </div>
                   <div class="button-bar">
                     <span class="float-before button-cluster">
-                      <button type="button" class="pat-shopping-cart float-before icon-cut no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-cut#global-statusmessage; contents: keep; patterns: pat-inject" title="Cut"
+                      <button type="button" class="pat-shopping-cart float-before icon-cut no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-cut?_authenticator=${token}#global-statusmessage; contents: keep; patterns: pat-inject" title="Cut"
                             i18n:translate="" i18n:attributes="title">Cut</button>
-                      <button type="button" class="pat-shopping-cart float-before icon-copy no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-copy#global-statusmessage; contents: keep; patterns: pat-inject" title="Copy"
+                      <button type="button" class="pat-shopping-cart float-before icon-copy no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-copy?_authenticator=${token}#global-statusmessage; contents: keep; patterns: pat-inject" title="Copy"
                               i18n:translate="" i18n:attributes="title">Copy</button>
-                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste; contents: keep; patterns: pat-inject" title="Paste"
+                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste?_authenticator=${token}; contents: keep; patterns: pat-inject" title="Paste"
                             i18n:translate="" i18n:attributes="title">Paste</button>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
@@ -301,7 +301,6 @@ Supported types include (class names):
 
               <tal:case_tasks condition="ws/is_case"
                               define="milestones ws_view/metromap_sequence | nothing;
-                                      token context/@@authenticator/token;
                                       read_only read_only|not:view/can_edit;">
                 <tal:milestone_id repeat="milestone_id milestones">
                 <tal:milestone define="milestone python:milestones[milestone_id];">
