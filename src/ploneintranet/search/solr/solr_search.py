@@ -277,6 +277,12 @@ class SiteSearch(base.SiteSearch):
     def execute(self, query, secure=True, **kw):
         if secure:
             query = self._apply_security(query)
+        sort = kw.get('sort')
+        if sort:
+            # valid sort values:
+            #  - 'created': sort results ascending by creation date
+            #  - '-created': sort results descending by creation date
+            query = query.sort_by(kw['sort'])
         try:
             response = query.execute()
         except SolrError, exc:

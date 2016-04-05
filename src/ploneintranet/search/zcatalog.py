@@ -1,12 +1,14 @@
+# coding=utf-8
+from collections import Counter
+import Missing
 from plone import api
 from plone.batching import Batch
+from ploneintranet.search import base
+from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.search.interfaces import ISearchResponse
+from ploneintranet.search.interfaces import ISearchResult
 from zope.component import adapter
 from zope.interface import implementer
-
-from . import base
-from .interfaces import ISiteSearch
-from .interfaces import ISearchResponse
-from .interfaces import ISearchResult
 
 
 @implementer(ISiteSearch)
@@ -33,10 +35,12 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_filters(self, query, filters):
-        query = dict(query)
-        tags = filters.get('tags')
-        if tags is not None:
-            query['Subject'] = filters.pop('tags')
+        # Do not apply empty filters to the catalog
+        query = {key: value for key, value in dict(query).iteritems() if value}
+        filters = {key: value for key, value in filters.iteritems() if value}
+        # Rename tags in Subject
+        if 'tags' in filters:
+            filters['Subject'] = filters.pop('tags')
         query.update(filters)
         return query
 
@@ -98,13 +102,23 @@ class SearchResponse(base.SearchResponse):
             else:
                 catalog_field = field
 
+            values = []
             if hasattr(all_results[0][catalog_field], '__iter__'):
                 # Support keyword-style fields (e.g. tags)
-                self.facets[field] = {y for x in all_results
-                                      for y in x[catalog_field] if y}
+                [values.extend(x[catalog_field]) for x in all_results]
             else:
-                self.facets[field] = {x[catalog_field]
-                                      for x in all_results if x[catalog_field]}
+                [values.append(x[catalog_field]) for x in all_results]
+            # from ploneintranet.suite.tests import robot_trace; robot_trace()
+            if values:
+                values = (x for x in values if x != Missing.Value)
+                values = [
+                    {
+                        'name': name,
+                        'count': count,
+                    }
+                    for name, count in Counter(values).iteritems()
+                ]
+            self.facets[field] = values
 
 
 @implementer(ISearchResult)
@@ -116,3 +130,7 @@ class SearchResult(base.SearchResult):
     @property
     def path(self):
         return self.context.getPath()
+
+    @property
+    def review_state(self):
+        return self.context.review_state

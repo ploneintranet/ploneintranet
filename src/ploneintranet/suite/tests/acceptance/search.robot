@@ -5,10 +5,14 @@ Resource  plone/app/robotframework/keywords.robot
 Resource  ../lib/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
+Library  robot.libraries.DateTime
 Library  DebugLibrary
+
+Variables  variables.py
 
 Test Setup  Open test browser
 Test Teardown  Close all browsers
+
 
 *** Test Cases ***
 
@@ -38,7 +42,7 @@ Allan can search and filter by content type
 Allan can search and filter by date
     Given I am logged in as the user allan_neece
     I can search in the site header for minutes
-    Then I can set the date range to before-last-month
+    I can set the date range to \ ${YESTERDAY}
     And I can see the search result Minutes Overview
     And I cannot see the search result Minutes
 
@@ -59,6 +63,3 @@ Allan can search for user Guy Hackey
     I can search in the site header for Guy Hackey
     Then I can click the People tab
     And I can see the search result Guy Hackey
-
-
-

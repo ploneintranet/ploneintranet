@@ -53,4 +53,12 @@
        layer="..interfaces.IPloneintranetSearchLayer"
        />
 
+    <browser:viewlet
+       name="plone.searchbox"
+       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+       template="templates/plone.searchbox.pt"
+       permission="zope2.View"
+       layer="..interfaces.IPloneintranetSearchLayer"
+       />
+
 </configure>

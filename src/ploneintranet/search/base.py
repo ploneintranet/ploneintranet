@@ -320,14 +320,17 @@ class SiteSearch(object):
         return self._apply_filters(query, filters)
 
     @at_least_one_of('phrase', 'filters')
-    def query(self,
-              phrase=None,
-              filters=None,
-              start_date=None,
-              end_date=None,
-              start=0,
-              step=None,
-              debug=False):
+    def query(
+            self,
+            phrase=None,
+            filters=None,
+            start_date=None,
+            end_date=None,
+            start=0,
+            step=None,
+            sort=None,
+            debug=False,
+    ):
         """Return a search response.
 
         :seealso: ploneintranet.search.interfaces.ISearchResponse
@@ -349,6 +352,7 @@ class SiteSearch(object):
                                 end_date=end_date,
                                 start=start,
                                 step=step,
+                                sort=sort,
                                 debug=debug)
         return ISearchResponse(response)
 

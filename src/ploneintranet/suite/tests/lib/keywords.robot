@@ -177,7 +177,7 @@ I can list the workspaces grouped by division
     Go To  ${PLONE_URL}/workspaces
     Click element  xpath=//select[@name='grouping']
     Click element  xpath=//option[@value='division']
-    
+
 I can see the division
     [arguments]  ${title}
     Wait Until Element Is Visible  xpath=//h1[text()='${title}']
@@ -930,16 +930,16 @@ I can see the site search button
 
 I can search in the site header for ${SEARCH_STRING}
     Input text  css=#global-header input.search  ${SEARCH_STRING}
-    Submit Form  css=#global-header form#searchGadget_form
+    Submit Form  css=#global-header form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
-    Element should be visible  link=${SEARCH_RESULT_TITLE}
+    Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
 
 I cannot see the search result ${SEARCH_RESULT_TITLE}
     Element should not be visible  link=${SEARCH_RESULT_TITLE}
 
 I can follow the search result ${SEARCH_RESULT_TITLE}
-    Click Link  link=${SEARCH_RESULT_TITLE}
+    Click Link  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
     Page should contain  ${SEARCH_RESULT_TITLE}
 
 I can filter content of type ${CONTENT_TYPE}
@@ -948,9 +948,16 @@ I can filter content of type ${CONTENT_TYPE}
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
 
-I can set the date range to ${DATE_RANGE_VALUE}
-    Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=${DATE_RANGE_VALUE}"]
+I can set the date range to ${START_DATE} ${END_DATE}
+  Input Text  start_date  \
+  Focus  jquery=[name=start_date]
+  Press Key  jquery=[name=start_date]  ${START_DATE}
+  Input Text  end_date  \
+  Focus  jquery=[name=end_date]
+  Press Key  jquery=[name=end_date]  ${END_DATE}
+  Press Key  jquery=[name=end_date]  \n
+  Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]  10
+  Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]  10
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
