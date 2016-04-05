@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
 import logging
+from Acquisition import aq_inner, aq_parent
+from OFS.interfaces import IOrderedContainer
 from urllib import urlencode
-
 from collective.indexing.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.interfaces import IDexterityContent
@@ -317,3 +318,18 @@ def path_parents(obj, **kwargs):
     """Return all parent paths leading up to the object."""
     elements = obj.getPhysicalPath()
     return ['/'.join(elements[:n + 1]) for n in xrange(1, len(elements))]
+
+
+@indexer(Interface)
+def getObjPositionInParent(obj):
+    """ Helper method for catalog based folder contents.
+        Overwritten here to avoid problem during unindexing.
+    """
+    parent = aq_parent(aq_inner(obj))
+    ordered = IOrderedContainer(parent, None)
+    if ordered is not None:
+        try:
+            return ordered.getObjectPosition(obj.getId())
+        except ValueError:
+            return 0
+    return 0
