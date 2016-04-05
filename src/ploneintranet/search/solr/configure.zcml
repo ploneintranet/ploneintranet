@@ -18,7 +18,7 @@
   <class class="scorched.connection.SolrInterface">
     <implements interface=".interfaces.IConnection" />
   </class>
- 
+
   <class class="scorched.response.SolrResponse">
     <implements interface=".interfaces.IResponse" />
   </class>
@@ -56,8 +56,10 @@
                 .interfaces.IConnection"
            name="Image"
            />
+  <adapter name="getObjPositionInParent"
+           factory=".indexers.getObjPositionInParent" />
 
   <utility provides="collective.indexing.interfaces.IIndexQueueProcessor"
            factory=".indexers.ContentIndexer" />
-  
+
 </configure>
