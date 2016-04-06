@@ -111,4 +111,22 @@ def dexterity_update(obj, request=None):
                 dm.set(value)
                 modified = True
 
-    return modified, errors
+    return dict(modified), errors
+
+
+def get_selection_classes(context, field, default=None):
+    """ identify all groups in the invitees """
+    acl_users = api.portal.get_tool('acl_users')
+    field_value = getattr(context, field, default)
+    if not field_value:
+        return ''
+    assigned_users = field_value.split(',')
+    selection_classes = {}
+    for assignee_id in assigned_users:
+        group = acl_users.getGroupById(assignee_id)
+        if group:
+            group_title = (
+                group.getProperty('title') or group.getId() or assignee_id)
+            selection_classes[group_title] = ["group"]
+
+    return json.dumps(selection_classes)
