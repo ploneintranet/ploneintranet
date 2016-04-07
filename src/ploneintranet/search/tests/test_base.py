@@ -478,7 +478,9 @@ class PermissionTestsBase(ContentSetup):
 
 class TestNothing(unittest.TestCase):
     """
-    The above tests are run from test_zcatalog and solr/tests/test_utilities.
+    The above tests are run from:
+    ../tests/test_zcatalog
+    ../solr/tests/test_solr_search
 
     To make this base module easily discoverable for developers it has been
     renamed to test_base. Unittest then requires there to be a test.

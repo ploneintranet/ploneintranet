@@ -13,7 +13,7 @@ class TestConnectionConfig(unittest.TestCase):
     """Unittests for ZCML directive."""
 
     def _make_utility(self, *args, **kw):
-        from ploneintranet.search.solr.utilities import ConnectionConfig
+        from ploneintranet.search.solr.solr_search import ConnectionConfig
         return ConnectionConfig(*args, **kw)
 
     def test_interface_compliance(self):
@@ -34,7 +34,7 @@ class TestSolrSearch(test_base.SearchTestsBase,
     """
 
     def _make_utility(self, *args, **kw):
-        from ploneintranet.search.solr.utilities import SiteSearch
+        from ploneintranet.search.solr.solr_search import SiteSearch
         return SiteSearch()
 
     def _record_debug_info(self, response):
@@ -102,7 +102,7 @@ class TestSolrPermssions(test_base.PermissionTestsBase,
     """
 
     def _make_utility(self, *args, **kw):
-        from ploneintranet.search.solr.utilities import SiteSearch
+        from ploneintranet.search.solr.solr_search import SiteSearch
         return SiteSearch()
 
     def _record_debug_info(self, response):
