@@ -26,7 +26,12 @@ class TestConnectionConfig(unittest.TestCase):
         self.assertEqual(obj.url, 'http://localhost:1111/solr/core1')
 
 
-class IntegrationTestMixin(object):
+class TestSiteSearch(base_tests.SiteSearchTestsMixin,
+                     testing.IntegrationTestCase):
+    """Integration tests for SiteSearch utility.
+
+    The actual tests are in ploneintranet.search.tests.base.
+    """
 
     layer = testing.INTEGRATION_TESTING
 
@@ -36,15 +41,6 @@ class IntegrationTestMixin(object):
 
     def _record_debug_info(self, response):
         self._last_response = response.context.original_json
-
-
-class TestSiteSearch(IntegrationTestMixin,
-                     base_tests.SiteSearchTestsMixin,
-                     testing.IntegrationTestCase):
-    """Integration tests for SiteSearch utility.
-
-    The actual tests are in ploneintranet.search.tests.base.
-    """
 
     def setUp(self):
         super(TestSiteSearch, self).setUp()
@@ -100,7 +96,15 @@ class TestSiteSearch(IntegrationTestMixin,
         self.assertEqual(response.total_results, 0)
 
 
-class TestSiteSearchPermssions(IntegrationTestMixin,
-                               base_tests.SiteSearchPermissionTestsMixin,
+class TestSiteSearchPermssions(base_tests.SiteSearchPermissionTestsMixin,
                                testing.IntegrationTestCase):
     """Integration tests for SiteSearch permissions."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def _make_utility(self, *args, **kw):
+        from ..utilities import SiteSearch
+        return SiteSearch()
+
+    def _record_debug_info(self, response):
+        self._last_response = response.context.original_json
