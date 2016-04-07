@@ -38,12 +38,6 @@ class ContentSetup(object):
     def setUp(self):
         super(ContentSetup, self).setUp()
         container = self.layer['portal']
-
-        # Some other layer leaves behind a 'robot-test-folder'
-        # that screws up our isolation
-        if 'robot-test-folder' in container.objectIds():
-            api.content.delete(container['robot-test-folder'])
-
         self._setup_content(container)
 
     def _setup_content(self, container):
