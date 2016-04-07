@@ -1,4 +1,4 @@
-.. image:: http://ci3.syslab.com/job/quaive-master-complete/badge/icon
+.. image:: http://jenkins.quaive.net/job/quaive-master-complete/badge/icon
     :alt: Jenkins build status 
 
 Plone Intranet

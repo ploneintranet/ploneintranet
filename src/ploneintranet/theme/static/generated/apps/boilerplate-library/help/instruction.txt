@@ -18,4 +18,4 @@ When a user wants to create a new document in a workspace, he gets the option of
 
 ![Create new document panel](help/create-new-document.png)
 
-Go to a worksspace and select the documents module from the left hand side bar. Then click on the plus sign to create a new document. A panel appears that allows you to give a name and description to your new document and to select a boilerplate as a starting point for your text. These are the boilerplates that come from this Boilerplate library app.
+Go to a workspace and select the documents module from the left hand side bar. Then click on the plus sign to create a new document. A panel appears that allows you to give a name and description to your new document and to select a boilerplate as a starting point for your text. These are the boilerplates that come from this Boilerplate library app.

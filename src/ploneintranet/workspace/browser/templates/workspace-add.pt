@@ -16,10 +16,10 @@
         <div class="panel-body" tal:define="templates view/templates">
           <fieldset class="vertical">
             <label>
-              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" />
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" i18n:attributes="placeholder" />
             </label>
             <label>
-              <textarea placeholder="Workspace description" rows="6" name="description"></textarea>
+              <textarea placeholder="Workspace description" rows="6" name="description" i18n:attributes="placeholder"></textarea>
             </label>
             <label>
               <select name="portal_type">
@@ -29,7 +29,7 @@
             </label>
 
             <label class="pat-select">
-              Division 
+            <span tal:omit-tag="" i18n:translate="">Division</span>
               <select name="division">
                 <!-- For now we want to enforce at least one -->
                 <!--option value="">None</option-->
@@ -56,7 +56,7 @@
                 </fieldset>
               </label>
             </fieldset>
-          
+
             <fieldset class="pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
               <fieldset class="pat-checklist radio pat-depends" data-pat-depends="condition: portal_type=ploneintranet.workspace.workspacefolder">
                 <label><input type="radio" value="1" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Locked down, secret workspace</span></label>

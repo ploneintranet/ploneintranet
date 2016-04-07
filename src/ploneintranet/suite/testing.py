@@ -95,6 +95,11 @@ class PloneIntranetSuiteSolr(PloneIntranetSearchSolrLayer,
     NOTE we don't support solr rollbacks so use solr read-only for now
     - which is why we don't purge after every test
     - we only purge when tearing down the layer
+
+    Because this results in the absence of test isolation in solr, be
+    very careful when adding solr based robot tests. All those tests
+    should be strictly readonly, or you risk the write of one test
+    causing a fail in an unrelated test, via solr pollution.
     """
 
     defaultBases = (
@@ -109,11 +114,14 @@ class PloneIntranetSuiteSolr(PloneIntranetSearchSolrLayer,
         # then load the testcontent
         PloneIntranetSuite.setUpZope(self, app, configurationContext)
 
-    # setUpPloneSite is identical in both superclasses
+    def setUpPloneSite(self, portal):
+        self.purge_solr()
+        PloneIntranetSuite.setUpPloneSite(self, portal)
 
     def tearDownPloneSite(self, portal):
         # also uninstalls the suite
-        PloneIntranetSearchSolrLayer.tearDownPloneSite(self, portal)
+        PloneIntranetSuite.tearDownPloneSite(self, portal)
+        self.purge_solr()
 
     def testTearDown(self):
         # Skip purging after every test
@@ -134,6 +142,12 @@ PLONEINTRANET_SUITE_FUNCTIONAL = FunctionalTesting(
 # breaks on premature z2 teardown.
 # So now running all robot tests on solr enabled stack.
 # NB: solr is not actually used outside search and library.
+
+PLONEINTRANET_SUITE_ROBOT = FunctionalTesting(
+    bases=(PLONEINTRANET_SUITE,
+           AUTOLOGIN_LIBRARY_FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PLONEINTRANET_SUITE_ROBOT")
 
 PLONEINTRANET_SUITE_SOLR = PloneIntranetSuiteSolr()
 

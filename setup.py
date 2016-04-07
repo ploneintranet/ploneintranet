@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0b1'
+version = '1.1.0a1.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -72,6 +72,7 @@ setup(name='ploneintranet',
           'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
+          'collective.monkeypatcher',
       ],
       extras_require={
           'test': [
@@ -114,8 +115,7 @@ setup(name='ploneintranet',
               'plone.principalsource',
           ],
           'docconv': [
-              'slc.docconv',
-              'plone.async',
+              'collective.documentviewer',
               'BeautifulSoup',
           ],
           'pagerank': [

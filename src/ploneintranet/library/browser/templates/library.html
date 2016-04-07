@@ -45,11 +45,11 @@
                  tal:condition="view/groupby_menu_enabled">
 	    <select name="groupby">
 	      <option value="section"
-                      tal:attributes="selected python:view.selected('groupby')">
+                      tal:attributes="selected python:view.selected('groupby')" i18n:translate="">
 		Group by section
 	      </option>
 	      <option value="tag"
-                      tal:attributes="selected python:view.selected('tag')">
+                      tal:attributes="selected python:view.selected('tag')" i18n:translate="">
 		Group by tag
 	      </option>
 	    </select>
@@ -61,7 +61,9 @@
                    tal:condition="view/can_add"
                    tal:attributes="href string:${context/absolute_url}/@@switch_theme"
                    class="icon create"
-                   title="Create a new page or section">Create page or section</a>
+                   title="Create a new page or section"
+                   i18n:attributes="title"
+                   i18n:translate="">Create a new page or section</a>
 	</div>
 
 	<!-- Search is out of scope? -->

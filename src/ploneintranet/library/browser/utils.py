@@ -17,8 +17,12 @@ types_to_show = folderish + pageish
 
 
 def sections_of(context):
-    path = '/'.join(context.getPhysicalPath())
-    results = query(path=path, portal_types=types_to_show)
+    path_elements = context.getPhysicalPath()
+    path = '/'.join(path_elements)
+    path_depth = len(path_elements) + 1
+    results = query(
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     struct = []
     for item in results:
         if item.portal_type in hidden:
@@ -46,8 +50,12 @@ def sections_of(context):
 def children_of(context):
     if context.portal_type not in folderish:
         return []
-    path = '/'.join(context.getPhysicalPath())
-    results = query(path=path, portal_types=types_to_show)
+    path_elements = context.getPhysicalPath()
+    path = '/'.join(path_elements)
+    path_depth = len(path_elements) + 1
+    results = query(
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     content = []
     for item in results:
         if item.portal_type in hidden:
@@ -68,7 +76,7 @@ def children_of(context):
     return content
 
 
-def query(path=None, tags=[], portal_types=None,
+def query(path=None, path_depth=None, tags=[], portal_types=None,
           facet_by=None, sort_by=None,
           debug=False):
     """Helper method for Solr power search:
@@ -81,6 +89,8 @@ def query(path=None, tags=[], portal_types=None,
     lucene_query = Q()
     if path:
         lucene_query &= Q(path_parents=path)
+    if path_depth:
+        lucene_query &= Q(path_depth=path_depth)
     for tag in tags:
         lucene_query &= Q(tags=safe_unicode(tag))
     if portal_types:

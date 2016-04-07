@@ -1,11 +1,8 @@
 <tal:statusmsg tal:repeat="message view/messages">
 
     <article tal:attributes="id message/id">
-        <p class="pat-notification" data-pat-notification="type: banner"
-           tal:attributes="id string:${message/id}-body;
-                           data-pat-notification string:${attrs/data-pat-notification};;
-                           class: ${message/type}"
-           tal:content="message/message | nothing" i18n:translate="">This is a status message</p>
+        <p class="pat-notification" data-pat-notification="type: banner; class: ${message/type}; close-text: ${view/closetext}"
+           id="${message/id}-body" tal:content="message/message | nothing" i18n:translate="">This is a status message</p>
     </article>
 
 </tal:statusmsg>

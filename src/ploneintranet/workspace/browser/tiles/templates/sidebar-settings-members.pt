@@ -113,30 +113,6 @@
             </div>
           </div>
 
-          <!-- XXX This is legacy and copied over from the original workspace implementation. It needs to be hooked in somewhere else. Just showing now because we have it :) -->
-          <tal:admin condition="view/can_manage_workspace">
-            <hr />
-            <h2 i18n:translate="">Advanced</h2>
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@invite?diazo.off=1"
-                 class="pat-modal" i18n:translate="">
-                Invite users to this workspace (via email)
-              </a>
-            </p>
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@transfer?diazo.off=1"
-                 class="pat-modal" i18n:translate="">
-                Transfer members to another workspace.
-              </a>
-            </p>
-            <p>
-              <a tal:attributes="href string:${context/absolute_url}/@@sharing?diazo.off=1" i18n:translate="">
-                Advanced permissions
-              </a>
-            </p>
-          </tal:admin>
-
-
         </div>
       </div>
     </div>

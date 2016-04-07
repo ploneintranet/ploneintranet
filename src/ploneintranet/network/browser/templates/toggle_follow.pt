@@ -3,7 +3,8 @@
                        is_followed view/is_followed;
                        verb view/verb;
                        unique_id view/unique_id;
-                       datapatinject python:'source: fieldset;; target: #functions-{0} fieldset'.format(unique_id)">
+                       datapatinject python:'source: fieldset;; target: #functions-{0} fieldset'.format(unique_id)"
+                       i18n:domain="ploneintranet">
 
   <form id="functions-123456"
         action="@@toggle_follow"
@@ -16,7 +17,7 @@
         <button tal:condition="python:view.verb == 'Follow'"
             class="icon-eye ${python:is_followed and 'active' or ''}"
             title="${view/msg_title_follow}"
-            ><tal:block i18n:translate="label_btn_follow_user"><strong>Follow</strong> ${context/fullname}</tal:block>
+            ><strong i18n:translate="label_btn_follow_user">Follow <span tal:replace="context/fullname" i18n:name="username">someuser</span></strong>
         </button>
         <button tal:condition="python:view.verb == 'Unfollow'"
             class="icon-eye ${python:is_followed and 'active' or ''}"

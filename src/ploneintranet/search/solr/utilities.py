@@ -4,6 +4,7 @@ import urlparse
 
 from Acquisition import aq_base
 from plone import api
+from scorched.exc import SolrError
 from scorched.search import LuceneQuery
 from zope.component import getUtility
 from zope.interface import implementer
@@ -229,7 +230,11 @@ class SiteSearch(base.SiteSearch):
     def execute(self, query, secure=True, **kw):
         if secure:
             query = self._apply_security(query)
-        response = query.execute()
+        try:
+            response = query.execute()
+        except SolrError, exc:
+            raise SolrError("{} on query: {}".format(
+                            exc.message, query.debug().options()))
         if kw.get('debug'):
             # you will have to reformat path_parents for solr console queries
             # path_parents:\\/Plone\\/foo -> path_parents:"/Plone/foo"

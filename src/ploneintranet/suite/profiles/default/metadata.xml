@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0005</version>
+  <version>0006</version>
   <dependencies>
     <dependency>profile-collective.externaleditor:default</dependency>
+    <dependency>profile-ploneintranet.async:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>

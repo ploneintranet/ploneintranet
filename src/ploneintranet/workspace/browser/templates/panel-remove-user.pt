@@ -20,8 +20,8 @@
 
             <div class="panel-body">
                 <article>
-                    <p i18n:translate="">
-                        You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)
+                    <p i18n:translate="alert_remove_users_from_workspace">
+                        You've selected the following <strong i18n:name="num_users" tal:content="num_users">1</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)
                     </p>
                 </article>
 

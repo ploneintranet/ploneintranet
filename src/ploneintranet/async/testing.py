@@ -50,8 +50,8 @@ class CeleryLayer(Layer):
                     i += 1
                     time.sleep(1)
         if not self._celery_running():
-            raise EnvironmentError(
-                'Celery could not be started (is Redis running?)')
+            # Do not raise. Let test_dispatch figure out what is wrong.
+            print('Celery could not be started (is Redis running?)')
 
     def tearDown(self):
         """Stop celery but only if we started it"""
@@ -60,13 +60,17 @@ class CeleryLayer(Layer):
         super(CeleryLayer, self).tearDown()
 
     def _celery_worker(self):
-        command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'worker']
+        # allow root worker for gitlab-ci, only impacts tests run as root
+        # does not run as root unless the tests are also run as root
+        command = ['%s/celery' % _BUILDOUT_BIN_DIR,
+                   '-A', self.tasks, 'worker']
         self.worker = subprocess.Popen(
             command,
             close_fds=True,
             cwd=_BUILDOUT_BIN_DIR,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
+            env={'C_FORCE_ROOT': 'true'}
         )
         print('Celery worker (PID:{0.pid})'.format(self.worker))
 
@@ -106,11 +110,14 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         # Load ZCML
         import ploneintranet.async
         self.loadZCML(package=ploneintranet.async)
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'ploneintranet.async:default')
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""
