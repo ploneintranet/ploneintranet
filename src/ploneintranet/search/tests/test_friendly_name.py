@@ -4,7 +4,7 @@ from plone.namedfile import NamedBlobFile
 from zope.component import queryMultiAdapter
 import transaction
 
-from .. import testing
+from ploneintranet.search import testing
 
 
 class TestFriendlyName(testing.IntegrationTestCase):

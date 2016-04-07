@@ -10,8 +10,10 @@ from plone.app import testing
 from plone.namedfile import NamedBlobFile
 from zope.interface.verify import verifyObject
 
-from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
-from ..testing import login_session, TEST_USER_1_NAME
+from ploneintranet.search.interfaces import (ISiteSearch,
+                                             ISearchResponse,
+                                             ISearchResult)
+from ploneintranet.search.testing import login_session, TEST_USER_1_NAME
 
 
 class SiteSearchContentsTestMixin(object):

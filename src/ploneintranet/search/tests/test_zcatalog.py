@@ -2,9 +2,9 @@
 import unittest
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 
-from . import base as base_tests
-from .. import testing
-from ..base import FEATURE_NOT_IMPLEMENTED
+from ploneintranet.search.tests import base as base_tests
+from ploneintranet.search import testing
+from ploneintranet.search.base import FEATURE_NOT_IMPLEMENTED
 import ploneintranet.search
 
 
