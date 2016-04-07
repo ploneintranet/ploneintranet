@@ -6,18 +6,18 @@ from zope.interface.verify import verifyObject
 
 from ploneintranet.search.tests import base as base_tests
 from ploneintranet.search.interfaces import ISearchResponse
-from .. import testing
+from ploneintranet.search.solr import testing
 
 
 class TestConnectionConfig(unittest.TestCase):
     """Unittests for ZCML directive."""
 
     def _make_utility(self, *args, **kw):
-        from ..utilities import ConnectionConfig
+        from ploneintranet.search.solr.utilities import ConnectionConfig
         return ConnectionConfig(*args, **kw)
 
     def test_interface_compliance(self):
-        from ..interfaces import IConnectionConfig
+        from ploneintranet.search.solr.interfaces import IConnectionConfig
         obj = self._make_utility('localhost', '1111', '/solr', 'core1')
         verifyObject(IConnectionConfig, obj)
 
@@ -36,7 +36,7 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
     layer = testing.INTEGRATION_TESTING
 
     def _make_utility(self, *args, **kw):
-        from ..utilities import SiteSearch
+        from ploneintranet.search.solr.utilities import SiteSearch
         return SiteSearch()
 
     def _record_debug_info(self, response):
@@ -44,7 +44,7 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
 
     def setUp(self):
         super(TestSiteSearch, self).setUp()
-        from ..interfaces import IMaintenance
+        from ploneintranet.search.solr.interfaces import IMaintenance
         getUtility(IMaintenance).warmup_spellchcker()
 
     def test_query_with_complex_filters(self):
@@ -103,7 +103,7 @@ class TestSiteSearchPermssions(base_tests.SiteSearchPermissionTestsMixin,
     layer = testing.INTEGRATION_TESTING
 
     def _make_utility(self, *args, **kw):
-        from ..utilities import SiteSearch
+        from ploneintranet.search.solr.utilities import SiteSearch
         return SiteSearch()
 
     def _record_debug_info(self, response):
