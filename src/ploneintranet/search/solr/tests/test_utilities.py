@@ -4,7 +4,7 @@ import transaction
 from zope.component import getUtility
 from zope.interface.verify import verifyObject
 
-from ploneintranet.search.tests import base as base_tests
+from ploneintranet.search.tests import test_base
 from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.solr import testing
 
@@ -26,11 +26,11 @@ class TestConnectionConfig(unittest.TestCase):
         self.assertEqual(obj.url, 'http://localhost:1111/solr/core1')
 
 
-class TestSiteSearch(base_tests.SiteSearchTestsMixin,
+class TestSolrSearch(test_base.SearchTestsBase,
                      testing.IntegrationTestCase):
     """Integration tests for SiteSearch utility.
 
-    The actual tests are in ploneintranet.search.tests.base.
+    The actual tests are defined in test_base.
     """
 
     layer = testing.INTEGRATION_TESTING
@@ -43,7 +43,7 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
         self._last_response = response.context.original_json
 
     def setUp(self):
-        super(TestSiteSearch, self).setUp()
+        super(TestSolrSearch, self).setUp()
         from ploneintranet.search.solr.interfaces import IMaintenance
         getUtility(IMaintenance).warmup_spellchcker()
 
@@ -96,9 +96,12 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
         self.assertEqual(response.total_results, 0)
 
 
-class TestSiteSearchPermssions(base_tests.SiteSearchPermissionTestsMixin,
-                               testing.IntegrationTestCase):
-    """Integration tests for SiteSearch permissions."""
+class TestSolrPermssions(test_base.PermissionTestsBase,
+                         testing.IntegrationTestCase):
+    """Integration tests for SiteSearch permissions.
+
+    The actual tests are defined in test_base.
+    """
 
     layer = testing.INTEGRATION_TESTING
 

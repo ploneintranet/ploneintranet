@@ -2,7 +2,7 @@
 import unittest
 from plone.app.testing import IntegrationTesting, PloneSandboxLayer
 
-from ploneintranet.search.tests import base as base_tests
+from ploneintranet.search.tests import test_base
 from ploneintranet.search import testing
 from ploneintranet.search.base import FEATURE_NOT_IMPLEMENTED
 import ploneintranet.search
@@ -24,8 +24,8 @@ INTEGRATION_TESTING = IntegrationTesting(
 )
 
 
-class TestSiteSearch(base_tests.SiteSearchTestsMixin,
-                     testing.IntegrationTestCase):
+class TestCatalogSearch(test_base.SearchTestsBase,
+                        testing.IntegrationTestCase):
     """Test the example zcatalog search API implementation
 
     The actual tests are in ploneintranet.search.tests.base.
@@ -34,7 +34,7 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
     layer = INTEGRATION_TESTING
 
     def _make_utility(self):
-        from ..zcatalog import SiteSearch
+        from ploneintranet.search.zcatalog import SiteSearch
         return SiteSearch()
 
     def test_spell_corrected_search(self):
@@ -47,9 +47,12 @@ class TestSiteSearch(base_tests.SiteSearchTestsMixin,
         self.fail()
 
 
-class TestSiteSearchPermissions(base_tests.SiteSearchPermissionTestsMixin,
-                                testing.IntegrationTestCase):
-    """Test the example zcatalog search API w/permissions."""
+class TestCatalogPermissions(test_base.PermissionTestsBase,
+                             testing.IntegrationTestCase):
+    """Test the example zcatalog search API w/permissions.
+
+    The actual tests are defined in test_base.
+    """
 
     layer = INTEGRATION_TESTING
 

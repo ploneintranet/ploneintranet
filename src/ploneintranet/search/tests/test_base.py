@@ -2,6 +2,7 @@ import abc
 import collections
 import datetime
 from functools import partial
+import unittest
 
 import transaction
 from pkg_resources import resource_filename
@@ -16,7 +17,7 @@ from ploneintranet.search.interfaces import (ISiteSearch,
 from ploneintranet.search.testing import login_session, TEST_USER_1_NAME
 
 
-class SiteSearchContentsTestMixin(object):
+class ContentSetup(object):
     """Defines a comment set of content re-usable accross different  cases."""
 
     @abc.abstractmethod
@@ -35,7 +36,7 @@ class SiteSearchContentsTestMixin(object):
         return response
 
     def setUp(self):
-        super(SiteSearchContentsTestMixin, self).setUp()
+        super(ContentSetup, self).setUp()
         container = self.layer['portal']
 
         # Some other layer leaves behind a 'robot-test-folder'
@@ -101,7 +102,7 @@ class SiteSearchContentsTestMixin(object):
         transaction.commit()
 
 
-class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
+class SearchTestsBase(ContentSetup):
     """Defines the base test case for the search utility.
 
     Each implementor of ISiteSite should implement at least one
@@ -399,7 +400,7 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(results[0].title, u'Test File 1')
 
 
-class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
+class PermissionTestsBase(ContentSetup):
     """Permissions tests.
 
     These tests should ensure combinations of users and roles can
@@ -407,7 +408,7 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
     """
 
     def setUp(self):
-        super(SiteSearchPermissionTestsMixin, self).setUp()
+        super(PermissionTestsBase, self).setUp()
         testing.login(self.layer['portal'], testing.TEST_USER_NAME)
 
     def test_documents_owned_by_other_not_visible_same_role(self):
@@ -473,3 +474,16 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
         with login_session(TEST_USER_1_NAME):
             response = self._query(util, 'hopefully')
             self.assertEqual(response.total_results, 1)
+
+
+class TestNothing(unittest.TestCase):
+    """
+    The above tests are run from test_zcatalog and solr/tests/test_utilities.
+
+    To make this base module easily discoverable for developers it has been
+    renamed to test_base. Unittest then requires there to be a test.
+    """
+
+    def test_nothing(self):
+        """No-op test to satisfy unittest suite discovery"""
+        pass
