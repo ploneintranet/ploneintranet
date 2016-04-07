@@ -15,7 +15,7 @@ from zope.component import getUtility
 import pkg_resources
 import requests
 
-from .. import testing
+from ploneintranet.search import testing as base_testing
 
 try:
     # Skip all SOLR tests and layers if SOLR has not been activated
@@ -119,7 +119,8 @@ NamedBaseLayers = collections.namedtuple(
 class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
     """ Basic Plone layer with SOLR support """
 
-    defaultBases = NamedBaseLayers(testing.FIXTURE, SOLR_FIXTURE)
+    defaultBases = NamedBaseLayers(base_testing.FIXTURE,
+                                   SOLR_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
         super(PloneIntranetSearchSolrLayer, self).setUpZope(
@@ -147,7 +148,8 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
 class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
     """ Layer with SOLR support *and* example content """
 
-    defaultBases = (testing.FIXTURE, SOLR_FIXTURE,
+    defaultBases = (base_testing.FIXTURE,
+                    SOLR_FIXTURE,
                     PLONE_APP_CONTENTTYPES_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
@@ -199,10 +201,10 @@ ROBOT_TESTING = FunctionalTesting(
     bases=(TEST_CONTENT_FIXTURE,
            PLONE_ROBOT_TESTING,
            z2.ZSERVER_FIXTURE),
-    name="PloneIntranetSearchSolrLayer:")
+    name="PloneIntranetSearchSolrLayer:Robot")
 
 
-class IntegrationTestCase(testing.IntegrationTestCase):
+class IntegrationTestCase(base_testing.IntegrationTestCase):
 
     _last_response = NotImplemented
 
@@ -218,7 +220,7 @@ class IntegrationTestCase(testing.IntegrationTestCase):
         return super(IntegrationTestCase, self).failureException(msg)
 
 
-class FunctionalTestCase(testing.FunctionalTestCase):
+class FunctionalTestCase(base_testing.FunctionalTestCase):
 
     _last_response = NotImplemented
     layer = FUNCTIONAL_TESTING

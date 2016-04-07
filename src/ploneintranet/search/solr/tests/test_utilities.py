@@ -27,13 +27,11 @@ class TestConnectionConfig(unittest.TestCase):
 
 
 class TestSolrSearch(test_base.SearchTestsBase,
-                     testing.IntegrationTestCase):
+                     testing.FunctionalTestCase):
     """Integration tests for SiteSearch utility.
 
     The actual tests are defined in test_base.
     """
-
-    layer = testing.INTEGRATION_TESTING
 
     def _make_utility(self, *args, **kw):
         from ploneintranet.search.solr.utilities import SiteSearch
@@ -97,13 +95,11 @@ class TestSolrSearch(test_base.SearchTestsBase,
 
 
 class TestSolrPermssions(test_base.PermissionTestsBase,
-                         testing.IntegrationTestCase):
+                         testing.FunctionalTestCase):
     """Integration tests for SiteSearch permissions.
 
     The actual tests are defined in test_base.
     """
-
-    layer = testing.INTEGRATION_TESTING
 
     def _make_utility(self, *args, **kw):
         from ploneintranet.search.solr.utilities import SiteSearch

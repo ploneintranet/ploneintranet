@@ -1,6 +1,6 @@
 """Tests for the example search API"""
 import unittest
-from plone.app.testing import IntegrationTesting, PloneSandboxLayer
+from plone.app.testing import FunctionalTesting, PloneSandboxLayer
 
 from ploneintranet.search.tests import test_base
 from ploneintranet.search import testing
@@ -18,20 +18,20 @@ class ZCatalogLayer(PloneSandboxLayer):
         self.loadZCML(name='zcatalog.zcml', package=ploneintranet.search)
 
 
-INTEGRATION_TESTING = IntegrationTesting(
+ZCATALOG_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(ZCatalogLayer(),),
-    name='ZCatalogLayer:IntegrationTesting'
+    name='ZCatalogLayer:FunctionalTesting'
 )
 
 
 class TestCatalogSearch(test_base.SearchTestsBase,
-                        testing.IntegrationTestCase):
+                        testing.FunctionalTestCase):
     """Test the example zcatalog search API implementation
 
     The actual tests are in ploneintranet.search.tests.base.
     """
 
-    layer = INTEGRATION_TESTING
+    layer = ZCATALOG_FUNCTIONAL_TESTING
 
     def _make_utility(self):
         from ploneintranet.search.zcatalog import SiteSearch
@@ -48,14 +48,14 @@ class TestCatalogSearch(test_base.SearchTestsBase,
 
 
 class TestCatalogPermissions(test_base.PermissionTestsBase,
-                             testing.IntegrationTestCase):
+                             testing.FunctionalTestCase):
     """Test the example zcatalog search API w/permissions.
 
     The actual tests are defined in test_base.
     """
 
-    layer = INTEGRATION_TESTING
+    layer = ZCATALOG_FUNCTIONAL_TESTING
 
     def _make_utility(self):
-        from ..zcatalog import SiteSearch
+        from ploneintranet.search.zcatalog import SiteSearch
         return SiteSearch()
