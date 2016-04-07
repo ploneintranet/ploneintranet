@@ -14,8 +14,8 @@ from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
 from ..testing import login_session, TEST_USER_1_NAME
 
 
-class SiteSearchTestBaseMixin(object):
-    """Protocl for implementator to provide the object under test."""
+class SiteSearchContentsTestMixin(object):
+    """Defines a comment set of content re-usable accross different  cases."""
 
     @abc.abstractmethod
     def _make_utility(self, *args, **kw):
@@ -31,10 +31,6 @@ class SiteSearchTestBaseMixin(object):
         response = util.query(*args, **kw)
         self._record_debug_info(response)
         return response
-
-
-class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
-    """Defines a comment set of content re-usable accross different  cases."""
 
     def setUp(self):
         super(SiteSearchContentsTestMixin, self).setUp()
