@@ -46,12 +46,12 @@ class SiteSearchContentsTestMixin(object):
         self._setup_content(container)
 
     def _setup_content(self, container):
-        self.create_doc = partial(self._create_content,
-                                  type='Document',
-                                  container=container,
-                                  safe_id=False)
+        create_doc = partial(self._create_content,
+                             type='Document',
+                             container=container,
+                             safe_id=False)
 
-        self.doc1 = self.create_doc(
+        self.doc1 = create_doc(
             title=u'Test Doc 1',
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
@@ -59,7 +59,7 @@ class SiteSearchContentsTestMixin(object):
         )
         self.doc1.modification_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
-        self.doc2 = self.create_doc(
+        self.doc2 = create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
                          u'Please let some stuff be indexed. '),
@@ -67,7 +67,7 @@ class SiteSearchContentsTestMixin(object):
         )
         self.doc2.modification_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
 
-        self.doc3 = self.create_doc(
+        self.doc3 = create_doc(
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
@@ -76,21 +76,21 @@ class SiteSearchContentsTestMixin(object):
         )
         self.doc3.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc4 = self.create_doc(
+        self.doc4 = create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
         self.doc4.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc5 = self.create_doc(
+        self.doc5 = create_doc(
             title=u'Sorted and indexed.',
             description=u'Not relevant',
             subject=(u'solr', u'boost', u'values')
         )
         self.doc5.modification_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
 
-        self.doc6 = self.create_doc(
+        self.doc6 = create_doc(
             title=u'Another relevant title',
             description=u'Is Test Doc 2 Sorted and indexed?',
             subject=(u'abra', u'cad', u'abra')
