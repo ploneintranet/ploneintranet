@@ -24,22 +24,18 @@ INTEGRATION_TESTING = IntegrationTesting(
 )
 
 
-class IntegrationTestsMixin(object):
+class TestSiteSearch(base_tests.SiteSearchTestsMixin,
+                     testing.IntegrationTestCase):
+    """Test the example zcatalog search API implementation
+
+    The actual tests are in ploneintranet.search.tests.base.
+    """
 
     layer = INTEGRATION_TESTING
 
     def _make_utility(self):
         from ..zcatalog import SiteSearch
         return SiteSearch()
-
-
-class TestSiteSearch(IntegrationTestsMixin,
-                     base_tests.SiteSearchTestsMixin,
-                     testing.IntegrationTestCase):
-    """Test the example zcatalog search API implementation
-
-    The actual tests are in ploneintranet.search.tests.base.
-    """
 
     def test_spell_corrected_search(self):
         util = self._make_utility()
@@ -51,7 +47,12 @@ class TestSiteSearch(IntegrationTestsMixin,
         self.fail()
 
 
-class TestSiteSearchPermissions(IntegrationTestsMixin,
-                                base_tests.SiteSearchPermissionTestsMixin,
+class TestSiteSearchPermissions(base_tests.SiteSearchPermissionTestsMixin,
                                 testing.IntegrationTestCase):
     """Test the example zcatalog search API w/permissions."""
+
+    layer = INTEGRATION_TESTING
+
+    def _make_utility(self):
+        from ..zcatalog import SiteSearch
+        return SiteSearch()
