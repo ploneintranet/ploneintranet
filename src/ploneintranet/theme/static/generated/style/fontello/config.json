@@ -1235,6 +1235,26 @@
       "css": "updown-circle",
       "code": 59510,
       "src": "websymbols"
+    },
+    {
+      "uid": "8ce732688587909ad0a9d8323eaca8ad",
+      "css": "marquee",
+      "code": 59526,
+      "src": "fontelico"
+    },
+    {
+      "uid": "617e5e1efdc7d2f4a094e992a5bdf467",
+      "css": "division",
+      "code": 59527,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M875 0H625V125H812.5C847 125 875 153 875 187.5V375H1000V125C1000 56 944 0 875 0ZM0 125V375H125V187.5C125 153 153 125 187.5 125H375V0H125C56 0 0 56 0 125ZM125 812.5V625H0V875C0 944 56 1000 125 1000H375V875H187.5C153 875 125 847 125 812.5ZM875 812.5C875 847 847 875 812.5 875H625V1000H875C944 1000 1000 944 1000 875V625H875V812.5Z",
+        "width": 1000
+      },
+      "search": [
+        "division"
+      ]
     }
   ]
 }
