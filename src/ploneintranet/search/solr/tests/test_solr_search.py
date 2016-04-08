@@ -94,8 +94,8 @@ class TestSolrSearch(test_base.SearchTestsBase,
         self.assertEqual(response.total_results, 0)
 
 
-class TestSolrPermssions(test_base.PermissionTestsBase,
-                         testing.FunctionalTestCase):
+class TestSolrPermissions(test_base.PermissionTestsBase,
+                          testing.FunctionalTestCase):
     """Integration tests for SiteSearch permissions.
 
     The actual tests are defined in test_base.
