@@ -4,6 +4,8 @@ from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 
@@ -72,6 +74,7 @@ class PloneIntranetSuite(PloneSandboxLayer):
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownPloneSite(self, portal):
         self.applyProfile(portal, 'ploneintranet.suite:uninstall')

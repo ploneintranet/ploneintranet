@@ -3,7 +3,9 @@ from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
@@ -137,7 +139,8 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
         applyProfile(portal, 'ploneintranet.userprofile:default')
-
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 
