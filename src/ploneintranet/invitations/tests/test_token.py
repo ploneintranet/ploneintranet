@@ -1,14 +1,10 @@
-import unittest
 from datetime import datetime, timedelta
 
-from ploneintranet.invitations.testing import \
-    PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+from ploneintranet.invitations.testing import IntegrationTestCase
 from ploneintranet.invitations.token import Token
 
 
-class TestToken(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+class TestToken(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

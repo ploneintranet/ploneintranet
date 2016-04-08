@@ -1,17 +1,13 @@
-import unittest
 from zope.component import getUtility
 from zope.component import getMultiAdapter
 from zope.component import eventtesting
 from ploneintranet.invitations.events import ITokenAccepted
 from ploneintranet.invitations.interfaces import ITokenUtility
 
-from ploneintranet.invitations.testing import \
-    PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+from ploneintranet.invitations.testing import FunctionalTestCase
 
 
-class TestViews(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+class TestViews(FunctionalTestCase):
 
     def setUp(self):
         eventtesting.setUp()

@@ -2,8 +2,7 @@
 from datetime import datetime
 from plone.app.testing.helpers import login
 from plone.testing.z2 import Browser
-from ploneintranet.messaging.testing import \
-    PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
+from ploneintranet.messaging.testing import FunctionalTestCase
 
 import json
 import plone.api as api
@@ -13,9 +12,7 @@ import unittest
 now = datetime.now()
 
 
-class TestJsonView(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
+class TestJsonView(FunctionalTestCase):
 
     def setUp(self):
         self.app = self.layer['app']
@@ -43,9 +40,7 @@ class TestJsonView(unittest.TestCase):
         self.assertEqual(self.request.response.errmsg, 'Error Message')
 
 
-class TestAjaxViews(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
+class TestAjaxViews(FunctionalTestCase):
 
     def setUp(self):
         self.app = self.layer['app']
@@ -175,9 +170,7 @@ class TestAjaxViews(unittest.TestCase):
         self.assertEqual(len(self._conversations('testuser1')), 0)
 
 
-class TestYourMessagesView(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING
+class TestYourMessagesView(FunctionalTestCase):
 
     def setUp(self):
         self.app = self.layer['app']

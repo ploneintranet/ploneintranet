@@ -3,15 +3,11 @@ from plone.api.user import create as create_user
 from ploneintranet.notifications.channel import AllChannel
 from ploneintranet.notifications.interfaces import IMessageClassHandler
 from ploneintranet.notifications.message import Message
-from ploneintranet.notifications.testing import \
-    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+from ploneintranet.notifications.testing import FunctionalTestCase
 from zope.component import getAdapter
-import unittest2 as unittest
 
 
-class TestMessageLifecycle(unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+class TestMessageLifecycle(FunctionalTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

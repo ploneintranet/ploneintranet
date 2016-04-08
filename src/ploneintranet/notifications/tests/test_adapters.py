@@ -5,10 +5,7 @@ import transaction
 from plone import api
 from plone.app.testing.interfaces import TEST_USER_PASSWORD
 from plone.app.testing.interfaces import TEST_USER_ROLES
-from ploneintranet.notifications.testing import \
-    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
-from ploneintranet.notifications.testing import \
-    PLONEINTRANET_NOTIFICATIONS_FUNCTIONAL_TESTING
+from ploneintranet.notifications.testing import FunctionalTestCase
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.microblog.testing import tearDownContainer
 import unittest
@@ -43,9 +40,7 @@ class SetUpMixin(object):
             })  # randomly generated
 
 
-class TestAdapters(SetUpMixin, unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+class TestAdapters(SetUpMixin, FunctionalTestCase):
 
     # These tests are disabled for now, as the implementation
     # is incomplete and missing any security considerations
@@ -79,9 +74,7 @@ class TestAdapters(SetUpMixin, unittest.TestCase):
         )
 
 
-class TestStatusAdapters(SetUpMixin, unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_FUNCTIONAL_TESTING
+class TestStatusAdapters(SetUpMixin, FunctionalTestCase):
 
     def setUp(self):
         super(TestStatusAdapters, self).setUp()

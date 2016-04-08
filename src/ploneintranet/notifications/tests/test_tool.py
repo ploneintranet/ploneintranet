@@ -3,15 +3,11 @@
 from plone import api
 from ploneintranet.notifications.interfaces import INotificationsQueues
 from ploneintranet.notifications.interfaces import INotificationsTool
-from ploneintranet.notifications.testing import \
-    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+from ploneintranet.notifications.testing import IntegrationTestCase
 from zope.component import queryUtility
-import unittest2 as unittest
 
 
-class TestNetworkTool(unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+class TestNetworkTool(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

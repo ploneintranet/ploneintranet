@@ -2,16 +2,13 @@
 
 from ..channel import AllChannel
 from ..message import Message
-from ..testing import PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+from ..testing import FunctionalTestCase
 from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
-import unittest
 
 
-class TestAllChannel(unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+class TestAllChannel(FunctionalTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
