@@ -4,20 +4,20 @@ import transaction
 from zope.component import getUtility
 from zope.interface.verify import verifyObject
 
-from ploneintranet.search.tests import base as base_tests
+from ploneintranet.search.tests import test_base
 from ploneintranet.search.interfaces import ISearchResponse
-from .. import testing
+from ploneintranet.search.solr import testing
 
 
 class TestConnectionConfig(unittest.TestCase):
     """Unittests for ZCML directive."""
 
     def _make_utility(self, *args, **kw):
-        from ..utilities import ConnectionConfig
+        from ploneintranet.search.solr.solr_search import ConnectionConfig
         return ConnectionConfig(*args, **kw)
 
     def test_interface_compliance(self):
-        from ..interfaces import IConnectionConfig
+        from ploneintranet.search.solr.interfaces import IConnectionConfig
         obj = self._make_utility('localhost', '1111', '/solr', 'core1')
         verifyObject(IConnectionConfig, obj)
 
@@ -26,29 +26,23 @@ class TestConnectionConfig(unittest.TestCase):
         self.assertEqual(obj.url, 'http://localhost:1111/solr/core1')
 
 
-class IntegrationTestMixin(object):
+class TestSolrSearch(test_base.SearchTestsBase,
+                     testing.FunctionalTestCase):
+    """Integration tests for SiteSearch utility.
 
-    layer = testing.INTEGRATION_TESTING
+    The actual tests are defined in test_base.
+    """
 
     def _make_utility(self, *args, **kw):
-        from ..utilities import SiteSearch
+        from ploneintranet.search.solr.solr_search import SiteSearch
         return SiteSearch()
 
     def _record_debug_info(self, response):
         self._last_response = response.context.original_json
 
-
-class TestSiteSearch(IntegrationTestMixin,
-                     base_tests.SiteSearchTestsMixin,
-                     testing.IntegrationTestCase):
-    """Integration tests for SiteSearch utility.
-
-    The actual tests are in ploneintranet.search.tests.base.
-    """
-
     def setUp(self):
-        super(TestSiteSearch, self).setUp()
-        from ..interfaces import IMaintenance
+        super(TestSolrSearch, self).setUp()
+        from ploneintranet.search.solr.interfaces import IMaintenance
         getUtility(IMaintenance).warmup_spellchcker()
 
     def test_query_with_complex_filters(self):
@@ -100,7 +94,16 @@ class TestSiteSearch(IntegrationTestMixin,
         self.assertEqual(response.total_results, 0)
 
 
-class TestSiteSearchPermssions(IntegrationTestMixin,
-                               base_tests.SiteSearchPermissionTestsMixin,
-                               testing.IntegrationTestCase):
-    """Integration tests for SiteSearch permissions."""
+class TestSolrPermissions(test_base.PermissionTestsBase,
+                          testing.FunctionalTestCase):
+    """Integration tests for SiteSearch permissions.
+
+    The actual tests are defined in test_base.
+    """
+
+    def _make_utility(self, *args, **kw):
+        from ploneintranet.search.solr.solr_search import SiteSearch
+        return SiteSearch()
+
+    def _record_debug_info(self, response):
+        self._last_response = response.context.original_json

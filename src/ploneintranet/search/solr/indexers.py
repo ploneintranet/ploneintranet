@@ -16,7 +16,7 @@ import lxml.etree as etree
 import requests
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
-from .utilities import prepare_data
+from .solr_search import prepare_data
 
 
 logger = logging.getLogger(__name__)

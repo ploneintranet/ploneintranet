@@ -8,6 +8,7 @@ from ploneintranet.search.solr import testing
 class TestMaintenanceView(testing.FunctionalTestCase):
 
     def setUp(self):
+        super(TestMaintenanceView, self).setUp()
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])

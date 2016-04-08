@@ -11,7 +11,7 @@ from .interfaces import IConnection
 from .interfaces import IConnectionConfig
 from .interfaces import IQuery
 from .interfaces import IResponse
-from .search import Search
+from .solr_search import Search
 
 
 logger = logging.getLogger(__name__)

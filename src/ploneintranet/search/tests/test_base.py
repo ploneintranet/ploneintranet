@@ -2,6 +2,7 @@ import abc
 import collections
 import datetime
 from functools import partial
+import unittest
 
 import transaction
 from pkg_resources import resource_filename
@@ -10,12 +11,14 @@ from plone.app import testing
 from plone.namedfile import NamedBlobFile
 from zope.interface.verify import verifyObject
 
-from ..interfaces import ISiteSearch, ISearchResponse, ISearchResult
-from ..testing import login_session, TEST_USER_1_NAME
+from ploneintranet.search.interfaces import (ISiteSearch,
+                                             ISearchResponse,
+                                             ISearchResult)
+from ploneintranet.search.testing import login_session, TEST_USER_1_NAME
 
 
-class SiteSearchTestBaseMixin(object):
-    """Protocl for implementator to provide the object under test."""
+class ContentSetup(object):
+    """Defines a comment set of content re-usable accross different  cases."""
 
     @abc.abstractmethod
     def _make_utility(self, *args, **kw):
@@ -32,28 +35,18 @@ class SiteSearchTestBaseMixin(object):
         self._record_debug_info(response)
         return response
 
-
-class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
-    """Defines a comment set of content re-usable accross different  cases."""
-
     def setUp(self):
-        super(SiteSearchContentsTestMixin, self).setUp()
+        super(ContentSetup, self).setUp()
         container = self.layer['portal']
-
-        # Some other layer leaves behind a 'robot-test-folder'
-        # that screws up our isolation
-        if 'robot-test-folder' in container.objectIds():
-            api.content.delete(container['robot-test-folder'])
-
         self._setup_content(container)
 
     def _setup_content(self, container):
-        self.create_doc = partial(self._create_content,
-                                  type='Document',
-                                  container=container,
-                                  safe_id=False)
+        create_doc = partial(self._create_content,
+                             type='Document',
+                             container=container,
+                             safe_id=False)
 
-        self.doc1 = self.create_doc(
+        self.doc1 = create_doc(
             title=u'Test Doc 1',
             description=(u'This is a test document. '
                          u'Hopefully some stuff will be indexed.'),
@@ -61,7 +54,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc1.modification_date = datetime.datetime(2001, 9, 11, 0, 10, 1)
 
-        self.doc2 = self.create_doc(
+        self.doc2 = create_doc(
             title=u'Test Doc 2',
             description=(u'This is another test document. '
                          u'Please let some stuff be indexed. '),
@@ -69,7 +62,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc2.modification_date = datetime.datetime(2002, 9, 11, 0, 10, 1)
 
-        self.doc3 = self.create_doc(
+        self.doc3 = create_doc(
             title=u'Lucid Dreaming',
             description=(
                 u'An interesting prose by Richard Feynman '
@@ -78,21 +71,21 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         )
         self.doc3.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc4 = self.create_doc(
+        self.doc4 = create_doc(
             title=u'Weather in Wales',
             description=u'Its raining cats and dogs, usually.',
             subject=(u'trivia', u'boredom', u'british-hangups')
         )
         self.doc4.modification_date = datetime.datetime(2002, 9, 11, 1, 10, 1)
 
-        self.doc5 = self.create_doc(
+        self.doc5 = create_doc(
             title=u'Sorted and indexed.',
             description=u'Not relevant',
             subject=(u'solr', u'boost', u'values')
         )
         self.doc5.modification_date = datetime.datetime(1999, 01, 11, 2, 3, 8)
 
-        self.doc6 = self.create_doc(
+        self.doc6 = create_doc(
             title=u'Another relevant title',
             description=u'Is Test Doc 2 Sorted and indexed?',
             subject=(u'abra', u'cad', u'abra')
@@ -103,7 +96,7 @@ class SiteSearchContentsTestMixin(SiteSearchTestBaseMixin):
         transaction.commit()
 
 
-class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
+class SearchTestsBase(ContentSetup):
     """Defines the base test case for the search utility.
 
     Each implementor of ISiteSite should implement at least one
@@ -401,7 +394,7 @@ class SiteSearchTestsMixin(SiteSearchContentsTestMixin):
         self.assertEqual(results[0].title, u'Test File 1')
 
 
-class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
+class PermissionTestsBase(ContentSetup):
     """Permissions tests.
 
     These tests should ensure combinations of users and roles can
@@ -409,7 +402,7 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
     """
 
     def setUp(self):
-        super(SiteSearchPermissionTestsMixin, self).setUp()
+        super(PermissionTestsBase, self).setUp()
         testing.login(self.layer['portal'], testing.TEST_USER_NAME)
 
     def test_documents_owned_by_other_not_visible_same_role(self):
@@ -475,3 +468,18 @@ class SiteSearchPermissionTestsMixin(SiteSearchContentsTestMixin):
         with login_session(TEST_USER_1_NAME):
             response = self._query(util, 'hopefully')
             self.assertEqual(response.total_results, 1)
+
+
+class TestNothing(unittest.TestCase):
+    """
+    The above tests are run from:
+    ../tests/test_zcatalog
+    ../solr/tests/test_solr_search
+
+    To make this base module easily discoverable for developers it has been
+    renamed to test_base. Unittest then requires there to be a test.
+    """
+
+    def test_nothing(self):
+        """No-op test to satisfy unittest suite discovery"""
+        pass

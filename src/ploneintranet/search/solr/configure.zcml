@@ -29,9 +29,9 @@
            factory=".adapters.search_query" />
   <adapter factory=".adapters.SearchResponse" />
   <utility provides="..interfaces.ISiteSearch"
-           factory=".utilities.SiteSearch" />
+           factory=".solr_search.SiteSearch" />
   <utility provides=".interfaces.IMaintenance"
-           factory=".utilities.Maintenance"
+           factory=".solr_search.Maintenance"
            />
 
   <!-- Indexing -->
