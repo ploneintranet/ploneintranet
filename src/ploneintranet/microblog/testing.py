@@ -3,7 +3,9 @@ import Queue
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
 from plone.testing import Layer
 from plone.testing import z2
 from plone.testing import zca
@@ -50,6 +52,7 @@ class PloneIntranetMicroblog(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.microblog:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
 PLONEINTRANET_MICROBLOG_FIXTURE = PloneIntranetMicroblog()
 PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING = \
