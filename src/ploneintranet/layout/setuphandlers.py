@@ -13,7 +13,7 @@ def configureFrontPage(context):
     """ Delete the "Welcome to Plone" page and
         set the dashboard as default view
     """
-    site = context.getSite()
+    site = api.portal.get()
     if "front-page" in site.objectIds():
         site.manage_delObjects(['front-page'])
 
