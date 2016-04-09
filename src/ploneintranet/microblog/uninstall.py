@@ -8,8 +8,6 @@ log = logging.getLogger(__name__)
 
 
 def uninstall(context):
-    if context.readDataFile('ploneintranet.microblog_uninstall.txt') is None:
-        return
     portal = api.portal.get()
     _removePersistentUtility(portal)
 

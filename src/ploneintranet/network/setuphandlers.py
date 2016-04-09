@@ -9,9 +9,6 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
-    if context.readDataFile('ploneintranet.network_default.txt') is None:
-        return
-
     log.info('setupVarious')
 
     # Replace ALL IDublinCore behaviors with our own variant.
@@ -25,9 +22,6 @@ def setupVarious(context):
 
 
 def uninstall(context):
-    if context.readDataFile('ploneintranet.network_uninstall.txt') is None:
-        return
-
     log.info('uninstall')
     restore_all_behaviors()
 

@@ -17,10 +17,6 @@ def post_install(context):
     - setup the dynamic groups plugin
     - sets the addable types for the ploneintranet policy
     """
-    marker = 'ploneintranet.workspace_default.txt'
-    if context.readDataFile(marker) is None:
-        return
-
     portal = api.portal.get()
 
     if 'workspaces' not in portal:

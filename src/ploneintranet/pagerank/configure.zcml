@@ -6,7 +6,7 @@
     i18n_domain="ploneintranet.pagerank">
 
   <five:registerPackage package="." initialize=".initialize" />
-  
+
   <!-- <include package="ploneintranet.socialsuite"/> -->
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.activitystream"/>
@@ -26,15 +26,7 @@
       directory="profiles/testing"
       description="Integration testing setup for ploneintranet.pagerank"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.pagerank.setuphandlers.setup_testing"
       />
 
-  <genericsetup:importStep
-      name="ploneintranet.pagerank.setup_testing"
-      title="Testing setup handlers"
-      description=""
-      handler="ploneintranet.pagerank.setuphandlers.setup_testing" />
-
-
-  <!-- -*- extra stuff goes here -*- -->
-  
 </configure>

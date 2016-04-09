@@ -8,9 +8,6 @@ log = logging.getLogger(__name__)
 
 
 def uninstall(context):
-    if context.readDataFile(
-            'ploneintranet.notifications_uninstall.txt') is None:
-        return
     portal = api.portal.get()
     remove_persistent_utility(portal)
 

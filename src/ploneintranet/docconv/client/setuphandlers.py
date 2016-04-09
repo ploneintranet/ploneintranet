@@ -20,10 +20,6 @@ def configure(context):
     """
 
     """
-    if context.readDataFile('ploneintranet.docconv_default.txt') is None:
-        return
-    log.info("document conversion configuration")
-
     global_settings = GlobalSettings(getSite())
     global_settings.enable_indexation = False
     global_settings.auto_select_layout = False

@@ -6,9 +6,6 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
-    if context.readDataFile("ploneintranet.layout_default.txt") is None:
-        return
-
     configureFrontPage(context)
 
 
@@ -29,7 +26,5 @@ def configureFrontPage(context):
 
 
 def uninstall(context):
-    if context.readDataFile('ploneintranet.layout_uninstall.txt') is None:
-        return
     portal = api.portal.get()
     portal.setLayout('listing_view')

@@ -35,13 +35,9 @@ else:
 
 
 def default(context):
+    """Run when installing the default profile.
     """
-
-    """
-    if context.readDataFile('ploneintranet.suite_default.txt') is None:
-        return
     log.info("default setup")
-
     cleanup_default_content(context)
     commit()
 
@@ -60,8 +56,6 @@ def testing(context):
     We do not want to have users with global roles such as Editor or
     Contributor in out test setup.
     """
-    if context.readDataFile('ploneintranet.suite_testing.txt') is None:
-        return
     log.info("testcontent setup")
 
     log.info("create_users")
