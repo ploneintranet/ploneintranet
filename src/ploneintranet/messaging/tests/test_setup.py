@@ -2,11 +2,8 @@
 from Products.CMFPlone.interfaces import IResourceRegistry
 from plone import api
 from plone.registry.interfaces import IRegistry
-from ploneintranet.messaging.testing import \
-    PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+from ploneintranet.messaging.testing import IntegrationTestCase
 from zope.component import getUtility
-
-import unittest
 
 PROJECTNAME = 'ploneintranet.messaging'
 
@@ -21,9 +18,7 @@ CSS = [
 ]
 
 
-class InstallTestCase(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+class InstallTestCase(IntegrationTestCase):
 
     def setUp(self):
         self.app = self.layer['app']
@@ -55,9 +50,7 @@ class InstallTestCase(unittest.TestCase):
         self.assertIn('ploneintranet_messaging', self.portal)
 
 
-class UninstallTestCase(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+class UninstallTestCase(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

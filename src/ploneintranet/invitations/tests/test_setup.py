@@ -1,12 +1,8 @@
 from plone import api
-from ploneintranet.invitations.testing import \
-    PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
-import unittest
+from ploneintranet.invitations.testing import IntegrationTestCase
 
 
-class TestInstall(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+class TestInstall(IntegrationTestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -33,9 +29,7 @@ class TestInstall(unittest.TestCase):
             [i.id for i in portal_controlpanel.listActions()])
 
 
-class TestUninstall(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+class TestUninstall(IntegrationTestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""

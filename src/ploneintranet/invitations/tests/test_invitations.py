@@ -5,16 +5,12 @@ from plone import api
 from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
 from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
-from ploneintranet.invitations.testing import \
-    PLONEINTRANET_INVITATIONS_FUNCTIONAL_TESTING
+from ploneintranet.invitations.testing import FunctionalTestCase
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-import unittest
 
 
-class TestInviteUser(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_FUNCTIONAL_TESTING
+class TestInviteUser(FunctionalTestCase):
 
     def setUp(self):
         self.app = self.layer['app']
