@@ -57,11 +57,11 @@ def testing(context):
     Contributor in out test setup.
     """
     log.info("testcontent setup")
+    context = context._getImportContext(
+        'profile-ploneintranet.suite:testing')
 
     log.info("create_users")
-    import_context = context._getImportContext(
-        'profile-ploneintranet.suite:testing')
-    users = users_spec(import_context)
+    users = users_spec(context)
     create_users(context, users, 'avatars')
     commit()
 
@@ -87,7 +87,7 @@ def testing(context):
     commit()
 
     log.info("create microblog stream")
-    stream_json = os.path.join(import_context._profile_path, 'stream.json')
+    stream_json = os.path.join(context._profile_path, 'stream.json')
     with open(stream_json, 'rb') as stream_json_data:
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
