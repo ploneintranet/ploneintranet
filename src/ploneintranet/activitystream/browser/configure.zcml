@@ -35,7 +35,7 @@
         class=".statusupdate.StatusUpdateView"
         template="templates/post.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
-        permission="ploneintranet.microblog.AddStatusUpdate"        
+        permission="ploneintranet.microblog.AddStatusUpdate"
         />
-  
+
 </configure>
