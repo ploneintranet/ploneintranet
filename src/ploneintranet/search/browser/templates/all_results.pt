@@ -30,8 +30,7 @@
                Alternately, all possible document types and tags that are used system wide
                could be populated here, but that might generate a really long list. -->
           <p class="button-bar pat-depends"
-                  tal:condition="view/reset_filters_pat_condition"
-                  data-pat-depends="condition: friendly_type_name or tags; transition: slide">
+             data-pat-depends="condition: friendly_type_name or tags; transition: slide">
 
             <a class="pat-button icon-cancel-circle pat-inject"
                href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
