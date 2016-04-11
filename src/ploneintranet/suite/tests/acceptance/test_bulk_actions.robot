@@ -60,6 +60,19 @@ A member can only cut items they are allowed to delete
       and I choose to cut the items in the cart
      then I see a message that I cannot cut  "Terms and conditions"
 
+A member can paste items where they are allowed to add content
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to copy the items in the cart
+      and I see a message that files have been copied
+      and I see that the paste button is disabled
+      and I go to the Open Parliamentary Papers Guidance Workspace
+      and I toggle the bulk action controls
+      and I choose to paste the items in the cart
+      and I see a message that items have been pasted
+
 
 *** Keywords ***
 
@@ -73,12 +86,12 @@ I toggle the bulk action controls
 
 I can copy the Minutes word document
     I add an item to the cart  Minutes
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Copy']
+    I choose to copy the items in the cart
     Wait Until Page Contains  1 Files were copied to your cloud clipboard.
 
 I can paste the Minutes word document
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Paste']
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Paste']
+    I choose to paste the items in the cart
     Wait Until Page Contains  Item(s) pasted
 
 I can delete the Minutes word document
@@ -102,6 +115,12 @@ I choose to delete the items in the cart
 I choose to cut the items in the cart
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
 
+I choose to copy the items in the cart
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Copy']
+
+I choose to paste the items in the cart
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Paste']
+
 I confirm to delete the items
     Wait Until Page Contains  I am sure, delete now
     Click button  I am sure, delete now
@@ -113,6 +132,15 @@ I see a message that items have been deleted
     [arguments]  ${title}
     Wait Until Page Contains  The following items have been deleted: ${title}
 
+I see a message that files have been copied
+    Wait Until Page Contains  Files were copied to your cloud clipboard
+
+I see a message that items have been pasted
+    Wait Until Page Contains  Item(s) pasted
+
 I see a message that I cannot cut
     [arguments]  ${title}
     Wait Until Page Contains  The following items could not be cut: ${title}
+
+I see that the paste button is disabled
+    Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Paste'][@disabled='disabled']

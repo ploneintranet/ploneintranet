@@ -41,12 +41,14 @@
       for="*"
       permission="zope2.View"
       class=".cart_actions.cut.CutView"
+      template="cart_actions/templates/message.pt"
       name="cart-cut"/>
 
   <browser:page
       for="*"
       class=".cart_actions.copy.CopyView"
       permission="zope2.View"
+      template="cart_actions/templates/message.pt"
       name="cart-copy"/>
 
   <browser:page

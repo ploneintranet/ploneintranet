@@ -89,12 +89,33 @@
                   </div>
                   <div class="button-bar">
                     <span class="float-before button-cluster">
-                      <button type="button" class="pat-shopping-cart float-before icon-cut no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-cut?_authenticator=${token}#global-statusmessage; contents: keep; patterns: pat-inject" title="Cut"
-                            i18n:translate="" i18n:attributes="title">Cut</button>
-                      <button type="button" class="pat-shopping-cart float-before icon-copy no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-copy?_authenticator=${token}#global-statusmessage; contents: keep; patterns: pat-inject" title="Copy"
-                              i18n:translate="" i18n:attributes="title">Copy</button>
-                      <button type="button" class="pat-shopping-cart float-before icon-paste no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-paste?_authenticator=${token}; contents: keep; patterns: pat-inject" title="Paste"
-                            i18n:translate="" i18n:attributes="title">Paste</button>
+                      <button type="button"
+                              class="pat-shopping-cart float-before icon-cut no-label"
+                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-cut?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
+                              data-pat-shopping-cart-inject="source: #paste; target: #paste && source: #global-statusmessage; target: #global-statusmessage"
+                              title="Cut"
+                              i18n:translate=""
+                              i18n:attributes="title">Cut</button>
+                      <button type="button"
+                              class="pat-shopping-cart float-before icon-copy no-label"
+                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-copy?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
+                              data-pat-shopping-cart-inject="source: #paste; target: #paste && source: #global-statusmessage; target: #global-statusmessage"
+                              title="Copy"
+                              i18n:translate=""
+                              i18n:attributes="title">Copy</button>
+                      <span id="paste"
+                            tal:define="checkPermission nocall: context/portal_membership/checkPermission;
+                                        has_clipboard_items context/cb_dataValid;
+                                        can_paste python:checkPermission('Add portal content', context);
+                                        is_disabled python:not (can_paste and has_clipboard_items)"
+                            ><button type="submit"
+                                               class="float-before icon-paste no-label pat-inject"
+                                               formaction="${context/absolute_url}/@@cart-paste?_authenticator=${token}#items"
+                                               title="Paste"
+                                               data-pat-inject="source: #items; target: #items && source: #global-statusmessage; target: #global-statusmessage"
+                                               tal:attributes="disabled python:is_disabled and 'disabled'"
+                                               i18n:translate=""
+                                               i18n:attributes="title">Paste</button></span>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
                     <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal"
