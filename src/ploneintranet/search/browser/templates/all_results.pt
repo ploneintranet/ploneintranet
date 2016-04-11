@@ -34,12 +34,13 @@
                   data-pat-depends="condition: ${view/reset_filters_pat_condition|nothing}; transition: slide">
 
             <a class="pat-button icon-cancel-circle pat-inject"
+               href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
                data-pat-inject="source: #results; target: #results"
-               href="/search-results.html?lemma=min">Reset
-               filters</a>
+               i18n:translate=""
+               >Reset filters</a>
           </p>
-          <fieldset class="pat-checklist pat-bar-toggles document-types">
-
+          <fieldset class="pat-checklist pat-bar-toggles document-types"
+                    tal:condition="view/type_facets">
             <legend>Document types</legend>
             <!-- Only list content types in this list that are relevant for this search result. -->
             <tal:for repeat="type view/type_facets">
@@ -71,7 +72,8 @@
                      i18n:attributes="placeholder label_created_before;" />
             </label>
           </fieldset>
-          <fieldset class="pat-checklist pat-bar-toggles tags">
+          <fieldset class="pat-checklist pat-bar-toggles tags"
+                    tal:condition="view/tag_facets">
             <legend>Tags</legend>
             <!-- Only list tags in this list that are relevant for this search
                  result. Tags are ordered by occurance count. Should there be no
