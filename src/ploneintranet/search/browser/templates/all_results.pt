@@ -124,7 +124,7 @@
             <dt class="title type-${result/portal_type}">
               <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}">
                 ${result/title}
-                <strong class="icon-${result/review_state} workspace-state ${result/review_state}">${result/review_state}</strong>
+                <!--strong class="icon-${result/review_state} workspace-state ${result/review_state}">${result/review_state}</strong-->
               </a>
             </dt>
             <dd class="description type-${result/portal_type}">
