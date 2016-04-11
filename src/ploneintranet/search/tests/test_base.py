@@ -141,6 +141,29 @@ class SearchTestsBase(ContentSetup):
         for search_result in search_response:
             verifyObject(ISearchResult, search_result)
 
+    def test_results_to_object(self):
+        ''' All the results have a getObject() method that returns
+        a Plone object
+        '''
+        util = self._make_utility()
+        verifyObject(ISiteSearch, util)
+        search_response = util.query(
+            'Test',
+        )
+        [x.getObject() for x in search_response]
+
+    def test_results_review_state(self):
+        ''' All the results have a review_state property
+        method that returns a string (it may be empty)
+        '''
+        util = self._make_utility()
+        verifyObject(ISiteSearch, util)
+        search_response = util.query(
+            'Test',
+        )
+        for x in search_response:
+            self.assertIsInstance(x.review_state, basestring)
+
     def test_query_phrase_only(self):
         util = self._make_utility()
         response = self._query(util, 'hopefully')
@@ -424,6 +447,16 @@ class SearchTestsBase(ContentSetup):
         response = query(u'Relevant')
         expected_order = [self.doc5.Title(), self.doc6.Title()]
         actual_order = [result.title for result in response]
+
+    def test_search_result_sorting(self):
+        util = self._make_utility()
+        query = util.query
+        ascending = query('indexed', sort='modified')
+        ascending_titles = [result.title for result in ascending]
+        descending = query('indexed', sort='-modified')
+        descending_titles = [result.title for result in descending]
+        descending_titles.reverse()
+        self.assertEqual(ascending_titles, descending_titles)
 
     def test_file_content_matches(self):
         path = resource_filename('ploneintranet.search.tests',

@@ -7,17 +7,17 @@
       metal:use-macro="context/search_template/macros/search"
       i18n:domain="ploneintranet">
   <metal:results fill-slot="results">
-  <div class="container results">
+  <div class="container results pat-subform pat-autosubmit pat-inject"
+       data-pat-inject="source: #listing; target: #listing;">
     <div class="row"
          tal:define="
             search_response view/search_response;
             display_previews view/show_previews;
             results_sorting python:view.request.get('results-sorting', 'relevancy');
+            portal_url portal_url|here/portal_url;
           ">
       <div class="three columns filters">
-        <fieldset class="pat-subform pat-autosubmit pat-inject"
-                  data-pat-inject="source: #listing; target: #listing;"
-                  tal:condition="search_response">
+        <fieldset tal:condition="search_response">
           <!-- The hidden input below always gets the same value as the
                searchbox it self in each result. This is needed to make sure
                when the filters are changed within their subform, they are posted to the server
@@ -101,6 +101,34 @@
             <span i18n:translate=""
                   tal:omit-tag="">items matched your search.</span>
           </tal:if>
+          <a href="#view-options"
+             class="bare pat-select float-after pat-tooltip"
+             data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr">Options</a>
+          <div id="view-options" hidden="">
+            <fieldset class="vertical pat-inject"
+                      data-pat-inject="source: #listing; target: #listing;">
+              <input type="hidden" name="options.submitted" value="1" />
+              <input type="hidden" name="display-previews-old" value="on" tal:condition="display_previews" />
+              <fieldset class="pat-checklist">
+                <label>
+                <input type="checkbox"
+                       name="display-previews"
+                       checked="${python:display_previews and 'checked' or None}" />Display previews</label>
+              </fieldset>
+              <fieldset class="pat-checklist radio">
+                <label>
+                <input type="radio"
+                       name="results-sorting"
+                       checked="${python: results_sorting=='relevancy' and 'checked' or None}"
+                       value="relevancy" />Sort by relevancy</label>
+                <label>
+                <input type="radio"
+                       name="results-sorting"
+                       checked="${python: results_sorting=='date' and 'checked' or None}"
+                       value="date" />Sort by date</label>
+              </fieldset>
+            </fieldset>
+          </div>
         </p>
         <p class="did-you-mean"
            tal:define="corrected search_response/spell_corrected_search|nothing"
@@ -108,7 +136,7 @@
         <span i18n:translate=""
               tal:omit-tag="">Did you mean</span>
         <strong>
-          <a href="${here/portal_url}/@@search?SearchableText=${corrected}"
+          <a href="${portal_url}/@@search?SearchableText=${corrected}"
              tal:content="corrected"></a>
         </strong>?</p>
         <!-- The class 'previews-on' may be changed out with 'previews-off' depending on
@@ -119,47 +147,101 @@
             id="result-listing"
             data-search-string="${request/QUERY_STRING|nothing}">
           <!-- One hard coded example of an archived workspace as a search result: -->
-          <tal:result repeat="result search_response">
-            <dt class="title type-${result/portal_type}">
-              <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}">
-                ${result/title}
-                <!--strong class="icon-${result/review_state} workspace-state ${result/review_state}">${result/review_state}</strong-->
-              </a>
-            </dt>
-            <dd class="description type-${result/portal_type}">
-              <tal:preview tal:define="preview_class python: view.preview_class(result.portal_type);">
-
-                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                   class="preview ${preview_class}">
-                  <img src="${result/preview_image_url}"
-                       class="${python: preview_class == 'user' and 'pat-avatar' or ''}"
-                       alt=""
-                       tal:condition="result/preview_image_url" />
-                  <img src="++theme++ploneintranet.theme/generated/media/logo-pi.svg"
-                       tal:condition="not: result/preview_image_url" />
-                  <h4 class="name"
-                      tal:content="result/title"
-                      tal:condition="python: preview_class == 'user'" />
+          <tal:results repeat="result search_response">
+            <tal:result tal:define="
+                          type_class python:view.get_facet_type_class(result.friendly_type_name);
+                          result_url string:${result/url}${python:view.url_fragments.get(result.portal_type)};
+                          highlights result/highlighted_summary;
+                        ">
+              <dt class="title ${type_class}">
+                <a href="${result_url}">
+                  ${result/title}
+                  <!--strong class="icon-${result/review_state} workspace-state ${result/review_state}">${result/review_state}</strong-->
                 </a>
-              </tal:preview>
-              <tal:highlights condition="result/highlighted_summary">
+              </dt>
+              <dd class="description ${type_class}">
+                <tal:preview tal:condition="display_previews">
+                  <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
+                                        switch="preview_class">
 
-                <p class="fragment"
-                   tal:content="structure result/highlighted_summary">
-                   </p>
-              </tal:highlights>
-              <tal:nohighlights condition="not: result/highlighted_summary">
+                    <tal:preview_rich case="string:rich">
+                      <article class="preview rich pat-rich"
+                               tal:content="structure python:view.get_text_preview(result)" />
+                    </tal:preview_rich>
 
-                <p class="fragment"
-                   tal:condition="result/description"
-                   tal:content="result/description"></p>
-              </tal:nohighlights>
-              <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                 class="link"
-                 tal:content="python:view.friendly_path(result.url)">
-                 {{ result.url }}</a>
-            </dd>
-          </tal:result>
+                    <tal:preview_workspace case="string:workspace">
+                      <a href="${result_url}"
+                         class="preview workspace-preview
+                                workspace-state-${result/review_state}
+                                workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
+                         >
+                        <h4>${result/title}</h4>
+                      </a>
+                    </tal:preview_workspace>
+
+                    <tal:preview_rich case="string:event">
+                      <a href="${result_url}"
+                         class="preview ${preview_class}"
+                         >
+                        <time class="calendar-medium pat-auto-scale"
+                              tal:define="
+                                obj result/getObject;
+                                event_date obj/start|obj/due|nothing;
+                              ">
+                          <tal:has_time condition="event_date">
+                            <tal:calendar define="
+                                day python:event_date.strftime('%d');
+                                month python:event_date.strftime('%B');
+                                year python:event_date.strftime('%Y');
+                              ">
+                              <strong class="day">${day}</strong>
+                              <strong class="month char-count-${python:len(month)}">${month}</strong>
+                              <strong class="year">${year}</strong>
+                            </tal:calendar>
+                          </tal:has_time>
+                        </time>
+                      </a>
+                    </tal:preview_rich>
+
+                    <tal:preview_file tal:case="string:file">
+                      <a href="${result_url}"
+                         class="preview ${preview_class}"
+                         >
+                        <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
+                             alt="${result/title}"
+                         />
+                      </a>
+                    </tal:preview_file>
+
+                    <tal:preview_user tal:case="string:user">
+                      <a href="${result_url}"
+                         class="preview ${preview_class}"
+                         >
+                        <img src="${result/preview_image_url}"
+                             class="pat-avatar"
+                             alt="${result/title}"
+                             tal:condition="result/preview_image_url" />
+                        <h4 class="name">${result/title}</h4>
+                      </a>
+                    </tal:preview_user>
+                  </tal:preview_selector>
+                </tal:preview>
+
+                <tal:highlights condition="highlights">
+                  <p class="fragment"
+                     tal:content="structure highlights">
+                  </p>
+                </tal:highlights>
+                <tal:nohighlights condition="not:highlights">
+                  <p class="fragment"
+                     tal:condition="result/description"
+                     tal:content="result/description"></p>
+                </tal:nohighlights>
+                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                   class="link">${python:view.friendly_path(result.url)}</a>
+              </dd>
+            </tal:result>
+          </tal:results>
           <tal:autoload define="next_url python: search_response and view.next_page_url(search_response.total_results)">
 
             <dd id="load-more-results"

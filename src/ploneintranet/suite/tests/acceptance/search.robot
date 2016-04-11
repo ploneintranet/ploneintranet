@@ -63,3 +63,25 @@ Allan can search for user Guy Hackey
     I can search in the site header for Guy Hackey
     Then I can click the People tab
     And I can see the search result Guy Hackey
+
+Allan can search and toggle previews
+    Given I am logged in as the user allan_neece
+    I can search in the site header for Budget
+    And I can see the search result previews
+    Then I toggle the search previews
+    And I cannot see the search result previews
+    Then I toggle the search previews
+    And I can see the search result previews
+    Then I can filter content of type Image
+    And I can see the search result previews
+    I can unfilter content of type Image
+    And I can see the search result previews
+
+Allan can search and sort results
+    Given I am logged in as the user allan_neece
+    I can search in the site header for Proposal
+    Then I can see that the first search result is Draft
+    Then I can sort search results by date
+    Then I can see that the first search result is Budget
+    Then I can sort search results by relevancy
+    Then I can see that the first search result is Draft

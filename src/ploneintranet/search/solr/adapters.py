@@ -1,5 +1,6 @@
 import logging
 
+from plone import api
 from scorched import SolrInterface
 from zope.component import adapter
 from zope.interface import implementer
@@ -88,8 +89,14 @@ class SearchResult(base.SearchResult):
 
     @property
     def review_state(self):
-        return self.context['review_state']
+        return self.context.get('review_state', '')
 
     @property
     def path(self):
         return self.context['path_string']
+
+    def getObject(self):
+        return api.portal.get().restrictedTraverse(
+            self.path.encode('utf8'),
+            None
+        )

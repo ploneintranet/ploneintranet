@@ -945,19 +945,41 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
 I can filter content of type ${CONTENT_TYPE}
     Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
 
+I can unfilter content of type ${CONTENT_TYPE}
+    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
 
 I can set the date range to ${START_DATE} ${END_DATE}
-  Input Text  start_date  \
-  Focus  jquery=[name=start_date]
-  Press Key  jquery=[name=start_date]  ${START_DATE}
-  Input Text  end_date  \
-  Focus  jquery=[name=end_date]
-  Press Key  jquery=[name=end_date]  ${END_DATE}
-  Press Key  jquery=[name=end_date]  \n
-  Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]  10
-  Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]  10
+    Input Text  start_date  \
+    Focus  jquery=[name=start_date]
+    Press Key  jquery=[name=start_date]  ${START_DATE}
+    Input Text  end_date  \
+    Focus  jquery=[name=end_date]
+    Press Key  jquery=[name=end_date]  ${END_DATE}
+    Press Key  jquery=[name=end_date]  \n
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]  10
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]  10
+
+I toggle the search previews
+    Click Element  css=[href="#view-options"]
+    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Display previews")
+    Click Element  jquery=.tooltip-container label:contains("Display previews")
+
+I can see the search result previews
+    Wait Until Element is Visible  css=.previews-on .preview  10
+
+I cannot see the search result previews
+    Wait Until Element is Visible  css=.previews-off  10
+
+I can see that the first search result is ${RESULT_TITLE}
+    Wait Until Element is Visible  jquery=.search-results > :first-child > a:contains(${RESULT_TITLE})  10
+
+I can sort search results by ${FIELD}
+    Click Element  css=[href="#view-options"]
+    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Sort by ${FIELD}")  5
+    Click Element  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}

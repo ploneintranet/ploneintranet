@@ -3,6 +3,7 @@ from datetime import datetime
 from plone import api
 from plone import api as plone_api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.app.textfield.value import RichTextValue
 from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet.search.interfaces import ISiteSearch
@@ -22,6 +23,31 @@ class SearchResultsView(BrowserView):
         u'File': '#workspace-documents',
         u'todo': '#workspace-tickets',
         u'Event': '#workspace-events',
+    }
+
+    _default_preview_class = 'file'
+    _preview_class_mapping = {
+        'user': (
+            'ploneintranet.userprofile.userprofile',
+        ),
+        'rich': (
+            'Document',
+            'News Item',
+        ),
+        'event': (
+            'Event',
+        ),
+        'workspace': (
+            'ploneintranet.workspace.case',
+            'ploneintranet.workspace.workspacefolder',
+        ),
+        'file': (
+            'ploneintranet.userprofile.userprofilecontainer',
+            'todo',
+            'Folder',
+            'File',
+            'Image',
+        )
     }
 
     _facet_fallback_type_class = 'type-file'
@@ -81,12 +107,25 @@ class SearchResultsView(BrowserView):
         root_url = api.portal.get_navigation_root(self.context).absolute_url()
         return url.replace(root_url, '')
 
+    @forever.memoize
     def preview_class(self, portal_type):
-        """Get the matching preview class for a portal type"""
-        if portal_type == 'ploneintranet.userprofile.userprofile':
-            return 'user'
-        else:
-            return 'file'
+        """Get the matching preview class according to portal type.
+
+        If found on the mapping repurn the key, otherwise return a default.
+        """
+        for key in self._preview_class_mapping:
+            if portal_type in self._preview_class_mapping[key]:
+                return key
+        return self._default_preview_class
+
+    def get_text_preview(self, result):
+        ''' Given a search result return a preview
+        '''
+        obj = result.getObject()
+        text = getattr(obj, 'text', None)
+        if isinstance(text, RichTextValue):
+            return text.raw
+        return text or u''
 
     def search_options(self):
         """Get the currently options for refining results.
@@ -215,8 +254,6 @@ class SearchResultsView(BrowserView):
             return 'type-powerpoint'
         if 'workspace' in value:
             return 'type-workspace'
-        if 'superspace' in value:
-            return 'type-super-space'
         if 'link' in value:
             return 'type-link'
         if 'question' in value:
@@ -241,12 +278,16 @@ class SearchResultsView(BrowserView):
             return 'type-zip'
         if 'business card' in value:
             return 'type-business-card'
+        if 'person' in value:
+            return 'type-people'
+        if 'ploneintranet.userprofile.userprofilecontainer':
+            return 'super-space'
         # This is our fallback
         return self._facet_fallback_type_class
 
     @memoize
     def tag_facets(self):
-        ''' Return some tags #BBB
+        ''' Return the tags for faceting search results
         '''
         response = self.search_response()
         tags = response.facets.get('tags', [])
@@ -263,7 +304,7 @@ class SearchResultsView(BrowserView):
 
     @memoize
     def type_facets(self):
-        ''' Return some types #BBB
+        ''' Return the types for faceting search results
         '''
         response = self.search_response()
         types = response.facets.get('friendly_type_name', [])
@@ -287,9 +328,18 @@ class SearchResultsView(BrowserView):
          - by a preference in the user profile
 
         BBB: For the time being the preview is always displayed
-             if not explicitely declared otherwise
+             when we search.
+             When we filter it is controlled by
+             a checkbox in the search options
         '''
-        return self.request.get('display_previews') != 'off'
+        if self.is_filtering():
+            # When we are accessing the form through the options tooltip,
+            # we have the parameters submitted twice, resulting in a list
+            if isinstance(self.request.get('options.submitted'), list):
+                if self.request.get('display-previews-old'):
+                    return self.request.get('display-previews') == ['on', 'on']
+            return self.request.get('display-previews') == 'on'
+        return True
 
     def search_by_type(self, type_name):
         """
