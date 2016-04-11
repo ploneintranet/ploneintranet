@@ -50,7 +50,7 @@
                      type="checkbox"
                      value="${type/title}"
                       />${type/title}
-              <sup class="counter">${type/counter}</sup></label>
+              <!--sup class="counter">${type/counter}</sup--></label>
             </tal:for>
           </fieldset>
           <fieldset class="vertical">
