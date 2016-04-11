@@ -278,14 +278,6 @@ class SearchResultsView(BrowserView):
         types.sort(key=lambda t: (-t['counter'], t['title'].lower()))
         return types
 
-    def reset_filters_pat_condition(self):
-        ''' Merge with "or" all the ids of the type ad tag facets
-        '''
-        keys = []
-        keys.extend(item['id'] for item in self.tag_facets())
-        keys.extend(item['id'] for item in self.type_facets())
-        return ' or '.join(keys)
-
     def show_previews(self):
         ''' Check if we have to display previews.
 
