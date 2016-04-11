@@ -109,7 +109,7 @@ I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
 
 I can see details for ${NAME}
-    Element should contain  css=#person-timeline .sidebar .user-portrait h1  ${NAME}
+    Element should contain  css=#person-timeline .sidebar .user-info-header figcaption a  ${NAME}
 
 I can follow ${NAME}
     Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
@@ -134,7 +134,7 @@ I can change my name to ${NAME}
     Wait Until Page Contains Element  css=#user-edit-form
     Input Text  name=form.widgets.first_name  Mickey
     Click button  name=form.buttons.save
-    Page should contain Element  jquery=h1:contains("Mickey")
+    Page should contain Element  xpath=//figcaption//a[contains(text(), "Mickey")]
 
 I cannot edit personal details
     Click Element  link=Info
