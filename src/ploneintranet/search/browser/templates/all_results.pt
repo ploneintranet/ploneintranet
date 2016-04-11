@@ -172,7 +172,7 @@
                    cases. In non list cases, the link tag is replaced by the injection, but a link
                    tag may not be placed directly into a list tag. Therefor the DD is replaced
                    instead. In case of OL/UL an extra LI tag is added. -->
-              <a href="${request/getURL}#result-listing"
+              <a href="${next_url}#result-listing"
                  class="pat-inject infinite-scrolling-trigger"
                  data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
                  i18n:translate="">Loading more search
