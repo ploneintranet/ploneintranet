@@ -59,41 +59,46 @@ class TestUpload(IntegrationTestCase):
             id='test-empty',
         )
 
-    def test_get_thumbs_urls(self):
-        ''' Given an attachment we should have the urls to see its thumbnails
-        '''
-        upload_view = api.content.get_view(
+        self.upload_view = api.content.get_view(
             'upload-attachments',
             self.portal,
             self.request,
         )
-        # Test objects that have no preview
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.portal),
-            upload_view.fallback_thumbs_urls,
-        )
 
+    def test_get_thumbs_urls_pdf(self):
+        ''' Given an attachment we should have the urls to see its thumbnails
+        '''
         # Test objects that have a generated preview
         self.assertTrue(
-            '/test-file/small' in upload_view.get_thumbs_urls(self.pdf)[0]
+            '/test-file/small' in self.upload_view.get_thumbs_urls(self.pdf)[0]
         )
 
+    def test_get_thumbs_urls_image(self):
         # Test image previews
-        urls = upload_view.get_thumbs_urls(self.image)
+        urls = self.upload_view.get_thumbs_urls(self.image)
         self.assertTrue(len(urls) == 1)
         self.assertTrue('@@images' in urls[0])
 
+    def test_get_thumbs_urls_file(self):
         # Test a File instance that contains an image
-        urls = upload_view.get_thumbs_urls(self.fileimage)
+        urls = self.upload_view.get_thumbs_urls(self.fileimage)
         self.assertTrue(len(urls) == 1)
         self.assertTrue('test-image-file/small' in urls[0])
 
+    def test_get_thumbs_urls_empty(self):
         self.assertListEqual(
-            upload_view.get_thumbs_urls(self.empty),
-            upload_view.fallback_thumbs_urls
+            self.upload_view.get_thumbs_urls(self.empty),
+            self.upload_view.fallback_thumbs_urls
         )
 
-    def test_previews_url_traversable(self):
+    def test_get_thumbs_urls_portal(self):
+        # Test objects that have no preview
+        self.assertListEqual(
+            self.upload_view.get_thumbs_urls(self.portal),
+            self.upload_view.fallback_thumbs_urls,
+        )
+
+    def test_previews_url_traversable_pdf(self):
         ''' In the previous test we returned a URL similar to this:
          - http://nohost/plone/@@dvpdfview/1/f/1fe3402718445/normal/dump_1.gif
         in the case of a c.dv generated URL
