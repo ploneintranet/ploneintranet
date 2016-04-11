@@ -52,6 +52,10 @@ class TestDispatch(IntegrationTestCase):
 
 
 class TestPost(FunctionalTestCase):
+    """
+    Verify async roundtrip. You can test this interactively
+    at: http://localhost:8080/Plone/@@async-status
+    """
 
     def test_post(self):
         """Verify http post async task execution"""
