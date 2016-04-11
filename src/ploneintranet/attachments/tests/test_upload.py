@@ -69,8 +69,9 @@ class TestUpload(IntegrationTestCase):
         ''' Given an attachment we should have the urls to see its thumbnails
         '''
         # Test objects that have a generated preview
+        urls = self.upload_view.get_thumbs_urls(self.pdf)
         self.assertTrue(
-            '/test-file/small' in self.upload_view.get_thumbs_urls(self.pdf)[0]
+            '/test-file/small' in urls[0]
         )
 
     def test_get_thumbs_urls_image(self):
