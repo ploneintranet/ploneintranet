@@ -1,11 +1,57 @@
 Changelog
 =========
 
-1.1.0a1 (unreleased)
+1.1.0a2 (unreleased)
 --------------------
 
 - Nothing changed yet.
 
+
+1.1.0a1 (2016-04-12)
+--------------------
+
+* Merge pull request #39 from quaive/avatar-upload [Guido Stevens]
+* Merge pull request #36 from quaive/32-search-ui [Guido Stevens]
+* Merge pull request #52 from quaive/image-previews-class-fix [Guido Stevens]
+* implement Image previews class fix by @cornae in commit 0f31a22 [Alexander Pilz]
+* Fix issue with autoload [Alessandro Pisa]
+* remove leftover from previous implementation [Alessandro Pisa]
+* Comment out review_state badge, it has to be replaced with the archived one [Alessandro Pisa]
+* Comment out facetes numbers [Alessandro Pisa]
+* Fix reset button not showing [Alessandro Pisa]
+* Update user profile robot tests for the new design [Cillian de Róiste]
+* Do not diplay facets headers if facet category has no items [Alessandro Pisa]
+* Removed search options (postponed in #43) [Alessandro Pisa]
+* Update the search UI to match prototype [Alessandro Pisa]
+* Ignore virtualenv wheels [Alessandro Pisa]
+* Merge pull request #42 from quaive/41_tests-transaction-clean [Philip Bauer]
+* Missed a rename [Guido A.J. Stevens]
+* Move anything that smells like a functional test onto a functional layer. [Guido A.J. Stevens]
+* Merge pull request #38 from quaive/37-search-testfixture-cleanup [Philip Bauer]
+* fix original typo, also [Guido A.J. Stevens]
+* Update the theme [Cillian de Róiste]
+* Merge branch 'master' into avatar-upload [Cillian de Róiste]
+* Add robot tests for changing the user avatar [Cillian de Róiste]
+* test isolation workarounds should not be needed anymore [Guido A.J. Stevens]
+* Fold search.py into utilities.py and rename that to solr_search.py. [Guido A.J. Stevens]
+* Move nearly all tests to proper functional fixtures [Guido A.J. Stevens]
+* Rename search test classes and base module for readability. [Guido A.J. Stevens]
+* No need to monkey a class method on self [Guido A.J. Stevens]
+* also add the upload to the profile image pen [Cillian de Róiste]
+* Absolute imports tell us where we are [Guido A.J. Stevens]
+* What's the use of a superclass with only one subclass? [Guido A.J. Stevens]
+* remove zcatalog IntegrationTestMixin [Guido A.J. Stevens]
+* absolute import communicate where we are [Guido A.J. Stevens]
+* remove solr IntegrationTestMixin [Guido A.J. Stevens]
+* bump zc.buildout to get basic auth support [Guido A.J. Stevens]
+* Provide "nuke from high orbit" Makefile target: all-clean [Guido A.J. Stevens]
+* Back to development: 1.1.0a1 [Guido A.J. Stevens]
+* store the new avatar directly in the user profile. Do not save it using the changeMemberPortrait() method of the membership tool first. [Claudio Kirchhoff]
+* re-add import avatar view. [Claudio Kirchhoff]
+* remove unused commit [Claudio Kirchhoff]
+* Move and adapt code required to upload avatars from import-avatars view to personal_tools view. Pin version of plone.scale to 1.4.1 (fixes bug which breaks uploading avatars) [Claudio Kirchhoff]
+* missing new files [Alexander Pilz]
+* initial work to allow uploading avatar image [Alexander Pilz]
 
 1.1.0a0 (2016-04-06)
 --------------------
