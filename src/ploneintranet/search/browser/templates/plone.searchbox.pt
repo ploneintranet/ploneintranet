@@ -1,0 +1,10 @@
+<form action="${here/portal_url}/@@search" class="search" id="global-nav-search"
+      i18n:domain="ploneintranet">
+    <label>
+        <input class="search" name="SearchableText" placeholder="Search through content…" type="text"
+               i18n:attributes="placeholder label_search_placeholder">
+    </label>
+    <button name="submit" tabindex="-1" type="submit" value="submit"
+            i18n:translate="label_search_button"
+            >Search</button>
+</form>

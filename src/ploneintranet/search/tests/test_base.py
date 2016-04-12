@@ -111,6 +111,16 @@ class SearchTestsBase(ContentSetup):
         result = next(iter(response), None)
         self.assertIsNotNone(result)
 
+    def checkFacets(self, response, field, expected):
+        ''' Given a search response check that the
+        facets are generated as expected
+        '''
+        observed = sorted(
+            response.facets[field],
+            key=lambda x: (x['count'], x['name'])
+        )
+        self.assertListEqual(observed, expected)
+
     def test_response_iterable(self):
         util = self._make_utility()
         response = util.query('hopefully')
@@ -139,8 +149,16 @@ class SearchTestsBase(ContentSetup):
         self.assertIsNotNone(result)
         self.assertEqual(result.title, self.doc1.Title())
         self.assertEqual(result.url, self.doc1.absolute_url())
-        self.assertEqual(set(response.facets['friendly_type_name']), {'Page'})
-        self.assertEqual(set(response.facets['tags']), {u'test', u'my-tag'})
+        self.checkFacets(
+            response,
+            'friendly_type_name',
+            [{'name': u'Page', 'count': 1}]
+        )
+        self.checkFacets(
+            response,
+            'tags',
+            [{'name': u'my-tag', 'count': 1}, {'name': u'test', 'count': 1}]
+        )
 
     def test_query_partial_match(self):
         util = self._make_utility()
@@ -152,9 +170,20 @@ class SearchTestsBase(ContentSetup):
     def test_query_with_empty_filters(self):
         util = self._make_utility()
         response = util.query(u'stuff', filters={})
-        expected_facets = {u'test', u'my-tag', u'my-other-tag'}
-        self.assertSetEqual(response.facets['tags'], expected_facets)
-        self.assertSetEqual(response.facets['friendly_type_name'], {'Page'})
+        self.checkFacets(
+            response,
+            'tags',
+            [
+                {'count': 1, 'name': u'my-other-tag'},
+                {'count': 1, 'name': u'my-tag'},
+                {'count': 2, 'name': u'test'},
+            ]
+        )
+        self.checkFacets(
+            response,
+            'friendly_type_name',
+            [{'count': 2, 'name': 'Page'}]
+        )
 
     def test_query_with_empty_phrase(self):
         util = self._make_utility()
@@ -248,35 +277,62 @@ class SearchTestsBase(ContentSetup):
         util = self._make_utility()
         response = self._query(util, 'stuff')
         self.assertEqual(response.total_results, 2)
-        expected_facets = {u'test', u'my-tag', u'my-other-tag'}
-        self.assertEqual(set(response.facets['tags']), expected_facets)
+        self.checkFacets(
+            response,
+            'tags',
+            [
+                {'name': u'my-other-tag', 'count': 1},
+                {'name': u'my-tag', 'count': 1},
+                {'name': u'test', 'count': 2},
+            ],
+        )
         # Limit search by a tag from one of the docs//
         response = self._query(util, 'stuff',
                                filters={'tags': [u'my-other-tag']})
         self.assertEqual(response.total_results, 1)
-        expected_tags = {u'test', u'my-other-tag'}
-        self.assertEqual(set(response.facets['tags']), expected_tags)
+        self.checkFacets(
+            response,
+            'tags',
+            [
+                {'name': u'my-other-tag', 'count': 1},
+                {'name': u'test', 'count': 1},
+            ],
+        )
 
     def test_query_friendly_type_facet(self):
         util = self._make_utility()
         response = self._query(util, 'hopefully')
         self.assertEqual(response.total_results, 1)
-        expected_ft_facets = {'Page'}
-        actual_ft_facets = set(response.facets['friendly_type_name'])
-        self.assertEqual(actual_ft_facets, expected_ft_facets)
+        self.checkFacets(
+            response,
+            'friendly_type_name',
+            [{'count': 1, 'name': u'Page'}],
+        )
         response = self._query(util, 'stuff')
         self.assertEqual(response.total_results, 2)
-        expected_ft_facets = {'Page'}
-        actual_ft_facets = set(response.facets['friendly_type_name'])
-        self.assertSetEqual(actual_ft_facets, expected_ft_facets)
+        self.checkFacets(
+            response,
+            'friendly_type_name',
+            [{'count': 2, 'name': u'Page'}],
+        )
 
     def test_batching_returns_all_tags(self):
+        ''' Check that we are collecting the right tags
+        and that they are presented correctly for faceting
+        '''
         util = self._make_utility()
         response = self._query(util, u'stuff', step=1)
         self.assertEqual(response.total_results, 2)
         self.assertEqual(len(list(response)), 1)
-        expected_tags = {u'test', u'my-tag', u'my-other-tag'}
-        self.assertEqual(set(response.facets['tags']), expected_tags)
+        self.checkFacets(
+            response,
+            'tags',
+            [
+                {'count': 1, 'name': u'my-other-tag'},
+                {'count': 1, 'name': u'my-tag'},
+                {'count': 2, 'name': u'test'},
+            ],
+        )
 
     def test_delete_content(self):
         util = self._make_utility()

@@ -1,16 +1,15 @@
+# -*- encoding: utf-8 -*-
+from datetime import datetime
 from plone import api
+from plone import api as plone_api
+from plone.i18n.normalizer.interfaces import IIDNormalizer
+from plone.memoize import forever
+from plone.memoize.view import memoize
+from ploneintranet.search.interfaces import ISiteSearch
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
-from ZTUtils import make_query
 from zope.component import getUtility
-
-from datetime import datetime
-from datetime import timedelta
-from ..interfaces import ISiteSearch
-
-from plone import api as plone_api
-
-RESULTS_PER_PAGE = 10
+from ZTUtils import make_query
 
 
 class SearchResultsView(BrowserView):
@@ -25,29 +24,20 @@ class SearchResultsView(BrowserView):
         u'Event': '#workspace-events',
     }
 
-    def _daterange_from_string(self, range_name, now=None):
-        """
-        Convert from range strings used in the template
-        to actual datetimes
-        """
-        if now is None:
-            now = datetime.now()
-        start_of_today = now.replace(hour=0, minute=0, second=0)
-        start_date = None
-        end_date = None
-        if range_name == 'today':
-            start_date = start_of_today
-            end_date = now
-        elif range_name == 'last-week':
-            start_date = start_of_today - timedelta(days=7)
-            end_date = now
-        elif range_name == 'last-month':
-            start_date = start_of_today - timedelta(days=28)
-            end_date = now
-        elif range_name == 'before-last-month':
-            start_date = datetime.min
-            end_date = start_of_today - timedelta(days=28)
-        return start_date, end_date
+    _facet_fallback_type_class = 'type-file'
+    _batch_size = 10
+
+    def _extract_date(self, field):
+        ''' Convert the string passed by pat-date-picker
+        in to a datetime object
+        '''
+        try:
+            return datetime.strptime(
+                self.request.form.get(field, ''),
+                '%Y-%m-%d'
+            )
+        except ValueError:
+            return
 
     def page_number(self):
         """Get current page number from the request"""
@@ -57,10 +47,17 @@ class SearchResultsView(BrowserView):
             page = 1
         return page
 
+    def get_start(self):
+        """
+        Fills the start parameter of the search query,
+        i.e. the first element of the batch
+        """
+        return (self.page_number() - 1) * self._batch_size
+
     def next_page_number(self, total_results):
         """Get page number for next page of search results"""
         page = self.page_number()
-        if page * RESULTS_PER_PAGE < total_results:
+        if page * self._batch_size < total_results:
             return page + 1
         else:
             return None
@@ -107,45 +104,192 @@ class SearchResultsView(BrowserView):
             options.remove('friendly_type_name')
         return options
 
-    def search_response(self):
+    @memoize
+    def get_keywords(self):
+        ''' Return the keywords we are searching
+
+        The keyword can be the one from SearchableText (direct search)
+        or from SearchableText_filtered
+        (in case of a search refinement through pat-subform)
+        '''
+        keywords = (
+            self.request.form.get('SearchableText')
+            or self.request.form.get('SearchableText_filtered')
+        )
+        # Sanitize keywords to be unicode
+        if isinstance(keywords, str):
+            keywords = keywords.decode('utf8')
+        elif isinstance(keywords, list):
+            keywords = [
+                keyword.decode('utf8') for keyword in keywords if keyword
+            ]
+        return keywords
+
+    def is_searching(self):
+        ''' Check if the user is searching,
+        i.e. we have something to query either on
+        SearchableText_filtered or in SearchableText
+        '''
+        return bool(self.get_keywords())
+
+    def is_filtering(self):
+        ''' Check if the user is filtering,
+        i.e. we have something in SearchableText_filtered
+        '''
+        return bool(self.request.get('SearchableText_filtered'))
+
+    def get_filters(self):
+        ''' Return the filters for this search
+        '''
         form = self.request.form
-        filters = {}
-        start_date = None
-        end_date = None
+        filters = {
+            'tags': form.get('tags', []),
+            'friendly_type_name': form.get('friendly_type_name', [])
+        }
 
+        if not self.is_filtering():
+            return filters
+
+        # If we are here it means that the filters were changed,
+        # so we refine an existing search
         supported_filters = plone_api.portal.get_registry_record(
-            'ploneintranet.search.filter_fields')
+            'ploneintranet.search.filter_fields'
+        )
+        for key in supported_filters:
+            value = form.get(key)
+            if value:
+                filters[key] = safe_unicode(value)
+        return filters
 
-        if form.get('SearchableText'):
-            # This means that the main search form was submitted,
-            # so we start a new keyword-only search
-            keywords = form.get('SearchableText')
-        elif form.get('SearchableText_filtered'):
-            # This means that the filters were changed, so
-            # we refine an existing search
-            keywords = form.get('SearchableText_filtered')
-            for filt in supported_filters:
-                if form.get(filt):
-                    filters[filt] = safe_unicode(form.get(filt))
-            if form.get('created'):
-                start_date, end_date = self._daterange_from_string(
-                    form.get('created')
-                )
-        else:
+    def get_sorting(self):
+        ''' Get the requested sorting method
+
+        Supported methods:
+         - relevancy (default, returns None)
+         - reverse creation date (returns '-created')
+        '''
+        # Get sorting method
+        if self.request.get('results-sorting') == 'date':
+            return '-created'
+
+    @memoize
+    def search_response(self):
+        ''' Parse the parameters from the request
+        and query the ISiteSearch utility
+        '''
+        if not self.is_searching():
             return []
-
-        start = (self.page_number() - 1) * RESULTS_PER_PAGE
-
         search_util = getUtility(ISiteSearch)
         response = search_util.query(
-            keywords.decode('utf-8'),
-            filters=filters,
-            start_date=start_date,
-            end_date=end_date,
-            start=start,
-            step=RESULTS_PER_PAGE,
+            self.get_keywords(),
+            filters=self.get_filters(),
+            start_date=self._extract_date('start_date'),
+            end_date=self._extract_date('end_date'),
+            start=self.get_start(),
+            step=self._batch_size,
+            sort=self.get_sorting(),
         )
         return response
+
+    @forever.memoize
+    def get_facet_type_class(self, value):
+        """ Take the friendly type name (e.g. OpenOffice Write Document)
+        and return a class for displaying the correct icon
+        """
+        value = value.lower()
+        if 'word' in value:
+            return 'type-word'
+        if 'excel' in value:
+            return 'type-excel'
+        if 'pdf' in value:
+            return 'type-pdf'
+        if 'page' in value:
+            return 'type-rich'
+        if 'news' in value:
+            return 'type-news'
+        if 'event' in value:
+            return 'type-event'
+        if 'image' in value:
+            return 'type-image'
+        if 'presentation' in value:
+            return 'type-powerpoint'
+        if 'workspace' in value:
+            return 'type-workspace'
+        if 'superspace' in value:
+            return 'type-super-space'
+        if 'link' in value:
+            return 'type-link'
+        if 'question' in value:
+            return 'type-question'
+        if 'audio' in value:
+            return 'type-audio'
+        if 'video' in value:
+            return 'type-video'
+        if 'contract' in value:
+            return 'type-contract'
+        if 'odt' in value:
+            return 'type-odt'
+        if 'openoffice' in value:
+            return 'type-odt'
+        if 'octet' in value:
+            return 'type-octet'
+        if 'postscript' in value:
+            return 'type-postscript'
+        if 'plain' in value:
+            return 'type-plain-text'
+        if 'archive' in value:
+            return 'type-zip'
+        if 'business card' in value:
+            return 'type-business-card'
+        # This is our fallback
+        return self._facet_fallback_type_class
+
+    @memoize
+    def tag_facets(self):
+        ''' Return some tags #BBB
+        '''
+        response = self.search_response()
+        tags = response.facets.get('tags', [])
+        tags = [
+            {
+                'id': getUtility(IIDNormalizer).normalize(t['name']),
+                'title': t['name'],
+                'counter': t['count'],
+            }
+            for t in tags
+        ]
+        tags.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        return tags
+
+    @memoize
+    def type_facets(self):
+        ''' Return some types #BBB
+        '''
+        response = self.search_response()
+        types = response.facets.get('friendly_type_name', [])
+        types = [
+            {
+                'id': self.get_facet_type_class(t['name']),
+                'title': t['name'],
+                'counter': t['count'],
+            }
+            for t in types
+        ]
+        types.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        return types
+
+    def show_previews(self):
+        ''' Check if we have to display previews.
+
+        According to the prototype this is controlled:
+         - by the state of the checkbox 'display-previews'
+           that appears in the options tooltip.
+         - by a preference in the user profile
+
+        BBB: For the time being the preview is always displayed
+             if not explicitely declared otherwise
+        '''
+        return self.request.get('display_previews') != 'off'
 
     def search_by_type(self, type_name):
         """
