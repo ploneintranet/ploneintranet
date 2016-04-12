@@ -252,8 +252,10 @@ class WorkspaceFolder(Container):
         for user_id in assigned_users:
             user = api.user.get(user_id)
             if user:
-                prefill[user_id] = (user.getProperty('fullname') or
-                    user.getId() or user_id)
+                prefill[user_id] = (
+                    user.getProperty('fullname') or
+                    user.getId() or user_id
+                )
         if prefill:
             return dumps(prefill)
         else:
@@ -273,13 +275,17 @@ class WorkspaceFolder(Container):
         for assignee_id in assigned_users:
             user = api.user.get(assignee_id)
             if user:
-                prefill[assignee_id] = (user.getProperty('fullname') or
-                    user.getId() or assignee_id)
+                prefill[assignee_id] = (
+                    user.getProperty('fullname') or
+                    user.getId() or assignee_id
+                )
             else:
                 group = acl_users.getGroupById(assignee_id)
                 if group:
-                    prefill[assignee_id] = (group.getProperty('title') or
-                        group.getId() or assignee_id)
+                    prefill[assignee_id] = (
+                        group.getProperty('title') or
+                        group.getId() or assignee_id
+                    )
         if prefill:
             return dumps(prefill)
         else:
