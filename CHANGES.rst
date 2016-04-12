@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a1 (unreleased)
+1.1.0a1 (2016-04-12)
 --------------------
 
 * Merge pull request #39 from quaive/avatar-upload [Guido Stevens]
