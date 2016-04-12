@@ -69,6 +69,14 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      name="personal-menu.html"
+      for="*"
+      permission="zope.Public"
+      template="templates/personal-menu.pt"
+      class=".personal_tools.PersonalTools"
+      layer="..interfaces.IPloneintranetLayoutLayer"
+      />
 
   <plone:tile
       name="tasks.tile"

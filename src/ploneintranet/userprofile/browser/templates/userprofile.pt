@@ -14,16 +14,33 @@
                            followers view/followers;
 			   num_followers python: len(followers);
 			   ">
-            <aside>
-                <figure class="user-portrait">
-                    <img class="pat-avatar"
-        			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
-        			 src="{{ page.image_url }}"
-                     alt="Image of {{ page.title }}"
-                     i18n:attributes="alt" />
-                    <figcaption class="status-message">
-			<h1 tal:content="context/fullname" />
-                        <span tal:content="context/job_title|nothing" />
+            <aside class="four columns portlets sidebar">
+                <figure class="user-info-header">
+                    <span class="pat-gallery">
+                        <a href="" 
+                           tal:attributes="href string:${context/absolute_url}/@@avatar_profile.jpg" 
+                           class="pat-avatar pat-gallery user-info-avatar">
+                            <img 
+                			 tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
+                			 src="{{ page.image_url }}"
+                             alt="Image of {{ page.title }}"
+                             i18n:attributes="alt" />
+                        </a>
+                    </span>
+                    <form action="${here/absolute_url}/personal-menu.html" id="change-personal-image"
+                          method="post"
+                          enctype="multipart/form-data"
+                          data-pat-inject="source: .pat-notification::element; target: #global-header::after"
+                          class="pat-inject pat-autosubmit">
+                        <label class="edit icon-pencil iconified">
+                            <input type="file" name="portrait" accept="image/*;capture=camera"> <button type="submit" i18n:translate="">Update avatar</button>
+                            <input type="hidden" name="submit" value="submit">
+                        </label>
+                    </form>
+                    <figcaption>
+            			<a href="" tal:attributes="href string:${context/absolute_url}; title string:Visit the profile of ${context/fullname}">
+                            <span tal:replace="context/fullname" />
+                        </a>
                     </figcaption>
         	</figure>
 

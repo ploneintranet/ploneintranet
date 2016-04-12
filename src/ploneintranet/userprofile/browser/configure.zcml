@@ -58,7 +58,7 @@
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
-  
+
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="import-users"
@@ -82,7 +82,7 @@
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
-  
+
   <browser:page
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="sync"

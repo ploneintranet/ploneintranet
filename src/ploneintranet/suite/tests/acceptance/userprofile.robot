@@ -7,6 +7,8 @@ Resource  ../lib/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
 Library  DebugLibrary
 
+Variables  variables.py
+
 Test Setup  Prepare test browser
 Test Teardown  Close all browsers
 
@@ -72,6 +74,17 @@ Dollie cannot change Guy's details
     And I can view the profile for user guy_hackey
     Then I cannot edit personal details
 
+Dollie can change her avatar from the menu
+    Given I am logged in as the user dollie_nocera
+    And I can open the personal tools menu
+    Then I can upload a new avatar from the menu
+
+# This doesn't work because the input form element isn't visible
+# Dollie can change her avatar from her profile page
+#     Given I am logged in as the user dollie_nocera
+#     And I can view the profile for user dollie_nocera
+#     Then I can upload a new avatar from my profile
+
 *** Keywords ***
 
 I can open the personal tools menu
@@ -96,7 +109,7 @@ I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
 
 I can see details for ${NAME}
-    Element should contain  css=#person-timeline .sidebar .user-portrait h1  ${NAME}
+    Element should contain  css=#person-timeline .sidebar .user-info-header figcaption a  ${NAME}
 
 I can follow ${NAME}
     Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
@@ -121,8 +134,20 @@ I can change my name to ${NAME}
     Wait Until Page Contains Element  css=#user-edit-form
     Input Text  name=form.widgets.first_name  Mickey
     Click button  name=form.buttons.save
-    Page should contain Element  jquery=h1:contains("Mickey")
+    Page should contain Element  xpath=//figcaption//a[contains(text(), "Mickey")]
 
 I cannot edit personal details
     Click Element  link=Info
     Page Should Contain Element  css=dt.icon-user
+
+I can upload a new avatar from the menu
+    Choose File  xpath=(//input[@name='portrait'])[2]  ${UPLOADS}/new-profile.jpg
+    Wait until page contains   Personal image updated
+
+# This doesn't work because the input form element isn't visible
+# It is possible to click on the label to get the file dialog, but that doesn't work for
+# the Choose File keyword
+# I can upload a new avatar from my profile
+#     Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
+#     Submit form  css=#change-personal-image
+#     Wait until page contains   Personal image updated
