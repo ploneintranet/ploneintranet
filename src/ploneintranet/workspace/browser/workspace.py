@@ -160,7 +160,7 @@ class AllGroupsJSONView(BrowserView):
         return dumps(group_details)
 
 
-class AllUserAndGroupsJSONView(BrowserView):
+class AllUsersAndGroupsJSONView(BrowserView):
     def __call__(self):
         q = self.request.get('q', '').lower()
         acl_users = api.portal.get_tool('acl_users')
