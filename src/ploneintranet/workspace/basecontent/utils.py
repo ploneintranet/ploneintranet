@@ -1,6 +1,7 @@
 from Products.CMFPlone.utils import safe_unicode
-from plone.dexterity.utils import getAdditionalSchemata
+from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import getAdditionalSchemata
 from plone.z3cform.z2 import processInputs
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
@@ -12,6 +13,7 @@ from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
 
+import json
 import logging
 
 log = logging.getLogger(__name__)
