@@ -1,3 +1,4 @@
+prune buildout.d
 graft docs
 prune docs/doctrees
 prune docs/html
@@ -12,3 +13,7 @@ global-exclude *~
 global-exclude *.gitignore
 include *.rst
 include LATEST
+exclude .dockerignore
+exclude .gitlab-ci.yml
+exclude Dockerfile
+exclude Makefile
