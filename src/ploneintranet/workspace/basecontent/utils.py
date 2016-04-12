@@ -111,7 +111,7 @@ def dexterity_update(obj, request=None):
                 dm.set(value)
                 modified = True
 
-    return dict(modified), errors
+    return modified, errors
 
 
 def get_selection_classes(context, field, default=None):

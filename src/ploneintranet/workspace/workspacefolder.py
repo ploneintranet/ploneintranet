@@ -285,10 +285,6 @@ class WorkspaceFolder(Container):
         else:
             return ''
 
-    def belongs_to(self, name):
-        """ checks if this case belongs to a certain division """
-        return belongs_to(self, name)
-
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):
     """
