@@ -62,6 +62,8 @@ class SiteSearch(base.SiteSearch):
         return dict(query, batch_start=start, batch_step=step)
 
     def execute(self, query, secure=True, **kw):
+        ''' The sort parameter
+        '''
         start = query.pop('batch_start', 0)
         step = query.pop('batch_step', 100)
         catalog = api.portal.get_tool(name='portal_catalog')
@@ -69,6 +71,17 @@ class SiteSearch(base.SiteSearch):
             search = catalog.searchResults
         else:
             search = catalog.unrestrictedSearchResults
+        sort = kw.get('sort')
+        if sort and isinstance(sort, basestring):
+            # valid sort values:
+            #  - 'created': sort results ascending by creation date
+            #  - '-created': sort results descending by creation date
+            if sort.startswith('-'):
+                query['sort_order'] = 'descending'
+                query['sort_on'] = sort[1:]
+            else:
+                query['sort_on'] = sort
+
         brains = search(query)
         return Batch(brains, step, start)
 
@@ -126,6 +139,9 @@ class SearchResult(base.SearchResult):
     """Build a Search result from a ZCatalog brain
     and an ISearchResponse
     """
+
+    def getObject(self):
+        return self.context.getObject()
 
     @property
     def path(self):
