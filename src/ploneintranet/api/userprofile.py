@@ -22,7 +22,7 @@ def get_users(**kwargs):
     try:
         mtool = plone_api.portal.get_tool('membrane_tool')
     except InvalidParameterError:
-        return None
+        return []
     portal_type = 'ploneintranet.userprofile.userprofile',
     search_results = mtool.searchResults(portal_type=portal_type,
                                          **kwargs)

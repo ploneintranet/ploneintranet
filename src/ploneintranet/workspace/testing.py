@@ -10,6 +10,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
+from ploneintranet.testing import PLONEINTRANET_FIXTURE
 from zope.configuration import xmlconfig
 
 import ploneintranet.workspace
@@ -19,13 +20,15 @@ import ploneintranet.invitations
 import ploneintranet.layout
 import ploneintranet.network
 import ploneintranet.theme
+import ploneintranet.userprofile
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
-        PLONE_APP_TILES_FIXTURE
+        PLONE_APP_TILES_FIXTURE,
+        PLONEINTRANET_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
@@ -107,14 +110,22 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             context=configurationContext
         )
 
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.userprofile,
+            context=configurationContext
+        )
+
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
+        z2.installProduct(app, 'Products.membrane')
 
     def tearDownZope(self, app):
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
+        z2.uninstallProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.workspace:default')
@@ -125,6 +136,8 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.docconv.client:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
+        applyProfile(portal, 'ploneintranet.userprofile:default')
+
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 
