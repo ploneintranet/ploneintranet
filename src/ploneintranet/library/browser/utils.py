@@ -91,6 +91,7 @@ def query(path=None, path_depth=None, tags=[], portal_types=None,
         lucene_query &= Q(path_parents=path)
     if path_depth:
         lucene_query &= Q(path_depth=path_depth)
+    tags = tags or []
     for tag in tags:
         lucene_query &= Q(tags=safe_unicode(tag))
     if portal_types:

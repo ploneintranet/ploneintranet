@@ -181,10 +181,10 @@ class LibraryTagView(LibraryBaseView):
             tags.append(tag)
         if self.request_tag:
             tags.append(self.request_tag)
-        return utils.query(path, tags, portal_types,
-                           facet_by='tags',
-                           sort_by='Title',
-                           debug=debug)
+        return utils.query(
+            path=path, tags=tags, portal_types=portal_types,
+            facet_by='tags', sort_by='Title',
+            debug=debug)
 
     def info(self):
         if self.request_tag:
@@ -259,5 +259,5 @@ class LibraryTagView(LibraryBaseView):
         ZCatalog returns <str> Solr returns <unicode>.
         We force everything into unicode and sort abc.
         """
-        return sorted([safe_unicode(t)
+        return sorted([safe_unicode(t['name'])
                        for t in searchresponse.facets.get('tags', [])])
