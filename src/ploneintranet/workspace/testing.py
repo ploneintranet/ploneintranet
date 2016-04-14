@@ -1,5 +1,3 @@
-import Products.CMFPlacefulWorkflow
-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
@@ -10,14 +8,15 @@ from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
 
-import ploneintranet.workspace
-import ploneintranet.microblog
+import Products.CMFPlacefulWorkflow
 import ploneintranet.activitystream
 import ploneintranet.invitations
 import ploneintranet.layout
+import ploneintranet.microblog
 import ploneintranet.network
 import ploneintranet.theme
 import ploneintranet.userprofile
+import ploneintranet.workspace
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
