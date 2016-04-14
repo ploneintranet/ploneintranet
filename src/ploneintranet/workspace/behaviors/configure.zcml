@@ -35,4 +35,18 @@
       for="plone.app.contenttypes.interfaces.IEvent"
       />
 
+  <!-- behavior for turning a workspace into a membrane group -->
+  <plone:behavior
+      title="Membrane Group (Workspace)"
+      description="Use this content as a membrane group"
+      provides=".group.IMembraneGroup"
+      marker=".group.IMembraneGroup"
+      factory=".group.MembraneWorkspaceGroup"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      />
+  <adapter
+    factory=".group.MembraneWorkspaceGroup"
+    provides="Products.membrane.interfaces.IGroup"
+    />
+
 </configure>
