@@ -33,15 +33,18 @@ fetchrelease: ## Download and install the latest javascript bundle into the them
 ## Setup
 ## You don't run these rules unless you're a prototype dev
 
-prototype:: ## Get the latest version of the prototype
+prototype: ## Get the latest version of the prototype
 	@if [ ! -d "prototype" ]; then \
 		git clone git@github.com:quaive/ploneintranet.prototype.git prototype; \
 	else \
 		cd prototype && git pull; \
 	fi;
+
+latest: prototype
 	cp prototype/LATEST .
 
 jekyll: prototype
+	@echo 'DO: rm prototype/stamp-bundler to force Jekyll re-install'
 	@cd prototype && make jekyll
 
 diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme, including removals
@@ -54,7 +57,7 @@ diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme
 	@sleep 10
 	git commit -a -m "protoype release $(shell cat LATEST)"
 
-diazo: jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
+diazo: latest jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
 _diazo:
 	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
@@ -102,6 +105,10 @@ jsrelease: prototype
 	cd prototype && make jsrelease
 	cp prototype/LATEST .
 
+demo: jekyll demo-run
+
+demo-run:
+	cd prototype && make demo-run
 
 ####################################################################
 # docker.io
