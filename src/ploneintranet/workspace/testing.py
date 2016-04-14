@@ -1,5 +1,3 @@
-import collective.externaleditor
-import collective.workspace
 import Products.CMFPlacefulWorkflow
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
@@ -42,6 +40,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             package=ploneintranet.workspace,
         )
 
+        import collective.workspace
         xmlconfig.file(
             'configure.zcml',
             collective.workspace,
