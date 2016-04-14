@@ -10,7 +10,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
-from ploneintranet.testing import PLONEINTRANET_FIXTURE
 from zope.configuration import xmlconfig
 
 import ploneintranet.workspace
@@ -28,7 +27,6 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
         PLONE_APP_TILES_FIXTURE,
-        PLONEINTRANET_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
@@ -109,6 +107,9 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.docconv.client,
             context=configurationContext
         )
+        import collective.indexing
+        self.loadZCML(package=collective.indexing)
+        z2.installProduct(app, 'collective.indexing')
 
         xmlconfig.file(
             'configure.zcml',
@@ -125,6 +126,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
+        z2.uninstallProduct(app, 'collective.indexing')
         z2.uninstallProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
