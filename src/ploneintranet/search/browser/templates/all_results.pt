@@ -156,7 +156,6 @@
               <dt class="title ${type_class}">
                 <a href="${result_url}">
                   ${result/title}
-                  <!--strong class="icon-${result/review_state} workspace-state ${result/review_state}">${result/review_state}</strong-->
                 </a>
               </dt>
               <dd class="description ${type_class}">
