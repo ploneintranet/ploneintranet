@@ -62,16 +62,15 @@
 
         <tal:group_by_division condition="python:request.get('grouping', '') == 'division'">
           <span id="workspaces">
-            <tal:def define="wbd view/workspaces_by_division; divisions view/divisions">
+            <tal:def define="
+                       wbd view/workspaces_by_division;
+                       divisions view/divisions;
+                     ">
               <tal:r repeat="division divisions">
                 <section tal:define="workspaces python:wbd[division.token]" tal:condition="workspaces">
                   <article class="pat-rich canvas-intro">
-                    <h1 class="group-title" tal:content="division/value">
-                      Division Title
-                    </h1>
-                    <p class="description" tal:content="division/title" tal:condition="division/title">
-                      Division Description
-                    </p>
+                    <h1 class="group-title">${division/title}</h1>
+                    <p class="description" tal:condition="division/description">Division Description</p>
                   </article>
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
@@ -120,7 +119,7 @@
         <tal:group_by_workspace_type condition="python:request.get('grouping', 'workspace_type') == ''">
 
             <!-- Not implemented yet -->
-        
+
         </tal:group_by_workspace_type>
 
       </div>

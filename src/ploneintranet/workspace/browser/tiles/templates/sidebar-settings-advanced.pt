@@ -52,9 +52,10 @@
                                   disabled="${disable_attribute}">
                             <option i18n:translate="" value="">None</option>
                             <tal:divisions repeat="division view/divisions">
-                              <option tal:condition="python:division.token != context.UID()" tal:content="division/value" tal:attributes="value division/token; selected python:getattr(context, 'division', None) == division.token and 'selected' or None">
-                              Division
-                            </option>
+                              <option tal:condition="python:division.token != context.UID()"
+                                      value="${division/value}"
+                                      selected="${python:getattr(context, 'division', None) == division.value and 'selected' or None}"
+                                      >${division/title}</option>
                           </tal:divisions>
                           </select>
                         </label>
