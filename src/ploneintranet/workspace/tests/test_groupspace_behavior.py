@@ -45,3 +45,14 @@ class TestGroupspaceBehavior(BaseTestCase):
 
     def test_group_interface_provided(self):
         self.assertTrue(IGroup(self.workspace, None) is not None)
+
+    def test_group_title(self):
+        obj = IGroup(self.workspace)
+        self.assertEqual(obj.getGroupName(), self.workspace.Title())
+
+    def test_basic_group_membership(self):
+        obj = IGroup(self.workspace)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['wsadmin', 'user1', 'admin'])
+        )
