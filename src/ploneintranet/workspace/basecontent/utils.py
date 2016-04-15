@@ -1,6 +1,7 @@
 from Products.CMFPlone.utils import safe_unicode
-from plone.dexterity.utils import getAdditionalSchemata
+from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import getAdditionalSchemata
 from plone.z3cform.z2 import processInputs
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
@@ -12,6 +13,7 @@ from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
 
+import json
 import logging
 
 log = logging.getLogger(__name__)
@@ -112,3 +114,21 @@ def dexterity_update(obj, request=None):
                 modified = True
 
     return modified, errors
+
+
+def get_selection_classes(context, field, default=None):
+    """ identify all groups in the invitees """
+    acl_users = api.portal.get_tool('acl_users')
+    field_value = getattr(context, field, default)
+    if not field_value:
+        return ''
+    assigned_users = field_value.split(',')
+    selection_classes = {}
+    for assignee_id in assigned_users:
+        group = acl_users.getGroupById(assignee_id)
+        if group:
+            group_title = (
+                group.getProperty('title') or group.getId() or assignee_id)
+            selection_classes[group_title] = ["group"]
+
+    return json.dumps(selection_classes)

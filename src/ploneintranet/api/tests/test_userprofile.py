@@ -78,6 +78,25 @@ class TestUserProfile(IntegrationTestCase):
         self.assertIn(profile1, found)
         self.assertIn(profile2, found)
 
+    def test_get_users_from_userids_and_groupids(self):
+        self.login_as_portal_owner()
+        profile1 = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+        )
+        profile2 = pi_api.userprofile.create(
+            username='bobdoe',
+            email='bobdoe@doe.com',
+        )
+        group1 = plone_api.group.create(groupname='group1')
+        group1.addMember(profile2.getId())
+        users = pi_api.userprofile.get_users_from_userids_and_groupids(
+            ids=['janedoe', 'group1'])
+        user_ids = [i.getId() for i in users]
+        self.assertIn(profile1.getId(), user_ids)
+        self.assertIn(profile2.getId(), user_ids)
+        self.assertEqual(len(users), 2)
+
     def test_get(self):
         self.login_as_portal_owner()
         profile = pi_api.userprofile.create(

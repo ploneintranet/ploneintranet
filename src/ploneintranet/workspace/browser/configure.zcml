@@ -271,6 +271,14 @@
       />
 
     <browser:page
+        name="allusers-and-groups.json"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class=".workspace.AllUsersAndGroupsJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"

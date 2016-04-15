@@ -22,11 +22,30 @@ def get_users(**kwargs):
     try:
         mtool = plone_api.portal.get_tool('membrane_tool')
     except InvalidParameterError:
-        return None
+        return []
     portal_type = 'ploneintranet.userprofile.userprofile',
     search_results = mtool.searchResults(portal_type=portal_type,
                                          **kwargs)
     return (x.getObject() for x in search_results)
+
+
+def get_users_from_userids_and_groupids(ids=None):
+    """
+    Given a list of userids and groupids return the set of users
+    """
+    acl_users = plone_api.portal.get_tool('acl_users')
+    users = {}
+    for id in ids:
+        group = acl_users.getGroupById(id)
+        if group:
+            for user in group.getGroupMembers():
+                user_ob = acl_users.getUserById(user.getId())
+                users[user_ob.getProperty('email')] = user_ob
+        else:
+            user_ob = acl_users.getUserById(id)
+            if user_ob:
+                users[user_ob.getProperty('email')] = user_ob
+    return users.values()
 
 
 def get(username):
