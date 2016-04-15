@@ -1,5 +1,4 @@
 # coding=utf-8
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ...basecontent.utils import dexterity_update
 from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY
@@ -9,15 +8,17 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
-from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
+from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.todo.utils import update_task_status
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -27,6 +28,7 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
+from zope.schema import getFieldNames
 from zope.schema.interfaces import IVocabularyFactory
 import logging
 
@@ -306,6 +308,22 @@ class SidebarSettingsAdvanced(BaseTile):
     """
 
     index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
+
+    def can_be_division(self):
+        ''' Check if this object can be a division,
+        i.e. has a division field in the schema or in a behavior
+        '''
+        schema = self.context.getTypeInfo().lookupSchema()
+        if 'is_division' in getFieldNames(schema):
+            return True
+
+        behavior_assignable = IBehaviorAssignable(self.context)
+        if behavior_assignable:
+            behaviors = behavior_assignable.enumerateBehaviors()
+            for behavior in behaviors:
+                if 'is_division' in getFieldNames(schema):
+                    return True
+        return False
 
     def __call__(self):
         """ write attributes, if any, set state, render

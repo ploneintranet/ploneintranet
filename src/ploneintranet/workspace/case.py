@@ -4,12 +4,12 @@ from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
 
 from .config import TEMPLATES_FOLDER
-from .workspacefolder import IWorkspaceFolder
+from .workspacefolder import IBaseWorkspaceFolder
 from .workspacefolder import WorkspaceFolder
 from .unrestricted import execute_as_manager
 
 
-class ICase(IWorkspaceFolder):
+class ICase(IBaseWorkspaceFolder):
     """
     Interface for Case
     """

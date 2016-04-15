@@ -16,7 +16,7 @@ from zope.interface import implementer
 from .policies import PARTICIPANT_POLICY
 
 
-class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
+class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
     """
     Interface for WorkspaceFolder
     """
@@ -24,17 +24,6 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
         title=_(
             u"label_workspace_calendar_visibility",
             u"Calendar visible in central calendar"),
-        required=False,
-        default=False,
-    )
-    is_division = schema.Bool(
-        title=_(
-            u"label_workspace_is_division",
-            u"Is this workspace representing a division?"),
-        description=_(
-            u"Divisions represent sections of the overall "
-            u"organisation and appear "
-            u"as groupings on the workspace overview."),
         required=False,
         default=False,
     )
@@ -47,6 +36,24 @@ class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
         title=_(u'label_workspace_email', u'E-mail address'),
         required=False,
         default=u'',
+    )
+
+
+class IWorkspaceFolder(IBaseWorkspaceFolder):
+    ''' A workspace folder can be a division,
+    while other objects inheriting from IBaseWorkspaceFolder cannot,
+    e.g. cases
+    '''
+    is_division = schema.Bool(
+        title=_(
+            u"label_workspace_is_division",
+            u"Is this workspace representing a division?"),
+        description=_(
+            u"Divisions represent sections of the overall "
+            u"organisation and appear "
+            u"as groupings on the workspace overview."),
+        required=False,
+        default=False,
     )
 
 

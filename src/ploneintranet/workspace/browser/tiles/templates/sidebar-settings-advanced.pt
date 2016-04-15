@@ -6,7 +6,11 @@
       i18n:domain="ploneintranet">
 <body>
     <div id="sidebar-content">
-        <div id="workspace-settings" tal:define="ws view/workspace">
+        <div id="workspace-settings"
+             tal:define="
+               ws view/workspace;
+               disable_attribute python: not view.can_manage_workspace() and 'disabled' or None;
+             ">
 
             <div class="tabs-content">
                 <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
@@ -19,27 +23,33 @@
                             <span tal:omit-tag="" i18n:translate="workspace_email_address">
                                 Workspace e-mail address</span>
                             <input type="email"
-                                   value=""
+                                   value="${ws/email}"
                                    placeholder="Workspace e-mail address"
                                    i18n:attributes="placeholder workspace_email_address"
                                    name="email"
-                                    tal:attributes="
-                                            value ws/email;
-                                            disabled not: view/can_manage_workspace"/>
+                                   disabled="${disable_attribute}"
+                                  />
                         </label>
                     </fieldset>
-                    <fieldset class="pat-checklist">
+                    <fieldset class="pat-checklist" tal:condition="view/can_be_division">
                         <label>
                           <span tal:omit-tag="" i18n:translate="workspace_is_division">
                           This represents a division</span>
-                          <input type="checkbox" name="is_division" value="selected" tal:attributes="checked python:getattr(context, 'is_division', False) == True and 'checked' or None"/>
+                          <input type="checkbox"
+                                 name="is_division"
+                                 value="selected"
+                                 checked="${python:getattr(context, 'is_division', False) == True and 'checked' or None}"
+                                 disabled="${disable_attribute}"
+                              />
                           <input type="hidden" name="is_division-empty-marker" value="true" />
                         </label>
                     </fieldset>
-                    <fieldset class="vertical pat-depends" data-pat-depends="condition:is_division != selected">
+                    <fieldset class="vertical pat-depends"
+                              data-pat-depends="condition:is_division != selected">
                         <label class="pat-select">
                           <span tal:omit-tag="" i18n:translate="">This belongs to a division</span>
-                          <select name="division">
+                          <select name="division"
+                                  disabled="${disable_attribute}">
                             <option i18n:translate="" value="">None</option>
                             <tal:divisions repeat="division view/divisions">
                               <option tal:condition="python:division.token != context.UID()" tal:content="division/value" tal:attributes="value division/token; selected python:getattr(context, 'division', None) == division.token and 'selected' or None">
