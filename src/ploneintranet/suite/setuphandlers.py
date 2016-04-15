@@ -1,32 +1,29 @@
 # -*- coding: utf-8 -*-
-import csv
-import copy
-import json
-import logging
-import os
-import random
-import time
-import transaction
-
-import loremipsum
-from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
+from DateTime import DateTime
 from datetime import timedelta
 from plone import api
+from plone.app.event.base import localized_now
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
-# from plone.uuid.interfaces import IUUID
-from zope.component import getUtility, queryUtility
-from zope.interface import Invalid
-
 from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from plone.app.event.base import localized_now
+from zope.component import getUtility, queryUtility
+from zope.interface import Invalid
 
+import copy
+import csv
+import json
+import logging
+import loremipsum
+import os
+import random
+import time
+import transaction
 
 log = logging.getLogger(__name__)
 
@@ -583,7 +580,12 @@ def create_caseworkspaces(caseworkspaces,
                 **w
             )
         except:
-            continue
+            log.exception(
+                'Error creating %s in %r',
+                portal_type,
+                ws_folder,
+            )
+
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
