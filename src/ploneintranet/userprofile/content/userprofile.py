@@ -105,7 +105,7 @@ class UserProfile(Container):
         return self.fullname
 
     def Description(self):
-        if getattr(self, 'job_title'):
+        if getattr(self, 'job_title', None):
             return self.job_title
 
     @property
