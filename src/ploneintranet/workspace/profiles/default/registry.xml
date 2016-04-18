@@ -1,12 +1,26 @@
 <?xml version="1.0"?>
-<registry>
-    <record name="ploneintranet.workspace.externaleditor_always_activated">
-        <field type="plone.registry.field.Bool">
-          <default>False</default>
-          <description xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="ploneintranet.workspace" ns0:translate="help_externaleditor_always_activated">When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used.</description>
-          <required>False</required>
-          <title xmlns:ns0="http://xml.zope.org/namespaces/i18n" ns0:domain="ploneintranet.workspace" ns0:translate="label_externaleditor_always_activated">External Editor always activated.</title>
-        </field>
-        <value>False</value>
-    </record>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.case_manager.states">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_case_manager_states">Case Manager Workflow States</title>
+      <description i18n:translate="help_case_manager_states">Only these States are shown for filtering</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>new</element>
+      <element>pending</element>
+      <element>published</element>
+      <element>rejected</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.externaleditor_always_activated">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <description i18n:translate="help_externaleditor_always_activated">When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used.</description>
+      <required>False</required>
+      <title i18n:translate="label_externaleditor_always_activated">External Editor always activated.</title>
+    </field>
+    <value purge="false">False</value>
+  </record>
 </registry>
