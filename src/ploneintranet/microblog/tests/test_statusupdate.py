@@ -156,6 +156,44 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su2 = StatusUpdate('foo', thread_id=su1.id)
         self.assertEqual(f1, su2.microblog_context)
 
+    def test_attachments(self):
+        su = StatusUpdate('foo bar')
+        attachments = IAttachmentStorage(su)
+
+        f = ATFile('data.dat')
+        attachments.add(f)
+        self.assertEqual([k for k in attachments.keys()], [f.getId()])
+        attachments.remove(f.getId())
+        self.assertEqual(len(attachments.keys()), 0)
+
+    def test_mentions(self):
+        test_user = api.user.create(
+            email='test@example.com',
+            username='testuser',
+            properties={
+                'fullname': 'Test User'
+            }
+        )
+        userid = test_user.getId()
+        fullname = test_user.getProperty('fullname')
+        su = StatusUpdate('foo', mention_ids=[userid])
+        self.assertEqual(su.mentions, {userid: fullname})
+
+
+class TestContentStatusUpdate(unittest.TestCase):
+
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
+        self.container = queryUtility(IMicroblogTool)
+        ploneintranet.microblog.statuscontainer.ASYNC = False
+
+    def tearDown(self):
+        ploneintranet.microblog.statuscontainer.ASYNC = True
+
     def test_content_context_mocked(self):
         content = object()
         su = MockStatusUpdate('foo bar', content_context=content)
@@ -217,26 +255,3 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         )
         su1 = StatusUpdate('foo', content_context=doc)
         self.assertEqual(f1, su1.microblog_context)
-
-    def test_attachments(self):
-        su = StatusUpdate('foo bar')
-        attachments = IAttachmentStorage(su)
-
-        f = ATFile('data.dat')
-        attachments.add(f)
-        self.assertEqual([k for k in attachments.keys()], [f.getId()])
-        attachments.remove(f.getId())
-        self.assertEqual(len(attachments.keys()), 0)
-
-    def test__mentions(self):
-        test_user = api.user.create(
-            email='test@example.com',
-            username='testuser',
-            properties={
-                'fullname': 'Test User'
-            }
-        )
-        userid = test_user.getId()
-        fullname = test_user.getProperty('fullname')
-        su = StatusUpdate('foo', mention_ids=[userid])
-        self.assertEqual(su.mentions, {userid: fullname})
