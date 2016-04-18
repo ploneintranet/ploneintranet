@@ -7,11 +7,11 @@
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/post.html -->
 
 <div i18n:domain="ploneintranet"
-     tal:define="thread_id context/context/getId;"
+     tal:define="thread_id context/getId;"
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <tal:avatar define="avatar view/statusupdate_view/avatar">
+    <tal:avatar define="avatar view/avatar">
       <a href="${avatar/url}">
         <img src="${avatar/img}"
              alt="${avatar/fullname}"
@@ -19,15 +19,15 @@
              id="${avatar/id}"
              >
         <h4 class="name">${avatar/fullname}</h4>
-        <time class="date">${nocall:view/statusupdate_view/date}</time>
+        <time class="date">${nocall:view/date}</time>
       </a>
     </tal:avatar>
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
-      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/statusupdate_view/date}</time>
+      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
 
-      <tal:location condition="context/context/microblog_context/Title|nothing">
-        in <a href="${context/context/microblog_context/absolute_url}">${context/context/microblog_context/Title}</a>
+      <tal:location condition="context/microblog_context/Title|nothing">
+        in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
       </tal:location>
 
       <!-- XXX: This is not yet implemented -->
@@ -62,7 +62,7 @@
   </div>
 
   <section class="post-content">
-    <p tal:content="structure view/statusupdate_view/decorated_text">Comment text</p>
+    <p tal:content="structure view/decorated_text">Comment text</p>
   </section>
 
   <tal:comment condition="nothing">
@@ -78,7 +78,7 @@
   a multi-file + multi-image renderer.
   </tal:comment>
 
-  <tal:attachments repeat="attachment view/statusupdate_view/attachments">
+  <tal:attachments repeat="attachment view/attachments">
     <tal:def define="is_content python:False;
                      is_image attachment/is_image;
                      has_preview attachment/img_src|nothing">
@@ -140,25 +140,25 @@
   <div class="functions">
     <!-- XXX: This is not yet implemented -->
     <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
-    <form tal:replace="structure view/statusupdate_view/toggle_like" />
+    <form tal:replace="structure view/toggle_like" />
   </div>
   <div class="comments"
        id="${string:comments-${thread_id}}">
     <div tal:attributes="id string:comment-trail-${thread_id}">
       <tal:loop
-          tal:repeat="comment view/statusupdate_view/comment_views"
+          tal:repeat="comment view/comment_views"
           tal:content="structure comment"
       />
     </div>
-    <tal:commentable condition="view/statusupdate_view/commentable">
+    <tal:commentable condition="view/commentable">
         <tal:define define="
-          newpostbox_view nocall:view/statusupdate_view/newpostbox_view;
+          newpostbox_view nocall:view/newpostbox_view;
           form_id string:comment_box_${thread_id};
           attachment_previews_id string:attachment-previews-${thread_id};
           action string:${view/context_url}/@@newpostbox.tile;
-          placeholder view/statusupdate_view/newpostbox_placeholder;
-          portal_url view/statusupdate_view/portal_url;
-          context_url view/statusupdate_view/context_url;
+          placeholder view/newpostbox_placeholder;
+          portal_url view/portal_url;
+          context_url view/context_url;
         ">
           <div id="${string:new-comment-${thread_id}}"></div>
           <metal:block use-macro="here/@@update-social.html/main" />

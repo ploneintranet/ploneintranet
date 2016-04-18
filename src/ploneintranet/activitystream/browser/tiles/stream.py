@@ -4,7 +4,6 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
-from ploneintranet.activitystream.interfaces import IActivity
 from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 import logging
@@ -127,12 +126,12 @@ class StreamTile(Tile):
 
     @property
     @memoize
-    def activities(self):
+    def statusupdates_autoexpand(self):
         ''' The list of our activities
         '''
         statusupdates = self.get_statusupdates()
         for su in statusupdates:
-            yield IActivity(su)
+            yield su
 
         # stop autoexpand when last batch is empty
         if len(statusupdates) == 0:
@@ -143,14 +142,14 @@ class StreamTile(Tile):
 
     @property
     @memoize
-    def activity_views(self):
+    def post_views(self):
         ''' The activity as views
         '''
         return [
             api.content.get_view(
                 'post.html',
-                activity,
+                statusupdate,
                 self.request
             )
-            for activity in self.activities
+            for statusupdate in self.statusupdates_autoexpand
         ]

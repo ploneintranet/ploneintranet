@@ -5,11 +5,12 @@
       >
 <body>
 
-    <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/activity-stream.html -->
+  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/activity-stream.html -->
+  <!-- called from microblog//newpostbox.py and activitystream//stream.py -->
     <metal:macro define-macro="main">
       <tal:loop
-          tal:repeat="activity view/activity_views"
-          tal:content="structure activity"
+          tal:repeat="post_view view/post_views"
+          tal:content="structure post_view"
           />
     </metal:macro>
 

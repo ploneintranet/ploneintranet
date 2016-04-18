@@ -23,9 +23,9 @@
 
     <browser:page
         name="post.html"
-        for="ploneintranet.activitystream.interfaces.IStatusActivity"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
         permission="zope.Public"
-        class="..activity.ActivityView"
+        class="..statusupdate.StatusUpdateView"
         template="post.html"
         layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />

@@ -5,7 +5,6 @@ from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.activitystream.interfaces import IStatusActivity
 from ploneintranet import api as piapi
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
@@ -166,16 +165,16 @@ class NewPostBoxTile(Tile):
         """ When updating we may want to process the form data and,
         if needed, create a post
         """
-        self.activity_views = []
+        self.post_views = []
         if self.is_posting:
             self.post = self.create_post()
         else:
             self.post = None
         if self.post:
-            self.activity_views.append(
+            self.post_views.append(
                 api.content.get_view(
                     'post.html',
-                    IStatusActivity(self.post),
+                    self.post,
                     self.request
                 )
             )
