@@ -72,8 +72,7 @@ class Workspaces(BrowserView):
                                    self.request,
                                    include_activities=False)
         self.divisions = getUtility(IVocabularyFactory, vocab)(self.context)
-        division_uids = [x.token for x in self.divisions]
-
+        division_uids = [x.value for x in self.divisions]
         division_map = defaultdict(list)
         for workspace in workspaces:
             # Note: Already sorted as source list is sorted
