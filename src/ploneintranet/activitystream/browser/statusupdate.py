@@ -21,8 +21,6 @@ class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
     as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
-    post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
-    comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
 
     @property
     @memoize

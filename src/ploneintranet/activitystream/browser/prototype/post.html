@@ -15,7 +15,13 @@
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <tal:avatar tal:replace="structure view/statusupdate_view/post_avatar" />
+    <tal:avatar define="avatar view/avatar">
+      <a href="${avatar/url}">
+        <metal:block use-macro="here/@@avatar.html/main" />
+        <h4 class="name">${avatar/fullname}</h4>
+        <time class="date">${nocall:view/date}</time>
+      </a>
+    </tal:avatar>
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
       <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>

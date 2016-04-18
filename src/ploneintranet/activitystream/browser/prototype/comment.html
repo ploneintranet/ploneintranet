@@ -10,7 +10,12 @@
     <metal:macro define-macro="main">
         <div class="comment">
             <div class="comment-header">
-                <tal:avatar tal:replace="structure view/comment_avatar" />
+              <tal:avatar define="avatar view/avatar">
+                <a href="${avatar/url}">
+                  <metal:block use-macro="here/@@avatar.html/main" />
+                  <h4 class="name">${avatar/fullname}</h4>
+                </a>
+              </tal:avatar>
             </div>
             <section class="comment-content">
                 <p tal:content="structure view/decorated_text">
