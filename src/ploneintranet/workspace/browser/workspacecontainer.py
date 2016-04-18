@@ -33,6 +33,26 @@ class Workspaces(BrowserView):
         )
         return super(Workspaces, self).__call__()
 
+    def get_selected_sort_option(self):
+        ''' This will return the selected sort option
+
+        The rules are:
+
+        1. Check the request
+        2. Check the registry
+        3. Default to "alphabet"
+        '''
+        requested_sort = self.request.get('sort')
+        if requested_sort:
+            return requested_sort
+        try:
+            return api.portal.get_registry_record(
+                'ploneintranet.workspace.my_workspace_sorting'
+            )
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            return 'alphabet'
+
     def sort_options(self):
         options = [{'value': 'alphabet',
                     'content': _(u'Alphabetical')},

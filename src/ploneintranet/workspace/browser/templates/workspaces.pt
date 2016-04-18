@@ -10,12 +10,16 @@
     <metal:content fill-slot="content">
 
     <div class="container" tal:define="ploneview here/@@plone">
-        <!--form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces" -->
-        <form  class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #workspaces; target: #workspaces" method="POST">
+        <form  class="canvas-toolbar pat-inject pat-autosubmit"
+               action="${here/absolute_url}/workspaces.html"
+               data-pat-inject="source: #workspaces; target: #workspaces"
+               method="POST"
+               >
             <label class="bare pat-select">
-                <select name="sort">
+                <select name="sort" tal:define="selected_sort_option view/get_selected_sort_option">
                     <tal:r repeat="o view/sort_options">
-                        <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                        <option selected="${python:o['value'] ==  selected_sort_option and 'selected' or None}"
+                                value="${o/value}">${o/content}</option>
                     </tal:r>
                  </select>
             </label>
