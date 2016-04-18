@@ -130,6 +130,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         z2.uninstallProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.layout:default')
