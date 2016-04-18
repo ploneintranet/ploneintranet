@@ -5,6 +5,7 @@ from plone import api
 
 from Products.PluggableAuthService.plugins.DynamicGroupsPlugin \
     import addDynamicGroupsPlugin
+from Products.PluggableAuthService.interfaces.plugins import IGroupsPlugin
 from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 
 
@@ -15,6 +16,8 @@ def post_install(context):
       (actual case template is provided by ploneintranet.suite)
     - sets an acl user group to hold all intranet users
     - setup the dynamic groups plugin
+    - makes sure the membrane groups plugin is ordered before the recursive
+      groups plugin
     - sets the addable types for the ploneintranet policy
     """
     portal = api.portal.get()
@@ -59,6 +62,18 @@ def post_install(context):
     # deactivate the enumerate groups interface for collective.workspace
     activatePluginInterfaces(portal, 'workspace_groups',
                              disable=['IGroupEnumerationPlugin'])
+
+    # make sure the membrane_groups plugin comes before recursive_groups
+    plugins = list(pas.plugins._getPlugins(IGroupsPlugin))
+    try:
+        target_index = plugins.index('recursive_groups')
+        if target_index > 0:
+            target_index = target_index - 1
+    except ValueError:
+        target_index = 0
+    plugins.remove('membrane_groups')
+    plugins.insert(target_index, 'membrane_groups')
+    pas.plugins._plugins[IGroupsPlugin] = tuple(plugins)
 
     # Set up the ploneintranet policy for all addable types
     # Re-run ploneintranet.workspace:default after installing extra types!
