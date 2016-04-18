@@ -3,7 +3,6 @@ import logging
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
@@ -20,7 +19,6 @@ logger = logging.getLogger('ploneintranet.activitystream')
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
-    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
 
     @property
     @memoize
@@ -228,8 +226,8 @@ class StatusUpdateView(BrowserView):
         replies.reverse()
         replies_rendered = [
             api.content.get_view(
-                'statusupdate_view',
+                'comment.html',
                 reply,
-                self.request).as_comment
+                self.request)
             for reply in replies]
         return replies_rendered

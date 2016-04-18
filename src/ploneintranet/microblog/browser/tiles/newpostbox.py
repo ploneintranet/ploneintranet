@@ -166,10 +166,10 @@ class NewPostBoxTile(Tile):
         ''' Transforms a post (aka StatusUpdate) into a renderable comment
         '''
         return api.content.get_view(
-            'statusupdate_view',
+            'comment.html',
             post,
             self.request,
-        ).as_comment
+        )
 
     def update(self):
         """ When updating we may want to process the form data and,
