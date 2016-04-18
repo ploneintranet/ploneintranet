@@ -19,12 +19,12 @@
              id="${avatar/id}"
              >
         <h4 class="name">${avatar/fullname}</h4>
-        <time class="date">${nocall:view/date}</time>
+        <time class="date">${nocall:view/statusupdate_view/date}</time>
       </a>
     </tal:avatar>
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
-      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
+      <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/statusupdate_view/date}</time>
 
       <tal:location condition="context/context/microblog_context/Title|nothing">
         in <a href="${context/context/microblog_context/absolute_url}">${context/context/microblog_context/Title}</a>
@@ -140,7 +140,7 @@
   <div class="functions">
     <!-- XXX: This is not yet implemented -->
     <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
-    <form tal:replace="structure view/toggle_like" />
+    <form tal:replace="structure view/statusupdate_view/toggle_like" />
   </div>
   <div class="comments"
        id="${string:comments-${thread_id}}">
@@ -152,13 +152,13 @@
     </div>
     <tal:commentable condition="view/statusupdate_view/commentable">
         <tal:define define="
-          newpostbox_view nocall:view/newpostbox_view;
+          newpostbox_view nocall:view/statusupdate_view/newpostbox_view;
           form_id string:comment_box_${thread_id};
           attachment_previews_id string:attachment-previews-${thread_id};
           action string:${view/context_url}/@@newpostbox.tile;
-          placeholder view/newpostbox_placeholder;
-          portal_url view/portal_url;
-          context_url view/context_url;
+          placeholder view/statusupdate_view/newpostbox_placeholder;
+          portal_url view/statusupdate_view/portal_url;
+          context_url view/statusupdate_view/context_url;
         ">
           <div id="${string:new-comment-${thread_id}}"></div>
           <metal:block use-macro="here/@@update-social.html/main" />

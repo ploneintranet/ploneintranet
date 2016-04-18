@@ -12,6 +12,7 @@ from ploneintranet.core.browser.utils import link_tags
 from ploneintranet.core.browser.utils import link_users
 from ploneintranet.core.browser.utils import link_urls
 from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
@@ -19,6 +20,9 @@ logger = logging.getLogger('ploneintranet.activitystream')
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
+
+    newpostbox_placeholder = _(u'leave_a_comment',
+                               default=u'Leave a comment...')
 
     @property
     @memoize
