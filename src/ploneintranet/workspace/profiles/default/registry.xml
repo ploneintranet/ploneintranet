@@ -35,4 +35,29 @@
     </field>
     <value purge="false">alphabet</value>
   </record>
+  <record name="ploneintranet.workspace.workspace_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_workspace_types">Select workspace types</title>
+      <description i18n:translate="help_workspace_types">Only this types are searched when looking for workspaces</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>ploneintranet.workspace.workspacefolder</element>
+      <element>ploneintranet.workspace.case</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.workspace_types_css_mapping">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_workspace_types_css_mapping">Maps workspace portal types to css classes</title>
+      <description i18n:translate="help_workspace_types_css_mapping">
+        If a portal_type is not here it will default to regular.
+        The values should be passed as "{type}|{css class}",
+        e.g. "ploneintranet.workspace.case|type-case"
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>ploneintranet.workspace.case|type-case</element>
+    </value>
+  </record>
 </registry>
