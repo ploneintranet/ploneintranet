@@ -75,7 +75,7 @@ class StatusUpdateView(BrowserView):
         )
         toggle_like_view = toggle_like_base.publishTraverse(
             self.request,
-            self.context.getId,
+            self.context.getId(),
         )
         return toggle_like_view
 
