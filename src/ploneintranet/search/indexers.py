@@ -3,6 +3,7 @@ import logging
 from Products.CMFCore.interfaces import IContentish
 from Products.MimetypesRegistry import MimeTypeException
 from plone import api
+from plone.api.exc import CannotGetPortalError
 from plone.app.contenttypes.interfaces import IFile
 from plone.indexer import indexer
 from plone.rfc822.interfaces import IPrimaryFieldInfo
@@ -25,7 +26,10 @@ def friendly_type_name(obj):
     default_name = obj.Type()
     # If the object is a file get the friendly name of the mime type
     if IFile.providedBy(obj):
-        mtr = api.portal.get_tool(name='mimetypes_registry')
+        try:
+            mtr = api.portal.get_tool(name='mimetypes_registry')
+        except CannotGetPortalError:
+            return default_name
 
         primary_field_info = IPrimaryFieldInfo(obj)
         if not primary_field_info.value:
