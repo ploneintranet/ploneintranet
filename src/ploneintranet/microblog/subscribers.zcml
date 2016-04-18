@@ -8,7 +8,7 @@
   <subscriber
       for="Products.CMFCore.interfaces.IContentish
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
-      handler=".subscribers.content_published"
+      handler=".subscribers.content_statechanged"
       />  
 
 </configure>

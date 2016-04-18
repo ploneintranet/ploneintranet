@@ -4,11 +4,12 @@ from ploneintranet.microblog.browser.interfaces import (
 )
 
 
-def content_published(obj, event):
-    """Add a status update relating to published events"""
+def content_statechanged(obj, event):
+    """Add a status update relating to state change events"""
     if not IPloneIntranetMicroblogLayer.providedBy(obj.REQUEST):
         # We are not installed
         return
+#    import pdb; pdb.set_trace()
 
     if event.new_state.id != 'published':
         return

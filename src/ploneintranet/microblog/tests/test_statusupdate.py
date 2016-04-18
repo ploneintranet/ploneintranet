@@ -179,6 +179,14 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = StatusUpdate('foo', mention_ids=[userid])
         self.assertEqual(su.mentions, {userid: fullname})
 
+    def test_action_verb_default(self):
+        su = StatusUpdate('foo bar')
+        self.assertEqual(su.action_verb, 'posted')
+
+    def test_action_verb_custom(self):
+        su = StatusUpdate('foo bar', action_verb='created')
+        self.assertEqual(su.action_verb, 'created')
+
 
 class TestContentStatusUpdate(unittest.TestCase):
 

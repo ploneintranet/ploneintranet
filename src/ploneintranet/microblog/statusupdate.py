@@ -35,6 +35,7 @@ class StatusUpdate(Persistent):
         mention_ids=None,
         tags=None,
         content_context=None,
+        action_verb=None,
     ):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
@@ -49,6 +50,7 @@ class StatusUpdate(Persistent):
                                      content_context)
         self._init_content_context(thread_id, content_context)
         self.tags = tags
+        self._verb = action_verb
 
         if content_context:
             alsoProvides(self, IContentStatusUpdate)
@@ -105,6 +107,11 @@ class StatusUpdate(Persistent):
             user = api.user.get(userid)
             if user is not None:
                 self.mentions[userid] = user.getProperty('fullname')
+
+    @property
+    def action_verb(self):
+        """Backward compatible accessor"""
+        return self._verb or u'posted'
 
     def replies(self):
         from ploneintranet import api as piapi

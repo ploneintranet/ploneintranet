@@ -29,6 +29,7 @@ def create(
     userid=None,
     time=None,
     content_context=None,
+    action_verb=None,
 ):
     """Create a status update (post).
 
@@ -60,6 +61,7 @@ def create(
         mention_ids=mention_ids,
         tags=tags,
         content_context=content_context,
+        action_verb=action_verb,
     )
     # By default the post is done by the current user
     # Passing a userid or user allows to post as a different user
