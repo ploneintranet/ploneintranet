@@ -17,7 +17,11 @@
   <div class="post-header">
     <tal:avatar define="avatar view/avatar">
       <a href="${avatar/url}">
-        <metal:block use-macro="here/@@avatar.html/main" />
+        <img src="${avatar/img}"
+             alt="${avatar/fullname}"
+             class="pat-avatar"
+             id="${avatar/id}"
+             >
         <h4 class="name">${avatar/fullname}</h4>
         <time class="date">${nocall:view/date}</time>
       </a>

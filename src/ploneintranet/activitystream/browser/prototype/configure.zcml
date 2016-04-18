@@ -13,14 +13,6 @@
         />
 
     <browser:page
-        name="avatar.html"
-        for="*"
-        permission="zope.Public"
-        template="avatar.html"
-        layer="..interfaces.IPloneIntranetActivitystreamLayer"
-        />
-
-    <browser:page
         name="comment.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"
         template="comment.html"

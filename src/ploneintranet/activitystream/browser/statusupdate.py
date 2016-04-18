@@ -137,9 +137,7 @@ class StatusUpdateView(BrowserView):
         return text
 
     @memoize_contextless
-    def get_avatar_by_userid(
-        self, userid, show_link=False, css='', attributes={}
-    ):
+    def get_avatar_by_userid(self, userid):
         ''' Provide informations to display the avatar
         '''
         user = api.user.get(self.context.userid)
@@ -159,9 +157,6 @@ class StatusUpdateView(BrowserView):
             'fullname': fullname,
             'img': img,
             'url': url,
-            'show_link': show_link,
-            'css': css,
-            'attributes': attributes,
         }
         return avatar
 
