@@ -7,9 +7,7 @@
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/post.html -->
 
 <div i18n:domain="ploneintranet"
-     tal:define="
-         thread_id here/getId;
-     "
+     tal:define="thread_id context/context/getId;"
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
@@ -28,8 +26,8 @@
       <em class="action" i18n:translate="label_posted">posted</em>
       <time class="datestamp pat-moment" data-pat-moment="format:relative">${view/date}</time>
 
-      <tal:location condition="here/title|nothing">
-        in <a href="${here/url}">${here/title}</a>
+      <tal:location condition="context/context/microblog_context/Title|nothing">
+        in <a href="${context/context/microblog_context/absolute_url}">${context/context/microblog_context/Title}</a>
       </tal:location>
 
       <!-- XXX: This is not yet implemented -->
