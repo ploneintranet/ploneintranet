@@ -25,6 +25,7 @@
         name="post.html"
         for="ploneintranet.activitystream.interfaces.IStatusActivity"
         permission="zope.Public"
+        class="..activity.ActivityView"
         template="post.html"
         layer="..interfaces.IPloneIntranetActivitystreamLayer"
         />

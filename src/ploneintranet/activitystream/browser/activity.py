@@ -1,7 +1,6 @@
 # coding=utf-8
 from DateTime import DateTime
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -11,7 +10,6 @@ class ActivityView(BrowserView):
     ''' This view renders an activity
     '''
 
-    as_post = ViewPageTemplateFile('templates/activity_as_post.pt')
     newpostbox_placeholder = _(u'leave_a_comment',
                                default=u'Leave a comment...')
 

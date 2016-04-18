@@ -148,9 +148,9 @@ class StreamTile(Tile):
         '''
         return [
             api.content.get_view(
-                'activity_view',
+                'post.html',
                 activity,
                 self.request
-            ).as_post
+            )
             for activity in self.activities
         ]

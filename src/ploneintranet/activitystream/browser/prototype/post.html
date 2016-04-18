@@ -1,12 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      metal:use-macro="context/main_template/macros/master"
       >
 <body>
 
 <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/post.html -->
-<metal:macro define-macro="main">
 
 <div i18n:domain="ploneintranet"
      tal:define="
@@ -15,7 +13,7 @@
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <tal:avatar define="avatar view/avatar">
+    <tal:avatar define="avatar view/statusupdate_view/avatar">
       <a href="${avatar/url}">
         <img src="${avatar/img}"
              alt="${avatar/fullname}"
@@ -171,7 +169,6 @@
   </div>
 
 </div>
-</metal:macro>
 
 </body>
 </html>

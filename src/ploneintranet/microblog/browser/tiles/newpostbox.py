@@ -22,15 +22,6 @@ class NewPostBoxTile(Tile):
     input_prefix = 'form.widgets.'
     button_prefix = 'form.buttons.'
 
-    def activity_as_post(self, activity):
-        ''' BBB: just for testing
-        '''
-        return api.content.get_view(
-            'activity_view',
-            activity.context,
-            self.request
-        ).as_post()
-
     @property
     @memoize
     def post_container(self):
@@ -183,10 +174,10 @@ class NewPostBoxTile(Tile):
         if self.post:
             self.activity_views.append(
                 api.content.get_view(
-                    'activity_view',
+                    'post.html',
                     IStatusActivity(self.post),
                     self.request
-                ).as_post
+                )
             )
 
     def __call__(self, *args, **kwargs):
