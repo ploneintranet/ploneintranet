@@ -72,7 +72,6 @@ def create(
         status_obj.id = long(delta.total_seconds() * 1e6)
         status_obj.date = DateTime(time)
 
-    status_id = status_obj.id
     microblog = queryUtility(IMicroblogTool)
     microblog.add(status_obj)
-    return microblog.get(status_id)
+    return status_obj
