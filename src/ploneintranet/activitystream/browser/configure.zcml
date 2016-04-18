@@ -20,14 +20,6 @@
       />
 
   <browser:page
-      name="activity_view"
-      for="ploneintranet.activitystream.interfaces.IStatusActivity"
-      class=".activity.ActivityView"
-      permission="ploneintranet.microblog.ViewStatusUpdate"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <browser:page
       name="statusupdate_view"
       for="ploneintranet.microblog.interfaces.IStatusUpdate"
       class=".statusupdate.StatusUpdateView"

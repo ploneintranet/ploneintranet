@@ -4,7 +4,6 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
-from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 import logging
 
@@ -66,7 +65,7 @@ class StreamTile(Tile):
             elif su.id in seen_thread_ids:
                 continue
 
-            if IStatusActivityReply.providedBy(su):
+            if su.thread_id:
                 su = container.get(su.thread_id)
 
             seen_thread_ids.add(su.id)
