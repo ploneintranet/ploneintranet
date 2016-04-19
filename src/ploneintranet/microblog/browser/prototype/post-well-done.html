@@ -6,7 +6,9 @@
   <metal:macro define-macro="main">
     <div tal:replace="structure context/@@update-social.html" />
     <div id="activity-stream">
-        <metal:block tal:condition="view/post_views" use-macro="here/activity-stream.html/main" />
+      <div tal:condition="view/post"
+           tal:replace="structure view/render_post_view">
+      </div>
     </div>
   </metal:macro>
 

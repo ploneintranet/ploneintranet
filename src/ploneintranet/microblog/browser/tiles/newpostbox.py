@@ -171,19 +171,22 @@ class AbstractNewPostBox(object):
         """ When updating we may want to process the form data and,
         if needed, create a post
         """
-        self.post_views = []
         if self.is_posting:
             self.post = self.create_post()
-        else:
-            self.post = None
+
+    def render_post_view(self):
         if self.post:
-            self.post_views.append(
+            return(
                 api.content.get_view(
                     'post.html',
                     self.post,
                     self.request
-                )
+                )()  # __call__()
             )
+
+    def __init__(self, *args, **kwargs):
+        super(AbstractNewPostBox, self).__init__(*args, **kwargs)
+        self.post = None
 
     def __call__(self, *args, **kwargs):
         """ Call the multiadapter update
