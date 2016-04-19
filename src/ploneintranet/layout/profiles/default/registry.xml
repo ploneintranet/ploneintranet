@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.layout.dashboard_activity_tiles">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_dashboardtiles">List of dashboard tiles</title>
+      <description i18n:translate="help_dashboardtiles">
+        We want a list of the tiles we are going to include in the dashboard.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>./@@contacts_search.tile</element>
+      <element>./@@news.tile</element>
+      <element>./@@my_documents.tile</element>
+    </value>
+  </record>
+  <record name="ploneintranet.layout.dashboard_task_tiles">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_dashboardtiles">List of dashboard tiles</title>
+      <description i18n:translate="help_dashboardtiles">
+        We want a list of the tiles we are going to include in the dashboard.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>./@@contacts_search.tile</element>
+      <element>./@@news.tile</element>
+      <element>./@@my_documents.tile</element>
+      <element>./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder</element>
+      <element>./@@workspaces.tile?workspace_type=ploneintranet.workspace.case</element>
+      <element>./@@events.tile</element>
+      <element>./@@tasks.tile</element>
+    </value>
+  </record>
+</registry>
