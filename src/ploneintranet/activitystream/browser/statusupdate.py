@@ -8,9 +8,9 @@ from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.core.browser.utils import link_tags
-from ploneintranet.core.browser.utils import link_users
-from ploneintranet.core.browser.utils import link_urls
+from ploneintranet.microblog.browser.utils import link_tags
+from ploneintranet.microblog.browser.utils import link_users
+from ploneintranet.microblog.browser.utils import link_urls
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
