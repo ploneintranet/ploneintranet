@@ -30,27 +30,4 @@
       layer=".interfaces.IPloneIntranetCoreLayer"
       />
 
-  <browser:page
-      name="stream"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class=".stream.StreamView"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      template="templates/stream.pt"
-      />
-
-  <!-- styles and javascripts are only active in the "default" profile
-       not in the "minimal" profile. -->
-
-  <browser:resourceDirectory
-      name="ploneintranet.core.stylesheets"
-      directory="stylesheets"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      />
-  <browser:resourceDirectory
-      name="ploneintranet.core.javascripts"
-      directory="javascripts"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      />
-
 </configure>
