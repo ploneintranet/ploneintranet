@@ -30,7 +30,7 @@
               action="#selected-tags"
               class="search-result tags pat-inject pat-autosubmit"
 
-              tal:attributes="action string:${here/absolute_url}/@@newpostbox.tile;
+              tal:attributes="action string:${context/portal_url}/@@update-social.html;
               data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags &amp;&amp; source: #selected-tags-data;; target: #selected-tags-data">
           <fieldset class="checklist pat-checklist tags unchecked" tal:define="tags view/tags" id="tag-entries"
             tal:attributes="class string:${attrs/class} ${request/search_active|nothing} ">
