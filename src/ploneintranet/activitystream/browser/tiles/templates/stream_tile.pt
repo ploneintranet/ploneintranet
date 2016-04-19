@@ -28,9 +28,12 @@
 	    </label>
 	  </form>
           
-          <div class="activities" tal:define="
-              stream_macros nocall:here/activity-stream.html|here/context/activity-stream.html;">
-            <metal:block use-macro="stream_macros/main" />
+          <div class="activities">
+            <tal:loop
+               tal:repeat="post_view view/post_views"
+               tal:content="structure post_view"
+               />
+            
 
             <a tal:condition="not:view/stop_asking"
                tal:attributes="href string:${context_url}/@@activitystream.tile?stream_filter=${filter}&last_seen=${view/last_seen}"
