@@ -43,41 +43,50 @@ class WorkspacesTile(Tile):
 
 
 def my_workspaces(context,
-                  request=None,
+                  request={},
                   workspace_types=['ploneintranet.workspace.workspacefolder',
                                    'ploneintranet.workspace.case'],
                   include_activities=True):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
+
+    To get the sorting method:
+
+    1. Check the request
+    2. Check the registry
+    3. Default to "alphabet"
     """
+    sort_option = request.get('sort', '')
+    if not sort_option:
+        try:
+            sort_option = api.portal.get_registry_record(
+                'ploneintranet.workspace.my_workspace_sorting'
+            )
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            sort_option = u'alphabet'
 
-    # determine sorting order (default: alphabetical)
-    sort_by = "sortable_title"
-    searchable_text = None
+    if sort_option == "activity":
+        raise NotImplementedError(
+            "Sorting by activity"
+            "is not yet possible")
+    elif sort_option == "newest":
+        sort_by = "modified"
+    elif sort_option == "alphabet":
+        sort_by = "sortable_title"
+    else:
+        sort_by = "sortable_title"
 
-    if request:
-        if 'sort' in request:
-            if request.sort == "activity":
-                raise NotImplementedError(
-                    "Sorting by activity"
-                    "is not yet possible")
-            elif request.sort == "newest":
-                sort_by = "modified"
-        if 'SearchableText' in request:
-            searchable_text = request['SearchableText'].strip()
-        if 'workspace_type' in request and request.get('workspace_type'):
-            workspace_types = request['workspace_type']
-
-    portal = api.portal.get()
-    ws_folder = portal.get("workspaces")
-    ws_path = "/".join(ws_folder.getPhysicalPath())
+    searchable_text = request.get('SearchableText', '').strip()
+    workspace_types = request.get('workspace_type', []) or workspace_types
+    ws_path = "/".join(context.getPhysicalPath())
 
     query = dict(
         portal_type=workspace_types,
-        path=ws_path)
+        path=ws_path
+    )
 
     sitesearch = getUtility(ISiteSearch)
-
     if searchable_text:
         response = sitesearch.query(phrase=searchable_text,
                                     filters=query,
@@ -85,6 +94,7 @@ def my_workspaces(context,
     else:
         response = sitesearch.query(filters=query, step=99999)
 
+    portal = api.portal.get()
     workspaces = []
     for item in response:
         path_components = item.path.split('/')

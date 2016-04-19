@@ -23,4 +23,16 @@
     </field>
     <value purge="false">False</value>
   </record>
+  <record name="ploneintranet.workspace.my_workspace_sorting">
+    <field type="plone.registry.field.TextLine">
+      <default>title</default>
+      <title i18n:translate="label_my_workspace_sorting">My workspace sorting.</title>
+      <description i18n:translate="help_my_workspace_sorting">
+        At the moment we are able to handle the values "alphabet" and "newest".
+        Planned is to allow sorting on "active".
+      </description>
+      <required>True</required>
+    </field>
+    <value purge="false">alphabet</value>
+  </record>
 </registry>
