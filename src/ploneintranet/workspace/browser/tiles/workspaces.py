@@ -44,8 +44,7 @@ class WorkspacesTile(Tile):
 
 def my_workspaces(context,
                   request={},
-                  workspace_types=['ploneintranet.workspace.workspacefolder',
-                                   'ploneintranet.workspace.case'],
+                  workspace_types=[],
                   include_activities=True):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
@@ -77,8 +76,25 @@ def my_workspaces(context,
     else:
         sort_by = "sortable_title"
 
-    searchable_text = request.get('SearchableText', '').strip()
+    # The rule to get the workspace types is this one
+    #
+    # 1. Look in to the request
+    # 2. Use the function parameter
+    # 3. Check if we have something in the registry
+    # 4. Use a default for backward compatibility
     workspace_types = request.get('workspace_type', []) or workspace_types
+    if not workspace_types:
+        try:
+            workspace_types = api.portal.get_registry_record(
+                'ploneintranet.workspace.workspace_types'
+            )
+        except api.exc.InvalidParameterError:
+            workspace_types = [
+                'ploneintranet.workspace.case',
+                'ploneintranet.workspace.workspacefolder',
+            ]
+
+    searchable_text = request.get('SearchableText', '').strip()
     ws_path = "/".join(context.getPhysicalPath())
 
     query = dict(
@@ -96,12 +112,29 @@ def my_workspaces(context,
 
     portal = api.portal.get()
     workspaces = []
+
+    try:
+        workspace_types_css_mapping = api.portal.get_registry_record(
+            'ploneintranet.workspace.workspace_types_css_mapping'
+        )
+    except api.exc.InvalidParameterError:
+        # backward compatibility
+        workspace_types_css_mapping = [
+            'ploneintranet.workspace.case|type-case'
+        ]
+
+    css_mapping = {}
+    for line in workspace_types_css_mapping:
+        key, value = line.partition('|')[::2]
+        css_mapping[key] = value
+
     for item in response:
         path_components = item.path.split('/')
-        id = path_components[-1]
-        css_class = escape_id_to_class(id)
-        if item.portal_type == 'ploneintranet.workspace.case':
-            css_class = 'type-case ' + css_class
+        item_id = path_components[-1]
+        css_class = " ".join((
+            escape_id_to_class(item_id),
+            css_mapping.get(item.portal_type, ''),
+        ))
 
         activities = []
         if include_activities:
@@ -109,7 +142,7 @@ def my_workspaces(context,
             activities = get_workspace_activities(obj)
 
         workspaces.append({
-            'id': id,
+            'id': item_id,
             'uid': item.context['UID'],
             'title': item.title,
             'description': item.description,

@@ -23,7 +23,7 @@
         title="Upgrade step to fill the review state select in case manager working"
         description="We prefill the select with some review states which we know are useful"
         source="*"
-        destination="0005"
+        destination="0007"
         handler=".upgrades.import_portal_registry"
         profile="ploneintranet.workspace:default" />
 
