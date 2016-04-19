@@ -14,9 +14,15 @@ from ploneintranet.microblog.statusupdate import StatusUpdate
 logger = getLogger('newpostbox')
 
 
-class NewPostBoxTile(Tile):
-
-    index = ViewPageTemplateFile('templates/new-post-box-tile.pt')
+class AbstractNewPostBox(object):
+    """Tease apart:
+    - newpostbox.tile
+    - update-social
+      - panel-users
+      - panel-tags
+    - post-well-done
+    - comment-well-said
+    """
 
     input_prefix = 'form.widgets.'
     button_prefix = 'form.buttons.'
@@ -185,7 +191,7 @@ class NewPostBoxTile(Tile):
         We need to call the update manually (Tile instances don't do it)
         """
         self.update()
-        return super(NewPostBoxTile, self).__call__(*args, **kwargs)
+        return super(AbstractNewPostBox, self).__call__(*args, **kwargs)
 
     ###
     # The following properties are currently set to dummy values.
@@ -249,3 +255,8 @@ class NewPostBoxTile(Tile):
         ) % {
             'thread_id': thread_id,
         }
+
+
+class NewPostBoxTile(AbstractNewPostBox, Tile):
+
+    index = ViewPageTemplateFile('templates/new-post-box-tile.pt')

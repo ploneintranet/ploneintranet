@@ -1,15 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      metal:use-macro="context/main_template/macros/master"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="ploneintranet"
       >
     <body>
 
-<!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/_includes/update-social.html -->
-<metal:macro define-macro="main" i18n:domain="ploneintranet">
-  <tal:block tal:define="portal_url portal_url|here/portal_url">
+<!-- https://github.com/ploneintranet/ploneintranet.prototype/_includes/update-social.html -->
+  <tal:block tal:define="portal_url view/portal_url">
     <div
         class="ploneintranet"
         tal:define="
@@ -28,29 +26,29 @@
             tal:attributes="
               action action|request/ACTUAL_URL;
               id form_id;
-              data-pat-inject python:newpostbox_view.get_pat_inject(form_id, thread_id);
+              data-pat-inject python:view.get_pat_inject(form_id, thread_id);
             ">
 
         <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
 
-        <tal:direct condition="newpostbox_view/direct">
-          <tal:hideuser condition="not: newpostbox_view/hideuser">
+        <tal:direct condition="view/direct">
+          <tal:hideuser condition="not: view/hideuser">
                 <label>
                     To:
-                    <tal:fixeduser condition="newpostbox_view/fixeduser">
-                        <input disabled="disabled" value="user" tal:attributes="value newpostbox_view/user" />
+                    <tal:fixeduser condition="view/fixeduser">
+                        <input disabled="disabled" value="user" tal:attributes="value view/user" />
                     </tal:fixeduser>
-                    <tal:fixeduser condition="not: newpostbox_view/fixeduser">
+                    <tal:fixeduser condition="not: view/fixeduser">
                         <a class="iconified icon-user pat-tooltip"
                             data-pat-tooltip="position: tl; source: ajax; class: user;"
                             href="panel-user.html#content"
                             tal:attributes="href string:${portal_url}/@@panel-users#content"></a>
-                        <span id="selected-user"><input value="user" tal:attributes="value newpostbox_view/user" /></span>
+                        <span id="selected-user"><input value="user" tal:attributes="value view/user" /></span>
                     </tal:fixeduser>
                 </label>
             </tal:hideuser>
-            <tal:hideuser condition="newpostbox_view/hideuser">
-                <input type="hidden" value="user" tal:attributes="value newpostbox_view/user" />
+            <tal:hideuser condition="view/hideuser">
+                <input type="hidden" value="user" tal:attributes="value view/user" />
             </tal:hideuser>
         </tal:direct>
 
@@ -59,7 +57,7 @@
         <fieldset>
           <p class="content-mirror"
             ><span class="text" id="mirror-${form_id}"
-              ><em class="placeholder">${placeholder|newpostbox_view/placeholder}</em></span
+              ><em class="placeholder">${view/placeholder}</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
                 ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
@@ -85,7 +83,7 @@
           <textarea placeholder="placeholder"
                     class="pat-content-mirror pat-switch"
                     data-pat-switch="#post-box status-inactive status-active"
-                    tal:attributes="placeholder placeholder|newpostbox_view/placeholder;
+                    tal:attributes="placeholder placeholder|view/placeholder;
                                     data-pat-content-mirror string:target: #mirror-${form_id};
                                     data-pat-switch string:#${form_id} status-inactive status-active"
                     name="form.widgets.text"></textarea>
@@ -103,7 +101,7 @@
                tal:attributes="id string:${form_id}-attachment-previews" i18n:translate="">
               No attachments selected.
             </p>
-            <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value newpostbox_view/attachment_form_token">
+            <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/attachment_form_token">
             <span tal:replace="structure context/@@authenticator/authenticator"/>
           </fieldset>
 
@@ -119,7 +117,7 @@
             <a class="iconified icon-tags pat-tooltip"
                data-pat-tooltip="position: tl; source: ajax; class: tags;"
                href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${portal_url|context/portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
+               tal:attributes="href string:${portal_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
                Add tags</a>
 
             <button
@@ -143,6 +141,5 @@
     </div>
 
   </tal:block>
-</metal:macro>
     </body>
 </html>

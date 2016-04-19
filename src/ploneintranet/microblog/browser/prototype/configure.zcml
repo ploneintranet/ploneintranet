@@ -9,6 +9,7 @@
         name="update-social.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
+        class=".update-social.UpdateSocialView"
         template="update-social.html"
         permission="zope.Public"
         />

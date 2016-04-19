@@ -150,6 +150,7 @@
           tal:content="structure comment"
       />
     </div>
+    <tal:debug condition="nothing"><!-- FIXME -->
     <tal:commentable condition="view/commentable">
         <tal:define define="
           newpostbox_view nocall:view/newpostbox_view;
@@ -161,9 +162,10 @@
           context_url view/context_url;
         ">
           <div id="${string:new-comment-${thread_id}}"></div>
-          <metal:block use-macro="here/@@update-social.html/main" />
+          <div tal:replace="structure context/@@update-social.html" />
         </tal:define>
     </tal:commentable>
+    </tal:debug>
   </div>
 
 </div>

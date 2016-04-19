@@ -19,7 +19,7 @@
                 tal:content="structure comment"
             />
         </tal:isposting>
-        <metal:block use-macro="here/@@update-social.html/main" />
+        <div tal:replace="structure context/@@update-social.html" />
     </tal:define>
 
   </metal:macro>
