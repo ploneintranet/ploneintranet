@@ -10,37 +10,4 @@
   <include package=".prototype" />
   <include package=".tiles" />
 
-  <!-- FIXME legacy remove -->
-  <browser:viewlet
-      name="ploneintranet.suite.navigation"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-      class=".navigation.PloneIntranetNavigation"
-      permission="ploneintranet.microblog.ViewStatusUpdate"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <browser:page
-      name="statusupdate_view"
-      for="ploneintranet.microblog.interfaces.IStatusUpdate"
-      class=".statusupdate.StatusUpdateView"
-      permission="ploneintranet.microblog.ViewStatusUpdate"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <!-- FIXME legacy remove -->
-  <browser:page
-      name="stream"
-      for="ploneintranet.microblog.interfaces.IMicroblogContext"
-      class="ploneintranet.core.browser.stream.StreamView"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
-  <!-- FIXME legacy remove -->
-  <browser:resourceDirectory
-      name="ploneintranet.activitystream.stylesheets"
-      directory="stylesheets"
-      layer=".interfaces.IPloneIntranetActivitystreamLayer"
-      />
-
 </configure>
