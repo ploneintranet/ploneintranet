@@ -14,11 +14,13 @@ class CommentWellSaidView(UpdateSocialHandler):
     for injection back into the calling view.
     '''
 
-    def get_post_as_comment(self, post):
+    def render_comment(self):
         ''' Transforms a post (aka StatusUpdate) into a renderable comment
         '''
+        if not self.post:
+            return
         return api.content.get_view(
             'comment.html',
-            post,
+            self.post,
             self.request,
-        )
+        )()  # __call__()

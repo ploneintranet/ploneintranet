@@ -48,11 +48,23 @@ class UpdateSocialBase(BrowserView):
 
     @property
     @memoize
-    def post_context(self):
+    def microblog_context(self):
         """ The context of this microblog post
         (the portal, a workspace, and so on...)
         """
-        return piapi.microblog.get_microblog_context(self.context)
+        if isinstance(self.context, StatusUpdate):
+            microblog_context = self.context.microblog_context
+        else:
+            microblog_context = piapi.microblog.get_microblog_context(
+                self.context)
+        if microblog_context:
+            return microblog_context
+        else:
+            return api.portal.get()
+
+    @property
+    def microblog_context_url(self):
+        return self.microblog_context.absolute_url()
 
 
 class UpdateSocialHandler(UpdateSocialBase):
@@ -126,7 +138,7 @@ class UpdateSocialHandler(UpdateSocialBase):
             return
         post = piapi.microblog.statusupdate.create(
             text=self.post_text,
-            microblog_context=self.post_context,
+            microblog_context=self.microblog_context,
             thread_id=self.thread_id,
             mention_ids=self.post_mentions,
             tags=self.post_tags,
@@ -164,15 +176,11 @@ class UpdateSocialView(UpdateSocialBase):
         return api.portal.get().absolute_url()
 
     def form_action(self):
-        if self.post_context:
-            _base = self.post_context.absolute_url()
-        else:
-            _base = self.portal_url()
         if self.thread_id:
             _action = '%s/comment-well-said.html'
         else:
             _action = '%s/post-well-done.html'
-        return _action % _base
+        return _action % self.microblog_context_url
 
     @property
     def form_id(self):
@@ -254,4 +262,4 @@ class UpdateSocialView(UpdateSocialBase):
                 u"add_statusupdate_button",
                 default=u"What are you doing?"
             )
-        return self.context.translate(placeholder)
+        return self.microblog_context.translate(placeholder)

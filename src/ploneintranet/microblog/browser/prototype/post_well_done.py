@@ -14,12 +14,11 @@ class PostWellDoneView(UpdateSocialHandler):
     for injection back into the calling view.
     '''
 
-    def render_post_view(self):
-        if self.post:
-            return(
-                api.content.get_view(
-                    'post.html',
-                    self.post,
-                    self.request
-                )()  # __call__()
-            )
+    def render_post(self):
+        if not self.post:
+            return
+        return api.content.get_view(
+            'post.html',
+            self.post,
+            self.request
+        )()  # __call__()

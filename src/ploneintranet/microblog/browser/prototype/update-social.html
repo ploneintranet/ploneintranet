@@ -60,7 +60,7 @@
               ><em class="placeholder">${view/placeholder}</em></span
             ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
               ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
-                ><a tal:define="fullname python:context.portal_membership.getMemberById(user).getProperty('fullname');
+                ><a tal:define="fullname python:view.microblog_context.portal_membership.getMemberById(user).getProperty('fullname');
                 display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
                 ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
               ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
@@ -91,7 +91,7 @@
           <fieldset
              class="attachments pat-subform pat-autosubmit pat-inject"
              data-pat-inject="url: @@upload-statusupdate-attachments; source: #attachments;"
-             tal:attributes="data-pat-inject string:url:${context_url|context/absolute_url}/@@upload-statusupdate-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
+             tal:attributes="data-pat-inject string:url:${view/microblog_context_url}/@@upload-statusupdate-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
             <label class="iconified icon-attach pat-switch"
                    data-pat-switch="#post-box status-* status-attach"
                    tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
@@ -102,7 +102,7 @@
               No attachments selected.
             </p>
             <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/attachment_form_token">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <span tal:replace="structure view/microblog_context/@@authenticator/authenticator"/>
           </fieldset>
 
           <!-- The proto conditionally includes the share_tile in this place. Since
