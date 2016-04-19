@@ -9,7 +9,7 @@
         name="update-social.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
-        class=".update-social.UpdateSocialView"
+        class=".update_social.UpdateSocialView"
         template="update-social.html"
         permission="zope.Public"
         />
@@ -18,7 +18,7 @@
         name="post-well-done.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
-        class=".post-well-done.PostWellDoneView"
+        class=".post_well_done.PostWellDoneView"
         template="post-well-done.html"
         permission="zope.Public"
         />
@@ -27,7 +27,7 @@
         name="comment-well-said.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
-        class=".comment-well-said.CommentWellSaidView"
+        class=".comment_well_said.CommentWellSaidView"
         template="comment-well-said.html"
         permission="zope.Public"
         />
