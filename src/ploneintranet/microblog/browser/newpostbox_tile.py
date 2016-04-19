@@ -4,7 +4,7 @@ from logging import getLogger
 from plone.tiles import Tile
 
 
-logger = getLogger('newpostbox')
+logger = getLogger(__name__)
 
 
 class NewPostBoxTile(Tile):
