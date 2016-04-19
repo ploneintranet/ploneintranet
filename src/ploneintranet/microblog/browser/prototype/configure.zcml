@@ -18,6 +18,7 @@
         name="post-well-done.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
+        class=".post-well-done.PostWellDoneView"
         template="post-well-done.html"
         permission="zope.Public"
         />
@@ -26,6 +27,7 @@
         name="comment-well-said.html"
         for="*"
         layer="..interfaces.IPloneIntranetMicroblogLayer"
+        class=".comment-well-said.CommentWellSaidView"
         template="comment-well-said.html"
         permission="zope.Public"
         />

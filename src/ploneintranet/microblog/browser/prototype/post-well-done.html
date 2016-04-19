@@ -1,16 +1,17 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:tal="http://xml.zope.org/namespaces/tal" metal:use-macro="context/main_template/macros/master">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
 
 <body>
 
-  <!-- https://github.com/ploneintranet/ploneintranet.theme/blob/master/prototype/feedback/post-well-done.html -->
-  <metal:macro define-macro="main">
+  <!-- https://github.com/ploneintranet.prototype/feedback/post-well-done.html -->
     <div tal:replace="structure context/@@update-social.html" />
     <div id="activity-stream">
       <div tal:condition="view/post"
            tal:replace="structure view/render_post_view">
       </div>
     </div>
-  </metal:macro>
 
 </body>
 

@@ -11,11 +11,11 @@
       <tal:posting tal:condition="is_posting" tal:define="is_comment request/thread_id|nothing">
 
         <tal:is_status_update tal:condition="not:is_comment">
-          <metal:block use-macro="here/post-well-done.html/main" />
+          <div tal:replace="structure context/post-well-done.html" />
         </tal:is_status_update>
 
         <tal:is_comment tal:condition="is_comment">
-          <metal:block use-macro="here/comment-well-said.html/main" />
+          <div tal:replace="structure context/comment-well-said.html" />
         </tal:is_comment>
 
       </tal:posting>
