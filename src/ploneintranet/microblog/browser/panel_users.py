@@ -6,7 +6,7 @@ from plone import api
 
 class Users(BrowserView):
 
-    index = ViewPageTemplateFile('panel_users.pt')
+    index = ViewPageTemplateFile('templates/panel_users.pt')
     input_name = 'users:list'
     input_type = 'checkbox'
     panel_id = 'panel-users'
@@ -38,7 +38,7 @@ class Users(BrowserView):
 
 class User(Users):
 
-    index = ViewPageTemplateFile('panel_users.pt')
+    index = ViewPageTemplateFile('templates/panel_users.pt')
     input_name = 'user'
     input_type = 'radio'
     panel_id = 'panel-user'

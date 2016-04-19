@@ -6,28 +6,5 @@
 
   <include package=".tiles" />
 
-  <browser:view
-      for="*"
-      name="panel-tags"
-      class=".panel_tags.Tags"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      />
-
-  <browser:view
-      for="*"
-      name="panel-users"
-      class=".panel_users.Users"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      />
-
-  <browser:view
-      for="*"
-      name="panel-user"
-      class=".panel_users.User"
-      permission="zope2.View"
-      layer=".interfaces.IPloneIntranetCoreLayer"
-      />
 
 </configure>

@@ -8,7 +8,7 @@ from ploneintranet import api as piapi
 
 class Tags(BrowserView):
 
-    index = ViewPageTemplateFile('panel_tags.pt')
+    index = ViewPageTemplateFile('templates/panel_tags.pt')
     selected_tags = []
 
     def tags(self):
