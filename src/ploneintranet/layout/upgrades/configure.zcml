@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.workspace">
+
+    <genericsetup:upgradeStep
+        title="Configure dashboard tiles through portal_registry"
+        description="We added two records"
+        source="*"
+        destination="0001"
+        handler=".helpers.update_registry"
+        profile="ploneintranet.layout:default" />
+
+</configure>

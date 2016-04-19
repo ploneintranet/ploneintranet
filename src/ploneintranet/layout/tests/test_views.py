@@ -61,3 +61,33 @@ class TestViews(IntegrationTestCase):
             observed,
             expected,
         )
+
+    def test_dashboard_tiles(self):
+        ''' Check if the dashboard tiles are correctly configured
+        through the registry
+        '''
+        view = api.content.get_view(
+            'dashboard.html',
+            self.portal,
+            self.request,
+        )
+        self.assertTupleEqual(
+            view.activity_tiles(),
+            (
+                u'./@@contacts_search.tile',
+                u'./@@news.tile',
+                u'./@@my_documents.tile',
+            )
+        )
+        self.assertTupleEqual(
+            view.task_tiles(),
+            (
+                u'./@@contacts_search.tile',
+                u'./@@news.tile',
+                u'./@@my_documents.tile',
+                u'./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder',  # noqa
+                u'./@@workspaces.tile?workspace_type=ploneintranet.workspace.case',   # noqa
+                u'./@@events.tile',
+                u'./@@tasks.tile',
+            )
+        )

@@ -13,43 +13,37 @@
                              user_name current_user/getUserName">
 
         <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/#dashboard">
-	      <label class="bare pat-select">
-		    <select name="dashboard">
-			  <option value="activity" i18n:translate="">
-				Activity centric view
-			  </option>
-			  <option value="task" i18n:translate="">
-				Task centric view
-			  </option>
-		    </select>
-	      </label>
+          <label class="bare pat-select">
+            <select name="dashboard">
+              <option value="activity" i18n:translate="">
+                Activity centric view
+              </option>
+              <option value="task" i18n:translate="">
+                Task centric view
+              </option>
+            </select>
+          </label>
         </form>
 
 
-        <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet; stamp: .stamp;"
+        <div id="dashboard"
+             class="row pat-masonry"
+             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet; stamp: .stamp;"
              tal:condition="python: dashboard == 'activity'">
-	      <div class="grid-sizer four columns"></div>
-
-          <div data-tile="./@@contacts_search.tile"/>
-          <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@my_documents.tile"/>
-	      <div class="portlet span-2 stamp right" id="portlet-activity-stream">
+          <div class="grid-sizer four columns"></div>
+          <div tal:repeat="tile view/activity_tiles" data-tile="${tile}"/>
+          <div class="portlet span-2 stamp right" id="portlet-activity-stream">
             <form data-tile="./@@newpostbox.tile"/>
             <div data-tile="./@@activitystream.tile?stream_filter_menu=1"/>
           </div>
         </div>
 
-        <div id="dashboard" class="row pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
+        <div id="dashboard"
+             class="row pat-masonry"
+             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
              tal:condition="python: dashboard == 'task'">
-	      <div class="grid-sizer four columns"></div>
-
-          <div data-tile="./@@contacts_search.tile"/>
-          <div data-tile="./@@news.tile"/>
-          <div data-tile="./@@my_documents.tile"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder"/>
-          <div data-tile="./@@workspaces.tile?workspace_type=ploneintranet.workspace.case"/>
-          <div data-tile="./@@events.tile"/>
-          <div data-tile="./@@tasks.tile"/>
+          <div class="grid-sizer four columns"></div>
+          <div tal:repeat="tile view/task_tiles" data-tile="${tile}"/>
         </div>
       </tal:dashboard>
     </metal:content>

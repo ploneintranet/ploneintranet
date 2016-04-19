@@ -1,3 +1,5 @@
+# coding=utf-8
+from logging import getLogger
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -8,12 +10,59 @@ from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
 
+logger = getLogger(__name__)
+
+
 class Dashboard(BrowserView):
 
     """ A view to serve as a dashboard for homepage and/or users
     """
 
     implements(IBlocksTransformEnabled)
+
+    def get_tiles_from_registry(self, record, fallback=[]):
+        ''' Returns the tiles from the registry
+
+        If we do not have the tiles in the registry return the fallback tiles
+        '''
+        try:
+            return api.portal.get_registry_record(record)
+        except api.exc.InvalidParameterError:
+            logger.warning(
+                (
+                    'Cannot find registry record: %s. '
+                    'Check that ploneintranet.layout has been upgraded'
+                ),
+                record,
+            )
+            return fallback
+
+    def activity_tiles(self):
+        ''' This is a list of tiles taken
+        '''
+        return self.get_tiles_from_registry(
+            'ploneintranet.layout.dashboard_activity_tiles',
+            fallback=[
+                './@@contacts_search.tile',
+                './@@news.tile',
+                './@@my_documents.tile',
+            ]
+        )
+
+    def task_tiles(self):
+        ''' This is a list of tiles taken
+        '''
+        return self.get_tiles_from_registry(
+            'ploneintranet.layout.dashboard_task_tiles',
+            fallback=[
+                './@@news.tile',
+                './@@my_documents.tile',
+                './@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder',  # noqa
+                './@@workspaces.tile?workspace_type=ploneintranet.workspace.case',  # noqa
+                './@@events.tile',
+                './@@tasks.tile',
+            ]
+        )
 
 
 class NewsTile(Tile):
