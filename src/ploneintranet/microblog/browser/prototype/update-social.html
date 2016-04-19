@@ -11,9 +11,9 @@
     <div
         class="ploneintranet"
         tal:define="
-          form_id form_id|request/form_id|string:post-box;
-          thread_id thread_id|nothing;
-          is_posting is_posting|nothing;
+          form_id view/form_id;
+          thread_id view/thread_id;
+          is_posting view/is_posting;
           tags request/tags|nothing;
           users request/users|nothing;
         "
@@ -24,7 +24,7 @@
       <form id="post-box" method="post"
             class="pat-inject update-social status-inactive"
             tal:attributes="
-              action action|request/ACTUAL_URL;
+              action view/form_action;
               id form_id;
               data-pat-inject python:view.get_pat_inject(form_id, thread_id);
             ">

@@ -94,6 +94,13 @@ class AbstractNewPostBox(object):
             thread_id = None  # new
         return thread_id
 
+    @property
+    def form_id(self):
+        if self.thread_id:
+            return 'comment_box_%s' % self.thread_id
+        else:
+            return 'post-box'
+
     def userid2fullname(self, userid):
         """ Return the fullname for the post
         """
@@ -260,6 +267,6 @@ class AbstractNewPostBox(object):
         }
 
 
-class NewPostBoxTile(AbstractNewPostBox, Tile):
+class NewPostBoxTile(Tile):
 
     index = ViewPageTemplateFile('templates/new-post-box-tile.pt')

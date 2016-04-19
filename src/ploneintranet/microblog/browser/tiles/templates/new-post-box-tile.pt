@@ -1,24 +1,7 @@
 <html>
-    <body tal:define="newpostbox_view nocall:view;
-      thread_id view/thread_id;
-      form_id python: thread_id and 'comment_box_%s' % thread_id or 'post-box';
-      is_posting view/is_posting">
+    <body>
 
-      <tal:not_posting tal:condition="not:is_posting">
-        <div tal:replace="structure context/@@update-social.html" />
-      </tal:not_posting>
-
-      <tal:posting tal:condition="is_posting" tal:define="is_comment request/thread_id|nothing">
-
-        <tal:is_status_update tal:condition="not:is_comment">
-          <div tal:replace="structure context/post-well-done.html" />
-        </tal:is_status_update>
-
-        <tal:is_comment tal:condition="is_comment">
-          <div tal:replace="structure context/comment-well-said.html" />
-        </tal:is_comment>
-
-      </tal:posting>
+      <div tal:replace="structure context/@@update-social.html" />
 
     </body>
 </html>
