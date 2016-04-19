@@ -1,4 +1,5 @@
 from plone import api
+from ploneintranet import api as pi_api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone.dexterity.interfaces import IDexterityFTI
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
@@ -13,6 +14,8 @@ class TestGroupspaceBehavior(BaseTestCase):
     """
     def setUp(self):
         super(TestGroupspaceBehavior, self).setUp()
+
+        # activate the group behaviour on workspacefolder
         fti = queryUtility(
             IDexterityFTI,
             name='ploneintranet.workspace.workspacefolder')
@@ -22,32 +25,38 @@ class TestGroupspaceBehavior(BaseTestCase):
         fti.behaviors = tuple(behaviors)
         self.login_as_portal_owner()
         # set up some users
-        api.user.create(username='wsadmin', email='admin@test.com')
-        api.user.create(username='user1', email='test@test.com')
-        api.user.create(username='user2', email='test2@test.com')
-        self.workspace = api.content.create(
-            self.workspace_container,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace'
+        self.profile1 = pi_api.userprofile.create(
+            username='johndoe',
+            email='johndoe@doe.com',
+            approve=True,
         )
-        # add participants to workspace
-        self.add_user_to_workspace(
-            'wsadmin',
-            self.workspace,
-            {'Admins'},
-        )
-        self.add_user_to_workspace(
-            'user1',
-            self.workspace,
+        self.profile2 = pi_api.userprofile.create(
+            username='janeschmo',
+            email='janeschmo@doe.com',
+            approve=True,
         )
 
-        # Add a second workspace, without participants
+        self.workspace_a = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-a'
+        )
+        self.add_user_to_workspace(
+            'johndoe',
+            self.workspace_a,
+        )
+
+        # Add a second and third workspace, without participants
         self.workspace_b = api.content.create(
             self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
             'workspace-b'
         )
-
+        self.workspace_c = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'workspace-c'
+        )
         self.logout()
 
     def traverse_to_item(self, item):
@@ -55,40 +64,45 @@ class TestGroupspaceBehavior(BaseTestCase):
         return api.content.get(path='/'.join(item.getPhysicalPath()))
 
     def test_groups_behavior_present(self):
-        self.assertTrue(IMembraneGroup.providedBy(self.workspace))
+        self.assertTrue(IMembraneGroup.providedBy(self.workspace_a))
 
     def test_group_interface_provided(self):
-        self.assertTrue(IGroup(self.workspace, None) is not None)
+        self.assertTrue(IGroup(self.workspace_a, None) is not None)
 
     def test_group_title(self):
-        obj = IGroup(self.workspace)
-        self.assertEqual(obj.getGroupName(), self.workspace.Title())
+        obj = IGroup(self.workspace_a)
+        self.assertEqual(obj.getGroupName(), self.workspace_a.Title())
 
     def test_basic_group_membership(self):
-        obj = IGroup(self.workspace)
+        obj = IGroup(self.workspace_a)
         self.assertEqual(
             set(obj.getGroupMembers()),
-            set(['wsadmin', 'user1', 'admin'])
+            set(['johndoe', 'admin'])
         )
 
     def test_group_permissions_from_workspace(self):
-        self.login('user1')
-        # user1 cannot access workspace-b
+        self.login('johndoe')
+        # johndoe cannot access workspace-b
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.workspace_b)
         self.logout()
         self.login_as_portal_owner()
-        # the group example-workspace gets added as member to workspace-b
+        # the group workspace-a gets added as member to workspace-b
         self.add_user_to_workspace(
-            'example-workspace',
+            'workspace-a',
             self.workspace_b,
         )
         obj = IGroup(self.workspace_b)
         self.assertEqual(
             set(obj.getGroupMembers()),
-            set(['example-workspace', 'admin'])
+            set(['workspace-a', 'admin'])
         )
         self.logout()
-        self.login('user1')
-        # user1 can now access workspace-b
+        # johndoe can now access workspace-b
+        self.login('johndoe')
         self.traverse_to_item(self.workspace_b)
+        self.logout()
+        # but janeschmo still cannot
+        self.login('janeschmo')
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.workspace_b)
