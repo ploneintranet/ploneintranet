@@ -7,7 +7,35 @@
 
   <include file="permissions.zcml" package="ploneintranet.microblog" />
 
-  <include package=".prototype" />
-  <include package=".tiles" />
+  <include package="plone.tiles" file="meta.zcml" />
 
+  <plone:tile
+      name="activitystream.tile"
+      title="Activity stream tile"
+      description="Provides an activity stream as a tile"
+      add_permission="cmf.ManagePortal"
+      class=".stream_tile.StreamTile"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      for="*"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
+      />
+
+    <browser:page
+        name="comment.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/comment.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.AddStatusUpdate"
+        />
+
+    <browser:page
+        name="post.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/post.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.AddStatusUpdate"        
+        />
+  
 </configure>
