@@ -66,5 +66,8 @@ def division_dexterity(obj):
 
 @indexer(IWorkspaceFolder)
 def division(object, **kw):
-    """Indexes the division UID if present"""
-    return getattr(object, 'division', '')
+    """Indexes the division UID if present
+
+    Since this index is a UUIDIndex it needs to return either a UID or None
+    """
+    return getattr(object, 'division', None) or None
