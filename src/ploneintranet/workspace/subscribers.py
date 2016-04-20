@@ -6,6 +6,8 @@ from plone import api
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
+from ploneintranet.workspace import workspacefolder
+from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
@@ -229,3 +231,38 @@ def update_todos_state(obj, event):
 def _update_todo_state(todo):
     todo.set_appropriate_state()
     todo.reindexObject()
+
+
+def workspace_groupbehavior_toggled(obj, event):
+    # If the IMembraneGroup behavior gets set or deactivated for workspaces,
+    # the membrane tool needs to be updated, and all workspaces need to be
+    # reindexed
+    if obj.id != workspacefolder.__name__:
+        return
+    relevant_change = False
+    for description in event.descriptions:
+        if getattr(description, 'attribute', None) == 'behaviors':
+            relevant_change = True
+            break
+    if not relevant_change:
+        return
+    membrane_tool = api.portal.get_tool('membrane_tool')
+    if IMembraneGroup.__identifier__ in obj.behaviors:
+        # The behavior was activated
+        # Add the type to the membrane types and reindex all workspaces
+        types = set(membrane_tool.membrane_types)
+        types.add(workspacefolder.__name__)
+        membrane_tool.membrane_types = list(types)
+    else:
+        # The behavior was deactivated
+        # Remove the type from the membrane types and reindex all workspaces
+        types = [
+            typ for typ in membrane_tool.membrane_types if
+            typ != workspacefolder.__name__]
+        membrane_tool.membrane_types = types
+    catalog = api.portal.get_tool('portal_catalog')
+    membrane_catalog = membrane_tool._catalog
+    for result in catalog(portal_type=workspacefolder.__name__):
+        workspace = result.getObject()
+        workspace.reindexObject()
+        membrane_catalog.reindexObject(workspace)
