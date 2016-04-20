@@ -29,8 +29,6 @@ HIDDEN = [
     'ploneintranet.async:uninstall',
     'ploneintranet.attachments:default',
     'ploneintranet.attachments:uninstall',
-    'ploneintranet.core:default',
-    'ploneintranet.core:uninstall',
     'ploneintranet.docconv.client:default',
     'ploneintranet.docconv.client:uninstall',
     'ploneintranet.invitations:default',

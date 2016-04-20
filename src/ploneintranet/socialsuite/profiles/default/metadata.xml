@@ -6,6 +6,5 @@
     <dependency>profile-ploneintranet.activitystream:default</dependency>
     <dependency>profile-ploneintranet.network:default</dependency>
     <dependency>profile-ploneintranet.messaging:default</dependency>
-    <dependency>profile-ploneintranet.core:default</dependency>
   </dependencies>
 </metadata>
