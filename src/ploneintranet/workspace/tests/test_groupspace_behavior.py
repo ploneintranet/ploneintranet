@@ -96,3 +96,41 @@ class TestGroupspaceBehavior(BaseTestCase):
         self.login('janeschmo')
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.workspace_b)
+
+    def test_group_permissions_from_workspace_from_workspace(self):
+        self.login('johndoe')
+        # johndoe cannot access workspace-c
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.workspace_c)
+        self.logout()
+        self.login_as_portal_owner()
+        # the group workspace-a gets added as member to workspace-b
+        self.add_user_to_workspace(
+            'workspace-a',
+            self.workspace_b,
+        )
+        obj = IGroup(self.workspace_b)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-a', 'admin'])
+        )
+        # the group workspace-b gets added as member to workspace-c
+        self.add_user_to_workspace(
+            'workspace-b',
+            self.workspace_c,
+        )
+        obj = IGroup(self.workspace_c)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-b', 'admin'])
+        )
+        self.logout()
+        # johndoe can now access workspace-c
+        self.login('johndoe')
+
+        self.traverse_to_item(self.workspace_c)
+        self.logout()
+        # but janeschmo still cannot
+        self.login('janeschmo')
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.workspace_c)
