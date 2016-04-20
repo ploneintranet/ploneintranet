@@ -75,6 +75,11 @@ class TestGroupspaceBehavior(BaseTestCase):
         )
 
     def test_group_permissions_from_workspace(self):
+        """
+            Johndoe is member in Workspace A,
+            Workspace A is member in Workspace B
+                => Johndoe can access Workspace B
+        """
         self.login('johndoe')
         # johndoe cannot access workspace-b
         with self.assertRaises(Unauthorized):
@@ -102,6 +107,12 @@ class TestGroupspaceBehavior(BaseTestCase):
             self.traverse_to_item(self.workspace_b)
 
     def test_group_permissions_from_workspace_from_workspace(self):
+        """
+            Johndoe is member in Workspace A,
+            Workspace A is member in Workspace B,
+            Workspace B is member in Workspace C
+                => Johndoe can access Workspace C
+        """
         self.login('johndoe')
         # johndoe cannot access workspace-c
         with self.assertRaises(Unauthorized):
