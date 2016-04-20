@@ -1,10 +1,8 @@
 from plone import api
 from ploneintranet import api as pi_api
 from ploneintranet.workspace.tests.base import BaseTestCase
-from plone.dexterity.interfaces import IDexterityFTI
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from Products.membrane.interfaces import IGroup
-from zope.component import queryUtility
 from AccessControl import Unauthorized
 
 
@@ -15,14 +13,6 @@ class TestGroupspaceBehavior(BaseTestCase):
     def setUp(self):
         super(TestGroupspaceBehavior, self).setUp()
 
-        # activate the group behaviour on workspacefolder
-        fti = queryUtility(
-            IDexterityFTI,
-            name='ploneintranet.workspace.workspacefolder')
-        behaviors = set(fti.behaviors)
-        behaviors.add("{0}.{1}".format(
-            IMembraneGroup.__module__, IMembraneGroup.__name__))
-        fti.behaviors = tuple(behaviors)
         self.login_as_portal_owner()
         # set up some users
         self.profile1 = pi_api.userprofile.create(
