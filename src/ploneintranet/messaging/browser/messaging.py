@@ -5,8 +5,8 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.z3cform.fieldsets import extensible
-from ploneintranet.core.browser.utils import link_tags
-from ploneintranet.core.browser.utils import link_users
+from ploneintranet.microblog.browser.utils import link_tags
+from ploneintranet.microblog.browser.utils import link_users
 from ploneintranet.messaging.interfaces import IMessage
 from ploneintranet.messaging.interfaces import IMessagingLocator
 from z3c.form import button

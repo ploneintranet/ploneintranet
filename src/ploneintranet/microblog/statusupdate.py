@@ -6,12 +6,10 @@ from persistent import Persistent
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
-from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component.hooks import getSite
-from zope.interface import alsoProvides
 from zope.interface import implements
 import logging
 import time
@@ -45,9 +43,6 @@ class StatusUpdate(Persistent):
         self._init_creator()
         self._init_microblog_context(thread_id, microblog_context)
         self.tags = tags
-
-        if thread_id:
-            alsoProvides(self, IStatusActivityReply)
 
     # for unittest subclassing
     def _init_userid(self):
@@ -90,7 +85,7 @@ class StatusUpdate(Persistent):
         from ploneintranet import api as piapi
         container = piapi.microblog.get_microblog()
         for reply in container.thread_values(self.id):
-            if IStatusActivityReply.providedBy(reply):
+            if reply.id != self.id:
                 yield reply
 
     @property

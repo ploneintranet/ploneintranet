@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
+<body>
+
+<!-- ploneintranet.prototype/_includes/comment.html -->
+
+        <div class="comment">
+            <div class="comment-header">
+              <tal:avatar define="avatar view/avatar">
+                <a href="${avatar/url}">
+                  <img src="${avatar/img}"
+                       alt="${avatar/fullname}"
+                       class="pat-avatar"
+                       id="${avatar/id}"
+                       >
+                  <h4 class="name">${avatar/fullname}</h4>
+                </a>
+              </tal:avatar>
+            </div>
+            <section class="comment-content">
+                <p tal:content="structure view/decorated_text">
+                    The text of the comment
+                </p>
+            </section>
+
+            <section class="preview">
+                <figure tal:repeat="attachment view/attachments">
+                    <a href="${attachment/link|attachment}">
+                        <img alt="" src="${attachment/img_src|attachment}" alt="" />
+                    </a>
+                </figure>
+            </section>
+        </div>
+
+</body>
+</html>

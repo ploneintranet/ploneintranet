@@ -681,10 +681,13 @@ class QueuedStatusContainer(BaseStatusContainer):
         # update marker - block autoflush
         self._update_mtime()
         with LOCK:
-            # cancel scheduled flush
-            if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
-                # logger.info("Cancelling timer")
-                self._v_timer.cancel()
+            try:
+                # cancel scheduled flush
+                if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
+                    # logger.info("Cancelling timer")
+                    self._v_timer.cancel()
+                    self._v_timer = None
+            except AttributeError:
                 self._v_timer = None
 
         if STATUSQUEUE.empty():

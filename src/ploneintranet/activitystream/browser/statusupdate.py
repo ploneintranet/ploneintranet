@@ -3,16 +3,16 @@ import logging
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.core.browser.utils import link_tags
-from ploneintranet.core.browser.utils import link_users
-from ploneintranet.core.browser.utils import link_urls
+from ploneintranet.microblog.browser.utils import link_tags
+from ploneintranet.microblog.browser.utils import link_users
+from ploneintranet.microblog.browser.utils import link_urls
 from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
@@ -20,9 +20,9 @@ logger = logging.getLogger('ploneintranet.activitystream')
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
     '''
-    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
-    post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
-    comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
+
+    newpostbox_placeholder = _(u'leave_a_comment',
+                               default=u'Leave a comment...')
 
     @property
     @memoize
@@ -75,7 +75,7 @@ class StatusUpdateView(BrowserView):
         )
         toggle_like_view = toggle_like_base.publishTraverse(
             self.request,
-            self.context.getId,
+            self.context.getId(),
         )
         return toggle_like_view
 
@@ -139,9 +139,7 @@ class StatusUpdateView(BrowserView):
         return text
 
     @memoize_contextless
-    def get_avatar_by_userid(
-        self, userid, show_link=False, css='', attributes={}
-    ):
+    def get_avatar_by_userid(self, userid):
         ''' Provide informations to display the avatar
         '''
         user = api.user.get(self.context.userid)
@@ -161,9 +159,6 @@ class StatusUpdateView(BrowserView):
             'fullname': fullname,
             'img': img,
             'url': url,
-            'show_link': show_link,
-            'css': css,
-            'attributes': attributes,
         }
         return avatar
 
@@ -235,8 +230,8 @@ class StatusUpdateView(BrowserView):
         replies.reverse()
         replies_rendered = [
             api.content.get_view(
-                'statusupdate_view',
+                'comment.html',
                 reply,
-                self.request).as_comment
+                self.request)
             for reply in replies]
         return replies_rendered

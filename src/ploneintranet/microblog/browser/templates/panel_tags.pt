@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body>
+
+    <div metal:fill-slot="main"
+         tal:define="thread_id request/thread_id|nothing;
+                     form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
+
+      <div id="status-tag-selector" class="item-selector mode-select">
+
+        <form tal:attributes="action string:${context/portal_url}/@@panel-tags#postbox-tags"
+              method="post" id="tags-search"
+              class="search-box pat-inject pat-autosubmit">
+          <label>
+            <input type="search" placeholder="Search" name="tagsearch" i18n:attributes="placeholder"/>
+            <button type="submit" i18n:translate="label_search">Search</button>
+          </label>
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+          <input type="hidden" name="search_active" value="search-active" />
+          <span id="selected-tags-data"></span>
+        </form>
+
+        <form id="postbox-tags"
+              action="#selected-tags"
+              class="search-result tags pat-inject pat-autosubmit"
+              tal:attributes="action string:${context/portal_url}/@@update-social.html;
+              data-pat-inject string:source: #${form_id}-selected-tags;; target:#${form_id}-selected-tags &amp;&amp; source: #selected-tags-data;; target: #selected-tags-data">
+          <fieldset class="checklist pat-checklist tags unchecked" tal:define="tags view/tags" id="tag-entries"
+            tal:attributes="class string:${attrs/class} ${request/search_active|nothing} ">
+            <tal:tags repeat="tag tags">
+            <label class="item tag pat-switch" data-pat-switch="#tag-entries search-active">
+              <input type="checkbox" name="tags:list"
+                     tal:attributes="value tag;
+                                     checked python:tag in view.selected_tags and 'checked' or ''"/>
+              <a class="follow">
+                <strong class="title icon-tag"
+                        tal:content="tag" />
+              </a>
+            </label>
+            </tal:tags>
+            <input type="submit" name="Submit" hidden />
+            <tal:block tal:repeat="tag view/selected_tags"
+                ><input type="hidden" name="tags:list" tal:attributes="value tag" tal:condition="python:tag not in tags" /></tal:block>
+            <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
+
+<body>
+
+  <!-- ploneintranet.prototype/feedback/post-well-done.html -->
+    <div tal:replace="structure context/@@update-social.html" />
+    <div id="activity-stream">
+      <div tal:condition="view/post"
+           tal:replace="structure view/render_post">
+      </div>
+    </div>
+
+</body>
+
+</html>

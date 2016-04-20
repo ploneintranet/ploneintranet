@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest2 as unittest
-from ploneintranet.core.browser import utils as core_utils
+from ploneintranet.microblog.browser import utils as core_utils
 from ploneintranet.layout import utils as layout_utils
 
 
