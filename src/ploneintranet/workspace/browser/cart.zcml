@@ -52,7 +52,7 @@
   <browser:page
       for="*"
       class=".cart_actions.paste.PasteView"
-      permission="cmf.ModifyPortalContent"
+      permission="cmf.AddPortalContent"
       name="cart-paste"/>
 
 </configure>
