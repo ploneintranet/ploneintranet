@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
+from Products.CMFPlone.utils import safe_unicode
+from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import IGroup
 from Products.membrane.interfaces import IMembraneUserGroups
+from Products.membrane.interfaces import IMembraneUserProperties
 from collective.workspace.interfaces import IWorkspace
 from collective.workspace.pas import WORKSPACE_INTERFACE
 from dexterity.membrane.behavior.user import DxUserObject
@@ -36,6 +39,48 @@ class MembraneWorkspaceGroup(object):
         if not ws:
             return []
         return tuple(set([id for (id, details) in ws.members.items()]))
+
+
+@implementer(IMembraneUserProperties)
+@adapter(IMembraneGroup)
+class MembraneGroupProperties(DxUserObject):
+    """ Properties for our membrane group
+    """
+
+    def getPropertiesForUser(self, user, request=None):
+        """Get properties for this group.
+
+        """
+        properties = {}
+        catalog = api.portal.get_tool('portal_catalog')
+        query = {
+            'object_provides': WORKSPACE_INTERFACE,
+            'getId': user.getId()}
+        workspaces = catalog.unrestrictedSearchResults(query)
+        # Pick the first result. Ignore potential catalog problems
+        if len(workspaces):
+            workspace = workspaces[0]
+            properties['title'] = safe_unicode(workspace.Title)
+        return MutablePropertySheet(self.context.getId(), **properties)
+
+    def setPropertiesForUser(self, user, propertysheet):
+        """
+        Set modified properties on the group persistently.
+        Currently, we do nothing, since all properties are handled via
+        directly editing the workspace properties
+        """
+        pass
+
+    def deleteUser(self, user_id):
+        """
+        Remove properties stored for a user
+
+        Note that membrane itself does not do anything here.  This
+        indeed seems unneeded, as the properties are stored on the
+        content item, so they get removed anyway without needing
+        special handling.
+        """
+        pass
 
 
 class IGroupsProvider(Interface):

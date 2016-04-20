@@ -48,6 +48,13 @@
     factory=".group.MembraneWorkspaceGroup"
     provides="Products.membrane.interfaces.IGroup"
     />
+  <!-- Adapt our dexterity membrane groups behavior to IMembraneUserProperties,
+  so that our membrane-workspaces can have property sheets, e.g. for title -->
+  <adapter
+    factory=".group.MembraneGroupProperties"
+    provides="Products.membrane.interfaces.IMembraneUserProperties"
+    />
+
   <!-- Adapt dexterity membrane users to IMembraneUserGroups so that the
   lookup of user->groups is working for our workspaces -->
   <adapter
