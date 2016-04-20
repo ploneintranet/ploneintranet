@@ -6,16 +6,5 @@
 
   <include package="plone.tiles" file="meta.zcml" />
 
-  <plone:tile
-      add_permission="cmf.ManagePortal"
-      class=".my_documents.MyDocumentsTile"
-      description="Tile to list my documents"
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
-      name="my_documents.tile"
-      permission="zope2.View"
-      template="templates/my_documents.pt"
-      title="Events"
-      />
 
 </configure>

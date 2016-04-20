@@ -108,4 +108,16 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <plone:tile
+      name="my_documents.tile"
+      title="Documents"
+      description="Tile to list recently modified documents"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"      
+      class=".my_documents.MyDocumentsTile"
+      template="templates/my_documents.pt"      
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"      
+      />
+
 </configure>
