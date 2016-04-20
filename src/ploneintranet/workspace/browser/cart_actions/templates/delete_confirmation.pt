@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  
+
   <h1 i18n:translate="">Batch delete</h1>
 
   <form method="POST" action="cart-delete">
@@ -12,30 +12,30 @@
     <div class="panel-body"
          tal:define="items view/items">
       <article>
-	    <p>
-		  You've selected the following <strong>${python:len(items)}</strong> items to be deleted. Are you sure? (un-tick to exclude from deletion)
-	    </p>
+      <p i18n:translate="">
+      You've selected the following <strong i18n:name="num_items">${python:len(items)}</strong> items to be deleted. Are you sure? (un-tick to exclude from deletion)
+      </p>
       </article>
 
 
       <fieldset class="pat-checklist">
         <tal:item repeat="item items">
-	      <label>
-		    <input checked="checked" type="checkbox" name="uids:list" value="${item/UID}"/> ${item/Title}
-	      </label>
-	      <br />
+        <label>
+        <input checked="checked" type="checkbox" name="uids:list" value="${item/UID}"/> ${item/Title}
+        </label>
+        <br />
         </tal:item>
-	  </fieldset>
+    </fieldset>
     </div>
 
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
 
       <button type="submit" class="icon-ok-circle pat-shopping-cart"
-              data-pat-shopping-cart="action: empty">
+              data-pat-shopping-cart="action: empty" i18n:translate="">
         I am sure, delete now
       </button>
-      <button type="button" class="close-panel icon-cancel-circle">
+      <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
         Cancel
       </button>
     </div>
