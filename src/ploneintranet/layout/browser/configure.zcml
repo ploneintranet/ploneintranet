@@ -114,7 +114,7 @@
       description="Tile to list recently modified documents"
       add_permission="cmf.ManagePortal"
       permission="zope2.View"      
-      class=".my_documents.MyDocumentsTile"
+      class=".dashboard.MyDocumentsTile"
       template="templates/my_documents.pt"      
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"      
