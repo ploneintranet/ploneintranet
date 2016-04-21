@@ -918,7 +918,7 @@ I submit the status update
 I can mention the user
     [arguments]  ${username}
     Click link    link=Mention people
-    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Wait Until Element Is visible  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]
     Click element    css=textarea.pat-content-mirror
