@@ -1,0 +1,172 @@
+dn: dc=ploneintranet,dc=com
+objectClass: domain
+dc: ploneintranet
+
+# OU for users
+dn: ou=users,dc=ploneintranet,dc=com
+objectClass: organizationalUnit
+ou: users
+
+# OU for groups
+dn: ou=groups,dc=ploneintranet,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=council,ou=groups,dc=ploneintranet,dc=com
+objectClass: groupOfNames
+cn: council
+member: cn=alice_lindstrom cn=allan_neece cn=christian_stoney cn=jorge_primavera cn=dollie_nocera
+
+dn: cn=communications,ou=groups,dc=ploneintranet,dc=com
+objectClass: groupOfNames
+cn: communications
+member: cn=alice_lindstrom cn=fernando_poulter cn=francois_gast cn=guy_hackey cn=esmeralda_claassen cn=jamie_jacko cn=silvio_depaoli
+
+dn: cn=HR,ou=groups,dc=ploneintranet,dc=com
+objectClass: groupOfNames
+cn: HR
+member: cn=allan_neece cn=jesse_shaik cn=kurt_weissman cn=lance_stockstill cn=neil_wichmann cn=pearlie_whitby cn=rosalinda_roache
+
+dn: cn=alice_lindstrom,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Malmö
+sn: Lindstrom
+cn: alice_lindstrom
+mail: alice_lindstrom@example.org
+description: Nunc aliquet, augue nec adipiscing interdum
+
+dn: cn=allan_neece,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Bristol
+sn: Neece
+cn: allan_neece
+mail: allan_neece@example.org
+description: Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis varius mi purus non odio. 
+
+dn: cn=christian_stoney,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Springfield
+sn: Stoney
+cn: christian_stoney
+mail: christian_stoney@example.org
+description: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+
+dn: cn=jorge_primavera,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Buenos Aires
+sn: Primavera
+cn: jorge_primavera
+mail: jorge_primavera@example.org
+description: Donec pretium posuere tellus. 
+
+dn: cn=dollie_nocera,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: New York
+sn: Nocera
+cn: dollie_nocera
+mail: dollie_nocera@example.org
+description: Pellentesque tristique imperdiet tortor. 
+
+dn: cn=esmeralda_claassen,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Oslo
+sn: Claassen
+cn: esmeralda_claassen
+mail: esmeralda_claassen@example.org
+description: In id erat non orci commodo lobortis. 
+
+dn: cn=fernando_poulter,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Barcelona
+sn: Poulter
+cn: fernando_poulter
+mail: fernando_poulter@example.org
+description: Nam a sapien. 
+
+dn: cn=francois_gast,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Tolouse
+sn: Gast
+cn: francois_gast
+mail: francois_gast@example.org
+description: Praesent augue. 
+
+dn: cn=guy_hackey,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Melbourne
+sn: Hackey
+cn: guy_hackey
+mail: guy_hackey@example.org
+description: Nam euismod tellus id erat. 
+
+dn: cn=jamie_jacko,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Los Angeles
+sn: Jacko
+cn: jamie_jacko
+mail: jamie_jacko@example.org
+description: Fusce commodo. 
+
+dn: cn=jesse_shaik,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: London
+sn: Shaik
+cn: jesse_shaik
+mail: jesse_shaik@example.org
+description: Curabitur lacinia pulvinar nibh. 
+
+dn: cn=kurt_weissman,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Dresden
+sn: Weissman
+cn: kurt_weissman
+mail: kurt_weissman@example.org
+description: Fusce sagittis, libero non molestie mollis magna orci ultrices dolor at vulputate neque nulla lacinia eros. 
+
+dn: cn=lance_stockstill,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Dallas
+sn: Stockstill
+cn: lance_stockstill
+mail: lance_stockstill@example.org
+description: Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. 
+
+dn: cn=neil_wichmann,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Boston
+sn: Wichmann
+cn: neil_wichmann
+mail: neil_wichmann@example.org
+description:  Phasellus purus. 
+
+dn: cn=pearlie_whitby,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Philadelphia
+sn: Whitby
+cn: pearlie_whitby
+mail: pearlie_whitby@example.org
+description:  Nulla facilisis, risus a rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo sit amet elit. 
+
+dn: cn=rosalinda_roache,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Brussels
+sn: Roache
+cn: rosalinda_roache
+mail: rosalinda_roache@example.org
+description:  Sed bibendum. 
+
+dn: cn=silvio_depaoli,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Genoa
+sn: Depaoli
+cn: silvio_depaoli
+mail: silvio_depaoli@example.org
+description:  Phasellus neque orci, porta a, aliquet quis, semper a, massa. 
+
+dn: cn=elda_pearson,ou=users,dc=ploneintranet,dc=com
+objectClass: inetOrgPerson
+postalAddress: Manchester
+sn: Pearson
+cn: elda_pearson
+mail: elda_pearson@example.org
+description:  A person that only exists in ldap. If you see Elda Pearson in you Portal, LDAP is working.
