@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+from Products.CMFPlone.interfaces import IBundleRegistry
 from Products.CMFPlone.interfaces import IResourceRegistry
 from plone import api
 from plone.browserlayer.utils import registered_layers
@@ -34,8 +35,11 @@ class TestSetup(unittest.TestCase):
         self.assertEqual('ploneintranet.theme', getCurrentTheme())
 
     def test_resources(self):
-        bundles = getUtility(IRegistry).collectionOfInterface(
+        resources = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
+        self.assertIn('ploneintranet', resources)
+        bundles = getUtility(IRegistry).collectionOfInterface(
+            IBundleRegistry, prefix="plone.bundles")
         self.assertIn('ploneintranet', bundles)
 
 
@@ -63,7 +67,10 @@ class TestUninstall(unittest.TestCase):
         from plone.app.theming.utils import getCurrentTheme
         self.assertEqual('barceloneta', getCurrentTheme())
 
-    def test_cssregistry_removed(self):
-        bundles = getUtility(IRegistry).collectionOfInterface(
+    def test_resources_removed(self):
+        resources = getUtility(IRegistry).collectionOfInterface(
             IResourceRegistry, prefix="plone.resources")
+        self.assertNotIn('ploneintranet', resources)
+        bundles = getUtility(IRegistry).collectionOfInterface(
+            IBundleRegistry, prefix="plone.bundles")
         self.assertNotIn('ploneintranet', bundles)

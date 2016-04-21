@@ -137,7 +137,7 @@ def get(obj, scale='normal'):
     """
     previews = []
     settings = Settings(obj)
-    if settings.blob_files:
+    if settings.blob_files and settings.num_pages:
         ext = settings.pdf_image_format
         scale = _backward_map(scale)
         for i in range(settings.num_pages):

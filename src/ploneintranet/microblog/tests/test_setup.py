@@ -7,9 +7,7 @@ from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 PROJECTNAME = 'ploneintranet.microblog'
-CSS = (
-    '++resource++ploneintranet.microblog.stylesheets/microblog.css',
-)
+
 PERMISSIONS = (
     'Plone Social: Add Microblog Status Update',
     'Plone Social: View Microblog Status Update',
@@ -64,11 +62,6 @@ class TestUninstall(unittest.TestCase):
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetMicroblogLayer', layers)
-
-    def test_cssregistry_removed(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertNotIn(id, resource_ids, '{0} not removed'.format(id))
 
     def test_tool_removed(self):
         self.assertNotIn('ploneintranet_microblog', self.portal)

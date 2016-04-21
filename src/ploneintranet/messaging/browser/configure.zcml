@@ -73,24 +73,6 @@
       layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
-  <browser:resource
-      name="ploneintranet.messaging.messages.png"
-      file="images/messages.png"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:resource
-      name="ploneintranet.messaging.messaging.js"
-      file="javascript/messaging.js"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:resource
-      name="ploneintranet.messaging.messaging.css"
-      file="stylesheets/messaging.css"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
   <browser:viewlet
       name="ploneintranet.messaging.notifications"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"

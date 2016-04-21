@@ -11,10 +11,6 @@ def uninstall(context):
     - remove the dynamic groups plugin?
     - unset the ploneintranet_policy for all addable types?
     """
-    marker = 'ploneintranet.workspace_uninstall.txt'
-    if context.readDataFile(marker) is None:
-        return
-
     # Remove group that holds all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID):
         api.group.delete(groupname=INTRANET_USERS_GROUP_ID)

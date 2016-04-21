@@ -14,6 +14,8 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 
 from plone.testing import z2
 from plone.testing import Layer
@@ -31,6 +33,9 @@ _BUILDOUT_BIN_DIR = os.path.abspath(
 class CeleryLayer(Layer):
     """A Celery test layer that fires up and shuts down a Celery worker,
     but only if there's not already a Celery worker running.
+
+    You can start a celery worker manually for test debugging:
+    bin/celery -A ploneintranet.async.celerytasks worker -l DEBUG
     """
 
     tasks = 'ploneintranet.async.celerytasks'
@@ -39,7 +44,9 @@ class CeleryLayer(Layer):
         """Check whether celery is already running, else start a worker"""
         super(CeleryLayer, self).setUp()
         self.worker = None
-        if not self._celery_running():
+        if self._celery_running():
+            sys.stdout.write('[Re-using existing Celery worker] ')
+        else:
             self._celery_worker()
             i = 0
             while i < 10:
@@ -118,6 +125,7 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'ploneintranet.async:default')
         applyProfile(portal, 'ploneintranet.docconv.client:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownZope(self, app):
         """Tear down Zope."""

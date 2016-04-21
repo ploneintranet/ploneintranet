@@ -1,12 +1,14 @@
-import os
-import transaction
-from ploneintranet.async.celeryconfig import ASYNC_ENABLED
+# -*- coding: utf-8 -*-
 from plone import api
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobFile
-
 from ploneintranet import api as pi_api
 from ploneintranet.async import tasks
+from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.async.testing import FunctionalTestCase
+import os
+import transaction
 
 TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
 TEST_FILENAME = u'test.odt'
@@ -51,6 +53,7 @@ class TestTasks(FunctionalTestCase):
 
     def test_reindex(self):
         """Verify object reindexing"""
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         if not self.redis_running():
             self.fail("requires redis")
             return

@@ -70,6 +70,4 @@ def on_install(context):
     We do not want to have users with global roles such as Editor or
     Contributor in out test setup.
     """
-    if context.readDataFile('ploneintranet.userprofile.default.txt') is None:
-        return
     get_or_create_userprofile_container()

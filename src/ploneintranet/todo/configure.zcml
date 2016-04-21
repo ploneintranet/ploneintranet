@@ -27,13 +27,8 @@
         directory="profiles/uninstall"
         description="Extension profile for ploneintranet.todo."
         provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler="ploneintranet.todo.uninstall.uninstall"
         />
-
-  <genericsetup:importStep
-      name="ploneintranet.todo.uninstall"
-      title="Plone Intranet Todo: uninstall steps"
-      description="Various uninstall steps that are not handled by GS import/export handlers."
-      handler="ploneintranet.todo.uninstall.uninstall" />
 
     <include package="plone.behavior" file="meta.zcml" />
     <include package="plone.directives.form" />
