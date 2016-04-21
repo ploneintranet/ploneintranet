@@ -3,6 +3,7 @@ from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
+from plone.api.exc import PloneApiError
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
@@ -246,7 +247,10 @@ def workspace_groupbehavior_toggled(obj, event):
             break
     if not relevant_change:
         return
-    membrane_tool = api.portal.get_tool('membrane_tool')
+    try:
+        membrane_tool = api.portal.get_tool('membrane_tool')
+    except PloneApiError:
+        return
     if IMembraneGroup.__identifier__ in obj.behaviors:
         # The behavior was activated
         # Add the type to the membrane types and reindex all workspaces
