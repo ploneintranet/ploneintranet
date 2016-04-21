@@ -16,9 +16,9 @@ ploneintranet.layout
 ploneintranet.layout.dashboard_activity_tiles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    **title**: List of dashboard tiles
+    **title**: List of dashboard activity tiles
 
-    **description**: We want a list of the tiles we are going to include in the dashboard.
+    **description**: This is the list of the tiles the user will see on the "Activity centric view" dashboard.
 
     **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
 
@@ -29,10 +29,9 @@ ploneintranet.layout.dashboard_activity_tiles
 ploneintranet.layout.dashboard_task_tiles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    tilte: List of dashboard tiles
+    tilte: List of dashboard activity tiles
 
-    **description**: We want a list of the tiles we are going
-                 to include in the dashboard
+    **description**: This is the list of the tiles the user will see on the "Activity centric view" dashboard.
 
     **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
 

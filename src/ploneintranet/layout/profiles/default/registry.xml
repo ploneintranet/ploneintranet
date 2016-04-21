@@ -3,9 +3,11 @@
           i18n:domain="ploneintranet">
   <record name="ploneintranet.layout.dashboard_activity_tiles">
     <field type="plone.registry.field.Tuple">
-      <title i18n:translate="label_dashboardtiles">List of dashboard tiles</title>
-      <description i18n:translate="help_dashboardtiles">
-        We want a list of the tiles we are going to include in the dashboard.
+      <title i18n:translate="label_dashboard_activity_tiles">List of dashboard activity tiles</title>
+      <description i18n:translate="help_dashboard_activity_tiles">
+        This is the list of the tiles
+        the user will see on the
+        "Activity centric view" dashboard.
       </description>
       <value_type type="plone.registry.field.TextLine" />
     </field>
@@ -17,9 +19,11 @@
   </record>
   <record name="ploneintranet.layout.dashboard_task_tiles">
     <field type="plone.registry.field.Tuple">
-      <title i18n:translate="label_dashboardtiles">List of dashboard tiles</title>
-      <description i18n:translate="help_dashboardtiles">
-        We want a list of the tiles we are going to include in the dashboard.
+      <title i18n:translate="label_dashboard_task_tiles">List of dashboard task tiles</title>
+      <description i18n:translate="help_dashboard_task_tiles">
+        This is the list of the tiles
+        the user will see on the
+        "Task centric view" dashboard.
       </description>
       <value_type type="plone.registry.field.TextLine" />
     </field>
