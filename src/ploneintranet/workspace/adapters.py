@@ -170,16 +170,25 @@ class MetroMap(object):
         transitions between them.
 
         Return the workflow required to render the metromap.
+
+        NOTE: is it really this hard to get the workflow for an obj?
         """
         policy_conf = self.context.get(WorkflowPolicyConfig_id)
         if policy_conf is None:
             return
         policy = policy_conf.getPolicyIn()
-        policy_id = policy.getId()
-        wft = api.portal.get_tool('portal_workflow')
-        workflow = wft.getWorkflowById(policy_id)
-        if workflow and workflow.variables.get("metromap_transitions", False):
-            return workflow
+        if policy is None:
+            return
+        chain = policy.getChainFor(self.context)
+        if chain is None:
+            chain = policy.getDefaultChain(self.context)
+        if chain is not None:
+            wft = api.portal.get_tool('portal_workflow')
+            for wf_id in chain:
+                workflow = wft.getWorkflowById(wf_id)
+                if workflow and workflow.variables.get("metromap_transitions",
+                                                       False):
+                    return workflow
 
     def get_available_metromap_workflows(self):
         """Return all globally available workflows with the
@@ -299,16 +308,21 @@ class MetroMap(object):
                and not open_tasks):
                 finished = True
 
-            # only current state can be closed
-            if (state == current_state and can_manage and not open_tasks):
-                next_transition = wfstep.get('next_transition', None)
-            else:
-                next_transition = None
-            if next_transition:
+            # get the id and title of the next transition, for display on the
+            # metromap
+            next_transition_id = metromap_list[index].get('next_transition')
+            if next_transition_id:
                 transition_title = _(
-                    cwf.transitions.get(next_transition).title)
+                    cwf.transitions.get(next_transition_id).title)
             else:
                 transition_title = ''
+
+            # only current state can be closed, archived state cannot be closed
+            if (state == current_state and can_manage and not open_tasks
+                    and next_transition_id):
+                next_transition_enabled = True
+            else:
+                next_transition_enabled = False
 
             # reopen only the before-current step, only for admins
             reopen_transition = None
@@ -323,7 +337,8 @@ class MetroMap(object):
 
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
-                'transition_id': next_transition,
+                'transition_enabled': next_transition_enabled,
+                'transition_id': next_transition_id,
                 'transition_title': transition_title,
                 'reopen_transition': reopen_transition,
                 'is_current': is_current,

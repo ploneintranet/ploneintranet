@@ -45,7 +45,15 @@ class CaseView(WorkspaceView):
         if 'transition_icons' in workflow.variables:
             return workflow.getInfoFor(context, 'transition_icons', {})
         else:
-            return {}
+            return {
+                'assign': 'icon-right-hand',
+                'finalise': 'icon-pin',
+                'request': 'icon-right-circle',
+                'submit': 'icon-right-circle',
+                'decide': 'icon-hammer',
+                'close': 'icon-cancel-circle',
+                'archive': 'icon-archive',
+            }
 
 
 class CaseWorkflowGuardView(BrowserView):
