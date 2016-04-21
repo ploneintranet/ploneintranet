@@ -82,9 +82,6 @@ setup(name='ploneintranet',
               'mock',
               'responses',
           ],
-          'socialsuite': [
-              'loremipsum',
-          ],
           'suite': [
               'requests',
               'plone.tiles',
