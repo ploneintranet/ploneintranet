@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.interfaces import IResourceRegistry
 from ploneintranet.activitystream.testing import (
     PLONEINTRANET_ACTIVITYSTREAM_INTEGRATION_TESTING
 )
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
 import unittest2 as unittest
 
 PROJECTNAME = 'ploneintranet.activitystream'
-CSS = (
-    '++resource++ploneintranet.activitystream.stylesheets/activitystream.css',
-)
 
 
 class InstallTestCase(unittest.TestCase):
@@ -29,14 +23,6 @@ class InstallTestCase(unittest.TestCase):
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetActivitystreamLayer', layers)
-
-    def test_cssregistry(self):
-        bundles = getUtility(IRegistry).collectionOfInterface(
-            IResourceRegistry, prefix="plone.resources")
-        bundle = bundles['resource-ploneintranet-activitystream-stylesheets']
-
-        for id in CSS:
-            self.assertIn(id, bundle.css, '{0} not installed'.format(id))
 
 
 class UninstallTestCase(unittest.TestCase):
@@ -55,12 +41,6 @@ class UninstallTestCase(unittest.TestCase):
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetActivitystreamLayer', layers)
-
-    def test_cssregistry_removed(self):
-        bundles = getUtility(IRegistry).collectionOfInterface(
-            IResourceRegistry, prefix="plone.resources")
-        self.assertNotIn(
-            'resource-ploneintranet-activitystream-stylesheets', bundles)
 
     def test_view_method_removed(self):
         portal_types = api.portal.get_tool('portal_types')

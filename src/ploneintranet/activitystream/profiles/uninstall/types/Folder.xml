@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<object name="Folder">
- <property name="view_methods" purge="False">
-  <element value="activitystream_portal" remove="True" />
- </property>
-</object>
