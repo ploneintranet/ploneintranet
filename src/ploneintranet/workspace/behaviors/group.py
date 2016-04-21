@@ -59,8 +59,13 @@ class MembraneGroupProperties(DxUserObject):
         workspaces = catalog.unrestrictedSearchResults(query)
         # Pick the first result. Ignore potential catalog problems
         if len(workspaces):
+            portal_path = api.portal.get().getPhysicalPath()
             workspace = workspaces[0]
             properties['title'] = safe_unicode(workspace.Title)
+            properties['description'] = safe_unicode(workspace.Description)
+            path = '/'.join([""] + workspace.getPath().split('/')[
+                len(portal_path):])
+            properties['workspace_path'] = path
         return MutablePropertySheet(self.context.getId(), **properties)
 
     def setPropertiesForUser(self, user, propertysheet):
