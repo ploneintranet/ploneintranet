@@ -10,11 +10,12 @@ class WorkspaceGroupView(BrowserView):
     def group_details(self):
         """ Get group data """
         gid = self.request.get('id')
+        default = dict(id='', title=u"No Group", description=u"", members=[])
         if not gid:
-            return dict(
-                id='', title=u"No Group", description=u"", members=[])
-
+            return default
         group = api.group.get(groupname=gid)
+        if group.getProperty('state') == 'secret':
+            return default
         g_title = group.getProperty('title') or group.getId() or gid
         g_description = group.getProperty('description')
 
@@ -23,6 +24,8 @@ class WorkspaceGroupView(BrowserView):
         for principal in users:
             id = principal.getId()
             if IGroupData.providedBy(principal):
+                if principal.getProperty('state') == 'secret':
+                    continue
                 typ = 'group'
                 title = principal.getProperty('title') or id
                 path = principal.getProperty('workspace_path') or ''

@@ -146,6 +146,9 @@ class AllGroupsJSONView(BrowserView):
             for special_group in ws.available_groups:
                 if groupid.startswith('{}:'.format(special_group)):
                     skip = True
+                    break
+            if group.getProperty('state') == 'secret':
+                skip = True
             if skip:
                 continue
             title = group.getProperty('title') or groupid

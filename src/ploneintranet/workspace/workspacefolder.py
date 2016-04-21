@@ -192,6 +192,9 @@ class WorkspaceFolder(Container):
                 group = api.group.get(user_or_group_id)
                 if group is None:
                     continue
+                # Don't show a secret group, ever
+                if group.getProperty('state') == 'secret':
+                    continue
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
                 description = _(

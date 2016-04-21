@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from json import loads
 from plone import api
 from ploneintranet import api as pi_api
 from ploneintranet.workspace.tests.base import BaseTestCase
@@ -34,6 +35,7 @@ class TestGroupspaceBehavior(BaseTestCase):
             'workspace-a',
             title=u"Workspace A"
         )
+        api.content.transition(self.workspace_a, 'make_private')
         self.add_user_to_workspace(
             'johndoe',
             self.workspace_a,
@@ -46,6 +48,7 @@ class TestGroupspaceBehavior(BaseTestCase):
             'workspace-b',
             title=u"Workspace 𝔅"
         )
+        api.content.transition(self.workspace_b, 'make_private')
         self.workspace_c = api.content.create(
             self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
@@ -173,11 +176,49 @@ class TestGroupspaceBehavior(BaseTestCase):
             Makes sure that our MembraneGroupProperties provider gets used
         """
         all_groups = api.group.get_groups()
+        ws_groups = [
+            group for group in all_groups if
+            group.getId().startswith('workspace-')]
         workspace_titles = set([
-            group.getProperty('title') for group in all_groups if
-            group.getId().startswith('workspace-')
+            group.getProperty('title') for group in ws_groups
         ])
         self.assertEqual(
             workspace_titles,
             set([u'Workspace A', u'Workspace 𝔅', u'Workspace 𝒞'])
         )
+        workspace_uids = set([
+            group.getProperty('uid') for group in ws_groups
+        ])
+        self.assertEqual(
+            workspace_uids,
+            set([
+                self.workspace_a.UID(),
+                self.workspace_b.UID(),
+                self.workspace_c.UID()
+            ])
+        )
+
+    def test_workspace_members_listing_ignores_secret(self):
+        self.login_as_portal_owner()
+
+        json_groups = self.workspace_a.restrictedTraverse('allgroups.json')()
+        available_group_ids = [x['id'] for x in loads(json_groups)]
+        # The secret workspace C does not get listed
+        self.assertTrue('workspace-a' in available_group_ids)
+        self.assertTrue('workspace-b' in available_group_ids)
+        self.assertFalse('workspace-c' in available_group_ids)
+
+        # Add private workspace B to A
+        self.add_user_to_workspace(
+            'workspace-b',
+            self.workspace_a,
+        )
+        # Add secret workpace C to A
+        self.add_user_to_workspace(
+            'workspace-c',
+            self.workspace_a,
+        )
+        existing_users = self.workspace_a.existing_users()
+        group_ids = [x['id'] for x in existing_users if x['typ'] == 'group']
+        self.assertTrue('workspace-b' in group_ids)
+        self.assertFalse('workspace-c' in group_ids)
