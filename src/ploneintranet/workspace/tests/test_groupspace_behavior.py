@@ -5,6 +5,7 @@ from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from Products.membrane.interfaces import IGroup
 from AccessControl import Unauthorized
+from zope.annotation import IAnnotations
 
 
 class TestGroupspaceBehavior(BaseTestCase):
@@ -52,6 +53,23 @@ class TestGroupspaceBehavior(BaseTestCase):
             title=u"Workspace 𝒞"
         )
         self.logout()
+
+    def logout(self):
+        """
+        Delete any cached localrole information from the request.
+        """
+        super(TestGroupspaceBehavior, self).logout()
+        annotations = IAnnotations(self.request)
+        keys_to_remove = []
+        for key in annotations.keys():
+            if (
+                isinstance(key, basestring) and
+                key.startswith('borg.localrole')
+            ):
+                keys_to_remove.append(key)
+
+        for key in keys_to_remove:
+            annotations.pop(key)
 
     def traverse_to_item(self, item):
         """ helper method to travers to an item by path """
