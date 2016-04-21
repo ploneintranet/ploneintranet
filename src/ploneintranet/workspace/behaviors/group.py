@@ -56,16 +56,18 @@ class MembraneGroupProperties(DxUserObject):
         query = {
             'object_provides': WORKSPACE_INTERFACE,
             'getId': user.getId()}
-        workspaces = catalog.unrestrictedSearchResults(query)
+        brains = catalog.unrestrictedSearchResults(query)
         # Pick the first result. Ignore potential catalog problems
-        if len(workspaces):
+        if len(brains):
             portal_path = api.portal.get().getPhysicalPath()
-            workspace = workspaces[0]
-            properties['title'] = safe_unicode(workspace.Title)
-            properties['description'] = safe_unicode(workspace.Description)
-            path = '/'.join([""] + workspace.getPath().split('/')[
-                len(portal_path):])
+            brain = brains[0]
+            ws_obj = brain._unrestrictedGetObject()
+            properties['title'] = safe_unicode(brain.Title)
+            properties['description'] = safe_unicode(brain.Description)
+            path = '/' + '/'.join(ws_obj.getPhysicalPath()[len(portal_path):])
             properties['workspace_path'] = path
+            properties['state'] = api.content.get_state(ws_obj)
+            properties['uid'] = ws_obj.UID()
         return MutablePropertySheet(self.context.getId(), **properties)
 
     def setPropertiesForUser(self, user, propertysheet):
