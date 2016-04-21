@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<object name="Plone Site">
- <property name="view_methods">
-  <element value="activitystream_portal" remove="True" />
- </property>
-</object>
