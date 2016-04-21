@@ -26,7 +26,6 @@
       directory="profiles/testing"
       description="Integration testing setup for ploneintranet.pagerank"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler="ploneintranet.pagerank.setuphandlers.setup_testing"
       />
 
 </configure>
