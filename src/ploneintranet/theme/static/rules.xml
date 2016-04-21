@@ -89,6 +89,13 @@
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
+
+  <rules css:if-content="body.template-case-manager">
+    <theme href="generated/apps/case-manager/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+
   <rules css:if-content="body.portaltype-todo">
       <theme href="generated/basisdaten/index.html" />
     <!-- Main content rule: Put plone content into theme content -->
