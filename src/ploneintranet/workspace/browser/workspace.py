@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from collective.workspace.interfaces import IWorkspace
 from plone import api
@@ -114,7 +115,7 @@ class AllUsersJSONView(BrowserView):
     Return a filtered list of users for pat-autosuggest
     """
     def __call__(self):
-        q = self.request.get('q', '')
+        q = safe_unicode(self.request.get('q', ''))
         user_details = []
         for user in pi_api.userprofile.get_users(
                 SearchableText=u'{}*'.format(q)):
