@@ -682,5 +682,20 @@
     <guard>
     </guard>
   </variable>
-
+  <variable variable_id="transition_icons" for_catalog="False" for_status="False" update_always="True" >
+    <description>Each transition can have its own icon.</description>
+    <default>
+       <expression>python:{
+      'assign': 'icon-right-hand',
+      'finalise': 'icon-pin',
+      'request': 'icon-right-circle',
+      'submit': 'icon-right-circle',
+      'decide': 'icon-hammer',
+      'close': 'icon-cancel-circle',
+      'archive': 'icon-archive',
+      }</expression>
+    </default>
+    <guard >
+    </guard>
+   </variable>
 </dc-workflow>
