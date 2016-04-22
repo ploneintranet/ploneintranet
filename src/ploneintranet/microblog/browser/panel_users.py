@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
+from ploneintranet import api as pi_api
+from plone.memoize.view import memoize_contextless
 
 
 class Users(BrowserView):
@@ -16,24 +17,45 @@ class Users(BrowserView):
     selected_users = []
     selected_user_ids = []
 
-    def users(self):
-        '''Get users.
-
-        Applies very basic user name searching
+    @property
+    @memoize_contextless
+    def selected_users(self):
+        ''' Returns the selected users
+        according to the "mentions" parameter in the request
         '''
-        users = api.user.get_users()
-        self.selected_users = [
-            api.user.get(uid) for uid in self.request.form.get('mentions', [])]
-        self.selected_user_ids = [user.id for user in self.selected_users]
-        search_string = self.request.form.get('usersearch')
-        if search_string:
-            search_string = search_string.lower()
-            users = filter(
-                lambda x: search_string in x.getProperty('fullname').lower(),
-                users
-            )
-        self.user_ids = [user.id for user in users]
-        return users
+        user_generator = pi_api.userprofile.get_users(
+            getId=self.request.form.get('mentions', []),
+        )
+        return list(user_generator)
+
+    @property
+    @memoize_contextless
+    def selected_user_ids(self):
+        ''' Returns the selected user ids
+        according to the "mentions" parameter in the request
+        '''
+        return [user.id for user in self.selected_users]
+
+    @property
+    @memoize_contextless
+    def users(self):
+        '''Get the users that survice the usersearch filter.
+
+        Users are sorted on fullname
+        '''
+        usersearch = '*%s*' % self.request.form.get('usersearch', '')
+        usersearch = usersearch.replace('**', '')
+        users = pi_api.userprofile.get_users(
+            SearchableText=usersearch,
+        )
+        return sorted(users, key=lambda x: x.fullname)
+
+    @property
+    @memoize_contextless
+    def user_ids(self):
+        ''' Returns the filtered user ids sorted by id
+        '''
+        return sorted([user.id for user in self.users])
 
 
 class User(Users):
