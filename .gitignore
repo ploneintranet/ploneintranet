@@ -43,3 +43,7 @@ stamp-npm
 uuid.txt
 var/
 vendor/
+ldap/data/
+ldap/args
+ldap/log
+ldap/pid
