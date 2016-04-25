@@ -154,6 +154,14 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+  <browser:page
+      name="email_invitees"
+      for="plone.event.interfaces.IEvent"
+      class=".event.EmailInvitees"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      permission="zope2.View"
+      />
+
   <browser:viewlet
       name="ploneintranet.workspace.sharinginfo"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"

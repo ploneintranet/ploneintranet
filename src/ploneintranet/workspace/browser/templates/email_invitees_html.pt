@@ -1,0 +1,20 @@
+<p i18n:translate="">Dear Mr./Ms. ${view/invitee_name},</p>
+
+<p i18n:translate="">
+  You received this email from
+  ${context/plone_portal_state/navigation_root_title}
+  because you are invited to the following date:
+</p>
+
+<p>
+  <b i18n:translate="">Title:</b> <a href="${context/absolute_url}">${context/title}</a><br>
+  <b i18n:translate="">From</b> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <b i18n:translate="">to</b> ${python:context.end.strftime('%d.%m.%Y %H:%M')}<br>
+  <b i18n:translate="">Location</b>: ${context/location}<br>
+
+<p>
+The agenda for this event can be found here:
+</p>
+
+${context/absolute_url}
+
+<p>Regards</p>
