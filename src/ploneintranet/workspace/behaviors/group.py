@@ -111,8 +111,7 @@ class MembraneWorkspaceGroupsProvider(DxUserObject):
         query = {'object_provides': WORKSPACE_INTERFACE}
         if userid:
             query['workspace_members'] = userid
-        workspaces = [b.id for b in catalog.unrestrictedSearchResults(query)]
-        return iter(workspaces)
+        return (b.id for b in catalog.unrestrictedSearchResults(query))
 
     # IGroupsPlugin implementation
     def getGroupsForPrincipal(self, principal, request=None):
