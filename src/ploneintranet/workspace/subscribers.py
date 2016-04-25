@@ -249,6 +249,9 @@ def workspace_groupbehavior_toggled(obj, event):
         return
     try:
         membrane_tool = api.portal.get_tool('membrane_tool')
+    # In case the membrane_tool cannot be found, just return.
+    # This can happen in test scenarios that do not set up the full stack of
+    # PloneIntranet.
     except PloneApiError:
         return
     if IMembraneGroup.__identifier__ in obj.behaviors:
