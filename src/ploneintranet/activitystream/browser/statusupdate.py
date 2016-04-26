@@ -81,17 +81,6 @@ class StatusUpdateView(BrowserView):
 
     @property
     @memoize
-    def newpostbox_view(self):
-        ''' Return the newpostbox.tile view
-        '''
-        return api.content.get_view(
-            'newpostbox.tile',
-            self.portal,
-            self.request,
-        )
-
-    @property
-    @memoize
     def toLocalizedTime(self):  # noqa
         ''' Facade for the toLocalizedTime method
         '''
