@@ -128,11 +128,11 @@ I can create a new workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
     Click Button  Create workspace
-    Wait Until Element Is visible  css=div#activity-stream  timeout=10
+    Wait Until Element Is visible  css=div#activity-stream
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
@@ -543,10 +543,10 @@ Then I can delete an event
     Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
-    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
+    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']
 
 The upload appears in the stream
-    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]  timeout=20
+    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]
 
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
@@ -759,7 +759,7 @@ I can create a new case
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  portal_type  ploneintranet.workspace.case
@@ -778,7 +778,7 @@ I can create a new case from a template
     [arguments]  ${template}  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Something completely different
     Select From List  portal_type  ploneintranet.workspace.case
@@ -959,8 +959,8 @@ I can set the date range to ${START_DATE} ${END_DATE}
     Focus  jquery=[name=end_date]
     Press Key  jquery=[name=end_date]  ${END_DATE}
     Press Key  jquery=[name=end_date]  \n
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]  10
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]  10
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]
 
 I toggle the search previews
     Click Element  css=[href="#view-options"]
@@ -968,17 +968,17 @@ I toggle the search previews
     Click Element  jquery=.tooltip-container label:contains("Display previews")
 
 I can see the search result previews
-    Wait Until Element is Visible  css=.previews-on .preview  10
+    Wait Until Element is Visible  css=.previews-on .preview
 
 I cannot see the search result previews
-    Wait Until Element is Visible  css=.previews-off  10
+    Wait Until Element is Visible  css=.previews-off
 
 I can see that the first search result is ${RESULT_TITLE}
-    Wait Until Element is Visible  jquery=.search-results > :first-child > a:contains(${RESULT_TITLE})  10
+    Wait Until Element is Visible  jquery=.search-results > :first-child > a:contains(${RESULT_TITLE})
 
 I can sort search results by ${FIELD}
     Click Element  css=[href="#view-options"]
-    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Sort by ${FIELD}")  5
+    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
     Click Element  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
 
 I can click the ${TAB_NAME} tab
