@@ -20,5 +20,6 @@
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
+    <dependency>profile-plone.app.ldap:ldap</dependency>
   </dependencies>
 </metadata>
