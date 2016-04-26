@@ -225,3 +225,54 @@ class StatusUpdateView(BrowserView):
                 self.request)
             for reply in replies]
         return replies_rendered
+
+    @property
+#    @memoize
+    def content_context(self):
+        return self.context.content_context
+
+    @property
+    def is_content_update(self):
+        return bool(self.content_context)
+
+    @property
+    def is_content_image_update(self):
+        return isinstance(self.content_context, Image)
+
+    @property
+    def is_content_downloadable(self):
+        return self.is_content_image_update  # FIXME: support File
+
+    def content_has_previews(self):
+        if not self.is_content_update:
+            return False
+        elif self.is_content_image_update:
+            return True
+        return pi_api.previews.has_previews(self.content_context)
+
+    def content_preview_status_css(self):
+        if not self.is_content_update:
+            return 'fixme'
+        base = 'document document-preview'
+        if self.is_content_image_update:
+            return base
+        elif pi_api.previews.converting(self.content_context):
+            return base + ' not-generated'
+        elif not self.content_has_previews():
+            return base + ' not-possible'
+        else:
+            return base
+
+    def content_preview_urls(self):
+        if not self.is_content_update:
+            return []
+        if self.is_content_image_update:
+            return [self.content_context.absolute_url(), ]
+        return pi_api.previews.get_preview_urls(
+            self.content_context, scale='large')
+
+    def content_url(self):
+        if self.is_content_image_update:  # FIXME: or File
+            return '{}/view'.format(self.content_context.absolute_url())
+        elif self.is_content_update:
+            return self.content_context.absolute_url()

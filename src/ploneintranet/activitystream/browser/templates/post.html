@@ -80,64 +80,102 @@
   a multi-file + multi-image renderer.
   </tal:comment>
 
+  <tal:streamonly condition="not:view/is_content_update">
+
   <tal:attachments repeat="attachment view/attachments">
-    <tal:def define="is_content python:False;
-                     is_image attachment/is_image;
+    <tal:def define="is_image attachment/is_image;
                      has_preview attachment/img_src|nothing">
 
-      <tal:streamonly condition="not:is_content">
 
-        <tal:stream_document condition="not:is_image">
-          <section class="document preview"
-                   tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
-            <figure>
-              <a href="#"
-                 i18n:attributes="title"
-                 title="Download this file"
-                 tal:attributes="href attachment/link">
-                <img src="/media/preview_thumb_1.jpg" alt=""
-                     tal:condition="has_preview"
-                     tal:attributes="src attachment/img_src" />
-              </a>
-              <figcaption>
-                <strong class="title">
-                  <a href="#"
-                     i18n:attributes="title"
-                     title="Download this file"
-                     tal:attributes="href attachment/link">
-                    <tal:r replace="attachment/title">Projection Material</tal:r>
-                  </a>
-                  <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
-                  <!--span class="page-counter icon-docs">3x</span-->
-                  <span class="functions">
-                      <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
-                      <!-- XXX gallery not implemented yet -- >
-                </strong>
-                <!-- no description byline for status attachments -->
-              </figcaption>
-            </figure>
-          </section>
-        </tal:stream_document>
-
-        <tal:stream_image condition="is_image">
-	  <section class="image document-preview">
-	    <figure>
-              <img src="${attachment/img_src}/large"
-                   alt=""
+      <tal:stream_document condition="not:is_image">
+        <section class="document preview"
+                 tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
+          <figure>
+            <a href="#"
+               i18n:attributes="title"
+               title="Download this file"
+               tal:attributes="href attachment/link">
+              <img src="/media/preview_thumb_1.jpg" alt=""
                    tal:condition="has_preview"
-                   />
-	    </figure>
-	    <p class="overlay" tal:condition="nothing">
-              <!-- XXX images gallery view not implemented yet -->
-              <!-- XXX images zip download not implemented yet -->
-	    </p>
-	  </section>
-        </tal:stream_image>
-
-      </tal:streamonly>
-
+                   tal:attributes="src attachment/img_src" />
+            </a>
+            <figcaption>
+              <strong class="title">
+                <a href="#"
+                   i18n:attributes="title"
+                   title="Download this file"
+                   tal:attributes="href attachment/link">
+                  <tal:r replace="attachment/title">Projection Material</tal:r>
+                </a>
+                <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
+                <!--span class="page-counter icon-docs">3x</span-->
+                <span class="functions">
+                  <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
+                  <!-- XXX gallery not implemented yet -- >
+              </strong>
+              <!-- no description byline for status attachments -->
+            </figcaption>
+          </figure>
+        </section>
+      </tal:stream_document>
+      
+      <tal:stream_image condition="is_image">
+	<section class="image document-preview">
+	  <figure>
+            <img src="${attachment/img_src}/large"
+                 alt=""
+                 tal:condition="has_preview"
+                 />
+	  </figure>
+	  <p class="overlay" tal:condition="nothing">
+            <!-- XXX images gallery view not implemented yet -->
+            <!-- XXX images zip download not implemented yet -->
+	  </p>
+	</section>
+      </tal:stream_image>
+      
+      
     </tal:def>
   </tal:attachments>
+  </tal:streamonly>
+  
+  <tal:content condition="view/is_content_update">
+    <section class="document document-preview"
+             tal:define="content_context nocall:context/content_context;"
+             tal:attributes="class view/content_preview_status_css">
+      <figure>
+        <a tal:condition="view/content_has_previews"
+           tal:repeat="preview_src view/content_preview_urls"
+           tal:attributes="href view/content_url;
+                           alt content_context/Title">
+	  <img src="${preview_src}" alt="" />
+	</a>
+	<figcaption>
+	  <strong class="title">
+	    <a href="${view/content_url}" alt="${content_context/Title}"><span tal:replace="content_context/Title">title</span>
+              <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
+              <!--span class="page-counter icon-docs">3x</span-->                
+	    </a>
+	    <span class="functions">
+	      <a tal:condition="view/is_content_downloadable"
+                 href="${content_context/absolute_url}"
+                 class="icon iconified icon-download"
+                 title="Download this file">Download</a>
+              <!-- XXX images gallery view not implemented yet -->
+	    </span>
+	  </strong>
+	  <a href="${view/content_url}" alt="${content_context/Title}">
+	    <em class="byline" tal:content="content_context/Description">Description goes here</em>
+	  </a>
+	</figcaption>
+      </figure>
+      <!-- 			<p class="overlay">
+				<a href="#" class="iconified icon-download">Download</a>
+				<a href="#" class="iconified icon-preview">Preview</a>	
+      </p> -->
+    </section>
+  </tal:content>
+
 
   <div class="functions">
     <!-- XXX: This is not yet implemented -->
