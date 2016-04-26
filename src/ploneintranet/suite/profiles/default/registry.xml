@@ -45,4 +45,13 @@
         <element>ploneintranet.library.section</element>
       </value>
     </record>
+    <record name="ploneintranet.userprofile.primary_external_user_source">
+      <field type="plone.registry.field.ASCIILine">
+        <title>Primary External User Source</title>
+        <description>
+          The ID of the PAS plugin that will be treated as the primary source of external users.
+        </description>
+      </field>
+      <value>ldap-plugin</value>
+    </record>
 </registry>
