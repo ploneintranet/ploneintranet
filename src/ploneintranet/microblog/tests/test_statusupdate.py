@@ -236,6 +236,18 @@ class TestContentStatusUpdate(unittest.TestCase):
         self.assertEqual(None, su2.microblog_context)
         self.assertEqual(doc, su2.content_context)
 
+    def test_content_context_init_sets_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.assertEqual(f1, su1.microblog_context)
+
     def test_content_context_subscriber_sets_microblog_context(self):
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = self.portal['f1']
@@ -250,7 +262,7 @@ class TestContentStatusUpdate(unittest.TestCase):
         su1 = found[0]
         self.assertEqual(f1, su1.microblog_context)
 
-    def test_content_context_init_sets_microblog_context(self):
+    def test_content_context_subscriber_sets_action_verb_published(self):
         self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
         f1 = self.portal['f1']
         alsoProvides(f1, IMicroblogContext)
@@ -259,5 +271,7 @@ class TestContentStatusUpdate(unittest.TestCase):
             type='Document',
             title='My document',
         )
-        su1 = StatusUpdate('foo', content_context=doc)
-        self.assertEqual(f1, su1.microblog_context)
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        su1 = found[0]
+        self.assertEqual('published', su1.action_verb)
