@@ -1,7 +1,6 @@
 # -*- coding=utf-8 -*-
 from AccessControl import getSecurityManager
 from DateTime import DateTime
-from interfaces import IContentStatusUpdate
 from interfaces import IStatusUpdate
 from persistent import Persistent
 from plone import api
@@ -11,7 +10,6 @@ from ploneintranet.attachments.attachments import IAttachmentStoragable
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component.hooks import getSite
-from zope.interface import alsoProvides
 from zope.interface import implements
 import logging
 import time
@@ -51,9 +49,6 @@ class StatusUpdate(Persistent):
         self._init_content_context(thread_id, content_context)
         self.tags = tags
         self._verb = action_verb
-
-        if content_context:
-            alsoProvides(self, IContentStatusUpdate)
 
     # for unittest subclassing
     def _init_userid(self):

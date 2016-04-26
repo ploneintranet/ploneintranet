@@ -14,7 +14,6 @@ from ploneintranet.microblog.testing import\
 import ploneintranet.microblog.statuscontainer
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.microblog.interfaces import IContentStatusUpdate
 from ploneintranet.microblog.interfaces import IStatusUpdate
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.statusupdate import StatusUpdate
@@ -205,7 +204,6 @@ class TestContentStatusUpdate(unittest.TestCase):
     def test_content_context_mocked(self):
         content = object()
         su = MockStatusUpdate('foo bar', content_context=content)
-        self.assertTrue(IContentStatusUpdate.providedBy(su))
         self.assertEqual(
             su._content_context_uuid,
             su._context2uuid(content)

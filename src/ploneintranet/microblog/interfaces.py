@@ -33,12 +33,6 @@ class IStatusUpdate(Interface):
         """ Return a list of replies (IStatusUpdate)"""
 
 
-class IContentStatusUpdate(IStatusUpdate):
-    '''A Status Update representing a content action
-    e.g. User has published a new document
-    '''
-
-
 class IStatusContainer(Interface):
     """Manages read/write access to, and storage of,
     IStatusUpdate instances.
