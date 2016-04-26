@@ -71,6 +71,7 @@ uid: christian_stoney
 cn: Christian Stoney
 mail: christian_stoney@example.org
 description: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+userPassword: secret
 
 dn: uid=jorge_primavera,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -80,6 +81,7 @@ uid: jorge_primavera
 cn: Jorge Primavera
 mail: jorge_primavera@example.org
 description: Donec pretium posuere tellus. 
+userPassword: secret
 
 dn: uid=dollie_nocera,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -89,6 +91,7 @@ uid: dollie_nocera
 cn: Dollie Nocera
 mail: dollie_nocera@example.org
 description: Pellentesque tristique imperdiet tortor. 
+userPassword: secret
 
 dn: uid=esmeralda_claassen,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -98,6 +101,7 @@ uid: esmeralda_claassen
 cn: Esmeralda Claassen
 mail: esmeralda_claassen@example.org
 description: In id erat non orci commodo lobortis. 
+userPassword: secret
 
 dn: uid=fernando_poulter,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -107,6 +111,7 @@ uid: fernando_poulter
 cn: Fernando Poulter
 mail: fernando_poulter@example.org
 description: Nam a sapien. 
+userPassword: secret
 
 dn: uid=francois_gast,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -116,6 +121,7 @@ uid: francois_gast
 cn: Froncois Gast
 mail: francois_gast@example.org
 description: Praesent augue. 
+userPassword: secret
 
 dn: uid=guy_hackey,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -125,6 +131,7 @@ uid: guy_hackey
 cn: Guy Hackey
 mail: guy_hackey@example.org
 description: Nam euismod tellus id erat. 
+userPassword: secret
 
 dn: uid=jamie_jacko,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -134,6 +141,7 @@ uid: jamie_jacko
 cn: Jamie Jacko
 mail: jamie_jacko@example.org
 description: Fusce commodo. 
+userPassword: secret
 
 dn: uid=jesse_shaik,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -143,6 +151,7 @@ uid: jesse_shaik
 cn: Jesse Shaik
 mail: jesse_shaik@example.org
 description: Curabitur lacinia pulvinar nibh. 
+userPassword: secret
 
 dn: uid=kurt_weissman,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -152,6 +161,7 @@ uid: kurt_weissman
 cn: Kurt Weissman
 mail: kurt_weissman@example.org
 description: Fusce sagittis, libero non molestie mollis magna orci ultrices dolor at vulputate neque nulla lacinia eros. 
+userPassword: secret
 
 dn: uid=lance_stockstill,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -161,6 +171,7 @@ uid: lance_stockstill
 cn: Lance Stockstill
 mail: lance_stockstill@example.org
 description: Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. 
+userPassword: secret
 
 dn: uid=neil_wichmann,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -170,6 +181,7 @@ uid: neil_wichmann
 cn: Nein Wichmann
 mail: neil_wichmann@example.org
 description:  Phasellus purus. 
+userPassword: secret
 
 dn: uid=pearlie_whitby,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -179,6 +191,7 @@ uid: pearlie_whitby
 cn: Pearlie Whitby
 mail: pearlie_whitby@example.org
 description:  Nulla facilisis, risus a rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo sit amet elit. 
+userPassword: secret
 
 dn: uid=rosalinda_roache,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -188,6 +201,7 @@ uid: rosalinda_roache
 cn: Rosalinda Roache
 mail: rosalinda_roache@example.org
 description:  Sed bibendum. 
+userPassword: secret
 
 dn: uid=silvio_depaoli,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -197,6 +211,7 @@ uid: silvio_depaoli
 cn: Silvia Depaoli
 mail: silvio_depaoli@example.org
 description:  Phasellus neque orci, porta a, aliquet quis, semper a, massa. 
+userPassword: secret
 
 dn: uid=elda_pearson,ou=users,dc=ploneintranet,dc=com
 objectClass: inetOrgPerson
@@ -209,3 +224,4 @@ description: Human Resources Department
 telephoneNumber: 01234 555 43210
 streetAddress: 123 Main Street
 localityName: Manchester
+userPassword: secret
