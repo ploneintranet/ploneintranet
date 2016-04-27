@@ -13,24 +13,25 @@ In addition to Zope and ZEO, several other components are typically part of a pr
 
 - Nginx: The webserver, which receives all incoming requests.
 
-- Varnish: Varnish is a web application accelerator which caches incoming requests.
+- Varnish: A web application accelerator which caches incoming requests.
 
-- HAProxy: HAProxy is a load balancer which distributes requests to several zope instances.
+- HAProxy: A load balancer which distributes requests to several zope instances.
 
-- LDAP: An LDAP server can be used to manage user data.
+- LDAP: A server providing company wide directory services, used to manage user data (Typically OpenLDAP or ActiveDirectory)
 
-- Solr: Solr is a search platform used by ploneintranet.
+- Solr: A search platform used by ploneintranet.
 
-- Memcached: A memory caching system that can be used by zope.
+- Memcached: A memory caching system that is used to speed up page loading.
 
 .. image:: production-mono.png
 
-The numbers next to the nodes are the port numbers that are assumed throughout the remainder of this page.
+A classical architectural layout of a simple production system. The numbers next to the nodes are the port numbers that are assumed throughout the remainder of this page.
+
 
 Component configuration
 -----------------------
 
-The plonintranet buildout directory contains the *etc* folder, in which you will find example configuration files for nginx, varnish and haproxy. You will probably want to make several changes to these files for your own deployment. Specifically, you must adapt your configuration if Nginx, Varnish, HAProxy or Zope are listening on ports that are different from the ones given in the above diagram. Some sections of interest are briefly discussed in the following paragraphs.
+The ploneintranet buildout directory contains an *etc* folder, in which you will find example configuration files for nginx, varnish and haproxy. It is assumed that you are using system package installations of this services. You will probably want to make several changes to these files for your own deployment. Specifically, you must adapt your configuration if Nginx, Varnish, HAProxy or Zope are listening on ports that are different from the ones given in the above diagram. Some sections of interest are briefly discussed in the following paragraphs.
 
 nginx-ploneintranet.conf
 ~~~~~~~~~~~~~~~~~~~~~~~~
