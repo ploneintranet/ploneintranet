@@ -13,3 +13,5 @@ Pick the development option if you want to develop for Plone Intranet.
     quickstart
     development
     production
+    ldap
+
