@@ -237,11 +237,13 @@ class StatusUpdateView(BrowserView):
 
     @property
     def is_content_image_update(self):
-        return isinstance(self.content_context, Image)
+        return (self.content_context and
+                isinstance(self.content_context, Image))
 
     @property
     def is_content_file_update(self):
-        return isinstance(self.content_context, File)
+        return (self.content_context and
+                isinstance(self.content_context, File))
 
     @property
     def is_content_downloadable(self):

@@ -144,11 +144,9 @@ class StreamTile(Tile):
     def post_views(self):
         ''' The activity as views
         '''
-        return [
-            api.content.get_view(
+        for statusupdate in self.statusupdates_autoexpand:
+            yield api.content.get_view(
                 'post.html',
                 statusupdate,
                 self.request
             )
-            for statusupdate in self.statusupdates_autoexpand
-        ]

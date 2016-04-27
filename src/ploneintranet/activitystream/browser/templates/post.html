@@ -142,6 +142,7 @@
   </tal:streamonly>
   
   <tal:content condition="view/is_content_update">
+    <tal:content_default condition="not:view/is_content_image_update">
     <section class="document document-preview"
              tal:define="content_context nocall:context/content_context;"
              tal:attributes="class view/content_preview_status_css">
@@ -182,6 +183,29 @@
 				<a href="#" class="iconified icon-preview">Preview</a>	
       </p> -->
     </section>
+    </tal:content_default>
+    
+    <tal:content_image condition="view/is_content_image_update">
+      <section class="image document-preview"
+               tal:define="content_context nocall:context/content_context;">
+	<figure>
+          <a href="${view/content_url}"
+             alt="${content_context/Title}">
+          <img src="${content_context/absolute_url}"
+               alt="${content_context/Title}"
+               />
+          </a>
+	</figure>
+	<p class="overlay">
+          <!-- XXX images gallery view not implemented yet -->
+          <!-- XXX images zip download not implemented yet -->
+          <a href="${view/content_url}" title="View image">
+	    <span class="icon iconified icon-eye">View</span>
+	  </a>
+	</p>
+      </section>
+      </tal:content_image>
+    
   </tal:content>
 
 
