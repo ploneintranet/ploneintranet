@@ -111,7 +111,9 @@
                 <!--span class="page-counter icon-docs">3x</span-->
                 <span class="functions">
                   <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
-                  <!-- XXX gallery not implemented yet -- >
+                  <!-- XXX gallery not implemented yet -- >                    
+                  
+                  </span>
               </strong>
               <!-- no description byline for status attachments -->
             </figcaption>
@@ -162,6 +164,12 @@
                  class="icon iconified icon-download"
                  title="Download this file">Download</a>
               <!-- XXX images gallery view not implemented yet -->
+              <!-- instead, for now a single view link -->
+              <a href="${view/content_url}"
+                 class="icon iconified icon-eye"
+                 i18n:attributes="title"
+                 title="View">View</a>
+              
 	    </span>
 	  </strong>
 	  <a href="${view/content_url}" alt="${content_context/Title}">

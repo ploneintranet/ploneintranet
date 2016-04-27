@@ -4,7 +4,7 @@ from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
-from plone.app.contenttypes.content import Image
+from plone.app.contenttypes.content import Image, File
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
@@ -227,7 +227,7 @@ class StatusUpdateView(BrowserView):
         return replies_rendered
 
     @property
-#    @memoize
+    @memoize
     def content_context(self):
         return self.context.content_context
 
@@ -240,8 +240,13 @@ class StatusUpdateView(BrowserView):
         return isinstance(self.content_context, Image)
 
     @property
+    def is_content_file_update(self):
+        return isinstance(self.content_context, File)
+
+    @property
     def is_content_downloadable(self):
-        return self.is_content_image_update  # FIXME: support File
+        return (self.is_content_image_update or
+                self.is_content_file_update)
 
     def content_has_previews(self):
         if not self.is_content_update:
@@ -272,7 +277,8 @@ class StatusUpdateView(BrowserView):
             self.content_context, scale='large')
 
     def content_url(self):
-        if self.is_content_image_update:  # FIXME: or File
+        if self.is_content_image_update or \
+           self.is_content_file_update:
             return '{}/view'.format(self.content_context.absolute_url())
         elif self.is_content_update:
             return self.content_context.absolute_url()
