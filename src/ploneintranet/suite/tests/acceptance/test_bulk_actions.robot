@@ -52,6 +52,15 @@ A member can only bulk delete the items they are allowed to delete
       and I go to the Service Announcements Workspace
       and I can see the document  Terms and conditions
 
+A member can only cut items they are allowed to delete
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to cut the items in the cart
+     then I see a message that I cannot cut  "Terms and conditions"
+
+
 *** Keywords ***
 
 I toggle the bulk action controls
@@ -80,7 +89,7 @@ I can delete the Minutes word document
 
 I can cut the Minutes word document
     Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
+    I choose to cut the items in the cart
     Wait Until Page Contains  1 Files were cut and moved to your cloud clipboard.
 
 I add an item to the cart
@@ -89,6 +98,9 @@ I add an item to the cart
 
 I choose to delete the items in the cart
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Delete']
+
+I choose to cut the items in the cart
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
 
 I confirm to delete the items
     Wait Until Page Contains  I am sure, delete now
@@ -100,3 +112,7 @@ I save the document
 I see a message that items have been deleted
     [arguments]  ${title}
     Wait Until Page Contains  The following items have been deleted: ${title}
+
+I see a message that I cannot cut
+    [arguments]  ${title}
+    Wait Until Page Contains  The following items could not be cut: ${title}

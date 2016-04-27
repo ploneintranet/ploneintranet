@@ -39,7 +39,7 @@
 
   <browser:page
       for="*"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       class=".cart_actions.cut.CutView"
       name="cart-cut"/>
 
