@@ -19,6 +19,13 @@ logger = logging.getLogger('ploneintranet.activitystream')
 
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
+
+    See templates/post.html for an explanation of the various
+    rendering modes.
+
+    On top of that it also powers templates/comment.html
+
+    The API could use some cleanup.
     '''
 
     newpostbox_placeholder = _(u'leave_a_comment',
@@ -225,6 +232,8 @@ class StatusUpdateView(BrowserView):
                 self.request)
             for reply in replies]
         return replies_rendered
+
+    # ----------- content updates only ------------------
 
     @property
     @memoize

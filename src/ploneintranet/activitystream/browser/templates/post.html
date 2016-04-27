@@ -78,6 +78,32 @@
   NB the prototype assumes that multiple attachments are either all images
   or else are all files. Implementation will need to split that into
   a multi-file + multi-image renderer.
+
+  Structure
+  ---------
+
+  Explanation see https://github.com/quaive/ploneintranet/issues/1
+
+  The below is broken into 2x2 blocks wrapped in conditionals:
+
+  1. streamonly       = post with attachment, without reference to content object
+   a. stream_document = file attachment
+   b. stream_image    = image attachment
+
+  2. content          = post with content object reference
+   a. content_default = reference to file or document, anything but an image
+   b. content_image   = reference to an image
+
+  The prototype does not have a distinction between 1. and 2. that way,
+  but we need it for the implementation since the API is very different,
+  and the markup is subtly different on top of that.
+
+  TODO:
+  - "converting" state not yet supported in markup
+    relates to https://github.com/quaive/ploneintranet/issues/44
+  - multi-attachments and multi-page previews
+  - zip downloads
+  
   </tal:comment>
 
   <tal:streamonly condition="not:view/is_content_update">
@@ -86,10 +112,15 @@
     <tal:def define="is_image attachment/is_image;
                      has_preview attachment/img_src|nothing">
 
+      <tal:comment condition="nothing">
+----------------------------------------------------------------
+    1.a. STREAM DOCUMENT
+----------------------------------------------------------------
+      </tal:comment>
 
       <tal:stream_document condition="not:is_image">
         <section class="document preview"
-                 tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
+                 tal:attributes="class python:has_preview and 'document document-preview' or 'document document-preview not-possible'">
           <figure>
             <a href="#"
                i18n:attributes="title"
@@ -120,18 +151,29 @@
           </figure>
         </section>
       </tal:stream_document>
+
+      <tal:comment condition="nothing">
+----------------------------------------------------------------
+    1.b. STREAM IMAGE
+----------------------------------------------------------------
+      </tal:comment>
       
       <tal:stream_image condition="is_image">
-	<section class="image document-preview">
-	  <figure>
-            <img src="${attachment/img_src}/large"
-                 alt=""
-                 tal:condition="has_preview"
-                 />
+	<section class="image document-preview"
+                 tal:condition="has_preview">
+	  <figure >
+            <a href="${attachment/img_src}">            
+              <img src="${attachment/img_src}/large"
+                   alt=""
+                   />
+            </a>
 	  </figure>
-	  <p class="overlay" tal:condition="nothing">
+	  <p class="overlay">
             <!-- XXX images gallery view not implemented yet -->
             <!-- XXX images zip download not implemented yet -->
+            <a href="${attachment/img_src}"
+               class="icon iconified icon-download"
+               title="Download this image">Download</a>            
 	  </p>
 	</section>
       </tal:stream_image>
@@ -142,6 +184,13 @@
   </tal:streamonly>
   
   <tal:content condition="view/is_content_update">
+
+    <tal:comment condition="nothing">
+----------------------------------------------------------------      
+    2.a. CONTENT DEFAULT
+----------------------------------------------------------------      
+    </tal:comment>
+    
     <tal:content_default condition="not:view/is_content_image_update">
     <section class="document document-preview"
              tal:define="content_context nocall:context/content_context;"
@@ -184,6 +233,12 @@
       </p> -->
     </section>
     </tal:content_default>
+
+    <tal:comment condition="nothing">
+----------------------------------------------------------------
+   2.b. CONTENT IMAGE
+----------------------------------------------------------------      
+    </tal:comment>
     
     <tal:content_image condition="view/is_content_image_update">
       <section class="image document-preview"
@@ -199,9 +254,14 @@
 	<p class="overlay">
           <!-- XXX images gallery view not implemented yet -->
           <!-- XXX images zip download not implemented yet -->
-          <a href="${view/content_url}" title="View image">
+          <a href="${view/content_url}"
+             title="View ${content_context/Title}">
 	    <span class="icon iconified icon-eye">View</span>
 	  </a>
+          <a href="${content_context/absolute_url}"
+             title="Download ${content_context/Title}">
+	    <span class="icon iconified icon-download">Download</span>
+	  </a>          
 	</p>
       </section>
       </tal:content_image>
