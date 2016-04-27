@@ -36,6 +36,21 @@ Content Editors can copy and paste content
     when I toggle the bulk action controls
     then I can paste the Minutes word document
 
+A member can only bulk delete the items they are allowed to delete
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I go to the Open Parliamentary Papers Guidance Workspace
+      and I can create a new document  Deletable doc
+      and I save the document
+      and I toggle the bulk action controls
+      and I add an item to the cart  Deletable doc
+      and I choose to delete the items in the cart
+     then I confirm to delete the items
+      and I see a message that items have been deleted  "Deletable doc"
+      and I go to the Service Announcements Workspace
+      and I can see the document  Terms and conditions
 
 *** Keywords ***
 
@@ -48,7 +63,7 @@ I toggle the bulk action controls
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Copy']
 
 I can copy the Minutes word document
-    Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
+    I add an item to the cart  Minutes
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Copy']
     Wait Until Page Contains  1 Files were copied to your cloud clipboard.
 
@@ -59,12 +74,29 @@ I can paste the Minutes word document
 
 I can delete the Minutes word document
     Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Delete']
-    Wait Until Page Contains  I am sure, delete now
-    Click button  I am sure, delete now
+    I choose to delete the items in the cart
+    I confirm to delete the items
     Wait Until Page Contains  The following items have been deleted
 
 I can cut the Minutes word document
     Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
     Wait Until Page Contains  1 Files were cut and moved to your cloud clipboard.
+
+I add an item to the cart
+    [arguments]  ${title}
+    Click Element  xpath=//strong[text()="${title}"]//ancestor::label/input
+
+I choose to delete the items in the cart
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Delete']
+
+I confirm to delete the items
+    Wait Until Page Contains  I am sure, delete now
+    Click button  I am sure, delete now
+
+I save the document
+    Click button  Save
+
+I see a message that items have been deleted
+    [arguments]  ${title}
+    Wait Until Page Contains  The following items have been deleted: ${title}

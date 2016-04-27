@@ -23,7 +23,7 @@
 
   <browser:pages
       for="*"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       class=".cart_actions.delete.DeleteView">
     <browser:page name="cart-delete" attribute="delete"/>
     <browser:page name="cart-delete-confirm" attribute="confirm"/>

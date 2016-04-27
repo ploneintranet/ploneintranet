@@ -18,10 +18,13 @@
       </article>
 
 
-      <fieldset class="pat-checklist">
+      <fieldset class="pat-checklist"
+                tal:define="checkPermission nocall: context/portal_membership/checkPermission">
         <tal:item repeat="item items">
-        <label>
-        <input checked="checked" type="checkbox" name="uids:list" value="${item/UID}"/> ${item/Title}
+          <label tal:define="can_delete python:checkPermission('Delete objects', item)">
+            <input type="checkbox" name="uids:list" value="${item/UID}"
+                   tal:attributes="disabled python:not can_delete and 'disabled';
+                                   checked python:can_delete and 'checked'"/> ${item/Title}
         </label>
         <br />
         </tal:item>
