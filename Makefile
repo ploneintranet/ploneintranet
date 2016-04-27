@@ -156,6 +156,12 @@ bin/buildout: bin/python2.7
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
+devrun:
+	sudo service redis-server start
+	bin/supervisord
+	bin/supervisorctl stop instance
+	bin/instance fg
+
 ####################################################################
 # Solr
 
