@@ -13,14 +13,6 @@
     <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
   </class>
 
-  <browser:page
-      name="cart"
-      for="*"
-      class=".cart.Cart"
-      permission="zope2.View"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
-
   <browser:pages
       for="*"
       permission="zope2.View"
