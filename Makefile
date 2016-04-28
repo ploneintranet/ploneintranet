@@ -182,6 +182,7 @@ all-clean: clean solr-clean
 # bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
 # To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
+# ROBOT_SELENIUM_RUN_ON_FAILURE=Debug DISPLAY=:0 bin/test -s ploneintranet.suite -t post_file.robot
 test-robot: ## Run robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot'
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
