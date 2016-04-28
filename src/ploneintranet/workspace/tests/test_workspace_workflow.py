@@ -9,6 +9,7 @@ VIEW = 'View'
 ACCESS = 'Access contents information'
 MODIFY = 'Modify portal content'
 MANAGE = 'ploneintranet.workspace: Manage workspace'
+DELETE = 'Delete objects'
 ADD_CONTENT = 'Add portal content'
 ADD_STATUS = 'Plone Social: Add Microblog Status Update'
 VIEW_STATUS = 'Plone Social: View Microblog Status Update'
@@ -57,6 +58,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.add_user_to_workspace('wsmember', self.workspace_folder)
         self.add_user_to_workspace('wsadmin', self.workspace_folder,
                                    set(['Admins']))
+        self.workspace_document = api.content.create(
+            self.workspace_folder,
+            'Document',
+            title='Deletable doc',
+        )
 
     def test_create_workspace(self):
         """
@@ -122,6 +128,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Admin cannot add status updates')
         self.assertTrue(admin_permissions[VIEW_STATUS],
                         'Admin cannot view status updates')
+        doc_admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.workspace_document,
+        )
+        self.assertTrue(doc_admin_permissions[DELETE],
+                        'Admin cannot delete private workspace objects')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -135,6 +147,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot add status updates')
         self.assertTrue(member_permissions[VIEW_STATUS],
                         'Member cannot view status updates')
+        doc_member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_member_permissions[DELETE],
+                         'Member can delete private workspace objects')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -148,6 +166,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Non-member can add status updates')
         self.assertFalse(nonmember_permissions[VIEW_STATUS],
                          'Non-member can view status updates')
+        doc_nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_nonmember_permissions[DELETE],
+                         'Non-member can delete private workspace objects')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -161,6 +185,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anon can add status updates')
         self.assertFalse(anon_permissions[VIEW_STATUS],
                          'Anon can view status updates')
+        doc_anon_permissions = api.user.get_permissions(
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_anon_permissions[DELETE],
+                         'Anon can delete private workspace objects')
 
     def test_secret_workspace(self):
         """
@@ -182,6 +211,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Admin cannot add status updates')
         self.assertTrue(admin_permissions[VIEW_STATUS],
                         'Admin cannot view status updates')
+        doc_admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.workspace_document,
+        )
+        self.assertTrue(doc_admin_permissions[DELETE],
+                        'Admin cannot delete secret workspace objects')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -195,6 +230,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot add status updates')
         self.assertTrue(member_permissions[VIEW_STATUS],
                         'Member cannot view status updates')
+        doc_member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_member_permissions[DELETE],
+                         'Member can delete secret workspace objects')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -208,6 +249,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Non-member can add status updates')
         self.assertFalse(nonmember_permissions[VIEW_STATUS],
                          'Non-member can view status updates')
+        doc_nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_nonmember_permissions[DELETE],
+                         'Non-member can delete secret workspace objects')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -221,6 +268,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anon can add status updates')
         self.assertFalse(anon_permissions[VIEW_STATUS],
                          'Anon can view status updates')
+        doc_anon_permissions = api.user.get_permissions(
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_anon_permissions[DELETE],
+                         'Anon can delete secret workspace objects')
 
     def test_open_workspace(self):
         """
@@ -245,6 +297,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Admin cannot add status updates')
         self.assertTrue(admin_permissions[VIEW_STATUS],
                         'Admin cannot view status updates')
+        doc_admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.workspace_document,
+        )
+        self.assertTrue(doc_admin_permissions[DELETE],
+                        'Admin cannot delete open workspace objects')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -258,6 +316,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                         'Member cannot add status updates')
         self.assertTrue(member_permissions[VIEW_STATUS],
                         'Member cannot view status updates')
+        doc_member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_member_permissions[DELETE],
+                         'Member can delete open workspace objects')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -271,6 +335,12 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Non-member can add status updates')
         self.assertTrue(nonmember_permissions[VIEW_STATUS],
                         'Non-member cannot view status updates')
+        doc_nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_nonmember_permissions[DELETE],
+                         'Non-member can delete open workspace objects')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -284,6 +354,11 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                          'Anon can add status updates')
         self.assertFalse(anon_permissions[VIEW_STATUS],
                          'Anon can view status updates')
+        doc_anon_permissions = api.user.get_permissions(
+            obj=self.workspace_document,
+        )
+        self.assertFalse(doc_anon_permissions[DELETE],
+                         'Anon can delete open workspace objects')
 
     def test_modify_workspace(self):
         """
