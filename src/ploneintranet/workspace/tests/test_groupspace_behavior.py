@@ -2,6 +2,7 @@
 from json import loads
 from plone import api
 from ploneintranet import api as pi_api
+from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
 from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from Products.membrane.interfaces import IGroup
@@ -208,17 +209,10 @@ class TestGroupspaceBehavior(BaseTestCase):
         self.assertTrue('workspace-b' in available_group_ids)
         self.assertFalse('workspace-c' in available_group_ids)
 
-        # Add private workspace B to A
-        self.add_user_to_workspace(
-            'workspace-b',
-            self.workspace_a,
-        )
-        # Add secret workpace C to A
-        self.add_user_to_workspace(
-            'workspace-c',
-            self.workspace_a,
-        )
-        existing_users = self.workspace_a.existing_users()
-        group_ids = [x['id'] for x in existing_users if x['typ'] == 'group']
-        self.assertTrue('workspace-b' in group_ids)
-        self.assertFalse('workspace-c' in group_ids)
+    def test_secret_workspace_cannot_be_added(self):
+        with self.assertRaises(SecretWorkspaceNotAllowed):
+            # Add secret workpace C to A - this is not allowed
+            self.add_user_to_workspace(
+                'workspace-c',
+                self.workspace_a,
+            )
