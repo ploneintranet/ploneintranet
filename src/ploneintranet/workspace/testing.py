@@ -7,13 +7,8 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
-from plone.dexterity.fti import DexterityFTIModificationDescription
-from plone.dexterity.interfaces import IDexterityFTI
 from plone.testing import z2
-from ploneintranet.workspace.behaviors.group import IMembraneGroup
-from zope.component import queryUtility
 from zope.configuration import xmlconfig
-from zope.lifecycleevent import modified
 
 import Products.CMFPlacefulWorkflow
 import ploneintranet.activitystream
@@ -148,15 +143,6 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
 
-        # activate the group behaviour on workspacefolder
-        fti = queryUtility(
-            IDexterityFTI,
-            name='ploneintranet.workspace.workspacefolder')
-        behaviors = set(fti.behaviors)
-        behaviors.add(IMembraneGroup.__identifier__)
-        fti.behaviors = tuple(behaviors)
-        description = DexterityFTIModificationDescription("behaviors", "")
-        modified(fti, description)
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 

@@ -23,6 +23,7 @@
      <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
      <element value="collective.workspace.interfaces.IWorkspace"/>
      <element value="ploneintranet.microblog.interfaces.IMicroblogContext"/>
+     <element value="ploneintranet.workspace.behaviors.group.IMembraneGroup" />
    </property>
 
   <!-- View information -->
