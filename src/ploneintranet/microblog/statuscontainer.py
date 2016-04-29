@@ -27,6 +27,7 @@ from zope.interface import implements
 from plone import api
 from plone.uuid.interfaces import IUUID
 from plone.memoize import ram
+from plone.protect.utils import safeWrite
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
 from interfaces import IMicroblogContext
@@ -696,6 +697,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         while True:
             try:
                 (id, status) = STATUSQUEUE.get(block=False)
+                safeWrite(status)
                 self._store(status)
             except Queue.Empty:
                 break
