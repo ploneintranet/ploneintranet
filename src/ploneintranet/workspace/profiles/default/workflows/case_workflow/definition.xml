@@ -21,7 +21,7 @@
 
        Basic rule of thumb for creating a secure case workflow:
        - for every workflow state the case can have:
-       - explicitly manage ALL 7 permissions listed below
+       - explicitly manage ALL permissions listed below
        - always set acquired="False"
        - use the special local roles TeamMember and TeamManager
          provided automatically by our collective.workspace backend
