@@ -13,6 +13,18 @@ Also Consortium partners will provide you with specific insights into our roadma
 
 If you're a Plone dev and want to try Plone Intranet, follow the steps below.
 
+Get the installer
+-----------------
+
+We've prepared a quickinstaller for your with some scripts and files.
+Get it from github::
+
+  git clone https://github.com/ploneintranet/venus.git
+
+Enter the installer directory::
+  
+  cd venus
+
 
 Prepare the Operating System Environment
 ----------------------------------------
@@ -33,12 +45,6 @@ based Dockerfile_, which you can use either to
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This requires `docker` to be available, see the `Docker installation docs`_.
-
-We've prepared a quickinstaller for your with some scripts and files.
-Get it from github::
-
-  git clone https://github.com/ploneintranet/venus.git
-  cd venus
 
 Build a Docker container with the supplied Plone Intranet environment::
 
@@ -92,12 +98,7 @@ Create and run buildout
 We assume you're familiar with basic Plone buildout.
 If you're not, this preview is not for you.
 
-Get the buildout template if you haven't done so above already::
-
-  git clone https://github.com/ploneintranet/venus.git
-  cd venus
-
-Now, run the buildout with `make buildout` or manually as follows::
+You can run the buildout with `make buildout`, or instead manually::
 
   virtualenv .
   ./bin/pip install -r requirements.txt
