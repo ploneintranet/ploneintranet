@@ -41,7 +41,7 @@
 
   <genericsetup:registerProfile
       name="ldap"
-      title="Plone Intranet:  LDAP"
+      title="Plone Intranet:  Suite : LDAP"
       directory="profiles/ldap"
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -49,7 +49,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: Uninstall"
+      title="Plone Intranet: Suite : Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls the Ploneintranet Suite"
       provides="Products.GenericSetup.interfaces.EXTENSION"
