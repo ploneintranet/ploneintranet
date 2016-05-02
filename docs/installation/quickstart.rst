@@ -91,6 +91,13 @@ To install it on Ubuntu::
 
     sudo apt-get install redis-server
 
+The default buildout is ldap-prepared. To make installing `python-ldap` possible, on Ubuntu you need::
+
+    sudo apt-get install libldap2-dev libsasl2-dev
+
+Ldap support is prepared, but disabled by default.
+Please read the documentation section :doc:`ldap`
+for instructions on installing and configuring LDAP.
 
 Create and run buildout
 -----------------------
@@ -191,9 +198,9 @@ if you have test failures your local install is broken.
 Please don't file tickets about missing features, contact a `Plone Intranet Consortium`_ partner instead to discuss your needs.
 
 .. _Plone Intranet Consortium: http://ploneintranet.com
-.. _Dockerfile: https://raw.githubusercontent.com/ploneintranet/ploneintranet/master/Dockerfile
+.. _Dockerfile: https://github.com/quaive/ploneintranet-docker-base/blob/master/Dockerfile
 .. _Docker installation docs: https://docs.docker.com/installation/
-.. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
-.. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
+.. _docsplit installation instructions: https://documentcloud.github.io/docsplit/
+.. _install.plone.dependencies: https://github.com/collective/install.plone.dependencies
 .. _portal_setup > import: http://localhost:8080/Plone/portal_setup/manage_importSteps
 

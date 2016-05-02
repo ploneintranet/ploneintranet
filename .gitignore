@@ -28,6 +28,10 @@ docs/make.bat
 eggs/
 Gemfile.lock
 include/
+/ldap/args
+/ldap/log
+/ldap/pid
+/ldap/schema
 /lib/
 libreoffice/
 local/
