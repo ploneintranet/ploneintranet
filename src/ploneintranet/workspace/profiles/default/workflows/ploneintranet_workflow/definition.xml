@@ -7,6 +7,7 @@
              manager_bypass="False">
 
   <permission>Access contents information</permission>
+  <permission>Delete objects</permission>
   <permission>List folder contents</permission>
   <permission>Modify portal content</permission>
   <permission>View</permission>
@@ -39,6 +40,14 @@
       <permission-role>Owner</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects"
+                    acquired="False">
+      <permission-role>Editor</permission-role>
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
     </permission-map>
     <permission-map name="View"
                     acquired="False">
@@ -78,6 +87,12 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
     </permission-map>
+    <permission-map name="Delete objects"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
     <permission-map name="View"
                     acquired="False">
       <permission-role>Manager</permission-role>
@@ -112,6 +127,13 @@
       <permission-role>Reader</permission-role>
     </permission-map>
     <permission-map name="Modify portal content"
+                    acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>Editor</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects"
                     acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>

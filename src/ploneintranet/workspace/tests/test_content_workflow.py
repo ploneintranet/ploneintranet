@@ -3,6 +3,7 @@ from ploneintranet.workspace.tests.base import BaseTestCase
 from plone.app.testing import logout
 
 VIEW = 'View'
+DELETE = 'Delete objects'
 
 
 class TestContentWorkflow(BaseTestCase):
@@ -80,6 +81,7 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
     def test_draft_state(self):
         """
         draft content can only be viewed by a team manager and owner
+        it can only be deleted by the team manager and owner
         """
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
@@ -87,6 +89,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view draft content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete draft content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -94,6 +98,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(member_permissions[VIEW],
                          'Member can view draft content')
+        self.assertFalse(member_permissions[DELETE],
+                         'Member can delete draft content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -101,6 +107,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(nonmember_permissions[VIEW],
                          'Non-member can view draft content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'Non-member can delete draft content')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -108,11 +116,15 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
+        self.assertFalse(anon_permissions[DELETE],
+                         'Anonymous can delete draft content')
 
     def test_pending_state(self):
         """
         team managers should be able to view pending items,
         team members should not
+        team managers should be able to delete pending items, team members and
+        owners should not
         """
         api.content.transition(self.document, 'submit')
 
@@ -122,6 +134,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view pending content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete pending content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -129,6 +143,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(member_permissions[VIEW],
                          'member can view pending content')
+        self.assertFalse(member_permissions[DELETE],
+                         'member can delete pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -136,6 +152,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(nonmember_permissions[VIEW],
                          'nonmember can view pending content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'nonmember can delete pending content')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -143,11 +161,14 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view pending content')
+        self.assertFalse(anon_permissions[DELETE],
+                         'Anonymous can delete pending content')
 
     def test_published_state(self):
         """
         all team members should be able to see published content,
-        regualar plone user should not
+        regular plone user should not
+        only team managers should be able to delete published content
         """
         api.content.transition(self.document, 'submit')
         api.content.transition(self.document, 'publish')
@@ -158,6 +179,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view published content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete published content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -165,6 +188,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(member_permissions[VIEW],
                         'member cannot view published content')
+        self.assertFalse(member_permissions[DELETE],
+                         'member can delete published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -172,6 +197,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(nonmember_permissions[VIEW],
                          'user can view workspace content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'user can delete workspace content')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -179,6 +206,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
+        self.assertFalse(anon_permissions[DELETE],
+                         'Anonymous can delete draft content')
 
 
 class TestPrivateWorkspaceContentWorkflow(TestSecretWorkspaceContentWorkflow):
@@ -218,6 +247,7 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
     def test_draft_state(self):
         """
         draft content can only be viewed by a team manager and owner
+        draft content can only be deleted by a team manger and owner
         """
         admin_permissions = api.user.get_permissions(
             username='wsadmin',
@@ -225,6 +255,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view draft content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete draft content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -232,6 +264,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(member_permissions[VIEW],
                          'Member can view draft content')
+        self.assertFalse(member_permissions[DELETE],
+                         'Member can delete draft content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -239,6 +273,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(nonmember_permissions[VIEW],
                          'Non-member can view draft content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'Non-member can delete draft content')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -246,10 +282,14 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
+        self.assertFalse(anon_permissions[DELETE],
+                         'Anonymous can delete draft content')
 
     def test_pending_state(self):
         """
         team managers should be able to view pending items,
+        team members should not
+        team managers should be able to delete pending items,
         team members should not
         """
         api.content.transition(self.document, 'submit')
@@ -260,6 +300,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view pending content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete pending content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -267,6 +309,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(member_permissions[VIEW],
                          'member can view pending content')
+        self.assertFalse(member_permissions[DELETE],
+                         'member can delete pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -274,6 +318,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(nonmember_permissions[VIEW],
                          'nonmember can view pending content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'nonmember can delete pending content')
 
         logout()
         anon_permissions = api.user.get_permissions(
@@ -281,11 +327,14 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view pending content')
+        self.assertFalse(anon_permissions[DELETE],
+                         'Anonymous can delete pending content')
 
     def test_published_state(self):
         """
         all team members should be able to see published content,
         regular plone users should also
+        only team managers should be able to delete published content
         """
         api.content.transition(self.document, 'submit')
         api.content.transition(self.document, 'publish')
@@ -296,6 +345,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(admin_permissions[VIEW],
                         'Admin cannot view published content')
+        self.assertTrue(admin_permissions[DELETE],
+                        'Admin cannot delete published content')
 
         member_permissions = api.user.get_permissions(
             username='wsmember',
@@ -303,6 +354,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(member_permissions[VIEW],
                         'member cannot view published content')
+        self.assertFalse(member_permissions[DELETE],
+                         'member can delete published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -310,10 +363,14 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(nonmember_permissions[VIEW],
                         'user cannot view workspace content')
+        self.assertFalse(nonmember_permissions[DELETE],
+                         'user can delete workspace content')
 
         logout()
         anon_permissions = api.user.get_permissions(
             obj=self.document,
         )
+        self.assertFalse(anon_permissions[VIEW],
+                         'Anonymous can view draft content')
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
