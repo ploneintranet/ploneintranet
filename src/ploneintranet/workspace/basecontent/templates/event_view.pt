@@ -61,6 +61,9 @@
                                 <a tal:condition="nothing" href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
                                     Attachments
                                 </a>
+                                <tal:history tal:condition="exists:here/@@app-audit-button">
+                                  <a tal:replace="structure here/@@app-audit-button" />
+                                </tal:history>
                                 <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                                 <!-- <a href="" class="icon-copy iconified" title="Copy this document">
                                     Copy
