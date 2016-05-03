@@ -65,6 +65,9 @@
                                                    title task/title;
                                                    target target;"
                                    tal:content="task/title" />
+                                <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
+                                  <a tal:replace="structure task/obj/@@app-audit-mm-button" />
+                                </tal:history>
                               </p>
                               <p class="step-assignee"
                                  tal:define="due_date task/due;

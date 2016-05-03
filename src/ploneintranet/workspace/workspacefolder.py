@@ -153,6 +153,7 @@ class WorkspaceFolder(Container):
                 'due': obj.due,
                 'assignee': assignee,
                 'initiator': initiator,
+                'obj': obj,
             }
             if self.is_case:
                 milestone = "unassigned"
