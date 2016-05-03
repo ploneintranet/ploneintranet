@@ -102,6 +102,13 @@
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
+  <rules css:if-content=".template-app-audit-log">
+    <theme href="generated/apps/audit/index.html" />
+    <replace css:content="#document-content"
+             css:theme="#document-content"
+             />
+  </rules>
+
   <rules css:if-content="body.template-dashboard-html,
                          body.template-apps-html,
                          body.template-workspaces-html">
