@@ -73,6 +73,7 @@ setup(name='ploneintranet',
           'twitter-text-python',
           'Unidecode',
           'collective.monkeypatcher',
+          'scorched',
       ],
       extras_require={
           'test': [
