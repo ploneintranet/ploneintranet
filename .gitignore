@@ -37,6 +37,8 @@ parts/
 /prototype
 /share/python-wheels
 release/
+/src/collective.*
+/src/quaive.app.*
 src/sphinx.themes.plone/
 stamp-bower
 stamp-npm
