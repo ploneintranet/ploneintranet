@@ -80,6 +80,19 @@ If you are deploying Plone Intranet, you will need to use the solr.cfg buildout 
 
 If moving an existing site to a SOLR backend, you will need to run the 'Clear and Rebuild' step on the portal_catalog, which will sync all items with the solr database. (This only needs to be done once.)
 
+
+solr maintenance views
+----------------------
+
+Ploneintranet provides 2 solr maintenance views:
+
+`@@solr-optimize`
+  is a view you will want to call from cron at least once per day, to perform regular optimizations.
+
+`@@solr-maintenance`
+  does a full reindex of solr
+  
+
 Configuration
 =============
 
