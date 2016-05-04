@@ -15,6 +15,14 @@
         layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
         />
 
+  <browser:page
+      name="solr-optimize"
+      for="*"
+      class=".maintenance.SolrOptimizeView"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
+      />
+
   <adapter
         factory=".maintenance.BaseIndexable" />
 

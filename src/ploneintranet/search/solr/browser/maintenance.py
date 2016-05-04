@@ -12,6 +12,7 @@ from Products.Five.browser import BrowserView
 from zope.interface import implements
 from zope.component import queryMultiAdapter
 from zope.component import getUtility
+from zope.component import queryUtility
 from collective.indexing.indexer import getOwnIndexMethod
 
 from ploneintranet.search.solr.interfaces import ISolrMaintenanceView
@@ -25,7 +26,6 @@ from zope.component import adapts
 from zope.interface import Interface
 from Products.Archetypes.CatalogMultiplex import CatalogMultiplex
 from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
-
 
 logger = getLogger('ploneintranet.search.maintenance')
 MAX_ROWS = 1000000000
@@ -425,3 +425,22 @@ class SolrMaintenanceView(BrowserView):
     #     msg = finished_msg % (deleted, reindexed)
     #     log(msg)
     #     logger.info(msg)
+
+
+class SolrOptimizeView(BrowserView):
+    """
+    View to start solr optimization.
+    """
+
+    def __call__(self):
+        self._solr.optimize(waitSearcher=None)
+        return "solr is optimized now"
+
+    @property
+    def _solr_conf(self):
+        return queryUtility(IConnectionConfig)
+
+    @property
+    def _solr(self):
+        self._connection = IConnection(self._solr_conf)
+        return self._connection
