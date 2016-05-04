@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from plone import api
 from plone import api as plone_api
@@ -194,6 +194,9 @@ class SearchResultsView(BrowserView):
             'tags': form.get('tags', []),
             'friendly_type_name': form.get('friendly_type_name', [])
         }
+        # By default, don't include archived items.
+        if 'include_archived' not in form:
+            filters['is_archived'] = False
 
         if not self.is_filtering():
             return filters
