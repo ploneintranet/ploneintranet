@@ -252,13 +252,15 @@ def workspace_groupbehavior_toggled(obj, event):
     # In case the membrane_tool cannot be found, just return.
     # This can happen in test scenarios that do not set up the full stack of
     # PloneIntranet.
-    except PloneApiError:
+    except PloneApiError, exc:
+        log.error(exc)
         return
     if IMembraneGroup.__identifier__ in obj.behaviors:
         # The behavior was activated
         # Add the type to the membrane types and reindex all workspaces
         types = set(membrane_tool.membrane_types)
         types.add(workspacefolder.__name__)
+        log.info("Enabling IMembraneGroup on %s", workspacefolder.__name__)
         membrane_tool.membrane_types = list(types)
     else:
         # The behavior was deactivated
@@ -266,6 +268,7 @@ def workspace_groupbehavior_toggled(obj, event):
         types = [
             typ for typ in membrane_tool.membrane_types if
             typ != workspacefolder.__name__]
+        log.info("Disabling IMembraneGroup on %s", workspacefolder.__name__)
         membrane_tool.membrane_types = types
     catalog = api.portal.get_tool('portal_catalog')
     membrane_catalog = membrane_tool._catalog
