@@ -79,3 +79,11 @@ on leveraging LDAP in Ploneintranet:
 - Periodically synchronizing userprofiles from LDAP
 - Synchronizing user properties from LDAP
 - Extending user properties
+
+  
+Uninstalling LDAP
+-----------------
+
+Should you wish to uninstall LDAP support, run the GenericSetup import step `Plone Intranet: Suite: LDAP Uninstall`.
+
+Because `plone.app.ldap` does not provide an uninstall profile, you also have to manually remove the LDAP plugin from `acl_users` via the ZMI.
