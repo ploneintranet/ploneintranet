@@ -61,16 +61,22 @@
                         </label>
                     </fieldset>
 
-                    <!-- Not implemented yet -->
-                    <!--fieldset class="vertical">
+                    <fieldset class="vertical"
+                              tal:define="is_archived context/archival_date;
+                                          dt python:modules['DateTime'].DateTime();">
                       <label class="pat-checklist">
                         Archive workspace
-                        <input type="checkbox" name="archived" />
+                        <input type="checkbox" name="archival_date" value="1005"
+                               tal:attributes="checked python:is_archived and 'checked';
+                                               value python:is_archived if is_archived else dt.strftime('%Y-%m-%d');
+                                               "/>
+                        <input type="hidden" name="archival_date-empty-marker" value="true" />
+
                       </label>
-                      <p class="pat-message pat-depends warning" data-pat-depends="archived">
-                        This workspace was archived on <time>16 April 2015</time>. Archived workspaces are hidden from the <a href="/workspaces">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
+                      <p class="pat-message pat-depends warning" tal:condition="is_archived">
+                        This workspace was archived on <time>${python:context.archival_date.strftime('%d %b %Y')}</time>. Archived workspaces are hidden from the <a href="/workspaces">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
                       </p>
-                    </fieldset-->
+                    </fieldset>
                 </form>
             </div>
         </div>

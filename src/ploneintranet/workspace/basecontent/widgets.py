@@ -6,6 +6,7 @@ from plone.namedfile.interfaces import INamedField
 from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.behaviors.file import IFileField
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
+from ploneintranet.workspace.workspacefolder import IBaseWorkspaceFolder
 from pytz import timezone
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
@@ -105,6 +106,29 @@ class PatDatePickerWidget(Widget):
         return date
 
 
+@implementer_only(IPatDatePickerWidget)
+class DateCheckboxWidget(Widget):
+    """Stores the date when a checkbox was checked
+
+    :rtype datetime:
+    """
+    def extract(self, default=NO_VALUE):
+        value = self.request.get(self.name, default)
+        if value == default:
+            return None
+        elif value[0] == u'':
+            # It's either an empty string or list with no date
+            return None
+        elif isinstance(value, basestring):
+            # Date only
+            date = datetime.strptime(value, '%Y-%m-%d')
+        timezone_name = default_timezone(self.context)
+        if isinstance(timezone_name, unicode):
+            timezone_name.encode('utf8')
+        date = date.replace(tzinfo=timezone(timezone_name))
+        return date
+
+
 class PatDatePickerConverter(BaseDataConverter):
     """toFieldValue just needs to return the datetime object
     """
@@ -136,6 +160,15 @@ def StartPatDatePickerFieldWidget(field, request):
 @implementer(IFieldWidget)
 def EndPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))
+
+
+@adapter(
+    getSpecification(IBaseWorkspaceFolder['archival_date']),
+    IWorkspaceAppFormLayer
+)
+@implementer(IFieldWidget)
+def ArchivalDatePickerFieldWidget(field, request):
+    return FieldWidget(field, DateCheckboxWidget(request))
 
 
 class IPloneIntranetFileWidget(IWidget):
