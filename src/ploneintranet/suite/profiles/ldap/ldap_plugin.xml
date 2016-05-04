@@ -1,0 +1,142 @@
+<?xml version="1.0"  ?>
+<ldapplugins>
+
+<!-- PLEASE NOTE - This ldap plugin config has 'update=False' set,
+     so it will not overwrite local changes made in the ZODB.
+     To apply any changes to this file, first delete the ldap_plugin
+     from acl_users and then re-run the GS import -->
+
+<ldapplugin title="Plone managed LDAP" id="ldap-plugin" meta_type="Plone Active Directory plugin" update="False">
+
+    <interface value="IAuthenticationPlugin"/>
+    <interface value="ICredentialsResetPlugin"/>
+    <interface value="IGroupEnumerationPlugin"/>
+    <interface value="IGroupIntrospection"/>
+    <interface value="IGroupsPlugin"/>
+    <interface value="IPropertiesPlugin"/>
+    <interface value="IRoleEnumerationPlugin"/>
+    <interface value="IRolesPlugin"/>
+    <interface value="IUserEnumerationPlugin"/>
+    <plugin_property id="prefix" type="string" mode="w" value=""/>
+    <plugin_property id="title" type="string" mode="wd" value="Plone managed LDAP"/>
+    <plugin_property id="groupid_attr" type="string" mode="w" value="cn"/>
+    <plugin_property id="grouptitle_attr" type="string" mode="w" value="cn"/>
+    <plugin_property id="group_class" type="string" mode="w" value="groupOfNames"/>
+    <plugin_property id="group_recurse" type="int" mode="w" value="1"/>
+    <plugin_property id="group_recurse_depth" type="int" mode="w" value="1"/>
+    <property id="_login_attr" type="str">
+      <item value="uid"/>
+    </property>
+    <property id="_uid_attr" type="str">
+      <item value="uid"/>
+    </property>
+    <property id="_rdnattr" type="str">
+      <item value="uid"/>
+    </property>
+    <property id="users_base" type="str">
+      <item value="OU=users,DC=ploneintranet,DC=com"/>
+    </property>
+    <property id="users_scope" type="int">
+      <item value="2"/>
+    </property>
+    <property id="_local_groups" type="bool">
+      <item value="False"/>
+    </property>
+    <property id="_implicit_mapping" type="int">
+      <item value="0"/>
+    </property>
+    <property id="groups_base" type="str">
+      <item value="OU=groups,DC=ploneintranet,DC=com"/>
+    </property>
+    <property id="groups_scope" type="int">
+      <item value="2"/>
+    </property>
+    <property id="_binduid" type="str">
+      <item value="cn=root,dc=ploneintranet,dc=com"/>
+    </property>
+    <property id="_bindpwd" type="str">
+      <item value="secret"/>
+    </property>
+    <property id="_binduid_usage" type="int">
+      <item value="0"/>
+    </property>
+    <property id="read_only" type="bool">
+      <item value="True"/>
+    </property>
+    <property id="_user_objclasses" type="list">
+      <item value="person"/>
+      <item value="organizationalPerson"/>
+      <item value="inetOrgPerson"/>
+    </property>
+    <property id="_pwd_encryption" type="str">
+      <item value="SHA"/>
+    </property>
+    <property id="_roles" type="list">
+      <item value="Member"/>
+    </property>
+    <schema>
+      <attr id="username">
+        <item id="public_name" value="username"/>
+        <item id="ldap_name" value="uid"/>
+        <item id="friendly_name" value="Login Name"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="fullname">
+        <item id="public_name" value="fullname"/>
+        <item id="ldap_name" value="cn"/>
+        <item id="friendly_name" value="Full Name"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="first_name">
+        <item id="public_name" value="first_name"/>
+        <item id="ldap_name" value="givenName"/>
+        <item id="friendly_name" value="First name"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="last_name">
+        <item id="public_name" value="last_name"/>
+        <item id="ldap_name" value="sn"/>
+        <item id="friendly_name" value="Last name"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="email">
+        <item id="public_name" value="email"/>
+        <item id="ldap_name" value="mail"/>
+        <item id="friendly_name" value="Email"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="department">
+        <item id="public_name" value="department"/>
+        <item id="ldap_name" value="description"/>
+        <item id="friendly_name" value="Department"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="telephone">
+        <item id="public_name" value="telephone"/>
+        <item id="ldap_name" value="telephoneNumber"/>
+        <item id="friendly_name" value="Telephone"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="address">
+        <item id="public_name" value="address"/>
+        <item id="ldap_name" value="streetAddress"/>
+        <item id="friendly_name" value="Street Address"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+      <attr id="primary_location">
+        <item id="public_name" value="primary_location"/>
+        <item id="ldap_name" value="l"/>
+        <item id="friendly_name" value="Primary location"/>
+        <item id="multivalued" value="False"/>
+      </attr>
+    </schema>
+    <server update="False" delete="False">
+      <item id="host" value="localhost" type="str"/>
+      <item id="op_timeout" value="70" type="int"/>
+      <item id="protocol" value="ldap" type="str"/>
+      <item id="port" value="8389" type="str"/>
+      <item id="conn_timeout" value="5" type="int"/>
+    </server>
+  </ldapplugin>
+
+</ldapplugins>

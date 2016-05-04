@@ -12,7 +12,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Intranet: -- Library"
+      title="Plone Intranet: -- [Library]"
       directory="profiles/default"
       description="Library for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -20,7 +20,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- Library uninstall"
+      title="Plone Intranet: -- [Library uninstall]"
       directory="profiles/uninstall"
       description="Uninstall Library for PloneIntranet"
       provides="Products.GenericSetup.interfaces.EXTENSION"

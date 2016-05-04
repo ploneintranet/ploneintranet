@@ -13,6 +13,18 @@ Also Consortium partners will provide you with specific insights into our roadma
 
 If you're a Plone dev and want to try Plone Intranet, follow the steps below.
 
+Get the installer
+-----------------
+
+We've prepared a quickinstaller for your with some scripts and files.
+Get it from github::
+
+  git clone https://github.com/ploneintranet/venus.git
+
+Enter the installer directory::
+  
+  cd venus
+
 
 Prepare the Operating System Environment
 ----------------------------------------
@@ -33,12 +45,6 @@ based Dockerfile_, which you can use either to
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This requires `docker` to be available, see the `Docker installation docs`_.
-
-We've prepared a quickinstaller for your with some scripts and files.
-Get it from github::
-
-  git clone https://github.com/ploneintranet/venus.git
-  cd venus
 
 Build a Docker container with the supplied Plone Intranet environment::
 
@@ -85,6 +91,13 @@ To install it on Ubuntu::
 
     sudo apt-get install redis-server
 
+The default buildout is ldap-prepared. To make installing `python-ldap` possible, on Ubuntu you need::
+
+    sudo apt-get install libldap2-dev libsasl2-dev
+
+Ldap support is prepared, but disabled by default.
+Please read the documentation section :doc:`ldap`
+for instructions on installing and configuring LDAP.
 
 Create and run buildout
 -----------------------
@@ -92,12 +105,7 @@ Create and run buildout
 We assume you're familiar with basic Plone buildout.
 If you're not, this preview is not for you.
 
-Get the buildout template if you haven't done so above already::
-
-  git clone https://github.com/ploneintranet/venus.git
-  cd venus
-
-Now, run the buildout with `make buildout` or manually as follows::
+You can run the buildout with `make buildout`, or instead manually::
 
   virtualenv .
   ./bin/pip install -r requirements.txt
@@ -190,9 +198,9 @@ if you have test failures your local install is broken.
 Please don't file tickets about missing features, contact a `Plone Intranet Consortium`_ partner instead to discuss your needs.
 
 .. _Plone Intranet Consortium: http://ploneintranet.com
-.. _Dockerfile: https://raw.githubusercontent.com/ploneintranet/ploneintranet/master/Dockerfile
+.. _Dockerfile: https://github.com/quaive/ploneintranet-docker-base/blob/master/Dockerfile
 .. _Docker installation docs: https://docs.docker.com/installation/
-.. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
-.. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
+.. _docsplit installation instructions: https://documentcloud.github.io/docsplit/
+.. _install.plone.dependencies: https://github.com/collective/install.plone.dependencies
 .. _portal_setup > import: http://localhost:8080/Plone/portal_setup/manage_importSteps
 

@@ -1,6 +1,11 @@
 FROM quaive/ploneintranet-base:latest
 MAINTAINER guido.stevens@cosent.net
-RUN apt-get update && apt-get install -y npm nodejs
+RUN apt-get update && apt-get install -y \
+    ldap-utils \
+    ldapvi \
+    nodejs \
+    npm \
+    slapd
 RUN ln -s /usr/bin/nodejs /usr/local/bin/node
 RUN gem install bundler
 RUN useradd -m -d /app app && echo "app:app" | chpasswd && adduser app sudo

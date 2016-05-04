@@ -90,6 +90,8 @@ or browsing users.
 However there are various features in place to support external
 authentication and user data sources.
 
+For instructions on installing LDAP, see :doc:`../../../installation/ldap`
+
 Automatic profile creation
 --------------------------
 
@@ -103,7 +105,10 @@ The `sync-users` browser view is available on the `profiles` directory,
 and can be used to synchronise the profiles on the site with a list of
 users provided by an external data source such as AD/LDAP.
 
-To use this view, first register the ID of a PAS plugin as your main user
+To use this view, first load the `Plone Intranet : Suite : LDAP` profile
+in the ZMI in generic_setup.
+
+This registers the ID of a PAS plugin as your main user
 source using the `ploneintranet.userprofile.primary_external_user_source`
 registry entry:
 
