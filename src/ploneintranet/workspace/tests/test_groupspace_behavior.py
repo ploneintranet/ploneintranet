@@ -128,7 +128,7 @@ class TestGroupspaceBehavior(BaseTestCase):
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.workspace_b)
 
-    def test_group_permissions_from_workspace_from_workspace(self):
+    def test_group_permissions_from_workspace_transitive(self):
         """
             Johndoe is member in Workspace A,
             Workspace A is member in Workspace B,
@@ -171,6 +171,120 @@ class TestGroupspaceBehavior(BaseTestCase):
         self.login('janeschmo')
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.workspace_c)
+
+    def test_group_permissions_from_workspace_recursive(self):
+        """
+            Johndoe is member in Workspace A,
+            Janeschmo is member in Workspace B,
+            Workspace A is member in Workspace B,
+            Workspace B is member in Workspace A:
+                => Johndoe can access both workspaces
+                => Janeschmo can access both workspaces
+        """
+        self.login_as_portal_owner()
+        # john is already in A
+        # Add Jane to B.
+        self.add_user_to_workspace(
+            'janeschmo',
+            self.workspace_b,
+        )
+        # the group workspace-a gets added as member to workspace-b
+        self.add_user_to_workspace(
+            'workspace-a',
+            self.workspace_b,
+        )
+        # the group workspace-b gets added as member to workspace-a
+        self.add_user_to_workspace(
+            'workspace-b',
+            self.workspace_a,
+        )
+        obj = IGroup(self.workspace_a)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-b', 'admin', 'johndoe']),
+            "Workspace A membership incorrect"
+        )
+        obj = IGroup(self.workspace_b)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-a', 'admin', 'janeschmo']),
+            "Workspace B membership incorrect"
+        )
+        self.logout()
+        # johndoe can now access workspace-a and workspace-b
+        self.login('johndoe')
+        self.traverse_to_item(self.workspace_a)
+        self.traverse_to_item(self.workspace_b)
+        self.logout()
+        # janeschmo can also access both workspaces
+        self.login('janeschmo')
+        self.traverse_to_item(self.workspace_a)
+        self.traverse_to_item(self.workspace_b)
+
+    def test_group_permissions_from_workspace_recursive_transitive(self):
+        """
+            Johndoe is member in Workspace A,
+            Janeschmo is member in Workspace B,
+            Workspace A is member in Workspace B,
+            Workspace B is member in Workspace C,
+            Workspace C is member in Workspace A:
+                => Johndoe can access all workspaces
+                => Janeschmo can access all workspaces
+        """
+        self.login_as_portal_owner()
+        # john is already in A
+        # Add Jane to B.
+        self.add_user_to_workspace(
+            'janeschmo',
+            self.workspace_b,
+        )
+        # the group workspace-a gets added as member to workspace-b
+        self.add_user_to_workspace(
+            'workspace-a',
+            self.workspace_b,
+        )
+        # the group workspace-b gets added as member to workspace-c
+        self.add_user_to_workspace(
+            'workspace-b',
+            self.workspace_c,
+        )
+        # make c private instead of secret, so it can be added
+        api.content.transition(self.workspace_c, 'make_private')
+        # the group workspace-c gets added as member to workspace-a
+        self.add_user_to_workspace(
+            'workspace-c',
+            self.workspace_a,
+        )
+        obj = IGroup(self.workspace_a)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-c', 'admin', 'johndoe']),
+            "Workspace A membership incorrect"
+        )
+        obj = IGroup(self.workspace_b)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-a', 'admin', 'janeschmo']),
+            "Workspace B membership incorrect"
+        )
+        obj = IGroup(self.workspace_c)
+        self.assertEqual(
+            set(obj.getGroupMembers()),
+            set(['workspace-b', 'admin']),
+            "Workspace C membership incorrect"
+        )
+        self.logout()
+        # johndoe can now access all 3 workspaces
+        self.login('johndoe')
+        self.traverse_to_item(self.workspace_a)
+        self.traverse_to_item(self.workspace_b)
+        self.traverse_to_item(self.workspace_c)
+        self.logout()
+        # janeschmo can also access all 3 workspaces
+        self.login('janeschmo')
+        self.traverse_to_item(self.workspace_a)
+        self.traverse_to_item(self.workspace_b)
+        self.traverse_to_item(self.workspace_c)
 
     def test_group_properties_provider(self):
         """
