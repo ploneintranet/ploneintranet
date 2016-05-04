@@ -199,14 +199,24 @@ class TestGroupspaceBehavior(BaseTestCase):
             ])
         )
 
+    def test_workspace_members_listing_ignores_self(self):
+        self.login_as_portal_owner()
+        json_groups = self.workspace_a.restrictedTraverse('allgroups.json')()
+        available_group_ids = [x['id'] for x in loads(json_groups)]
+        # Workspace A does not list itself as a candidate
+        self.assertFalse('workspace-a' in available_group_ids)
+
+    def test_workspace_members_listing_shows_candidate(self):
+        self.login_as_portal_owner()
+        json_groups = self.workspace_a.restrictedTraverse('allgroups.json')()
+        available_group_ids = [x['id'] for x in loads(json_groups)]
+        self.assertTrue('workspace-b' in available_group_ids)
+
     def test_workspace_members_listing_ignores_secret(self):
         self.login_as_portal_owner()
-
         json_groups = self.workspace_a.restrictedTraverse('allgroups.json')()
         available_group_ids = [x['id'] for x in loads(json_groups)]
         # The secret workspace C does not get listed
-        self.assertTrue('workspace-a' in available_group_ids)
-        self.assertTrue('workspace-b' in available_group_ids)
         self.assertFalse('workspace-c' in available_group_ids)
 
     def test_secret_workspace_cannot_be_added(self):

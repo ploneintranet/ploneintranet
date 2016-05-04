@@ -140,6 +140,9 @@ class AllGroupsJSONView(BrowserView):
         ws = IWorkspace(self.context)
         for group in groups:
             groupid = group.getId()
+            if groupid == self.context.id:
+                # don't add group to itself
+                continue
             # XXX Filter out groups representing workspace roles. Review
             # whether we need/want this and/or can do it more efficiently.
             skip = False
