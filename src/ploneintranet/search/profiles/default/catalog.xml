@@ -10,9 +10,13 @@
   <index name="division" meta_type="UUIDIndex">
     <indexed_attr value="division"/>
   </index>
+  <index name="is_archived" meta_type="BooleanIndex">
+    <indexed_attr value="is_archived"/>
+  </index>
 
   <column value="friendly_type_name"/>
   <column value="is_division"/>
   <column value="division"/>
+  <column value="is_archived"/>
 
 </object>

@@ -14,6 +14,7 @@
       <element>path</element>
       <element>review_state</element>
       <element>is_division</element>
+      <element>is_archived</element>
       <element>division</element>
     </value>
   </record>
@@ -28,6 +29,7 @@
       <element>tags</element>
       <element>friendly_type_name</element>
       <element>is_division</element>
+      <element>is_archived</element>
     </value>
   </record>
 

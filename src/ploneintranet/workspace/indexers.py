@@ -78,6 +78,21 @@ def is_division(object, **kw):
 
 
 @indexer(IDexterityContent)
+def is_archived_dexterity(obj):
+    """
+    The default search query is for all items which haven't been archived
+    """
+    return False
+
+
+@indexer(IWorkspaceFolder)
+def is_archived(object, **kw):
+    """Indexes if this object is not archived
+    """
+    return getattr(object, 'archival_date', False) and True
+
+
+@indexer(IDexterityContent)
 def division_dexterity(obj):
     """
     dummy to prevent indexing child objects
