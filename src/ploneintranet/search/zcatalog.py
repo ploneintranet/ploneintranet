@@ -36,8 +36,16 @@ class SiteSearch(base.SiteSearch):
 
     def _apply_filters(self, query, filters):
         # Do not apply empty filters to the catalog
-        query = {key: value for key, value in dict(query).iteritems() if value}
-        filters = {key: value for key, value in filters.iteritems() if value}
+        query = {
+            key: value
+            for key, value in dict(query).iteritems()
+            if value or value is False
+        }
+        filters = {
+            key: value
+            for key, value in filters.iteritems()
+            if value or value is False
+        }
         # Rename tags in Subject
         if 'tags' in filters:
             filters['Subject'] = filters.pop('tags')
