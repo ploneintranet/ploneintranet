@@ -3,6 +3,7 @@
     strives to provide a similar service """
 from logging import getLogger
 
+from datetime import datetime
 from time import time, clock, strftime
 from Acquisition import aq_base
 
@@ -22,6 +23,7 @@ from ploneintranet.search.solr.interfaces import ICheckIndexable
 from ploneintranet.search.solr.indexers import ContentAdder
 from ploneintranet.search.solr.indexers import ContentIndexer
 
+from plone.memoize import ram
 from zope.component import adapts
 from zope.interface import Interface
 from Products.Archetypes.CatalogMultiplex import CatalogMultiplex
@@ -433,8 +435,14 @@ class SolrOptimizeView(BrowserView):
     """
 
     def __call__(self):
+        return self.optimize()
+
+    # prevent DoS by allowing max 1 call per 5 mins
+    @ram.cache(lambda *args: time() // 300)
+    def optimize(self):
         self._solr.optimize(waitSearcher=None)
-        return "solr is optimized now"
+        return "solr optimized {}".format(
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
     @property
     def _solr_conf(self):

@@ -16,10 +16,10 @@
         />
 
   <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"      
       name="solr-optimize"
-      for="*"
       class=".maintenance.SolrOptimizeView"
-      permission="cmf.ManagePortal"
+      permission="zope2.View"
       layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
       />
 
