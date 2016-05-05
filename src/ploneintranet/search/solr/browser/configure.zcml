@@ -15,6 +15,14 @@
         layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
         />
 
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"      
+      name="solr-optimize"
+      class=".maintenance.SolrOptimizeView"
+      permission="zope2.View"
+      layer="ploneintranet.search.interfaces.IPloneintranetSearchLayer"
+      />
+
   <adapter
         factory=".maintenance.BaseIndexable" />
 

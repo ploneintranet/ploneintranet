@@ -3,6 +3,7 @@
     strives to provide a similar service """
 from logging import getLogger
 
+from datetime import datetime
 from time import time, clock, strftime
 from Acquisition import aq_base
 
@@ -12,6 +13,7 @@ from Products.Five.browser import BrowserView
 from zope.interface import implements
 from zope.component import queryMultiAdapter
 from zope.component import getUtility
+from zope.component import queryUtility
 from collective.indexing.indexer import getOwnIndexMethod
 
 from ploneintranet.search.solr.interfaces import ISolrMaintenanceView
@@ -21,11 +23,11 @@ from ploneintranet.search.solr.interfaces import ICheckIndexable
 from ploneintranet.search.solr.indexers import ContentAdder
 from ploneintranet.search.solr.indexers import ContentIndexer
 
+from plone.memoize import ram
 from zope.component import adapts
 from zope.interface import Interface
 from Products.Archetypes.CatalogMultiplex import CatalogMultiplex
 from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
-
 
 logger = getLogger('ploneintranet.search.maintenance')
 MAX_ROWS = 1000000000
@@ -425,3 +427,28 @@ class SolrMaintenanceView(BrowserView):
     #     msg = finished_msg % (deleted, reindexed)
     #     log(msg)
     #     logger.info(msg)
+
+
+class SolrOptimizeView(BrowserView):
+    """
+    View to start solr optimization.
+    """
+
+    def __call__(self):
+        return self.optimize()
+
+    # prevent DoS by allowing max 1 call per 5 mins
+    @ram.cache(lambda *args: time() // 300)
+    def optimize(self):
+        self._solr.optimize(waitSearcher=None)
+        return "solr optimized {}".format(
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+    @property
+    def _solr_conf(self):
+        return queryUtility(IConnectionConfig)
+
+    @property
+    def _solr(self):
+        self._connection = IConnection(self._solr_conf)
+        return self._connection
