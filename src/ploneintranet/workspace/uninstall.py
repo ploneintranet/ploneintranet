@@ -25,7 +25,9 @@ def uninstall(context):
     valid_roles = portal.valid_roles()
     portal_role_manager = pas.portal_role_manager
     roles = portal_role_manager.listRoleIds()
-    for role in ['TeamMember', 'TeamManager', 'SelfPublisher', 'Assignee']:
+    for role in [
+        'TeamMember', 'TeamManager', 'TeamGuest', 'SelfPublisher', 'Assignee'
+    ]:
         if role in roles:
             portal_role_manager.removeRole(role)
         if role in valid_roles:

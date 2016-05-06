@@ -44,6 +44,7 @@ class PloneIntranetWorkspace(Workspace):
         u'Admins': ('Contributor', 'Editor', 'Reviewer',
                     'Reader', 'TeamManager',),
         u'Members': ('TeamMember', ),
+        u"Guests": ('TeamGuest', ),
         # These are the 'participation policy' groups
         u'Consumers': (),
         u'Producers': ('Contributor',),

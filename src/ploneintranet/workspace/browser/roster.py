@@ -158,6 +158,8 @@ class WorkspaceChangeRole(EditRoster):
         for policy_id, policy_info in PARTICIPANT_POLICY.items():
             if policy_id == ws_policy:
                 continue
+            if policy_info.get('exclude_from_ui', False):
+                continue
             yield {'id': policy_id.title(),
                    'title': policy_info['title']}
         yield {'id': 'Admins',

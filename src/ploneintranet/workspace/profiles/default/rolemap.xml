@@ -6,6 +6,7 @@ specific workflow state. -->
 <rolemap>
   <roles>
     <role name="TeamMember"/>
+    <role name="TeamGuest"/>
     <role name="TeamManager"/>
     <role name="SelfPublisher"/>
   </roles>
