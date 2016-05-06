@@ -18,7 +18,7 @@
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
         <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator" placeholder="Pick an initiator" i18n:attributes="placeholder"
-        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python: workspace.member_prefill(context, attrs['name'], default=default_prefill)}"
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; allow-new-words: false; prefill-json: ${python: workspace.member_prefill(context, attrs['name'], default=default_prefill)}"
         tal:attributes="disabled read_only"
         />
       </label>
@@ -29,7 +29,7 @@
                name="assignee"
                placeholder="Pick an assignee"
                i18n:attributes="placeholder"
-               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python: workspace.member_prefill(context, attrs['name'])}"
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/allusers.json; allow-new-words: false; prefill-json: ${python: workspace.member_prefill(context, attrs['name'])}"
                tal:attributes="disabled read_only"
                 />
       </label>
