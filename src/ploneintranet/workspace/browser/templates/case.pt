@@ -15,10 +15,11 @@
                                transition_icons view/transition_icons;
                                existing_users_by_id workspace/existing_users_by_id;
                                tasks context/tasks;
-                               target nothing">
+                               target nothing;
+                               is_archived workspace/archival_date;
+                               archived_class python:'workspace-state-archived' if is_archived else ''">
       <div id="content"
-           class="application page-type-case workspace-type-case"
-           tal:attributes="class string:application page-type-${ws_type} workspace-type-${ws_type}">
+           class="application page-type-${ws_type} workspace-type-${ws_type} ${archived_class}">
         <h1 id="workspace-name">
           <!-- Next link is to lead to landing state of current workspace -->
           <a href="{{page.url}}"
