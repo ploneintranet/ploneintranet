@@ -92,7 +92,7 @@ def is_archived(object, **kw):
     Return False both when a workspace has no 'archival_date' attribute, and
     also when it is set to None.
     """
-    return bool(getattr(object, 'archival_date') and True)
+    return bool(getattr(object, 'archival_date'))
 
 
 @indexer(IDexterityContent)
