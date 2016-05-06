@@ -150,7 +150,6 @@
         <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
             id="result-listing"
             data-search-string="${request/QUERY_STRING|nothing}">
-          <!-- One hard coded example of an archived workspace as a search result: -->
           <tal:results repeat="result search_response">
             <tal:result tal:define="
                           type_class python:view.get_facet_type_class(result.friendly_type_name);
