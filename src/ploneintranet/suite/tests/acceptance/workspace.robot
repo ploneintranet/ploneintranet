@@ -226,6 +226,19 @@ The manager can remove a workspace member
     Given I am in a workspace as a workspace admin
      Then I can remove Allan from the workspace members
 
+The manager can archive a workspace
+    Given I am in a workspace as a workspace admin
+      And I can create a new workspace  Archived Workspace
+      And I can open the workspace advanced settings tab
+     When I can archive the workspace
+      And I can list the workspaces
+      And I can't see the workspace  Archived Workspace
+     Then I go to the Archived Workspace
+      And I can open the workspace advanced settings tab
+      And I can unarchive the workspace
+     Then I can see the workspace  Archived Workspace
+
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 # Site Administrator can edit roster
