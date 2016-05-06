@@ -196,6 +196,7 @@ I can turn the workspace into a division
 
 I can archive the workspace
     Select checkbox  xpath=//input[@name='archival_date']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I can unarchive the workspace
     Unselect checkbox  xpath=//input[@name='archival_date']
@@ -422,6 +423,10 @@ I can search for items
     Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
+I can see that the workspace is archived
+    [arguments]  ${title}
+    Wait until page contains element  xpath=(//span[@class='highlightedSearchTerm'])[1]/following-sibling::strong[text()='Archived']
 
 I see the option to create a document
     Click link  Documents

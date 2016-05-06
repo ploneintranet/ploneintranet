@@ -238,6 +238,14 @@ The manager can archive a workspace
       And I can unarchive the workspace
      Then I can see the workspace  Archived Workspace
 
+Archived workspaces are marked search results
+    Given I am in a workspace as a workspace admin
+      And I can create a new workspace  ArchivedWSSearch
+      And I can open the workspace advanced settings tab
+      And I can archive the workspace
+      And I can search in the site header for ArchivedWSSearch
+      And I can see the search result ArchivedWSSearch
+     Then I can see that the workspace is archived  ArchivedWSSearch
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
