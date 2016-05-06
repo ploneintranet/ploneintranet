@@ -29,3 +29,12 @@ def import_portal_registry(context):
         'plone.app.registry',
         run_dependencies=False,
     )
+
+
+def import_search_registry(context):
+    logger.info('Import Registry')
+    context.runImportStepFromProfile(
+        'profile-ploneintranet.search:default',
+        'plone.app.registry',
+        run_dependencies=False,
+    )
