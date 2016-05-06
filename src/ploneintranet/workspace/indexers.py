@@ -88,8 +88,11 @@ def is_archived_dexterity(obj):
 @indexer(IWorkspaceFolder)
 def is_archived(object, **kw):
     """Indexes if this object is not archived
+
+    Return False both when a workspace has no 'archival_date' attribute, and
+    also when it is set to None.
     """
-    return getattr(object, 'archival_date', False) and True
+    return bool(getattr(object, 'archival_date') and True)
 
 
 @indexer(IDexterityContent)
