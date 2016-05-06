@@ -104,8 +104,8 @@
 
   <rules css:if-content=".template-app-audit-log">
     <theme href="generated/apps/audit/index.html" />
-    <replace css:content="#document-content"
-             css:theme="#document-content"
+    <replace css:content="#application-body"
+             css:theme="#application-body"
              />
   </rules>
 
