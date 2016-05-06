@@ -137,7 +137,8 @@ class WorkspaceFolder(Container):
         brains = catalog(
             path=current_path,
             portal_type=ptype,
-            sort_on='due')
+            sort_on='getObjPositionInParent',
+        )
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
