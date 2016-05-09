@@ -62,7 +62,7 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <permission-role>TeamMember</permission-role>
+      <!--<permission-role>TeamMember</permission-role>-->
     </permission-map>
     <permission-map name="Access contents information" acquired="False">
       <permission-role>Manager</permission-role>
