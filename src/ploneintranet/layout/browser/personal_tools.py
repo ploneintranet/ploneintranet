@@ -9,6 +9,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five import BrowserView
 from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 log = logging.getLogger(__name__)
 
@@ -35,8 +36,8 @@ class PersonalTools(BrowserView):
                 transaction.commit()
 
                 IStatusMessage(self.request).add(
-                    "Personal image updated. Keep browsing or reload the "
-                    "page to see the change.", type="success")
+                    _("Personal image updated. Keep browsing or reload the "
+                      "page to see the change."), type="success")
 
                 # purge varnish
                 portrait_url = mtool.getPersonalPortrait(
