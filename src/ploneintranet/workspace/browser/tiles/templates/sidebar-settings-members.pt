@@ -74,7 +74,10 @@
                       <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
                     </a>
                     <tal:manager condition="view/can_manage_roster">
-                        <a tal:condition="user/role" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                      <tal:role condition="user/role" define="role user/role">
+                        <a tal:condition="python:role!='Guest'" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                        <a tal:condition="python:role=='Guest'" href="#help-role-guest" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                      </tal:role>
                     </tal:manager>
                     <tal:non_manager condition="not:view/can_manage_roster">
                         <a tal:condition="user/role" href="${url}" class="label inactive follow pat-inject"
@@ -112,7 +115,7 @@
               </ul>
             </div>
           </div>
-
+          <p class="pat-message notice hidden" id="help-role-guest" i18n:translate="help-role-guest">This user is a temporary member who was added automatically to this workspace. The user was assigned to a task inside this workspace. Once the task has been completed, the user's membership will cease automatically.</p>
         </div>
       </div>
     </div>
