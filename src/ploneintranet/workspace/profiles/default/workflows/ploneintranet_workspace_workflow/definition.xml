@@ -10,7 +10,6 @@
   <permission>Add portal content</permission>
   <permission>Plone Social: Add Microblog Status Update</permission>
   <permission>Plone Social: View Microblog Status Update</permission>
-
   <state state_id="secret" title="Secret">
     <description>Secret Workspaces cannot be seen or accessed by Guests.</description>
     <exit-transition transition_id="make_private"/>

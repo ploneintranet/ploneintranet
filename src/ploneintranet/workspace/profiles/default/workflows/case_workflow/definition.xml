@@ -21,7 +21,7 @@
 
        Basic rule of thumb for creating a secure case workflow:
        - for every workflow state the case can have:
-       - explicitly manage ALL 7 permissions listed below
+       - explicitly manage ALL permissions listed below
        - always set acquired="False"
        - use the special local roles TeamMember and TeamManager
          provided automatically by our collective.workspace backend
@@ -49,6 +49,7 @@
   <permission>Access contents information</permission>
   <permission>View</permission>
   <permission>Modify portal content</permission>
+  <permission>Delete objects</permission>
   <permission>Add portal content</permission>
   <permission>Plone Social: Add Microblog Status Update</permission>
   <permission>Plone Social: View Microblog Status Update</permission>
@@ -61,7 +62,7 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <!-- <permission-role>TeamMember</permission-role> -->
+      <!--<permission-role>TeamMember</permission-role>-->
     </permission-map>
     <permission-map name="Access contents information" acquired="False">
       <permission-role>Manager</permission-role>
@@ -76,6 +77,12 @@
       <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -130,6 +137,12 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -174,6 +187,12 @@
       <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -228,6 +247,12 @@
       <permission-role>TeamManager</permission-role>
       <!-- <permission-role>TeamMember</permission-role> -->
     </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->      
+    </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -272,6 +297,12 @@
       <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -325,6 +356,12 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -368,6 +405,12 @@
       <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -420,6 +463,12 @@
       <!-- <permission-role>TeamManager</permission-role> -->
       <!-- <permission-role>TeamMember</permission-role> -->
     </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->      
+    </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->
       <!-- <permission-role>Site Administrator</permission-role> -->
@@ -466,6 +515,12 @@
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
       <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->      
     </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->

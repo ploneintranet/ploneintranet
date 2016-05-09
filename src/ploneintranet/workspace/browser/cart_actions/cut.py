@@ -2,6 +2,7 @@
 from OFS.CopySupport import _cb_encode
 from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
+from Products.CMFPlone.utils import safe_unicode
 from plone import api
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
@@ -22,25 +23,46 @@ class CutView(BaseCartView):
 
         request = self.request
         obj_list = []
+        cannot_cut = []
         for obj in self.items:
-            if obj and obj.cb_isMoveable() and not obj.wl_isLocked():
-                m = Moniker(obj)
-                obj_list.append(m.dump())
-        # now store cutdata into a cookie
-        # TODO: what if there's nothing in the list?
-        ct_data = (1, obj_list)
-        ct_data = _cb_encode(ct_data)  # probably means "clipboard encode"?
+            if obj:
+                is_allowed = api.user.has_permission(
+                    'Delete objects', obj=obj)
+                is_locked = obj.wl_isLocked()
+                is_movable = obj.cb_isMoveable()
+                can_cut = is_allowed and is_movable and not is_locked
+                if can_cut:
+                    m = Moniker(obj)
+                    obj_list.append(m.dump())
+                else:
+                    cannot_cut.append(u'"%s"' % safe_unicode(obj.Title()))
 
-        response = request.response
-        path = '{0}'.format(cookie_path(request))
-        response.setCookie('__cp', ct_data, path=path)
-        request['__cp'] = ct_data
+        if obj_list:
+            # now store cutdata into a cookie
+            # TODO: what if there's nothing in the list?
+            ct_data = (1, obj_list)
+            ct_data = _cb_encode(ct_data)  # probably means "clipboard encode"?
 
-        api.portal.show_message(
-            message=(
-                "{0} Files were cut and moved to your cloud clipboard."
-            ).format(len(obj_list)),
-            request=request,
-            type="info",
-        )
+            response = request.response
+            path = '{0}'.format(cookie_path(request))
+            response.setCookie('__cp', ct_data, path=path)
+            request['__cp'] = ct_data
+
+            api.portal.show_message(
+                message=(
+                    "{0} Files were cut and moved to your cloud clipboard."
+                ).format(len(obj_list)),
+                request=request,
+                type="info",
+            )
+
+        if cannot_cut:
+            api.portal.show_message(
+                message=(
+                    "The following items could not be cut: {0}"
+                ).format(', '.join(sorted(cannot_cut))),
+                request=request,
+                type="info",
+            )
+
         self.request.response.redirect(self.context.absolute_url())

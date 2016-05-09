@@ -92,6 +92,11 @@ A case is assigned a specific workflow through Plone's Placeful Workflow facilit
 
 Because a custom workflow is used, the security settings of the workspace, which are a core feature to simplify security management, are no longer valid and therefore no longer available.
 
+.. note::
+
+   The workflow on a case itself is `case_workflow`.
+   The workflow on the *content within* a case is `ploneintranet_workflow`
+
 The current implementation of the Metro Map assumes that all tasks must be completed before a milestone can be closed. Therefore the demo workflow has a guard for these transitions that assures all tasks are closed and the user interface disables the "Close Milestone" button otherwise.
 
 

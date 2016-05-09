@@ -13,17 +13,9 @@
     <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
   </class>
 
-  <browser:page
-      name="cart"
-      for="*"
-      class=".cart.Cart"
-      permission="zope2.View"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
-
   <browser:pages
       for="*"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       class=".cart_actions.delete.DeleteView">
     <browser:page name="cart-delete" attribute="delete"/>
     <browser:page name="cart-delete-confirm" attribute="confirm"/>
@@ -39,14 +31,16 @@
 
   <browser:page
       for="*"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       class=".cart_actions.cut.CutView"
+      template="cart_actions/templates/message.pt"
       name="cart-cut"/>
 
   <browser:page
       for="*"
       class=".cart_actions.copy.CopyView"
       permission="zope2.View"
+      template="cart_actions/templates/message.pt"
       name="cart-copy"/>
 
   <browser:page

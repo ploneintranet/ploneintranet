@@ -172,6 +172,11 @@ Like a delicious wedding cake, the security settings are stacked in a layered ar
 Placeful Workflow
 -----------------
 
+.. note::
+
+   The workflow on a workspace itself is `ploneintranet_workspace_workflow`.
+   The workflow on the *content within* a workspace is `ploneintranet_workflow`
+
 The implementation uses Plone's placeful workflow policies to implement all of the above.
 Reasons for using a placeful workflow are:
 
@@ -186,10 +191,6 @@ In addition to creating the new dynamic group and enabling the dynamic groups PA
 the installer also applies the placeful workflow to all content types in the site,
 in order to replace the default sitewide workflow in the context of workspaces.
 As an implication, if you add additional content types to the site after installing ploneintranet.workspace, you'll have to re-run the ploneintranet.network:default generic setup handler.
-
-
-
-
 
 There's some details and intricacies here that are worth highlighting.
 
