@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet">
+
+  <browser:resourceDirectory
+    name="ploneintranet.suite.tests"
+    directory="static"
+    />
+
+  <browser:viewlet
+    name="nuke-transitions"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+    template="templates/nuke_transitions.pt"
+    permission="zope2.View"
+  />
+
+</configure>

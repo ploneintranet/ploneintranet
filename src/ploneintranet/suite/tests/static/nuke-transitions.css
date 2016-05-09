@@ -1,0 +1,17 @@
+/*
+ * See https://github.com/quaive/ploneintranet.prototype/issues/243
+ *
+ * In case of strange failures investigate the possibility
+ * to enable back transitions and animations
+ * setting an animation-duration and a transition-duration equal to 1 ms.
+ *
+ * It could be also 0, but some browser do not cope well with this value,
+ * Anyway we need this just for the tests!
+ *
+ */
+body *,
+body * :after,
+body * :before {
+    animation: none !important;
+    transition: none !important;
+}

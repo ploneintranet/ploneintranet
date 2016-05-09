@@ -24,6 +24,9 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # Load ZCML
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
+        # Load resource to disable transitions and animations in robot tests
+        import ploneintranet.suite.tests
+        self.loadZCML(package=ploneintranet.suite.tests)
         # Install product and call its initialize() function
         z2.installProduct(app, 'ploneintranet.suite')
 
