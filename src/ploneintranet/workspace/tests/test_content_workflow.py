@@ -173,8 +173,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(owner_permissions[VIEW],
                         'Owner cannot view pending content')
-        self.assertTrue(owner_permissions[DELETE],
-                        'Owner cannot delete pending content')
+        self.assertFalse(owner_permissions[DELETE],
+                         'Owner should retract, not delete pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -229,8 +229,8 @@ class TestSecretWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(owner_permissions[VIEW],
                         'Owner cannot view published content')
-        self.assertTrue(owner_permissions[DELETE],
-                        'Owner cannot delete published content')
+        self.assertFalse(owner_permissions[DELETE],
+                         'Owner should retract, not delete published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -313,9 +313,9 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
             obj=self.document2,
         )
         self.assertTrue(owner_permissions[VIEW],
-                        'Owner cannot view published content')
+                        'Owner cannot view draft content')
         self.assertTrue(owner_permissions[DELETE],
-                        'Owner cannot delete published content')
+                        'Owner cannot delete draft content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -369,8 +369,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(owner_permissions[VIEW],
                         'Owner cannot view pending content')
-        self.assertTrue(owner_permissions[DELETE],
-                        'Owner cannot delete pending content')
+        self.assertFalse(owner_permissions[DELETE],
+                         'Owner should retract, not delete pending content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
@@ -425,8 +425,8 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
         )
         self.assertTrue(owner_permissions[VIEW],
                         'Owner cannot view published content')
-        self.assertTrue(owner_permissions[DELETE],
-                        'Owner cannot delete published content')
+        self.assertFalse(owner_permissions[DELETE],
+                         'Owner should retract, not delete published content')
 
         nonmember_permissions = api.user.get_permissions(
             username='nonmember',
