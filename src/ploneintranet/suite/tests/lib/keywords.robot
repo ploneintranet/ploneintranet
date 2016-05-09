@@ -943,10 +943,16 @@ I can follow the search result ${SEARCH_RESULT_TITLE}
     Page should contain  ${SEARCH_RESULT_TITLE}
 
 I can filter content of type ${CONTENT_TYPE}
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
     Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can unfilter content of type ${CONTENT_TYPE}
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
     Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
@@ -965,7 +971,10 @@ I can set the date range to ${START_DATE} ${END_DATE}
 I toggle the search previews
     Click Element  css=[href="#view-options"]
     Wait Until Element is Visible  jquery=.tooltip-container label:contains("Display previews")
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
     Click Element  jquery=.tooltip-container label:contains("Display previews")
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can see the search result previews
     Wait Until Element is Visible  css=.previews-on .preview
@@ -979,7 +988,10 @@ I can see that the first search result is ${RESULT_TITLE}
 I can sort search results by ${FIELD}
     Click Element  css=[href="#view-options"]
     Wait Until Element is Visible  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
     Click Element  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
