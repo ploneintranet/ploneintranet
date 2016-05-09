@@ -5,6 +5,7 @@ from plone.app.testing import logout
 
 VIEW = 'View'
 DELETE = 'Delete objects'
+MODIFY = 'Modify portal content'
 
 
 class TestContentWorkflow(BaseTestCase):
@@ -444,3 +445,290 @@ class TestOpenWorkspaceContentWorkflow(WorkspaceContentBaseTestCase):
                          'Anonymous can view draft content')
         self.assertFalse(anon_permissions[VIEW],
                          'Anonymous can view draft content')
+
+
+class TestWorkspacePolicyConsumers(WorkspaceContentBaseTestCase):
+    """Test modify permissions for policy: consumers
+    """
+
+    def setUp(self):
+        WorkspaceContentBaseTestCase.setUp(self)
+        self.workspace_folder.participant_policy = 'consumers'
+
+    def test_draft_state(self):
+        """
+        draft content can only be modified by team manager and owner
+        """
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify draft content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[MODIFY],
+                         'Member can modify draft content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertTrue(owner_permissions[MODIFY],
+                        'Owner cannot modify draft content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'Non-member can modify draft content')
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify draft content')
+
+    def test_pending_state(self):
+        """
+        pending content can only be modified by team manager
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document2, 'submit')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify pending content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[MODIFY],
+                         'Member can modify pending content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertFalse(owner_permissions[MODIFY],
+                         'Owner can modify pending content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'Non-member can modify pending content')
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify pending content')
+
+    def test_published_state(self):
+        """
+        published content can only be modified by team manager
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document, 'publish')
+        api.content.transition(self.document2, 'submit')
+        api.content.transition(self.document2, 'publish')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify published content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertFalse(member_permissions[MODIFY],
+                         'member can modify published content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertFalse(owner_permissions[MODIFY],
+                         'Owner can modify published content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'user can modify workspace content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify draft content')
+
+
+class TestWorkspacePolicyProducers(TestWorkspacePolicyConsumers):
+    """Modify permission is identical to Consumers
+    """
+
+    def setUp(self):
+        super(TestWorkspacePolicyProducers, self).setUp()
+        self.workspace_folder.participant_policy = 'producers'
+
+
+class TestWorkspacePolicyPublishers(TestWorkspacePolicyConsumers):
+    """Modify permission is identical to Consumers
+    """
+
+    def setUp(self):
+        super(TestWorkspacePolicyPublishers, self).setUp()
+        self.workspace_folder.participant_policy = 'publishers'
+
+
+class TestWorkspacePolicyModerators(WorkspaceContentBaseTestCase):
+    """
+    Moderators allows teammembers to edit other people's content.
+    Different test set, don't inherit but do all tests explicitly.
+    """
+
+    def setUp(self):
+        WorkspaceContentBaseTestCase.setUp(self)
+        self.workspace_folder.participant_policy = 'moderators'
+
+    def test_draft_state(self):
+        """
+        In moderators, all content can be modified by
+        teammanager, teammember and owner.
+        """
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify draft content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertTrue(member_permissions[MODIFY],
+                        'Member cannot modify draft content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertTrue(owner_permissions[MODIFY],
+                        'Owner cannot modify draft content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'Non-member can modify draft content')
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify draft content')
+
+    def test_pending_state(self):
+        """
+        In moderators, all content can be modified by
+        teammanager, teammember and owner.
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document2, 'submit')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify pending content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertTrue(member_permissions[MODIFY],
+                        'Member cannot modify pending content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertTrue(owner_permissions[MODIFY],
+                        'Owner cannot modify pending content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'Non-member can modify pending content')
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify pending content')
+
+    def test_published_state(self):
+        """
+        In moderators, all content can be modified by
+        teammanager, teammember and owner.
+        """
+        api.content.transition(self.document, 'submit')
+        api.content.transition(self.document, 'publish')
+        api.content.transition(self.document2, 'submit')
+        api.content.transition(self.document2, 'publish')
+
+        admin_permissions = api.user.get_permissions(
+            username='wsadmin',
+            obj=self.document,
+        )
+        self.assertTrue(admin_permissions[MODIFY],
+                        'Admin cannot modify published content')
+
+        member_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document,
+        )
+        self.assertTrue(member_permissions[MODIFY],
+                        'member cannot modify published content')
+
+        owner_permissions = api.user.get_permissions(
+            username='wsmember',
+            obj=self.document2,
+        )
+        self.assertTrue(owner_permissions[MODIFY],
+                        'Owner cannot modify published content')
+
+        nonmember_permissions = api.user.get_permissions(
+            username='nonmember',
+            obj=self.document,
+        )
+        self.assertFalse(nonmember_permissions[MODIFY],
+                         'user can modify workspace content')
+
+        logout()
+        anon_permissions = api.user.get_permissions(
+            obj=self.document,
+        )
+        self.assertFalse(anon_permissions[MODIFY],
+                         'Anonymous can modify draft content')
