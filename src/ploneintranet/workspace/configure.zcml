@@ -81,7 +81,7 @@
   <subscriber
       for=".case.ICase
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
-      handler=".subscribers.update_todos_state"
+      handler=".subscribers.handle_case_workflow_state_changed"
       />
 
   <adapter

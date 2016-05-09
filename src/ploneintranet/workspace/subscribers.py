@@ -230,7 +230,17 @@ def update_todo_state(obj, event):
     obj.reindexObject()
 
 
-def update_todos_state(obj, event):
+def handle_case_workflow_state_changed(obj, event):
+    """
+    When the workflow state of a Case changes, perform the following actions:
+    * Update the contained Todo items ans set adjust their workflow state
+    * Grant assignees on tasks of the current milestone guest access
+    """
+    _update_todos_state(obj)
+    _update_case_access(obj)
+
+
+def _update_todos_state(obj):
     """
     Update the workflow state of Todo items in a Case, when the workflow state
     of the Case is changed.
@@ -290,3 +300,7 @@ def workspace_groupbehavior_toggled(obj, event):
         workspace = result.getObject()
         workspace.reindexObject()
         membrane_catalog.reindexObject(workspace)
+
+
+def _update_case_access(obj):
+    execute_as_manager(obj.update_case_access)
