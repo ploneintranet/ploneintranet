@@ -2,7 +2,7 @@
          i18n:domain="plone"
          tal:define="breadcrumbs view/breadcrumbs;
                      ploneview here/@@plone;
-                     is_archived python:bool(getattr(context, 'archival_date'));
+                     is_archived python:bool(getattr(context, 'archival_date', False));
                      ">
         <!--a i18n:translate="tabs_home"
             tal:attributes="href view/navigation_root_url">Home</a-->

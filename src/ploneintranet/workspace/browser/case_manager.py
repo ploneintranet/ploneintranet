@@ -90,6 +90,10 @@ class CaseManagerView(BrowserView):
 
         states = self.get_states()
 
+        include_archived = form.get('archived', False)
+        if not include_archived:
+            query['is_archived'] = False
+
         if case_status in states:
             query['review_state'] = case_status
 
@@ -144,6 +148,7 @@ class CaseManagerView(BrowserView):
                 'days_running': days_running,
                 'existing_users_by_id': obj.existing_users_by_id(),
                 'view': obj.restrictedTraverse('view'),
+                'is_archived': item.is_archived,
             })
 
         return Batch(cases, b_size, b_start)
