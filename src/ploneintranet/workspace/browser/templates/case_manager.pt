@@ -46,9 +46,9 @@
                       </label>
 
         			  <fieldset class="group">
-        				<legend>Archived</legend>
+        				<legend i18n:translate="">Archived</legend>
 		        		<label class="pat-checklist">
-		        		  <input type="checkbox" name="archived" /> Show archived workspaces
+		        		  <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
 		        		</label>
         			  </fieldset>
 
@@ -91,7 +91,7 @@
                       <div class="case-mat ${archived_class}">
                         <article class="summary row">
                           <h2 class="case-title twelve columns">
-                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived">Archived</strong></tal:archived></a>
+                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="">Archived</strong></tal:archived></a>
                           </h2>
                           <p class="description four columns">
                             ${case/description}

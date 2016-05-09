@@ -37,9 +37,9 @@
                   </tal:r>
                 </select>
             </label>
-            <label class="pat-checklist" title="Show or hide archived workspace">
+            <label class="pat-checklist" title="Show or hide archived workspace" i18n:attributes="title">
               <!-- Even though pat-depends is applied on archived workspace tiles, the value of the following checkbox must still be stored on the user object. The actual hiding and showing of the archived workspace tile is handled by pat-depends, but may also be handled server side (be including or not including the tile in the markup) if this offers significant performance advantages -->
-              <input type="checkbox" name="archived" /> Archived
+              <input type="checkbox" name="archived" /> <tal:archived i18n:translate="">Archived</tal:archived>
             </label>
             <div class="icons">
                <a href="${view/target/absolute_url}/@@workspace-add#content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
@@ -64,7 +64,7 @@
                         The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
                       </p>
                       <p class="workspace-state" tal:condition="is_archived">
-	        	        <time class="icon-archive archived">Archived on ${python:w['archival_date'].strftime('%d %b %Y')}</time>
+	        	        <time class="icon-archive archived"><tal:archived_on i18n:translate="">Archived on</tal:archived_on> ${python:context.toLocalizedTime(w['archival_date'], long_format=0)}</time>
 	                  </p>
 
                     </a>
