@@ -51,11 +51,6 @@
                 .interfaces.IConnection"
            name="File"
            />
-  <adapter factory=".indexers.BinaryAdder"
-           for="plone.dexterity.interfaces.IDexterityContent
-                .interfaces.IConnection"
-           name="Image"
-           />
   <adapter name="getObjPositionInParent"
            factory=".indexers.getObjPositionInParent" />
 
