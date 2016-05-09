@@ -156,17 +156,23 @@ I can open the workspace advanced settings tab
     Click Link  link=Workspace settings and about
     Wait until page contains  Advanced
     Click link  link=Advanced
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
     Wait until page contains  Workspace e-mail address
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
     Wait until page contains  Security
     Click link  link=Security
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
     Wait until page contains  Workspace policy
 
 I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
     Wait until page contains element  css=#member-list
 
 I can turn the workspace into a division
@@ -329,12 +335,6 @@ I can remove the Producer role from Allan
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
-    # Yes, adding Sleep is very ugly, but I see no other way to ensure that
-    # the sidebar and the element we need has really completely loaded.
-    # This heisenbug has already cost us numerous failures in jenkins for otherwise
-    # healthy test suites. Anybody who removes this Sleep statement is responsible
-    # for ensuring that the test still works 100% reliably. [pysailor]
-    Sleep  0.5
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
