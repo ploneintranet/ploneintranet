@@ -21,10 +21,29 @@ class DeleteView(BaseCartView):
                 handled.append(u'"%s"' % safe_unicode(obj.Title()))
                 api.content.delete(obj)
 
-        api.portal.show_message(
-            message=u"The following items have been deleted: %s" % ', '.join(
-                sorted(handled)),
-            request=self.request,
-            type="success")
+        if handled:
+            titles = ', '.join(sorted(handled))
+            api.portal.show_message(
+                message=u"The following items have been deleted: %s" % titles,
+                request=self.request,
+                type="success",
+            )
+        else:
+            api.portal.show_message(
+                message=u"No items could be deleted",
+                request=self.request,
+                type="info",
+            )
 
         self.request.response.redirect(self.context.absolute_url())
+
+    def items_by_permission(self):
+        pm = api.portal.get_tool('portal_membership')
+        deletable = []
+        not_deletable = []
+        for item in self.items:
+            if pm.checkPermission('Delete objects', item):
+                deletable.append(item)
+            else:
+                not_deletable.append(item)
+        return (deletable, not_deletable)

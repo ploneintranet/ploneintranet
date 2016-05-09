@@ -10,24 +10,48 @@
   <form method="POST" action="cart-delete">
 
     <div class="panel-body"
-         tal:define="items view/items">
+         tal:define="items view/items_by_permission;
+                     deleteable python:items[0];
+                     len_deleteable python:len(deleteable);
+                     has_deleteable python:len_deleteable > 0;
+                     not_deleteable python:items[1];
+                     len_not_deleteable python:len(not_deleteable);
+                     has_not_deleteable python:len_not_deleteable > 0;
+                     none_deleteable python:has_not_deleteable and not(has_deleteable);
+                     ">
       <article>
-      <p i18n:translate="">
-      You've selected the following <strong i18n:name="num_items">${python:len(items)}</strong> items to be deleted. Are you sure? (un-tick to exclude from deletion)
+        <p>
+          <tal:selected i18n:translate="info_items_selected">
+            You've selected the following <strong i18n:name="num_items">${python:len_deleteable + len_not_deleteable}</strong> items to be deleted.
+          </tal:selected>
+          <tal:none_deleteable condition="none_deleteable" i18n:translate="">You don't have permission to delete any of them.
+          </tal:none_deleteable>
+          <tal:not_deleteable condition="python:has_not_deleteable and not none_deleteable" i18n:translate="info_has_not_deleteable_items"><strong i18n:name="num_not_deleteable">${len_not_deleteable}</strong> of the items cannot be deleted because you don't have permission.
+          </tal:not_deleteable>
+          <tal:deleteable condition="has_deleteable">
+            <tal:not_deleteable condition="has_not_deleteable" i18n:translate="num_items_can_be_deleted">
+              <strong i18n:name="num_deleteable">${len_deleteable}</strong> of the items can be deleted.
+            </tal:not_deleteable>
+            <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from deletion)</tal:ays>
+          </tal:deleteable>
       </p>
       </article>
 
 
       <fieldset class="pat-checklist"
                 tal:define="checkPermission nocall: context/portal_membership/checkPermission">
-        <tal:item repeat="item items">
-          <label tal:define="can_delete python:checkPermission('Delete objects', item)">
-            <input type="checkbox" name="uids:list" value="${item/UID}"
-                   tal:attributes="disabled python:not can_delete and 'disabled';
-                                   checked python:can_delete and 'checked'"/> ${item/Title}
-        </label>
-        <br />
-        </tal:item>
+        <tal:deleteable repeat="item deleteable">
+          <label>
+            <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
+          </label>
+          <br />
+        </tal:deleteable>
+        <tal:not_deleteable repeat="item not_deleteable">
+          <label>
+            <input type="checkbox" name="uids:list" value="${item/UID}" disabled="disabled"/> ${item/Title}
+          </label>
+          <br />
+        </tal:not_deleteable>
     </fieldset>
     </div>
 
