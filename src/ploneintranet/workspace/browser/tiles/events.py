@@ -37,7 +37,7 @@ class EventsTile(Tile):
             sort_on='start',
             sort_order='ascending',
         )
-        return upcoming_events
+        return upcoming_events[:5]
 
     def format_event_date(self, event):
         """
