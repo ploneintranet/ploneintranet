@@ -274,12 +274,13 @@ I can invite Alice to join the workspace
 I can invite Alice to join the workspace from the menu
     Wait Until Page Contains Element  link=Functions
     Click Link  link=Functions
+    Wait until page does not contain element   xpath=//div[@id='member-list-more-menu']/div[contains(@class, 'panel-content in-progress')]
     Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until element is visible  xpath=//body[contains(@class, 'modal-active')]//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
+    Wait until element is visible  xpath=//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
