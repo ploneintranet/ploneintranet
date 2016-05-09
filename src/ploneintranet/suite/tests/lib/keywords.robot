@@ -279,7 +279,7 @@ I can invite Alice to join the workspace from the menu
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until element is visible  xpath=//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
+    Wait until element is visible  xpath=//body[contains(@class, 'modal-active')]//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
