@@ -171,3 +171,41 @@ class TestTodos(BaseTestCase):
         case_todo.milestone = 'new'
         api.content.transition(self.case, 'reset')
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')
+
+    def test_todo_sorting(self):
+        ''' Check if we can effectively sort todos
+        '''
+        case = api.content.create(
+            type='ploneintranet.workspace.case',
+            title='case-test-sorting',
+            container=self.workspaces,
+        )
+
+        pwft = api.portal.get_tool('portal_placeful_workflow')
+        dispatcher = case.manage_addProduct['CMFPlacefulWorkflow']
+        dispatcher.manage_addWorkflowPolicyConfig()
+        wfconfig = pwft.getWorkflowPolicyConfig(case)
+        wfconfig.setPolicyIn('case_workflow')
+        api.content.transition(case, 'assign')
+
+        api.content.create(
+            type='todo',
+            title='todo1',
+            container=case,
+            milestone='new',
+        )
+        api.content.create(
+            type='todo',
+            title='todo2',
+            container=case,
+            milestone='new',
+        )
+        self.assertEqual(
+            [todo['title'] for todo in case.tasks()['new']],
+            ['todo1', 'todo2'],
+        )
+        case.moveObjectsUp(['todo2'])
+        self.assertEqual(
+            [todo['title'] for todo in case.tasks()['new']],
+            ['todo2', 'todo1'],
+        )
