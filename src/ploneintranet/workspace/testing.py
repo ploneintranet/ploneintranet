@@ -130,6 +130,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         z2.uninstallProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.layout:default')
@@ -141,6 +142,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.userprofile:default')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
+
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 

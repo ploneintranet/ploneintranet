@@ -11,6 +11,7 @@ from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts
 from zope.interface import implements
@@ -52,7 +53,7 @@ class PloneIntranetWorkspace(Workspace):
 
     def add_to_team(self, user, **kw):
         """
-        Add user to this workspace
+        Add user/group to this workspace
 
         We override this method from collective.workspace
         to add our additional participation
@@ -73,6 +74,11 @@ class PloneIntranetWorkspace(Workspace):
             default_group = self.context.participant_policy.title()
             data["groups"] = set([default_group])
 
+        # check: are we adding a group? And if so, is it a secret group?
+        group = api.group.get(groupname=user)
+        if group and group.getProperty('state') == 'secret':
+            raise SecretWorkspaceNotAllowed(
+                u'Forbidden: A secret workspace cannot be added as member.')
         data['user'] = user
         return super(PloneIntranetWorkspace, self).add_to_team(**data)
 
