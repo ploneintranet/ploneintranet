@@ -431,6 +431,7 @@ def create_workspaces(workspaces, force=False):
 
 
 def case_templates_spec(context):
+    now = localized_now()
     case_templates = [{
         'title': 'Case Template',
         'description': 'A Template Case Workspace, pre-populated with tasks',
@@ -450,6 +451,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Create a draft proposal',
             'milestone': 'prepare',
+            'creation_date': now - timedelta(days=2),
         }, {
             'title': 'Budget',
             'type': 'todo',
@@ -465,6 +467,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Verify completeness of case proposal',
             'milestone': 'complete',
+            'creation_date': now - timedelta(days=4),
         }, {
             'title': 'Financial audit',
             'type': 'todo',
@@ -623,6 +626,9 @@ def create_ws_content(parent, contents):
             if 'modification_date' in content:
                 obj.modification_date = content['modification_date']
                 obj.reindexObject(idxs=['modified', ])
+            if 'creation_date' in content:
+                obj.creation_date = content['creation_date']
+                obj.reindexObject(idxs=['created', ])
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
