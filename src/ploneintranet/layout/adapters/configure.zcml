@@ -1,0 +1,68 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ploneintranet">
+
+  <adapter
+    factory=".app_tiles.ContactsTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="contacts"
+  />
+
+  <adapter
+    factory=".app_tiles.MessagesTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="messages"
+  />
+
+  <adapter
+    factory=".app_tiles.TodoTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="todo"
+  />
+
+  <adapter
+    factory=".app_tiles.CalendarTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="calendar"
+  />
+
+  <adapter
+    factory=".app_tiles.SlideBankTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="slide-bank"
+  />
+
+  <adapter
+    factory=".app_tiles.ImageBankTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="image-bank"
+  />
+
+  <adapter
+    factory=".app_tiles.NewsTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="news"
+  />
+
+  <adapter
+    factory=".app_tiles.CaseManagerTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="case-manager"
+  />
+
+  <adapter
+    factory=".app_tiles.AppMarketTile"
+    provides="..interfaces.IAppTile"
+    for="*"
+    name="app-market"
+  />
+
+</configure>
