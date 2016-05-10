@@ -36,7 +36,9 @@ class TestSetup(IntegrationTestCase):
     def test_actions(self):
         actions = api.portal.get_tool('portal_actions')
         self.assertIn('index_html', actions.portal_tabs)
-        self.assertEqual('Dashboard', actions.portal_tabs['index_html'].title)
+        self.assertIn('dashboard', actions.portal_tabs)
+        self.assertEqual('Dashboard', actions.portal_tabs['dashboard'].title)
+        self.assertEqual(False, actions.portal_tabs['index_html'].visible)
 
 
 class TestUninstall(IntegrationTestCase):
