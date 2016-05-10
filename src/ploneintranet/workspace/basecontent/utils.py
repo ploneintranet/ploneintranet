@@ -13,7 +13,6 @@ from z3c.form.interfaces import NO_VALUE
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
-
 import json
 import logging
 
