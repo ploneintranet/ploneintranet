@@ -91,3 +91,26 @@ class TestViews(IntegrationTestCase):
                 u'./@@tasks.tile',
             )
         )
+
+    def test_apps_view(self):
+        ''' Check the @@apps view
+        '''
+        view = api.content.get_view(
+            'apps.html',
+            self.portal,
+            self.request,
+        )
+        self.assertListEqual(
+            [tile.sorting_key for tile in view.tiles()],
+            [
+                (10, u'contacts'),
+                (20, u'messages'),
+                (30, u'todo'),
+                (40, u'calendar'),
+                (50, u'slide-bank'),
+                (60, u'image-bank'),
+                (70, u'news'),
+                (80, u'case-manager'),
+                (90, u'app-market'),
+            ]
+        )

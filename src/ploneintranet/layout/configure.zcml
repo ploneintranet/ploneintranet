@@ -14,6 +14,7 @@
     <includeDependencies package="." />
 
     <include package=".viewlets" />
+    <include package=".adapters" />
     <include package=".browser" />
     <include package=".upgrades" />
 
