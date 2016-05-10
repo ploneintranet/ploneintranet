@@ -172,6 +172,8 @@
 .icon-history:before { content: '\e885'; } /* '' */
 .icon-marquee:before { content: '\e886'; } /* '' */
 .icon-division:before { content: '\e887'; } /* '' */
+.icon-right-big:before { content: '\e888'; } /* '' */
+.icon-arrows-cw:before { content: '\e889'; } /* '' */
 .icon-check-off:before { content: '\f096'; } /* '' */
 .icon-paste:before { content: '\f0ea'; } /* '' */
 .icon-radio-off:before { content: '\f10c'; } /* '' */
