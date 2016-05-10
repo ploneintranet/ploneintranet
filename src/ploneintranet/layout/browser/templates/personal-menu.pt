@@ -8,18 +8,18 @@
 <body>
 
   <!-- https://github.com/ploneintranet/ploneintranet.prototype/blob/c146adc7dec963f1468344233f92b4e7c2c78022/feedback/personal-menu.html -->
-  <metal:macro define-macro="main">
+  <metal:macro define-macro="main" i18n:domain="ploneintranet">
     <ul class="menu" tal:define="
               portal_url here/plone_portal_state/portal_url
             ">
       <li>
-        <a class="icon-user" href="${portal_url}/@@my-profile">My profile</a>
+        <a class="icon-user" href="${portal_url}/@@my-profile" i18n:translate="">My profile</a>
       </li>
       <tal:temporarily_disabled condition="nothing">
           This will be enabled later, see
           https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
           <li>
-            <a class="icon-cog" href="${portal_url}/@@my-profile#person-info">Personal settings</a>
+            <a class="icon-cog" href="${portal_url}/@@my-profile#person-info" i18n:translate="">Personal settings</a>
           </li>
       </tal:temporarily_disabled>
       <li class="change-avatar profile">
@@ -28,12 +28,12 @@
               enctype="multipart/form-data"
               data-pat-inject="source: .pat-notification::element; target: #global-header::after"
               class="pat-inject pat-autosubmit">
-            <label>Change personal image <input type="file" name="portrait" value=""/></label>
+            <label><span tal:omit-tag="" i18n:translate="">Change personal image</span> <input type="file" name="portrait" value=""/></label>
             <input type="hidden" name="submit" value="submit"/>
         </form>
       </li>
       <li>
-        <a class="icon-exit" href="${portal_url}/logout">Logout</a>
+        <a class="icon-exit" href="${portal_url}/logout" i18n:translate="">Logout</a>
       </li>
       <!-- Any additional links or functions that might be required for this user (links to admin screens, etc) may go here. -->
     </ul>
