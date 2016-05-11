@@ -59,15 +59,16 @@
                                 tal:attributes="id string:item-${task_number};
                                                 class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
                               <p class="step-label icon icon-help-circled">
-                                <a class="link"
-                                   data-pat-inject="history: record"
-                                   tal:attributes="href string:${task/url}#workspace-tickets;
-                                                   title task/title;
-                                                   target target;"
-                                   tal:content="task/title" />
-                                <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
-                                  <a tal:replace="structure task/obj/@@app-audit-mm-button" />
-                                </tal:history>
+                                <span class="link">
+                                  <a class="label-text"
+                                     tal:attributes="href string:${task/url}#workspace-tickets;
+                                                     title task/title;
+                                                     target target;"
+                                     tal:content="task/title" />
+                                  <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
+                                    <a tal:replace="structure task/obj/@@app-audit-mm-button" />
+                                  </tal:history>
+                                </span>
                               </p>
                               <p class="step-assignee"
                                  tal:define="due_date task/due;
