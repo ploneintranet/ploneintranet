@@ -68,6 +68,12 @@
 
   <subscriber
       for="ploneintranet.todo.content.todo.ITodo
+           zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+      handler=".subscribers.update_todo_state"
+      />
+
+  <subscriber
+      for="ploneintranet.todo.content.todo.ITodo
           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".subscribers.update_todo_state"
       />
