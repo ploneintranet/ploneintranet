@@ -34,7 +34,7 @@ class MailView(BaseCartView):
         msg = MIMEMultipart()
 
         form = self.request.form
-        message = safe_unicode(form.get('message'))
+        message = safe_unicode(form.get('message', u''))
         message += u"\n\n"
         message += _(u"""The following items have been shared with you:""")
         attachable_uids = form.get('attachable_uids', [])
@@ -75,11 +75,12 @@ class MailView(BaseCartView):
         for uid in attachable_uids:
             obj = api.content.get(UID=uid)
             if obj:
+                file_obj = None
                 if hasattr(obj, 'file'):
                     file_obj = obj.file
                 elif hasattr(obj, 'image'):
                     file_obj = obj.image
-                else:
+                if file_obj is None:
                     continue
                 att = MIMEBase(*file_obj.contentType.split("/"))
                 att.set_payload(b64encode(file_obj.data))
