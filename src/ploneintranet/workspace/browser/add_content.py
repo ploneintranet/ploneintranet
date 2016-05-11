@@ -9,6 +9,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
+from zope.container.interfaces import INameChooser
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
@@ -48,17 +49,20 @@ class AddContent(BrowserView):
             # but just some markup,
             # so we cannot show that one here
             pass
-
         form = self.request.form
+        title = self.title or form.get('title')
+        id = form.get('id')
+        derived_id = id or title
+        new_id = idnormalizer.normalize(derived_id)
+        chooser = INameChooser(self.context)
+        new_id = chooser.chooseName(new_id, self.context)
         new = None
 
         # BBB: this should be moved to a proper validate function!
         if self.portal_type == 'ploneintranet.workspace.case':
             template_id = form.get('template_id')
             if template_id:
-                title = form.get('title')
-                case_id = idnormalizer.normalize(title)
-                new = create_case_from_template(template_id, case_id)
+                new = create_case_from_template(template_id, new_id)
             else:
                 api.portal.show_message(
                     _('Please specify which Case Template to use'),
@@ -66,12 +70,12 @@ class AddContent(BrowserView):
                     type="error",
                 )
         else:
-            container = self.context
             new = api.content.create(
-                container=container,
+                container=self.context,
                 type=self.portal_type,
+                id=new_id,
                 title=self.title,
-                safe_id=True,
+                safe_id=False,
             )
 
         if not new:
