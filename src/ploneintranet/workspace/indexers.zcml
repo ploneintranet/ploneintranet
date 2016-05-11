@@ -11,11 +11,13 @@
   <adapter name="mimetype" factory=".indexers.mimetype_link" />
   <adapter name="mimetype" factory=".indexers.mimetype_newsitem" />
 
+  <adapter name="due" factory=".indexers.due_dexterity" />
+  <adapter name="due" factory=".indexers.due_case" />
+
   <adapter name="is_division" factory=".indexers.is_division_dexterity" />
   <adapter name="is_division" factory=".indexers.is_division" />
 
   <adapter name="division" factory=".indexers.division_dexterity" />
   <adapter name="division" factory=".indexers.division" />
-
 
 </configure>
