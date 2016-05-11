@@ -3,58 +3,15 @@ from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.dexterity.content import Container
-from plone.directives import form
-from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from ploneintranet import api as pi_api
-from zope import schema
 from zope.event import notify
 from zope.interface import implementer
 from .policies import PARTICIPANT_POLICY
-
-
-class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
-    """
-    Interface for WorkspaceFolder
-    """
-    calendar_visible = schema.Bool(
-        title=_(
-            u"label_workspace_calendar_visibility",
-            u"Calendar visible in central calendar"),
-        required=False,
-        default=False,
-    )
-    division = schema.TextLine(
-        title=_(u'label_workspace_division', u'Belongs to this Devision'),
-        required=False,
-        default=u'',
-    )
-    email = schema.TextLine(
-        title=_(u'label_workspace_email', u'E-mail address'),
-        required=False,
-        default=u'',
-    )
-
-
-class IWorkspaceFolder(IBaseWorkspaceFolder):
-    ''' A workspace folder can be a division,
-    while other objects inheriting from IBaseWorkspaceFolder cannot,
-    e.g. cases
-    '''
-    is_division = schema.Bool(
-        title=_(
-            u"label_workspace_is_division",
-            u"Is this workspace representing a division?"),
-        description=_(
-            u"Divisions represent sections of the overall "
-            u"organisation and appear "
-            u"as groupings on the workspace overview."),
-        required=False,
-        default=False,
-    )
 
 
 @implementer(IWorkspaceFolder, IAttachmentStoragable)
@@ -184,8 +141,8 @@ class WorkspaceFolder(Container):
                          user_or_group_id)
                 # XXX tbd, we don't know what a persons description is, yet
                 description = ''
-                classes = 'user ' + (description and 'has-description'
-                                     or 'has-no-description')
+                classes = 'user ' + (description and 'has-description' or
+                                     'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)
             else:
                 typ = 'group'

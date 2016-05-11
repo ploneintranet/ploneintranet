@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
-from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
 

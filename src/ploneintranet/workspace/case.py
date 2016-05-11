@@ -4,7 +4,7 @@ from ploneintranet.attachments.attachments import IAttachmentStoragable
 from zope.interface import implementer
 
 from .config import TEMPLATES_FOLDER
-from .workspacefolder import IBaseWorkspaceFolder
+from .interfaces import IBaseWorkspaceFolder
 from .workspacefolder import WorkspaceFolder
 from .unrestricted import execute_as_manager
 
