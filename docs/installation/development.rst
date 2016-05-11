@@ -242,6 +242,50 @@ issue:
 Use the "boot2docker ip" command to figure out what NAT ip your boot2docker vm is using. ** Use this ip instead of localhost with the expected port!**
 
 
+boot2docker – Mounting local folder with -v source:target fails.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+issue:
+    running docker with -v option to mount a local folder fails::
+
+        docker error: /path/to/source already exists.
+
+You probably use OSX default filesystem which is case-insensitive and you are
+working from a case-sensitive sparsediskimage to prevent case issues with
+the DateTime module.
+
+In this case you can copy the files to the boot2docker instance::
+
+        # First copy all code to
+        docker-machine scp -r ./ ploneintranet:
+
+The filesystem of the Ubuntu container is case-sensitive you with the following
+commands you can get started::
+
+        docker-machine ssh <macdhine name>
+        docker build -t ploneintranet .
+        docker run -it -v $(pwd):/app -p 8080:8080  ploneintranet
+
+        chown -R app:staff /app
+        sudo su - app
+        mkdir .buildout
+        touch .buildout/default.cfg
+        cat .buildout/default.cfg <<- EOF
+        [buildout]\n
+        eggs-directory=/var/tmp/eggs\n
+        downloads-directory=/var/tmp/downloads"
+        EOF
+
+        bin/buildout -c buildout.cfg
+        bin/supervisord
+
+        # later connect back with
+        docker exec -it ploneintranet /bin/bash
+
+
+In this case you are stuck with editing files with vi or emacs inside the
+terminal.
+
 .. _docker.io: https://www.docker.com/
 .. _Install Docker: https://docs.docker.com/installation/#installation
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
