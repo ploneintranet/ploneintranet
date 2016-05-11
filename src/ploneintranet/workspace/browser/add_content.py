@@ -49,9 +49,8 @@ class AddContent(BrowserView):
             # but just some markup,
             # so we cannot show that one here
             pass
-
         form = self.request.form
-        title = form.get('title')
+        title = self.title or form.get('title')
         id = form.get('id')
         derived_id = id or title
         new_id = idnormalizer.normalize(derived_id)
