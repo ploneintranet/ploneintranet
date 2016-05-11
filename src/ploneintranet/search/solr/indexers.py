@@ -63,31 +63,10 @@ class BinaryAdder(ContentAdder):
         :type data: collections.Mapping
         :returns:
         """
+        # async dispatch sets attributes
         if self.context.REQUEST.get('attributes') == 'SearchableText':
-            # An excplicit request to reindex Searchable text.
-            blob_data = self.blob_data
-            if blob_data is not None:
-                params = {}
-                headers = {'Content-type': data.get('content_type',
-                                                    'text/plain')}
-                params['extractFormat'] = 'text'
-                params['extractOnly'] = 'true'
-                sparams = urlencode(params)
-                url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
-                try:
-                    response = requests.post(url,
-                                             data=blob_data,
-                                             headers=headers)
-                except requests.ConnectionError as conn_err:
-                    logger.exception(conn_err)
-                else:
-                    tree = etree.fromstring(response.text.encode('utf-8'))
-                    elems = tree.xpath('//response/str')
-                    if elems:
-                        data['SearchableText'] = elems[0].text
-                    else:
-                        logger.error(u'Failed to extract text from binary data'
-                                     u' for file upload: %r', data)
+            logger.info("Indexing: Handle reindex of SearchableText")
+            data = self._add_handler(data)
         else:
             logger.info("Indexing: Dispatch reindex of SearchableText async")
             # Dispatch an async job to also reindex the blob
@@ -96,6 +75,37 @@ class BinaryAdder(ContentAdder):
                 countdown=10)
 
         super(BinaryAdder, self).add(data)
+
+    def _add_handler(self, data):
+        """Perform the actual reindex.
+        This handles the async request.
+        """
+        # An excplicit request to reindex Searchable text.
+        blob_data = self.blob_data
+        if blob_data is None:
+            return data
+        params = {}
+        headers = {'Content-type': data.get('content_type',
+                                            'text/plain')}
+        params['extractFormat'] = 'text'
+        params['extractOnly'] = 'true'
+        sparams = urlencode(params)
+        url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
+        try:
+            response = requests.post(url,
+                                     data=blob_data,
+                                     headers=headers)
+        except requests.ConnectionError as conn_err:
+            logger.exception(conn_err)
+        else:
+            tree = etree.fromstring(response.text.encode('utf-8'))
+            elems = tree.xpath('//response/str')
+            if elems:
+                data['SearchableText'] = elems[0].text
+            else:
+                logger.error(u'Failed to extract text from binary data'
+                             u' for file upload: %r', data)
+        return data
 
 
 @implementer(IIndexQueueProcessor)
