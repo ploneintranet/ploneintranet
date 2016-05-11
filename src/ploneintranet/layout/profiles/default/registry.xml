@@ -37,4 +37,15 @@
       <element>./@@tasks.tile</element>
     </value>
   </record>
+  <record name="ploneintranet.layout.dashboard_default">
+    <field type="plone.registry.field.TextLine">
+      <title i18n:translate="label_dashboard_default">Name of the default dashboard</title>
+      <description i18n:translate="help_dashboard_default">
+        This is the name of the dashboard type that should be shown by default. Pick the values from
+        the dropdown on the dashboard.
+      </description>
+      <required>True</required>
+    </field>
+    <value purge="false">activity</value>
+  </record>
 </registry>
