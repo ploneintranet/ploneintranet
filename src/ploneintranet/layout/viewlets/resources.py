@@ -9,6 +9,10 @@ class PIScriptsView(ScriptsView):
     '''
     def scripts(self):
         scripts = super(PIScriptsView, self).scripts()
+        if (
+            u'ploneintranet' in getattr(self.request, 'disabled_bundles', [])
+        ):
+            return scripts
         return filter(
             lambda x: x.get('bundle', '') == 'ploneintranet',
             scripts,
@@ -21,6 +25,10 @@ class PIStylesView(StylesView):
     '''
     def styles(self):
         styles = super(PIStylesView, self).styles()
+        if (
+            u'ploneintranet' in getattr(self.request, 'disabled_bundles', [])
+        ):
+            return styles
         return filter(
             lambda x: x.get('bundle', '') == 'ploneintranet',
             styles
