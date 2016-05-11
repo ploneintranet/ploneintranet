@@ -15,7 +15,7 @@
         </ul>
       </div>
 
-      <div id="sidebar-content" class="pat-stacks" tal:define="ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token;">
+      <div id="sidebar-content" class="pat-stacks" tal:define="iinfo context/@@plone_interface_info; ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token">
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions" id="selector-functions">
@@ -72,7 +72,8 @@
               </label>
             </form>
 
-            <form class="search-result docs" id="items">
+            <form class="search-result docs pat-inject" action="${here/absolute_url}/@@cart#items" id="items">
+              <input tal:replace="structure context/@@authenticator/authenticator"/>
               <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
@@ -85,7 +86,7 @@
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
                       <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none" i18n:attributes="title">None</button>
                     </span>
-                    <button type="button" class="pat-toggle float-before icon-cancel" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Cancel</button>
+                    <button type="button" class="pat-toggle float-before icon-cancel-circle" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Cancel</button>
                   </div>
                   <div class="button-bar">
                     <span class="float-before button-cluster">
@@ -118,11 +119,11 @@
                                                i18n:attributes="title">Paste</button></span>
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal"
+                    <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal" title="Delete"
                             i18n:translate="" i18n:attributes="title">Delete</button>
                     <span class="float-before button-cluster">
                       <button type="button" class="float-before no-label icon-mail pat-shopping-cart"
-                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal"
+                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal" i18n:attributes="title"
                               title="Send selected document(s)">Send</button>
                       <!-- <button formaction="/feedback/batch-share.html#content" -->
                       <!--         type="submit" -->
@@ -178,7 +179,7 @@ Supported types include (class names):
                 <tal:block repeat="item view/items">
                   <label class="item document type-event has-description"
                          tal:attributes="class item/cls">
-                    <input type="checkbox" class="pat-shopping-cart" data-pat-shopping-cart="id: ${item/UID}"/>
+                    <input type="checkbox" class="pat-shopping-cart" tal:define="uid python: item.get('UID', '')" tal:condition="uid" tal:attributes="data-pat-shopping-cart string:id: ${uid}"/>
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"
@@ -192,15 +193,18 @@ Supported types include (class names):
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
                     </a>
                     <div class="additional-meta-data" tal:condition="python: item.get('structural_type', 'group') != 'group'">
-
                         <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator | nothing" tal:condition="item/creator | nothing" tal:content="python:creator.getProperty('fullname') or creator" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
                             Creator
                         </a>
+                        <a class="author meta-column" tal:condition="not:item/creator" i18n:translate="">User not found</a>
                         <time class="modification-date meta-column" tal:condition="item/modified | nothing" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
                             {{ doc.date }}
                         </time>
                         <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
-                            <a tal:repeat="subject item/subject" href="#" class="tag" tal:content="subject">Finanzplanung</a>
+                          <a class="tag pat-inject"
+                             tal:repeat="subject item/subject"
+                             href="${context/absolute_url}/@@sidebar.default?grouping=label&groupname=${subject}#workspace-documents"
+                             >${subject}</a>
                         </nav>
                     </div>
 
@@ -304,7 +308,6 @@ Supported types include (class names):
                   <tal:task repeat="task tasks">
                     <br/>
                     <label>
-                      <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                       <input type="checkbox" name="active-tasks:list"
                              tal:attributes="value task/id;
                                              checked python: 'checked' if task['checked'] else ''"
@@ -315,6 +318,25 @@ Supported types include (class names):
                          tal:attributes="title task/title;
                                          href task/url"
                          tal:content="task/title"/>
+                      <div metal:define-macro="additional-meta-data"
+                           class="additional-meta-data"
+                           tal:define="assignee task/assignee; initiator task/initiator">
+                        <a tal:condition="assignee"
+                           href="${context/portal_url}/profiles/${assignee/id}#document-body" class="assignee meta-column icon-user pat-inject" title="Assignee" data-pat-inject="source: #document-body; target: #document-body">
+                          ${python:assignee.getProperty("fullname")}
+                        </a>
+                        <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
+
+                        <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true; locale: de" title="Due date" datetime="${task/due}"/>
+                        <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
+                        <a tal:condition="initiator"
+                           href="${context/portal_url}/profiles/${initiator/id}#document-body" class="initiator meta-column icon-manager pat-inject" data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
+                           >
+                          ${python:initiator.getProperty("fullname")}
+                        </a>
+                        <a class="initiator meta-column icon-manager" title="Initiator" tal:condition="not:initiator"/>
+                      </div>
+                      <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                     </label>
                   </tal:task>
                 </fieldset>
@@ -339,7 +361,6 @@ Supported types include (class names):
                         tal:attributes="class string:section-label state-${state}"/>
                     <tal:task repeat="task python:tasks[milestone_id]">
                       <label>
-                        <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                         <input type="checkbox" name="active-tasks:list"
                                tal:attributes="value task/id;
                                                checked python:'checked' if task['checked'] else '';
@@ -351,18 +372,8 @@ Supported types include (class names):
                            data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="title task/title; href task/url"
                            tal:content="task/title"/>
-                        <div class="additional-meta-data"
-                             tal:define="assignee task/assignee; initiator task/initiator">
-                          <a tal:condition="assignee"
-                             href="${context/portal_url}/profiles/${assignee/id}" class="assignee meta-column icon-user" title="Assignee"
-                             >
-                            ${python:assignee.getProperty("fullname")}
-                          </a>
-                          <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
-
-                        <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
-                      </div>
-
+                        <metal:event use-macro="template/macros/additional-meta-data" />
+                        <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                       </label>
                     </tal:task>
                     <p class="button-bar">
@@ -371,10 +382,10 @@ Supported types include (class names):
                          tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['transition_enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Close milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets && source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets" i18n:translate="">Reopen milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  && source:#document-body; target:#document-body" i18n:translate="">Reopen milestone</a>
                       <!-- should be there according to proto, but has offset error when displayed
                       <button class="small icon-stage success" disabled
                               tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and finished"
@@ -392,7 +403,6 @@ Supported types include (class names):
                     Unassigned
                   </h3>
                   <label tal:repeat="task uatasks">
-                    <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                     <input type="checkbox" name="active-tasks:list"
                            tal:attributes="value task/id;
                                            checked python:'checked' if task['checked'] else ''"
@@ -400,6 +410,7 @@ Supported types include (class names):
                     <a class="pat-inject" title="${task/title}" data-pat-inject="source: #document-body; target: #document-body; history: record"
                        tal:content="task/title"
                        tal:attributes="href task/url"/>
+                    <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
                   </label>
                 </fieldset>
 
@@ -435,7 +446,7 @@ Supported types include (class names):
                           <time
                                 class="start pat-moment"
                                 data-pat-moment="format:relative"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> - 
+                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> -
                           <tal:title replace="event/Title"/>
                         </h4>
                       <p class="byline" tal:define="location event/location" tal:condition="location">
@@ -491,7 +502,7 @@ Supported types include (class names):
 
 
         <div id="workspace-settings" tal:define="ws view/workspace">
-          <nav class="navigation tabs pat-tabs">
+          <nav class="navigation pat-tabs tabs">
             <a href="/open-market-committee/"
                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.general" class="pat-inject current"
                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
@@ -500,10 +511,12 @@ Supported types include (class names):
                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.members" class="pat-inject"
                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
                i18n:translate="">Members</a>
-            <a href="/feedback/workspace-settings-security.html"
-               tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject"
-               data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
-               i18n:translate="">Security</a>
+            <tal:workspace_tabs condition="python:not iinfo.provides('ploneintranet.workspace.case.ICase')">
+              <a href="/feedback/workspace-settings-security.html"
+                 tal:attributes="href string:${ws/absolute_url}/sidebar.settings.security" class="pat-inject"
+                 data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+                 i18n:translate="">Security</a>
+            </tal:workspace_tabs>
             <a href="/feedback/workspace-settings-advanced.html"
                tal:attributes="href string:${ws/absolute_url}/sidebar.settings.advanced" class="pat-inject"
                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
