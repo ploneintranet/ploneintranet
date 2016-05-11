@@ -55,6 +55,8 @@ class AddContent(BrowserView):
         id = form.get('id')
         derived_id = id or title
         new_id = idnormalizer.normalize(derived_id)
+        chooser = INameChooser(self.context)
+        new_id = chooser.chooseName(new_id, self.context)
         new = None
 
         # BBB: this should be moved to a proper validate function!
@@ -69,11 +71,8 @@ class AddContent(BrowserView):
                     type="error",
                 )
         else:
-            container = self.context
-            chooser = INameChooser(container)
-            new_id = chooser.chooseName(new_id, container)
             new = api.content.create(
-                container=container,
+                container=self.context,
                 type=self.portal_type,
                 id=new_id,
                 title=self.title,
