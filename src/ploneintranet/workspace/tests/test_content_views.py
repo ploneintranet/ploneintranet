@@ -5,6 +5,7 @@
 
 from plone import api
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
+from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.textfield.value import RichTextValue
 from ploneintranet.theme.interfaces import IThemeSpecific
@@ -117,6 +118,12 @@ class TestDexterityUpdate(BaseTestCase):
             type='todo',
             title=u'Todo1',
         )
+        self.doc1 = api.content.create(
+            container=self.workspace,
+            type='Document',
+            title=u'My Døcümént',
+        )
+        self.raw_text = u"<em>løl</em><p>more<br><br>text</p><p>not closed paragraph"  # noqa
         self.request = self.layer['request']
 
     def test_not_modified(self):
@@ -142,6 +149,27 @@ class TestDexterityUpdate(BaseTestCase):
             IBasic: ['description', 'title', ],
             ITodo: ['due', ],
         })
+
+    def test_sanitize_in_action(self):
+        self.doc1.REQUEST.form = {
+            'text': self.raw_text
+        }
+        modified, errors = dexterity_update(self.doc1)
+        self.assertEqual(errors, [])
+        self.assertEqual(modified, {IRichText: ['text']})
+        sanitized = u"<p><em>løl</em></p><p>more<br/>text</p><p>not closed paragraph</p>"  # noqa
+        self.assertEqual(self.doc1.text.raw, sanitized)
+
+    def test_sanitize_switched_on_by_default(self):
+        api.portal.set_registry_record(
+            'ploneintranet.workspace.sanitize_html', False)
+        self.doc1.REQUEST.form = {
+            'text': self.raw_text
+        }
+        modified, errors = dexterity_update(self.doc1)
+        self.assertEqual(errors, [])
+        self.assertEqual(modified, {IRichText: ['text']})
+        self.assertEqual(self.doc1.text.raw, self.raw_text)
 
 
 class TestContentViewUpdate(BaseTestCase):

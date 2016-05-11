@@ -60,4 +60,13 @@
       <element>ploneintranet.workspace.case|type-case</element>
     </value>
   </record>
+  <record name="ploneintranet.workspace.sanitize_html">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <description i18n:translate="help_sanitize_html">When true, RichText content (HTML) in workspaces is sanitized before it gets stored. This helps to keep HTML pasted from Word sane, and also reduces multiple line breaks into single breaks.</description>
+      <required>False</required>
+      <title i18n:translate="label_sanitize_html">Sanitize HTML on saving.</title>
+    </field>
+    <value purge="false">True</value>
+  </record>
 </registry>
