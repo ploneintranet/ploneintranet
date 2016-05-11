@@ -1,6 +1,7 @@
 # coding=utf-8
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.content.browser.actions import DeleteConfirmationForm
+from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from z3c.form import button
 from zope.component import getMultiAdapter
@@ -15,6 +16,13 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
     because of the button.buttonAndHandler implementation
     '''
     template = ViewPageTemplateFile('templates/delete_confirmation.pt')
+
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
 
     def view_url(self):
         ''' Facade to the homonymous plone_context_state method
