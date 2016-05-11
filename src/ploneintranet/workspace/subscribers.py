@@ -19,6 +19,7 @@ from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from zope.component import getAdapter
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
@@ -211,7 +212,11 @@ def update_todo_state(obj, event):
     """
     After editing a Todo item, set the workflow state to either Open or Planned
     depending on the state of the Case.
+
     """
+    # Do nothing on copy
+    if IObjectCopiedEvent.providedBy(event):
+        return
     obj.set_appropriate_state()
     obj.reindexObject()
 
