@@ -88,9 +88,14 @@ def dexterity_update(obj, request=None):
                 api.portal.get_registry_record(
                     'ploneintranet.workspace.sanitize_html')
             ):
-                raw = RichTextValue(
+                sanitized = RichTextValue(
                     raw=sanitize_html(safe_unicode(raw.raw)),
                     mimeType=raw.mimeType, outputMimeType=raw.outputMimeType)
+                if sanitized.raw != raw.raw:
+                    log.info(
+                        'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
+                            name, obj.absolute_url()))
+                    raw = sanitized
 
             value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
