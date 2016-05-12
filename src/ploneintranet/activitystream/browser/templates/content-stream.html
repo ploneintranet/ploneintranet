@@ -15,9 +15,8 @@
          tal:condition="view/has_shares"
          >
       <p class="comment-sentinel pat-bumper" data-pat-bumper="side: bottom;">
-        <a href="#comments-document-comments">
-          There are <span tal:replace="view/num_comments">{{ page.comments.size }}</span> comments to this document
-          and <span tal:replace="view/num_shares">1</span> shares</a>
+        <a href="#comments-document-comments"><!-- how to i18n this??? -->
+          There are <span tal:replace="view/num_comments">{{ page.comments.size }}</span> comments on <span tal:replace="view/num_shares">1</span> shares</a>
       </p>
       
       <tal:comment condition="nothing">

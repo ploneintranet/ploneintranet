@@ -24,13 +24,13 @@
         <time class="pat-moment" data-pat-moment="format:relative">${view/date}</time>
       </p>
     </div>
-    <div id="comment-trail-share-${context/thread_id}" class="comment-trail">
+    <div id="comment-trail-share-${context/id}" class="comment-trail">
       <tal:loop
          tal:repeat="comment_view view/comment_views"
          tal:content="structure comment_view"
          />
     </div>
-    <div id="${string:new-comment-${context/thread_id}}"></div>
+    <div id="new-comment-${context/id}"></div>
     <div tal:replace="structure view/context/@@update-social.html" />
     
 </body>
