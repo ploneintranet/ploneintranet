@@ -72,8 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs pat-inject" action="${here/absolute_url}/@@cart#items" id="items">
-              <input tal:replace="structure context/@@authenticator/authenticator"/>
+            <form class="search-result docs" id="items">
               <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
