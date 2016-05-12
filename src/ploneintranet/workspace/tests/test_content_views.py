@@ -181,12 +181,12 @@ class TestContentViewUpdate(BaseTestCase):
         view.update()
         self.assertTrue(IObjectModifiedEvent.providedBy(self.event))
 
-    def test_event_thrown_on_workflow_change(self):
+    def test_no_event_thrown_on_workflow_change(self):
         self.request.form = {'workflow_action': 'finish'}
         view = ContentView(self.todo1, self.request)
         view.can_edit = True
         view.update()
-        self.assertTrue(IObjectModifiedEvent.providedBy(self.event))
+        self.assertTrue(self.event is None)
 
     def test_event_descriptions(self):
         self.request.form = {'description': 'test'}
