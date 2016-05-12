@@ -103,7 +103,7 @@
     relates to https://github.com/quaive/ploneintranet/issues/44
   - multi-attachments and multi-page previews
   - zip downloads
-  
+
   </tal:comment>
 
   <tal:streamonly condition="not:view/is_content_update">
@@ -162,7 +162,7 @@
 	<section class="image document-preview"
                  tal:condition="has_preview">
 	  <figure >
-            <a href="${attachment/img_src}">            
+            <a href="${attachment/img_src}">
               <img src="${attachment/img_src}/large"
                    alt=""
                    />
@@ -173,7 +173,7 @@
             <!-- XXX images zip download not implemented yet -->
             <a href="${attachment/img_src}"
                class="icon iconified icon-download"
-               title="Download this image">Download</a>            
+               title="Download this image">Download</a>
 	  </p>
 	</section>
       </tal:stream_image>
@@ -186,11 +186,11 @@
   <tal:content condition="view/is_content_update">
 
     <tal:comment condition="nothing">
-----------------------------------------------------------------      
+----------------------------------------------------------------
     2.a. CONTENT DEFAULT
-----------------------------------------------------------------      
+----------------------------------------------------------------
     </tal:comment>
-    
+
     <tal:content_default condition="not:view/is_content_image_update">
     <section class="document document-preview"
              tal:define="content_context nocall:context/content_context;"
@@ -237,7 +237,7 @@
     <tal:comment condition="nothing">
 ----------------------------------------------------------------
    2.b. CONTENT IMAGE
-----------------------------------------------------------------      
+----------------------------------------------------------------
     </tal:comment>
     
     <tal:content_image condition="view/is_content_image_update">
