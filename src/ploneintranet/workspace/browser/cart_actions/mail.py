@@ -37,7 +37,8 @@ class MailView(BaseCartView):
         form = self.request.form
         message = safe_unicode(form.get('message', u''))
         message += u"\n\n"
-        message += translate(_(u"The following items have been shared with you:"))
+        message += translate(
+            _(u"The following items have been shared with you:"))
         attachable_uids = form.get('attachable_uids', [])
         unattachable_uids = form.get('unattachable_uids', [])
         all_uids = attachable_uids + unattachable_uids

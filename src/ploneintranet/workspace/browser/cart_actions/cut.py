@@ -51,7 +51,7 @@ class CutView(BaseCartView):
 
             msg = _(
                 u"batch_cut_success",
-                default=u"${num_elems} Files were cut and moved to your cloud clipboard.",
+                default=u"${num_elems} Files were cut and moved to your cloud clipboard.",  # noqa
                 mapping={"num_elems": len(obj_list)}
             )
             api.portal.show_message(
