@@ -784,7 +784,7 @@ I can create a new case from a template
     Input Text  name=description  text=Something completely different
     Select From List  portal_type  ploneintranet.workspace.case
     Wait Until Page Contains  New template
-    Select Radio Button  template_id  new-template
+    Select Radio Button  ploneintranet.workspace.case-template_id  new-template
     Click Button  Create workspace
     Wait Until Page Contains  Item created
 

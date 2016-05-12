@@ -3,7 +3,7 @@ from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
-from ploneintranet.workspace.browser.add_content import AddContent
+from ploneintranet.workspace.browser.add_content import AddWorkspace
 
 VIEW = 'View'
 ACCESS = 'Access contents information'
@@ -126,13 +126,13 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         logout()
         # open system. Workspaces folder is open for authenticated
         login(self.portal, 'noaddrights')
-        ac = AddContent(self.open_workspaces, self.portal.REQUEST)
+        ac = AddWorkspace(self.open_workspaces, self.portal.REQUEST)
         ac(portal_type='ploneintranet.workspace.workspacefolder',
            title="everybody can add")
         self.assertIn('everybody-can-add',
                       self.open_workspaces.objectIds())
 
-        ac = AddContent(self.restricted_workspaces, self.portal.REQUEST)
+        ac = AddWorkspace(self.restricted_workspaces, self.portal.REQUEST)
         portal_type = 'ploneintranet.workspace.workspacefolder'
         self.assertRaises(Unauthorized,
                           ac,
@@ -142,7 +142,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         logout()
         login(self.portal, 'hasaddrights')
 
-        ac = AddContent(self.restricted_workspaces, self.portal.REQUEST)
+        ac = AddWorkspace(self.restricted_workspaces, self.portal.REQUEST)
         ac(portal_type='ploneintranet.workspace.workspacefolder',
            title="can add when contributor")
         self.assertIn('can-add-when-contributor',

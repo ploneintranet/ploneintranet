@@ -2,7 +2,7 @@ from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
-from ploneintranet.workspace.browser.add_content import AddContent
+from ploneintranet.workspace.browser.add_content import AddWorkspace
 from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
 from zope.annotation.interfaces import IAnnotations
@@ -107,11 +107,10 @@ class TestPolicy(BaseTestCase):
         Check configuration if a scenario for policies is given on create
         """
         self.login_as_portal_owner()
-        request = self.layer['request']
-        add_form = AddContent(self.portal, request)
 
+        request = self.layer['request'].clone()
         request.form['scenario'] = '1'
-        add_form = AddContent(self.workspace_container, request)
+        add_form = AddWorkspace(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-1')
         workspace = getattr(self.workspace_container, 'scenario-1')
@@ -119,8 +118,9 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.join_policy, 'admin')
         self.assertEqual(workspace.participant_policy, 'producers')
 
+        request = self.layer['request'].clone()
         request.form['scenario'] = '2'
-        add_form = AddContent(self.workspace_container, request)
+        add_form = AddWorkspace(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-2')
         workspace = getattr(self.workspace_container, 'scenario-2')
@@ -128,8 +128,9 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.join_policy, 'team')
         self.assertEqual(workspace.participant_policy, 'moderators')
 
+        request = self.layer['request'].clone()
         request.form['scenario'] = '3'
-        add_form = AddContent(self.workspace_container, request)
+        add_form = AddWorkspace(self.workspace_container, request)
         add_form(portal_type='ploneintranet.workspace.workspacefolder',
                  title='scenario-3')
         workspace = getattr(self.workspace_container, 'scenario-3')
@@ -137,13 +138,15 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.join_policy, 'self')
         self.assertEqual(workspace.participant_policy, 'publishers')
 
+        request = self.layer['request'].clone()
         request.form['scenario'] = 'X'
-        add_form = AddContent(self.workspace_container, request)
-        self.assertRaises(AttributeError, add_form,
-                          portal_type='ploneintranet.workspace.workspacefolder',  # noqa
-                          title='scenario-X')
-
-        del request.form['scenario']
+        add_form = AddWorkspace(self.workspace_container, request)
+        self.assertRaises(
+            AttributeError,
+            add_form,
+            portal_type='ploneintranet.workspace.workspacefolder',
+            title='scenario-X'
+        )
 
     def test_workspace_policy_change_updates_existing_members(self):
         """

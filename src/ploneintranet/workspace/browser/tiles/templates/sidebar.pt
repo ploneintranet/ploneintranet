@@ -435,7 +435,7 @@ Supported types include (class names):
                           <time
                                 class="start pat-moment"
                                 data-pat-moment="format:relative"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> - 
+                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> -
                           <tal:title replace="event/Title"/>
                         </h4>
                       <p class="byline" tal:define="location event/location" tal:condition="location">
