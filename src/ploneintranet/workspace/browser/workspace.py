@@ -64,19 +64,19 @@ def filter_users_json(query, users):
     For use with pat-autosuggest.
 
     :param str query: The search query
-    :param list users: A list of user objects
+    :param list users: A list of user brains
     :rtype string: JSON {"user_id1": "user_title1", ...}
     """
     filtered_users = []
     for user in users:
-        fullname = user.getProperty('fullname')
-        email = user.getProperty('email')
-        uid = user.getProperty('id')
-        user_string = '{} {} {}'.format(fullname, email, uid)
+        fullname = safe_unicode(user.Title)
+        email = safe_unicode(user.email)
+        uid = user.getId
+        user_string = u'{} {} {}'.format(fullname, email, uid)
         if query.lower() in user_string.lower():
             filtered_users.append({
                 'id': uid,
-                'text': '{} <{}>'.format(fullname, email),
+                'text': u'{} <{}>'.format(fullname, email),
             })
     return dumps(filtered_users)
 
@@ -100,13 +100,9 @@ class WorkspaceMembersJSONView(BrowserView):
     Return workspace members in JSON for use with pat-autosuggest.
     """
     def __call__(self):
-        members = IWorkspace(self.context).members
-        users = []
-        for member in members:
-            user = api.user.get(member)
-            if user:
-                users.append(user)
-        q = self.request.get('q', '')
+        users = pi_api.userprofile.get_users(
+            context=self.context, full_objects=False)
+        q = safe_unicode(self.request.get('q', ''))
         return filter_users_json(q, users)
 
 
