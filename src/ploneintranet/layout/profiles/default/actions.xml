@@ -6,7 +6,22 @@
   <object name="portal_tabs" meta_type="CMF Action Category">
     <property name="title"></property>
     <object name="index_html" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Home</property>
+      <property
+          name="url_expr">string:${globals_view/navigationRootUrl}/dashboard.html</property>
+      <property name="visible">False</property>
+    </object>
+    <object name="dashboard" meta_type="CMF Action">
       <property name="title" i18n:translate="">Dashboard</property>
+      <property name="i18n_domain">ploneintranet</property>
+      <property name="description"></property>
+      <property
+          name="url_expr">string:${globals_view/navigationRootUrl}/dashboard.html</property>
+      <property name="link_target"></property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
     </object>
     <object name="workspaces" meta_type="CMF Action">
       <property name="title" i18n:translate="">Workspaces</property>
