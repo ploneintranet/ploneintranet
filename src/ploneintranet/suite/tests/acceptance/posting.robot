@@ -118,13 +118,37 @@ Neil can tag a post by searching for a tag
 Creating a page creates a statusupdate
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
+    When I save the document    
     Then the content stream is visible
-    And the content stream contains     0 comments on 1 shares
-    When I save the document
-    And I go to the Open Market Committee Workspace
-    The stream links to the document     My created document
+    And the stream contains     0 comments on 1 shares
+    When I go to the Open Market Committee Workspace
+    Then the stream links to the document     My created document
     When I open the Dashboard
-    The stream links to the document     My created document
+    Then the stream links to the document     My created document
+
+Publishing a page creates a statusupdate
+    Given I am in a workspace as a workspace member
+    And I can create a new document    My created document
+    And I save the document
+    When I am logged in as the user christian_stoney
+    And maneuver to   My created document
+    Then I can publish the content item
+    And the content stream is visible
+    And the stream contains     published this item
+    When I go to the Open Market Committee Workspace
+    Then the stream contains     published this item    
+    When I open the Dashboard
+    Then the stream contains     published this item
+
+Content status updates respect document security
+    Given I am in a workspace as a workspace admin
+    And I can create a new document    My created document
+    And I save the document
+    And I open the Dashboard
+    Then the stream links to the document     My created document    
+    When I am logged in as the user allan_neece
+    And I open the Dashboard
+    Then the stream does not link to the document       My created document
 
 *** Keywords ***
 
@@ -239,10 +263,14 @@ I save the document
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
 
-The content stream contains
+The stream contains
     [arguments]    ${text}
     Wait until page contains    ${text}
 
 The stream links to the document
     [arguments]  ${text}
     Wait until page contains element       link=${text}
+
+The stream does not link to the document
+    [arguments]  ${text}
+    Page should not contain       link=${text}    
