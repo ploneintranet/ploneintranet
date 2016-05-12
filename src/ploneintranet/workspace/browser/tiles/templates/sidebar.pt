@@ -119,11 +119,11 @@
                     </span>
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
                     <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal"
-                            i18n:translate="" i18n:attributes="title">Delete</button>
+                            i18n:translate="" i18n:attributes="title" title="Delete">Delete</button>
                     <span class="float-before button-cluster">
                       <button type="button" class="float-before no-label icon-mail pat-shopping-cart"
                               data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal"
-                              title="Send selected document(s)">Send</button>
+                              i18n:attributes="title" title="Send selected document(s)">Send</button>
                       <!-- <button formaction="/feedback/batch-share.html#content" -->
                       <!--         type="submit" -->
                       <!--         name="batch-function" -->
@@ -435,7 +435,7 @@ Supported types include (class names):
                           <time
                                 class="start pat-moment"
                                 data-pat-moment="format:relative"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> - 
+                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> -
                           <tal:title replace="event/Title"/>
                         </h4>
                       <p class="byline" tal:define="location event/location" tal:condition="location">
