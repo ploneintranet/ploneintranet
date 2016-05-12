@@ -8,25 +8,43 @@ from z3c.form.interfaces import IValidator
 from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
 
+from ploneintranet.userprofile.interfaces import IMembershipResolver
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 from dexterity.membrane.behavior.password import IProvidePasswordsSchema
 
 
-def get_users(**kwargs):
+def get_users(
+    context=None,
+    full_objects=True,
+    **kwargs
+):
     """
     List users from catalog, avoiding expensive LDAP lookups.
 
-    :returns: user objects
+    :param context: Any content object that will be used to find the
+        UserResolver context
+    :type context: Content object
+    :param full_objects: A switch to indicate if full objects or brains should
+        be returned
+    :type full_objects: boolean
+    :returns: user brains or user objects
     :rtype: iterator
     """
     try:
         mtool = plone_api.portal.get_tool('membrane_tool')
     except InvalidParameterError:
         return []
+    if context:
+        ms_resolver = get_membership_resolver_context(context)
+        if ms_resolver:
+            kwargs['exact_getUserName'] = [x for x in ms_resolver.members]
     portal_type = 'ploneintranet.userprofile.userprofile',
     search_results = mtool.searchResults(portal_type=portal_type,
                                          **kwargs)
-    return (x.getObject() for x in search_results)
+    if full_objects:
+        return (x.getObject() for x in search_results)
+    else:
+        return (brain for brain in search_results)
 
 
 def get_users_from_userids_and_groupids(ids=None):
@@ -58,6 +76,7 @@ def get(username):
     """
     try:
         profile = list(get_users(
+            full_objects=True,
             exact_getUserName=username,
         ))[0]
     except IndexError:
@@ -169,3 +188,37 @@ def avatar_url(username=None):
         portal.absolute_url(),
         username,
     )
+
+
+def get_membership_resolver_context(
+    context,
+):
+    """Get the membership resolver context
+
+    :param context: [required] The context for which
+        we want the membership resolver context.
+        Can be None.
+    :type context: object
+
+    :returns: membership resolver context
+    :rtype: object
+    """
+    if context is None:
+        return None
+
+    # context is part of context.aq_chain
+    # but unittests do not always wrap acquisition
+    resolver = IMembershipResolver(context, None)
+    if resolver:
+        return resolver
+    try:
+        chain = context.aq_inner.aq_chain
+    except AttributeError:
+        return None
+
+    for item in chain:
+        resolver = IMembershipResolver(item, None)
+        if resolver:
+            return resolver
+    else:
+        return None
