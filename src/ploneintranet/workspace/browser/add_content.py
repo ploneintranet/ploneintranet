@@ -11,7 +11,7 @@ from ploneintranet.workspace.case import create_case_from_template
 from ploneintranet.workspace.utils import parent_workspace
 from zope.container.interfaces import INameChooser
 from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
 
 
@@ -108,8 +108,7 @@ class AddContent(BrowserView):
             api.portal.show_message(
                 _("Item created."), request=self.request, type="success")
             new.reindexObject()
-            notify(ObjectModifiedEvent(new))
-
+            notify(ObjectCreatedEvent(new))
         else:
             api.portal.show_message(
                 _("There was a problem: %s." % errors),
