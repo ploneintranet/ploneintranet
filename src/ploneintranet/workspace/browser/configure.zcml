@@ -271,12 +271,12 @@
       />
 
     <browser:page
-      name="allusers.json"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class=".workspace.AllUsersJSONView"
-      permission="collective.workspace.ManageRoster"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
+        name="allusers.json"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class=".workspace.AllUsersJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
 
     <browser:page
       name="allgroups.json"

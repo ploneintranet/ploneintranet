@@ -1961,3 +1961,28 @@ msgstr ""
 msgid "{} user(s) {}."
 msgstr ""
 
+#: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:8
+msgid "Batch send"
+msgstr "Inhalte versenden"
+
+#: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:22
+msgid "Recipients..."
+msgstr "Empfänger..."
+
+#: ../workspace/browser/cart_actions/mail.py:42
+#: ../workspace/browser/cart_actions/mail.py:53
+msgid "Some items have been sent to you."
+msgstr "Einige Objekte wurden an Sie verschickt."
+
+#: ../workspace/browser/cart_actions/mail.py:38
+msgid "The following items have been shared with you:"
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:30
+msgid "Write a message to the recipient(s)..."
+msgstr "Nachricht an den oder die Empfänger..."
+
+#: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
+msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
+msgstr "Diese Nachricht kann an eine oder mehrere Personen verschickt werden. Der oder die Empfänger erhalten eine E-Mail mit Verweis auf das oder die jeweilige(n) Objekt(e). Es ist möglich, die Namen von im System existierenden Benutzern oder einfach deren E-Mail-Adressen einzutragen."
+
