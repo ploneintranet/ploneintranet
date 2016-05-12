@@ -42,6 +42,9 @@ class PloneIntranetMicroblog(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        ploneintranet.microblog,
                        context=configurationContext)
+        # enable event driven content updates
+        self.loadZCML(name='subscribers.zcml',
+                      package=ploneintranet.microblog)
         import ploneintranet.activitystream
         xmlconfig.file('configure.zcml',
                        ploneintranet.activitystream,
