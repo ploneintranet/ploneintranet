@@ -268,3 +268,15 @@ ploneintranet.workspace.workspace_types_css_mapping
     **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
 
     **default**: ploneintranet.workspace.case|type-case
+
+
+ploneintranet.workspace.sanitize_html
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Sanitize HTML on saving.
+
+    **description**: If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as ``<span>`` or ``<blockquote>`` get stripped. Multipe line breaks get reduced to a single line break.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: True

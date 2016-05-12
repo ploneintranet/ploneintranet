@@ -63,7 +63,7 @@
   <record name="ploneintranet.workspace.sanitize_html">
     <field type="plone.registry.field.Bool">
       <default>True</default>
-      <description i18n:translate="help_sanitize_html">When true, RichText content (HTML) in workspaces is sanitized before it gets stored. This helps to keep HTML pasted from Word sane, and also reduces multiple line breaks into single breaks.</description>
+      <description i18n:translate="help_sanitize_html">If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break.</description>
       <required>False</required>
       <title i18n:translate="label_sanitize_html">Sanitize HTML on saving.</title>
     </field>
