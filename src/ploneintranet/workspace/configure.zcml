@@ -91,6 +91,12 @@
      />
 
   <adapter
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      provides="ploneintranet.userprofile.interfaces.IMembershipResolver"
+      factory=".adapters.PloneIntranetWorkspace"
+      />
+
+  <adapter
      factory="ploneintranet.workspace.adapters.WorkspaceLocalRoleAdapter"
      />
 
