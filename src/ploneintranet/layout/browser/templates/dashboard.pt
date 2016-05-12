@@ -8,17 +8,17 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content">
-      <tal:dashboard define="dashboard python:request.form.get('dashboard','activity');
+      <tal:dashboard define="dashboard view/default_dashboard;
                              current_user context/portal_membership/getAuthenticatedMember;
                              user_name current_user/getUserName">
 
         <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/#dashboard">
           <label class="bare pat-select">
             <select name="dashboard">
-              <option value="activity" i18n:translate="">
+              <option value="activity" i18n:translate="" tal:attributes="selected python:dashboard == 'activity' and 'selected' or nothing">
                 Activity centric view
               </option>
-              <option value="task" i18n:translate="">
+              <option value="task" i18n:translate="" tal:attributes="selected python:dashboard == 'task' and 'selected' or nothing">
                 Task centric view
               </option>
             </select>
