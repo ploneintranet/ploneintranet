@@ -115,6 +115,17 @@ Neil can tag a post by searching for a tag
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
 
+Creating a page creates a statusupdate
+    Given I am in a workspace as a workspace member
+    And I can create a new document    My created document
+    Then the content stream is visible
+    And the content stream contains     0 comments on 1 shares
+    When I save the document
+    And I go to the Open Market Committee Workspace
+    The stream links to the document     My created document
+    When I open the Dashboard
+    The stream links to the document     My created document
+
 *** Keywords ***
 
 The message is visible as new status update
@@ -220,3 +231,18 @@ I can mention a user and search for a user
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(),'${username2}')][1]
     Click element    css=textarea.pat-content-mirror
+
+The content stream is visible
+    Wait until element is visible       css=#comments-document-comments
+
+I save the document
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+
+The content stream contains
+    [arguments]    ${text}
+    Wait until page contains    ${text}
+
+The stream links to the document
+    [arguments]  ${text}
+    Wait until page contains element       link=${text}
