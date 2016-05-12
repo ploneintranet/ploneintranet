@@ -23,6 +23,31 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 
 import os
 
+html_input = u"""Intro of Plone Intranet
+<h1>Overview</h1>
+<p><span class="random">Quaive</span> is über-cool.
+<ul>
+<li>Red</li>
+<li>Yellow
+<li>Green</li>
+</ul>
+<blockquote>It's the awesomest thing.</blockquote>
+<strong>Get your copy today!</strong>
+"""
+
+# All tags are properly closed. All text is properly wrapped.
+# Unwanted tags get removed.
+html_cleaned = u"""<p>Intro of Plone Intranet</p>
+<h1>Overview</h1>
+<p>Quaive is über-cool.</p>
+<ul>
+<li>Red</li>
+<li>Yellow</li>
+<li>Green</li>
+</ul>
+<p>It's the awesomest thing.
+<strong>Get your copy today!</strong></p>"""
+
 
 def test_image():
     from plone.namedfile.file import NamedBlobImage
@@ -123,7 +148,6 @@ class TestDexterityUpdate(BaseTestCase):
             type='Document',
             title=u'My Døcümént',
         )
-        self.raw_text = u"<em>løl</em><p>more<br><br>text</p><p>not closed paragraph"  # noqa
         self.request = self.layer['request']
 
     def test_not_modified(self):
@@ -152,24 +176,26 @@ class TestDexterityUpdate(BaseTestCase):
 
     def test_sanitize_in_action(self):
         self.doc1.REQUEST.form = {
-            'text': self.raw_text
+            'text': html_input
         }
         modified, errors = dexterity_update(self.doc1)
         self.assertEqual(errors, [])
         self.assertEqual(modified, {IRichText: ['text']})
-        sanitized = u"<p><em>løl</em></p><p>more<br/>text</p><p>not closed paragraph</p>"  # noqa
-        self.assertEqual(self.doc1.text.raw, sanitized)
+        # Ignore differences in line breaks, only the semantics matter.
+        self.assertEqual(
+            self.doc1.text.raw.replace('\n', ''),
+            html_cleaned.replace('\n', ''))
 
-    def test_sanitize_switched_on_by_default(self):
+    def test_sanitize_can_be_switched_off(self):
         api.portal.set_registry_record(
             'ploneintranet.workspace.sanitize_html', False)
         self.doc1.REQUEST.form = {
-            'text': self.raw_text
+            'text': html_input
         }
         modified, errors = dexterity_update(self.doc1)
         self.assertEqual(errors, [])
         self.assertEqual(modified, {IRichText: ['text']})
-        self.assertEqual(self.doc1.text.raw, self.raw_text)
+        self.assertEqual(self.doc1.text.raw, html_input)
 
 
 class TestContentViewUpdate(BaseTestCase):
