@@ -27,7 +27,7 @@ class StatusUpdate(Persistent):
 
     def __init__(
         self,
-        text,
+        text=u'',
         microblog_context=None,
         thread_id=None,
         mention_ids=None,

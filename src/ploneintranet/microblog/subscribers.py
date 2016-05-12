@@ -16,7 +16,6 @@ def content_statechanged(obj, event):
     action_verb = event.new_state.id
     # microblog_context is automatically derived from content_context
     pi_api.microblog.statusupdate.create(
-        obj.Title(),  # FIXME: allow and post empty string
         content_context=obj,
         action_verb=action_verb,
     )

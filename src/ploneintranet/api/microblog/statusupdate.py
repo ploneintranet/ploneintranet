@@ -20,7 +20,7 @@ def get(status_id):
 
 
 def create(
-    text,
+    text=u'',
     microblog_context=None,
     thread_id=None,
     mention_ids=None,
@@ -33,7 +33,7 @@ def create(
 ):
     """Create a status update (post).
 
-    :param text: [required] text of the post
+    :param text: text of the post
     :type text: Unicode object
 
     :param microblog_context: Container of the post
