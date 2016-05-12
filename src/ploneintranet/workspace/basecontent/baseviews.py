@@ -87,12 +87,14 @@ class ContentView(BrowserView):
             api.portal.show_message(
                 ' '.join(messages), request=self.request,
                 type="success")
-            context.reindexObject()
+
             if fields_modified:
                 descriptions = [
                     Attributes(interface, *fields)
                     for interface, fields in fields_modified.items()]
                 notify(ObjectModifiedEvent(context, *descriptions))
+            else:
+                context.reindexObject()
 
     @property
     @memoize
