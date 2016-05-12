@@ -62,4 +62,26 @@
         layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
         />
 
+    <configure package="Products.CMFPlone.resources.browser">
+
+      <browser:viewlet
+          name="plone.resourceregistries.scripts"
+          manager="plone.app.layout.viewlets.interfaces.IScripts"
+          class="ploneintranet.layout.viewlets.resources.PIScriptsView"
+          template="scripts.pt"
+          permission="zope2.View"
+          layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        />
+
+      <browser:viewlet
+          name="plone.resourceregistries.styles"
+          manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+          class="ploneintranet.layout.viewlets.resources.PIStylesView"
+          template="styles.pt"
+          permission="zope2.View"
+          layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+        />
+
+    </configure>
+
 </configure>

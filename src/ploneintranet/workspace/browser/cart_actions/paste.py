@@ -28,7 +28,7 @@ class PasteView(BaseCartView):
             )
         else:
             api.portal.show_message(
-                message="Item(s) pasted",
+                message=_(u"Item(s) pasted"),
                 request=self.request,
                 type="success",
             )

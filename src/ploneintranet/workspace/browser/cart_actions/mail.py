@@ -1,5 +1,7 @@
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.MailHost.MailHost import MailHostError
+from base64 import b64encode
 from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer.utils import allowedDocumentType
 from email.mime.base import MIMEBase
@@ -29,17 +31,29 @@ class MailView(BaseCartView):
         return index(self)
 
     def send(self):
+        translate = self.context.translate
         msg = MIMEMultipart()
 
         form = self.request.form
-        message = form.get('message')
+        message = safe_unicode(form.get('message', u''))
+        message += u"\n\n"
+        message += translate(
+            _(u"The following items have been shared with you:"))
+        attachable_uids = form.get('attachable_uids', [])
+        unattachable_uids = form.get('unattachable_uids', [])
+        all_uids = attachable_uids + unattachable_uids
+        for uid in all_uids:
+            obj = api.content.get(UID=uid)
+            if obj:
+                message += u"""
+* {}/view""".format(obj.absolute_url())
         current_user = api.user.get_current()
         from_name = (
             current_user.getProperty('fullname') or current_user.getId())
         from_email = current_user.getProperty('email') or ''
         from_address = '{} <{}>'.format(from_name, from_email)
         msg["From"] = from_address
-        msg["Subject"] = _(u"Some items have been sent to you.")
+        msg["Subject"] = translate(_(u"Some items have been sent to you."))
         body = MIMEText(message, 'plain', 'utf-8')
         msg.attach(body)
 
@@ -47,32 +61,50 @@ class MailView(BaseCartView):
         if not recipients:
             # Should we show an error notification?
             log.debug('No recipients were selected, no email has been sent.')
+
         to_addresses = []
-        for recipient in recipients:
+        for recipient in recipients.split(','):
             to_user = api.user.get(recipient)
             if not to_user:
-                continue
-            name = to_user.getProperty('fullname') or to_user.getId()
-            email = to_user.getProperty('email')
-            to_addresses.append('{} <{}>'.format(name, email))
+                to_addresses.append(recipient)
+            else:
+                name = to_user.getProperty('fullname') or to_user.getId()
+                email = to_user.getProperty('email')
+                to_addresses.append('{} <{}>'.format(name, email))
 
         msg["To"] = ', '.join(to_addresses)
 
-        for obj in self.attachable_objs():
-            att = MIMEBase(*obj.content_type().split("/"))
-            att.set_payload(obj.file.data)
-            att.add_header(
-                'Content-Disposition',
-                'attachment',
-                filename=obj.Title(),
-            )
-            msg.attach(att)
+        for uid in attachable_uids:
+            obj = api.content.get(UID=uid)
+            if obj:
+                file_obj = None
+                if hasattr(obj, 'file'):
+                    file_obj = obj.file
+                elif hasattr(obj, 'image'):
+                    file_obj = obj.image
+                if file_obj is None:
+                    continue
+                att = MIMEBase(*file_obj.contentType.split("/"))
+                att.set_payload(b64encode(file_obj.data))
+                att.add_header('Content-Transfer-Encoding', 'base64')
+                att.add_header(
+                    'Content-Disposition',
+                    'attachment',
+                    filename=obj.Title(),
+                )
+                msg.attach(att)
 
         mailhost = api.portal.get_tool('MailHost')
         try:
             mailhost.send(msg.as_string())
         except MailHostError, e:
             log.error(e.message)
+
+        api.portal.show_message(
+            message=_(u"Email sent."),
+            request=self.request,
+            type="info",
+        )
         self.request.response.redirect(self.context.absolute_url())
 
     def attachable_objs(self):
@@ -80,11 +112,20 @@ class MailView(BaseCartView):
         We can only attach files. When implemented, we will also attach the PDF
         version of Documents
         """
+        objs = []
         for obj in self.items:
             if IFile.providedBy(obj) or IImage.providedBy(obj):
-                yield obj
+                objs.append(obj)
+        return objs
 
     def get_previews(self, obj):
+        if IImage.providedBy(obj):
+            return {
+                'class': '',
+                'url': '{}/@@images/image'.format(obj.absolute_url()),
+                'page_count': 1,
+                'has_preview': True,
+            }
         portal = api.portal.get()
         gsettings = GlobalSettings(portal)
 

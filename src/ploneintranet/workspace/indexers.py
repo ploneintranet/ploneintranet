@@ -7,6 +7,9 @@ from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
 from utils import guess_mimetype
+from plone.dexterity.utils import datify
+from datetime import datetime
+from .case import ICase
 
 
 @indexer(IDocument)
@@ -40,6 +43,24 @@ def mimetype_link(object, **kw):
 @indexer(INewsItem)
 def mimetype_newsitem(object, **kw):
     return 'message/news'
+
+
+@indexer(IDexterityContent)
+def due_dexterity(obj):
+    """
+    dummy to prevent indexing child objects
+    """
+    raise AttributeError("This field should not indexed here!")
+
+
+@indexer(ICase)
+def due_case(obj):
+    """
+    :return: value of field due for cases
+    """
+    date = getattr(obj, 'due', None)
+    date = datify(date)
+    return date is None and datetime.max or date
 
 
 @indexer(IDexterityContent)

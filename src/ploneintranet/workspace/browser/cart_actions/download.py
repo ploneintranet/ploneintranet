@@ -4,6 +4,7 @@
 from datetime import datetime
 from plone import api
 from StringIO import StringIO
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 import zipfile
 
@@ -35,7 +36,7 @@ class DownloadAction(object):
 
         if not cart:
             api.portal.show_message(
-                message=u"Can't download, no items found.",
+                message=_(u"Can't download, no items found."),
                 request=request,
                 type="error"
             )
@@ -82,7 +83,7 @@ class DownloadAction(object):
             return output.getvalue()
         else:
             api.portal.show_message(
-                message="There are no downloadable items in your cart.",
+                message=_(u"There are no downloadable items in your cart."),
                 request=request,
                 type="warning")
             portal = api.portal.get()

@@ -82,9 +82,7 @@ class CaseManagerView(BrowserView):
         sort_by = 'modified'
 
         query = {
-            'portal_type': [
-                'ploneintranet.workspace.case'
-            ],
+            'object_provides': 'ploneintranet.workspace.case.ICase',
             'path': ws_path,
         }
 

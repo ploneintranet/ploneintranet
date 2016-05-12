@@ -17,7 +17,7 @@
                     folder_warning python:useSelf and context.portal_type != 'Topic';
                     number_of_objects_to_delete python:folder_warning and view.items_to_delete;
                 ">
-      <div class="pat-modal">
+      <div class="pat-modal" tal:omit-tag="view/is_ajax">
         <h1 i18n:translate="">Delete confirmation</h1>
         <form action="${view/action}" method="post" enctype="${view/enctype}"
             class="wizard-box ${python:request.get('pat-inject') and 'pat-inject' or ''}"
