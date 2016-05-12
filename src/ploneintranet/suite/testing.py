@@ -46,6 +46,9 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # plone social dependencies
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
+        # enable event driven content updates
+        self.loadZCML(name='subscribers.zcml',
+                      package=ploneintranet.microblog)
         # Force microblog to disable async mode !!!
         import ploneintranet.microblog.statuscontainer
         ploneintranet.microblog.statuscontainer.ASYNC = False

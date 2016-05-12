@@ -15,7 +15,9 @@
   <include file="permissions.zcml" />
   <include file="dexterity.zcml" />
 
-  <include file="subscribers.zcml" />
+  <!-- included from suite only - to avoid test pollution
+       <include file="subscribers.zcml" />
+  -->
 
   <genericsetup:registerProfile
       name="default"
