@@ -255,7 +255,14 @@ class BaseStatusContainer(Persistent, Explicit):
     # --- READ SECURITY ---
 
     def secure(self, keyset):
-        """Filter keyset to return only keys the current user may see."""
+        """Filter keyset to return only keys the current user may see.
+
+        NB this may return statusupdates with a microblog_context (workspace)
+        accessible to the user, but referencing a content_context (document)
+        which the user may not access yet because of content workflow.
+        Filtering that is quite costly and not done here - instead there's a
+        postprocessing filter in activitystream just before rendering.
+        """
         return LLBTree.intersection(
             LLBTree.LLTreeSet(keyset),
             LLBTree.LLTreeSet(self.allowed_status_keys()))
@@ -286,8 +293,6 @@ class BaseStatusContainer(Persistent, Explicit):
             all_statusids = LLBTree.LLSet(self._status_mapping.keys())
             return LLBTree.difference(all_statusids,
                                       blacklisted_statusids)
-
-        return self._allowed_status_keys()
 
     def _blacklist_microblogcontext_uuids(self):
         """Returns the uuids for all IMicroblogContext that the current

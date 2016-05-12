@@ -7,8 +7,14 @@
 
   <subscriber
       for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.content_created"
+      />
+
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
            Products.DCWorkflow.interfaces.IAfterTransitionEvent"
       handler=".subscribers.content_statechanged"
-      />  
+      />
 
 </configure>

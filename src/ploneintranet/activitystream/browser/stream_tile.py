@@ -54,6 +54,10 @@ class StreamTile(Tile):
         The idea is:
          - if a StatusUpdate is a comment return the parent StatusUpdate
          - do not return duplicate statusupdates
+
+        Additionally, this performs a postprocessing filter on content updates
+        in case a user has access to a microblog_context workspace
+        but not to the (unpublished) content_context object
         '''
         seen_thread_ids = set()
         good_statusupdates = []
@@ -61,14 +65,26 @@ class StreamTile(Tile):
 
         for su in statusupdates:
             if su.thread_id and su.thread_id in seen_thread_ids:
+                # a reply on a toplevel we've already seen
                 continue
             elif su.id in seen_thread_ids:
+                # a toplevel we've already seen
                 continue
 
             if su.thread_id:
+                # resolve reply into toplevel
                 su = container.get(su.thread_id)
 
+            # process a thread only once
             seen_thread_ids.add(su.id)
+
+            # content updates postprocessing filter
+            try:
+                su.content_context
+            except AttributeError:  # = unauthorized
+                # skip thread on inaccessible content (e.g. draft)
+                continue
+
             good_statusupdates.append(su)
 
         return good_statusupdates

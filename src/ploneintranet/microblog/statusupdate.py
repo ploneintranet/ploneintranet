@@ -129,7 +129,7 @@ class StatusUpdate(Persistent):
         if not uuid:
             return None
         context = self._uuid2object(uuid)
-        if context is None:
+        if context is None:  # happens also when unauthorized to access context
             raise AttributeError(
                 "Context with uuid {0} could not be "
                 "retrieved".format(uuid)
