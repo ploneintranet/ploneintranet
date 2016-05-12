@@ -4,6 +4,7 @@ from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
 from Products.CMFPlone.utils import safe_unicode
 from plone import api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 
@@ -48,19 +49,25 @@ class CutView(BaseCartView):
             response.setCookie('__cp', ct_data, path=path)
             request['__cp'] = ct_data
 
+            msg = _(
+                u"batch_cut_success",
+                default=u"${num_elems} Files were cut and moved to your cloud clipboard.",
+                mapping={"num_elems": len(obj_list)}
+            )
             api.portal.show_message(
-                message=(
-                    "{0} Files were cut and moved to your cloud clipboard."
-                ).format(len(obj_list)),
+                message=msg,
                 request=request,
                 type="info",
             )
 
         if cannot_cut:
+            msg = _(
+                u"batch_cut_failure",
+                default=u"The following items could not be cut: ${num_elems}",
+                mapping={"num_elems": ', '.join(sorted(cannot_cut))}
+            )
             api.portal.show_message(
-                message=(
-                    "The following items could not be cut: {0}"
-                ).format(', '.join(sorted(cannot_cut))),
+                message=msg,
                 request=request,
                 type="info",
             )

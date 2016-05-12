@@ -31,12 +31,13 @@ class MailView(BaseCartView):
         return index(self)
 
     def send(self):
+        translate = self.context.translate
         msg = MIMEMultipart()
 
         form = self.request.form
         message = safe_unicode(form.get('message', u''))
         message += u"\n\n"
-        message += _(u"""The following items have been shared with you:""")
+        message += translate(_(u"The following items have been shared with you:"))
         attachable_uids = form.get('attachable_uids', [])
         unattachable_uids = form.get('unattachable_uids', [])
         all_uids = attachable_uids + unattachable_uids
@@ -51,7 +52,7 @@ class MailView(BaseCartView):
         from_email = current_user.getProperty('email') or ''
         from_address = '{} <{}>'.format(from_name, from_email)
         msg["From"] = from_address
-        msg["Subject"] = _(u"Some items have been sent to you.")
+        msg["Subject"] = translate(_(u"Some items have been sent to you."))
         body = MIMEText(message, 'plain', 'utf-8')
         msg.attach(body)
 
@@ -99,7 +100,7 @@ class MailView(BaseCartView):
             log.error(e.message)
 
         api.portal.show_message(
-            message="Email sent.",
+            message=_(u"Email sent."),
             request=self.request,
             type="info",
         )
