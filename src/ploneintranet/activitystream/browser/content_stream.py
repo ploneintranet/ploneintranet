@@ -40,8 +40,24 @@ class ContentStreamView(BrowserView):
                     if su.thread_id])
 
     def _statusupdates_threadparents(self):
-        return([su for su in self._statusupdates_all()
-                if not su.thread_id])
+        """Render all shares, except when it's an older share
+        without any replies.
+        """
+        toplevels = []
+        reply_thread_ids = []
+        for su in self._statusupdates_all():
+            if not su.thread_id:
+                toplevels.append(su)
+            else:
+                reply_thread_ids.append(su.thread_id)
+        if not toplevels:
+            return []
+        last = toplevels[-1]
+        # show only toplevels with replies + most recent toplevel
+        # i.e. suppress earlier toplevels without replies
+        return [su for su in toplevels
+                if su.id in reply_thread_ids
+                or su is last]
 
     def _statusupdates_all(self):
         container = pi_api.microblog.get_microblog()
