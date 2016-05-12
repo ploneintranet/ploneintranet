@@ -127,6 +127,12 @@
               </div><!-- #document-content -->
               <input type="hidden" name="form.submitted" value="1" />
             </form>
+
+            <div tal:replace="structure context/@@content-stream.html">
+              #comments-document-comments document discussion goes here
+              implementation is in ploneintranet.activitystream
+            </div>
+            
           </div><!-- #document-body -->
           <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
           </aside>
