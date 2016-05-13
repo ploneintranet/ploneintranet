@@ -309,9 +309,11 @@ class MetroMap(object):
                 open_tasks = []  # we don't care so performance optimize
 
             # last workflow step: consider done if no open tasks left
-            if (state == current_state
-               and index > len(metromap_list)
-               and not open_tasks):
+            if (
+                state == current_state and
+                index > len(metromap_list) and
+                not open_tasks
+            ):
                 finished = True
 
             # get the id and title of the next transition, for display on the
@@ -324,8 +326,12 @@ class MetroMap(object):
                 transition_title = ''
 
             # only current state can be closed, archived state cannot be closed
-            if (state == current_state and can_manage and not open_tasks
-                    and next_transition_id):
+            if (
+                state == current_state and
+                can_manage and
+                not open_tasks and
+                next_transition_id
+            ):
                 next_transition_enabled = True
             else:
                 next_transition_enabled = False

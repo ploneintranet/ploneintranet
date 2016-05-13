@@ -23,15 +23,15 @@ import loremipsum
 import os
 import random
 import time
-import transaction
 
 log = logging.getLogger(__name__)
 
 # commits are needed in interactive but break in test mode
 if api.env.test_mode:
-    commit = lambda: None
+    def commit():
+        return
 else:
-    commit = transaction.commit
+    from transaction import commit
 
 
 def default(context):

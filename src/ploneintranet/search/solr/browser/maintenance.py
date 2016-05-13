@@ -153,8 +153,8 @@ class SolrMaintenanceView(BrowserView):
 
         key = conn.schema['uniqueKey']
         updates = {}            # list to hold data to be updated
-        flush = lambda: conn.commit(softCommit=True)
-        flush = notimeout(flush)
+
+        flush = notimeout(lambda: conn.commit(softCommit=True))
 
         def checkPoint():
             for data in updates.values():
@@ -258,9 +258,9 @@ class SolrMaintenanceView(BrowserView):
         solr_uids = set()
 
         def _utc_convert(value):
-            t_tup = value.utctimetuple()
-            return ((((t_tup[0] * 12 + t_tup[1]) * 31 + t_tup[2])
-                    * 24 + t_tup[3]) * 60 + t_tup[4])
+            Y, m, d, H, M = value.utctimetuple()[:5]
+            return ((((Y * 12 + m) * 31 + d) * 24 + H) * 60 + M)
+
         for flare in flares:
             uid = flare[key]
             solr_uids.add(uid)
@@ -278,8 +278,7 @@ class SolrMaintenanceView(BrowserView):
         processed = 0
         # XXX Why the difference to the reindex flush?
         # flush = notimeout(lambda: conn.flush())
-        flush = lambda: conn.commit(soft=True)
-        flush = notimeout(flush)
+        flush = notimeout(lambda: conn.commit(soft=True))
 
         def checkPoint():
             msg = 'intermediate commit (%d items processed, ' \

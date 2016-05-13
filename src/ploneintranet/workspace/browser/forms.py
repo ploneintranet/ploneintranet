@@ -92,10 +92,12 @@ class TransferMembershipForm(form.SchemaForm):
             removable.append(member)
 
         if move:
-            func = lambda member: ws.membership_factory(
-                ws,
-                {"user": member}).remove_from_team()
-            map(func, removable)
+            for member in removable:
+                factory = ws.membership_factory(
+                    ws,
+                    {"user": member}
+                )
+                factory.remove_from_team()
 
         self.updateWidgets()
         self.status = "Members transfered."
