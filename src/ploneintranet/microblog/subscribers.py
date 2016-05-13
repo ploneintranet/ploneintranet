@@ -10,6 +10,13 @@ def content_created(obj, event):
         # We are not installed
         return
 
+    whitelist = ('Document', 'File', 'Image', 'News Item')
+    try:
+        if obj.portal_type not in whitelist:
+            return
+    except AttributeError:
+        return
+
     # microblog_context is automatically derived from content_context
     # which is why this listens to IObjectAddedEvent not IObjectCreatedEvent
     pi_api.microblog.statusupdate.create(
