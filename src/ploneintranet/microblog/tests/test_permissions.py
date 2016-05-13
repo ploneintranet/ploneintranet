@@ -19,7 +19,6 @@ from plone.app.testing import login, logout
 from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
-import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IStatusUpdate
@@ -54,10 +53,6 @@ class TestPermissions(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.mb_tool = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.ASYNC = False
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_add_read_member(self):
         setRoles(self.portal, TEST_USER_ID, ('Member',))

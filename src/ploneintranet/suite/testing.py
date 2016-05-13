@@ -49,9 +49,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         # enable event driven content updates
         self.loadZCML(name='subscribers.zcml',
                       package=ploneintranet.microblog)
-        # Force microblog to disable async mode !!!
-        import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.ASYNC = False
 
         import ploneintranet.activitystream
         self.loadZCML(package=ploneintranet.activitystream)
@@ -86,9 +83,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         self.applyProfile(portal, 'ploneintranet.suite:uninstall')
 
     def tearDownZope(self, app):
-        # reset sync mode
-        import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.ASYNC = True
         # Uninstall product
         z2.uninstallProduct(app, 'ploneintranet.suite')
         z2.uninstallProduct(app, 'collective.indexing')

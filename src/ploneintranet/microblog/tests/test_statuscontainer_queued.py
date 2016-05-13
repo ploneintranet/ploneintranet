@@ -9,7 +9,6 @@ from ploneintranet.microblog import statuscontainer
 from ploneintranet.microblog import statusupdate
 
 from ploneintranet.microblog.statuscontainer import STATUSQUEUE
-import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.testing import tearDownContainer
 
 
@@ -45,20 +44,18 @@ class StatusUpdate(statusupdate.StatusUpdate):
         pass
 
 
-@unittest.skip("So tired of threading test leakage")
 class TestQueueStatusContainer(unittest.TestCase):
 
     def setUp(self):
         # needed for thread teardown
         self.container = StatusContainer()
+        self.container.ASYNC = True
+        self.container.MAX_QUEUE_AGE = 50
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 50
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def tearDown(self):
         tearDownContainer(self.container)
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(IStatusContainer, StatusContainer))
@@ -92,10 +89,7 @@ class TestQueueStatusContainer(unittest.TestCase):
         container.add(sa)
 
         # same test as above, but cancel scheduler
-        try:
-            self.container._v_timer.cancel()
-        except AttributeError:
-            pass
+        self.container._v_timer.cancel()
 
         values = [x for x in container.values()]
         # stuff is in queue, not stored

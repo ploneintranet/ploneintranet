@@ -54,8 +54,6 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.microblog,
             context=configurationContext
         )
-        # Force microblog to disable async mode !!!
-        ploneintranet.microblog.statuscontainer.ASYNC = False
 
         xmlconfig.file(
             'configure.zcml',
@@ -126,8 +124,6 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         z2.installProduct(app, 'Products.membrane')
 
     def tearDownZope(self, app):
-        # reset sync mode
-        ploneintranet.microblog.statuscontainer.ASYNC = True
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')

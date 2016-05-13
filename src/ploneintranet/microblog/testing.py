@@ -44,8 +44,7 @@ class PloneIntranetMicroblog(PloneSandboxLayer):
                        context=configurationContext)
         # no content updates, except on
         #   PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING
-        # run tests sync, except for test_statuscontainer_queued
-        ploneintranet.microblog.statuscontainer.ASYNC = False
+        # tests run sync, except for test_statuscontainer_queued
         import ploneintranet.activitystream
         xmlconfig.file('configure.zcml',
                        ploneintranet.activitystream,
@@ -81,7 +80,6 @@ class PloneIntranetMicroblogSubcriber(Layer):
             self.get('configurationContext')
         )
         import ploneintranet.microblog
-        ploneintranet.microblog.statuscontainer.ASYNC = False
         xmlconfig.file(
             self.zcml_file,
             ploneintranet.microblog,

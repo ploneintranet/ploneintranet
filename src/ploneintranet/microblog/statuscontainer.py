@@ -38,11 +38,6 @@ logger = logging.getLogger('ploneintranet.microblog')
 LOCK = threading.RLock()
 STATUSQUEUE = Queue.PriorityQueue()
 
-# max in-memory time in millisec before disk sync
-MAX_QUEUE_AGE = 1000
-# set to False to force sync mode and ignore MAX_QUEUE_AGE
-ASYNC = False
-
 
 def cache_key(method, self):
     """
@@ -646,10 +641,18 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     implements(IStatusContainer)
 
+    # set ASYNC=False to force sync mode and ignore MAX_QUEUE_AGE
+    if api.env.test_mode():
+        ASYNC = False
+    else:
+        ASYNC = True
+    # max in-memory time in millisec before disk sync, if in ASYNC mode
+    MAX_QUEUE_AGE = 1000
+
     def add(self, status):
         self._check_status(status)
         self._check_add_permission(status)
-        if False and ASYNC and MAX_QUEUE_AGE > 0:
+        if self.ASYNC and self.MAX_QUEUE_AGE > 0:
             self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)
             self._schedule_flush()
@@ -666,7 +669,7 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _schedule_flush(self):
         """A fallback queue flusher that runs without user interactions"""
-        if not MAX_QUEUE_AGE > 0:
+        if not self.MAX_QUEUE_AGE > 0:
             return
 
         try:
@@ -681,7 +684,7 @@ class QueuedStatusContainer(BaseStatusContainer):
             return
 
         # only a one-second granularity, round upwards
-        timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        timeout = int(math.ceil(float(self.MAX_QUEUE_AGE) / 1000))
         # Get the global request,
         # we just need to copy over some environment stuff.
         request = getRequest()
@@ -727,7 +730,7 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _autoflush(self):
         # logger.info("autoflush")
-        if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
+        if int(time.time() * 1000) - self._mtime > self.MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
@@ -737,7 +740,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         with LOCK:
             try:
                 # cancel scheduled flush
-                if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
+                if self.MAX_QUEUE_AGE > 0 and self._v_timer is not None:
                     # logger.info("Cancelling timer")
                     self._v_timer.cancel()
                     self._v_timer = None

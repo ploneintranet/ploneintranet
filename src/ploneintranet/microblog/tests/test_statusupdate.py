@@ -13,8 +13,6 @@ from ploneintranet.microblog.testing import (
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING,
     PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING)
 
-import ploneintranet.microblog.statuscontainer
-
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IStatusUpdate
 from ploneintranet.microblog.interfaces import IMicroblogContext
@@ -46,10 +44,6 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.ASYNC = False
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_implements(self):
         self.assertTrue(IStatusUpdate.implementedBy(StatusUpdate))
@@ -198,7 +192,6 @@ class TestContentStatusUpdate(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.ASYNC = False
 
     def test_content_context_mocked(self):
         content = object()
