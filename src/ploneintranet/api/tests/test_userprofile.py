@@ -213,8 +213,8 @@ class TestUserProfileGetUserSuggestions(IntegrationTestCase):
         IntegrationTestCase.setUp(self)
         self.login_as_portal_owner()
         self.profiles_1 = [pi_api.userprofile.create(
-            username=u'janedoe-%s' % x,
-            email=u'janedoe-%s@doe.com' % x,
+            username=u'bobschmo-%s' % x,
+            email=u'bobschmo-%s@schmo.com' % x,
         ) for x in range(8)]
         self.profiles_2 = [pi_api.userprofile.create(
             username=u'bobdoe-%s' % x,
@@ -254,6 +254,27 @@ class TestUserProfileGetUserSuggestions(IntegrationTestCase):
         self.assertEquals(found, set(self.profiles_1 +
                                      self.profiles_2 +
                                      self.profiles_3))
+
+    def test_suggestions_context_search_overlimit(self):
+        """Context provides enough"""
+        self.folder.members = [u'bobschmo-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        q = {'SearchableText': 'bob*'}
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, **q)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1))
+
+    def test_suggestions_context_search_underlimit(self):
+        """Context provides enough"""
+        self.folder.members = [u'bobschmo-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        q = {'SearchableText': 'bob*'}
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=10, **q)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2))
 
     def test_suggestions_network_overlimit(self):
         """Network provides enough"""
