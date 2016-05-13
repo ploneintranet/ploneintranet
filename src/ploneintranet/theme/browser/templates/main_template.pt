@@ -16,7 +16,7 @@
           checkPermission nocall: context/portal_membership/checkPermission;
           site_properties context/portal_properties/site_properties;
           ajax_include_head request/ajax_include_head | nothing;
-          ajax_load python:False;
+          ajax_load request/ajax_include_head | nothing;
           toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar')"
       tal:attributes="lang lang;">
 
@@ -46,6 +46,7 @@
                     body_class python:plone_layout.bodyClass(template, view);"
         tal:attributes="class body_class;
                         dir python:isRTL and 'rtl' or 'ltr'"
+
         id="visual-portal-wrapper">
 
     <header id="portal-top" i18n:domain="plone">
@@ -53,7 +54,7 @@
       <div tal:replace="structure provider:plone.toolbar" />
     </header>
 
-    <div id="portal-mainnavigation" tal:content="structure provider:plone.mainnavigation">
+    <div id="portal-mainnavigation" tal:condition="not:ajax_load" tal:content="structure provider:plone.mainnavigation">
       The main navigation
     </div>
 
@@ -65,7 +66,7 @@
       </metal:block>
    </metal:statusmessage>
 
-    <section id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" />
+    <section id="viewlet-above-content" tal:condition="not:ajax_load" tal:content="structure provider:plone.abovecontent" />
 
     <article id="portal-column-content">
 
@@ -76,7 +77,6 @@
         <metal:slot define-slot="body">
 
         <article id="content">
-
           <metal:bodytext define-slot="main">
 
           <header>
@@ -119,7 +119,7 @@
       </div>
 
       </metal:block>
-      <footer>
+      <footer tal:condition="not:ajax_load">
         <div id="viewlet-below-content" tal:content="structure provider:plone.belowcontent" />
       </footer>
     </article>
