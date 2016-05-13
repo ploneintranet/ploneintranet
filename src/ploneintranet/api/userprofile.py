@@ -50,6 +50,9 @@ def get_users(
 def get_users_from_userids_and_groupids(ids=None):
     """
     Given a list of userids and groupids return the set of users
+
+    FIXME this has to be folded into get_users once all groups
+    are represented as workspaces.
     """
     acl_users = plone_api.portal.get_tool('acl_users')
     users = {}
