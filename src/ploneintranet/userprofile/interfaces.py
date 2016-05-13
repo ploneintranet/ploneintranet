@@ -5,7 +5,7 @@ class IPloneintranetUserprofileLayer(Interface):
     """Marker interface that defines a Zope 3 browser layer."""
 
 
-class IMembershipResolver(Interface):
+class IMemberGroup(Interface):
     """
         Marker interface for non-SiteRoot objects which define local
         membership. Such objects must provide a `members` property.

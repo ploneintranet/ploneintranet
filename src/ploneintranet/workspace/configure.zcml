@@ -92,7 +92,7 @@
 
   <adapter
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      provides="ploneintranet.userprofile.interfaces.IMembershipResolver"
+      provides="ploneintranet.userprofile.interfaces.IMemberGroup"
       factory=".adapters.PloneIntranetWorkspace"
       />
 

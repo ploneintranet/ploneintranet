@@ -8,7 +8,7 @@ from z3c.form.interfaces import IValidator
 from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
 
-from ploneintranet.userprofile.interfaces import IMembershipResolver
+from ploneintranet.userprofile.interfaces import IMemberGroup
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 from dexterity.membrane.behavior.password import IProvidePasswordsSchema
 
@@ -35,9 +35,13 @@ def get_users(
     except InvalidParameterError:
         return []
     if context:
-        ms_resolver = get_membership_resolver_context(context)
-        if ms_resolver:
-            kwargs['exact_getUserName'] = [x for x in ms_resolver.members]
+        try:
+            # adapters provided by pi.userprofile and pi.workspace
+            members = IMemberGroup(context).members
+            kwargs['exact_getUserName'] = [x for x in members]
+        except TypeError:
+            # could not adapt to IMemberGroup
+            pass
     portal_type = 'ploneintranet.userprofile.userprofile',
     search_results = mtool.searchResults(portal_type=portal_type,
                                          **kwargs)
@@ -191,37 +195,3 @@ def avatar_url(username=None):
         portal.absolute_url(),
         username,
     )
-
-
-def get_membership_resolver_context(
-    context,
-):
-    """Get the membership resolver context
-
-    :param context: [required] The context for which
-        we want the membership resolver context.
-        Can be None.
-    :type context: object
-
-    :returns: membership resolver context
-    :rtype: object
-    """
-    if context is None:
-        return None
-
-    # context is part of context.aq_chain
-    # but unittests do not always wrap acquisition
-    resolver = IMembershipResolver(context, None)
-    if resolver:
-        return resolver
-    try:
-        chain = context.aq_inner.aq_chain
-    except AttributeError:
-        return None
-
-    for item in chain:
-        resolver = IMembershipResolver(item, None)
-        if resolver:
-            return resolver
-    else:
-        return None

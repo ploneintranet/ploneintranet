@@ -5,7 +5,7 @@ from plone import api as plone_api
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
-from ploneintranet.userprofile.interfaces import IMembershipResolver
+from ploneintranet.userprofile.interfaces import IMemberGroup
 
 
 class TestUserProfile(IntegrationTestCase):
@@ -161,7 +161,7 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.folder = plone_api.content.create(
             self.portal, 'Folder', 'my-folder', 'My Folder')
         self.folder.members = ['bobdoe', ]
-        directlyProvides(self.folder, IMembershipResolver)
+        directlyProvides(self.folder, IMemberGroup)
 
     def test_get_users_rtype(self):
         """Verify default rtype for full_objects argument
