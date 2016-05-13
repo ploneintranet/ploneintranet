@@ -25,6 +25,14 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      name="webstats_js"
+      for="*"
+      permission="zope.Public"
+      class=".webstats_js.View"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
   <z3c:widgetTemplate
       mode="input"
       widget="z3c.form.interfaces.ISubmitWidget"
