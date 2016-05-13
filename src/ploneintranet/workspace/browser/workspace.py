@@ -73,7 +73,7 @@ def filter_users_json(query, users):
         email = safe_unicode(user.email)
         uid = user.getId
         user_string = u'{} {} {}'.format(fullname, email, uid)
-        if query.lower() in user_string.lower():
+        if safe_unicode(query).lower() in user_string.lower():
             filtered_users.append({
                 'id': uid,
                 'text': u'{} <{}>'.format(fullname, email),

@@ -5,20 +5,26 @@ from json import loads
 import unittest2 as unittest
 
 
-class MockUser(dict):
-    def getProperty(self, key):
-        return self.get(key)
+class MockUser(object):
+
+    def __init__(self, **kwargs):
+        for (k, v) in kwargs.items():
+            setattr(self, k, v)
+
+    @property
+    def getId(self):
+        return self.id
 
 
 class TestFilterUsers(unittest.TestCase):
     users = [
         MockUser(
-            fullname='Alice Lindström',
+            Title='Alice Lindström',
             email='al@example.org',
             id='a_lindstrom',
         ),
         MockUser(
-            fullname='Jorge Primavera',
+            Title='Jorge Primavera',
             email='jp@example.com',
             id='j_primavera',
         ),
