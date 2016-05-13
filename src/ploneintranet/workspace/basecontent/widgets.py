@@ -95,9 +95,9 @@ class PatDatePickerWidget(Widget):
             time_str = "{0} {1}".format(*value)
             date = datetime.strptime(time_str, '%Y-%m-%d %H:%M')
         timezone_name = (
-            self.request.get('%s-timezone' % self.name, '')
-            or self.request.get('timezone', '')
-            or default_timezone(self.context)
+            self.request.get('%s-timezone' % self.name, '') or
+            self.request.get('timezone', '') or
+            default_timezone(self.context)
         )
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')

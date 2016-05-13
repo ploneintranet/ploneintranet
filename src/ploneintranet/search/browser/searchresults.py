@@ -152,8 +152,8 @@ class SearchResultsView(BrowserView):
         (in case of a search refinement through pat-subform)
         '''
         keywords = (
-            self.request.form.get('SearchableText')
-            or self.request.form.get('SearchableText_filtered')
+            self.request.form.get('SearchableText') or
+            self.request.form.get('SearchableText_filtered')
         )
         # Sanitize keywords to be unicode
         if isinstance(keywords, str):

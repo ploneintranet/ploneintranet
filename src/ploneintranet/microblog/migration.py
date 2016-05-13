@@ -46,8 +46,8 @@ def uuid_to_microblog_uuid(context):
     i = 0
     for status in tool.values(limit=None):
         if (
-            isinstance(status, StatusUpdate)
-            and not hasattr(status, '_microblog_context_uuid')
+            isinstance(status, StatusUpdate) and
+            not hasattr(status, '_microblog_context_uuid')
         ):
             i += 1
             uuid = getattr(status, '_context_uuid', None)

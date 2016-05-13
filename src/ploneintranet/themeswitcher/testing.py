@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
-import unittest2 as unittest
-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
+from plone.registry.interfaces import IRegistry
+from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
+from zope.component import queryUtility
 from zope.configuration import xmlconfig
 
 import plone.app.theming
 import ploneintranet.themeswitcher
+import unittest2 as unittest
 
 
 class PloneintranetThemeswitcherLayer(PloneSandboxLayer):
@@ -61,11 +63,6 @@ class FunctionalTestCase(unittest.TestCase):
 
 
 # --- extra setup that switches theme for 'nohost' ---
-
-
-from plone.registry.interfaces import IRegistry
-from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
-from zope.component import queryUtility
 
 
 class PloneintranetThemeswitcherLayer2(PloneintranetThemeswitcherLayer):
