@@ -9,8 +9,10 @@ from zope.interface import implements
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone import api
 
-from ploneintranet.microblog.testing import\
-    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+from ploneintranet.microblog.testing import (
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING,
+    PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING)
+
 import ploneintranet.microblog.statuscontainer
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -189,7 +191,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
 class TestContentStatusUpdate(unittest.TestCase):
 
-    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING
 
     def setUp(self):
         self.app = self.layer['app']
@@ -197,9 +199,6 @@ class TestContentStatusUpdate(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
         ploneintranet.microblog.statuscontainer.ASYNC = False
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_content_context_mocked(self):
         content = object()
@@ -215,10 +214,11 @@ class TestContentStatusUpdate(unittest.TestCase):
             type='Document',
             title='My document',
         )
-        self.assertEqual(0, len([x for x in self.container.values()]))
+        # auto-created by event listener
+        self.assertEqual(1, len([x for x in self.container.values()]))
         api.content.transition(doc, to_state='published')
         found = [x for x in self.container.values()]
-        self.assertEqual(1, len(found))
+        self.assertEqual(2, len(found))
         su = found[0]
         self.assertEqual(None, su.microblog_context)
         self.assertEqual(doc, su.content_context)

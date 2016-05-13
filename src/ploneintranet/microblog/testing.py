@@ -2,7 +2,7 @@ import time
 import Queue
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import IntegrationTesting
+from plone.app.testing import IntegrationTesting, FunctionalTesting
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
@@ -42,9 +42,10 @@ class PloneIntranetMicroblog(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        ploneintranet.microblog,
                        context=configurationContext)
-        # enable event driven content updates
-        self.loadZCML(name='subscribers.zcml',
-                      package=ploneintranet.microblog)
+        # no content updates, except on
+        #   PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING
+        # run tests sync, except for test_statuscontainer_queued
+        ploneintranet.microblog.statuscontainer.ASYNC = False
         import ploneintranet.activitystream
         xmlconfig.file('configure.zcml',
                        ploneintranet.activitystream,
@@ -57,10 +58,14 @@ class PloneIntranetMicroblog(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.microblog:default')
         setRoles(portal, TEST_USER_ID, ['Manager'])
 
+
 PLONEINTRANET_MICROBLOG_FIXTURE = PloneIntranetMicroblog()
 PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING = \
     IntegrationTesting(bases=(PLONEINTRANET_MICROBLOG_FIXTURE, ),
                        name="PloneIntranetMicroblog:Integration")
+PLONEINTRANET_MICROBLOG_FUNCTIONAL_TESTING = \
+    FunctionalTesting(bases=(PLONEINTRANET_MICROBLOG_FIXTURE, ),
+                      name="PloneIntranetMicroblog:Functional")
 
 
 class PloneIntranetMicroblogSubcriber(Layer):
@@ -76,6 +81,7 @@ class PloneIntranetMicroblogSubcriber(Layer):
             self.get('configurationContext')
         )
         import ploneintranet.microblog
+        ploneintranet.microblog.statuscontainer.ASYNC = False
         xmlconfig.file(
             self.zcml_file,
             ploneintranet.microblog,
@@ -94,11 +100,18 @@ PLONEINTRANET_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING = \
         name="PloneIntranetMicroblogPortalSubscriber:Integration"
     )
 
-
 PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE = \
     PloneIntranetMicroblogSubcriber('tests/testing_request_subscriber.zcml')
 PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_INTEGRATION_TESTING = \
     IntegrationTesting(
         bases=(PLONEINTRANET_MICROBLOG_REQUEST_SUBSCRIBER_FIXTURE, ),
         name="PloneIntranetMicroblogRequestSubscriber:Integration"
+    )
+
+PLONEINTRANET_MICROBLOG_CONTENTUPDATES_FIXTURE = \
+    PloneIntranetMicroblogSubcriber('subscribers.zcml')
+PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING = \
+    FunctionalTesting(
+        bases=(PLONEINTRANET_MICROBLOG_CONTENTUPDATES_FIXTURE, ),
+        name="PloneIntranetMicroblogContentupdatesSubscriber:Functional"
     )

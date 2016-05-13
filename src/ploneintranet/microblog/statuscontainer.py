@@ -41,7 +41,7 @@ STATUSQUEUE = Queue.PriorityQueue()
 # max in-memory time in millisec before disk sync
 MAX_QUEUE_AGE = 1000
 # set to False to force sync mode and ignore MAX_QUEUE_AGE
-ASYNC = True
+ASYNC = False
 
 
 def cache_key(method, self):
@@ -649,7 +649,7 @@ class QueuedStatusContainer(BaseStatusContainer):
     def add(self, status):
         self._check_status(status)
         self._check_add_permission(status)
-        if ASYNC and MAX_QUEUE_AGE > 0:
+        if False and ASYNC and MAX_QUEUE_AGE > 0:
             self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)
             self._schedule_flush()

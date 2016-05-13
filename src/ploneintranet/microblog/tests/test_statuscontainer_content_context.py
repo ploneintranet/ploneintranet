@@ -7,10 +7,12 @@ from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.testing import \
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
-import ploneintranet.microblog.statuscontainer
 
 
 class TestStatusContainerContentContext(unittest.TestCase):
+    """NB these tests have the content subscribers disabled.
+    This only tests the content reference indexing backend.
+    """
 
     layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
@@ -19,7 +21,6 @@ class TestStatusContainerContentContext(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.ASYNC = False
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',
@@ -42,9 +43,6 @@ class TestStatusContainerContentContext(unittest.TestCase):
         self.su4 = pi_api.microblog.statusupdate.create(
             'boo', content_context=self.doc2,
         )
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.ASYNC = True
 
     def test_items_content(self):
         values = [x[1] for x in self.container.content_items(
