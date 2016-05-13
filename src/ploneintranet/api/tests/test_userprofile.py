@@ -6,6 +6,8 @@ from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
 from ploneintranet.userprofile.interfaces import IMemberGroup
+from ploneintranet.network.interfaces import INetworkTool
+from zope.component import queryUtility
 
 
 class TestUserProfile(IntegrationTestCase):
@@ -171,7 +173,12 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         retval = [x for x in usergen][0]
         self.assertFalse(hasattr(retval, 'getObject'))
 
-    def test_get_users_brains(self):
+    def test_get_users_brains_userid(self):
+        usergen = pi_api.userprofile.get_users(full_objects=False)
+        self.assertEqual(sorted([x.getUserId() for x in usergen]),
+                         ['bobdoe', 'janedoe'])
+
+    def test_get_users_brains_email(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
         self.assertEqual(sorted([x.email for x in usergen]),
                          ['bobdoe@doe.com', 'janedoe@doe.com'])
@@ -198,3 +205,139 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.assertEqual(len(found), 1)
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
+
+
+class TestUserProfileGetUserSuggestions(IntegrationTestCase):
+
+    def setUp(self):
+        IntegrationTestCase.setUp(self)
+        self.login_as_portal_owner()
+        self.profiles_1 = [pi_api.userprofile.create(
+            username=u'janedoe-%s' % x,
+            email=u'janedoe-%s@doe.com' % x,
+        ) for x in range(8)]
+        self.profiles_2 = [pi_api.userprofile.create(
+            username=u'bobdoe-%s' % x,
+            email=u'bobdoe-%s@doe.com' % x,
+        ) for x in range(8)]
+        self.profiles_3 = [pi_api.userprofile.create(
+            username=u'maryjane-%s' % x,
+            email=u'maryjane-%s@doe.com' % x,
+        ) for x in range(8)]
+        self.folder = plone_api.content.create(
+            self.portal, 'Folder', 'my-folder', 'My Folder')
+
+    def test_suggestions_all(self):
+        """Default unfiltered"""
+        usergen = pi_api.userprofile.get_user_suggestions(full_objects=True)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_context_overlimit(self):
+        """Context provides enough"""
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_3))
+
+    def test_suggestions_context_underlimit(self):
+        """Context too small, fallback to all users"""
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=10)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_network_overlimit(self):
+        """Network provides enough"""
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            None, full_objects=True)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_2))
+
+    def test_suggestions_network_underlimit(self):
+        """Network too small, fall back to all users"""
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            None, full_objects=True, min_matches=10)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_context_network_overlimit(self):
+        """Context and network combined provide enough"""
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=10)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_context_network_overlap(self):
+        """Context and network combined provide enough.
+        Users matching both sets are listed only once.
+        """
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        for x in range(4):
+            graph.follow('user', u'maryjane-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=10)
+        found = set([x for x in usergen])
+        self.assertEquals(len(found), 16)
+        self.assertEquals(found, set(self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_context_network_underlimit(self):
+        """The combination of context and network is not enough"""
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=20)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2 +
+                                     self.profiles_3))
+
+    def test_suggestions_context_network_underlimit_waybeyond(self):
+        """The treshold is bigger than all users, check optimization."""
+        self.folder.members = [u'maryjane-%x' % x for x in range(8)]
+        directlyProvides(self.folder, IMemberGroup)
+        graph = queryUtility(INetworkTool)
+        # current user is 'admin'
+        for x in range(8):
+            graph.follow('user', u'bobdoe-%s' % x, 'admin')
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, min_matches=30)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 +
+                                     self.profiles_2 +
+                                     self.profiles_3))

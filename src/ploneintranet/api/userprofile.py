@@ -7,6 +7,9 @@ from zope.component import getMultiAdapter
 from z3c.form.interfaces import IValidator
 from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
+from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.network.graph import decode
+from zope.component import queryUtility
 
 from ploneintranet.userprofile.interfaces import IMemberGroup
 from ploneintranet.userprofile.content.userprofile import IUserProfile
@@ -49,6 +52,64 @@ def get_users(
         return (x.getObject() for x in search_results)
     else:
         return (brain for brain in search_results)
+
+
+def get_user_suggestions(
+    context=None,
+    full_objects=True,
+    min_matches=5,
+    **kwargs
+):
+    """
+    This is a wrapper around get_users with the intent of providing
+    staggered suggestion of users for a user picker:
+    1. Users from the current context (workspace)
+       If not enough users, add:
+    2. Users followed by the current logged-in user
+       If not enough combined users from 1+2, fallback to:
+    3. All users in the portal.
+
+    List users from catalog, avoiding expensive LDAP lookups.
+
+    :param context: Any content object that will be used to find the
+        UserResolver context
+    :type context: Content object
+    :param full_objects: A switch to indicate if full objects or brains should
+        be returned
+    :type full_objects: boolean
+    :param min_matches: Keeps expanding search until this treshold is reached
+    :type min_matches: int
+    :returns: user brains or user objects
+    :rtype: iterator
+    """
+    # stage 1 context users
+    if context:
+        context_users = [x for x in get_users(context, full_objects, **kwargs)]
+        if len(context_users) >= min_matches:
+            return context_users
+    # prepare stage 2 and 3
+    all_users = [x for x in get_users(None, full_objects, **kwargs)]
+    # skip stage 2 if not enough users
+    if len(all_users) < min_matches:
+        return all_users
+    # prepare stage 2 filter - unicode!
+    graph = queryUtility(INetworkTool)
+    following_ids = [x for x in graph.get_following('user', 'admin')]
+    if full_objects:
+        following_users = [x for x in all_users
+                           if decode(x.id) in following_ids]
+    else:
+        following_users = [x for x in all_users
+                           if decode(x.getUserId()) in following_ids]
+    # apply stage 2 filter
+    if context:
+        filtered_users = set(context_users).union(set(following_users))
+    else:
+        filtered_users = following_users
+    if len(filtered_users) >= min_matches:
+        return filtered_users
+    # fallback to stage 3 all users
+    return all_users
 
 
 def get_users_from_userids_and_groupids(ids=None):
