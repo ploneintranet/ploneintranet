@@ -175,7 +175,7 @@ class TestUserProfileGetUsers(IntegrationTestCase):
 
     def test_get_users_brains_userid(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
-        self.assertEqual(sorted([x.getUserId() for x in usergen]),
+        self.assertEqual(sorted([x.getUserId for x in usergen]),
                          ['bobdoe', 'janedoe'])
 
     def test_get_users_brains_email(self):

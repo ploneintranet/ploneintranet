@@ -51,7 +51,7 @@ def get_users(
     if full_objects:
         return (x.getObject() for x in search_results)
     else:
-        return (brain for brain in search_results)
+        return search_results
 
 
 def get_user_suggestions(
@@ -82,34 +82,37 @@ def get_user_suggestions(
     :returns: user brains or user objects
     :rtype: iterator
     """
+    def expand(search_results, full_objects):
+        """Helper function to delay full object expansion"""
+        if full_objects:
+            return (x.getObject() for x in search_results)
+        else:
+            return search_results
+
     # stage 1 context users
     if context:
-        context_users = [x for x in get_users(context, full_objects, **kwargs)]
+        context_users = [x for x in get_users(context, False, **kwargs)]
         if len(context_users) >= min_matches:
-            return context_users
+            return expand(context_users, full_objects)
     # prepare stage 2 and 3
-    all_users = [x for x in get_users(None, full_objects, **kwargs)]
+    all_users = [x for x in get_users(None, False, **kwargs)]
     # skip stage 2 if not enough users
     if len(all_users) < min_matches:
-        return all_users
+        return expand(all_users, full_objects)
     # prepare stage 2 filter - unicode!
     graph = queryUtility(INetworkTool)
     following_ids = [x for x in graph.get_following('user', 'admin')]
-    if full_objects:
-        following_users = [x for x in all_users
-                           if decode(x.id) in following_ids]
-    else:
-        following_users = [x for x in all_users
-                           if decode(x.getUserId()) in following_ids]
+    following_users = [x for x in all_users
+                       if decode(x.getUserId) in following_ids]
     # apply stage 2 filter
     if context:
         filtered_users = set(context_users).union(set(following_users))
     else:
         filtered_users = following_users
     if len(filtered_users) >= min_matches:
-        return filtered_users
+        return expand(filtered_users, full_objects)
     # fallback to stage 3 all users
-    return all_users
+    return expand(all_users, full_objects)
 
 
 def get_users_from_userids_and_groupids(ids=None):
