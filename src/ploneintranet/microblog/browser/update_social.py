@@ -19,6 +19,7 @@ class UpdateSocialBase(BrowserView):
     - update-social.html
     - post-well-done.html
     - comment-well-said.html
+    - panel-users
     """
 
     input_prefix = 'form.widgets.'
@@ -65,6 +66,9 @@ class UpdateSocialBase(BrowserView):
     @property
     def microblog_context_url(self):
         return self.microblog_context.absolute_url()
+
+    def portal_url(self):
+        return api.portal.get().absolute_url()
 
 
 class UpdateSocialHandler(UpdateSocialBase):
@@ -171,9 +175,6 @@ class UpdateSocialView(UpdateSocialBase):
     Show the form for creating a post or reply.
     Does not actually handle the HTTP POST.
     '''
-
-    def portal_url(self):
-        return api.portal.get().absolute_url()
 
     def form_action(self):
         if self.thread_id:
