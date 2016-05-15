@@ -35,7 +35,7 @@ class Users(UpdateSocialBase):
         ''' Returns the selected user ids
         according to the "mentions" parameter in the request
         '''
-        return [user.id for user in self.selected_users]
+        return [user.getId for user in self.selected_users]
 
     @property
     @memoize_contextless
@@ -56,7 +56,7 @@ class Users(UpdateSocialBase):
     def user_ids(self):
         ''' Returns the filtered user ids sorted by id
         '''
-        return sorted([user.id for user in self.users])
+        return sorted([user.getId for user in self.users])
 
 
 class User(Users):

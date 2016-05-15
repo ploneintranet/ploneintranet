@@ -71,7 +71,7 @@
               <input type="hidden"
                      name="users:list"
                      value="${user/getId}"
-                     tal:condition="python:user.id not in user_ids"
+                     tal:condition="python:user.getId not in user_ids"
                   />
             </tal:block>
           </fieldset>
