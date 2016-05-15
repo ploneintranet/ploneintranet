@@ -272,7 +272,7 @@
 
     <browser:page
         name="allusers.json"
-        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        for="*"
         class=".workspace.AllUsersJSONView"
         permission="zope2.View"
         layer="..interfaces.IPloneintranetWorkspaceLayer"
