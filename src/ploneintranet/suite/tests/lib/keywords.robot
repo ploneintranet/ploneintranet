@@ -132,6 +132,8 @@ I can create a new workspace
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
     Click Button  Create workspace
+    Wait Until Page Contains  Item created
+    Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
 
 I select a file to upload
@@ -177,12 +179,18 @@ I can open the workspace member settings tab
 
 I can turn the workspace into a division
     Click element  xpath=//input[@name='is_division']/../..
-    Wait until element is visible  xpath=//input[@value='selected' and @checked='checked']/../..
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until element is visible  xpath=//input[@name='is_division' and @value='selected' and @checked='checked']/../..
+    Wait until page contains  Attributes changed
+    Click button  Close
 
 I can list the workspaces grouped by division
     Go To  ${PLONE_URL}/workspaces
     Click element  xpath=//select[@name='grouping']
     Click element  xpath=//option[@value='division']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//span[@id='workspaces' and contains(@class, 'tabs-content injecting')]
 
 I can see the division
     [arguments]  ${title}
