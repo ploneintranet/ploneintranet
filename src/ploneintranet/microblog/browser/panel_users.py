@@ -40,11 +40,12 @@ class Users(UpdateSocialBase):
     @property
     @memoize_contextless
     def users(self):
-        '''Get the users that survice the usersearch filter.
+        '''Get the users that match the usersearch filter.
 
         Users are sorted on fullname
         '''
-        q = u'*%s*' % safe_unicode(self.request.form.get('usersearch', ''))
+        q = u'*%s*' % safe_unicode(
+            self.request.form.get('usersearch', '').strip())
         q = q.replace('**', '')
         query = {'SearchableText': q}
         users = pi_api.userprofile.get_users(

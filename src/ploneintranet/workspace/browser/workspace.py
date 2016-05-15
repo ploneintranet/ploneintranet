@@ -97,7 +97,9 @@ class WorkspaceMembersJSONView(BrowserView):
     Only members of the current workspace are found.
     """
     def __call__(self):
-        q = safe_unicode(self.request.get('q', ''))
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
         query = {'SearchableText': u'{0}*'.format(q)}
         users = pi_api.userprofile.get_users(
             context=self.context, full_objects=False, **query)
@@ -110,7 +112,9 @@ class AllUsersJSONView(BrowserView):
     Any user can be found, not only members of the current workspace
     """
     def __call__(self):
-        q = safe_unicode(self.request.get('q', ''))
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
         query = {'SearchableText': u'{0}*'.format(q)}
         users = pi_api.userprofile.get_user_suggestions(
             context=self.context, full_objects=False, **query)
