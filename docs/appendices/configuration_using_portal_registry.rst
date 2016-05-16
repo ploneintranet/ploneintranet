@@ -121,6 +121,18 @@ ploneintranet.search.solr.phrase_field_boosts
     **note**: minimum accepted integer is 1
 
 
+ploneintranet.search.ui.persistent_options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Persistent search options
+
+    **description**: If this option is enabled, the selected search options will be stored for every user
+
+    **type**: plone.registry.field.Bool
+
+    **default**: False
+
+
 ploneintranet.userprofile
 -------------------------
 

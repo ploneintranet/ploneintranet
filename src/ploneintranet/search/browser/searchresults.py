@@ -6,6 +6,8 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.app.textfield.value import RichTextValue
 from plone.memoize import forever
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.search.interfaces import ISiteSearch
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
@@ -64,6 +66,29 @@ class SearchResultsView(BrowserView):
             )
         except ValueError:
             return
+
+    @property
+    @memoize
+    def persistent_options(self):
+        ''' Should we store the search options (sorting mode, previews, ...)
+        for each user?
+
+        For the moment this is controlled by a registry record,
+        but in future this value can be controlled for each user.
+        '''
+        if not self.user:
+            return False
+        return get_record_from_registry(
+            'ploneintranet.search.ui.persistent_options',
+            False,
+        )
+
+    @property
+    @memoize
+    def user(self):
+        ''' The current user (if we have one authenticated), or None
+        '''
+        return pi_api.userprofile.get_current()
 
     def page_number(self):
         """Get current page number from the request"""
@@ -127,22 +152,6 @@ class SearchResultsView(BrowserView):
             return text.raw
         return text or u''
 
-    def search_options(self):
-        """Get the currently options for refining results.
-
-        These are generated from all fields registered as
-        *both* a facet field and a filter field
-        """
-        filter_names = set(plone_api.portal.get_registry_record(
-            'ploneintranet.search.filter_fields'))
-        facet_names = set(plone_api.portal.get_registry_record(
-            'ploneintranet.search.facet_fields'))
-        options = [x for x in filter_names if x in facet_names]
-        # content type is rendered separately by the UI
-        if 'friendly_type_name' in options:
-            options.remove('friendly_type_name')
-        return options
-
     @memoize
     def get_keywords(self):
         ''' Return the keywords we are searching
@@ -200,6 +209,7 @@ class SearchResultsView(BrowserView):
                 filters[key] = safe_unicode(value)
         return filters
 
+    @memoize
     def get_sorting(self):
         ''' Get the requested sorting method
 
@@ -207,8 +217,20 @@ class SearchResultsView(BrowserView):
          - relevancy (default, returns None)
          - reverse creation date (returns '-created')
         '''
+        if self.persistent_options:
+            user_default = getattr(self.user, 'search_sorting', 'relevancy')
+        else:
+            user_default = 'relevancy'
+
         # Get sorting method
-        if self.request.get('results-sorting') == 'date':
+        sorting = self.request.get('results-sorting', user_default)
+        if (
+            self.persistent_options and
+            sorting != user_default
+        ):
+            self.user.search_sorting = sorting
+
+        if sorting == 'date':
             return '-created'
 
     @memoize
@@ -319,27 +341,51 @@ class SearchResultsView(BrowserView):
         types.sort(key=lambda t: (-t['counter'], t['title'].lower()))
         return types
 
-    def show_previews(self):
+    @memoize
+    def display_previews(self):
         ''' Check if we have to display previews.
 
         According to the prototype this is controlled:
          - by the state of the checkbox 'display-previews'
            that appears in the options tooltip.
          - by a preference in the user profile
+           (if self.persistent_options is True)
 
-        BBB: For the time being the preview is always displayed
-             when we search.
-             When we filter it is controlled by
-             a checkbox in the search options
+        If we are persisting the options,
+        this method will update the user before returning a boolena value
         '''
-        if self.is_filtering():
-            # When we are accessing the form through the options tooltip,
-            # we have the parameters submitted twice, resulting in a list
-            if isinstance(self.request.get('options.submitted'), list):
-                if self.request.get('display-previews-old'):
-                    return self.request.get('display-previews') == ['on', 'on']
-            return self.request.get('display-previews') == 'on'
-        return True
+        if self.persistent_options:
+            user_default = getattr(self.user, 'display_previews', 'on')
+        else:
+            user_default = 'on'
+
+        # When we are not filtering we accept the user_default
+        if not self.is_filtering():
+            return user_default == 'on'
+
+        display_previews = self.request.get('display-previews')
+        # When we are accessing the form through the options tooltip,
+        # we have the parameters submitted twice because of injection,
+        # resulting in a list.
+        if (
+            isinstance(self.request.get('options.submitted'), list) and
+            self.request.get('display-previews-old')
+        ):
+            # If we have 'display-previews-old',
+            # one of the list items is for sure 'on'
+            if display_previews == ['on', 'on']:
+                display_previews = 'on'
+            else:
+                display_previews = 'off'
+
+        # if needed update the user before returning
+        if (
+            self.persistent_options and
+            user_default != display_previews
+        ):
+            self.user.display_previews = display_previews
+
+        return display_previews == 'on'
 
     def search_by_type(self, type_name):
         """
