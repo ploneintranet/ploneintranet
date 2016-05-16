@@ -26,6 +26,12 @@
   <!-- Enable sync of user properties via PAS -->
   <adapter factory=".sync.UserPropertyManager" />
 
+  <adapter
+      for="*"
+      provides="ploneintranet.userprofile.interfaces.IMemberGroup"
+      factory=".adapters.search_membergroup"
+      />
+
   <utility
       name="ploneintranet.userprofile.locations_vocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

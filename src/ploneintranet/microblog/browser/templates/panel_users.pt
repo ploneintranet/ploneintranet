@@ -10,6 +10,8 @@
 
     <div metal:fill-slot="main"
          tal:define="
+           portal_url view/portal_url;
+           microblog_context_url view/microblog_context_url;
            thread_id request/thread_id|nothing;
            form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box';
            users view/users;
@@ -19,7 +21,7 @@
 
       <div id="status-user-selector" class="item-selector mode-select">
 
-        <form tal:attributes="action string:${context/portal_url}/@@${view/panel_id}#postbox-users"
+        <form tal:attributes="action string:${microblog_context_url}/@@${view/panel_id}#postbox-users"
               method="post"
               id="users-search"
               class="search-box pat-inject pat-autosubmit">
@@ -34,7 +36,7 @@
 
         <form id="postbox-users"
               class="search-result users pat-inject pat-autosubmit"
-              tal:attributes="action string:${context/portal_url}/@@update-social.html;
+              tal:attributes="action string:${microblog_context_url}/@@update-social.html;
                               data-pat-inject string:source: #${form_id}-selected-users;; target:#${form_id}-selected-users &amp;&amp; source: #selected-users-data;; target: #selected-users-data">
           <fieldset id="user-entries"
                     class="checklist pat-checklist users"
@@ -48,14 +50,14 @@
                    class="item user pat-switch ${description_class}"
                    data-pat-switch="#user-entries search-active"
                    tal:repeat="user users">
-              <input tal:attributes="value user/id;
+              <input tal:attributes="value user/getId;
                                      type view/input_type;
                                      name view/input_name;
-                                     checked python:user.id in selected_user_ids and 'checked' or ''"/>
+                                     checked python:user.getId in selected_user_ids and 'checked' or ''"/>
               <a class="follow"
-                tal:define="userid user/id;
+                tal:define="userid user/getId;
                             avatar_img string:${portal_url}/@@avatars/${userid};
-                            fullname python:user.fullname">
+                            fullname python:user.Title">
                 <img src="${avatar_img}" alt="${fullname}" class="avatar" />
                 <strong class="title">${python:fullname or userid}</strong>
                 <br>
@@ -68,8 +70,8 @@
             <tal:block tal:repeat="user view/selected_users">
               <input type="hidden"
                      name="users:list"
-                     value="${user/id}"
-                     tal:condition="python:user.id not in user_ids"
+                     value="${user/getId}"
+                     tal:condition="python:user.getId not in user_ids"
                   />
             </tal:block>
           </fieldset>

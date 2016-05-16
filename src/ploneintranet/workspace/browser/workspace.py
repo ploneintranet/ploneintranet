@@ -58,27 +58,23 @@ class WorkspaceState(BaseWorkspaceView):
             return api.content.get_state(self.workspace())
 
 
-def filter_users_json(query, users):
+def format_users_json(users):
     """
-    Filter a list of users, by a query string and return the results as JSON.
-    For use with pat-autosuggest.
+    Format a list of users as JSON for use with pat-autosuggest
 
-    :param str query: The search query
-    :param list users: A list of user objects
+    :param list users: A list of user brains
     :rtype string: JSON {"user_id1": "user_title1", ...}
     """
-    filtered_users = []
+    formatted_users = []
     for user in users:
-        fullname = user.getProperty('fullname')
-        email = user.getProperty('email')
-        uid = user.getProperty('id')
-        user_string = '{} {} {}'.format(fullname, email, uid)
-        if query.lower() in user_string.lower():
-            filtered_users.append({
-                'id': uid,
-                'text': '{} <{}>'.format(fullname, email),
-            })
-    return dumps(filtered_users)
+        fullname = safe_unicode(user.Title)
+        email = safe_unicode(user.email)
+        uid = user.getId
+        formatted_users.append({
+            'id': uid,
+            'text': u'{0} <{1}>'.format(fullname, email),
+        })
+    return dumps(formatted_users)
 
 
 class ImagePickerPanel(BrowserView):
@@ -98,34 +94,31 @@ class ImagePickerPanel(BrowserView):
 class WorkspaceMembersJSONView(BrowserView):
     """
     Return workspace members in JSON for use with pat-autosuggest.
+    Only members of the current workspace are found.
     """
     def __call__(self):
-        members = IWorkspace(self.context).members
-        users = []
-        for member in members:
-            user = api.user.get(member)
-            if user:
-                users.append(user)
-        q = self.request.get('q', '')
-        return filter_users_json(q, users)
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
+        query = {'SearchableText': u'{0}*'.format(q)}
+        users = pi_api.userprofile.get_users(
+            context=self.context, full_objects=False, **query)
+        return format_users_json(users)
 
 
 class AllUsersJSONView(BrowserView):
     """
-    Return a filtered list of users for pat-autosuggest
+    Return a filtered list of users for pat-autosuggest.
+    Any user can be found, not only members of the current workspace
     """
     def __call__(self):
-        q = safe_unicode(self.request.get('q', ''))
-        user_details = []
-        for user in pi_api.userprofile.get_users(
-                SearchableText=u'{}*'.format(q)):
-            fullname = user.Title()
-            email = user.email
-            user_details.append({
-                'id': user.getId(),
-                'text': u'{} <{}>'.format(fullname, email),
-            })
-        return dumps(user_details)
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
+        query = {'SearchableText': u'{0}*'.format(q)}
+        users = pi_api.userprofile.get_user_suggestions(
+            context=self.context, full_objects=False, **query)
+        return format_users_json(users)
 
 
 class AllGroupsJSONView(BrowserView):
@@ -169,7 +162,9 @@ class AllGroupsJSONView(BrowserView):
 
 class AllUsersAndGroupsJSONView(BrowserView):
     def __call__(self):
-        q = self.request.get('q', '').lower()
+        q = self.request.get('q', '').strip()
+        if not q:
+            return ""
         acl_users = api.portal.get_tool('acl_users')
         results = []
         groups = acl_users.searchGroups(id=q)
@@ -177,12 +172,13 @@ class AllUsersAndGroupsJSONView(BrowserView):
             for group in groups:
                 text = group['title'] or group['id']
                 results.append({'id': group['id'], 'text': text})
-        users = pi_api.userprofile.get_users(SearchableText=u'{}*'.format(q))
+        query = {'SearchableText': u'{0}*'.format(safe_unicode(q))}
+        users = pi_api.userprofile.get_users(full_objects=False, **query)
         for user in users:
-            fullname = user.Title()
+            fullname = user.Title
             email = user.email
             results.append({
-                'id': user.getId(),
-                'text': u'{} <{}>'.format(fullname, email),
+                'id': user.getId,
+                'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)

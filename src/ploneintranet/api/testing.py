@@ -14,6 +14,7 @@ import unittest2 as unittest
 
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 import ploneintranet.userprofile
+import ploneintranet.network
 import ploneintranet.microblog
 import ploneintranet.microblog.statuscontainer
 import ploneintranet.docconv.client
@@ -27,6 +28,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         self.loadZCML(package=ploneintranet.userprofile)
+        self.loadZCML(package=ploneintranet.network)
         self.loadZCML(package=ploneintranet.microblog)
         # Force status updates to be immediately written
         ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
@@ -36,6 +38,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.userprofile:default')
+        applyProfile(portal, 'ploneintranet.network:default')
         applyProfile(portal, 'ploneintranet.microblog:default')
         applyProfile(portal, 'ploneintranet.docconv.client:default')
         applyProfile(portal, 'ploneintranet.theme:default')

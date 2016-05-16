@@ -7,31 +7,128 @@ from zope.component import getMultiAdapter
 from z3c.form.interfaces import IValidator
 from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
+from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.network.graph import decode
+from zope.component import queryUtility
 
+from ploneintranet.userprofile.interfaces import IMemberGroup
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 from dexterity.membrane.behavior.password import IProvidePasswordsSchema
 
 
-def get_users(**kwargs):
+def get_users(
+    context=None,
+    full_objects=True,
+    **kwargs
+):
     """
     List users from catalog, avoiding expensive LDAP lookups.
 
-    :returns: user objects
+    :param context: Any content object that will be used to find the
+        UserResolver context
+    :type context: Content object
+    :param full_objects: A switch to indicate if full objects or brains should
+        be returned
+    :type full_objects: boolean
+    :returns: user brains or user objects
     :rtype: iterator
     """
     try:
         mtool = plone_api.portal.get_tool('membrane_tool')
     except InvalidParameterError:
         return []
+    if context:
+        try:
+            # adapters provided by pi.userprofile and pi.workspace
+            members = [x for x in IMemberGroup(context).members]
+            # both context and query: calculate intersection
+            if 'exact_getUserName' in kwargs:
+                _combi = list(
+                    set(members).intersection(
+                        set(kwargs['exact_getUserName'])))
+                kwargs['exact_getUserName'] = _combi
+            else:
+                kwargs['exact_getUserName'] = members
+        except TypeError:
+            # could not adapt to IMemberGroup
+            pass
     portal_type = 'ploneintranet.userprofile.userprofile',
     search_results = mtool.searchResults(portal_type=portal_type,
                                          **kwargs)
-    return (x.getObject() for x in search_results)
+    if full_objects:
+        return (x.getObject() for x in search_results)
+    else:
+        return search_results
+
+
+def get_user_suggestions(
+    context=None,
+    full_objects=True,
+    min_matches=5,
+    **kwargs
+):
+    """
+    This is a wrapper around get_users with the intent of providing
+    staggered suggestion of users for a user picker:
+    1. Users from the current context (workspace)
+       If not enough users, add:
+    2. Users followed by the current logged-in user
+       If not enough combined users from 1+2, fallback to:
+    3. All users in the portal.
+
+    List users from catalog, avoiding expensive LDAP lookups.
+
+    :param context: Any content object that will be used to find the
+        UserResolver context
+    :type context: Content object
+    :param full_objects: A switch to indicate if full objects or brains should
+        be returned
+    :type full_objects: boolean
+    :param min_matches: Keeps expanding search until this treshold is reached
+    :type min_matches: int
+    :returns: user brains or user objects
+    :rtype: iterator
+    """
+    def expand(search_results, full_objects):
+        """Helper function to delay full object expansion"""
+        if full_objects:
+            return (x.getObject() for x in search_results)
+        else:
+            return search_results
+
+    # stage 1 context users
+    if context:
+        context_users = [x for x in get_users(context, False, **kwargs)]
+        if len(context_users) >= min_matches:
+            return expand(context_users, full_objects)
+    # prepare stage 2 and 3
+    all_users = [x for x in get_users(None, False, **kwargs)]
+    # skip stage 2 if not enough users
+    if len(all_users) < min_matches:
+        return expand(all_users, full_objects)
+    # prepare stage 2 filter - unicode!
+    graph = queryUtility(INetworkTool)
+    following_ids = [x for x in graph.get_following(
+        'user', plone_api.user.get_current().id)]
+    following_users = [x for x in all_users
+                       if decode(x.getUserId) in following_ids]
+    # apply stage 2 filter
+    if context:
+        filtered_users = set(context_users).union(set(following_users))
+    else:
+        filtered_users = following_users
+    if len(filtered_users) >= min_matches:
+        return expand(filtered_users, full_objects)
+    # fallback to stage 3 all users
+    return expand(all_users, full_objects)
 
 
 def get_users_from_userids_and_groupids(ids=None):
     """
     Given a list of userids and groupids return the set of users
+
+    FIXME this has to be folded into get_users once all groups
+    are represented as workspaces.
     """
     acl_users = plone_api.portal.get_tool('acl_users')
     users = {}
@@ -58,6 +155,7 @@ def get(username):
     """
     try:
         profile = list(get_users(
+            full_objects=True,
             exact_getUserName=username,
         ))[0]
     except IndexError:
