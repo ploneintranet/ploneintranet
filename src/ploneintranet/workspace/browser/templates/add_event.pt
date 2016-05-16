@@ -16,14 +16,10 @@
       <fieldset class="vertical"
                 tal:define="workspace context/acquire_workspace;
                             workspace_url context/absolute_url">
-	    <label>
-		  <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>
-	    </label>
-	    <br/>
-	    <label>
-          <textarea name="description" i18n:attributes="placeholder" placeholder="Event description" rows="6"></textarea>
-	    </label>
-	    <br/>
+        <label>
+          <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>
+        </label>
+        <br/>
         <metal:task_fields use-macro="context/content_macros/event_fields"/>
       </fieldset>
 

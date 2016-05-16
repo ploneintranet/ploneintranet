@@ -66,8 +66,29 @@
 
     <metal:event_fields define-macro="event_fields" i18n:domain="ploneintranet"
                         tal:define="read_only python:not view.can_edit">
-
       <metal:extra-fields-top define-slot="extra-fields-top"/>
+
+      <fieldset
+          class="description"
+          tal:define="
+            is_view python: view.__name__ != 'add_event';
+            value python: is_view and context.description or '';
+          "
+        >
+        <legend i18n:translate="">Notes</legend>
+        <div class="textarea group">
+            <p class="mirror-target" id="ticket-description">${value}</p>
+            <textarea name="description"
+                      class="pat-content-mirror focus"
+                      disabled="${python:read_only and 'disabled' or None}"
+                      data-pat-content-mirror="target: #ticket-description"
+                      placeholder="Event description"
+                      rows="6"
+                      i18n:attributes="placeholder"
+                    >${value}</textarea>
+        </div>
+      </fieldset>
+      <br />
 
       <label class="location">
         <span tal:omit-tag="" i18n:translate="">Location</span> <input
