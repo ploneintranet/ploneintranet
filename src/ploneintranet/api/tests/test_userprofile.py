@@ -1,3 +1,4 @@
+import collections
 from AccessControl import AuthEncoding
 from zope.interface import Invalid
 from zope.interface import directlyProvides
@@ -165,13 +166,25 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.folder.members = ['bobdoe', ]
         directlyProvides(self.folder, IMemberGroup)
 
-    def test_get_users_rtype(self):
+    def test_get_users_rtype_user(self):
         """Verify default rtype for full_objects argument
         - this ought to change from objects to brains soon
         """
         usergen = pi_api.userprofile.get_users()
         retval = [x for x in usergen][0]
         self.assertFalse(hasattr(retval, 'getObject'))
+
+    def test_get_users_rtype_iterator_nofullobjects(self):
+        """Verify that rtype is iterator
+        """
+        usergen = pi_api.userprofile.get_users()
+        self.assertTrue(isinstance(usergen, collections.Iterator))
+
+    def test_get_users_rtype_iterator_fullobjects(self):
+        """Verify that rtype is iterator
+        """
+        usergen = pi_api.userprofile.get_users()
+        self.assertTrue(isinstance(usergen, collections.Iterator))
 
     def test_get_users_brains_userid(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
