@@ -153,14 +153,21 @@ def get(username):
     :returns: User profile matching the given username
     :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
-    try:
-        profile = list(get_users(
-            full_objects=True,
-            exact_getUserName=username,
-        ))[0]
-    except IndexError:
-        profile = None
-    return profile
+    # try first of all to get the user from the profiles folder
+    portal = plone_api.portal.get()
+    user = portal.unrestrictedTraverse(
+        'profiles/{}'.format(username),
+        None
+    )
+    if user is not None:
+        return user
+
+    # If we can't find the user there let's ask the membrane catalog
+    # and return the first result
+    for profile in get_users(exact_getUserName=username):
+        return profile
+    # If we cannot find any match we will give up and return None
+    return None
 
 
 def get_current():
