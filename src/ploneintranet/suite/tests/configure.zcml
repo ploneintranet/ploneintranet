@@ -15,4 +15,6 @@
     permission="zope2.View"
   />
 
+  <include package=".views"/>
+
 </configure>

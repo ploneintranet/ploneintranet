@@ -64,6 +64,16 @@
 
 
   <!-- Login Form -->
+  <rules css:if-content="body.template-insufficient_privileges">
+    <theme href="generated/unauthorised.html" />
+    <replace css:content-children="#content .documentFirstHeading"
+             css:theme-children="#document-content .error-unauthorised > h1"
+      />
+    <replace css:content-children="#content .documentDescription"
+             css:theme-children="#document-content .error-unauthorised > p"
+      />
+  </rules>
+
   <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
