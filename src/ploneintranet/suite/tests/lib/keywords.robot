@@ -881,6 +881,8 @@ I can close a milestone
     I can open a milestone task panel  ${milestone}
     Wait Until Page Contains Element  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
@@ -895,12 +897,10 @@ I can reopen a milestone
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
-    ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
-    ### Solutions proposed on the web address this programmatically with a combination of looping
-    ### and exception handling. I wouldn't know of an equivalent solution in robot.
-    sleep  2
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
 I can open a milestone task panel
