@@ -219,6 +219,41 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
 
+    def test_get_users_exactgetusername(self):
+        usergen = pi_api.userprofile.get_users(
+            full_objects=True,
+            exact_getUsername=['janedoe', 'bobdoe'])
+        found = [x for x in usergen]
+        self.assertEqual(len(found), 2)
+        self.assertIn(self.profile1, found)
+        self.assertIn(self.profile2, found)
+
+    def test_get_users_context_exactgetusername_1(self):
+        """Specifiying both a context and exact_getUserName
+        returns the intersection of both results
+        """
+        usergen = pi_api.userprofile.get_users(
+            context=self.folder,
+            full_objects=True,
+            exact_getUserName=['janedoe', 'bobdoe'])
+        found = [x for x in usergen]
+        self.assertEqual(len(found), 1)
+        self.assertNotIn(self.profile1, found)
+        self.assertIn(self.profile2, found)
+
+    def test_get_users_context_exactgetusername_2(self):
+        """Specifiying both a context and exact_getUserName
+        returns the intersection of both results
+        """
+        usergen = pi_api.userprofile.get_users(
+            context=self.folder,
+            full_objects=True,
+            exact_getUserName=['janedoe'])
+        found = [x for x in usergen]
+        self.assertEqual(len(found), 0)
+        self.assertNotIn(self.profile1, found)
+        self.assertNotIn(self.profile2, found)
+
 
 class TestUserProfileGetUserSuggestions(IntegrationTestCase):
 

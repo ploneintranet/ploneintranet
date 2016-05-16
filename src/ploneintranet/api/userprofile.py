@@ -40,8 +40,15 @@ def get_users(
     if context:
         try:
             # adapters provided by pi.userprofile and pi.workspace
-            members = IMemberGroup(context).members
-            kwargs['exact_getUserName'] = [x for x in members]
+            members = [x for x in IMemberGroup(context).members]
+            # both context and query: calculate intersection
+            if 'exact_getUserName' in kwargs:
+                _combi = list(
+                    set(members).intersection(
+                        set(kwargs['exact_getUserName'])))
+                kwargs['exact_getUserName'] = _combi
+            else:
+                kwargs['exact_getUserName'] = members
         except TypeError:
             # could not adapt to IMemberGroup
             pass
