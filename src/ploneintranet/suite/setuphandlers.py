@@ -584,6 +584,7 @@ def create_caseworkspaces(caseworkspaces,
                 portal_type,
                 ws_folder,
             )
+            continue
 
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
