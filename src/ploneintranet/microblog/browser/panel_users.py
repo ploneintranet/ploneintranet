@@ -24,7 +24,7 @@ class Users(UpdateSocialBase):
         ''' Returns the selected users
         according to the "mentions" parameter in the request
         '''
-        query = {'getId': self.request.form.get('mentions', [])}
+        query = {'exact_getUserName': self.request.form.get('mentions', [])}
         user_generator = pi_api.userprofile.get_users(
             full_objects=False, **query)
         return list(user_generator)
