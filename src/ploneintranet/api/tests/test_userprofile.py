@@ -161,9 +161,13 @@ class TestUserProfileGetUsers(IntegrationTestCase):
             username='bobdoe',
             email='bobdoe@doe.com',
         )
+        self.profile3 = pi_api.userprofile.create(
+            username='bobschmo',
+            email='bobschmo@schmo.com'
+        )
         self.folder = plone_api.content.create(
             self.portal, 'Folder', 'my-folder', 'My Folder')
-        self.folder.members = ['bobdoe', ]
+        self.folder.members = ['bobdoe', 'bobschmo']
         directlyProvides(self.folder, IMemberGroup)
 
     def test_get_users_rtype_user(self):
@@ -188,45 +192,69 @@ class TestUserProfileGetUsers(IntegrationTestCase):
 
     def test_get_users_brains_userid(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
-        self.assertEqual(sorted([x.getUserId for x in usergen]),
-                         ['bobdoe', 'janedoe'])
+        self.assertEqual(
+            sorted([x.getUserId for x in usergen]),
+            ['bobdoe', 'bobschmo', 'janedoe'])
 
     def test_get_users_brains_email(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
-        self.assertEqual(sorted([x.email for x in usergen]),
-                         ['bobdoe@doe.com', 'janedoe@doe.com'])
+        self.assertEqual(
+            sorted([x.email for x in usergen]),
+            ['bobdoe@doe.com', 'bobschmo@schmo.com', 'janedoe@doe.com'])
 
     def test_get_users_fullobj(self):
         usergen = pi_api.userprofile.get_users(full_objects=True)
         found = [x for x in usergen]
-        self.assertEqual(len(found), 2)
+        self.assertEqual(len(found), 3)
         self.assertIn(self.profile1, found)
         self.assertIn(self.profile2, found)
+        self.assertIn(self.profile3, found)
 
     def test_get_users_context_workspace_fullobj(self):
         usergen = pi_api.userprofile.get_users(self.folder, True)
         found = [x for x in usergen]
-        self.assertEqual(len(found), 1)
+        self.assertEqual(len(found), 2)
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
+        self.assertIn(self.profile3, found)
 
     def test_get_users_context_content_fullobj(self):
         page = plone_api.content.create(
             self.folder, 'Document', 'my-document', 'My Document')
         usergen = pi_api.userprofile.get_users(page, True)
         found = [x for x in usergen]
-        self.assertEqual(len(found), 1)
+        self.assertEqual(len(found), 2)
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
+        self.assertIn(self.profile3, found)
+
+    def test_get_users_search_fulltext_1(self):
+        usergen = pi_api.userprofile.get_users(
+            full_objects=False, SearchableText=u'bob*')
+        self.assertEqual(
+            sorted([x.getUserId for x in usergen]), ['bobdoe', 'bobschmo'])
+
+    def test_get_users_search_fulltext_2(self):
+        usergen = pi_api.userprofile.get_users(
+            full_objects=False, SearchableText=u'doe.com')
+        self.assertEqual(
+            sorted([x.getUserId for x in usergen]), ['bobdoe', 'janedoe'])
+
+    def test_get_users_context_search_fulltext(self):
+        usergen = pi_api.userprofile.get_users(
+            context=self.folder, full_objects=False, SearchableText=u'doe.com')
+        self.assertEqual(
+            sorted([x.getUserId for x in usergen]), ['bobdoe', ])
 
     def test_get_users_exactgetusername(self):
         usergen = pi_api.userprofile.get_users(
             full_objects=True,
             exact_getUsername=['janedoe', 'bobdoe'])
         found = [x for x in usergen]
-        self.assertEqual(len(found), 2)
+        self.assertEqual(len(found), 3)
         self.assertIn(self.profile1, found)
         self.assertIn(self.profile2, found)
+        self.assertIn(self.profile3, found)
 
     def test_get_users_context_exactgetusername_1(self):
         """Specifiying both a context and exact_getUserName
