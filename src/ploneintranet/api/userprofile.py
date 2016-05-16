@@ -101,7 +101,8 @@ def get_user_suggestions(
         return expand(all_users, full_objects)
     # prepare stage 2 filter - unicode!
     graph = queryUtility(INetworkTool)
-    following_ids = [x for x in graph.get_following('user', 'admin')]
+    following_ids = [x for x in graph.get_following(
+        'user', plone_api.user.get_current().id)]
     following_users = [x for x in all_users
                        if decode(x.getUserId) in following_ids]
     # apply stage 2 filter
