@@ -94,11 +94,14 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         # Load ZCML
         import ploneintranet.async
         self.loadZCML(package=ploneintranet.async)
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'ploneintranet.async:default')
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""

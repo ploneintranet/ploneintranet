@@ -33,4 +33,12 @@
       layer="..interfaces.IPloneintranetAsyncLayer"
       />
 
+  <browser:page
+      name="generate-previews"
+      for="*"
+      class=".views.GeneratePreviewsView"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
 </configure>
