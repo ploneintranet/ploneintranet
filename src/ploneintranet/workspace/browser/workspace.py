@@ -162,7 +162,9 @@ class AllGroupsJSONView(BrowserView):
 
 class AllUsersAndGroupsJSONView(BrowserView):
     def __call__(self):
-        q = self.request.get('q', '').lower()
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
         acl_users = api.portal.get_tool('acl_users')
         results = []
         groups = acl_users.searchGroups(id=q)
@@ -170,12 +172,13 @@ class AllUsersAndGroupsJSONView(BrowserView):
             for group in groups:
                 text = group['title'] or group['id']
                 results.append({'id': group['id'], 'text': text})
-        users = pi_api.userprofile.get_users(SearchableText=u'{}*'.format(q))
+        query = {'SearchableText': u'{0}*'.format(q)}
+        users = pi_api.userprofile.get_users(full_objects=False, **query)
         for user in users:
-            fullname = user.Title()
+            fullname = user.Title
             email = user.email
             results.append({
-                'id': user.getId(),
-                'text': u'{} <{}>'.format(fullname, email),
+                'id': user.getId,
+                'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)
