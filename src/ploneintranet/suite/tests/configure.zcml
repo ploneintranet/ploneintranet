@@ -10,7 +10,7 @@
 
   <browser:viewlet
     name="nuke-transitions"
-    manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+    manager="plone.app.layout.viewlets.interfaces.IScripts"
     template="templates/nuke_transitions.pt"
     permission="zope2.View"
   />
