@@ -1,1 +1,3 @@
-jQuery.fx.off=true;
+(function () {
+  jQuery.fx.off=true;
+})();
