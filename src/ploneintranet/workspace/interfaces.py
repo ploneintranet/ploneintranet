@@ -71,6 +71,10 @@ class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
         required=False,
         default=u'',
     )
+    archival_date = schema.Datetime(
+        title=_('label_archived', u'Archived'),
+        required=False,
+    )
 
 
 class IWorkspaceFolder(IBaseWorkspaceFolder):

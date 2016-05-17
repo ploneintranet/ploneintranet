@@ -5,8 +5,8 @@ from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
 from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.behaviors.file import IFileField
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
-from ploneintranet.workspace.workspacefolder import IBaseWorkspaceFolder
 from pytz import timezone
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
