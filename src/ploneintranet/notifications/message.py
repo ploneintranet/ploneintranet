@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from datetime import datetime
 from persistent import Persistent
 from plone import api
@@ -55,6 +56,8 @@ class Message(Persistent):
     def date(self):
         modified = self.obj.get('message_last_modification_date',
                                 None)
+        if hasattr(modified, 'isoformat'):
+            modified = DateTime(modified.isoformat())
         if modified:
             to_local = api.portal.get_tool(
                 'translation_service').toLocalizedTime
