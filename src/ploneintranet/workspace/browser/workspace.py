@@ -81,8 +81,18 @@ class ImagePickerJson(BrowserView):
     """
     Returns Images in current Workspace in a redactor json format
     [
-    { "thumb": "/media/air-canada-landmark-agreement.jpg", "url": "/media/air-canada-landmark-agreement.jpg", "title": "Air Canada Landmark Agreement", "id": 1  },
-    { "thumb": "/media/air-france-a380.jpg", "url": "/media/air-france-a380.jpg", "title": "A380", "id": 2  }
+        {
+            "id": 1,
+            "title": "Air Canada Landmark Agreement",
+            "url": "/media/air-canada-landmark-agreement.jpg",
+            "thumb": "/media/air-canada-landmark-agreement.jpg"
+        },
+        {
+            "id": 2,
+            "title": "A380",
+            "url": "/media/air-france-a380.jpg",
+            "thumb": "/media/air-france-a380.jpg",
+        }
     ]
     """
 
@@ -92,13 +102,14 @@ class ImagePickerJson(BrowserView):
             portal_type='Image',
             path={'query': '/'.join(self.context.getPhysicalPath())}
         )
-        images = []
-        for img in results:
-            images.append(dict(thumb='%s/@@images/image/preview' % img.getURL(),
-                               url=img.getURL(),
-                               title=img['Title'],
-                               id=img['getId']))
-
+        images = [
+            {
+                'id': img['getId'],
+                'title': img['Title'],
+                'url': img.getURL(),
+                'thumb': '%s/@@images/image/preview' % img.getURL(),
+            } for img in results
+        ]
         return dumps(images)
 
 
