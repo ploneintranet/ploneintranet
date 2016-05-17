@@ -110,6 +110,9 @@ class CaseManagerTile(BaseTile):
     key = 'case-manager'
     title = _('case-manager', u'Case manager',)
     position = 80
+    path = 'workspaces/@@case-manager'
+    disabled = ''
+    modal = ''
 
 
 class AppMarketTile(BaseTile):
