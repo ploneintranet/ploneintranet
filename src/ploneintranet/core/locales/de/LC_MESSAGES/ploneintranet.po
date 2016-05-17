@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-17 13:18+0000\n"
+"POT-Creation-Date: 2016-05-17 13:31+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -316,7 +316,7 @@ msgstr "Rolle des Mitglieds ändern"
 #: ../todo/browser/templates/todo_view.pt:58
 #: ../workspace/basecontent/templates/document_view.pt:58
 msgid "Change the workflow state"
-msgstr "Den Zustand im Arbeitsablauf ändern"
+msgstr "Workflow status ändern"
 
 #: ../todo/browser/todo_view.py:70
 msgid "Changes applied"
@@ -328,7 +328,7 @@ msgstr "Meilenstein schließen"
 
 #: ../todo/browser/templates/todo_view.pt:76
 msgid "Closed"
-msgstr ""
+msgstr "Abschluss"
 
 #: ../workspace/browser/templates/content_macros.pt:188
 msgid "Confirmed"
@@ -372,11 +372,11 @@ msgstr "Neuen Arbeitsraum erstellen"
 #: ../workspace/browser/templates/add_content.pt:8
 #: ../workspace/browser/tiles/templates/sidebar.pt:53
 msgid "Create document"
-msgstr "Dokument erstellen"
+msgstr "Objekt erstellen"
 
 #: ../workspace/browser/templates/add_event.pt:2
 msgid "Create event"
-msgstr "Termin erstellen"
+msgstr "Termin anlegen"
 
 #: ../workspace/browser/templates/add_folder.pt:7
 #: ../workspace/browser/tiles/templates/sidebar.pt:217
@@ -438,7 +438,7 @@ msgstr "Löschen"
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 msgid "Delete this document"
-msgstr "Dieses Dokument löschen"
+msgstr "Dokument löschen"
 
 #: ../workspace/basecontent/templates/event_view.pt:51
 msgid "Delete this event"
@@ -537,7 +537,7 @@ msgstr "Die Email wurde versandt."
 
 #: ../workspace/browser/event.py:126
 msgid "Emails sent successfully"
-msgstr ""
+msgstr "E-mail wurde erfolgreich versendet"
 
 #: ../themeswitcher/configure.zcml:41
 msgid "Enables on-the-fly theme switching"
@@ -553,7 +553,7 @@ msgstr "Geben Sie einen Ort ein"
 
 #: ../workspace/browser/event.py:116
 msgid "Error sending email"
-msgstr ""
+msgstr "Fehler beim Senden der E-mail"
 
 #: ../workspace/browser/cart_actions/paste.py:25
 msgid "Error while pasting items"
@@ -564,11 +564,11 @@ msgstr "Termin"
 
 #: ../workspace/browser/templates/content_macros.pt:81
 msgid "Event description"
-msgstr "Geben Sie eine Beschreibung des Termins an"
+msgstr "Geben Sie eine Beschreibung des Termins ein"
 
 #: ../workspace/browser/templates/add_event.pt:20
 msgid "Event title"
-msgstr "Titel"
+msgstr "Titel des Termins"
 
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:20
 msgid "Events"
@@ -798,7 +798,7 @@ msgstr "JPEG"
 
 #: ../userprofile/content/userprofile.py:60
 msgid "Job title"
-msgstr "Tätigkeit"
+msgstr "Berufsbezeichnung"
 
 #: ../workspace/browser/templates/joinviewlet.pt:3
 msgid "Join"
@@ -940,7 +940,7 @@ msgstr "Erforderliches Feld {} fehlt in Zeile {}."
 
 #: ../userprofile/content/userprofile.py:72
 msgid "Mobile Number"
-msgstr "Mobiltelefon"
+msgstr "Mobiltelefonnummer"
 
 #: ../layout/profiles/testing/types/ploneintranet.layout.mockfolder.xml
 msgid "MockFolder"
@@ -1260,11 +1260,11 @@ msgstr "PowerPoint 2007 Präsentation"
 
 #: ../workspace/basecontent/templates/document_view.pt:118
 msgid "Preview being generated"
-msgstr "Vorschau wird erzeugt"
+msgstr "Vorschau wird erstellt"
 
 #: ../userprofile/content/userprofile.py:85
 msgid "Primary location"
-msgstr "Primärer Ort"
+msgstr "Hauptsitz"
 
 #: ../todo/behaviors.py:57
 msgid "Priority"
@@ -1342,7 +1342,7 @@ msgstr "Mitgliederliste aktualisiert"
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 #: ../workspace/basecontent/document.py:73
 msgid "Save"
-msgstr "Speichern"
+msgstr "Sichern"
 
 #: ../workspace/basecontent/templates/event_view.pt:68
 msgid "Save this document"
@@ -1438,7 +1438,7 @@ msgstr "Dieses Dokument teilen"
 #: ../workspace/basecontent/templates/document_view.pt:55
 #: ../workspace/basecontent/templates/event_view.pt:67
 msgid "Show extra metadata fields"
-msgstr "Zusätzliche Metadaten anzeigen"
+msgstr "Weitere Metadatenfelder anzeigen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:25
 msgid "Show functions"
@@ -1697,7 +1697,7 @@ msgstr "Aufgabe"
 #: ../workspace/basecontent/templates/document_view.pt:55
 #: ../workspace/basecontent/templates/event_view.pt:67
 msgid "Toggle extra metadata"
-msgstr "Zusätzliche Metadaten ein-/ausblenden"
+msgstr "Weitere Metadaten (ein / aus)"
 
 #: ../invitations/views.py:46
 msgid "Token no longer valid"
@@ -1814,7 +1814,7 @@ msgstr "Verzeichnis für Arbeitsräume"
 
 #: ../workspace/browser/templates/workspace-add.pt:22
 msgid "Workspace description"
-msgstr "Kurze Bescheibung des Arbeitsraums"
+msgstr "Beschreibung"
 
 #: ../workspace/configure.zcml:163
 msgid "Workspace for PloneIntranet"
@@ -1854,7 +1854,7 @@ msgstr "Die Änderungen an der Sicherheitsrichtlinie des Arbeitsräumes wurden g
 
 #: ../workspace/browser/templates/workspace-add.pt:19
 msgid "Workspace title"
-msgstr "Titel des Arbeitsraums"
+msgstr "Titel"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Workspaces"
@@ -1891,7 +1891,7 @@ msgstr "Sie können ein Mitglied dieses Arbeitsraums werden."
 
 #: ../workspace/browser/tiles/sidebar.py:199
 msgid "You do not have permission to change the workspace policy"
-msgstr "Sie haben nicht die erforderlichen Berechtigungen um die Richtlinien des Arbeitsraums zu ändern."
+msgstr "Sie haben nicht die notwendigen Berechtigungen, um die Sicherheitseinstellungen des Arbeitsraums zu ändern."
 
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:27
 msgid "You don't have permission to delete any of them."
@@ -2409,7 +2409,7 @@ msgstr ""
 #. Default: "More sharing options coming soon"
 #: ../workspace/basecontent/templates/document_view.pt:143
 msgid "more_sharing_soon"
-msgstr "Bald wird es weitere Optionen zum Teilen geben"
+msgstr "Weitere Optionen zum Teilen in Kürze…"
 
 #. Default: "Library"
 msgid "my_docs_heading_library"
@@ -2518,7 +2518,7 @@ msgstr "Nicht weiter folgen"
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
 msgid "workspace_brief_description"
-msgstr "Kurze Bescheibung des Arbeitsraums"
+msgstr "Kurze Bescheibung"
 
 #. Default: "Default role for this workspace (${role})"
 #: ../workspace/browser/roster.py:151
