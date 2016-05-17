@@ -107,11 +107,6 @@ I go to the Service Announcements Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Service announcements
 
-I go to the Service Announcements Workspace
-    Go To  ${PLONE_URL}/workspaces/service-announcements
-    Wait Until Element Is Visible  css=h1#workspace-name
-    Wait Until Page Contains  Service announcements
-
 I go to the Archived Workspace
     Go To  ${PLONE_URL}/workspaces/archived-workspace
     Wait Until Page Does Not Contain Element  css=.injecting-content
