@@ -73,6 +73,7 @@ setup(name='ploneintranet',
           'Unidecode',
           'collective.monkeypatcher',
           'scorched',
+          'htmllaundry',
       ],
       extras_require={
           'test': [
