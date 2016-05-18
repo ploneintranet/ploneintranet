@@ -46,7 +46,6 @@ class TodoView(BaseView):
                 request=self.request,
                 type="success",
             )
-            context.reindexObject()
             notify(ObjectModifiedEvent(context))
 
         if errors:
