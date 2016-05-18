@@ -251,7 +251,7 @@
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <!-- <permission-role>TeamMember</permission-role> -->      
+      <!-- <permission-role>TeamMember</permission-role> -->
     </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <permission-role>Manager</permission-role>
@@ -467,7 +467,7 @@
       <!-- <permission-role>Manager</permission-role> -->
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
-      <!-- <permission-role>TeamMember</permission-role> -->      
+      <!-- <permission-role>TeamMember</permission-role> -->
     </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->
@@ -520,7 +520,7 @@
       <!-- <permission-role>Manager</permission-role> -->
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
-      <!-- <permission-role>TeamMember</permission-role> -->      
+      <!-- <permission-role>TeamMember</permission-role> -->
     </permission-map>
     <permission-map name="Add portal content" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->
@@ -549,7 +549,6 @@
     <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
-      <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
 
