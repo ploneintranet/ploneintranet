@@ -33,7 +33,7 @@
               <select name="division">
                 <!-- For now we want to enforce at least one -->
                 <!--option value="">None</option-->
-                <option value="" tal:repeat="division python:view.divisions()" tal:content="division/value" tal:attributes="value division/token">
+                <option value="" tal:repeat="division python:view.divisions()" tal:content="division/title" tal:attributes="value division/token">
                     Division
                 </option>
               </select>
