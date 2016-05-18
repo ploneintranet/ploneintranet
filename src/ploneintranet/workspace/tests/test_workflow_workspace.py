@@ -126,25 +126,27 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         logout()
         # open system. Workspaces folder is open for authenticated
         login(self.portal, 'noaddrights')
-        ac = AddWorkspace(self.open_workspaces, self.portal.REQUEST)
-        ac(portal_type='ploneintranet.workspace.workspacefolder',
-           title="everybody can add")
+        request = self.layer['request'].clone()
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'everybody can add'
+        ac = AddWorkspace(self.open_workspaces, request)
+        ac()
         self.assertIn('everybody-can-add',
                       self.open_workspaces.objectIds())
-
-        ac = AddWorkspace(self.restricted_workspaces, self.portal.REQUEST)
-        portal_type = 'ploneintranet.workspace.workspacefolder'
-        self.assertRaises(Unauthorized,
-                          ac,
-                          portal_type=portal_type,
-                          title="not anyone is permitted")
-
+        request = self.layer['request'].clone()
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'not anyone is permitted'
+        ac = AddWorkspace(self.restricted_workspaces, request)
+        with self.assertRaises(Unauthorized):
+            ac()
         logout()
         login(self.portal, 'hasaddrights')
 
         ac = AddWorkspace(self.restricted_workspaces, self.portal.REQUEST)
-        ac(portal_type='ploneintranet.workspace.workspacefolder',
-           title="can add when contributor")
+        request = self.layer['request'].clone()
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'can-add-when-contributor'
+        ac()
         self.assertIn('can-add-when-contributor',
                       self.restricted_workspaces.objectIds())
 
