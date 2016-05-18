@@ -1,9 +1,12 @@
 from Products.CMFPlone.utils import safe_unicode
 from plone import api
 from collections import defaultdict
+from plone.app.textfield.interfaces import IRichTextValue
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform.z2 import processInputs
+from ploneintranet.workspace.html_cleaners import sanitize_html
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
@@ -13,7 +16,6 @@ from z3c.form.interfaces import NO_VALUE
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
-
 import json
 import logging
 
@@ -80,6 +82,20 @@ def dexterity_update(obj, request=None):
 
             if raw is NO_VALUE:
                 continue
+
+            if (
+                IRichTextValue.providedBy(raw) and
+                api.portal.get_registry_record(
+                    'ploneintranet.workspace.sanitize_html')
+            ):
+                sanitized = RichTextValue(
+                    raw=sanitize_html(safe_unicode(raw.raw)),
+                    mimeType=raw.mimeType, outputMimeType=raw.outputMimeType)
+                if sanitized.raw != raw.raw:
+                    log.info(
+                        'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
+                            name, obj.absolute_url()))
+                    raw = sanitized
 
             value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 

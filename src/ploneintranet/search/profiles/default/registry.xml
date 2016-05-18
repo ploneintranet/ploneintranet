@@ -73,4 +73,15 @@
     </field>
   </record>
 
+  <record name="ploneintranet.search.ui.persistent_options">
+    <field type="plone.registry.field.Bool">
+      <title>Persistent search options</title>
+      <description>
+        If this option is enabled,
+        the selected search options will be stored for every user
+      </description>
+    </field>
+    <value>False</value>
+  </record>
+
 </records>

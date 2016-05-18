@@ -15,6 +15,9 @@
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
 
+  <!-- Custom widgets using the provided layout -->
+  <adapter factory=".widgets.PloneIntranetSelectFieldWidget" />
+
   <!-- set 'app-whatever' body class -->
   <browser:page
       name="plone_layout"
@@ -22,6 +25,14 @@
       permission="zope.Public"
       class=".policy.LayoutPolicy"
       allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <browser:page
+      name="webstats_js"
+      for="*"
+      permission="zope.Public"
+      class=".webstats_js.View"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
@@ -113,11 +124,11 @@
       title="Documents"
       description="Tile to list recently modified documents"
       add_permission="cmf.ManagePortal"
-      permission="zope2.View"      
+      permission="zope2.View"
       class=".dashboard.MyDocumentsTile"
-      template="templates/my_documents.pt"      
+      template="templates/my_documents.pt"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"      
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
 </configure>

@@ -23,15 +23,15 @@ import loremipsum
 import os
 import random
 import time
-import transaction
 
 log = logging.getLogger(__name__)
 
 # commits are needed in interactive but break in test mode
 if api.env.test_mode:
-    commit = lambda: None
+    def commit():
+        return
 else:
-    commit = transaction.commit
+    from transaction import commit
 
 
 def default(context):
@@ -235,12 +235,12 @@ def workspaces_spec(context):
                      'christian_stoney': [u'Admins', u'Members'],
                      'neil_wichmann': [u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
                      'silvio_depaoli': [u'Members'],
                      'lance_stockstill': [u'Members'],
-                     'pearly_whitby': [u'Members'],
+                     'pearlie_whitby': [u'Members'],
                      'dollie_nocera': [u'Members'],
                      'esmeralda_claassen': [u'Members'],
                      'rosalinda_roache': [u'Members'],
@@ -332,7 +332,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -356,7 +356,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -379,7 +379,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -584,6 +584,7 @@ def create_caseworkspaces(caseworkspaces,
                 portal_type,
                 ws_folder,
             )
+            continue
 
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()

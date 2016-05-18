@@ -1,14 +1,13 @@
+# coding=utf-8
+from BTrees.OOBTree import OOBTree
 from datetime import datetime
 from datetime import timedelta
-
-from zope.interface import implements
-from zope.component import getUtility
-from zope.annotation.interfaces import IAnnotations
-from BTrees.OOBTree import OOBTree
-from Products.CMFCore.interfaces import ISiteRoot
-
 from ploneintranet.invitations.interfaces import ITokenUtility
 from ploneintranet.invitations.token import Token
+from Products.CMFCore.interfaces import ISiteRoot
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
+from zope.interface import implements
 
 
 ANNOTATION_KEY = 'ploneintranet.invitations.token_storage'
@@ -59,8 +58,10 @@ class TokenUtility(object):
         token = self._fetch_token(token_id)
         if token is None:
             return False
-        usage_allowed = (token.uses_remaining is None
-                         or token.uses_remaining > 0)
+        usage_allowed = (
+            token.uses_remaining is None or
+            token.uses_remaining > 0
+        )
         in_date = token.expiry > datetime.now()
         return usage_allowed and in_date
 

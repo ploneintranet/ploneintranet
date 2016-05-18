@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-
+from DateTime import DateTime
 from datetime import datetime
 from persistent import Persistent
-from ploneintranet.notifications.interfaces import IMessage
-from zope.interface import implements
 from plone import api
-import pickle
 from plone.protect.interfaces import IDisableCSRFProtection
-from zope.interface import alsoProvides
+from ploneintranet.notifications.interfaces import IMessage
 from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
+from zope.interface import implements
+
+import pickle
 
 
 class Message(Persistent):
@@ -55,6 +56,8 @@ class Message(Persistent):
     def date(self):
         modified = self.obj.get('message_last_modification_date',
                                 None)
+        if hasattr(modified, 'isoformat'):
+            modified = DateTime(modified.isoformat())
         if modified:
             to_local = api.portal.get_tool(
                 'translation_service').toLocalizedTime
@@ -82,9 +85,8 @@ class Message(Persistent):
                 self._p_changed = 1
 
     def clone(self):
-        clone = lambda x: pickle.loads(pickle.dumps(x))
         return self.__class__(
-            actors=clone(self.actors),
+            actors=pickle.loads(pickle.dumps(self.actors)),
             predicate=self.predicate,
-            obj=clone(self.obj)
+            obj=pickle.loads(pickle.dumps(self.obj)),
         )

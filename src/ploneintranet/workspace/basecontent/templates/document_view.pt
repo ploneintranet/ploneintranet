@@ -67,7 +67,7 @@
                     <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
                   </div><!-- quick-functions -->
                 </div> <!-- #meta-bar -->
-                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
+                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader">Loading…</p></div>
 
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
@@ -95,10 +95,8 @@
 
               <div id="document-content">
                 <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
-                  <textarea tal:condition="not:read_only" name="text" class="pat-raptor"
-                        data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader;
-                            buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, linkCreate, linkRemove, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow, patternImagePicker;
-                            image-picker-url: ${workspace_url}/@@panel-image-picker"
+                  <textarea tal:condition="not:read_only" name="text" class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
+                        data-pat-redactor="imageupload: ${workspace_url}/fileUpload; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
                         tal:content="python: context.text.raw if context.text else ''">
                     Content of the textarea
                   </textarea>

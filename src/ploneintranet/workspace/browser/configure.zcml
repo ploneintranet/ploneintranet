@@ -281,7 +281,7 @@
 
     <browser:page
         name="allusers.json"
-        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        for="*"
         class=".workspace.AllUsersJSONView"
         permission="zope2.View"
         layer="..interfaces.IPloneintranetWorkspaceLayer"
@@ -325,7 +325,15 @@
       name="panel-image-picker"
       class=".workspace.ImagePickerPanel"
       template="templates/panel-image-picker.pt"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
+    <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      name="images.json"
+      class=".workspace.ImagePickerJson"
+      permission="zope2.View"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
 

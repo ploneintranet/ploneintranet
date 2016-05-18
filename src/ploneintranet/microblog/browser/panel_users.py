@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from Products.Five import BrowserView
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ploneintranet import api as pi_api
+from .update_social import UpdateSocialBase
 from plone.memoize.view import memoize_contextless
 
 
-class Users(BrowserView):
+class Users(UpdateSocialBase):
 
     index = ViewPageTemplateFile('templates/panel_users.pt')
     input_name = 'users:list'
@@ -23,9 +24,9 @@ class Users(BrowserView):
         ''' Returns the selected users
         according to the "mentions" parameter in the request
         '''
+        query = {'exact_getUserName': self.request.form.get('mentions', [])}
         user_generator = pi_api.userprofile.get_users(
-            getId=self.request.form.get('mentions', []),
-        )
+            full_objects=False, **query)
         return list(user_generator)
 
     @property
@@ -34,28 +35,29 @@ class Users(BrowserView):
         ''' Returns the selected user ids
         according to the "mentions" parameter in the request
         '''
-        return [user.id for user in self.selected_users]
+        return [user.getId for user in self.selected_users]
 
     @property
     @memoize_contextless
     def users(self):
-        '''Get the users that survice the usersearch filter.
+        '''Get the users that match the usersearch filter.
 
         Users are sorted on fullname
         '''
-        usersearch = '*%s*' % self.request.form.get('usersearch', '')
-        usersearch = usersearch.replace('**', '')
+        q = u'*%s*' % safe_unicode(
+            self.request.form.get('usersearch', '').strip())
+        q = q.replace('**', '')
+        query = {'SearchableText': q}
         users = pi_api.userprofile.get_users(
-            SearchableText=usersearch,
-        )
-        return sorted(users, key=lambda x: x.fullname)
+            context=self.context, full_objects=False, **query)
+        return sorted(users, key=lambda x: x.Title)
 
     @property
     @memoize_contextless
     def user_ids(self):
         ''' Returns the filtered user ids sorted by id
         '''
-        return sorted([user.id for user in self.users])
+        return sorted([user.getId for user in self.users])
 
 
 class User(Users):

@@ -14,7 +14,7 @@ ploneintranet.layout
 --------------------
 
 ploneintranet.layout.dashboard_activity_tiles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: List of dashboard activity tiles
 
@@ -27,7 +27,7 @@ ploneintranet.layout.dashboard_activity_tiles
                  ./@@my_documents.tile
 
 ploneintranet.layout.dashboard_task_tiles
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     tilte: List of dashboard activity tiles
 
@@ -43,12 +43,23 @@ ploneintranet.layout.dashboard_task_tiles
                  ./@@events.tile,
                  ./@@tasks.tile,
 
+ploneintranet.layout.dashboard_default
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    tilte: Name of the default dashboard
+
+    **description**: This is the name of the dashboard type that should be shown by default. Pick the values from the dropdown on the dashboard.
+
+    **type**: plone.registry.field.TextLine
+
+    **default**: activity
+
 
 ploneintranet.search
 --------------------
 
 ploneintranet.search.filter_fields
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Filter fields
 
@@ -65,7 +76,7 @@ ploneintranet.search.filter_fields
 
 
 ploneintranet.search.facet_fields
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Facet field
 
@@ -79,7 +90,7 @@ ploneintranet.search.facet_fields
 
 
 ploneintranet.search.phrase_fields
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Phrase fields
 
@@ -94,7 +105,7 @@ ploneintranet.search.phrase_fields
 
 
 ploneintranet.search.solr.phrase_field_boosts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Phrase query field and associated boost values
 
@@ -110,11 +121,23 @@ ploneintranet.search.solr.phrase_field_boosts
     **note**: minimum accepted integer is 1
 
 
+ploneintranet.search.ui.persistent_options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Persistent search options
+
+    **description**: If this option is enabled, the selected search options will be stored for every user
+
+    **type**: plone.registry.field.Bool
+
+    **default**: False
+
+
 ploneintranet.userprofile
 -------------------------
 
 ploneintranet.userprofile.hidden_fields
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Hidden fields
 
@@ -125,7 +148,7 @@ ploneintranet.userprofile.hidden_fields
     **default**:
 
 ploneintranet.userprofile.property_sheet_mapping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Property sheet mapping
 
@@ -138,7 +161,7 @@ ploneintranet.userprofile.property_sheet_mapping
     **default**:
 
 ploneintranet.userprofile.primary_external_user_source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Primary External User Source
 
@@ -149,7 +172,7 @@ ploneintranet.userprofile.primary_external_user_source
     **default**:
 
 ploneintranet.userprofile.read_only_fields
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Read only fields
 
@@ -161,7 +184,7 @@ ploneintranet.userprofile.read_only_fields
     **default**: username
 
 ploneintranet.userprofile.locations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Hidden fields
 
@@ -191,7 +214,7 @@ ploneintranet.workspace.case_manager.states
     **default**: new, pending, published, rejected
 
 ploneintranet.workspace.externaleditor_always_activated
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: External Editor always activated.
 
@@ -206,7 +229,7 @@ ploneintranet.workspace.externaleditor_always_activated
     **default**: False
 
 ploneintranet.workspace.my_workspace_sorting
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: My workspace sorting.
 
@@ -219,7 +242,7 @@ ploneintranet.workspace.my_workspace_sorting
     **default**: alphabet
 
 ploneintranet.workspace.workspace_types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Select workspace types
 
@@ -234,7 +257,7 @@ ploneintranet.workspace.workspace_types
               by interface
 
 ploneintranet.workspace.workspace_types_css_mapping
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Maps workspace portal types to css classes
 
@@ -245,3 +268,15 @@ ploneintranet.workspace.workspace_types_css_mapping
     **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
 
     **default**: ploneintranet.workspace.case|type-case
+
+
+ploneintranet.workspace.sanitize_html
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Sanitize HTML on saving.
+
+    **description**: If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as ``<span>`` or ``<blockquote>`` get stripped. Multipe line breaks get reduced to a single line break.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: True

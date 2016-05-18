@@ -49,8 +49,12 @@
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">
                       Toggle extra metadata
                     </a>
-                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;"
-                                tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/view;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/view;; source: #workspace-tickets;; target: #workspace-tickets">
+                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
+                      data-pat-inject="
+                            source: #global-statusmessage; target: #global-statusmessage  &amp;&amp;
+                            source: #workspace-tickets; target: #workspace-tickets &amp;&amp;
+                            source: #workflow-menu; target: #workflow-menu
+                        ">
                       <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
                         <select name="task_action" id="workflow_action"
                                 tal:define="wf_state view/get_workflow_state"
@@ -69,7 +73,7 @@
                           </tal:comment>
                           <option title="Open" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'open'">Open</option>
                           <option title="Planned" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'planned'">Planned</option>
-                          <option title="Done" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Done</option>
+                          <option title="Closed" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Closed</option>
 
                           <tal:comment replace="nothing">
                             Show the available transition:

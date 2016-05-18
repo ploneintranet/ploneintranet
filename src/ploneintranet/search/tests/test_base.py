@@ -463,6 +463,8 @@ class SearchTestsBase(ContentSetup):
                                  'fixtures/lorum-ipsum.pdf')
         with open(path, 'rb') as fp:
             data = fp.read()
+        # Indexing SearchableText is now done async, so trigger it
+        self.layer['portal'].REQUEST.set('attributes', 'SearchableText')
         self._create_content(
             type='File',
             container=self.layer['portal'],

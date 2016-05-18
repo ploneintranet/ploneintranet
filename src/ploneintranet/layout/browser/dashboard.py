@@ -7,6 +7,7 @@ from plone.app.contenttypes.interfaces import IDocument
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
 from plone.tiles import Tile
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
 from zope.interface import implements
@@ -23,27 +24,10 @@ class Dashboard(BrowserView):
 
     implements(IBlocksTransformEnabled)
 
-    def get_tiles_from_registry(self, record, fallback=[]):
-        ''' Returns the tiles from the registry
-
-        If we do not have the tiles in the registry return the fallback tiles
-        '''
-        try:
-            return api.portal.get_registry_record(record)
-        except api.exc.InvalidParameterError:
-            logger.warning(
-                (
-                    'Cannot find registry record: %s. '
-                    'Check that ploneintranet.layout has been upgraded'
-                ),
-                record,
-            )
-            return fallback
-
     def activity_tiles(self):
         ''' This is a list of tiles taken
         '''
-        return self.get_tiles_from_registry(
+        return get_record_from_registry(
             'ploneintranet.layout.dashboard_activity_tiles',
             fallback=[
                 './@@contacts_search.tile',
@@ -55,7 +39,7 @@ class Dashboard(BrowserView):
     def task_tiles(self):
         ''' This is a list of tiles taken
         '''
-        return self.get_tiles_from_registry(
+        return get_record_from_registry(
             'ploneintranet.layout.dashboard_task_tiles',
             fallback=[
                 './@@news.tile',
@@ -66,6 +50,14 @@ class Dashboard(BrowserView):
                 './@@tasks.tile',
             ]
         )
+
+    def default_dashboard(self):
+        ''' Returns the dashboard name which is set as default in the registry
+        '''
+        registry_default = get_record_from_registry(
+            'ploneintranet.layout.dashboard_default',
+            fallback='activity')
+        return self.request.get('dashboard', registry_default)
 
 
 class NewsTile(Tile):

@@ -132,6 +132,8 @@ I can create a new workspace
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
     Click Button  Create workspace
+    Wait Until Page Contains  Item created
+    Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
 
 I select a file to upload
@@ -177,12 +179,18 @@ I can open the workspace member settings tab
 
 I can turn the workspace into a division
     Click element  xpath=//input[@name='is_division']/../..
-    Wait until element is visible  xpath=//input[@value='selected' and @checked='checked']/../..
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until element is visible  xpath=//input[@name='is_division' and @value='selected' and @checked='checked']/../..
+    Wait until page contains  Attributes changed
+    Click button  Close
 
 I can list the workspaces grouped by division
     Go To  ${PLONE_URL}/workspaces
     Click element  xpath=//select[@name='grouping']
     Click element  xpath=//option[@value='division']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//span[@id='workspaces' and contains(@class, 'tabs-content injecting')]
 
 I can see the division
     [arguments]  ${title}
@@ -873,6 +881,8 @@ I can close a milestone
     I can open a milestone task panel  ${milestone}
     Wait Until Page Contains Element  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
@@ -887,12 +897,10 @@ I can reopen a milestone
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
-    ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
-    ### Solutions proposed on the web address this programmatically with a combination of looping
-    ### and exception handling. I wouldn't know of an equivalent solution in robot.
-    sleep  2
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
 I can open a milestone task panel

@@ -16,7 +16,7 @@ Test Teardown  Close all browsers
 ${MESSAGE1}    I am so excited, this is super!
 ${MESSAGE2}    Living next door to Alice
 ${MESSAGE3}    You know nothing, Jon Snow!
-${USERNAME1}   Alice Lindström
+${USERNAME1}   François Gast
 ${USERNAME2}   Silvio De Paoli
 ${TAG1}        Rain
 ${TAG2}        Sun

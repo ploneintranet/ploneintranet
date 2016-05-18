@@ -12,8 +12,8 @@
     <div class="row"
          tal:define="
             search_response view/search_response;
-            display_previews view/show_previews;
-            results_sorting python:view.request.get('results-sorting', 'relevancy');
+            display_previews view/display_previews;
+            results_sorting view/get_sorting;
             portal_url portal_url|here/portal_url;
           ">
       <div class="three columns filters">
@@ -104,32 +104,36 @@
           <a href="#view-options"
              class="bare pat-select float-after pat-tooltip"
              data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr">Options</a>
-          <div id="view-options" hidden="">
-            <fieldset class="vertical pat-inject"
-                      data-pat-inject="source: #listing; target: #listing;">
-              <input type="hidden" name="options.submitted" value="1" />
-              <input type="hidden" name="display-previews-old" value="on" tal:condition="display_previews" />
-              <fieldset class="pat-checklist">
-                <label>
-                <input type="checkbox"
-                       name="display-previews"
-                       checked="${python:display_previews and 'checked' or None}" />Display previews</label>
-              </fieldset>
-              <fieldset class="pat-checklist radio">
-                <label>
-                <input type="radio"
-                       name="results-sorting"
-                       checked="${python: results_sorting=='relevancy' and 'checked' or None}"
-                       value="relevancy" />Sort by relevancy</label>
-                <label>
-                <input type="radio"
-                       name="results-sorting"
-                       checked="${python: results_sorting=='date' and 'checked' or None}"
-                       value="date" />Sort by date</label>
-              </fieldset>
-            </fieldset>
-          </div>
         </p>
+
+        <div id="view-options" hidden="">
+          <fieldset class="vertical pat-inject"
+                    data-pat-inject="source: #listing; target: #listing;">
+            <input tal:replace="structure context/@@authenticator/authenticator"
+                   tal:condition="view/persistent_options"
+              />
+            <input type="hidden" name="options.submitted" value="1" />
+            <input type="hidden" name="display-previews-old" value="on" tal:condition="display_previews" />
+            <fieldset class="pat-checklist">
+              <label>
+              <input type="checkbox"
+                     name="display-previews"
+                     checked="${python:display_previews and 'checked' or None}" />Display previews</label>
+            </fieldset>
+            <fieldset class="pat-checklist radio">
+              <label>
+              <input type="radio"
+                     name="results-sorting"
+                     checked="${python: results_sorting==None and 'checked' or None}"
+                     value="relevancy" />Sort by relevancy</label>
+              <label>
+              <input type="radio"
+                     name="results-sorting"
+                     checked="${python: results_sorting=='-created' and 'checked' or None}"
+                     value="date" />Sort by date</label>
+            </fieldset>
+          </fieldset>
+        </div>
         <p class="did-you-mean"
            tal:define="corrected search_response/spell_corrected_search|nothing"
            tal:condition="corrected">

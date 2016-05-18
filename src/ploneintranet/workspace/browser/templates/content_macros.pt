@@ -18,11 +18,9 @@
              tal:define="current_member context/@@plone_portal_state/member;
                          default_prefill python:request.method == 'GET' and current_member.getId()">
         <span tal:omit-tag="" i18n:translate="">Initiator</span> <input class="pat-autosuggest users"  type="text" name="initiator" placeholder="Pick an initiator" i18n:attributes="placeholder"
-        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-        tal:attributes="
-            data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name'], default=default_prefill));
-            disabled read_only;
-        "/>
+        data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python: workspace.member_prefill(context, attrs['name'], default=default_prefill)}"
+        tal:attributes="disabled read_only"
+        />
       </label>
       <br/>
       <label class="assignee">
@@ -31,21 +29,17 @@
                name="assignee"
                placeholder="Pick an assignee"
                i18n:attributes="placeholder"
-               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {};"
-               tal:attributes="
-                    data-pat-autosuggest python:'{0} ajax-url: {1}/members.json;; prefill-json: {2}'.format(attrs['data-pat-autosuggest'], workspace_url, workspace.member_prefill(context, attrs['name']));
-                    disabled read_only;
-                "/>
+               data-pat-autosuggest="ajax-data-type: json; maximum-selection-size: 1; selection-classes: {}; ajax-url: ${workspace_url}/members.json; prefill-json: ${python: workspace.member_prefill(context, attrs['name'])}"
+               tal:attributes="disabled read_only"
+                />
       </label>
       <br/>
       <label class="date-time">
         <span tal:omit-tag="" i18n:translate="">Due date</span>
         <input type="date"
                name="due"
-               tal:attributes="
-                   value context/due | nothing;
-                   disabled read_only;
-               "
+               value="${context/due | nothing}"
+               tal:attributes="disabled read_only"
                data-pat-autosubmit="delay: defocus"
                data-pat-date-picker="behaviour: polyfill; show: date"
                class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
@@ -60,8 +54,8 @@
             <option></option>
             <tal:milesstones repeat="milestone mm_seq">
               <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
-                  tal:attributes="value milestone;
-                                  selected python:'selected' if current_milestone == milestone else ''"
+                      value="${milestone}"
+                      tal:attributes="selected python:'selected' if current_milestone == milestone else ''"
                       tal:content="python:mm_seq[milestone]['title']"/>
             </tal:milesstones>
           </select>
@@ -72,14 +66,35 @@
 
     <metal:event_fields define-macro="event_fields" i18n:domain="ploneintranet"
                         tal:define="read_only python:not view.can_edit">
-
       <metal:extra-fields-top define-slot="extra-fields-top"/>
+
+      <fieldset
+          class="description"
+          tal:define="
+            is_view python: view.__name__ != 'add_event';
+            value python: is_view and context.description or '';
+          "
+        >
+        <legend i18n:translate="">Notes</legend>
+        <div class="textarea group">
+            <p class="mirror-target" id="ticket-description">${value}</p>
+            <textarea name="description"
+                      class="pat-content-mirror focus"
+                      disabled="${python:read_only and 'disabled' or None}"
+                      data-pat-content-mirror="target: #ticket-description"
+                      placeholder="Event description"
+                      rows="6"
+                      i18n:attributes="placeholder"
+                    >${value}</textarea>
+        </div>
+      </fieldset>
+      <br />
 
       <label class="location">
         <span tal:omit-tag="" i18n:translate="">Location</span> <input
         placeholder="Enter a location"
         i18n:attributes="placeholder"
-        name="location" tal:attributes="disabled read_only; value context/location | nothing" type="text" value="" />
+        name="location" tal:attributes="disabled read_only" value="${context/location | nothing}" type="text" value="" />
       </label>
       <br/>
       <label class="organiser">
@@ -95,7 +110,7 @@
       <br/>
       <fieldset class="pat-checklist options">
         <label>
-          <input name="whole_day" tal:attributes="disabled read_only; checked python:context.get('whole_day')" type="checkbox"/>
+          <input name="whole_day" tal:attributes="disabled read_only" checked="${python:context.get('whole_day')}" type="checkbox"/>
           <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
 <!--        <br/>
@@ -123,8 +138,8 @@
               <label class="six columns">
                 <input type="time" size="10" class="time" name="start" placeholder="Time"
                        i18n:attributes="placeholder"
-                       tal:attributes="disabled read_only;
-                                       value python:start and start.strftime('%H:%M')"/>
+                       tal:attributes="disabled read_only"
+                       value="${python:start and start.strftime('%H:%M')}"/>
               </label>
             </div>
           </fieldset>
@@ -142,8 +157,8 @@
               <label class="six columns">
                 <input type="time" size="10" class="time" name="end" placeholder="Time" value=""
                        i18n:attributes="placeholder"
-                       tal:attributes="disabled read_only;
-                                       value python:end and end.strftime('%H:%M')"/>
+                       tal:attributes="disabled read_only"
+                       value="${python:end and end.strftime('%H:%M')}"/>
               </label>
             </div>
           </fieldset>
