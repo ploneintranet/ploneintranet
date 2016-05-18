@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-17 13:13+0000\n"
+"POT-Creation-Date: 2016-05-18 13:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,7 +119,7 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:507
+#: ../workspace/browser/tiles/templates/sidebar.pt:520
 msgid "Advanced"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "All day event"
 msgstr ""
 
-#: ../notifications/browser/notifications.pt:43
+#: ../notifications/browser/notifications.pt:46
 msgid "All notifications"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "Author name (for display)"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:196
+#: ../workspace/browser/tiles/templates/sidebar.pt:195
 msgid "Author of this document"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgstr ""
 msgid "Changes applied"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:372
+#: ../workspace/browser/tiles/templates/sidebar.pt:382
 msgid "Close milestone"
 msgstr ""
 
@@ -378,11 +378,11 @@ msgid "Create event"
 msgstr ""
 
 #: ../workspace/browser/templates/add_folder.pt:7
-#: ../workspace/browser/tiles/templates/sidebar.pt:217
+#: ../workspace/browser/tiles/templates/sidebar.pt:220
 msgid "Create folder"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:285
+#: ../workspace/browser/tiles/templates/sidebar.pt:288
 msgid "Create new task"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgstr ""
 msgid "Deslect all"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:139
+#: ../search/browser/templates/all_results.pt:140
 msgid "Did you mean"
 msgstr ""
 
@@ -489,11 +489,11 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:141
+#: ../workspace/basecontent/templates/document_view.pt:139
 msgid "Download as"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:91
+#: ../activitystream/browser/templates/post.html:94
 msgid "Download this file"
 msgstr ""
 
@@ -657,11 +657,11 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:495
+#: ../workspace/browser/tiles/templates/sidebar.pt:506
 msgid "General"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:292
+#: ../workspace/browser/tiles/templates/sidebar.pt:295
 msgid "General tasks"
 msgstr ""
 
@@ -862,7 +862,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:259
+#: ../search/browser/templates/all_results.pt:260
 msgid "Loading more search results&hellip;"
 msgstr ""
 
@@ -903,7 +903,7 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:499
+#: ../workspace/browser/tiles/templates/sidebar.pt:510
 msgid "Members"
 msgstr ""
 
@@ -1024,11 +1024,11 @@ msgstr ""
 msgid "No messages"
 msgstr ""
 
-#: ../notifications/browser/notifications.pt:40
+#: ../notifications/browser/notifications.pt:43
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:119
+#: ../workspace/basecontent/templates/document_view.pt:117
 msgid "No preview available"
 msgstr ""
 
@@ -1093,7 +1093,7 @@ msgstr ""
 msgid "Older"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:477
+#: ../workspace/browser/tiles/templates/sidebar.pt:488
 msgid "Older events"
 msgstr ""
 
@@ -1257,7 +1257,7 @@ msgstr ""
 msgid "PowerPoint 2007 presentation"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:118
+#: ../workspace/basecontent/templates/document_view.pt:116
 msgid "Preview being generated"
 msgstr ""
 
@@ -1317,7 +1317,7 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:375
+#: ../workspace/browser/tiles/templates/sidebar.pt:385
 msgid "Reopen milestone"
 msgstr ""
 
@@ -1377,7 +1377,7 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:503
+#: ../workspace/browser/tiles/templates/sidebar.pt:515
 msgid "Security"
 msgstr ""
 
@@ -1706,7 +1706,7 @@ msgstr ""
 msgid "Transfer members to another workspace."
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:391
+#: ../workspace/browser/tiles/templates/sidebar.pt:401
 msgid "Unassigned"
 msgstr ""
 
@@ -1747,7 +1747,7 @@ msgid "Until"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:424
+#: ../workspace/browser/tiles/templates/sidebar.pt:434
 msgid "Upcoming events"
 msgstr ""
 
@@ -1764,12 +1764,16 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:240
+#: ../workspace/browser/tiles/templates/sidebar.pt:243
 msgid "Upload file(s)"
 msgstr ""
 
 #: ../workspace/behaviors/configure.zcml:46
 msgid "Use this content as a membrane group"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar.pt:198
+msgid "User not found"
 msgstr ""
 
 #: ../userprofile/browser/templates/user_import_form.pt:18
@@ -1928,7 +1932,7 @@ msgid "alert_remove_users_from_workspace"
 msgstr ""
 
 #. Default: "App market"
-#: ../layout/adapters/app_tiles.py:117
+#: ../layout/adapters/app_tiles.py:120
 msgid "app-market"
 msgstr ""
 
@@ -1937,7 +1941,7 @@ msgstr ""
 msgid "author"
 msgstr ""
 
-#. Default: "${num_elems} Files were copied to your cloud clipboard."
+#. Default: "${num_elems} Files were copied to your cloud clipboard bla blaerjwi jwfioajfiawefj iawefj."
 #: ../workspace/browser/cart_actions/copy.py:38
 msgid "batch_copied_success"
 msgstr ""
@@ -2098,6 +2102,11 @@ msgstr ""
 #. Default: "At the moment we are able to handle the values \"alphabet\" and \"newest\".\n        Planned is to allow sorting on \"active\"."
 #: ../workspace/profiles/default/registry.xml
 msgid "help_my_workspace_sorting"
+msgstr ""
+
+#. Default: "If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break."
+#: ../workspace/profiles/default/registry.xml
+msgid "help_sanitize_html"
 msgstr ""
 
 #. Default: "Tags are commonly used for ad-hoc organization of content."
@@ -2261,13 +2270,18 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:486
+#: ../workspace/browser/tiles/templates/sidebar.pt:497
 msgid "label_no_events_available"
 msgstr ""
 
 #. Default: "posted"
 #: ../activitystream/browser/templates/post.html:25
 msgid "label_posted"
+msgstr ""
+
+#. Default: "Sanitize HTML on saving."
+#: ../workspace/profiles/default/registry.xml
+msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
@@ -2381,7 +2395,7 @@ msgid "messages"
 msgstr ""
 
 #. Default: "More sharing options coming soon"
-#: ../workspace/basecontent/templates/document_view.pt:143
+#: ../workspace/basecontent/templates/document_view.pt:141
 msgid "more_sharing_soon"
 msgstr ""
 
@@ -2399,7 +2413,7 @@ msgid "news"
 msgstr ""
 
 #. Default: "No tasks created yet"
-#: ../workspace/browser/tiles/templates/sidebar.pt:294
+#: ../workspace/browser/tiles/templates/sidebar.pt:297
 msgid "no-task-found"
 msgstr ""
 
