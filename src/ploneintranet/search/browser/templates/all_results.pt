@@ -40,7 +40,7 @@
           </p>
           <fieldset class="pat-checklist pat-bar-toggles document-types"
                     tal:condition="view/type_facets">
-            <legend>Document types</legend>
+            <legend i18n:translate="">Document types</legend>
             <!-- Only list content types in this list that are relevant for this search result. -->
             <tal:for repeat="type view/type_facets">
               <label class="${type/id}">
@@ -48,12 +48,12 @@
                      checked="${python:type['id'] in request and 'checked' or None}"
                      type="checkbox"
                      value="${type/title}"
-                      />${type/title}
+                      /><tal:type i18n:translate="" i18n:domain="ploneintranet" tal:replace="type/title"></tal:type>
               <!--sup class="counter">${type/counter}</sup--></label>
             </tal:for>
           </fieldset>
           <fieldset class="vertical">
-            <legend>Date range</legend>
+            <legend i18n:translate="">Date range</legend>
             <label>
               <input type="date"
                      name="start_date"
@@ -73,7 +73,7 @@
           </fieldset>
           <fieldset class="pat-checklist pat-bar-toggles tags"
                     tal:condition="view/tag_facets">
-            <legend>Tags</legend>
+            <legend i18n:translate="">Tags</legend>
             <!-- Only list tags in this list that are relevant for this search
                  result. Tags are ordered by occurance count. Should there be no
                  objects tags in the search results, then this entire fieldset is not printed.
@@ -103,7 +103,7 @@
           </tal:if>
           <a href="#view-options"
              class="bare pat-select float-after pat-tooltip"
-             data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr">Options</a>
+             data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr" i18n:translate="">Options</a>
         </p>
 
         <div id="view-options" hidden="">
@@ -118,19 +118,19 @@
               <label>
               <input type="checkbox"
                      name="display-previews"
-                     checked="${python:display_previews and 'checked' or None}" />Display previews</label>
+                     checked="${python:display_previews and 'checked' or None}" /><span tal:omit-tag="" i18n:translate="">Display previews</span></label>
             </fieldset>
             <fieldset class="pat-checklist radio">
               <label>
               <input type="radio"
                      name="results-sorting"
                      checked="${python: results_sorting==None and 'checked' or None}"
-                     value="relevancy" />Sort by relevancy</label>
+                     value="relevancy" /><span tal:omit-tag="" i18n:translate="">Sort by relevancy</span></label>
               <label>
               <input type="radio"
                      name="results-sorting"
                      checked="${python: results_sorting=='-created' and 'checked' or None}"
-                     value="date" />Sort by date</label>
+                     value="date" /><span tal:omit-tag="" i18n:translate="">Sort by date</span></label>
             </fieldset>
           </fieldset>
         </div>

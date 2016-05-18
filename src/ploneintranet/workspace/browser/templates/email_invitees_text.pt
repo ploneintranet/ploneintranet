@@ -6,10 +6,9 @@ ${context/plone_portal_state/navigation_root_title}
 because you are invited to the following date:
 </tal:translate>
 
-<tal:translate>
-  <tal:translate i18n:translate="">Title:</tal:translate> ${context/title}
-  <tal:translate i18n:translate="">From</tal:translate> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <tal:translate i18n:translate="">to</tal:translate> ${python:context.end.strftime('%d.%m.%Y %H:%M')}
-  <tal:translate i18n:translate="">Location</tal:translate>: ${context/location}
+<tal:translate i18n:translate="">Title:</tal:translate> ${context/title}
+<tal:translate i18n:translate="">From</tal:translate> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <tal:translate i18n:translate="">to</tal:translate> ${python:context.end.strftime('%d.%m.%Y %H:%M')}
+<tal:translate i18n:translate="">Location</tal:translate>: ${context/location}
 
 <tal:translate>
 The agenda for this event can be found here:
