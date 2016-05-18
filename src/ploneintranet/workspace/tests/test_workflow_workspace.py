@@ -109,21 +109,10 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         )
         return permissions[permission]
 
-    def test_create_workspace(self):
+    def test_create_workspace_open(self):
         """
         Test creation of a workspace
         """
-        self.assertNotIn(
-            'Contributor',
-            api.user.get_roles(username='noaddrights',
-                               obj=self.restricted_workspaces)
-        )
-        self.assertIn(
-            'Contributor',
-            api.user.get_roles(username='hasaddrights',
-                               obj=self.restricted_workspaces)
-        )
-        logout()
         # open system. Workspaces folder is open for authenticated
         login(self.portal, 'noaddrights')
         request = self.layer['request'].clone()
@@ -133,6 +122,17 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         ac()
         self.assertIn('everybody-can-add',
                       self.open_workspaces.objectIds())
+
+    def test_create_workspace_restricted_nocaccess(self):
+        """
+        Test creation of a workspace
+        """
+        self.assertNotIn(
+            'Contributor',
+            api.user.get_roles(username='noaddrights',
+                               obj=self.restricted_workspaces)
+        )
+        login(self.portal, 'noaddrights')
         request = self.layer['request'].clone()
         request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
         request.form['title'] = 'not anyone is permitted'
@@ -140,12 +140,21 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         with self.assertRaises(Unauthorized):
             ac()
         logout()
-        login(self.portal, 'hasaddrights')
 
-        ac = AddWorkspace(self.restricted_workspaces, self.portal.REQUEST)
+    def test_create_workspace_restricted_contributor(self):
+        """
+        Test creation of a workspace
+        """
+        self.assertIn(
+            'Contributor',
+            api.user.get_roles(username='hasaddrights',
+                               obj=self.restricted_workspaces)
+        )
+        login(self.portal, 'hasaddrights')
         request = self.layer['request'].clone()
         request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
         request.form['title'] = 'can-add-when-contributor'
+        ac = AddWorkspace(self.restricted_workspaces, request)
         ac()
         self.assertIn('can-add-when-contributor',
                       self.restricted_workspaces.objectIds())
