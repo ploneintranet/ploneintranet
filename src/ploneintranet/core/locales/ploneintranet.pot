@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-18 13:00+0000\n"
+"POT-Creation-Date: 2016-05-18 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -416,6 +416,10 @@ msgstr ""
 msgid "Date and time of the latest modification"
 msgstr ""
 
+#: ../search/browser/templates/all_results.pt:56
+msgid "Date range"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:97
 msgid "Days running"
 msgstr ""
@@ -467,6 +471,10 @@ msgstr ""
 msgid "Did you mean"
 msgstr ""
 
+#: ../search/browser/templates/all_results.pt:121
+msgid "Display previews"
+msgstr ""
+
 #: ../workspace/browser/templates/workspace-add.pt:32
 msgid "Division"
 msgstr ""
@@ -477,6 +485,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/add_content.pt:27
 msgid "Document title"
+msgstr ""
+
+#: ../search/browser/templates/all_results.pt:43
+msgid "Document types"
 msgstr ""
 
 #: ../layout/browser/configure.zcml:132
@@ -1118,6 +1130,10 @@ msgstr ""
 msgid "Open in External Editor"
 msgstr ""
 
+#: ../search/browser/templates/all_results.pt:104
+msgid "Options"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:101
 msgid "Organiser"
 msgstr ""
@@ -1451,6 +1467,14 @@ msgstr ""
 msgid "Some items have been sent to you."
 msgstr ""
 
+#: ../search/browser/templates/all_results.pt:133
+msgid "Sort by date"
+msgstr ""
+
+#: ../search/browser/templates/all_results.pt:128
+msgid "Sort by relevancy"
+msgstr ""
+
 #: ../search/interfaces.py:92
 msgid "Spell corrected search string"
 msgstr ""
@@ -1465,6 +1489,10 @@ msgstr ""
 
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
+msgstr ""
+
+#: ../search/browser/templates/all_results.pt:76
+msgid "Tags"
 msgstr ""
 
 #: ../layout/browser/templates/dashboard.pt:21
@@ -1941,7 +1969,7 @@ msgstr ""
 msgid "author"
 msgstr ""
 
-#. Default: "${num_elems} Files were copied to your cloud clipboard bla blaerjwi jwfioajfiawefj iawefj."
+#. Default: "${num_elems} Files were copied to your cloud clipboard."
 #: ../workspace/browser/cart_actions/copy.py:38
 msgid "batch_copied_success"
 msgstr ""
