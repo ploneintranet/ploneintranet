@@ -326,7 +326,7 @@ Supported types include (class names):
                         </a>
                         <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
 
-                        <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true; locale: de" title="Due date" datetime="${task/due}"/>
+                        <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
                         <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
                         <a tal:condition="initiator"
                            href="${context/portal_url}/profiles/${initiator/id}#document-body" class="initiator meta-column icon-manager pat-inject" data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
