@@ -91,8 +91,8 @@ class SearchResult(object):
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
-        self.is_archived = context.get('is_archived', False)
-        self.archival_date = context.get('archival_date', None)
+        self.is_archived = getattr(context, 'is_archived', False)
+        self.archival_date = getattr(context, 'archival_date', None)
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):

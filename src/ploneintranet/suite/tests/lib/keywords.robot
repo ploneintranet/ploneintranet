@@ -422,7 +422,7 @@ I can search for items
 
 I can see that the workspace is archived
     [arguments]  ${title}
-    Wait until page contains element  xpath=(//span[@class='highlightedSearchTerm'])[1]/following-sibling::strong[text()='Archived']
+    Wait until page contains element  xpath=//a/strong[text()='Archived']
 
 I see the option to create a document
     Click link  Documents
