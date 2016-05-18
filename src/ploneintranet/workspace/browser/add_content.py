@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
-from datetime import datetime
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -22,6 +19,18 @@ class AddBase(BrowserView):
     '''
     template = ViewPageTemplateFile('templates/add_content.pt')
     can_edit = True
+
+    def __call__(self):
+        """Render template, or evaluate form and redirect"""
+        title = self.request.form.get('title', None)
+        portal_type = self.request.form.get('portal_type', '')
+        if title is not None:
+            self.portal_type = portal_type.strip()
+            self.title = title.strip()
+            if self.portal_type in api.portal.get_tool('portal_types'):
+                url = self.create()
+                return self.redirect(url)
+        return self.template()
 
     def redirect(self, url):
         """
@@ -98,121 +107,6 @@ class AddBase(BrowserView):
             )
 
         return new.absolute_url()
-
-    def __call__(self, portal_type='', title=None):
-        """Evaluate form and redirect"""
-        if title is not None:
-            self.portal_type = portal_type.strip()
-            self.title = title.strip()
-            if self.portal_type in api.portal.get_tool('portal_types'):
-                url = self.create()
-                return self.redirect(url)
-        return self.template()
-
-
-class AddWorkspace(AddBase):
-    """
-    Evaluate simple form and add arbitrary content.
-    """
-    TEMPLATES_FOLDER = TEMPLATES_FOLDER
-
-    # BBB: this hardcoded class attributes should be dynamic properties
-    # I see two possible way:
-    # 1. Generic setup: store the information in the portal_type definition xml
-    # 2. Portal_registry: add two properties
-    # If it is easy I would go for 1.
-    types_with_template = (
-        'ploneintranet.workspace.case',
-        'ploneintranet.workspace.workspacefolder',
-    )
-    types_with_policy = (
-        'ploneintranet.workspace.workspacefolder',
-    )
-
-    def get_template(self):
-        ''' Get a template to copy
-        '''
-        with api.env.adopt_roles('Manager'):
-            template_id = self.request.form.get(
-                '%s-template_id' % self.portal_type
-            )
-            if not template_id:
-                return
-            portal = api.portal.get()
-            template_folder = portal.get(self.TEMPLATES_FOLDER)
-            if not template_folder:
-                return
-            src = template_folder.get(template_id)
-            if not src:
-                return
-            return src
-
-    def create_from_template(self):
-        ''' Create an ocject with the given template
-        '''
-        template = self.get_template()
-        if not template:
-            api.portal.show_message(
-                _('Please specify which Case Template to use'),
-                request=self.request,
-                type="error",
-            )
-            return
-
-        # need privilege escalation since normal users do not
-        # have View permission on case templates
-        # - that only comes after the template has been turned
-        # into an actual case with member users
-        new = execute_as_manager(
-            api.content.copy,
-            source=template,
-            target=self.context,
-            id=self.get_new_unique_id(),
-            safe_id=False,
-        )
-        new.creation_date = datetime.now()
-        return new
-
-    def get_new_object(self):
-        ''' This will create a new object
-        '''
-        if (
-            self.portal_type in self.types_with_template and
-            self.request.form.get('%s-template_id' % self.portal_type)
-        ):
-            return self.create_from_template()
-        return super(AddWorkspace, self).get_new_object()
-
-    def set_workspace_policy(self, obj):
-        ''' Set's the workspace policy for the objects given a scenario
-        '''
-        form = self.request.form
-        if 'scenario' in form:
-            if form['scenario'] == '1':
-                external_visibility = 'secret'
-                join_policy = 'admin'
-                participant_policy = 'producers'
-            elif form['scenario'] == '2':
-                external_visibility = 'private'
-                join_policy = 'team'
-                participant_policy = 'moderators'
-            elif form['scenario'] == '3':
-                external_visibility = 'open'
-                join_policy = 'self'
-                participant_policy = 'publishers'
-            else:
-                raise AttributeError
-
-            obj.set_external_visibility(external_visibility)
-            obj.join_policy = join_policy
-            obj.participant_policy = participant_policy
-
-    def update(self, obj):
-        ''' Update the object and returns the modified fields and errors
-        '''
-        if self.portal_type in self.types_with_policy:
-            self.set_workspace_policy(obj)
-        return super(AddWorkspace, self).update(obj)
 
 
 class AddFolder(AddBase):

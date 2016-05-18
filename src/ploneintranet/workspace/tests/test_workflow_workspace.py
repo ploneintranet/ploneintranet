@@ -3,7 +3,7 @@ from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
-from ploneintranet.workspace.browser.add_content import AddWorkspace
+from ploneintranet.workspace.browser.add_workspace import AddWorkspace
 
 VIEW = 'View'
 ACCESS = 'Access contents information'

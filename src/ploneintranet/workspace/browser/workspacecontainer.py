@@ -115,7 +115,6 @@ class Workspaces(BrowserView):
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
 
-    default_fti = 'ploneintranet.workspace.workspacefolder'
     TEMPLATES_FOLDER = TEMPLATES_FOLDER
     types_with_policy = (
         'ploneintranet.workspace.workspacefolder',
@@ -123,62 +122,6 @@ class AddView(BrowserView):
 
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
-
-    @memoize
-    def get_addable_types(self):
-        ''' List the content that are addable in this context
-        '''
-        ftis = self.context.allowedContentTypes()
-        selected_fti = self.request.get(
-            'portal_type',
-            self.default_fti
-        )
-        addable_types = [
-            {
-                'id': fti.getId(),
-                'title': fti.Title(),
-                'selected': fti.getId() == selected_fti and 'selected' or None,
-            }
-            for fti in ftis
-        ]
-        addable_types.sort(key=lambda x: x['title'])
-        return addable_types
-
-    @memoize
-    def get_fti_titles_by_type(self):
-        ''' Get's the titles of the fti by portal_type as a dictionary
-        '''
-        return {
-            x['id']: x['title']
-            for x in self.get_addable_types()
-        }
-
-    @memoize
-    def get_templates_by_type(self):
-        ''' Get's the templates as a dictionary
-        to fill a select or a radio group
-        '''
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        allowed_types = {x['id'] for x in self.get_addable_types()}
-        templates_by_type = defaultdict(list)
-        for template in templates_folder.objectValues():
-            if template.portal_type in allowed_types:
-                templates_by_type[template.portal_type].append(
-                    {
-                        'id': template.getId(),
-                        'title': template.Title(),
-                        'portal_type': template.portal_type,
-                        'description': template.Description(),
-                    }
-                )
-        for key in templates_by_type:
-            templates_by_type[key].sort(key=lambda x: x['title'])
-        return templates_by_type
-
-    def divisions(self):
-        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
-        return divisions
 
 
 class WorkspaceTabsTile(Tile):

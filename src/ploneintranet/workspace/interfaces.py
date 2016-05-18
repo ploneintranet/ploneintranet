@@ -62,7 +62,7 @@ class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
         default=False,
     )
     division = schema.TextLine(
-        title=_(u'label_workspace_division', u'Belongs to this Devision'),
+        title=_(u'label_workspace_division', u'Belongs to this Division'),
         required=False,
         default=u'',
     )

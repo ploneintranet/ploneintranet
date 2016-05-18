@@ -2,7 +2,7 @@ from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission as checkPermission
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
-from ploneintranet.workspace.browser.add_content import AddWorkspace
+from ploneintranet.workspace.browser.add_workspace import AddWorkspace
 from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
 from zope.annotation.interfaces import IAnnotations
@@ -10,6 +10,7 @@ from collective.workspace.interfaces import IWorkspace
 
 
 class TestPolicy(BaseTestCase):
+
     def test_groups_created(self):
         """
         When a workspace is created it should also create a number of groups
@@ -110,9 +111,10 @@ class TestPolicy(BaseTestCase):
 
         request = self.layer['request'].clone()
         request.form['scenario'] = '1'
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'scenario-1'
         add_form = AddWorkspace(self.workspace_container, request)
-        add_form(portal_type='ploneintranet.workspace.workspacefolder',
-                 title='scenario-1')
+        add_form()
         workspace = getattr(self.workspace_container, 'scenario-1')
         self.assertEqual(workspace.external_visibility, 'secret')
         self.assertEqual(workspace.join_policy, 'admin')
@@ -120,9 +122,10 @@ class TestPolicy(BaseTestCase):
 
         request = self.layer['request'].clone()
         request.form['scenario'] = '2'
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'scenario-2'
         add_form = AddWorkspace(self.workspace_container, request)
-        add_form(portal_type='ploneintranet.workspace.workspacefolder',
-                 title='scenario-2')
+        add_form()
         workspace = getattr(self.workspace_container, 'scenario-2')
         self.assertEqual(workspace.external_visibility, 'private')
         self.assertEqual(workspace.join_policy, 'team')
@@ -130,9 +133,10 @@ class TestPolicy(BaseTestCase):
 
         request = self.layer['request'].clone()
         request.form['scenario'] = '3'
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'scenario-3'
         add_form = AddWorkspace(self.workspace_container, request)
-        add_form(portal_type='ploneintranet.workspace.workspacefolder',
-                 title='scenario-3')
+        add_form()
         workspace = getattr(self.workspace_container, 'scenario-3')
         self.assertEqual(workspace.external_visibility, 'open')
         self.assertEqual(workspace.join_policy, 'self')
@@ -140,13 +144,11 @@ class TestPolicy(BaseTestCase):
 
         request = self.layer['request'].clone()
         request.form['scenario'] = 'X'
+        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['title'] = 'scenario-3'
         add_form = AddWorkspace(self.workspace_container, request)
-        self.assertRaises(
-            AttributeError,
-            add_form,
-            portal_type='ploneintranet.workspace.workspacefolder',
-            title='scenario-X'
-        )
+        with self.assertRaises(AttributeError):
+            add_form()
 
     def test_workspace_policy_change_updates_existing_members(self):
         """
