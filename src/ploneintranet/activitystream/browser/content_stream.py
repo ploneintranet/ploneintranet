@@ -56,8 +56,8 @@ class ContentStreamView(BrowserView):
         # show only toplevels with replies + most recent toplevel
         # i.e. suppress earlier toplevels without replies
         return [su for su in toplevels
-                if su.id in reply_thread_ids
-                or su is last]
+                if su.id in reply_thread_ids or
+                su is last]
 
     def _statusupdates_all(self):
         container = pi_api.microblog.get_microblog()
