@@ -128,6 +128,9 @@ class AddView(BrowserView):
     def get_addable_types(self):
         ''' List the content that are addable in this context
         '''
+        types = self.get_templates_by_type().keys()
+        if 'ploneintranet.workspace.workspacefolder' not in types:
+            types.append('ploneintranet.workspace.workspacefolder')
         ftis = self.context.allowedContentTypes()
         selected_fti = self.request.get(
             'portal_type',
@@ -139,7 +142,7 @@ class AddView(BrowserView):
                 'title': fti.Title(),
                 'selected': fti.getId() == selected_fti and 'selected' or None,
             }
-            for fti in ftis
+            for fti in ftis if fti.getId() in types
         ]
         addable_types.sort(key=lambda x: x['title'])
         return addable_types
@@ -155,25 +158,23 @@ class AddView(BrowserView):
 
     @memoize
     def get_templates_by_type(self):
-        ''' Get's the templates as a dictionary
-        to fill a select or a radio group
-        '''
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        allowed_types = {x['id'] for x in self.get_addable_types()}
+        """
+        Return a list of Cases in the templates folder which the current user
+        has the rights to view. Templates may only be relevant to particular
+        groups or users.
+        """
         templates_by_type = defaultdict(list)
-        for template in templates_folder.objectValues():
-            if template.portal_type in allowed_types:
-                templates_by_type[template.portal_type].append(
-                    {
-                        'id': template.getId(),
-                        'title': template.Title(),
-                        'portal_type': template.portal_type,
-                        'description': template.Description(),
-                    }
-                )
-        for key in templates_by_type:
-            templates_by_type[key].sort(key=lambda x: x['title'])
+        portal = api.portal.get()
+        templates = portal.get(TEMPLATES_FOLDER).getFolderContents()
+        for template in templates:
+            templates_by_type[template['portal_type']].append(
+                {
+                    'id': template['getId'],
+                    'title': template['Title'],
+                    'portal_type': template['portal_type'],
+                    'description': template['Description'],
+                }
+            )
         return templates_by_type
 
     def divisions(self):

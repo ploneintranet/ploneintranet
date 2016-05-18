@@ -132,20 +132,22 @@ class AddWorkspace(AddBase):
     def get_template(self):
         ''' Get a template to copy
         '''
-        with api.env.adopt_roles('Manager'):
-            template_id = self.request.form.get(
-                '%s-template_id' % self.portal_type
-            )
-            if not template_id:
-                return
-            portal = api.portal.get()
-            template_folder = portal.get(self.TEMPLATES_FOLDER)
-            if not template_folder:
-                return
-            src = template_folder.get(template_id)
-            if not src:
-                return
-            return src
+        template_id = self.request.get(
+            '%s-template_id' % self.portal_type
+        )
+        if not template_id:
+            return
+        portal = api.portal.get()
+        template_folder = portal.get(self.TEMPLATES_FOLDER)
+        if not template_folder:
+            return
+        # Here we do a catalog query deliberately. Users should only see
+        # a template if they are actually allowed to by the set permissions
+        # src = template_folder.get(template_id)
+        src = template_folder.getFolderContents({'getId': template_id})
+        if not src:
+            return
+        return src[0].getObject()
 
     def create_from_template(self):
         ''' Create an ocject with the given template
