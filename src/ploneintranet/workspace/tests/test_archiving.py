@@ -7,7 +7,7 @@ from zope.component import getMultiAdapter
 
 class TestArchiving(FunctionalBaseTestCase):
     """
-    Test the DivisionsVocabulary
+    Workspaces and Case Workspaces can be archived.
     """
 
     def setUp(self):
@@ -29,23 +29,21 @@ class TestArchiving(FunctionalBaseTestCase):
             title='Unarchived Workspace',
         )
 
-    def test_no_archived_items_in_default_search_results(self):
+    def test_archived_items_in_default_search_results(self):
+        """
+        Searches return both archived and unarchived items
+        """
         request = self.portal.REQUEST
         request.form['SearchableText'] = 'Workspace'
         search_view = getMultiAdapter(
             (self.portal, request), name='search')
         search_results = list(search_view.search_response())
         result_titles = [i.title for i in search_results]
-        self.assertTrue('Archived Workspace' not in result_titles)
-        self.assertTrue('Unarchived Workspace' in result_titles)
-
-    def test_archived_items_included_in_search_results(self):
-        request = self.portal.REQUEST
-        request.form['SearchableText'] = 'Workspace'
-        request.form['include_archived'] = True
-        search_view = getMultiAdapter(
-            (self.portal, request), name='search')
-        search_results = list(search_view.search_response())
-        result_titles = [i.title for i in search_results]
-        self.assertTrue('Archived Workspace' in result_titles)
-        self.assertTrue('Unarchived Workspace' in result_titles)
+        self.assertTrue(
+            'Archived Workspace' in result_titles,
+            'Archived items are included in search results'
+        )
+        self.assertTrue(
+            'Unarchived Workspace' in result_titles,
+            "Unarchived items aren't included in search results"
+        )
