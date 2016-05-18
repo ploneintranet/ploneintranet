@@ -128,6 +128,9 @@ class DateCheckboxWidget(Widget):
         date = date.replace(tzinfo=timezone(timezone_name))
         return date
 
+    def render(self):
+        pass
+
 
 class PatDatePickerConverter(BaseDataConverter):
     """toFieldValue just needs to return the datetime object
