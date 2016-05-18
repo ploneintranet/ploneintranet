@@ -33,6 +33,24 @@ Packages
     This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachment previews <filepreviews>` on stream items.
 
 
+Overview
+========
+
+Activity streams with statusupdates are a pervasive feature in ploneintranet and key to the 'social' character of the system.
+
+Activity streams are rendered at three different levels:
+
+1. The "global" stream on the dashboard aggregates all statusupdates across the intranet
+2. Per-workspace streams provide a secure communication environment for teams;
+3. Per-document streams provide a conversation directly on the document that the conversation is about.
+
+The per-document streams in a workspace are part of the per-workspace stream for that workspace. All per-workspace streams in turn are shown as part of the overall "global" activity stream.
+
+At all levels, what a specific user can see is filtered by security permissions. In the global stream, you will only see updates from workspaces that you have access to - if you don't have access to the workspace you will not see the conversation that team is having, while team members will see their conversation both within the workspace and in the global stream.
+
+Likewise, you will only see updates referencing a specific content object, if you have access to both the content object _and_ to the workspace the content object is contained in.
+
+
 Philosophy
 ==========
 
