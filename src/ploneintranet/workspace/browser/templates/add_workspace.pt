@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+<head>
+</head>
+<body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace">
+  <div id="workspaces">
+      <h1 i18n:translate="">Create workspace</h1>
+
+      <form action="/workspaces.html#workspaces" method="post" enctype="multipart/form-data" class="wizard-box pat-validation" data-pat-validation="disable-selector:#form-buttons-create" data-pat-inject="" name="workspace-add" id="workspace-add" novalidate
+        tal:attributes="action string:${context/absolute_url}/add_workspace">
+
+        <div class="panel-body"
+             tal:define="
+               templates_by_type view/get_templates_by_type;
+               fti_titles_by_type view/get_fti_titles_by_type;
+             ">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" i18n:attributes="placeholder" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="description" i18n:attributes="placeholder"></textarea>
+            </label>
+            <label>
+              <select name="portal_type">
+                <tal:for repeat="fti view/get_addable_types">
+                  <option value="${fti/id}"
+                          selected="${fti/selected}">${fti/title}</option>
+                </tal:for>
+              </select>
+            </label>
+
+            <label class="pat-select">
+            <span tal:omit-tag="" i18n:translate="">Division</span>
+              <select name="division">
+                <!-- For now we want to enforce at least one -->
+                <!--option value="">None</option-->
+                <option value="" tal:repeat="division python:view.divisions()" tal:content="division/value" tal:attributes="value division/token">
+                    Division
+                </option>
+              </select>
+            </label>
+
+            <tal:templates tal:repeat="portal_type python:sorted(templates_by_type.keys())">
+                <fieldset class="pat-depends"
+                    data-pat-depends="condition: portal_type=${portal_type}"
+                    tal:condition="templates_by_type/?portal_type|nothing"
+                    >
+                    <label tal:define="
+                        templates templates_by_type/?portal_type;
+                        ">
+                        <span tal:omit-tag="" i18n:translate="">Pick a ${fti_titles_by_type/?portal_type} Template</span>
+
+                        <select name="${portal_type}-template_id" tal:condition="python: len(templates) > 6">
+                            <tal:r tal:repeat="template templates">
+                                <option value="${template/id}">${template/title}</option>
+                            </tal:r>
+                        </select>
+
+                        <fieldset class="group pat-checklist radio" tal:condition="python: len(templates) <=6">
+                            <label tal:repeat="template templates">
+                                <input type="radio"
+                                       checked="checked"
+                                       name="${portal_type}-template_id"
+                                       value="${template/id}"
+                                    >
+                                    ${template/title}
+                                </label>
+                            </fieldset>
+
+                        </label>
+                    </fieldset>
+            </tal:templates>
+
+            <tal:comment condition="nothing">This should only appear for the portal_types that have been stated to define a policy</tal:comment>
+            <fieldset class="pat-depends" data-pat-depends="condition: ${python: ' || '.join(['portal_type=%s' % x for x in view.types_with_policy])}">
+              <fieldset class="pat-checklist radio">
+                <label><input type="radio" value="1" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Locked down, secret workspace</span></label>
+                <label><input type="radio" value="2" checked name="scenario" /> <span tal:omit-tag="" i18n:translate="">Self-managed, private teamspace</span></label>
+                <label><input type="radio" value="3" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Open community</span></label>
+              </fieldset>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=1" i18n:translate="">
+                The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=2" i18n:translate="">
+                The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=3" i18n:translate="">
+                Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+              </p>
+              <p class="pat-well notice" i18n:translate="">
+                You can always change these settings later via the security control panel in the workspace.
+              </p>
+            </fieldset>
+          </fieldset>
+        </div>
+
+
+        <div class="buttons panel-footer">
+
+          <button id="form-buttons-create" name="save" type="submit" class="icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>
+          <button type="button" class="close-panel icon-cancel-circle validate-ignore" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>
+  </div>
+</body>
+</html>

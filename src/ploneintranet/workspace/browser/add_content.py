@@ -101,6 +101,9 @@ class AddBase(BrowserView):
 
     def __call__(self, portal_type='', title=None):
         """Evaluate form and redirect"""
+        title = title or self.request.form.get('title', None)
+        portal_type = portal_type or \
+            self.request.form.get('portal_type', '')
         if title is not None:
             self.portal_type = portal_type.strip()
             self.title = title.strip()

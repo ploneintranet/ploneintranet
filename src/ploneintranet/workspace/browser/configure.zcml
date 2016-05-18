@@ -31,11 +31,11 @@
       />
 
   <browser:page
-      name="workspace-add"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
-      class=".workspacecontainer.AddView"
+      name="add_workspace"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"      
+      class=".add_workspace.AddWorkspace"
+      template="templates/add_workspace.pt"
       permission="cmf.AddPortalContent"
-      template="templates/workspace-add.pt"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -100,15 +100,6 @@
       name="add_content"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".add_content.AddBase"
-      template="templates/add_content.pt"
-      permission="cmf.AddPortalContent"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
-
-  <browser:page
-      name="add_workspace"
-      for="Products.CMFCore.interfaces.IFolderish"
-      class=".add_content.AddWorkspace"
       template="templates/add_content.pt"
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"

@@ -115,7 +115,6 @@ class Workspaces(BrowserView):
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
 
-    default_fti = 'ploneintranet.workspace.workspacefolder'
     TEMPLATES_FOLDER = TEMPLATES_FOLDER
     types_with_policy = (
         'ploneintranet.workspace.workspacefolder',
