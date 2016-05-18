@@ -253,13 +253,13 @@ class TestPermissioningTodos(BaseTestCase):
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(self.case)
         wfconfig.setPolicyIn('case_workflow')
-        # api.content.transition(self.case, 'assign')
         self.case_todo = api.content.create(
             type='todo',
             title='case_todo',
             container=self.case,
             milestone='prepare',
         )
+        self.logout()
 
     def traverse_to_item(self, item):
         """ helper method to travers to an item by path """
@@ -276,6 +276,11 @@ class TestPermissioningTodos(BaseTestCase):
             if (
                 isinstance(key, basestring) and
                 key.startswith('borg.localrole')
+            ):
+                keys_to_remove.append(key)
+            if (
+                isinstance(key, tuple) and
+                key[0] == 'workspaces'
             ):
                 keys_to_remove.append(key)
 
