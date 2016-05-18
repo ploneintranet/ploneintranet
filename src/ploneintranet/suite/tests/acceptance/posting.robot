@@ -136,9 +136,9 @@ Publishing a page creates a statusupdate
     And the content stream is visible
     And the stream contains     published this item
     When I go to the Open Market Committee Workspace
-    Then the stream contains     published this item    
+    Then the stream contains     published
     When I open the Dashboard
-    Then the stream contains     published this item
+    Then the stream contains     published
 
 Content status updates respect document security
     Given I am in a workspace as a workspace admin
