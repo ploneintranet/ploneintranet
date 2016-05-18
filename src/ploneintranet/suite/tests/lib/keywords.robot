@@ -160,6 +160,7 @@ I can go to the sidebar events tile
 
 I can open the workspace advanced settings tab
     Click Link  link=Workspace settings and about
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until page contains  Advanced
     Click link  link=Advanced
     [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
