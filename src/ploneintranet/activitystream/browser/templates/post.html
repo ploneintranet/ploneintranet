@@ -25,7 +25,7 @@
       <em class="action" i18n:translate="label_posted">posted</em>
       <time class="datestamp pat-display-time"
             data-pat-display-time="from-now: true"
-            datetime="${view/date}"
+            datetime="${view/context/date}"
           >${view/date}</time>
 
       <tal:location condition="context/microblog_context/Title|nothing">

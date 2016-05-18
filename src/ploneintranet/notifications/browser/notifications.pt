@@ -36,7 +36,7 @@
             </a>
             <time class="datestamp pat-display-time"
                   data-pat-display-time="from-now: true"
-                  datetime="${notification/date}"
+                  datetime="${notification/obj/message_last_modification_date}"
                 >${notification/date}</time>
           </li>
         </ul>
