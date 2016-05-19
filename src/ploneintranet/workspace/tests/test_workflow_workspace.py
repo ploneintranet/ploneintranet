@@ -116,7 +116,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # open system. Workspaces folder is open for authenticated
         login(self.portal, 'noaddrights')
         request = self.layer['request'].clone()
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'private'
         request.form['title'] = 'everybody can add'
         ac = AddWorkspace(self.open_workspaces, request)
         ac()
@@ -134,7 +134,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         )
         login(self.portal, 'noaddrights')
         request = self.layer['request'].clone()
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'private'
         request.form['title'] = 'not anyone is permitted'
         ac = AddWorkspace(self.restricted_workspaces, request)
         with self.assertRaises(Unauthorized):
@@ -152,7 +152,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         )
         login(self.portal, 'hasaddrights')
         request = self.layer['request'].clone()
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'private'
         request.form['title'] = 'can-add-when-contributor'
         ac = AddWorkspace(self.restricted_workspaces, request)
         ac()

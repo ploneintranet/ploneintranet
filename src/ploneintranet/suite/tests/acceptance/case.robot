@@ -20,7 +20,7 @@ User can create a case workspace
      Then I can create a new case    A case for outer space
       And I can delete a case  a-case-for-outer-space
 
-User can create a template case workspace
+User can create a case workspace template
     Given I am logged in as the user allan_neece
      Then I can create a new template case    New template
      Then I can create a new case from a template  New template  A new type of case

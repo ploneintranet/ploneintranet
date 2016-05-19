@@ -24,6 +24,13 @@ Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
      Then I can create a new workspace    My user workspace
 
+User can create a workspace template
+    Given I am logged in as the user allan_neece
+     Then I can create a new template workspace    New template
+     Then I can create a new workspace from a template  New template  A new type of workspace
+     Then I can delete a template case  new-template
+     Then I can delete a case  a-new-type-of-workspace
+
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
       And I can create a new workspace  Aerospace

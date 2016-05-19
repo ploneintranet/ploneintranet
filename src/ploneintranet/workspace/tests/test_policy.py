@@ -110,8 +110,7 @@ class TestPolicy(BaseTestCase):
         self.login_as_portal_owner()
 
         request = self.layer['request'].clone()
-        request.form['scenario'] = '1'
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'secret'
         request.form['title'] = 'scenario-1'
         add_form = AddWorkspace(self.workspace_container, request)
         add_form()
@@ -121,8 +120,7 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.participant_policy, 'producers')
 
         request = self.layer['request'].clone()
-        request.form['scenario'] = '2'
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'private'
         request.form['title'] = 'scenario-2'
         add_form = AddWorkspace(self.workspace_container, request)
         add_form()
@@ -132,8 +130,7 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.participant_policy, 'moderators')
 
         request = self.layer['request'].clone()
-        request.form['scenario'] = '3'
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
+        request.form['workspace-type'] = 'open'
         request.form['title'] = 'scenario-3'
         add_form = AddWorkspace(self.workspace_container, request)
         add_form()
@@ -141,14 +138,6 @@ class TestPolicy(BaseTestCase):
         self.assertEqual(workspace.external_visibility, 'open')
         self.assertEqual(workspace.join_policy, 'self')
         self.assertEqual(workspace.participant_policy, 'publishers')
-
-        request = self.layer['request'].clone()
-        request.form['scenario'] = 'X'
-        request.form['portal_type'] = 'ploneintranet.workspace.workspacefolder'
-        request.form['title'] = 'scenario-3'
-        add_form = AddWorkspace(self.workspace_container, request)
-        with self.assertRaises(AttributeError):
-            add_form()
 
     def test_workspace_policy_change_updates_existing_members(self):
         """

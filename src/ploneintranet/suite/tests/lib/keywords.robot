@@ -136,6 +136,26 @@ I can create a new workspace
     Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
 
+I can create a new template workspace
+    [arguments]  ${title}
+    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder
+    Input Text  form.widgets.IBasic.title  New template
+    Click Button  Save
+    Go To  ${PLONE_URL}/workspaces
+
+I can create a new workspace from a template
+    [arguments]  ${template}  ${title}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal
+    Input Text  name=title  text=${title}
+    Input Text  name=description  text=Something completely different
+    Select From List  workspace-type  new-template
+    Wait Until Page Contains  New template
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
+    
+
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
     Execute JavaScript  jQuery('.pat-upload.upload .accessibility-options').show()
@@ -771,7 +791,7 @@ I can create a new case
     Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
-    Select From List  portal_type  ploneintranet.workspace.case
+    Select From List  workspace-type  case-template
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
     Wait Until Page Contains  Populate Metadata
@@ -790,9 +810,8 @@ I can create a new case from a template
     Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Something completely different
-    Select From List  portal_type  ploneintranet.workspace.case
-    Wait Until Page Contains  New template
-    Select Radio Button  ploneintranet.workspace.case-template_id  new-template
+    Select From List  workspace-type  case-template
+    Wait Until Page Contains  Case Template
     Click Button  Create workspace
     Wait Until Page Contains  Item created
 
