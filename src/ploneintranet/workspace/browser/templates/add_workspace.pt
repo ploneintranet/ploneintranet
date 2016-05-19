@@ -30,7 +30,7 @@
 	      <option value="secret">
 		Locked down, secret workspace
 	      </option>
-	      <option value="private" checked name="security-level">
+	      <option value="private" selected name="security-level">
 		Self-managed, private workspace
 	      </option>
 	      <option value="open">
