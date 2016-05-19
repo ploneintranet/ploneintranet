@@ -74,7 +74,7 @@
                 <section tal:define="workspaces python:wbd[division.token]" tal:condition="workspaces">
                   <article class="pat-rich canvas-intro">
                     <h1 class="group-title">${division/title}</h1>
-                    <p class="description" tal:condition="division/description">Division Description</p>
+                    <p class="description" tal:condition="division/description">${division/description}</p>
                   </article>
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
