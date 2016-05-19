@@ -322,7 +322,7 @@ class TestCasePermissioningTodos(BaseTestCase):
         self.case_todo.assignee = 'bobdoe'
         self.logout()
         self.login('bobdoe')
-        # bobdoe cannot still access the todo and the case
+        # bobdoe cannot access the todo and the case
         # because the todo's milestone is not yet active
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.case_todo)
