@@ -16,7 +16,20 @@ vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 class AddWorkspace(AddBase):
     """
-    Evaluate simple form and add arbitrary content.
+    Adds a workspace-ish. Supports multiple variants:
+    1. policy 'packages' on the default workspacefolder
+       (hardcoded)
+    2. templates on any variant of workspace-ish
+       (discovered from templates folder)
+    3. any workspace-ish without a template
+       (discovered from addable types)
+
+    Note that the templates are not security filtered, since this is normally
+    not valid. Typically a user creating a workspace is not a member of,
+    and has no access to, the template he's using to create his new workspace.
+
+    There's a flex point `is_template_allowed` supplied for easily overriding
+    the security filter, if you must.
     """
 
     template = ViewPageTemplateFile('templates/add_workspace.pt')
@@ -24,36 +37,117 @@ class AddWorkspace(AddBase):
     TEMPLATES_FOLDER = TEMPLATES_FOLDER
     default_fti = 'ploneintranet.workspace.workspacefolder'
 
-    # BBB: this hardcoded class attributes should be dynamic properties
-    # I see two possible way:
-    # 1. Generic setup: store the information in the portal_type definition xml
-    # 2. Portal_registry: add two properties
-    # If it is easy I would go for 1.
-    types_with_template = (
-        'ploneintranet.workspace.case',
-        'ploneintranet.workspace.workspacefolder',
-    )
-    types_with_policy = (
-        'ploneintranet.workspace.workspacefolder',
-    )
+    # policies are hardcoded in the template as well
+    policies = dict(secret=dict(join_policy='admin',
+                                participant_policy='producers'),
+                    private=dict(join_policy='team',
+                                 participant_policy='moderators'),
+                    open=dict(join_policy='self',
+                              participant_policy='publishers'),)
 
-    def get_template(self):
-        ''' Get a template to copy
+    # rendering helpers
+
+    def workspace_templates(self):
+        """Templates for normal workspaces"""
+        return self.templates_by_type(self.default_fti)
+
+    def special_options(self):
+        """All the template options for non-default workspace types.
+        TODO: plus a generic option for types without a template"""
+        options = []
+        for (typ, templates) in self.templates_by_type().items():
+            if typ == self.default_fti:
+                continue  # already in workspace_options
+            options.extend(templates)
+        return options
+
+    def all_templates(self):
+        return self.workspace_templates() + self.special_options()
+
+    @property
+    def all_templates_dict(self):
+        return {template['id']: template
+                for template in self.all_templates()}
+
+    def _addable_types(self):
+        return [fti.getId() for fti in self.context.allowedContentTypes()]
+
+    @memoize
+    def templates_by_type(self, typ=None):
+        ''' Get's the templates as a dictionary
+        to fill a select or a radio group
         '''
-        with api.env.adopt_roles('Manager'):
-            template_id = self.request.form.get(
-                '%s-template_id' % self.portal_type
-            )
-            if not template_id:
-                return
-            portal = api.portal.get()
-            template_folder = portal.get(self.TEMPLATES_FOLDER)
-            if not template_folder:
-                return
-            src = template_folder.get(template_id)
-            if not src:
-                return
-            return src
+        portal = api.portal.get()
+        templates_folder = portal.get(self.TEMPLATES_FOLDER)
+        allowed_types = self._addable_types()
+        templates_by_type = defaultdict(list)
+        for (id, template) in templates_folder.objectItems():
+            if not self.is_template_allowed(templates_folder, id):
+                continue
+            if template.portal_type in allowed_types:
+                templates_by_type[template.portal_type].append(
+                    {
+                        'id': template.getId(),
+                        'title': template.Title(),
+                        'portal_type': template.portal_type,
+                        'description': template.Description(),
+                    }
+                )
+        for key in templates_by_type:
+            templates_by_type[key].sort(key=lambda x: x['title'])
+        if typ:
+            if typ in templates_by_type:
+                return templates_by_type[typ]
+            else:
+                return []
+        return templates_by_type
+
+    def is_template_allowed(self, templates_folder, template_id):
+        """Pluggable extension point to enforce security"""
+        if template_id in self.policies:
+            return False
+        # # Use a security aware catalog query to filter templates
+        # # NB this is not generally valid
+        # if not templates_folder.getFolderContents({'getId': template_id}):
+        #     return False
+        return True
+
+    def divisions(self):
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
+
+    # POST handler
+
+    def __call__(self):
+        """Render form, or handle POST and redirect"""
+        title = self.request.form.get('title', None)
+        selected = self.request.form.get('workspace-type', None)
+        if not (title and selected):
+            return self.template()
+
+        if selected in self.policies:
+            self.portal_type = self.default_fti
+        elif selected in self.all_templates_dict:
+            templates = self.all_templates_dict
+            self.portal_type = templates[selected]['portal_type']
+        elif selected in self._addable_types():
+            self.portal_type = selected.strip()
+        else:
+            raise KeyError("invalid workspace-type: %s", selected)
+
+        self.title = title.strip()
+        if self.portal_type in api.portal.get_tool('portal_types'):
+            url = self.create()
+            return self.redirect(url)
+
+    def get_new_object(self):
+        ''' This will create a new object
+        '''
+        if self.request.form.get('workspace-type') \
+           in self.all_templates_dict:
+            return self.create_from_template()
+        else:
+            return super(AddWorkspace, self).get_new_object()
 
     def create_from_template(self):
         ''' Create an ocject with the given template
@@ -81,99 +175,33 @@ class AddWorkspace(AddBase):
         new.creation_date = datetime.now()
         return new
 
-    def get_new_object(self):
-        ''' This will create a new object
+    def get_template(self):
+        ''' Get a template to copy
         '''
-        if (
-            self.portal_type in self.types_with_template and
-            self.request.form.get('%s-template_id' % self.portal_type)
-        ):
-            return self.create_from_template()
-        return super(AddWorkspace, self).get_new_object()
-
-    def set_workspace_policy(self, obj):
-        ''' Set's the workspace policy for the objects given a scenario
-        '''
-        form = self.request.form
-        if 'scenario' in form:
-            if form['scenario'] == '1':
-                external_visibility = 'secret'
-                join_policy = 'admin'
-                participant_policy = 'producers'
-            elif form['scenario'] == '2':
-                external_visibility = 'private'
-                join_policy = 'team'
-                participant_policy = 'moderators'
-            elif form['scenario'] == '3':
-                external_visibility = 'open'
-                join_policy = 'self'
-                participant_policy = 'publishers'
-            else:
-                raise AttributeError
-
-            obj.set_external_visibility(external_visibility)
-            obj.join_policy = join_policy
-            obj.participant_policy = participant_policy
+        template_id = self.request.get('workspace-type')
+        if not template_id:
+            return
+        portal = api.portal.get()
+        templates_folder = portal.get(self.TEMPLATES_FOLDER)
+        if not templates_folder:
+            return
+        if self.is_template_allowed(templates_folder, template_id):
+            return templates_folder.get(template_id)
 
     def update(self, obj):
         ''' Update the object and returns the modified fields and errors
         '''
-        if self.portal_type in self.types_with_policy:
-            self.set_workspace_policy(obj)
+        self.set_workspace_policy(obj)
         return super(AddWorkspace, self).update(obj)
 
-    @memoize
-    def get_addable_types(self):
-        ''' List the content that are addable in this context
+    def set_workspace_policy(self, obj):
+        ''' Set's the workspace policy for the objects given a scenario
         '''
-        ftis = self.context.allowedContentTypes()
-        selected_fti = self.request.get(
-            'portal_type',
-            self.default_fti
-        )
-        addable_types = [
-            {
-                'id': fti.getId(),
-                'title': fti.Title(),
-                'selected': fti.getId() == selected_fti and 'selected' or None,
-            }
-            for fti in ftis
-        ]
-        addable_types.sort(key=lambda x: x['title'])
-        return addable_types
-
-    @memoize
-    def get_fti_titles_by_type(self):
-        ''' Get's the titles of the fti by portal_type as a dictionary
-        '''
-        return {
-            x['id']: x['title']
-            for x in self.get_addable_types()
-        }
-
-    @memoize
-    def get_templates_by_type(self):
-        ''' Get's the templates as a dictionary
-        to fill a select or a radio group
-        '''
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        allowed_types = {x['id'] for x in self.get_addable_types()}
-        templates_by_type = defaultdict(list)
-        for template in templates_folder.objectValues():
-            if template.portal_type in allowed_types:
-                templates_by_type[template.portal_type].append(
-                    {
-                        'id': template.getId(),
-                        'title': template.Title(),
-                        'portal_type': template.portal_type,
-                        'description': template.Description(),
-                    }
-                )
-        for key in templates_by_type:
-            templates_by_type[key].sort(key=lambda x: x['title'])
-        return templates_by_type
-
-    def divisions(self):
-        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
-        return divisions
+        try:
+            policy_id = self.request.form.get('workspace-type')
+            policy = self.policies[policy_id]
+        except KeyError:
+            return
+        obj.set_external_visibility(policy_id)  # yes this is the policy key
+        obj.join_policy = policy['join_policy']
+        obj.participant_policy = policy['participant_policy']

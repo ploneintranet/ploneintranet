@@ -23,6 +23,7 @@ from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
+from zExceptions import BadRequest
 
 log = logging.getLogger(__name__)
 
@@ -62,8 +63,8 @@ def workspace_added(ob, event):
 
     """
     # Whoever creates the workspace should be added as an Admin
-    # When copying a case template, that is the current user
-    # (not the one who created the original case template)
+    # When copying a template, that is the current user
+    # (not the one who created the original template)
     userid = api.user.get_current().id
     ob.setCreators([userid])
     IWorkspace(ob).add_to_team(
@@ -81,21 +82,29 @@ def workspace_added(ob, event):
     acl_users = api.portal.get_tool('acl_users')
     user = acl_users.getUserById(userid)
     if user is not None:
-        # NB when copying a case template with execute_as_manager
+        # NB when copying a template with execute_as_manager
         # this is 'finally' replaced again
         newSecurityManager(None, user)
 
-    if not ICase.providedBy(ob):
+    if ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
         """
-        # Configure our placeful workflow
-        cmfpw = 'CMFPlacefulWorkflow'
-        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+        return
 
-        # Set the policy for the config
-        pc = getattr(ob, WorkflowPolicyConfig_id)
-        pc.setPolicyIn('')
-        pc.setPolicyBelow('ploneintranet_policy')
+    # Configure our placeful workflow
+    cmfpw = 'CMFPlacefulWorkflow'
+
+    try:
+        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+    except BadRequest:
+        # 'The id ".wf_policy_config" is invalid - it is already in use.'
+        # copying a template workspace which already has a policy defined
+        return
+
+    # Set the policy for the config
+    pc = getattr(ob, WorkflowPolicyConfig_id)
+    pc.setPolicyIn('')
+    pc.setPolicyBelow('ploneintranet_policy')
 
 
 def invitation_accepted(event):

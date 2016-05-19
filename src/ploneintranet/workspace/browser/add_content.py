@@ -109,6 +109,9 @@ class AddBase(BrowserView):
         return self.template()
 
 
+# AddWorkspace now lives in add_workspace.AddWorkspace
+
+
 class AddFolder(AddBase):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
