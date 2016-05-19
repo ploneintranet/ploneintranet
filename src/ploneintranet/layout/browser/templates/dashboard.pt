@@ -40,7 +40,7 @@
 
         <div id="dashboard"
              class="row pat-masonry"
-             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;"
+             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;stamp: .stamp;"
              tal:condition="python: dashboard == 'task'">
           <div class="grid-sizer four columns"></div>
           <div tal:repeat="tile view/task_tiles" data-tile="${tile}"/>
