@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from datetime import datetime
+from os import environ
 from plone import api
 from plone import api as plone_api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
@@ -13,6 +14,10 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from zope.component import getUtility
 from ZTUtils import make_query
+
+import locale
+
+locale.setlocale(locale.LC_COLLATE, environ.get('LANG', ''))
 
 
 class SearchResultsView(BrowserView):
@@ -307,6 +312,11 @@ class SearchResultsView(BrowserView):
         # This is our fallback
         return self._facet_fallback_type_class
 
+    def cmp_item_title(self, item1, item2):
+        ''' A sorting cmp for item that have a title
+        '''
+        return locale.strcoll(item1['title'].lower(), item2['title'].lower())
+
     @memoize
     def tag_facets(self):
         ''' Return the tags for faceting search results
@@ -321,7 +331,12 @@ class SearchResultsView(BrowserView):
             }
             for t in tags
         ]
-        tags.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        # BBB: I am commenting the following method
+        # because we do not show the number of matching results per tags.
+        # The order coming for the commented line will appear as disorder
+        # to the user
+        # tags.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        tags.sort(cmp=self.cmp_item_title)
         return tags
 
     @memoize
@@ -338,7 +353,12 @@ class SearchResultsView(BrowserView):
             }
             for t in types
         ]
-        types.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        # BBB: I am commenting the following method
+        # because we do not show the number of matching results per facet.
+        # The order coming for the commented line will appear as disorder
+        # to the user
+        # types.sort(key=lambda t: (-t['counter'], t['title'].lower()))
+        types.sort(cmp=self.cmp_item_title)
         return types
 
     @memoize
