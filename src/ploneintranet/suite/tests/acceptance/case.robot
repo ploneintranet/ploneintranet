@@ -106,19 +106,19 @@ Member can view sidebar tasks
 Member can add a new task
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Make a plan  new
+     Then I can add a new task  Make a plan  Neece  new
 
 Member can close an unassigned task from the sidebar
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Unassigned task
+     Then I can add a new task  Unassigned task  Neece
      Then I select the task check box  Unassigned task
      Then I see a task is complete  Unassigned task
 
 Member can mark a new task complete on dashboard
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Todo soon  prepare
+     Then I can add a new task  Todo soon  Neece  prepare
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete
@@ -155,6 +155,12 @@ The manager can invite Alice to join the Example Case from the menu
       And I can open the workspace member settings tab
      Then I can invite Alice to join the workspace from the menu
 
+Member can assign a task to an external user
+    Given I am in a case workspace as a workspace member
+     When I can go to the sidebar tasks tile of my case
+     Then I can add a new task  Todo externally  Alice  prepare
+     When I can open the workspace member settings tab
+     Then I can see the user is a guest    Alice
 
 *** Keywords ***
 
