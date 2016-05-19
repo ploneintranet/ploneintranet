@@ -115,8 +115,7 @@
               </ul>
             </div>
           </div>
-          <tal:comment condition="nothing">This (style="display:none") is a temporary solution until a proper design is available, see quaive/ploneintranet.prototype#249</tal:comment>
-          <p style="display:none" id="help-role-guest" i18n:translate="help-role-guest">This user is a temporary member who was added automatically to this workspace. Reason: The user was assigned to a task inside this workspace. Once the task has been completed, the user's membership will cease automatically.</p>
+          <p id="help-role-guest" i18n:translate="help-role-guest" hidden="hidden">This user is a temporary member who was added automatically to this workspace. Reason: The user was assigned to a task inside this workspace. Once the task has been completed, the user's membership will cease automatically.</p>
         </div>
       </div>
     </div>
