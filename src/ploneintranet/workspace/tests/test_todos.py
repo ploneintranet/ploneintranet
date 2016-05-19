@@ -214,13 +214,13 @@ class TestTodos(BaseTestCase):
         )
 
 
-class TestPermissioningTodos(BaseTestCase):
+class TestCasePermissioningTodos(BaseTestCase):
     """
         Test permission settings in Cases based on assignee status on a Todo
     """
 
     def setUp(self):
-        super(TestPermissioningTodos, self).setUp()
+        super(TestCasePermissioningTodos, self).setUp()
         self.login_as_portal_owner()
         self.profile1 = pi_api.userprofile.create(
             username='janedoe',
@@ -269,7 +269,7 @@ class TestPermissioningTodos(BaseTestCase):
         """
         Delete any cached localrole information from the request.
         """
-        super(TestPermissioningTodos, self).logout()
+        super(TestCasePermissioningTodos, self).logout()
         annotations = IAnnotations(self.request)
         keys_to_remove = []
         for key in annotations.keys():
@@ -314,7 +314,7 @@ class TestPermissioningTodos(BaseTestCase):
         with self.assertRaises(Unauthorized):
             self.traverse_to_item(self.case)
 
-    def test_gain_permission_as_assignee(self):
+    def test_gain_permission_in_future_milestone(self):
         self.login('janedoe')
         self.case_todo.assignee = 'bobdoe'
         self.logout()
@@ -330,3 +330,55 @@ class TestPermissioningTodos(BaseTestCase):
         self.login('bobdoe')
         self.traverse_to_item(self.case_todo)
         self.traverse_to_item(self.case)
+
+    def test_gain_permission_in_current_milestone(self):
+        self.login('janedoe')
+        self.case_todo.assignee = 'bobdoe'
+        self.case_todo.milestone = 'new'
+        notify(ObjectModifiedEvent(self.case_todo))
+        self.logout()
+        self.login('bobdoe')
+        self.traverse_to_item(self.case_todo)
+        self.traverse_to_item(self.case)
+
+    def test_remove_permission_in_closed_milestone(self):
+        self.login('janedoe')
+        self.case_todo.assignee = 'bobdoe'
+        self.case_todo.milestone = 'new'
+        notify(ObjectModifiedEvent(self.case_todo))
+        self.logout()
+        self.login_as_portal_owner()
+        # Switch the case workflow away from the task's milestone
+        api.content.transition(self.case, 'assign')
+        self.logout()
+        self.login('bobdoe')
+        # bobdoe can no longer access the case and the todo
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.case_todo)
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.case)
+
+    def test_keep_permissio_when_still_assigned(self):
+        self.login('janedoe')
+        self.case_todo.assignee = 'bobdoe'
+        self.case_todo.milestone = 'new'
+        notify(ObjectModifiedEvent(self.case_todo))
+        # Create a second task, for milestone "prepare"
+        case_todo2 = api.content.create(
+            type='todo',
+            title='Another Case ToDo',
+            container=self.case,
+            milestone='prepare',
+        )
+        case_todo2.assignee = 'bobdoe'
+        self.logout()
+        self.login_as_portal_owner()
+        # Switch the case workflow away from the task's milestone
+        api.content.transition(self.case, 'assign')
+        self.logout()
+        self.login('bobdoe')
+        # bobdoe can still access the case and the todo, since he is still
+        # case_todo2 is currently active
+        self.traverse_to_item(self.case_todo)
+        self.traverse_to_item(self.case)
+        self.traverse_to_item(case_todo2)
