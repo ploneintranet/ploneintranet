@@ -76,6 +76,7 @@
                      tal:condition="divisions">
           <span tal:omit-tag="" i18n:translate="">Division</span>
           <select name="division">
+            <option value i18n:translate="">None</option>
             <option value=""
                     tal:repeat="division divisions"
                     tal:content="division/title"

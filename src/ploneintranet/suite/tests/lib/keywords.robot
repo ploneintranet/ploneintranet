@@ -143,6 +143,23 @@ I can create a new template workspace
     Click Button  Save
     Go To  ${PLONE_URL}/workspaces
 
+I can create a new workspace for the division
+    [arguments]  ${title}  ${division}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal
+    Input Text  xpath=//input[@name='title']  text=${title}
+    Input Text  xpath=//textarea[@name='description']  text=Random description
+    Select From List  division  ${division}
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
+    Click Button  Close
+    Wait Until Element Is visible  css=div#activity-stream
+
+I can see the workspace belongs to division
+    [arguments]  ${division}
+    Wait Until Element Is Visible  xpath=//select//option[@selected='selected'][text()='${division}']
+
 I can create a new workspace from a template
     [arguments]  ${template}  ${title}
     Go To  ${PLONE_URL}/workspaces
