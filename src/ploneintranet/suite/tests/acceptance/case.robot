@@ -126,6 +126,17 @@ Member can mark a new task complete on dashboard
      Then I select the task centric view
      Then I do not see the completed task is not listed
 
+Manager can freeze and unfreeze a case
+    Given I am in a case workspace as a workspace admin
+      And I can open the workspace advanced settings tab
+      And I freeze the case
+      And I go to the Example Case
+     Then I see that the workspace is frozen
+     Then I can open the workspace advanced settings tab
+      And I unfreeze the case
+      And I go to the Example Case
+     Then I see that the workspace is not frozen
+
 ## These tagging tests are intractable because the save confirmation
 ## message is set OK but not displayed - no indicator of injection complete
 ## is available that works for both tasks and documents/files/images

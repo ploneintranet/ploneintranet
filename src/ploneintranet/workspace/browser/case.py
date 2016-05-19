@@ -97,8 +97,8 @@ class FreezeView(BrowserView):
 
     def can_be_frozen(self):
         """
-        An item can only be frozen if the assigned workflow has a workflow state
-        which is configured as the "frozen" state.
+        An item can only be frozen if the assigned workflow has a workflow
+        state which is configured as the "frozen" state.
         """
         return bool(self.frozen_state)
 

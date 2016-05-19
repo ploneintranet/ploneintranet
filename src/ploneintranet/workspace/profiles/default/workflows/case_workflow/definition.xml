@@ -499,14 +499,14 @@
 
   <state state_id="frozen" title="Frozen">
     <description>The case has been put on hold.</description>
-    <exit-transition transition_id="assign"/>
-    <exit-transition transition_id="close"/>
-    <exit-transition transition_id="decide"/>
-    <exit-transition transition_id="finalise"/>
-    <exit-transition transition_id="reject"/>
-    <exit-transition transition_id="request"/>
-    <exit-transition transition_id="reset"/>
-    <exit-transition transition_id="submit"/>
+    <exit-transition transition_id="re_assign"/>
+    <exit-transition transition_id="re_close"/>
+    <exit-transition transition_id="re_decide"/>
+    <exit-transition transition_id="re_finalise"/>
+    <exit-transition transition_id="re_reject"/>
+    <exit-transition transition_id="re_request"/>
+    <exit-transition transition_id="re_reset"/>
+    <exit-transition transition_id="re_submit"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>

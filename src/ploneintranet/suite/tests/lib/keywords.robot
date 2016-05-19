@@ -962,6 +962,20 @@ I can mention the user
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]
     Click element    css=textarea.pat-content-mirror
 
+I freeze the case
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Freeze case
+
+I unfreeze the case
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Unfreeze case
+
+I see that the workspace is frozen
+    Wait Until Page Contains  Frozen
+
+I see that the workspace is not frozen
+    Page Should Not Contain  Frozen
+
 # *** search related keywords ***
 
 I can see the site search button
