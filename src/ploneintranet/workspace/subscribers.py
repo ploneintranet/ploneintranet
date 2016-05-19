@@ -258,6 +258,10 @@ def _update_todo_state(todo):
     todo.reindexObject()
 
 
+def _update_case_access(obj):
+    execute_as_manager(obj.update_case_access)
+
+
 def workspace_groupbehavior_toggled(obj, event):
     # If the IMembraneGroup behavior gets set or deactivated for workspaces,
     # the membrane tool needs to be updated, and all workspaces need to be
@@ -300,7 +304,3 @@ def workspace_groupbehavior_toggled(obj, event):
         workspace = result.getObject()
         workspace.reindexObject()
         membrane_catalog.reindexObject(workspace)
-
-
-def _update_case_access(obj):
-    execute_as_manager(obj.update_case_access)
