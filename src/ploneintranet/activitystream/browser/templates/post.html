@@ -24,9 +24,9 @@
     <p class="byline">
       <em class="action" i18n:translate="label_posted">posted</em>
       <time class="datestamp pat-display-time"
-            data-pat-display-time="from-now: true"
-            datetime="${view/context/date}"
-          >${view/date}</time>
+            data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+            datetime="${view/raw_date/ISO}"
+          >${view/raw_date/ISO}</time>
 
       <tal:location condition="context/microblog_context/Title|nothing">
         in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
