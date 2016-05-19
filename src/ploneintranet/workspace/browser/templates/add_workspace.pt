@@ -78,7 +78,7 @@
           <select name="division">
             <option value=""
                     tal:repeat="division divisions"
-                    tal:content="division/value"
+                    tal:content="division/title"
                     tal:attributes="value division/token">
               Division
             </option>
