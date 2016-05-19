@@ -140,6 +140,13 @@ class AddWorkspace(AddBase):
             url = self.create()
             return self.redirect(url)
 
+    def redirect(self, url):
+        """
+        Has its own method to allow overriding
+        """
+        url = '{}#workspace-settings'.format(url)
+        return self.request.response.redirect(url)
+
     def get_new_object(self):
         ''' This will create a new object
         '''
