@@ -41,8 +41,10 @@
                       tal:content="template/title">workspace template
               </option>
 	    </optgroup>
-	    <optgroup label="Special workspace">
-              <option tal:repeat="template view/special_options"
+	    <optgroup label="Special workspace"
+                      tal:define="options view/special_options"
+                      tal:condition="options">
+              <option tal:repeat="template options"
                       tal:attributes="value template/id"
                       tal:content="template/title">special workspace template
               </option>
