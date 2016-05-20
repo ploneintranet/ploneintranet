@@ -82,3 +82,14 @@ def enforce_parent_context(context):
             commit()
     logger.info("Fixed security context for %s replies", i)
     commit()
+
+
+def document_discussion_fields(context):
+    '''Add new fields introduced for document discussion'''
+    tool = queryUtility(IMicroblogTool)
+    for status in tool.values(limit=None):
+        if not hasattr(status, '_content_context_uuid'):
+            status._content_context_uuid = None
+        if not hasattr(status, '_verb'):
+            status._verb = None
+    logger.info("Added document discussion fields")

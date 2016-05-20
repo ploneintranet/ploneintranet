@@ -76,4 +76,13 @@
     profile="ploneintranet.microblog:default"
     />
 
+  <genericsetup:upgradeStep
+    title="document discussion"
+    description="Add document discussion fields"
+    source="0005"
+    destination="0006"
+    handler=".migration.document_discussion_fields"
+    profile="ploneintranet.microblog:default"
+    />
+
 </configure>

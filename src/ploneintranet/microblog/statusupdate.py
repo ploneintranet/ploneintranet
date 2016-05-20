@@ -122,7 +122,10 @@ class StatusUpdate(Persistent):
 
     @property
     def content_context(self):
+        if not self._content_context_uuid:
+            return None
         uuid = self._content_context_uuid
+        # raises AttributeError on unauthorized?
         return self._uuid2context(uuid)
 
     def _uuid2context(self, uuid=None):
