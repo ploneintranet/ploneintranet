@@ -435,7 +435,9 @@ def case_templates_spec(context):
     case_templates = [{
         'title': 'Case Template',
         'description': 'A Template Case Workspace, pre-populated with tasks',
-        'members': {},
+        'members': {'allan_neece': [u'Members'],
+                    'dollie_nocera': [u'Members'],
+                    'christian_stoney': [u'Admins', u'Members']},
         'contents': [{
             'title': 'Populate Metadata',
             'type': 'todo',
