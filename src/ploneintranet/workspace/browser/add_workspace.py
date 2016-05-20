@@ -9,7 +9,6 @@ from zope.component import getUtility
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.browser.add_content import AddBase
-from ploneintranet.workspace.unrestricted import execute_as_manager
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
@@ -168,12 +167,7 @@ class AddWorkspace(AddBase):
             )
             return
 
-        # need privilege escalation since normal users do not
-        # have View permission on case templates
-        # - that only comes after the template has been turned
-        # into an actual case with member users
-        new = execute_as_manager(
-            api.content.copy,
+        new = api.content.copy(
             source=template,
             target=self.context,
             id=self.get_new_unique_id(),
