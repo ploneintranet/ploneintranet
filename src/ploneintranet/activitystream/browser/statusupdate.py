@@ -104,14 +104,22 @@ class StatusUpdateView(BrowserView):
         '''
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
-        date = self.context.date
-        if hasattr(date, 'isoformat'):
-            date = DateTime(self.context.raw_date.isoformat())
+        date = self.raw_date
 
         return self.toLocalizedTime(
             date,
             long_format=True,
         )
+
+    @property
+    @memoize
+    def raw_date(self):
+        ''' The raw date of our context object
+        '''
+        date = self.context.date
+        if hasattr(date, 'isoformat'):
+            date = DateTime(self.context.raw_date.isoformat())
+        return date
 
     @property
     @memoize

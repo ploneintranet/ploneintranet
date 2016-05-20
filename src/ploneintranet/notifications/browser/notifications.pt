@@ -35,7 +35,7 @@
               Who's up for a beer at Watershed at 8pm?
             </a>
             <time class="datestamp pat-display-time"
-                  data-pat-display-time="from-now: true"
+                  data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
                   datetime="${notification/obj/message_last_modification_date}"
                 >${notification/date}</time>
           </li>
