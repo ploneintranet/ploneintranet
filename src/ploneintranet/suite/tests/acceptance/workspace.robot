@@ -29,7 +29,7 @@ User can create a workspace template
      Then I can create a new template workspace    New template
      Then I can create a new workspace from a template  New template  A new type of workspace
      Then I can delete a template case  new-template
-     Then I can delete a workspace  a-new-type-of-workspace
+     Then I can delete a case  a-new-type-of-workspace
 
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
