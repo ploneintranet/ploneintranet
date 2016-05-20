@@ -115,17 +115,20 @@ Templating
 
 In any given organisation there is a high probability that there are many different business processes that can be implemented with a case. To ease creation of cases and reduce the complexity of configuring a case, there is support for case templates. 
 
-On portal creation, the system sets up a workspace container called ``templates`` in the portal root. It adds also a default case in there with the ``case_workflow`` set and some demo tasks. When a user now attempts to create a case, the form provides all cases from that templates folder to select from. 
+On portal creation, the system sets up a workspace container called ``templates`` in the portal root. It adds also a default case in there with the ``case_workflow`` set and some demo tasks. When a user now attempts to create a case, the form provides all cases from that templates folder to select from.
 
 The selected case is then copied over into the main workspaces container and used as template. All content that is in that case template is copied with it so that it is easy to preconfigure a case with tasks and even documents and events.
 
 .. note::
 
-    Cases in the templates folder are not shown on the main workspace listing. Currently you need to type the path to your case template into the browser manually to access it.
-
+   Case templates are security filtered: only users who have access to
+   (are member of) the case template, can use the template.
+   
 .. note::
 
-   Creating a new case template is not directly supported in the user interface. You can create a new template by opening the following URL in your browser manually: `${PLONE_URL}/templates/++add++ploneintranet.workspace.case`
+    Cases in the templates folder are not shown on the main workspace listing.
+    You can see them by going to `${PLONE_URL}/templates/`.
+    Creating a new case can be done there by using the `(+)` icon.
 
 
 

@@ -127,6 +127,10 @@ The page is not found
 I can create a new workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
+    I add a workspace  ${title}
+
+I add a workspace
+    [arguments]  ${title}
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal
     Input Text  xpath=//input[@name='title']  text=${title}
@@ -136,12 +140,19 @@ I can create a new workspace
     Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
 
+I can delete a workspace
+    [arguments]  ${id}
+    I can delete a case  ${id}
+
 I can create a new template workspace
     [arguments]  ${title}
-    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder
-    Input Text  form.widgets.IBasic.title  New template
-    Click Button  Save
+    Go To  ${PLONE_URL}/templates/
+    I add a workspace  ${title}
     Go To  ${PLONE_URL}/workspaces
+
+I can delete a template workspace
+    [arguments]  ${id}
+    I can delete a template case  ${id}
 
 I can create a new workspace for the division
     [arguments]  ${title}  ${division}
@@ -804,6 +815,10 @@ Admin moves the example workspace to state complete
 I can create a new case
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
+    I add a case  ${title}
+
+I add a case
+    [arguments]  ${title}
     Click Link  link=Create workspace
     Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
@@ -811,13 +826,14 @@ I can create a new case
     Select From List  workspace-type  case-template
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
-    Wait Until Page Contains  Populate Metadata
+    Wait Until Page Contains  Item created
+    Click Button  Close
+    Wait Until Element Is visible  css=div#activity-stream
 
 I can create a new template case
     [arguments]  ${title}
-    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.case
-    Input Text  form.widgets.IBasic.title  New template
-    Click Button  Save
+    Go To  ${PLONE_URL}/templates/
+    I add a case  ${title}
     Go To  ${PLONE_URL}/workspaces
 
 I can create a new case from a template
