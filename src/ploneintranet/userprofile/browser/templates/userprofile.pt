@@ -31,10 +31,11 @@
                           method="post"
                           enctype="multipart/form-data"
                           data-pat-inject="source: .pat-notification::element; target: #global-header::after"
-                          class="pat-inject pat-autosubmit">
+                          class="pat-inject pat-autosubmit"
+                          tal:condition="is_me">
                         <label class="edit icon-pencil iconified">
-                            <input type="file" name="portrait" accept="image/*;capture=camera"> <button type="submit" i18n:translate="">Update avatar</button>
-                            <input type="hidden" name="submit" value="submit">
+                            <input type="file" name="portrait" accept="image/*;capture=camera"/> <button type="submit" i18n:translate="">Update avatar</button>
+                            <input type="hidden" name="submit" value="submit"/>
                         </label>
                     </form>
                     <figcaption>
