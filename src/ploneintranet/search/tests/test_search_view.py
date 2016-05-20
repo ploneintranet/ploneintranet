@@ -4,6 +4,8 @@ from plone import api
 from ploneintranet import api as pi_api
 from ploneintranet.search.testing import IntegrationTestCase
 
+import locale
+
 PROJECTNAME = 'ploneintranet.search'
 
 
@@ -12,15 +14,12 @@ class FakeCurrentUser(object):
     '''
 
 
-class TestSearchOptionsPersistent(IntegrationTestCase):
-
+class BaseSearchTestCase(IntegrationTestCase):
+    ''' Base test case we need to test the views
+    '''
     def setUp(self):
-        super(TestSearchOptionsPersistent, self).setUp()
+        super(BaseSearchTestCase, self).setUp()
         self.portal = self.layer['portal']
-        api.portal.set_registry_record(
-            'ploneintranet.search.ui.persistent_options',
-            True,
-        )
 
     def get_search_view(self, params={}):
         ''' Return the search view called with params
@@ -31,6 +30,56 @@ class TestSearchOptionsPersistent(IntegrationTestCase):
             'search',
             self.portal,
             request,
+        )
+
+
+class TestSearchView(BaseSearchTestCase):
+    ''' Test search view functionality
+    '''
+
+    def test_sorting_method(self):
+        ''' The function we use for sorting items that have a title
+        '''
+        view = self.get_search_view()
+        old_locale = locale.getlocale(locale.LC_COLLATE)
+        # make the tests indipendent from the environment
+        locale.setlocale(locale.LC_COLLATE, ('en_US', 'UTF-8'))
+        items = [
+            {'title': u'A'},
+            {'title': u'B'},
+            {'title': u'c'},
+            {'title': u'sr'},
+            {'title': u'st'},
+            {'title': u'z'},
+            {'title': u'ß'},
+            {'title': u'à'},
+            {'title': u'ä'},
+        ]
+        self.assertListEqual(
+            sorted(items, cmp=view.cmp_item_title),
+            [
+                {'title': u'A'},
+                {'title': u'à'},
+                {'title': u'ä'},
+                {'title': u'B'},
+                {'title': u'c'},
+                {'title': u'sr'},
+                {'title': u'ß'},
+                {'title': u'st'},
+                {'title': u'z'},
+            ]
+        )
+        # reset the locale
+        locale.setlocale(locale.LC_COLLATE, old_locale)
+
+
+class TestSearchOptionsPersistent(BaseSearchTestCase):
+
+    def setUp(self):
+        super(TestSearchOptionsPersistent, self).setUp()
+        api.portal.set_registry_record(
+            'ploneintranet.search.ui.persistent_options',
+            True,
         )
 
     def test_defaults_not_modified_vanilla(self):
