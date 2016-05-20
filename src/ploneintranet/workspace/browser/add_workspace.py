@@ -24,12 +24,9 @@ class AddWorkspace(AddBase):
     3. any workspace-ish without a template
        (discovered from addable types)
 
-    Note that the templates are not security filtered, since this is normally
-    not valid. Typically a user creating a workspace is not a member of,
-    and has no access to, the template he's using to create his new workspace.
-
-    There's a flex point `is_template_allowed` supplied for easily overriding
-    the security filter, if you must.
+    Templates are security filtered: you can only use a template if
+    you have access to the template, typically because you're a member
+    of the template, possibly via an indirect group membership.
     """
 
     template = ViewPageTemplateFile('templates/add_workspace.pt')
@@ -77,13 +74,9 @@ class AddWorkspace(AddBase):
         ''' Get's the templates as a dictionary
         to fill a select or a radio group
         '''
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
         allowed_types = self._addable_types()
         templates_by_type = defaultdict(list)
-        for (id, template) in templates_folder.objectItems():
-            if not self.is_template_allowed(templates_folder, id):
-                continue
+        for template in self.allowed_templates.values():
             if template.portal_type in allowed_types:
                 templates_by_type[template.portal_type].append(
                     {
@@ -102,15 +95,22 @@ class AddWorkspace(AddBase):
                 return []
         return templates_by_type
 
-    def is_template_allowed(self, templates_folder, template_id):
-        """Pluggable extension point to enforce security"""
-        if template_id in self.policies:
-            return False
-        # # Use a security aware catalog query to filter templates
-        # # NB this is not generally valid
-        # if not templates_folder.getFolderContents({'getId': template_id}):
-        #     return False
-        return True
+    @property
+    def allowed_templates(self):
+        return self._allowed_templates()
+
+    @memoize
+    def _allowed_templates(self):
+        """A {id: template} dict containing only the templates
+        which are accessible for the current user.
+        """
+        portal = api.portal.get()
+        templates_folder = portal.get(self.TEMPLATES_FOLDER)
+        if not templates_folder:
+            return {}
+        return {brain.getId: brain.getObject()
+                for brain in templates_folder.getFolderContents()
+                if brain.getId not in self.policies}
 
     def divisions(self):
         divisions = getUtility(IVocabularyFactory, vocab)(self.context)
@@ -188,12 +188,8 @@ class AddWorkspace(AddBase):
         template_id = self.request.get('workspace-type')
         if not template_id:
             return
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        if not templates_folder:
-            return
-        if self.is_template_allowed(templates_folder, template_id):
-            return templates_folder.get(template_id)
+        # anyone trying to bypass this deserves an uncaught KeyError
+        return self.allowed_templates[template_id]
 
     def update(self, obj):
         ''' Update the object and returns the modified fields and errors

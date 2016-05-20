@@ -4,6 +4,9 @@ from plone import api
 from plone.api.exc import InvalidParameterError
 from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.browser.add_workspace import AddWorkspace
+
 
 class TestAddWorkspace(BaseTestCase):
 
@@ -146,6 +149,57 @@ class TestAddWorkspace(BaseTestCase):
 
         self.assertEqual(ws.calendar_visible, True)
         self.assertEqual(ws.email, 'test@testing.net')
+
+
+class TestAddWorkspaceView(BaseTestCase):
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        self.login_as_portal_owner()
+        api.user.create(username='johndoe', email="johndoe@test.com")
+        api.user.create(username='maryjane', email="maryjane@test.com")
+        self.templates_container = self.portal.get(TEMPLATES_FOLDER)
+        self.template = api.content.create(
+            self.templates_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-template',
+            title='Welcome to my workspace template'
+        )
+        self.add_user_to_workspace('johndoe', self.template)
+
+    def test_AddWorkspaceView(self):
+        self.login('johndoe')
+        request = self.layer['request'].clone()
+        request.form['workspace-type'] = 'private'
+        request.form['title'] = 'my workspace'
+        aw = AddWorkspace(self.workspace_container, request)
+        aw()
+        self.assertIn('my-workspace',
+                      self.workspace_container.objectIds())
+
+    def test_add_template_via_view(self):
+        request = self.layer['request'].clone()
+        request.form['workspace-type'] = 'private'
+        request.form['title'] = 'my template'
+        at = AddWorkspace(self.templates_container, request)
+        at()
+        self.assertIn('my-template',
+                      self.templates_container.objectIds())
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.workspace_container, request)
+        self.assertIn('my-template', aw.all_templates_dict)
+
+    def test_template_member_can_see_template_in_menu(self):
+        self.login('johndoe')
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.templates_container, request)
+        self.assertIn('example-template', aw.all_templates_dict)
+
+    def test_template_nonmember_cannot_see_template_in_menu(self):
+        self.login('maryjane')
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.templates_container, request)
+        self.assertNotIn('example-template', aw.all_templates_dict)
 
 
 class TestAddUsersToWorkspace(BaseTestCase):
