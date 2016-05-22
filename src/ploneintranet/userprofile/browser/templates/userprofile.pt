@@ -47,7 +47,7 @@
                             <span tal:replace="context/fullname" />
                         </a>
                     </figcaption>
-            </figure>
+                </figure>
 
                 <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
                     <form tal:replace="structure context/@@toggle_follow" />
@@ -111,6 +111,7 @@
                     </p>
                 </div>
             </aside>
+
             <div id="main">
                 <nav class="pat-tabs tabs">
                     <a href="#person-timeline" class="current" i18n:translate="">Timeline</a>
@@ -121,7 +122,7 @@
                     <a href="#person-groups" tal:condition="num_groups" class="link-groups" i18n:translate="person-groups">Groups <sup tal:content="num_groups" i18n:name="num_groups">XX</sup></a>
 
                 </nav>
-                <div class="pat-stacks">
+                <div class="pat-stacks simple" data-pat-stacks="transition: css">
                     <div class="activity-stream" id="person-timeline">
                         <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
                         <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${context/absolute_url}/@@activitystream.tile" ></div>
@@ -203,6 +204,7 @@
                             </form>
                          </div>
                     </div>
+
                     <div id="person-workspaces" tal:condition="num_workspaces">
                         <article class="pat-rich">
                             <p i18n:translate="user_member_of_workspaces">
@@ -215,17 +217,13 @@
                                 <div class="tile workspace four columns ${workspace/css_class}">
                                     <a href="${workspace/url}" class="link">
                                         <h3>${workspace/title}</h3>
-
-                                            <p class="description" tal:condition="workspace/description">
-                                                ${workspace/description}
-                                            </p>
+                                        <p class="description" tal:condition="workspace/description">
+                                            ${workspace/description}
+                                        </p>
                                     </a>
                                 </div>
                             </tal:workspaces>
                         </div>
-
-
-
                     </div>
 
                     <div id="person-groups" tal:condition="num_groups">
@@ -235,7 +233,6 @@
                             </p>
                         </article>
                         <ul class="group-table pat-equaliser">
-
                             <li class="group" tal:repeat="group groups">
                                 <a href="${group/url}" class="two columns" >
                                     <img src="${group/img}" class="group-badge" alt="Image of ${group/title}" />
@@ -250,9 +247,8 @@
                                     </p>
                                 </a>
                             </li>
-
-
                         </ul>
+                    </div>
                 </div>
             </div>
         </metal:content>
