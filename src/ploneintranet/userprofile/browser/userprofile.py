@@ -81,7 +81,7 @@ class UserProfileView(UserProfileViewForm):
         g_icon = '/++theme++ploneintranet.theme/generated/media/icon-group.svg'
 
         # Don't show certain system groups
-        group_filter = ['Members', 'AuthenticatedUsers']
+        group_filter = ['Members', 'AuthenticatedUsers', 'All Intranet Users']
         css_mapping = get_workspaces_css_mapping()
         for group in my_groups:
             if not group:
