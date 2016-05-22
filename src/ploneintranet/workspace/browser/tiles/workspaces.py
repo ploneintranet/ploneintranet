@@ -42,6 +42,24 @@ class WorkspacesTile(Tile):
                              include_activities=include_activities)
 
 
+def get_workspaces_css_mapping():
+    try:
+        workspace_types_css_mapping = api.portal.get_registry_record(
+            'ploneintranet.workspace.workspace_types_css_mapping'
+        )
+    except api.exc.InvalidParameterError:
+        # backward compatibility
+        workspace_types_css_mapping = [
+            'ploneintranet.workspace.case|type-case'
+        ]
+
+    css_mapping = {}
+    for line in workspace_types_css_mapping:
+        key, value = line.partition('|')[::2]
+        css_mapping[key] = value
+    return css_mapping
+
+
 def my_workspaces(context,
                   request={},
                   workspace_types=[],
@@ -115,21 +133,7 @@ def my_workspaces(context,
     portal = api.portal.get()
     workspaces = []
 
-    try:
-        workspace_types_css_mapping = api.portal.get_registry_record(
-            'ploneintranet.workspace.workspace_types_css_mapping'
-        )
-    except api.exc.InvalidParameterError:
-        # backward compatibility
-        workspace_types_css_mapping = [
-            'ploneintranet.workspace.case|type-case'
-        ]
-
-    css_mapping = {}
-    for line in workspace_types_css_mapping:
-        key, value = line.partition('|')[::2]
-        css_mapping[key] = value
-
+    css_mapping = get_workspaces_css_mapping()
     for item in response:
         path_components = item.path.split('/')
         item_id = path_components[-1]
