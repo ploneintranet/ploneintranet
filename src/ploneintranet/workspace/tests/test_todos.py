@@ -225,10 +225,18 @@ class TestCasePermissioningTodos(BaseTestCase):
         self.profile1 = pi_api.userprofile.create(
             username='janedoe',
             email='janedoe@doe.com',
+            properties=dict(
+                first_name=u'Jäne',
+                last_name=u'Doe',
+            )
         )
         self.profile2 = pi_api.userprofile.create(
             username='bobdoe',
             email='bobdoe@doe.com',
+            properties=dict(
+                fist_name=u'Bøb',
+                last_name=u'Doe',
+            )
         )
         self.portal = self.layer['portal']
         pwft = api.portal.get_tool("portal_placeful_workflow")
@@ -312,6 +320,32 @@ class TestCasePermissioningTodos(BaseTestCase):
         # bobdoe can access the Case and the Todo
         self.traverse_to_item(self.case_todo)
         self.traverse_to_item(self.case)
+
+    def test_remove_permission_when_unassigned(self):
+        """
+            Bobdoe is assigned to a Todo, and the Todo's milestone is currently
+            active. He is then unassigned again. He loses access.
+        """
+        self.login('janedoe')
+        self.case_todo.assignee = 'bobdoe'
+        self.case_todo.milestone = 'new'
+        notify(ObjectModifiedEvent(self.case_todo))
+        existing_users = self.case.existing_users_by_id()
+        # bobdoe is now a Guest member of the case
+        self.assertTrue('bobdoe' in existing_users)
+        self.assertEqual(existing_users['bobdoe']['role'], 'Guest')
+        self.case_todo.assignee = ''
+        notify(ObjectModifiedEvent(self.case_todo))
+        existing_users = self.case.existing_users_by_id()
+        # bobdoe is no longer a Guest member of the case
+        self.assertFalse('bobdoe' in existing_users)
+        self.logout()
+        self.login('bobdoe')
+        # bobdoe cannot access the todo and the case
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.case_todo)
+        with self.assertRaises(Unauthorized):
+            self.traverse_to_item(self.case)
 
     def test_no_permission_in_inactive_milestone(self):
         """

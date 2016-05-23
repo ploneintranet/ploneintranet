@@ -48,6 +48,9 @@ class Case(WorkspaceFolder):
 
         tasks_by_state = self.tasks()
         existing_users = self.existing_users_by_id()
+        existing_guests = set([
+            id for (id, record) in existing_users.items() if
+            record.get('role') == 'Guest'])
 
         remove_access = set()
         grant_access = set()
@@ -70,6 +73,9 @@ class Case(WorkspaceFolder):
                     ):
                         remove_access.add(assignee_id)
         workspace = IWorkspace(self)
+        # All existing guests which were not found worthy of keeping their
+        # access permissions need to be removed
+        remove_access = existing_guests.difference(grant_access)
         # We don't need to remove users that will be added again
         remove_ids = remove_access.difference(grant_access)
         # We don't need to grant access to users who already have it
