@@ -1482,7 +1482,7 @@ msgstr "Suchanfrage (verbessert)"
 
 #: ../workspace/basecontent/event.py:22
 msgid "Start date should be lower than end date"
-msgstr "Anfangsdatum sollte fräüher sein als Enddatum."
+msgstr "Anfangsdatum sollte früher sein als Enddatum."
 
 #: ../workspace/browser/templates/case_manager.pt:42
 msgid "Status"
