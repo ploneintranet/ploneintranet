@@ -71,9 +71,9 @@ class Case(WorkspaceFolder):
                         remove_access.add(assignee_id)
         workspace = IWorkspace(self)
         # We don't need to remove users that will be added again
-        remove_ids = [id for id in remove_access if id not in grant_access]
+        remove_ids = remove_access.difference(grant_access)
         # We don't need to grant access to users who already have it
-        grant_ids = [id for id in grant_access if id not in remove_access]
+        grant_ids = grant_access.difference(remove_access)
         for user_id in remove_ids:
             workspace.remove_from_team(user_id)
         for user_id in grant_ids:
