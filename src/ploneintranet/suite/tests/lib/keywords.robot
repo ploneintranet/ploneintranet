@@ -175,7 +175,7 @@ I can create a new workspace from a template
     Wait Until Page Contains  New template
     Click Button  Create workspace
     Wait Until Page Contains  Item created
-    
+
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
@@ -929,15 +929,15 @@ I can go to the sidebar tasks tile of my case
     Wait Until Page Contains  General tasks
 
 I can add a new task
-    [arguments]  ${title}  ${milestone}=
+    [arguments]  ${title}  ${username}  ${milestone}=
     Click Link  Create task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Allan Neece
-    Input Text  css=label.assignee li.select2-search-field input  neece
-    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Neece']
-    Click Element  xpath=//span[@class='select2-match'][text()='Neece']
+    Input Text  css=label.assignee li.select2-search-field input  ${username}
+    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='${username}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${username}']
     Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
@@ -973,6 +973,11 @@ I can open a milestone task panel
     [arguments]  ${milestone}
     # panel 'open' state is session dependent, force open
     Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
+
+I can see the user is a guest
+    [arguments]  ${username}
+    Wait until page contains element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_guests']//strong[@class='title' and contains(text(), '${username}')]
+    Page should not contain element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_users']//strong[@class='title' and contains(text(), '${username}')]
 
 I write a status update
     [arguments]  ${message}

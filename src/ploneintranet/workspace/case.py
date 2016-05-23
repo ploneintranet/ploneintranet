@@ -1,4 +1,6 @@
 # coding=utf-8
+from collective.workspace.interfaces import IWorkspace
+from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.workspacefolder import WorkspaceFolder
@@ -30,3 +32,55 @@ class Case(WorkspaceFolder):
         Override in custom workspace types
         """
         return "case"
+
+    def update_case_access(self):
+        """
+        Iterate over all tasks inside the case.
+        - If a member is assigned to a task and the task in the current
+          milestone:
+          Grant Guest access, if the user is not a regular member of the Case
+        - If a member has Guest access, but is not an assignee in any
+          task of the current milestone:
+          Remove Guest access
+        """
+        wft = api.portal.get_tool("portal_workflow")
+        case_state = wft.getInfoFor(self, "review_state")
+
+        tasks_by_state = self.tasks()
+        existing_users = self.existing_users_by_id()
+        existing_guests = set([
+            id for (id, record) in existing_users.items() if
+            record.get('role') == 'Guest'])
+
+        remove_access = set()
+        grant_access = set()
+        for state in tasks_by_state:
+            for task in tasks_by_state[state]:
+                if not task.get('assignee'):
+                    continue
+                assignee_id = task.get('assignee').getId()
+                if case_state == state:
+                    if (
+                        assignee_id not in existing_users or
+                        (assignee_id in existing_users and
+                            existing_users[assignee_id]['role'] == 'Guest')
+                    ):
+                        grant_access.add(assignee_id)
+                else:
+                    if (
+                        assignee_id in existing_users and
+                        existing_users[assignee_id]['role'] == 'Guest'
+                    ):
+                        remove_access.add(assignee_id)
+        workspace = IWorkspace(self)
+        # All existing guests which were not found worthy of keeping their
+        # access permissions need to be removed
+        remove_access = existing_guests.difference(grant_access)
+        # We don't need to remove users that will be added again
+        remove_ids = remove_access.difference(grant_access)
+        # We don't need to grant access to users who already have it
+        grant_ids = grant_access.difference(remove_access)
+        for user_id in remove_ids:
+            workspace.remove_from_team(user_id)
+        for user_id in grant_ids:
+            workspace.add_to_team(user_id, groups=['Guests'])

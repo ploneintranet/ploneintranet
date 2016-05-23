@@ -221,6 +221,8 @@ def update_todo_state(obj, event):
     """
     After editing a Todo item, set the workflow state to either Open or Planned
     depending on the state of the Case.
+    Also update access permissions on the Case, which might have changed due to
+    a change in assignment.
 
     """
     # Do nothing on copy
@@ -228,9 +230,22 @@ def update_todo_state(obj, event):
         return
     obj.set_appropriate_state()
     obj.reindexObject()
+    parent = parent_workspace(obj)
+    if ICase.providedBy(parent):
+        _update_case_access(parent)
 
 
-def update_todos_state(obj, event):
+def handle_case_workflow_state_changed(obj, event):
+    """
+    When the workflow state of a Case changes, perform the following actions:
+    * Update the contained Todo items ans set adjust their workflow state
+    * Grant assignees on tasks of the current milestone guest access
+    """
+    _update_todos_state(obj)
+    _update_case_access(obj)
+
+
+def _update_todos_state(obj):
     """
     Update the workflow state of Todo items in a Case, when the workflow state
     of the Case is changed.
@@ -246,6 +261,10 @@ def update_todos_state(obj, event):
 def _update_todo_state(todo):
     todo.set_appropriate_state()
     todo.reindexObject()
+
+
+def _update_case_access(case):
+    execute_as_manager(case.update_case_access)
 
 
 def workspace_groupbehavior_toggled(obj, event):
