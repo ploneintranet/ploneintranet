@@ -162,6 +162,7 @@ Member can assign a task to an external user
      When I can open the workspace member settings tab
      Then I can see the user is a guest    Alice
 
+
 *** Keywords ***
 
 # See lib/keywords.robot in the section "case related keywords"
