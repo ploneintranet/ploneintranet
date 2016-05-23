@@ -44,5 +44,5 @@ class TestCaseManagerView(FunctionalBaseTestCase):
         )
         self.assertTupleEqual(
             case_manager.get_states(),
-            (u'new', u'pending', u'published', u'rejected'),
+            (u'new', u'pending', u'published', u'rejected', u'frozen'),
         )

@@ -82,3 +82,49 @@ class CaseWorkflowGuardView(BrowserView):
             if task.getObject().milestone == case_milestone:
                 return False
         return True
+
+
+class FreezeView(BrowserView):
+
+    @property
+    def frozen_state(self):
+        """
+        A workflow variable defines which workflow state should be interpreted
+        as the "frozen" state.
+        """
+        wft = api.portal.get_tool('portal_workflow')
+        return wft.getInfoFor(self.context, 'frozen_state', None)
+
+    def can_be_frozen(self):
+        """
+        An item can only be frozen if the assigned workflow has a workflow
+        state which is configured as the "frozen" state.
+        """
+        return bool(self.frozen_state)
+
+    def is_frozen(self):
+        wft = api.portal.get_tool('portal_workflow')
+        review_state = wft.getInfoFor(self.context, 'review_state')
+        return review_state == self.frozen_state
+
+
+class UnfreezeView(BrowserView):
+    """
+    Return to the workflow state that the item was at before being frozen.
+    """
+
+    def __call__(self):
+        wft = api.portal.get_tool('portal_workflow')
+        wf_id = wft.getWorkflowsFor(self.context)[0].getId()
+        history = self.context.workflow_history.get(wf_id)
+        previous_wf = history[-2]
+        previous_state = previous_wf.get('review_state')
+
+        if previous_state:
+            api.content.transition(self.context, to_state=previous_state)
+        else:
+            api.content.transition(self.context, 'back_to_new')
+        # If we don't explicitly reindex the Case, the solr query for the
+        # workspaces view won't find it.
+        self.context.reindexObject()
+        self.request.response.redirect(self.context.absolute_url())

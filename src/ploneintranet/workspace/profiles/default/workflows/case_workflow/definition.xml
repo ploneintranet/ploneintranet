@@ -57,6 +57,7 @@
   <state state_id="new" title="New">
     <description>Basic data is being gathered and added to the case.</description>
     <exit-transition transition_id="assign"/>
+    <exit-transition transition_id="freeze"/>
     <exit-transition transition_id="reject"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
@@ -113,6 +114,7 @@
     <exit-transition transition_id="reset"/>
     <exit-transition transition_id="finalise"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -168,6 +170,7 @@
     <exit-transition transition_id="re_assign"/>
     <exit-transition transition_id="request"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -223,6 +226,7 @@
     <exit-transition transition_id="re_finalise"/>
     <exit-transition transition_id="submit"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -278,6 +282,7 @@
     <exit-transition transition_id="re_request"/>
     <exit-transition transition_id="decide"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -332,6 +337,7 @@
     <description>A decision has been reached, and needs to be implemented.</description>
     <exit-transition transition_id="re_submit"/>
     <exit-transition transition_id="close"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -386,6 +392,7 @@
     <description>The case is no longer active, and being prepared for archival.</description>
     <exit-transition transition_id="re_decide"/>
     <exit-transition transition_id="archive"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -439,6 +446,7 @@
   <state state_id="archived" title="Archived">
     <description>The case has been archived in read-only mode.</description>
     <exit-transition transition_id="re_close"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -489,9 +497,70 @@
     </permission-map>
   </state>
 
+  <state state_id="frozen" title="Frozen">
+    <description>The case has been put on hold.</description>
+    <exit-transition transition_id="re_assign"/>
+    <exit-transition transition_id="re_close"/>
+    <exit-transition transition_id="re_decide"/>
+    <exit-transition transition_id="re_finalise"/>
+    <exit-transition transition_id="re_reject"/>
+    <exit-transition transition_id="re_request"/>
+    <exit-transition transition_id="re_reset"/>
+    <exit-transition transition_id="re_submit"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+  </state>
+
   <state state_id="rejected" title="Rejected">
     <description>The case has been rejected before a decision was reached.</description>
     <exit-transition transition_id="reset"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -671,6 +740,14 @@
     </guard>
   </transition>
 
+  <transition transition_id="freeze" title="Freeze" new_state="frozen" trigger="USER" before_script="" after_script="">
+    <description>Put the Case on hold</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=freeze" category="workflow" icon="">Freeze</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+
 
   <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
     <description>Previous transition</description>
@@ -732,6 +809,14 @@
       {'state': 'closed', 'next_transition': 'archive', 'reopen_transition': 're_close'},
       {'state': 'archived'}
       ]</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+  <variable variable_id="frozen_state" for_catalog="False" for_status="True" update_always="True">
+    <description>Which workflow state is used for the frozen state</description>
+    <default>
+      <expression>string:frozen</expression>
     </default>
     <guard>
     </guard>

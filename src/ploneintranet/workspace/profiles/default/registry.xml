@@ -12,6 +12,7 @@
       <element>pending</element>
       <element>published</element>
       <element>rejected</element>
+      <element>frozen</element>
     </value>
   </record>
   <record name="ploneintranet.workspace.externaleditor_always_activated">

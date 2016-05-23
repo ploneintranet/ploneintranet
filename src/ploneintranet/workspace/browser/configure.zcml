@@ -132,6 +132,18 @@
       />
 
   <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="zope2.View"
+      class=".case.FreezeView"
+      name="freeze-view"/>
+
+  <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="zope2.View"
+      class=".case.UnfreezeView"
+      name="unfreeze-view"/>
+
+  <browser:page
       name="case-manager"
       for="*"
       class=".case_manager.CaseManagerView"
