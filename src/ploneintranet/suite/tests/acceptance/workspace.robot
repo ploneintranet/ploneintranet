@@ -24,6 +24,13 @@ Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
      Then I can create a new workspace    My user workspace
 
+User can create a workspace template
+    Given I am logged in as the user allan_neece
+     Then I can create a new template workspace    New template
+     Then I can create a new workspace from a template  New template  A new type of workspace
+     Then I can delete a template case  new-template
+     Then I can delete a case  a-new-type-of-workspace
+
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
       And I can create a new workspace  Aerospace
@@ -31,6 +38,15 @@ Alice can create a division and list workspaces by division
      When I can turn the workspace into a division
       And I can list the workspaces grouped by division
      Then I can see the division  Aerospace
+
+Alice can create a division and create a workspace for the division
+    Given I am logged in as the user alice_lindstrom
+      And I can create a new workspace  Aerospace
+      And I can open the workspace advanced settings tab
+     When I can turn the workspace into a division
+     Then I can create a new workspace for the division  Engines  Aerospace
+      And I can open the workspace advanced settings tab
+      And I can see the workspace belongs to division  Aerospace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom

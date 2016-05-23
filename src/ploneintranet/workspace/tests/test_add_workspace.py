@@ -4,43 +4,11 @@ from plone import api
 from plone.api.exc import InvalidParameterError
 from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.browser.add_workspace import AddWorkspace
 
-class TestContentTypes(BaseTestCase):
-    def create_workspace(self):
-        """ returns adapted workspace folder"""
-        workspace_folder = api.content.create(
-            self.workspace_container,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace',
-            title='Welcome to my workspace'
-        )
-        return IWorkspace(workspace_folder)
 
-    def create_unadapted_workspace(self):
-        """ Return unadapted workspace object """
-        workspace_folder = api.content.create(
-            self.workspace_container,
-            'ploneintranet.workspace.workspacefolder',
-            'example-workspace',
-            title='Welcome to my workspace'
-        )
-        return workspace_folder
-
-    def create_user(self, name='testuser', password='secret'):
-        """
-        helper method for creating a test user
-        :param name: username
-        :param password: password for the user
-        :returns: user object
-        :rtype: MemberData
-
-        """
-        user = api.user.create(
-            email='test@user.com',
-            username=name,
-            password=password,
-        )
-        return user
+class TestAddWorkspace(BaseTestCase):
 
     def test_add_workspacefolder(self):
         """ check that we can create our workspace folder type,
@@ -99,36 +67,6 @@ class TestContentTypes(BaseTestCase):
             'ploneintranet.workspace.workspacefolder',
             'workspace-2',
         )
-
-    def test_add_user_to_workspace(self):
-        """ check that we can add a new user to a workspace """
-        self.login_as_portal_owner()
-        ws = self.create_workspace()
-        user = self.create_user()
-        ws.add_to_team(user=user.getId())
-        self.assertIn(user.getId(),
-                      [x for x in list(ws.members)])
-
-    def test_add_admin_to_workspace(self):
-        """ check that site admin can add team admin to the workspace """
-        self.login_as_portal_owner()
-        ws = self.create_unadapted_workspace()
-        user = self.create_user()
-        groups = api.group.get_groups()
-        group_names = [x.getName() for x in groups]
-        group_name = 'Admins:%s' % (api.content.get_uuid(ws))
-        self.assertIn(
-            group_name,
-            group_names
-        )
-        workspace = IWorkspace(ws)
-        workspace.add_to_team(user=user.getId(), groups=set([u"Admins"]))
-
-        portal = api.portal.get()
-        pgroups = portal.portal_groups.getGroupById(group_name)
-        member_ids = pgroups.getGroup().getMemberIds()
-        self.assertIn(user.getId(),
-                      member_ids)
 
     def test_add_workspacecontainer(self):
         """
@@ -211,3 +149,123 @@ class TestContentTypes(BaseTestCase):
 
         self.assertEqual(ws.calendar_visible, True)
         self.assertEqual(ws.email, 'test@testing.net')
+
+
+class TestAddWorkspaceView(BaseTestCase):
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        self.login_as_portal_owner()
+        api.user.create(username='johndoe', email="johndoe@test.com")
+        api.user.create(username='maryjane', email="maryjane@test.com")
+        self.templates_container = self.portal.get(TEMPLATES_FOLDER)
+        self.template = api.content.create(
+            self.templates_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-template',
+            title='Welcome to my workspace template'
+        )
+        self.add_user_to_workspace('johndoe', self.template)
+
+    def test_AddWorkspaceView(self):
+        self.login('johndoe')
+        request = self.layer['request'].clone()
+        request.form['workspace-type'] = 'private'
+        request.form['title'] = 'my workspace'
+        aw = AddWorkspace(self.workspace_container, request)
+        aw()
+        self.assertIn('my-workspace',
+                      self.workspace_container.objectIds())
+
+    def test_add_template_via_view(self):
+        request = self.layer['request'].clone()
+        request.form['workspace-type'] = 'private'
+        request.form['title'] = 'my template'
+        at = AddWorkspace(self.templates_container, request)
+        at()
+        self.assertIn('my-template',
+                      self.templates_container.objectIds())
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.workspace_container, request)
+        self.assertIn('my-template', aw.all_templates_dict)
+
+    def test_template_member_can_see_template_in_menu(self):
+        self.login('johndoe')
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.templates_container, request)
+        self.assertIn('example-template', aw.all_templates_dict)
+
+    def test_template_nonmember_cannot_see_template_in_menu(self):
+        self.login('maryjane')
+        request = self.layer['request'].clone()
+        aw = AddWorkspace(self.templates_container, request)
+        self.assertNotIn('example-template', aw.all_templates_dict)
+
+
+class TestAddUsersToWorkspace(BaseTestCase):
+
+    def _create_workspace(self):
+        """ returns adapted workspace folder"""
+        workspace_folder = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='Welcome to my workspace'
+        )
+        return IWorkspace(workspace_folder)
+
+    def _create_unadapted_workspace(self):
+        """ Return unadapted workspace object """
+        workspace_folder = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace',
+            title='Welcome to my workspace'
+        )
+        return workspace_folder
+
+    def _create_user(self, name='testuser', password='secret'):
+        """
+        helper method for creating a test user
+        :param name: username
+        :param password: password for the user
+        :returns: user object
+        :rtype: MemberData
+
+        """
+        user = api.user.create(
+            email='test@user.com',
+            username=name,
+            password=password,
+        )
+        return user
+
+    def test_add_user_to_workspace(self):
+        """ check that we can add a new user to a workspace """
+        self.login_as_portal_owner()
+        ws = self._create_workspace()
+        user = self._create_user()
+        ws.add_to_team(user=user.getId())
+        self.assertIn(user.getId(),
+                      [x for x in list(ws.members)])
+
+    def test_add_admin_to_workspace(self):
+        """ check that site admin can add team admin to the workspace """
+        self.login_as_portal_owner()
+        ws = self._create_unadapted_workspace()
+        user = self._create_user()
+        groups = api.group.get_groups()
+        group_names = [x.getName() for x in groups]
+        group_name = 'Admins:%s' % (api.content.get_uuid(ws))
+        self.assertIn(
+            group_name,
+            group_names
+        )
+        workspace = IWorkspace(ws)
+        workspace.add_to_team(user=user.getId(), groups=set([u"Admins"]))
+
+        portal = api.portal.get()
+        pgroups = portal.portal_groups.getGroupById(group_name)
+        member_ids = pgroups.getGroup().getMemberIds()
+        self.assertIn(user.getId(),
+                      member_ids)

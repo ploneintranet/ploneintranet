@@ -1,12 +1,8 @@
-from datetime import datetime
-from plone import api
+# coding=utf-8
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
+from ploneintranet.workspace.workspacefolder import WorkspaceFolder
 from zope.interface import implementer
-
-from .config import TEMPLATES_FOLDER
-from .interfaces import IBaseWorkspaceFolder
-from .workspacefolder import WorkspaceFolder
-from .unrestricted import execute_as_manager
 
 
 class ICase(IBaseWorkspaceFolder):
@@ -34,25 +30,3 @@ class Case(WorkspaceFolder):
         Override in custom workspace types
         """
         return "case"
-
-
-def create_case_from_template(template_id, target_id=None):
-    portal = api.portal.get()
-    template_folder = portal.get(TEMPLATES_FOLDER)
-    if template_folder:
-        src = template_folder.get(template_id)
-        if src:
-            target_folder = portal.restrictedTraverse('workspaces')
-            # need privilege escalation since normal users do not
-            # have View permission on case templates
-            # - that only comes after the template has been turned
-            # into an actual case with member users
-            new = execute_as_manager(
-                api.content.copy,
-                source=src,
-                target=target_folder,
-                id=target_id,
-                safe_id=True,
-            )
-            new.creation_date = datetime.now()
-            return new

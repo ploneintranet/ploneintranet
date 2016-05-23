@@ -115,12 +115,66 @@ class Workspaces(BrowserView):
 class AddView(BrowserView):
     """ Add Form in a modal to create a new workspace """
 
+    TEMPLATES_FOLDER = TEMPLATES_FOLDER
+    types_with_policy = (
+        'ploneintranet.workspace.workspacefolder',
+    )
+
     def workflows(self):
         return IMetroMap(self.context).get_available_metromap_workflows()
 
-    def templates(self):
+    @memoize
+    def get_addable_types(self):
+        ''' List the content that are addable in this context
+        '''
+        types = self.get_templates_by_type().keys()
+        if 'ploneintranet.workspace.workspacefolder' not in types:
+            types.append('ploneintranet.workspace.workspacefolder')
+        ftis = self.context.allowedContentTypes()
+        selected_fti = self.request.get(
+            'portal_type',
+            self.default_fti
+        )
+        addable_types = [
+            {
+                'id': fti.getId(),
+                'title': fti.Title(),
+                'selected': fti.getId() == selected_fti and 'selected' or None,
+            }
+            for fti in ftis if fti.getId() in types
+        ]
+        addable_types.sort(key=lambda x: x['title'])
+        return addable_types
+
+    @memoize
+    def get_fti_titles_by_type(self):
+        ''' Get's the titles of the fti by portal_type as a dictionary
+        '''
+        return {
+            x['id']: x['title']
+            for x in self.get_addable_types()
+        }
+
+    @memoize
+    def get_templates_by_type(self):
+        """
+        Return a list of Cases in the templates folder which the current user
+        has the rights to view. Templates may only be relevant to particular
+        groups or users.
+        """
+        templates_by_type = defaultdict(list)
         portal = api.portal.get()
-        return portal.get(TEMPLATES_FOLDER).objectValues()
+        templates = portal.get(TEMPLATES_FOLDER).getFolderContents()
+        for template in templates:
+            templates_by_type[template['portal_type']].append(
+                {
+                    'id': template['getId'],
+                    'title': template['Title'],
+                    'portal_type': template['portal_type'],
+                    'description': template['Description'],
+                }
+            )
+        return templates_by_type
 
     def divisions(self):
         divisions = getUtility(IVocabularyFactory, vocab)(self.context)
