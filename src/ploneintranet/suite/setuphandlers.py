@@ -751,10 +751,6 @@ def create_library_content(parent,
 def create_stream(context, stream, files_dir):
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
-    if len([x for x in microblog.keys()]) > 0:
-        log.info("microblog already setup. skipping for speed.")
-        return
-
     like_tool = getUtility(INetworkTool)
     microblog.clear()
     for status in stream:
