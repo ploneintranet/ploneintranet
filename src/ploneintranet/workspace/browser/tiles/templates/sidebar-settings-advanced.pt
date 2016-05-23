@@ -74,7 +74,7 @@
 
                       </label>
                       <p class="pat-message pat-depends warning" tal:condition="is_archived" i18n:translate="info_was_archived_on">
-                        This workspace was archived on <time i18n:name="archival_date">${python:context.toLocalizedTime(context.archival_date, long_format=0)}</time>. Archived workspaces are hidden from the <a href="/workspaces" i18n:name="num_users" i18n:name="workspaces_page">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
+                        This workspace was archived on <time i18n:name="archival_date">${python:context.toLocalizedTime(context.archival_date, long_format=0)}</time>. Archived workspaces are hidden from the <a href="/workspaces" i18n:name="workspaces_page" i18n:translate="">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
                       </p>
                     </fieldset>
                 </form>
