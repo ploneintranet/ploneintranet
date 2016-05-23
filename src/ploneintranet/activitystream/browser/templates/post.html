@@ -4,7 +4,9 @@
       >
 <body>
 
-<!-- ploneintranet.prototype/_includes/post.html -->
+  <tal:comment condition="nothing">
+    <!-- ploneintranet.prototype/_includes/post.html -->
+  </tal:comment>
 
 <div i18n:domain="ploneintranet"
      tal:define="thread_id context/getId;"
@@ -32,6 +34,7 @@
         in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
       </tal:location>
 
+      <tal:comment condition="nothing">      
       <!-- XXX: This is not yet implemented -->
       <!--label class="visibility pat-select bare">
       |
@@ -56,10 +59,13 @@
             </option>
           </optgroup>
         </select>
-      </label-->
+       </label-->
+      </tal:comment>
       <br/>
+      <tal:comment condition="nothing">            
       <!-- XXX: This is not yet implemented -->
       <!--a href="#" class="iconified icon-cog">Options</a-->
+      </tal:comment>      
     </p>
   </div>
 
@@ -138,15 +144,22 @@
                    tal:attributes="href attachment/link">
                   <tal:r replace="attachment/title">Projection Material</tal:r>
                 </a>
+                <tal:comment condition="nothing">                            
                 <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
                 <!--span class="page-counter icon-docs">3x</span-->
+                </tal:comment>
                 <span class="functions">
                   <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
+                  <tal:comment condition="nothing">                            
                   <!-- XXX gallery not implemented yet -- >                    
+                  </tal:comment>
                   
                   </span>
               </strong>
-              <!-- no description byline for status attachments -->
+              <tal:comment condition="nothing">                            
+                <!-- no description byline for status attachments -->
+              </tal:comment>
+                
             </figcaption>
           </figure>
         </section>
@@ -169,8 +182,10 @@
             </a>
 	  </figure>
 	  <p class="overlay">
+            <tal:comment condition="nothing">                            
             <!-- XXX images gallery view not implemented yet -->
             <!-- XXX images zip download not implemented yet -->
+            </tal:comment>
             <a href="${attachment/img_src}"
                class="icon iconified icon-download"
                title="Download this image">Download</a>
@@ -213,8 +228,10 @@
                  href="${content_context/absolute_url}"
                  class="icon iconified icon-download"
                  title="Download this file">Download</a>
+              <tal:comment condition="nothing">
               <!-- XXX images gallery view not implemented yet -->
               <!-- instead, for now a single view link -->
+              </tal:comment>
               <a href="${view/content_url}"
                  class="icon iconified icon-eye"
                  i18n:attributes="title"
@@ -227,10 +244,12 @@
 	  </a>
 	</figcaption>
       </figure>
+      <tal:comment condition="nothing">
       <!-- 			<p class="overlay">
 				<a href="#" class="iconified icon-download">Download</a>
 				<a href="#" class="iconified icon-preview">Preview</a>	
       </p> -->
+      </tal:comment>
     </section>
     </tal:content_default>
 
@@ -252,8 +271,10 @@
           </a>
 	</figure>
 	<p class="overlay">
+          <tal:comment condition="nothing">
           <!-- XXX images gallery view not implemented yet -->
           <!-- XXX images zip download not implemented yet -->
+          </tal:comment>
           <a href="${view/content_url}"
              title="View ${content_context/Title}">
 	    <span class="icon iconified icon-eye">View</span>
@@ -270,8 +291,10 @@
 
 
   <div class="functions">
+    <tal:comment condition="nothing">
     <!-- XXX: This is not yet implemented -->
     <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
+    </tal:comment>
     <form tal:replace="structure view/toggle_like" />
   </div>
   <div class="comments"

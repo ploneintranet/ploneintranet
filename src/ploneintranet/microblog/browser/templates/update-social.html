@@ -5,9 +5,10 @@
       i18n:domain="ploneintranet"
       >
     <body>
-
-<!-- ploneintranet.prototype/_includes/update-social.html -->
-  <tal:block tal:define="portal_url view/portal_url">
+<tal:comment condition="nothing">
+  <!-- ploneintranet.prototype/_includes/update-social.html -->
+</tal:comment>
+<tal:block tal:define="portal_url view/portal_url">
     <div
         class="ploneintranet"
         tal:define="
@@ -72,13 +73,17 @@
             ></em>
           </p>
 
+<tal:comment condition="nothing">
           <!-- This is a deliberate duplication of hidden inputs with name mentions. This one is used for handing over selected
-          users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
-          <span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
+               users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
+</tal:comment>
+<span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
           type="hidden" name="mentions:list" tal:attributes="value user" /></span>
-          <!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
-              tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
-          <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
+<tal:comment condition="nothing">
+<!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
+     tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
+</tal:comment>
+<span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
                           type="hidden" name="tags:list" tal:attributes="value tag" /></span>
 
           <textarea placeholder="placeholder"
@@ -106,8 +111,10 @@
             <span tal:replace="structure view/microblog_context/@@authenticator/authenticator"/>
           </fieldset>
 
+<tal:comment condition="nothing">
           <!-- The proto conditionally includes the share_tile in this place. Since
-            there's no design for it yet in PI, the markup has not been copied. -->
+               there's no design for it yet in PI, the markup has not been copied. -->
+</tal:comment>
 
           <div class="button-bar">
             <a class="iconified icon-user-add pat-tooltip"
@@ -133,8 +140,10 @@
                tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
                type="reset" i18n:translate="">Cancel</button>
 
-          <!-- The proto conditionally includes the visibility selection in this place. Since
-            there's no design for it yet in PI, the markup has not been copied. -->
+<tal:comment condition="nothing">
+            <!-- The proto conditionally includes the visibility selection in this place. Since
+                 there's no design for it yet in PI, the markup has not been copied. -->
+</tal:comment>
 
           </div>
         </fieldset>
