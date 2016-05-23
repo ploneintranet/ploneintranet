@@ -68,6 +68,12 @@ class MembraneGroupProperties(DxUserObject):
             properties['workspace_path'] = path
             properties['state'] = api.content.get_state(ws_obj)
             properties['uid'] = ws_obj.UID()
+            properties['type'] = 'workspace'
+            properties['portal_type'] = ws_obj.portal_type
+            # We need to explicitly cast the type to a string type, since
+            # the property sheet pukes on zope.i18nmessageid.message.Message
+            typ = safe_unicode(ws_obj.Type()).encode('utf-8')
+            properties['workspace_type'] = typ
         return MutablePropertySheet(self.context.getId(), **properties)
 
     def setPropertiesForUser(self, user, propertysheet):
