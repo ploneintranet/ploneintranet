@@ -259,6 +259,10 @@ I can't see the workspace
     [arguments]  ${title}
     Page should not contain  ${title}
 
+I can list the archived workspaces
+    I can list the workspaces
+    Select checkbox  xpath=//input[@name='archived']
+
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
     Execute JavaScript  jQuery("[name='external_visibility']")[0].value = 3
