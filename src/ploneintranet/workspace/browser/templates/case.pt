@@ -38,6 +38,10 @@
                    tal:content="context/description" />
               </article>
               <div class="timeline-container ${python:'state-frozen' if is_frozen else '' }">
+                <section class="explanation" tal:condition="is_frozen">
+                  <h3 class="header" i18n:translate="">Frozen</h3>
+                </section>
+
                 <ul id="timeline"
                     class="timeline pat-equaliser"
                     metal:define-macro="timeline"

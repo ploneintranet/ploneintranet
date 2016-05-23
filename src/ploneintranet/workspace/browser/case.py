@@ -88,10 +88,18 @@ class FreezeView(BrowserView):
 
     @property
     def frozen_state(self):
+        """
+        A workflow variable defines which workflow state should be interpreted
+        as the "frozen" state.
+        """
         wft = api.portal.get_tool('portal_workflow')
         return wft.getInfoFor(self.context, 'frozen_state', None)
 
     def can_be_frozen(self):
+        """
+        An item can only be frozen if the assigned workflow has a workflow state
+        which is configured as the "frozen" state.
+        """
         return bool(self.frozen_state)
 
     def is_frozen(self):
@@ -101,6 +109,9 @@ class FreezeView(BrowserView):
 
 
 class UnfreezeView(BrowserView):
+    """
+    Return to the workflow state that the item was at before being frozen.
+    """
 
     def __call__(self):
         wft = api.portal.get_tool('portal_workflow')
