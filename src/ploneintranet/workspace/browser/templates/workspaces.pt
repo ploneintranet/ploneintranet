@@ -39,7 +39,10 @@
             </label>
             <label class="pat-checklist" title="Show or hide archived workspace" i18n:attributes="title">
               <!-- Even though pat-depends is applied on archived workspace tiles, the value of the following checkbox must still be stored on the user object. The actual hiding and showing of the archived workspace tile is handled by pat-depends, but may also be handled server side (be including or not including the tile in the markup) if this offers significant performance advantages -->
-              <input type="checkbox" name="archived" /> <tal:archived i18n:translate="">Archived</tal:archived>
+              <input type="checkbox"
+                     name="archived"
+                     checked="${python:request.get('archived') and 'checked' or None}"
+                    > <tal:archived i18n:translate="">Archived</tal:archived>
             </label>
             <div class="icons">
                <a href="${view/target/absolute_url}/@@add_workspace" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
