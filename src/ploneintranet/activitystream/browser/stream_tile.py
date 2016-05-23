@@ -53,7 +53,9 @@ class StreamTile(Tile):
 
         The idea is:
          - if a StatusUpdate is a comment return the parent StatusUpdate
-         - do not return duplicate statusupdates
+         - show threads only once
+        The effectiveness of this is limited by the autoexpand:
+        the current view "sees" only it's current 15 updates.
 
         Additionally, this performs a postprocessing filter on content updates
         in case a user has access to a microblog_context workspace
