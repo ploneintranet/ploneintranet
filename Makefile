@@ -170,10 +170,15 @@ solr: devel
 solr-clean:
 	rm -rf parts/solr parts/solr-test var/solr var/solr-test bin/solr-instance bin/solr-test
 
-all-clean: clean solr-clean
+all-clean: db-clean solr-clean clean
+
+db-clean:
+	bin/supervisorctl shutdown || true
 	@echo "This will destroy your local database! ^C to abort..."
 	@sleep 10
 	rm -rf var/filestorage var/blobstorage
+
+allclean: all-clean
 
 ####################################################################
 # Testing
