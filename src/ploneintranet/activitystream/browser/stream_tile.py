@@ -96,7 +96,6 @@ class StreamTile(Tile):
         '''
         container = piapi.microblog.get_microblog()
         stream_filter = self.request.get('stream_filter')
-
         if self.microblog_context:
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
@@ -136,7 +135,6 @@ class StreamTile(Tile):
                 limit=self.count,
                 tag=self.tag
             )
-        statusupdates = self.filter_statusupdates(statusupdates)
         return statusupdates
 
     @property
@@ -144,16 +142,18 @@ class StreamTile(Tile):
     def statusupdates_autoexpand(self):
         ''' The list of our activities
         '''
-        statusupdates = self.get_statusupdates()
-        for su in statusupdates:
+        # unfiltered for autoexpand management
+        statusupdates = [x for x in self.get_statusupdates()]
+
+        # filtered for display
+        for su in self.filter_statusupdates(statusupdates):
             yield su
 
         # stop autoexpand when last batch is empty
         if len(statusupdates) == 0:
             self.stop_asking = True
         else:
-            # last su when exiting loop
-            self.last_seen = su.id
+            self.last_seen = statusupdates[-1].id
 
     @property
     @memoize
