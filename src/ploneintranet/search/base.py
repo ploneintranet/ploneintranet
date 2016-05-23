@@ -81,7 +81,6 @@ class SearchResult(object):
     highlighted_summary = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context, response):
-        super(SearchResult, self).__init__()
         self.context = context
         self.response = response
         self.title = context['Title']
@@ -91,8 +90,18 @@ class SearchResult(object):
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
-        self.is_archived = getattr(context, 'is_archived', False)
-        self.archival_date = getattr(context, 'archival_date', None)
+
+        # The following try/except are needed because the get method of brains
+        # and the one from dicts behave differently
+        try:
+            self.is_archived = context['is_archived']
+        except KeyError:
+            self.is_archived = False
+        try:
+            self.archival_date = context['archival_date']
+        except KeyError:
+            self.archival_date = None
+
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):
