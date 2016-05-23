@@ -1,7 +1,9 @@
 <nav id="breadcrumbs" class="breadcrumbs" role="navigation"
          i18n:domain="plone"
-         tal:define="breadcrumbs view/breadcrumbs; ploneview here/@@plone">
-
+         tal:define="breadcrumbs view/breadcrumbs;
+                     ploneview here/@@plone;
+                     is_archived python:bool(getattr(context, 'archival_date', False));
+                     ">
         <!--a i18n:translate="tabs_home"
             tal:attributes="href view/navigation_root_url">Home</a-->
       <tal:block repeat="crumb breadcrumbs">
@@ -13,11 +15,11 @@
              tal:attributes="href url;
                              class python:is_last and 'current' or '';
                              id string:breadcrumbs-${repeat/crumb/number};"
-             tal:content="python:ploneview.cropText(title, 80)">crumb</a>
+             >${python:ploneview.cropText(title, 80)}<tal:arc condition="python:is_last and is_archived"> <strong class="icon-archive workspace-state" i18n:translate="">Archived</strong></tal:arc></a>
           <a tal:condition="nolink"
              tal:attributes="class python:is_last and 'current' or '';
                              id string:breadcrumbs-${repeat/crumb/number};"
-             tal:content="python:ploneview.cropText(title, 80)">crumb</a>
+             tal:content="${python:ploneview.cropText(title, 80)}">crumb</a>
         </tal:item>
       </tal:block>
 </nav>

@@ -101,8 +101,12 @@ def my_workspaces(context,
 
     query = dict(
         portal_type=workspace_types,
-        path=ws_path
+        path=ws_path,
     )
+
+    include_archived = request.get('archived', False)
+    if not include_archived:
+        query['is_archived'] = False
 
     sitesearch = getUtility(ISiteSearch)
     if searchable_text:
@@ -152,7 +156,9 @@ def my_workspaces(context,
             'activities': activities,
             'class': css_class,
             'modified': item.modified,
-            'division': item.context.get('division', '')
+            'division': item.context.get('division', ''),
+            'is_archived': item.is_archived,
+            'archival_date': item.archival_date,
         })
 
     if sort_by == 'modified':

@@ -107,6 +107,10 @@ I go to the Service Announcements Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Service announcements
 
+I go to the Archived Workspace
+    Go To  ${PLONE_URL}/workspaces/archived-workspace
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
@@ -156,6 +160,7 @@ I can go to the sidebar events tile
 
 I can open the workspace advanced settings tab
     Click Link  link=Workspace settings and about
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until page contains  Advanced
     Click link  link=Advanced
     [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
@@ -185,6 +190,13 @@ I can turn the workspace into a division
     Wait until page contains  Attributes changed
     Click button  Close
 
+I can archive the workspace
+    Select checkbox  xpath=//input[@name='archival_date']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can unarchive the workspace
+    Unselect checkbox  xpath=//input[@name='archival_date']
+
 I can list the workspaces grouped by division
     Go To  ${PLONE_URL}/workspaces
     Click element  xpath=//select[@name='grouping']
@@ -192,9 +204,23 @@ I can list the workspaces grouped by division
     [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
     Wait until page does not contain element   xpath=//span[@id='workspaces' and contains(@class, 'tabs-content injecting')]
 
+I can list the workspaces
+    Go To  ${PLONE_URL}/workspaces
+    Click element  xpath=//select[@name='grouping']
+    Click element  xpath=//option[@value='division']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can see the division
     [arguments]  ${title}
     Wait Until Element Is Visible  xpath=//h1[text()='${title}']
+
+I can see the workspace
+    [arguments]  ${title}
+    Page should contain  ${title}
+
+I can't see the workspace
+    [arguments]  ${title}
+    Page should not contain  ${title}
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
@@ -393,6 +419,10 @@ I can search for items
     Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+
+I can see that the workspace is archived
+    [arguments]  ${title}
+    Wait until page contains element  xpath=//a/strong[text()='Archived']
 
 I see the option to create a document
     Click link  Documents

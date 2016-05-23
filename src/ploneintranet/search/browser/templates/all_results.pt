@@ -150,16 +150,17 @@
         <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
             id="result-listing"
             data-search-string="${request/QUERY_STRING|nothing}">
-          <!-- One hard coded example of an archived workspace as a search result: -->
           <tal:results repeat="result search_response">
             <tal:result tal:define="
                           type_class python:view.get_facet_type_class(result.friendly_type_name);
                           result_url string:${result/url}${python:view.url_fragments.get(result.portal_type)};
+                          is_archived result/is_archived;
+                          workspace_state python:'archived' if is_archived else result.review_state;
                           highlights result/highlighted_summary;
-                        ">
+                          ">
               <dt class="title ${type_class}">
                 <a href="${result_url}">
-                  ${result/title}
+                  ${result/title} <strong class="icon-archive workspace-state archived" tal:condition="is_archived" i18n:translate="">Archived</strong>
                 </a>
               </dt>
               <dd class="description ${type_class}">
@@ -175,7 +176,7 @@
                     <tal:preview_workspace case="string:workspace">
                       <a href="${result_url}"
                          class="preview workspace-preview
-                                workspace-state-${result/review_state}
+                                workspace-state-${workspace_state}
                                 workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
                          >
                         <h4>${result/title}</h4>

@@ -27,4 +27,12 @@
         handler=".upgrades.import_portal_registry"
         profile="ploneintranet.workspace:default" />
 
+    <genericsetup:upgradeStep
+        title="Upgrade step to add the archived fields for searching"
+        description="Adds is_archived and archival_date"
+        source="*"
+        destination="0008"
+        handler=".upgrades.import_search_registry"
+        profile="ploneintranet.workspace:default" />
+
 </configure>

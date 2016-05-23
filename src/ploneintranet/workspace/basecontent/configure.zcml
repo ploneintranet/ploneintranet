@@ -84,6 +84,7 @@
   <adapter factory=".widgets.PatDatePickerDataConverter" />
   <adapter factory=".widgets.StartPatDatePickerFieldWidget" />
   <adapter factory=".widgets.EndPatDatePickerFieldWidget" />
+  <adapter factory=".widgets.ArchivalDatePickerFieldWidget" />
 
   <adapter factory=".widgets.PloneIntranetFileConverter" />
   <adapter factory=".widgets.PloneIntranetFileFieldWidget" />

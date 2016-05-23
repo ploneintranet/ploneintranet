@@ -45,6 +45,13 @@
                         </select>
                       </label>
 
+        			  <fieldset class="group">
+        				<legend i18n:translate="">Archived</legend>
+		        		<label class="pat-checklist">
+		        		  <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
+		        		</label>
+        			  </fieldset>
+
                       <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
                       <fieldset class="group row date-range">
@@ -78,42 +85,45 @@
                     <!-- FIXME: needs to be designed -->
                     <p i18n:translate="">No results</p>
                   </tal:nocases>
+
                   <tal:cases repeat="case cases">
-                    <div class="case-mat">
-                      <article class="summary row">
-                        <h2 class="case-title twelve columns">
-                          <a target="case" href="${case/url}">${case/title}</a>
-                        </h2>
-                        <p class="description four columns">
-                          ${case/description}
-                        </p>
-                        <div class="eight columns stats">
-                          <p class="stat">
-                            <strong class="value">${case/percent_complete}</strong>
-                            <em class="name" i18n:translate="">Tasks finished</em>
+                    <tal:is_archived define="archived_class python:'state-archived' if case.get('is_archived') else '';">
+                      <div class="case-mat ${archived_class}">
+                        <article class="summary row">
+                          <h2 class="case-title twelve columns">
+                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="">Archived</strong></tal:archived></a>
+                          </h2>
+                          <p class="description four columns">
+                            ${case/description}
                           </p>
-                          <p class="stat">
-                            <strong class="value">${case/days_running}</strong>
-                            <em class="name" i18n:translate="">Days running</em>
-                          </p>
-                          <p class="stat">
-                            <strong class="value">${case/recent_modifications}</strong>
-                            <em class="name" i18n:translate="">Modifications past 7 days</em>
-                          </p>
-                        </div>
-                      </article>
-                      <tal:timeline define="workspace_url case/url;
-                                            mm_seq case/mm_seq;
-                                            transition_icons case/view/transition_icons;
-                                            existing_users_by_id case/existing_users_by_id;
-                                            tasks case/tasks;
-                                            case_view nocall:case/view;
-                                            target string:case;
-                                            workspace nocall:case;
-                                            ">
-                        <metal:timeline use-macro="case_view/macros/timeline" />
-                      </tal:timeline>
-                    </div>
+                          <div class="eight columns stats">
+                            <p class="stat">
+                              <strong class="value">${case/percent_complete}</strong>
+                              <em class="name" i18n:translate="">Tasks finished</em>
+                            </p>
+                            <p class="stat">
+                              <strong class="value">${case/days_running}</strong>
+                              <em class="name" i18n:translate="">Days running</em>
+                            </p>
+                            <p class="stat">
+                              <strong class="value">${case/recent_modifications}</strong>
+                              <em class="name" i18n:translate="">Modifications past 7 days</em>
+                            </p>
+                          </div>
+                        </article>
+                        <tal:timeline define="workspace_url case/url;
+                                              mm_seq case/mm_seq;
+                                              transition_icons case/view/transition_icons;
+                                              existing_users_by_id case/existing_users_by_id;
+                                              tasks case/tasks;
+                                              case_view nocall:case/view;
+                                              target string:case;
+                                              workspace nocall:case;
+                                              ">
+                          <metal:timeline use-macro="case_view/macros/timeline" />
+                        </tal:timeline>
+                      </div>
+                    </tal:is_archived>
                   </tal:cases>
 
                   <tal:batchnavigation
