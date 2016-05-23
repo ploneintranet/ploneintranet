@@ -169,15 +169,21 @@ class SidebarSettingsMembers(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
 
-    def users(self):
+    users = []
+    guests = []
+
+    def render(self):
+        self._get_users_and_guests()
+        return self.index()
+
+    def _get_users_and_guests(self):
         """
         Get current users and add in any search results.
-
-        :returns: a list of dicts with keys
-         - id
-         - title
-        :rtype: list
+        Saves two list of dicts with keys, one for regular members,
+        one for users with the "Guest" role.
         """
+        users = []
+        guests = []
         existing_users = self.existing_users()
         existing_user_ids = [x['id'] for x in existing_users]
 
@@ -185,11 +191,18 @@ class SidebarSettingsMembers(BaseTile):
         sharing = getMultiAdapter((self.workspace(), self.request),
                                   name='sharing')
         search_results = sharing.user_search_results()
-        users = existing_users + [x for x in search_results
-                                  if x['id'] not in existing_user_ids]
+        all_users = existing_users + [
+            x for x in search_results if x['id'] not in existing_user_ids]
+        for record in all_users:
+            if record.get('role') == 'Guest':
+                guests.append(record)
+            else:
+                users.append(record)
 
         users.sort(key=lambda x: safe_unicode(x['title']))
-        return users
+        guests.sort(key=lambda x: safe_unicode(x['title']))
+        self.users = users
+        self.guests = guests
 
     def existing_users(self):
         return self.workspace().existing_users()

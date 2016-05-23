@@ -75,8 +75,7 @@
                     </a>
                     <tal:manager condition="view/can_manage_roster">
                       <tal:role condition="user/role" define="role user/role">
-                        <a tal:condition="python:role!='Guest'" href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
-                        <a tal:condition="python:role=='Guest'" href="#help-role-guest" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                        <a href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
                       </tal:role>
                     </tal:manager>
                     <tal:non_manager condition="not:view/can_manage_roster">
@@ -87,7 +86,26 @@
                 </label>
 
               </fieldset>
+              <tal:guests condition="view/guests">
+                <h3>Guests</h3>
+                <fieldset class="checklist pat-checklist users unchecked">
+                    <label class="item user has-no-description"
+                           tal:repeat="user view/guests"
+                           tal:attributes="class string:item user ${user/cls}">
+                      <tal:d define="purl here/portal_url; url python:user['typ']=='user' and '%s/profiles/%s' % (purl, user['id']) or '%s/@@workspace-group-view?id=%s' % (purl, user['id'])">
+                        <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
+                        <a class="follow pat-inject" href="${url}" data-pat-inject="source: #document-body; target: #document-body">
+                          <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
+                          <strong class="title" tal:content="user/title">Adrian White</strong>
+                          <tal:block condition="user/description"><br />
+                          <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
+                        </a>
+                      </tal:d>
+                    </label>
+                </fieldset>
+              </tal:guests>
             </form>
+
 
             <div class="button-bar create-buttons"
                  tal:condition="view/can_manage_roster">
@@ -115,7 +133,6 @@
               </ul>
             </div>
           </div>
-          <p id="help-role-guest" i18n:translate="help-role-guest" hidden="hidden">This user is a temporary member who was added automatically to this workspace. Reason: The user was assigned to a task inside this workspace. Once the task has been completed, the user's membership will cease automatically.</p>
         </div>
       </div>
     </div>
