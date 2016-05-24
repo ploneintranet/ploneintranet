@@ -87,6 +87,9 @@ def enforce_parent_context(context):
 def document_discussion_fields(context):
     '''Add new fields introduced for document discussion'''
     tool = queryUtility(IMicroblogTool)
+    if not hasattr(tool, '_content_uuid_mapping'):
+        logger.info("Adding missing content_uuid mapping to %s" % repr(tool))
+        tool._content_uuid_mapping = OOBTree.OOBTree()
     for status in tool.values(limit=None):
         if not hasattr(status, '_content_context_uuid'):
             status._content_context_uuid = None
