@@ -17,7 +17,13 @@ from ZTUtils import make_query
 
 import locale
 
-locale.setlocale(locale.LC_COLLATE, environ.get('LANG', ''))
+try:
+    locale.setlocale(locale.LC_COLLATE, environ.get('LANG', ''))
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_COLLATE, 'en_US.UTF-8')
+    except:
+        pass
 
 
 class SearchResultsView(BrowserView):
