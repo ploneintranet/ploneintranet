@@ -61,7 +61,7 @@ def cache_key(method, self):
         # getSite() fails in integration tests, disable caching
         raise ram.DontCache
     return (member.id,
-            self._mtime,  # last write (self is a statuscontainer)
+            self._mtime,  # last write in microseconds (self = statuscontainer)
             time.time() // 1)
 
 
@@ -110,9 +110,10 @@ class BaseStatusContainer(Persistent, Explicit):
     """
 
     implements(IStatusContainer)
+    dontcache = False  # used to disable cache during deletion
 
     def __init__(self, context=None):
-        # last write stamp in milliseconds
+        # last write stamp in MICROseconds
         self._mtime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
@@ -162,14 +163,28 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def delete(self, id):
         status = self._get(id)  # bypass view permission check
+        # delete permission check only original, not thread cascase
         self._check_delete_permission(status)
+        thread_mapping = self._threadid_mapping.get(id)
+        if thread_mapping:
+            # list() avoids RuntimeError
+            # mapping includes current parent id automatically
+            to_delete = list(thread_mapping)
+        else:
+            to_delete = [id]
+        for xid in to_delete:
+            self._unidx(xid)
+            self._status_mapping.pop(xid)
+        self._update_mtime()  # purge cache
+
+    def _unidx(self, id):
+        status = self._get(id)  # bypass view permission check
         self._unidx_user(status)
         self._unidx_tag(status)
         self._unidx_microblog_context(status)
         self._unidx_content_context(status)
         self._unidx_threadid(status)
         self._unidx_mentions(status)
-        self._status_mapping.pop(status.id)
 
     # --- INDEXES ---
 
@@ -673,9 +688,11 @@ class BaseStatusContainer(Persistent, Explicit):
             self._uuid_mapping[uuid])
 
     def _update_mtime(self):
-        """Update _mtime on write"""
+        """Update _mtime on write.
+        Uses microseconds for granulatity.
+        """
         with LOCK:
-            self._mtime = int(time.time() * 1000)
+            self._mtime = int(time.time() * 1000000)
 
 
 class QueuedStatusContainer(BaseStatusContainer):
@@ -805,7 +822,8 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _autoflush(self):
         # logger.info("autoflush")
-        if int(time.time() * 1000) - self._mtime > self.MAX_QUEUE_AGE:
+        # compares microsecond _mtime with millisecond MAX_QUEUE_AGE
+        if int(time.time() * 1000000) - self._mtime > self.MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 

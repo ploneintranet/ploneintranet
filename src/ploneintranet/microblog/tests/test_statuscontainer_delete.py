@@ -1,5 +1,6 @@
 from AccessControl import Unauthorized
 import Acquisition
+import time
 from plone import api
 import unittest2 as unittest
 from plone.app.testing import login, logout
@@ -201,7 +202,49 @@ class TestStatusContainer_Delete(unittest.TestCase):
         self.assertNotIn(su.id, found)
 
     def test_delete_reply(self):
-        pass
+        parent = ContextlessStatusUpdate('parent')
+        self.container.add(parent)
+        su = ContextlessStatusUpdate('child', thread_id=parent.id)
+        self.container.add(su)
+        self.assertEquals(su, self.container.get(su.id))
+        self.container.delete(su.id)
+        with self.assertRaises(KeyError):
+            self.container.get(su.id)
+        self.assertEquals(parent, self.container.get(parent.id))
 
-    def test_delete_thread(self):
-        pass
+    def test_delete_thread_once(self):
+        parent = ContextlessStatusUpdate('parent')
+        self.container.add(parent)
+        su = ContextlessStatusUpdate('child', thread_id=parent.id)
+        self.container.add(su)
+        self.assertEquals(su, self.container.get(su.id))
+        self.container.delete(parent.id)
+        with self.assertRaises(KeyError):
+            self.container.get(parent.id)
+        with self.assertRaises(KeyError):
+            self.container.get(su.id)
+
+    def test_delete_thread_manytimes(self):
+        """Check for Heisenbug
+        RuntimeError: the bucket being iterated changed size"""
+        for i in range(100):
+            self.test_delete_thread_once()
+        # run for 3 millisecs
+        until_msec = int(time.time() * 1000) + 3
+        while int(time.time() * 1000) < until_msec:
+            self.test_delete_thread_once()
+
+    def test_delete_threadparent_kills_reply_other_user(self):
+        login(self.portal, 'user_steve')
+        parent = ContextlessStatusUpdate('parent')
+        self.container.add(parent)
+        login(self.portal, 'user_jane')
+        su = ContextlessStatusUpdate('child', thread_id=parent.id)
+        self.container.add(su)
+        login(self.portal, 'user_steve')
+        self.assertEquals(su, self.container.get(su.id))
+        self.container.delete(parent.id)
+        with self.assertRaises(KeyError):
+            self.container.get(parent.id)
+        with self.assertRaises(KeyError):
+            self.container.get(su.id)
