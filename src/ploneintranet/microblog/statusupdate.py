@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from DateTime import DateTime
 from interfaces import IStatusUpdate
 from persistent import Persistent
@@ -52,9 +53,26 @@ class StatusUpdate(Persistent):
 
     def edit(self, text):
         """keeps original text across multiple edits"""
+        if not self.can_edit:
+            raise Unauthorized("You are not allowed to edit this statusupdate")
         if not self.original_text:
             self._original_text = self.text
         self.text = text
+
+    @property
+    def can_edit(self):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        edit_all = 'Plone Social: Modify Microblog Status Update'
+        edit_own = 'Plone Social: Modify Own Microblog Status Update'
+        return api.user.has_permission(edit_all,
+                                       obj=self.microblog_context) or (
+            api.user.has_permission(edit_own,
+                                    obj=self.microblog_context) and
+            self.userid == api.user.get_current().id
+        )
 
     @property
     def edited(self):
