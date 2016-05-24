@@ -243,15 +243,18 @@ The manager can remove a workspace member
      Then I can remove Allan from the workspace members
 
 The manager can archive a workspace
-    Given I am in a workspace as a workspace admin
+    Given I am logged in as the user christian_stoney
       And I can create a new workspace  Archived Workspace
       And I can open the workspace advanced settings tab
      When I can archive the workspace
       And I can list the workspaces
       And I can't see the workspace  Archived Workspace
-     Then I go to the Archived Workspace
+      And I can list the archived workspaces
+      And I can see the workspace  Archived Workspace
+     When I go to the Archived Workspace
       And I can open the workspace advanced settings tab
       And I can unarchive the workspace
+      And I can list the workspaces
      Then I can see the workspace  Archived Workspace
 
 Archived workspaces are marked search results
