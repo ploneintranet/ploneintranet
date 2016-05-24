@@ -264,7 +264,8 @@ class SolrMaintenanceView(BrowserView):
         for flare in flares:
             uid = flare[key]
             solr_uids.add(uid)
-            solr_results[uid] = _utc_convert(flare['modified'])
+            if 'modified' in flare:
+                solr_results[uid] = _utc_convert(flare['modified'])
         # get catalog status
         cat_results = {}
         cat_uids = set()
