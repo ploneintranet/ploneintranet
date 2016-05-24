@@ -23,7 +23,7 @@
         <div class="${workspace_id} dark-theme" id="application-body">
 
           <div id="document-body">
-            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#meta">
+            <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#global-statusmessage">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
                   <span class="title-group">
