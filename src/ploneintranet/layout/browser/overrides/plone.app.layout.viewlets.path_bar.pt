@@ -19,7 +19,7 @@
           <a tal:condition="nolink"
              tal:attributes="class python:is_last and 'current' or '';
                              id string:breadcrumbs-${repeat/crumb/number};"
-             tal:content="${python:ploneview.cropText(title, 80)}">crumb</a>
+             >${python:ploneview.cropText(title, 80)}</a>
         </tal:item>
       </tal:block>
 </nav>
