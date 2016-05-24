@@ -183,6 +183,46 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         self.assertEqual(su.action_verb, 'created')
 
 
+class TestStatusUpdateEdit(unittest.TestCase):
+
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+
+    def test_edit_changes_text(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_original_text_default(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.original_text, None)
+
+    def test_original_text_on_firstedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_original_text_remains_secondedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        su.edit('shoob')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_edited(self):
+        su = StatusUpdate('foo')
+        self.assertFalse(su.edited)
+        su.edit('bar')
+        self.assertTrue(su.edited)
+
+    def test_admin_can_edit(self):
+        pass
+
+    def test_creator_can_edit(self):
+        pass
+
+    def test_anybody_cannot_edit(self):
+        pass
+
+
 class TestContentStatusUpdate(unittest.TestCase):
 
     layer = PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING

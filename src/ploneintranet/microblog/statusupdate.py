@@ -50,6 +50,25 @@ class StatusUpdate(Persistent):
         self.tags = tags
         self._verb = action_verb
 
+    def edit(self, text):
+        """keeps original text across multiple edits"""
+        if not self.original_text:
+            self._original_text = self.text
+        self.text = text
+
+    @property
+    def edited(self):
+        """Is this an edited update?"""
+        return bool(self.original_text)
+
+    @property
+    def original_text(self):
+        """Return original text of a (multiply) edited update."""
+        try:
+            return self._original_text
+        except AttributeError:
+            return None
+
     # for unittest subclassing
     def _init_userid(self):
         self.userid = getSecurityManager().getUser().getId()
