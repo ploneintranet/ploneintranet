@@ -7,7 +7,6 @@ from plone import api
 
 from ploneintranet.microblog.testing import \
     PLONEINTRANET_MICROBLOG_PORTAL_SUBSCRIBER_INTEGRATION_TESTING
-from ploneintranet.microblog.testing import tearDownContainer
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
@@ -39,10 +38,6 @@ class TestMicroblogPortalSubscriber(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-
-    def tearDown(self):
-        container = queryUtility(IMicroblogTool)
-        tearDownContainer(container)
 
     def test_add_multi_portal(self):
         portal = api.portal.get()

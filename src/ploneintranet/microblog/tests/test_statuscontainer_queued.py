@@ -9,7 +9,6 @@ from ploneintranet.microblog import statuscontainer
 from ploneintranet.microblog import statusupdate
 
 from ploneintranet.microblog.statuscontainer import STATUSQUEUE
-import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.testing import tearDownContainer
 
 
@@ -50,13 +49,13 @@ class TestQueueStatusContainer(unittest.TestCase):
     def setUp(self):
         # needed for thread teardown
         self.container = StatusContainer()
+        self.container.ASYNC = True
+        self.container.MAX_QUEUE_AGE = 50
         # make sure also first item will be queued
         self.container._mtime = int(time.time() * 1000)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 50
 
     def tearDown(self):
         tearDownContainer(self.container)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
 
     def test_verify_interface(self):
         self.assertTrue(verifyClass(IStatusContainer, StatusContainer))

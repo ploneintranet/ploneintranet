@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
+  <body>
+
+    <tal:comment condition="nothing">
+      <!-- 
+           extracted from prototype/_layouts/document.html 
+           rendered via content-stream.html
+           into workspace/browser/basecontent/templates/document_view.pt
+        -->
+    </tal:comment>
+
+    <div class="document-comments-header"
+         tal:define="avatar view/avatar">
+      <a href="${avatar/url}">
+        <img src="${avatar/img}" alt="${avatar/fullname}" class="pat-avatar ">   
+        <h4 class="name">${avatar/fullname}</h4>
+      </a>
+      <p class="byline">
+        <em class="action" i18n:translate=""
+            >${context/action_verb} this item</em>
+        <time class="pat-moment" data-pat-moment="format:relative">${view/date}</time>
+      </p>
+    </div>
+    <div id="comment-trail-share-${context/id}" class="comment-trail">
+      <tal:loop
+         tal:repeat="comment_view view/comment_views"
+         tal:content="structure comment_view"
+         />
+    </div>
+    <div id="new-comment-${context/id}"></div>
+    <div tal:replace="structure view/context/@@update-social.html" />
+    
+</body>
+</html>

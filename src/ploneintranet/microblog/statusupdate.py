@@ -27,11 +27,13 @@ class StatusUpdate(Persistent):
 
     def __init__(
         self,
-        text,
+        text=u'',
         microblog_context=None,
         thread_id=None,
         mention_ids=None,
-        tags=None
+        tags=None,
+        content_context=None,
+        action_verb=None,
     ):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
@@ -41,8 +43,12 @@ class StatusUpdate(Persistent):
         self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
-        self._init_microblog_context(thread_id, microblog_context)
+        self._init_microblog_context(thread_id,
+                                     microblog_context,
+                                     content_context)
+        self._init_content_context(thread_id, content_context)
         self.tags = tags
+        self._verb = action_verb
 
     # for unittest subclassing
     def _init_userid(self):
@@ -55,7 +61,9 @@ class StatusUpdate(Persistent):
         self.creator = member.getUserName()
 
     # for unittest subclassing
-    def _init_microblog_context(self, thread_id, context):
+    def _init_microblog_context(self, thread_id,
+                                microblog_context,
+                                content_context=None):
         """Set the right security context.
         If thread_id is given, the context of the thread parent is used
         and the given context arg is ignored.
@@ -69,8 +77,22 @@ class StatusUpdate(Persistent):
             self._microblog_context_uuid = parent._microblog_context_uuid
         # thread_id takes precedence over microblog_context arg!
         else:
-            m_context = piapi.microblog.get_microblog_context(context)
+            # derive microblog_context from content_context if necessary
+            m_context = piapi.microblog.get_microblog_context(
+                microblog_context or content_context)
             self._microblog_context_uuid = self._context2uuid(m_context)
+
+    # for unittest subclassing
+    def _init_content_context(self, thread_id, content_context):
+        ''' We store the uuid as a reference of a content_context
+        related to this status update
+        '''
+        from ploneintranet import api as piapi  # FIXME circular dependency
+        if thread_id:
+            parent = piapi.microblog.statusupdate.get(thread_id)
+            self._content_context_uuid = parent._content_context_uuid
+        else:
+            self._content_context_uuid = self._context2uuid(content_context)
 
     def _init_mentions(self, mention_ids):
         self.mentions = {}
@@ -80,6 +102,11 @@ class StatusUpdate(Persistent):
             user = api.user.get(userid)
             if user is not None:
                 self.mentions[userid] = user.getProperty('fullname')
+
+    @property
+    def action_verb(self):
+        """Backward compatible accessor"""
+        return self._verb or u'posted'
 
     def replies(self):
         from ploneintranet import api as piapi
@@ -91,15 +118,26 @@ class StatusUpdate(Persistent):
     @property
     def microblog_context(self):
         uuid = self._microblog_context_uuid
+        return self._uuid2context(uuid)
+
+    @property
+    def content_context(self):
+        if not self._content_context_uuid:
+            return None
+        uuid = self._content_context_uuid
+        # raises AttributeError on unauthorized?
+        return self._uuid2context(uuid)
+
+    def _uuid2context(self, uuid=None):
         if not uuid:
             return None
-        microblog_context = self._uuid2object(uuid)
-        if microblog_context is None:
+        context = self._uuid2object(uuid)
+        if context is None:  # happens also when unauthorized to access context
             raise AttributeError(
-                "Microblog context with uuid {0} could not be "
+                "Context with uuid {0} could not be "
                 "retrieved".format(uuid)
             )
-        return microblog_context
+        return context
 
     # unittest override point
     def _context2uuid(self, context):

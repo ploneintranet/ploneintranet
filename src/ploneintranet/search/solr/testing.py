@@ -159,9 +159,6 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
 
-        import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
-
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'collective.indexing')
         z2.installProduct(app, 'Products.membrane')

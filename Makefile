@@ -156,6 +156,12 @@ bin/buildout: bin/python2.7
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 
+devrun:
+	sudo service redis-server start
+	bin/supervisord
+	bin/supervisorctl stop instance
+	bin/instance fg
+
 ####################################################################
 # Solr
 
@@ -164,10 +170,15 @@ solr: devel
 solr-clean:
 	rm -rf parts/solr parts/solr-test var/solr var/solr-test bin/solr-instance bin/solr-test
 
-all-clean: clean solr-clean
+all-clean: db-clean solr-clean clean
+
+db-clean:
+	bin/supervisorctl shutdown || true
 	@echo "This will destroy your local database! ^C to abort..."
 	@sleep 10
 	rm -rf var/filestorage var/blobstorage
+
+allclean: all-clean
 
 ####################################################################
 # Testing
@@ -176,6 +187,7 @@ all-clean: clean solr-clean
 # bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
 # To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
+# ROBOT_SELENIUM_RUN_ON_FAILURE=Debug DISPLAY=:0 bin/test -s ploneintranet.suite -t post_file.robot
 test-robot: ## Run robot tests with a virtual X server
 	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot'
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null

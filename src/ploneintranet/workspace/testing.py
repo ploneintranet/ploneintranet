@@ -15,6 +15,7 @@ import ploneintranet.activitystream
 import ploneintranet.invitations
 import ploneintranet.layout
 import ploneintranet.microblog
+import ploneintranet.microblog.statuscontainer
 import ploneintranet.network
 import ploneintranet.theme
 import ploneintranet.userprofile

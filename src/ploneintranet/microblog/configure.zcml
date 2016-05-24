@@ -15,6 +15,10 @@
   <include file="permissions.zcml" />
   <include file="dexterity.zcml" />
 
+  <!-- included from suite only - to avoid test pollution
+       <include file="subscribers.zcml" />
+  -->
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Microblog]"
@@ -69,6 +73,15 @@
     source="0004"
     destination="0005"
     handler=".migration.enforce_parent_context"
+    profile="ploneintranet.microblog:default"
+    />
+
+  <genericsetup:upgradeStep
+    title="document discussion"
+    description="Add document discussion fields"
+    source="0005"
+    destination="0006"
+    handler=".migration.document_discussion_fields"
     profile="ploneintranet.microblog:default"
     />
 

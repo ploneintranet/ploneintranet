@@ -9,8 +9,8 @@ from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IStatusContainer
 from ploneintranet.microblog import statuscontainer
 from ploneintranet.microblog import statusupdate
-from ploneintranet.microblog.testing import \
-    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+from ploneintranet.microblog.testing import (
+    PLONEINTRANET_MICROBLOG_FUNCTIONAL_TESTING)
 
 
 class UUIDStatusContainer(statuscontainer.BaseStatusContainer):
@@ -56,7 +56,7 @@ class MockContext(Acquisition.Implicit):
     implements(IMicroblogContext)
 
 
-class TestStatusContainer(unittest.TestCase):
+class TestStatusContainerMicroblogContext(unittest.TestCase):
 
     def setUp(self):
         self.container = StatusContainer()
@@ -148,9 +148,9 @@ class TestStatusContainer(unittest.TestCase):
         self.assertEqual([self.su1], values)
 
 
-class TestNestedStatusContainer(unittest.TestCase):
+class TestStatusContainerNestedMicroblogContext(unittest.TestCase):
 
-    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+    layer = PLONEINTRANET_MICROBLOG_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']

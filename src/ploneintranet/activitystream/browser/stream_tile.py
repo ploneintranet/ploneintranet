@@ -53,7 +53,13 @@ class StreamTile(Tile):
 
         The idea is:
          - if a StatusUpdate is a comment return the parent StatusUpdate
-         - do not return duplicate statusupdates
+         - show threads only once
+        The effectiveness of this is limited by the autoexpand:
+        the current view "sees" only it's current 15 updates.
+
+        Additionally, this performs a postprocessing filter on content updates
+        in case a user has access to a microblog_context workspace
+        but not to the (unpublished) content_context object
         '''
         seen_thread_ids = set()
         good_statusupdates = []
@@ -61,14 +67,26 @@ class StreamTile(Tile):
 
         for su in statusupdates:
             if su.thread_id and su.thread_id in seen_thread_ids:
+                # a reply on a toplevel we've already seen
                 continue
             elif su.id in seen_thread_ids:
+                # a toplevel we've already seen
                 continue
 
             if su.thread_id:
+                # resolve reply into toplevel
                 su = container.get(su.thread_id)
 
+            # process a thread only once
             seen_thread_ids.add(su.id)
+
+            # content updates postprocessing filter
+            try:
+                su.content_context
+            except AttributeError:  # = unauthorized
+                # skip thread on inaccessible content (e.g. draft)
+                continue
+
             good_statusupdates.append(su)
 
         return good_statusupdates
@@ -80,7 +98,6 @@ class StreamTile(Tile):
         '''
         container = piapi.microblog.get_microblog()
         stream_filter = self.request.get('stream_filter')
-
         if self.microblog_context:
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
@@ -120,7 +137,6 @@ class StreamTile(Tile):
                 limit=self.count,
                 tag=self.tag
             )
-        statusupdates = self.filter_statusupdates(statusupdates)
         return statusupdates
 
     @property
@@ -128,27 +144,27 @@ class StreamTile(Tile):
     def statusupdates_autoexpand(self):
         ''' The list of our activities
         '''
-        statusupdates = self.get_statusupdates()
-        for su in statusupdates:
+        # unfiltered for autoexpand management
+        statusupdates = [x for x in self.get_statusupdates()]
+
+        # filtered for display
+        for su in self.filter_statusupdates(statusupdates):
             yield su
 
         # stop autoexpand when last batch is empty
         if len(statusupdates) == 0:
             self.stop_asking = True
         else:
-            # last su when exiting loop
-            self.last_seen = su.id
+            self.last_seen = statusupdates[-1].id
 
     @property
     @memoize
     def post_views(self):
         ''' The activity as views
         '''
-        return [
-            api.content.get_view(
+        for statusupdate in self.statusupdates_autoexpand:
+            yield api.content.get_view(
                 'post.html',
                 statusupdate,
                 self.request
             )
-            for statusupdate in self.statusupdates_autoexpand
-        ]

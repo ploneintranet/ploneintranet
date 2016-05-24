@@ -38,9 +38,6 @@ logger = logging.getLogger('ploneintranet.microblog')
 LOCK = threading.RLock()
 STATUSQUEUE = Queue.PriorityQueue()
 
-# max in-memory time in millisec before disk sync
-MAX_QUEUE_AGE = 1000
-
 
 def cache_key(method, self):
     """
@@ -101,6 +98,15 @@ class BaseStatusContainer(Persistent, Explicit):
     Special user_* prefixed accessors take an extra argument 'users',
     an interable of userids, and return IStatusUpdate keys, instances or items
     filtered by userids, in addition to the normal min/max statusid filters.
+
+    For backward compatibility sake, microblog_context is indexed as
+    _uuid_mapping and accessors are called .context_*.
+    This microblog_context is the security context for statusupdates.
+
+    The newer content_context is indexed as
+    _content_mapping and accessors are called .content_*.
+    This has no security impact and is only a convenience for per-document
+    accessors.
     """
 
     implements(IStatusContainer)
@@ -114,8 +120,12 @@ class BaseStatusContainer(Persistent, Explicit):
         self._user_mapping = OOBTree.OOBTree()
         # index by tag: (string tag) -> (object TreeSet(long statusid))
         self._tag_mapping = OOBTree.OOBTree()
-        # index by context (string UUID) -> (object TreeSet(long statusid))
-        self._uuid_mapping = OOBTree.OOBTree()
+        # index by microblog_context:
+        # (string UUID) -> (object TreeSet(long statusid))
+        self._uuid_mapping = OOBTree.OOBTree()  # keep old name for backcompat
+        # index by content_context:
+        # (string UUID) -> (object TreeSet(long statusid))
+        self._content_uuid_mapping = OOBTree.OOBTree()
         # index by thread (string UUID) -> (object TreeSet(long statusid))
         self._threadid_mapping = OOBTree.OOBTree()
         # index by mentions (string UUID) -> (object TreeSet(long statusid))
@@ -134,7 +144,8 @@ class BaseStatusContainer(Persistent, Explicit):
             status.id += 1
         self._idx_user(status)
         self._idx_tag(status)
-        self._idx_context(status)
+        self._idx_microblog_context(status)
+        self._idx_content_context(status)
         self._idx_threadid(status)
         self._idx_mentions(status)
         self._notify(status)
@@ -173,7 +184,7 @@ class BaseStatusContainer(Persistent, Explicit):
             # add status id to tag treeset
             self._tag_mapping[tag].insert(status.id)
 
-    def _idx_context(self, status):
+    def _idx_microblog_context(self, status):
         uuid = status._microblog_context_uuid
         if not uuid:
             return
@@ -181,6 +192,15 @@ class BaseStatusContainer(Persistent, Explicit):
         # create tag treeset if not already present
         self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
         self._uuid_mapping[uuid].insert(status.id)
+
+    def _idx_content_context(self, status):
+        uuid = status._content_context_uuid
+        if not uuid:
+            return
+        # If the key was already in the collection, there is no change
+        # create tag treeset if not already present
+        self._content_uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
+        self._content_uuid_mapping[uuid].insert(status.id)
 
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
@@ -230,7 +250,14 @@ class BaseStatusContainer(Persistent, Explicit):
     # --- READ SECURITY ---
 
     def secure(self, keyset):
-        """Filter keyset to return only keys the current user may see."""
+        """Filter keyset to return only keys the current user may see.
+
+        NB this may return statusupdates with a microblog_context (workspace)
+        accessible to the user, but referencing a content_context (document)
+        which the user may not access yet because of content workflow.
+        Filtering that is quite costly and not done here - instead there's a
+        postprocessing filter in activitystream just before rendering.
+        """
         return LLBTree.intersection(
             LLBTree.LLTreeSet(keyset),
             LLBTree.LLTreeSet(self.allowed_status_keys()))
@@ -261,8 +288,6 @@ class BaseStatusContainer(Persistent, Explicit):
             all_statusids = LLBTree.LLSet(self._status_mapping.keys())
             return LLBTree.difference(all_statusids,
                                       blacklisted_statusids)
-
-        return self._allowed_status_keys()
 
     def _blacklist_microblogcontext_uuids(self):
         """Returns the uuids for all IMicroblogContext that the current
@@ -425,21 +450,23 @@ class BaseStatusContainer(Persistent, Explicit):
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
-    # --- CONTEXT ACCESSORS ---
+    # --- CONTEXT ACCESSORS = microblog_context security context ---
 
-    def context_items(self, context,
+    def context_items(self, microblog_context,
                       min=None, max=None, limit=100, tag=None, nested=True):
-        # secured by context_keys
+        # secured by microblog_context_keys
         return ((key, self._get(key)) for key
-                in self.context_keys(context, min, max, limit, tag, nested))
+                in self.context_keys(microblog_context,
+                                     min, max, limit, tag, nested))
 
-    def context_values(self, context,
+    def context_values(self, microblog_context,
                        min=None, max=None, limit=100, tag=None, nested=True):
-        # secured by context_keys
+        # secured by microblog_context_keys
         return (self._get(key) for key
-                in self.context_keys(context, min, max, limit, tag, nested))
+                in self.context_keys(microblog_context, min, max,
+                                     limit, tag, nested))
 
-    def context_keys(self, context,
+    def context_keys(self, microblog_context,
                      min=None, max=None, limit=100,
                      tag=None, nested=True, mention=None):
         if tag and tag not in self._tag_mapping:
@@ -447,14 +474,15 @@ class BaseStatusContainer(Persistent, Explicit):
 
         if nested:
             # hits portal_catalog
-            nested_uuids = [uuid for uuid in self.nested_uuids(context)
+            nested_uuids = [uuid
+                            for uuid in self.nested_uuids(microblog_context)
                             if uuid in self._uuid_mapping]
             if not nested_uuids:
                 return ()
 
         else:
-            # used in test_statuscontainer_context for non-integration tests
-            uuid = self._context2uuid(context)
+            # used in test_statuscontainer_microblog_context
+            uuid = self._context2uuid(microblog_context)
             if uuid not in self._uuid_mapping:
                 return ()
             nested_uuids = [uuid]
@@ -465,7 +493,7 @@ class BaseStatusContainer(Persistent, Explicit):
         # mention and uuid filters handle None inputs gracefully
         keyset_mention = self._keys_tag(mention, keyset_tag)
 
-        # calculate the tag+mention+uuid intersection for each uuid context
+        # calculate the tag+mention+uuid intersection for microblog_context
         keyset_uuids = [self._keys_uuid(_uuid, keyset_mention)
                         for _uuid in nested_uuids]
 
@@ -478,6 +506,26 @@ class BaseStatusContainer(Persistent, Explicit):
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
         return IUUID(context)
+
+    # --- CONTENT ACCESSORS = content_context
+
+    def content_items(self, content_context):
+        return ((key, self._get(key)) for key
+                in self.content_keys(content_context))
+
+    def content_values(self, content_context):
+        return (self._get(key) for key
+                in self.content_keys(content_context))
+
+    def content_keys(self, content_context):
+        uuid = self._context2uuid(content_context)
+        mapping = self._content_uuid_mapping.get(uuid)
+        if not mapping:
+            return ()
+        # security is derived from microblog_context NOT from content_context
+        mapping = self.secure(mapping)
+        # not reversing, keep document discussion in chronological order
+        return mapping
 
     # --- MENTION ACCESSORS ---
 
@@ -593,10 +641,18 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     implements(IStatusContainer)
 
+    # set ASYNC=False to force sync mode and ignore MAX_QUEUE_AGE
+    if api.env.test_mode():
+        ASYNC = False
+    else:
+        ASYNC = True
+    # max in-memory time in millisec before disk sync, if in ASYNC mode
+    MAX_QUEUE_AGE = 1000
+
     def add(self, status):
         self._check_status(status)
         self._check_add_permission(status)
-        if MAX_QUEUE_AGE > 0:
+        if self.ASYNC and self.MAX_QUEUE_AGE > 0:
             self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)
             self._schedule_flush()
@@ -613,7 +669,7 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _schedule_flush(self):
         """A fallback queue flusher that runs without user interactions"""
-        if not MAX_QUEUE_AGE > 0:
+        if not self.MAX_QUEUE_AGE > 0:
             return
 
         try:
@@ -628,7 +684,7 @@ class QueuedStatusContainer(BaseStatusContainer):
             return
 
         # only a one-second granularity, round upwards
-        timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        timeout = int(math.ceil(float(self.MAX_QUEUE_AGE) / 1000))
         # Get the global request,
         # we just need to copy over some environment stuff.
         request = getRequest()
@@ -674,7 +730,7 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _autoflush(self):
         # logger.info("autoflush")
-        if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
+        if int(time.time() * 1000) - self._mtime > self.MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
@@ -684,7 +740,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         with LOCK:
             try:
                 # cancel scheduled flush
-                if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
+                if self.MAX_QUEUE_AGE > 0 and self._v_timer is not None:
                     # logger.info("Cancelling timer")
                     self._v_timer.cancel()
                     self._v_timer = None

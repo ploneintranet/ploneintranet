@@ -4,7 +4,9 @@
       >
 <body>
 
-<!-- ploneintranet.prototype/_includes/post.html -->
+  <tal:comment condition="nothing">
+    <!-- ploneintranet.prototype/_includes/post.html -->
+  </tal:comment>
 
 <div i18n:domain="ploneintranet"
      tal:define="thread_id context/getId;"
@@ -22,16 +24,17 @@
       </a>
     </tal:avatar>
     <p class="byline">
-      <em class="action" i18n:translate="label_posted">posted</em>
+      <em class="action" i18n:translate=""
+          tal:content="context/action_verb">posted</em>
       <time class="datestamp pat-display-time"
             data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
             datetime="${view/raw_date/ISO}"
           >${view/raw_date/ISO}</time>
-
       <tal:location condition="context/microblog_context/Title|nothing">
         in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
       </tal:location>
 
+      <tal:comment condition="nothing">      
       <!-- XXX: This is not yet implemented -->
       <!--label class="visibility pat-select bare">
       |
@@ -56,10 +59,13 @@
             </option>
           </optgroup>
         </select>
-      </label-->
+       </label-->
+      </tal:comment>
       <br/>
+      <tal:comment condition="nothing">            
       <!-- XXX: This is not yet implemented -->
       <!--a href="#" class="iconified icon-cog">Options</a-->
+      </tal:comment>      
     </p>
   </div>
 
@@ -78,70 +84,217 @@
   NB the prototype assumes that multiple attachments are either all images
   or else are all files. Implementation will need to split that into
   a multi-file + multi-image renderer.
+
+  Structure
+  ---------
+
+  Explanation see https://github.com/quaive/ploneintranet/issues/1
+
+  The below is broken into 2x2 blocks wrapped in conditionals:
+
+  1. streamonly       = post with attachment, without reference to content object
+   a. stream_document = file attachment
+   b. stream_image    = image attachment
+
+  2. content          = post with content object reference
+   a. content_default = reference to file or document, anything but an image
+   b. content_image   = reference to an image
+
+  The prototype does not have a distinction between 1. and 2. that way,
+  but we need it for the implementation since the API is very different,
+  and the markup is subtly different on top of that.
+
+  TODO:
+  - "converting" state not yet supported in markup
+    relates to https://github.com/quaive/ploneintranet/issues/44
+  - multi-attachments and multi-page previews
+  - zip downloads
+
   </tal:comment>
 
+  <tal:streamonly condition="not:view/is_content_update">
+
   <tal:attachments repeat="attachment view/attachments">
-    <tal:def define="is_content python:False;
-                     is_image attachment/is_image;
+    <tal:def define="is_image attachment/is_image;
                      has_preview attachment/img_src|nothing">
 
-      <tal:streamonly condition="not:is_content">
+      <tal:comment condition="nothing">
+----------------------------------------------------------------
+    1.a. STREAM DOCUMENT
+----------------------------------------------------------------
+      </tal:comment>
 
-        <tal:stream_document condition="not:is_image">
-          <section class="document preview"
-                   tal:attributes="class python:has_preview and 'document preview' or 'document preview not-possible'">
-            <figure>
-              <a href="#"
-                 i18n:attributes="title"
-                 title="Download this file"
-                 tal:attributes="href attachment/link">
-                <img src="/media/preview_thumb_1.jpg" alt=""
-                     tal:condition="has_preview"
-                     tal:attributes="src attachment/img_src" />
-              </a>
-              <figcaption>
-                <strong class="title">
-                  <a href="#"
-                     i18n:attributes="title"
-                     title="Download this file"
-                     tal:attributes="href attachment/link">
-                    <tal:r replace="attachment/title">Projection Material</tal:r>
-                  </a>
-                  <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
-                  <!--span class="page-counter icon-docs">3x</span-->
-                  <span class="functions">
-                      <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
-                      <!-- XXX gallery not implemented yet -- >
-                </strong>
+      <tal:stream_document condition="not:is_image">
+        <section class="document preview"
+                 tal:attributes="class python:has_preview and 'document document-preview' or 'document document-preview not-possible'">
+          <figure>
+            <a href="#"
+               i18n:attributes="title"
+               title="Download this file"
+               tal:attributes="href attachment/link">
+              <img src="/media/preview_thumb_1.jpg" alt=""
+                   tal:condition="has_preview"
+                   tal:attributes="src attachment/img_src" />
+            </a>
+            <figcaption>
+              <strong class="title">
+                <a href="#"
+                   i18n:attributes="title"
+                   title="Download this file"
+                   tal:attributes="href attachment/link">
+                  <tal:r replace="attachment/title">Projection Material</tal:r>
+                </a>
+                <tal:comment condition="nothing">                            
+                <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
+                <!--span class="page-counter icon-docs">3x</span-->
+                </tal:comment>
+                <span class="functions">
+                  <a href="#" class="icon iconified icon-download" i18n:attributes="title" title="Download this file" tal:attributes="href attachment/link">Download</a>
+                  <tal:comment condition="nothing">                            
+                  <!-- XXX gallery not implemented yet -- >                    
+                  </tal:comment>
+                  
+                  </span>
+              </strong>
+              <tal:comment condition="nothing">                            
                 <!-- no description byline for status attachments -->
-              </figcaption>
-            </figure>
-          </section>
-        </tal:stream_document>
+              </tal:comment>
+                
+            </figcaption>
+          </figure>
+        </section>
+      </tal:stream_document>
 
-        <tal:stream_image condition="is_image">
-	  <section class="image document-preview">
-	    <figure>
+      <tal:comment condition="nothing">
+----------------------------------------------------------------
+    1.b. STREAM IMAGE
+----------------------------------------------------------------
+      </tal:comment>
+      
+      <tal:stream_image condition="is_image">
+	<section class="image document-preview"
+                 tal:condition="has_preview">
+	  <figure >
+            <a href="${attachment/img_src}">
               <img src="${attachment/img_src}/large"
                    alt=""
-                   tal:condition="has_preview"
                    />
-	    </figure>
-	    <p class="overlay" tal:condition="nothing">
-              <!-- XXX images gallery view not implemented yet -->
-              <!-- XXX images zip download not implemented yet -->
-	    </p>
-	  </section>
-        </tal:stream_image>
-
-      </tal:streamonly>
-
+            </a>
+	  </figure>
+	  <p class="overlay">
+            <tal:comment condition="nothing">                            
+            <!-- XXX images gallery view not implemented yet -->
+            <!-- XXX images zip download not implemented yet -->
+            </tal:comment>
+            <a href="${attachment/img_src}"
+               class="icon iconified icon-download"
+               title="Download this image">Download</a>
+	  </p>
+	</section>
+      </tal:stream_image>
+      
+      
     </tal:def>
   </tal:attachments>
+  </tal:streamonly>
+  
+  <tal:content condition="view/is_content_update">
+
+    <tal:comment condition="nothing">
+----------------------------------------------------------------
+    2.a. CONTENT DEFAULT
+----------------------------------------------------------------
+    </tal:comment>
+
+    <tal:content_default condition="not:view/is_content_image_update">
+    <section class="document document-preview"
+             tal:define="content_context nocall:context/content_context;"
+             tal:attributes="class view/content_preview_status_css">
+      <figure>
+        <a tal:condition="view/content_has_previews"
+           tal:repeat="preview_src view/content_preview_urls"
+           tal:attributes="href view/content_url;
+                           alt content_context/Title">
+	  <img src="${preview_src}" alt="" />
+	</a>
+	<figcaption>
+	  <strong class="title">
+	    <a href="${view/content_url}" alt="${content_context/Title}"><span tal:replace="content_context/Title">title</span>
+              <!-- This needs exposure of all generated thumbs. We can do that and have them accessible, it is just not added here yet. -->
+              <!--span class="page-counter icon-docs">3x</span-->                
+	    </a>
+	    <span class="functions">
+	      <a tal:condition="view/is_content_downloadable"
+                 href="${content_context/absolute_url}"
+                 class="icon iconified icon-download"
+                 title="Download this file">Download</a>
+              <tal:comment condition="nothing">
+              <!-- XXX images gallery view not implemented yet -->
+              <!-- instead, for now a single view link -->
+              </tal:comment>
+              <a href="${view/content_url}"
+                 class="icon iconified icon-eye"
+                 i18n:attributes="title"
+                 title="View">View</a>
+              
+	    </span>
+	  </strong>
+	  <a href="${view/content_url}" alt="${content_context/Title}">
+	    <em class="byline" tal:content="content_context/Description">Description goes here</em>
+	  </a>
+	</figcaption>
+      </figure>
+      <tal:comment condition="nothing">
+      <!-- 			<p class="overlay">
+				<a href="#" class="iconified icon-download">Download</a>
+				<a href="#" class="iconified icon-preview">Preview</a>	
+      </p> -->
+      </tal:comment>
+    </section>
+    </tal:content_default>
+
+    <tal:comment condition="nothing">
+----------------------------------------------------------------
+   2.b. CONTENT IMAGE
+----------------------------------------------------------------
+    </tal:comment>
+    
+    <tal:content_image condition="view/is_content_image_update">
+      <section class="image document-preview"
+               tal:define="content_context nocall:context/content_context;">
+	<figure>
+          <a href="${view/content_url}"
+             alt="${content_context/Title}">
+          <img src="${content_context/absolute_url}"
+               alt="${content_context/Title}"
+               />
+          </a>
+	</figure>
+	<p class="overlay">
+          <tal:comment condition="nothing">
+          <!-- XXX images gallery view not implemented yet -->
+          <!-- XXX images zip download not implemented yet -->
+          </tal:comment>
+          <a href="${view/content_url}"
+             title="View ${content_context/Title}">
+	    <span class="icon iconified icon-eye">View</span>
+	  </a>
+          <a href="${content_context/absolute_url}"
+             title="Download ${content_context/Title}">
+	    <span class="icon iconified icon-download">Download</span>
+	  </a>          
+	</p>
+      </section>
+      </tal:content_image>
+    
+  </tal:content>
+
 
   <div class="functions">
+    <tal:comment condition="nothing">
     <!-- XXX: This is not yet implemented -->
     <!--a href="#" class="share pat-modal">Share <sup class="counter">(8)</sup></a-->
+    </tal:comment>
     <form tal:replace="structure view/toggle_like" />
   </div>
   <div class="comments"

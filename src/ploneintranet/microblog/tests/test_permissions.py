@@ -19,7 +19,6 @@ from plone.app.testing import login, logout
 from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
-import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IStatusUpdate
@@ -54,10 +53,6 @@ class TestPermissions(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.mb_tool = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
 
     def test_add_read_member(self):
         setRoles(self.portal, TEST_USER_ID, ('Member',))
@@ -132,12 +127,18 @@ class TestMicroblogContextBlacklisting(unittest.TestCase):
 
         # and now finally the actual test
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertNotIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
     def test_allowed_status_manager(self):
         """The default test user owns both IMicroblogContexts
         thus has access to both."""
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2, self.su1])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
 # more security testing in ploneintranet/suite/tests/test_microblog_security.py

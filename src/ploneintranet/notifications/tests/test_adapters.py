@@ -7,7 +7,6 @@ from plone.app.testing.interfaces import TEST_USER_PASSWORD
 from plone.app.testing.interfaces import TEST_USER_ROLES
 from ploneintranet.notifications.testing import FunctionalTestCase
 from ploneintranet.microblog.statusupdate import StatusUpdate
-from ploneintranet.microblog.testing import tearDownContainer
 import unittest
 
 
@@ -38,6 +37,12 @@ class SetUpMixin(object):
                 'email': 'kelly@sjogren.se',
                 'fullname': 'Kelly Sjögren',
             })  # randomly generated
+
+
+"""
+Note that this notification stuff is now partially implemented
+as content status updates.
+"""
 
 
 class TestAdapters(SetUpMixin, FunctionalTestCase):
@@ -79,10 +84,6 @@ class TestStatusAdapters(SetUpMixin, FunctionalTestCase):
     def setUp(self):
         super(TestStatusAdapters, self).setUp()
         transaction.commit()
-
-    def tearDown(self):
-        container = api.portal.get_tool('ploneintranet_microblog')
-        tearDownContainer(container)
 
     # These tests are disabled for now, as the implementation
     # is incomplete and missing any security considerations
@@ -126,6 +127,10 @@ class TestStatusAdapters(SetUpMixin, FunctionalTestCase):
         This lets us enter into the threaded handling of status commits
         (where the commit is done at most once per second,
         in a separate thread)
+
+        NB THIS IS COMPLETELY OUTDATED.
+        Tests run in sync mode now, unless explicitly using ASYNC=True,
+        see microblog/tests/test_statuscontainer_queued.
         '''
         with api.env.adopt_user('test_user_adapters_'):
             pm = api.portal.get_tool('ploneintranet_microblog')

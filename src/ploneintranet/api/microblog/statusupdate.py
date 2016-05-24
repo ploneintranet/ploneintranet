@@ -20,7 +20,7 @@ def get(status_id):
 
 
 def create(
-    text,
+    text=u'',
     microblog_context=None,
     thread_id=None,
     mention_ids=None,
@@ -28,10 +28,12 @@ def create(
     user=None,
     userid=None,
     time=None,
+    content_context=None,
+    action_verb=None,
 ):
     """Create a status update (post).
 
-    :param text: [required] text of the post
+    :param text: text of the post
     :type text: Unicode object
 
     :param microblog_context: Container of the post
@@ -46,6 +48,9 @@ def create(
     :param time: time when the post should happen. By default the current time.
     :type time: datetime object
 
+    :param content_context: a content referenced we are talking about
+    :type content_context: content object
+
     :returns: Newly created statusupdate
     :rtype: StatusUpdate object
     """
@@ -54,7 +59,9 @@ def create(
         microblog_context=microblog_context,
         thread_id=thread_id,
         mention_ids=mention_ids,
-        tags=tags
+        tags=tags,
+        content_context=content_context,
+        action_verb=action_verb,
     )
     # By default the post is done by the current user
     # Passing a userid or user allows to post as a different user
@@ -74,4 +81,7 @@ def create(
 
     microblog = queryUtility(IMicroblogTool)
     microblog.add(status_obj)
+    # take care - statusupdate may still be queued for storage
+    # and not actually written into the container yet
+    # this may change the status_obj.id
     return status_obj

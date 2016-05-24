@@ -4,7 +4,7 @@ from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
-from plone.app.contenttypes.content import Image
+from plone.app.contenttypes.content import Image, File
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
@@ -19,6 +19,13 @@ logger = logging.getLogger('ploneintranet.activitystream')
 
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
+
+    See templates/post.html for an explanation of the various
+    rendering modes.
+
+    On top of that it also powers templates/comment.html
+
+    The API could use some cleanup.
     '''
 
     newpostbox_placeholder = _(u'leave_a_comment',
@@ -78,17 +85,6 @@ class StatusUpdateView(BrowserView):
             self.context.getId(),
         )
         return toggle_like_view
-
-    @property
-    @memoize
-    def newpostbox_view(self):
-        ''' Return the newpostbox.tile view
-        '''
-        return api.content.get_view(
-            'newpostbox.tile',
-            self.portal,
-            self.request,
-        )
 
     @property
     @memoize
@@ -236,3 +232,64 @@ class StatusUpdateView(BrowserView):
                 self.request)
             for reply in replies]
         return replies_rendered
+
+    # ----------- content updates only ------------------
+
+    @property
+    @memoize
+    def content_context(self):
+        return self.context.content_context
+
+    @property
+    def is_content_update(self):
+        return bool(self.content_context)
+
+    @property
+    def is_content_image_update(self):
+        return (self.content_context and
+                isinstance(self.content_context, Image))
+
+    @property
+    def is_content_file_update(self):
+        return (self.content_context and
+                isinstance(self.content_context, File))
+
+    @property
+    def is_content_downloadable(self):
+        return (self.is_content_image_update or
+                self.is_content_file_update)
+
+    def content_has_previews(self):
+        if not self.is_content_update:
+            return False
+        elif self.is_content_image_update:
+            return True
+        return pi_api.previews.has_previews(self.content_context)
+
+    def content_preview_status_css(self):
+        if not self.is_content_update:
+            return 'fixme'
+        base = 'document document-preview'
+        if self.is_content_image_update:
+            return base
+        elif pi_api.previews.converting(self.content_context):
+            return base + ' not-generated'
+        elif not self.content_has_previews():
+            return base + ' not-possible'
+        else:
+            return base
+
+    def content_preview_urls(self):
+        if not self.is_content_update:
+            return []
+        if self.is_content_image_update:
+            return [self.content_context.absolute_url(), ]
+        return pi_api.previews.get_preview_urls(
+            self.content_context, scale='large')
+
+    def content_url(self):
+        if self.is_content_image_update or \
+           self.is_content_file_update:
+            return '{}/view'.format(self.content_context.absolute_url())
+        elif self.is_content_update:
+            return self.content_context.absolute_url()

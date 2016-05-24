@@ -253,7 +253,7 @@ class UpdateSocialView(UpdateSocialBase):
     @property
     @memoize
     def placeholder(self):
-        if 'thread_id' in self.request.form:
+        if self.thread_id or 'thread_id' in self.request.form:
             placeholder = _(
                 u"leave_a_comment",
                 default=u"Leave a comment..."
