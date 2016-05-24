@@ -233,6 +233,7 @@ I can archive the workspace
 
 I can unarchive the workspace
     Unselect checkbox  xpath=//input[@name='archival_date']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I can list the workspaces grouped by division
     Go To  ${PLONE_URL}/workspaces
