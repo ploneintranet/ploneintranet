@@ -262,6 +262,8 @@ I can't see the workspace
 I can list the archived workspaces
     I can list the workspaces
     Select checkbox  xpath=//input[@name='archived']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//span[@id='workspaces'][contains(@class, 'injecting')]
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
