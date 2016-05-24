@@ -177,21 +177,3 @@ class StatusUpdate(Persistent):
         See https://github.com/ploneintranet/ploneintranet/blob/251c8cf9f1e69c38030b6b6ac2f7c93c86ae1e60/src/ploneintranet/microblog/browser/attachments.py#L45  # noqa
         '''
         return 'utf8'
-
-    # BBB this should go after a proper migration has been setup
-    @property
-    def context(self):
-        ''' Be bold about the refactoring in #506!
-        '''
-        msg = "This is now the microblog_context"
-        logger.error(msg)
-        raise AttributeError(msg)
-
-    @property
-    def context_uuid(self):
-        ''' Be bold about the refactoring in #506!
-        '''
-        msg = "This is now the _microblog_context_uuid"
-        logger.error(msg)
-        raise AttributeError(msg)
-    # /BBB this should go after a proper migration has been setup
