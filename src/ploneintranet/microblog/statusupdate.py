@@ -99,7 +99,7 @@ class StatusUpdate(Persistent):
 
     # for unittest subclassing
     def _init_microblog_context(self, thread_id,
-                                microblog_context,
+                                microblog_context=None,
                                 content_context=None):
         """Set the right security context.
         If thread_id is given, the context of the thread parent is used
@@ -109,10 +109,12 @@ class StatusUpdate(Persistent):
         takes the security context of the parent post.
         """
         from ploneintranet import api as piapi  # FIXME circular dependency
+        # thread_id takes precedence over microblog_context arg!
         if thread_id:
             parent = piapi.microblog.statusupdate.get(thread_id)
             self._microblog_context_uuid = parent._microblog_context_uuid
-        # thread_id takes precedence over microblog_context arg!
+        elif microblog_context is None and content_context is None:
+            self._microblog_context_uuid = None
         else:
             # derive microblog_context from content_context if necessary
             m_context = piapi.microblog.get_microblog_context(

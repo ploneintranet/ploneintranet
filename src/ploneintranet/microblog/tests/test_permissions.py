@@ -53,9 +53,9 @@ class TestPermissions(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.mb_tool = queryUtility(IMicroblogTool)
+        setRoles(self.portal, TEST_USER_ID, ('Member',))
 
     def test_add_read_member(self):
-        setRoles(self.portal, TEST_USER_ID, ('Member',))
         sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
         container.add(sa)
@@ -63,18 +63,37 @@ class TestPermissions(unittest.TestCase):
         self.assertEqual([sa], values)
 
     def test_add_anon(self):
-        setRoles(self.portal, TEST_USER_ID, ())
+        logout()
         sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
-        self.assertRaises(Unauthorized, container.add, sa)
+        with self.assertRaises(Unauthorized):
+            container.add(sa)
 
     def test_read_anon(self):
-        setRoles(self.portal, TEST_USER_ID, ())
+        sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
-        self.assertRaises(Unauthorized, container.get, 0)
-        self.assertEqual([x for x in container.values()], [])
-        self.assertEqual([x for x in container.items()], [])
-        self.assertEqual([x for x in container.keys()], [])
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            container.values()
+
+    # more edit checks in test_statusupdate
+    def test_edit_anon(self):
+        sa = MockStatusUpdate('test a', 'arnold')
+        container = self.mb_tool
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            sa.edit('hax0r')
+
+    # more delete checks in test_statuscontainer_delete
+    def test_delete_anon(self):
+        sa = MockStatusUpdate('test a', 'arnold')
+        container = self.mb_tool
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            container.delete(sa.id)
 
 
 class TestMicroblogContextBlacklisting(unittest.TestCase):

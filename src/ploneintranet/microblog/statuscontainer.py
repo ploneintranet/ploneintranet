@@ -160,6 +160,17 @@ class BaseStatusContainer(Persistent, Explicit):
                                  newName=status.id)
         notify(event)
 
+    def delete(self, id):
+        status = self._get(id)  # bypass view permission check
+        self._check_delete_permission(status)
+        self._unidx_user(status)
+        self._unidx_tag(status)
+        self._unidx_microblog_context(status)
+        self._unidx_content_context(status)
+        self._unidx_threadid(status)
+        self._unidx_mentions(status)
+        self._status_mapping.pop(status.id)
+
     # --- INDEXES ---
 
     def _idx_user(self, status):
@@ -169,6 +180,9 @@ class BaseStatusContainer(Persistent, Explicit):
         self._user_mapping.insert(userid, LLBTree.LLTreeSet())
         # add status id to user treeset
         self._user_mapping[userid].insert(status.id)
+
+    def _unidx_user(self, status):
+        self._user_mapping[status.userid].remove(status.id)
 
     def _idx_tag(self, status):
         """
@@ -184,6 +198,12 @@ class BaseStatusContainer(Persistent, Explicit):
             # add status id to tag treeset
             self._tag_mapping[tag].insert(status.id)
 
+    def _unidx_tag(self, status):
+        if status.tags is None:
+            return
+        for tag in [tag.decode('utf-8') for tag in status.tags]:
+            self._tag_mapping[tag].remove(status.id)
+
     def _idx_microblog_context(self, status):
         uuid = status._microblog_context_uuid
         if not uuid:
@@ -193,6 +213,12 @@ class BaseStatusContainer(Persistent, Explicit):
         self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
         self._uuid_mapping[uuid].insert(status.id)
 
+    def _unidx_microblog_context(self, status):
+        uuid = status._microblog_context_uuid
+        if not uuid:
+            return
+        self._uuid_mapping[uuid].remove(status.id)
+
     def _idx_content_context(self, status):
         uuid = status._content_context_uuid
         if not uuid:
@@ -201,6 +227,12 @@ class BaseStatusContainer(Persistent, Explicit):
         # create tag treeset if not already present
         self._content_uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
         self._content_uuid_mapping[uuid].insert(status.id)
+
+    def _unidx_content_context(self, status):
+        uuid = status._content_context_uuid
+        if not uuid:
+            return
+        self._content_uuid_mapping[uuid].remove(status.id)
 
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
@@ -214,6 +246,13 @@ class BaseStatusContainer(Persistent, Explicit):
             # Make sure thread_id is also in the mapping
             self._threadid_mapping[thread_id].insert(thread_id)
 
+    def _unidx_threadid(self, status):
+        if not getattr(status, 'thread_id', False):
+            return
+        thread_id = status.thread_id
+        if thread_id:
+            self._threadid_mapping[thread_id].remove(status.id)
+
     def _idx_mentions(self, status):
         if not getattr(status, 'mentions', False):
             return
@@ -224,10 +263,18 @@ class BaseStatusContainer(Persistent, Explicit):
             self._mentions_mapping.insert(mention, LLBTree.LLTreeSet())
             self._mentions_mapping[mention].insert(status.id)
 
+    def _unidx_mentions(self, status):
+        if not getattr(status, 'mentions', False):
+            return
+        mentions = status.mentions.keys()
+        for mention in mentions:
+            self._mentions_mapping[mention].remove(status.id)
+
     def clear(self):
         self._user_mapping.clear()
         self._tag_mapping.clear()
         self._uuid_mapping.clear()
+        self._content_uuid_mapping.clear()
         self._threadid_mapping.clear()
         self._mentions_mapping.clear()
         return self._status_mapping.clear()
@@ -241,6 +288,26 @@ class BaseStatusContainer(Persistent, Explicit):
                 permission,
                 obj=status.microblog_context):  # None=SiteRoot handled by api
             raise Unauthorized("You do not have permission <%s>" % permission)
+
+    def _check_delete_permission(self, status):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        delete_all = 'Plone Social: Delete Microblog Status Update'
+        delete_own = 'Plone Social: Delete Own Microblog Status Update'
+        ok = api.user.has_permission(
+            delete_all,
+            obj=status.microblog_context
+        ) or (
+            api.user.has_permission(
+                delete_own,
+                obj=status.microblog_context
+            ) and
+            status.userid == api.user.get_current().id
+        )
+        if not ok:
+            raise Unauthorized("Not allowed to delete this statusupdate")
 
     # --- READ SECURITY ---
 
@@ -267,6 +334,15 @@ class BaseStatusContainer(Persistent, Explicit):
         This is the key security protection used by all getters.
         Because it's called a lot we're caching results per user request.
         """
+
+        # hardcode non-anon protection at siteroot for now
+        permission = "Plone Social: View Microblog Status Update"
+        try:
+            if not api.user.has_permission(permission):
+                raise Unauthorized()
+        except api.exc.CannotGetPortalError:  # happens in tests
+            pass
+
         uuid_blacklist = self._blacklist_microblogcontext_uuids()
         if not uuid_blacklist:
             return self._status_mapping.keys()
@@ -355,9 +431,13 @@ class BaseStatusContainer(Persistent, Explicit):
     # --- PRIMARY ACCESSORS ---
 
     def get(self, key):
+        key = int(key)
         # secure
-        if int(key) in self.allowed_status_keys():
+        if key in self.allowed_status_keys():
             return self._get(key)
+        # don't mask lookup error with Unauthorized
+        elif key not in self._status_mapping.keys():
+            raise KeyError(key)
         else:
             raise(Unauthorized("You're not allowed to get status %s'" % key))
 
