@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from logging import getLogger
 from os import environ
 from plone import api
 from plone import api as plone_api
@@ -17,13 +18,15 @@ from ZTUtils import make_query
 
 import locale
 
+logger = getLogger(__name__)
+
 try:
     locale.setlocale(locale.LC_COLLATE, environ.get('LANG', ''))
 except locale.Error:
-    try:
-        locale.setlocale(locale.LC_COLLATE, 'en_US.UTF-8')
-    except:
-        pass
+    logger.error(
+        'Invalid locale: %r. Check your $LANG environment variable.',
+        environ.get('LANG', ''),
+    )
 
 
 class SearchResultsView(BrowserView):
