@@ -56,4 +56,23 @@
         permission="ploneintranet.microblog.ViewStatusUpdate"
         />
 
+    <!-- traversal views -->
+
+    <browser:page
+        name="statusupdate"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class=".statusupdate_traverse.StatusUpdateTraverse"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ViewStatusUpdate"
+      />
+
+    <browser:page
+        name="post-menu.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/post-menu.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.AddStatusUpdate"
+        />
+
 </configure>
