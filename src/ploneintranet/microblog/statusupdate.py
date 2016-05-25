@@ -179,15 +179,15 @@ class StatusUpdate(Persistent):
         if not self._content_context_uuid:
             return None
         uuid = self._content_context_uuid
-        # raises AttributeError on unauthorized?
         return self._uuid2context(uuid)
 
     def _uuid2context(self, uuid=None):
         if not uuid:
             return None
         context = self._uuid2object(uuid)
-        if context is None:  # happens also when unauthorized to access context
-            raise AttributeError(
+        if context is None:
+            # typically happens when unauthorized to access context
+            raise Unauthorized(
                 "Context with uuid {0} could not be "
                 "retrieved".format(uuid)
             )

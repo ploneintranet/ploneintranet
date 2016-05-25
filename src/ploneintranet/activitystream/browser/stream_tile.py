@@ -1,4 +1,5 @@
 # coding=utf-8
+from AccessControl import Unauthorized
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
@@ -83,7 +84,7 @@ class StreamTile(Tile):
             # content updates postprocessing filter
             try:
                 su.content_context
-            except AttributeError:  # = unauthorized
+            except Unauthorized:
                 # skip thread on inaccessible content (e.g. draft)
                 continue
 
