@@ -18,7 +18,12 @@
                     number_of_objects_to_delete python:folder_warning and view.items_to_delete;
                 ">
       <div class="pat-modal" tal:omit-tag="view/is_ajax">
-        <h1 i18n:translate="">Delete confirmation</h1>
+        <h1 class="documentFirstHeading"
+            i18n:translate=""
+            tal:condition="not:folder_warning"
+            i18n:domain="ploneintranet">
+          Delete <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/portal_type"></tal:block>
+        </h1>
         <form action="${view/action}" method="post" enctype="${view/enctype}"
             class="wizard-box ${python:request.get('pat-inject') and 'pat-inject' or ''}"
             data-pat-inject="${python:request.get('pat-inject') or None}"
@@ -40,9 +45,21 @@
                   </span>
                 </p>
 
-                <p tal:condition="not:folder_warning">
-                  You are about to delete ${context/@@plone_context_state/object_title}. Are you sure?
+                <p tal:condition="not:folder_warning" i18n:translate="" i18n:domain="ploneintranet">
+                  You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="" i18n:domain="plone" tal:content="context/portal_type"></tal:block>. Are you sure?
                 </p>
+
+                <p tal:condition="folder_warning">
+                  <tal:block i18n:translate="">You are about to delete this folder. Are you sure?</tal:block>
+                  <span i18n:translate="" tal:condition="python:number_of_objects_to_delete>1">
+                    (This will delete a total of <tal:block i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</tal:block> items.)
+                  </span>
+                </p>
+
+                <ul>
+                  <li tal:content="context/@@plone_context_state/object_title">The item title (ID)</li>
+                </ul>
+
               </tal:block>
             </article>
           </div>
