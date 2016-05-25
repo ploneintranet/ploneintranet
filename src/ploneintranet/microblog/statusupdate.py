@@ -75,6 +75,21 @@ class StatusUpdate(Persistent):
         )
 
     @property
+    def can_delete(self):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        delete_all = 'Plone Social: Delete Microblog Status Update'
+        delete_own = 'Plone Social: Delete Own Microblog Status Update'
+        return api.user.has_permission(delete_all,
+                                       obj=self.microblog_context) or (
+            api.user.has_permission(delete_own,
+                                    obj=self.microblog_context) and
+            self.userid == api.user.get_current().id
+        )
+
+    @property
     def edited(self):
         """Is this an edited update?"""
         return bool(self.original_text)

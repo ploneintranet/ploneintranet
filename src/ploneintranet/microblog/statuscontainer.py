@@ -312,22 +312,22 @@ class BaseStatusContainer(Persistent, Explicit):
         StatusUpdates have no local 'owner' role. Instead we check against
         permissions on the microblog context and compare with the creator.
         """
-        delete_all = 'Plone Social: Delete Microblog Status Update'
-        delete_own = 'Plone Social: Delete Own Microblog Status Update'
-        ok = api.user.has_permission(
-            delete_all,
-            obj=status.microblog_context
-        ) or (
-            api.user.has_permission(
-                delete_own,
-                obj=status.microblog_context
-            ) and
-            status.userid == api.user.get_current().id
-        )
-        if not ok:
+        if not status.can_delete:
             raise Unauthorized("Not allowed to delete this statusupdate")
 
     # --- READ SECURITY ---
+
+    def _check_global_view_permission(self):
+        """Stopgap. To support extranet scenarios this will need
+        to be refactored without sacrificing performance.
+        """
+        # hardcode non-anon protection at siteroot for now
+        permission = "Plone Social: View Microblog Status Update"
+        try:
+            if not api.user.has_permission(permission):
+                raise Unauthorized()
+        except api.exc.CannotGetPortalError:  # happens in tests
+            pass
 
     def secure(self, keyset):
         """Filter keyset to return only keys the current user may see.
@@ -335,6 +335,7 @@ class BaseStatusContainer(Persistent, Explicit):
         NB this may return statusupdates with a microblog_context (workspace)
         accessible to the user, but referencing a content_context (document)
         which the user may not access yet because of content workflow.
+
         Filtering that is quite costly and not done here - instead there's a
         postprocessing filter in activitystream just before rendering.
         """
@@ -352,14 +353,7 @@ class BaseStatusContainer(Persistent, Explicit):
         This is the key security protection used by all getters.
         Because it's called a lot we're caching results per user request.
         """
-
-        # hardcode non-anon protection at siteroot for now
-        permission = "Plone Social: View Microblog Status Update"
-        try:
-            if not api.user.has_permission(permission):
-                raise Unauthorized()
-        except api.exc.CannotGetPortalError:  # happens in tests
-            pass
+        self._check_global_view_permission()
 
         uuid_blacklist = self._blacklist_microblogcontext_uuids()
         if not uuid_blacklist:
