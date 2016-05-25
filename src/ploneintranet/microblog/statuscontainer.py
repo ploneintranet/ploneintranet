@@ -61,7 +61,8 @@ def cache_key(method, self):
         # getSite() fails in integration tests, disable caching
         raise ram.DontCache
     return (member.id,
-            self._mtime,  # last write in microseconds (self = statuscontainer)
+            self._mtime,  # last add in milliseconds (self = statuscontainer)
+            self._dtime,  # last delete in microseconds
             time.time() // 1)
 
 
@@ -113,8 +114,10 @@ class BaseStatusContainer(Persistent, Explicit):
     dontcache = False  # used to disable cache during deletion
 
     def __init__(self, context=None):
-        # last write stamp in MICROseconds
+        # last add in milliseconds - used in both async and cache key
         self._mtime = 0
+        # last delete in MICROseconds - used in cache key
+        self._dtime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
@@ -175,7 +178,7 @@ class BaseStatusContainer(Persistent, Explicit):
         for xid in to_delete:
             self._unidx(xid)
             self._status_mapping.pop(xid)
-        self._update_mtime()  # purge cache
+        self._update_dtime()  # purge cache
 
     def _unidx(self, id):
         status = self._get(id)  # bypass view permission check
@@ -688,11 +691,20 @@ class BaseStatusContainer(Persistent, Explicit):
             self._uuid_mapping[uuid])
 
     def _update_mtime(self):
-        """Update _mtime on write.
-        Uses microseconds for granulatity.
+        """Update _mtime on statusupdate add.
+        Uses milliseconds. This flag is used for the cache key
+        and for the async time window.
         """
         with LOCK:
-            self._mtime = int(time.time() * 1000000)
+            self._mtime = int(time.time() * 1000)
+
+    def _update_dtime(self):
+        """Update _dtime on statusupdate deletions.
+        Requires *micro*seconds granularity to avoid RuntimeError
+        by cache interference. Only used for cache invalidation.
+        """
+        with LOCK:
+            self._dtime = int(time.time() * 1000000)
 
 
 class QueuedStatusContainer(BaseStatusContainer):
@@ -822,8 +834,8 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _autoflush(self):
         # logger.info("autoflush")
-        # compares microsecond _mtime with millisecond MAX_QUEUE_AGE
-        if int(time.time() * 1000000) - self._mtime > self.MAX_QUEUE_AGE:
+        # compares millisecond _mtime with millisecond MAX_QUEUE_AGE
+        if int(time.time() * 1000) - self._mtime > self.MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 

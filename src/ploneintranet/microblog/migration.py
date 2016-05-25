@@ -97,3 +97,10 @@ def document_discussion_fields(context):
             status._verb = None
     logger.info("Added document discussion fields")
     commit()
+
+
+def statusupdate_edit_delete(context):
+    """Upgrade for edit/delete feature"""
+    tool = queryUtility(IMicroblogTool)
+    tool._update_dtime()
+    commit()
