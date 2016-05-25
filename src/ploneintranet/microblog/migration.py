@@ -96,3 +96,4 @@ def document_discussion_fields(context):
         if not hasattr(status, '_verb'):
             status._verb = None
     logger.info("Added document discussion fields")
+    commit()
