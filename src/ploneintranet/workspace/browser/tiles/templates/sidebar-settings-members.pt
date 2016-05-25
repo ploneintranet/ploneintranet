@@ -93,7 +93,6 @@
                            tal:repeat="user view/guests"
                            tal:attributes="class string:item user ${user/cls}">
                       <tal:d define="purl here/portal_url; url python:user['typ']=='user' and '%s/profiles/%s' % (purl, user['id']) or '%s/@@workspace-group-view?id=%s' % (purl, user['id'])">
-                        <input name="user_id:list" type="checkbox" tal:attributes="value user/id" />
                         <a class="follow pat-inject" href="${url}" data-pat-inject="source: #document-body; target: #document-body">
                           <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
                           <strong class="title" tal:content="user/title">Adrian White</strong>
