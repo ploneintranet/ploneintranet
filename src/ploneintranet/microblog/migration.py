@@ -102,5 +102,5 @@ def document_discussion_fields(context):
 def statusupdate_edit_delete(context):
     """Upgrade for edit/delete feature"""
     tool = queryUtility(IMicroblogTool)
-    tool._update_dtime()
+    tool._update_ctime()
     commit()
