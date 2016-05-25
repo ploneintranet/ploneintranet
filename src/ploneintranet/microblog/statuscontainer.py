@@ -62,7 +62,7 @@ def cache_key(method, self):
         raise ram.DontCache
     return (member.id,
             self._mtime,  # last add in milliseconds (self = statuscontainer)
-            self._dtime,  # last delete in microseconds
+            self._ctime,  # last delete in microseconds
             time.time() // 1)
 
 
@@ -116,8 +116,8 @@ class BaseStatusContainer(Persistent, Explicit):
     def __init__(self, context=None):
         # last add in milliseconds - used in both async and cache key
         self._mtime = 0
-        # last delete in MICROseconds - used in cache key
-        self._dtime = 0
+        # cache buster in MICROseconds - used in cache key only
+        self._ctime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
@@ -139,7 +139,6 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_status(status)
         self._check_add_permission(status)
         self._store(status)
-        self._update_mtime()
 
     def _store(self, status):
         # see ZODB/Btree/Interfaces.py
@@ -153,6 +152,10 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_threadid(status)
         self._idx_mentions(status)
         self._notify(status)
+        # the _store() method is shared between Base and Async
+        # putting counter updates here ensures maximal consistency
+        self._update_mtime()  # millisec for async scheduler
+        self._update_ctime()  # microsecond granularity cache busting
 
     def _check_status(self, status):
         if not IStatusUpdate.providedBy(status):
@@ -178,7 +181,7 @@ class BaseStatusContainer(Persistent, Explicit):
         for xid in to_delete:
             self._unidx(xid)
             self._status_mapping.pop(xid)
-        self._update_dtime()  # purge cache
+        self._update_ctime()  # purge cache
 
     def _unidx(self, id):
         status = self._get(id)  # bypass view permission check
@@ -692,13 +695,13 @@ class BaseStatusContainer(Persistent, Explicit):
         with LOCK:
             self._mtime = int(time.time() * 1000)
 
-    def _update_dtime(self):
-        """Update _dtime on statusupdate deletions.
+    def _update_ctime(self):
+        """Update _ctime for cache busting.
         Requires *micro*seconds granularity to avoid RuntimeError
         by cache interference. Only used for cache invalidation.
         """
         with LOCK:
-            self._dtime = int(time.time() * 1000000)
+            self._ctime = int(time.time() * 1000000)
 
 
 class QueuedStatusContainer(BaseStatusContainer):
@@ -759,7 +762,6 @@ class QueuedStatusContainer(BaseStatusContainer):
             return self._autoflush()  # updates _mtime on write
         else:
             self._store(status)
-            self._update_mtime()
             return 1  # immediate write
 
     def _queue(self, status):
