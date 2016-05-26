@@ -70,9 +70,29 @@
   </div>
 
   <section class="post-content">
-    <p tal:content="structure view/decorated_text">Comment text</p>
+    <p>
+      <span tal:replace="structure view/decorated_text">Comment text</span>
+      <a tal:condition="context/original_text"
+         class="edited-toggle"
+         id="edited-toggle-${context/id}">
+        (Edited
+        <time class="datestamp pat-display-time"
+              data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+              datetime="${view/raw_date/ISO}"
+              >${view/raw_date/ISO}</time> <!-- FIXME provided modified date -->
+        )</a> 
+    </p>
   </section>
 
+  <section tal:condition="context/original_text"
+           class="original-text pat-collapsible closed"
+           data-pat-collapsible="trigger: #edited-toggle-${context/id}">
+    <p>
+      <strong i18n:translate="">Original text:</strong> 
+      ${context/original_text}
+    </p>
+  </section>
+  
   <tal:comment condition="nothing">
   prototype distinguishes:
   - content shares (link, download, view) versus status attachments (download)

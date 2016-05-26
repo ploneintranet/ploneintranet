@@ -248,9 +248,9 @@ class TestStatusUpdateEdit(unittest.TestCase):
 
     def test_edited(self):
         su = StatusUpdate('foo')
-        self.assertFalse(su.edited)
+        self.assertFalse(su.original_text)
         su.edit('bar')
-        self.assertTrue(su.edited)
+        self.assertTrue(su.original_text)
 
     def test_admin_can_edit(self):
         login(self.portal, 'user_steve')

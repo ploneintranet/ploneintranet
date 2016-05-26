@@ -7,14 +7,16 @@
 
     <div id="content" class="modal">
       <div id="document-content" class="pat-modal ">
-        <h1 i18n:translate="">Delete document</h1>
+        <h1 i18n:translate="">Delete post</h1>
     
-        <form action="${view/traverse}/post-deleted.html#document-content"
+        <form method="post"
+              action="${view/traverse}/post-deleted.html#document-content"
               class="wizard-box pat-inject "
-              data-pat-inject="source: #document-content; target: #post-${context/id}::element">
+              data-pat-inject="source: #document-content;
+                               target: #post-${context/id}::element">
 
           <span tal:replace="structure view/context_url/@@authenticator/authenticator"/>
-          <input type="hidden" name="action_id" value="delete"/>
+          <input type="hidden" name="delete" value="true"/>
           
           <div class="panel-body">
             <article>

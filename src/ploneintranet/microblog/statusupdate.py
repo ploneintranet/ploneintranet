@@ -60,6 +60,9 @@ class StatusUpdate(Persistent):
         if not self.original_text:
             self._original_text = self.text
         self.text = text
+        # this would be the right place to notify modification
+        logger.info("%s modified text on statusupdate %s",
+                    api.user.get_current().id, self.id)
 
     def delete(self):
         if not self.can_delete:

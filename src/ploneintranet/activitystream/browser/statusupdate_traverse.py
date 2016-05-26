@@ -24,6 +24,7 @@ class StatusUpdateTraverse(BrowserView):
 
     # do not allow just any view traversal
     supported_views = [
+        'post.html',
         'post-menu.html',
         'panel-delete-post.html',
         'post-deleted.html',

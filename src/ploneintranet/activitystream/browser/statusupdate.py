@@ -260,12 +260,16 @@ class StatusUpdateView(BrowserView):
         return actions
 
     def __call__(self):
-        action = self.request.form.get('action_id', None)
-        if action == 'delete':
-            logger.info("Deleting %s", self.context.id)
-            # security is checked in backend
-            self.context.delete()
+        if self.request.method == 'POST':
+            self.handle_action()
         return super(StatusUpdateView, self).__call__()
+
+    def handle_action(self):
+        """Handle edit/delete actions. Security is checked in backend."""
+        if self.request.form.get('delete', False):
+            self.context.delete()
+        elif self.request.form.get('text', None):
+            self.context.edit(self.request.form.get('text'))
 
     # ----------- content updates only ------------------
 

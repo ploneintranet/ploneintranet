@@ -151,7 +151,7 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_content_context(status)
         self._idx_threadid(status)
         self._idx_mentions(status)
-        self._notify(status)
+        self._notify_add(status)
         # the _store() method is shared between Base and Async
         # putting counter updates here ensures maximal consistency
         self._update_mtime()  # millisec for async scheduler
@@ -161,7 +161,7 @@ class BaseStatusContainer(Persistent, Explicit):
         if not IStatusUpdate.providedBy(status):
             raise ValueError("IStatusUpdate interface not provided.")
 
-    def _notify(self, status):
+    def _notify_add(self, status):
         event = ObjectAddedEvent(status,
                                  newParent=self,
                                  newName=status.id)
@@ -182,7 +182,9 @@ class BaseStatusContainer(Persistent, Explicit):
             self._unidx(xid)
             self._status_mapping.pop(xid)
         self._update_ctime()  # purge cache
-        logger.info("Deleted %s", id)
+        # this would be the right place to notify deletion
+        logger.info("%s deleted statusupdate %s",
+                    api.user.get_current().id, id)
 
     def _unidx(self, id):
         status = self._get(id)  # bypass view permission check

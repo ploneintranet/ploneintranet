@@ -92,5 +92,14 @@
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
         permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
         />
+
+    <browser:page
+        name="panel-edit-post.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/panel-edit-post.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        />
     
 </configure>
