@@ -62,10 +62,10 @@
        </label-->
       </tal:comment>
       <br/>
-      <tal:comment condition="nothing">            
-      <!-- XXX: This is not yet implemented -->
-      <!--a href="#" class="iconified icon-cog">Options</a-->
-      </tal:comment>      
+      <a tal:condition="view/actions"
+         href="${view/traverse}/post-menu.html#content"
+         class="iconified icon-cog pat-tooltip"
+         data-pat-tooltip="source: ajax">Options</a>
     </p>
   </div>
 

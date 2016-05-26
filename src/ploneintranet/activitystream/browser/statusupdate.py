@@ -233,6 +233,33 @@ class StatusUpdateView(BrowserView):
             for reply in replies]
         return replies_rendered
 
+    # ----------- actions (edit, delete) ----------------
+
+    @property
+    def traverse(self):
+        """Base URL for traversal views"""
+        return "{}/statusupdate/{}".format(self.portal_url, self.context.id)
+
+    @property
+    def actions(self):
+        logger.info("Hit actions for %s", self.context.id)
+        actions = []
+        if self.context.can_delete:
+            actions.append(dict(
+                icon='trash',
+                title='Delete post',
+                url=self.traverse + '/panel-delete-post.html'
+            ))
+        if self.context.can_edit:
+            actions.append(dict(
+                icon='edit',
+                title='Edit post',
+                url=self.traverse + '/panel-edit-post.html'
+            ))
+        # edit_tags not implemented yet
+        # edit_mentions not implemented yet
+        return actions
+
     # ----------- content updates only ------------------
 
     @property

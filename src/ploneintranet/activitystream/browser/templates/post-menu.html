@@ -1,14 +1,19 @@
-<ul class="menu">
-	<li>
-		<a class="icon-trash pat-modal" href="/feedback/panel-delete-post.html#document-content">Delete post</a>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="ploneintranet"
+      >
+  <body>
+    <div id="content">
+
+      <ul class="menu">
+	<li tal:repeat="action view/actions">
+	  <a class="icon-${action/icon} pat-modal"
+             href="${action/url}#document-content"
+             i18n:translate="">${action/title}</a>
 	</li>
-	<li>
-		<a class="icon-edit pat-modal" href="/feedback/panel-edit-post.html#document-content">Edit post</a>
-	</li>
-	<li>
-		<a class="icon-tags pat-modal" href="/feedback/panel-edit-tags.html#document-content">Edit tags</a>
-	</li>
-	<li>
-		<a class="icon-users pat-modal" href="/feedback/panel-edit-mentions.html#document-content">Edit mentions</a>
-	</li>
-</ul>
+      </ul>
+
+    </div>
+  </body>
+</html>
