@@ -1,4 +1,3 @@
-from AccessControl import Unauthorized
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
@@ -31,5 +30,5 @@ class TestStatusUpdate(FunctionalTestCase):
             pi_api.microblog.statusupdate.get(update2.id),
             update2)
         self.assertRaises(
-            Unauthorized,
+            KeyError,
             pi_api.microblog.statusupdate.get, 999999999)

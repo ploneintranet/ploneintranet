@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="ploneintranet"
+      >
+  <body>
+    <div id="content">
+
+      <ul class="menu">
+	<li tal:repeat="action view/actions">
+	  <a class="icon-${action/icon} pat-modal"
+             href="${action/url}#document-content"
+             i18n:translate="">${action/title}</a>
+	</li>
+      </ul>
+
+    </div>
+  </body>
+</html>

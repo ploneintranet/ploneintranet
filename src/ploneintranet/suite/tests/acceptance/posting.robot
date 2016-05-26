@@ -29,6 +29,8 @@ Manager can post a status update
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     and The status update only appears once    ${MESSAGE1}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE1}
 
 Alice can post a status update
     Given I am logged in as the user alice_lindstrom
@@ -36,6 +38,66 @@ Alice can post a status update
     and I post a status update    ${MESSAGE2}
     then The message is visible as new status update    ${MESSAGE2}
     and The message is visibile after a reload    ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE2}
+
+Alice can delete modify status update of herself
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    when I delete the status update    ${MESSAGE1}
+    then I can see the status delete confirmation
+    And the message is not visible    ${MESSAGE1}
+    when I open the Dashboard
+    Then the message is not visible    ${MESSAGE1}
+
+Manager can delete modify status update of anybody
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    When I'm logged in as a 'Manager'
+    and I open the Dashboard
+    and I delete the status update    ${MESSAGE1}
+    then I can see the status delete confirmation
+    And the message is not visible    ${MESSAGE1}
+    when I open the Dashboard
+    Then the message is not visible    ${MESSAGE1}
+
+Alice can edit modify status update of herself
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    then I can edit the status update    ${MESSAGE1}  ${MESSAGE2}
+    and The message is visibile after a reload    ${MESSAGE2}
+    and the message is not visible    ${MESSAGE1}
+    and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE2}
+
+Manager can edit modify status update of anybody
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    When I'm logged in as a 'Manager'
+    and I open the Dashboard    
+    then I can edit the status update    ${MESSAGE1}  ${MESSAGE2}
+    and The message is visibile after a reload    ${MESSAGE2}
+    and the message is not visible    ${MESSAGE1}
+    and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE2}
+
+Allan cannot edit or delete modify status update of others
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    When I am logged in as the user allan_neece
+    and I open the Dashboard
+    Then I cannot open the post action menu    ${MESSAGE1}
+    Comment  Cleanup for easier interactive testing
+    I am logged in as the user alice_lindstrom
+    I open the dashboard
+    I delete the status update    ${MESSAGE1}
 
 Allan can post a reply
     Given I am logged in as the user allan_neece

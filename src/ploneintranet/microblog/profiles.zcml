@@ -1,0 +1,81 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.microblog">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- [Microblog]"
+      directory="profiles/default"
+      description="Installs the ploneintranet.microblog package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- [Microblog uninstall]"
+      directory="profiles/uninstall"
+      description="Uninstalls the ploneintranet.microblog package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      i18n:attributes="title; description"
+      post_handler="ploneintranet.microblog.uninstall.uninstall"
+      />
+
+  <genericsetup:upgradeStep
+      title="Setup UUID mapping"
+      description="Add UUID mapping to existing tool"
+      source="0001"
+      destination="0002"
+      handler=".migration.setup_uuid_mapping"
+      profile="ploneintranet.microblog:default"
+      />
+  
+  <genericsetup:upgradeStep
+      title="Setup threadids"
+      description="Add thead_id mapping and attribute"
+      source="0002"
+      destination="0003"
+      handler=".migration.setup_threadids"
+      profile="ploneintranet.microblog:default"
+      />
+  
+  <genericsetup:upgradeStep
+      title="Rename _context_uuid -> _microblog_context_uuid"
+      description="Rename the attribute _context_uuid -> _microblog_context_uuid (#506)"
+      source="*"
+      destination="0004"
+      handler=".migration.uuid_to_microblog_uuid"
+      profile="ploneintranet.microblog:default"
+      />
+  
+  <genericsetup:upgradeStep
+      title="enforce parent context"
+      description="Fix security context for replies"
+      source="0004"
+      destination="0005"
+      handler=".migration.enforce_parent_context"
+      profile="ploneintranet.microblog:default"
+      />
+  
+  <genericsetup:upgradeStep
+      title="document discussion"
+      description="Add document discussion fields"
+      source="0005"
+      destination="0006"
+      handler=".migration.document_discussion_fields"
+      profile="ploneintranet.microblog:default"
+      />
+
+    <genericsetup:upgradeStep
+      title="edit/delete"
+      description="statusupdate edit/delete"
+      source="0006"
+      destination="0007"
+      handler=".migration.statusupdate_edit_delete"
+      profile="ploneintranet.microblog:default"
+      />
+
+</configure>

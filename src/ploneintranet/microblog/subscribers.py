@@ -1,7 +1,12 @@
+from AccessControl import Unauthorized
+import logging
+
 from ploneintranet import api as pi_api
 from ploneintranet.microblog.browser.interfaces import (
     IPloneIntranetMicroblogLayer
 )
+
+logger = logging.getLogger(__name__)
 
 
 def content_created(obj, event):
@@ -19,10 +24,15 @@ def content_created(obj, event):
 
     # microblog_context is automatically derived from content_context
     # which is why this listens to IObjectAddedEvent not IObjectCreatedEvent
-    pi_api.microblog.statusupdate.create(
-        content_context=obj,
-        action_verb=u'created',
-    )
+    try:
+        pi_api.microblog.statusupdate.create(
+            content_context=obj,
+            action_verb=u'created',
+        )
+    except Unauthorized:
+        # on content tree copy the IObjectAdded event is fired before the
+        # child content obj is properly uuid indexed
+        logger.warn("No statusupdate created for %s", obj.absolute_url())
 
 
 def content_statechanged(obj, event):

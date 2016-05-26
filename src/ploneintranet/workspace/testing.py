@@ -56,6 +56,12 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         )
 
         xmlconfig.file(
+            'subscribers.zcml',
+            ploneintranet.microblog,
+            context=configurationContext
+        )
+
+        xmlconfig.file(
             'configure.zcml',
             ploneintranet.activitystream,
             context=configurationContext

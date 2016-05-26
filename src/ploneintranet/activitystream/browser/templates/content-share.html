@@ -21,7 +21,10 @@
       <p class="byline">
         <em class="action" i18n:translate=""
             >${context/action_verb} this item</em>
-        <time class="pat-moment" data-pat-moment="format:relative">${view/date}</time>
+        <time class="datestamp pat-display-time"
+              data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+              datetime="${context/date/ISO}"
+              >${context/date/ISO}</time>
       </p>
     </div>
     <div id="comment-trail-share-${context/id}" class="comment-trail">

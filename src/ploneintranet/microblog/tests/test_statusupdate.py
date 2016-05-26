@@ -1,4 +1,5 @@
 import unittest2 as unittest
+from AccessControl import Unauthorized
 from Products.ATContentTypes.content.file import ATFile
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.component import queryUtility
@@ -6,6 +7,7 @@ from zope.interface.verify import verifyClass
 from zope.interface import alsoProvides
 from zope.interface import implements
 
+from plone.app.testing import login
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone import api
 
@@ -181,6 +183,96 @@ class TestStatusUpdateIntegration(unittest.TestCase):
     def test_action_verb_custom(self):
         su = StatusUpdate('foo bar', action_verb='created')
         self.assertEqual(su.action_verb, 'created')
+
+
+class TestStatusUpdateEdit(unittest.TestCase):
+
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.user_admin = api.user.create(
+            email='admin@example.com',
+            username='user_admin',  # prevent collision with default admin
+            properties={
+                'fullname': 'Site Admin'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_admin,
+            roles=['Site Administrator', 'Member']
+        )
+        self.user_steve = api.user.create(
+            email='steve@example.com',
+            username='user_steve',
+            properties={
+                'fullname': 'Steve User'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_steve,
+            roles=['Member', ]
+        )
+        self.user_jane = api.user.create(
+            email='jane@example.com',
+            username='user_jane',
+            properties={
+                'fullname': 'Jane User'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_jane,
+            roles=['Member', ]
+        )
+
+    def test_edit_changes_text(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_edit_sets_edited(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.edited, None)
+        su.edit('bar')
+        self.assertEqual(str(su.edited.__class__),
+                         "<class 'DateTime.DateTime.DateTime'>")
+        self.assertNotEqual(su.edited, su.date)
+
+    def test_original_text_default(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.original_text, None)
+
+    def test_original_text_on_firstedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_original_text_remains_secondedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        su.edit('shoob')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_admin_can_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        login(self.portal, 'user_admin')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_creator_can_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_other_cannot_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        login(self.portal, 'user_jane')
+        with self.assertRaises(Unauthorized):
+            su.edit('bar')
 
 
 class TestContentStatusUpdate(unittest.TestCase):

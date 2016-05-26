@@ -8,9 +8,15 @@ from ploneintranet.microblog.testing import\
 
 PROJECTNAME = 'ploneintranet.microblog'
 
-PERMISSIONS = (
+PERMISSIONS_MEMBER = (
     'Plone Social: Add Microblog Status Update',
     'Plone Social: View Microblog Status Update',
+    'Plone Social: Modify Own Microblog Status Update',
+    'Plone Social: Delete Own Microblog Status Update',
+)
+PERMISSIONS_MANAGER_ONLY = (
+    'Plone Social: Modify Microblog Status Update',
+    'Plone Social: Delete Microblog Status Update',
 )
 
 
@@ -29,9 +35,16 @@ class TestInstall(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetMicroblogLayer', layers)
 
-    def test_permissions(self):
+    def test_permissions_member(self):
         expected = ['Manager', 'Member', 'Site Administrator']
-        for permission in PERMISSIONS:
+        for permission in PERMISSIONS_MEMBER:
+            roles = self.portal.rolesOfPermission(permission)
+            roles = [r['name'] for r in roles if r['selected']]
+            self.assertListEqual(roles, expected)
+
+    def test_permissions_manager(self):
+        expected = ['Manager', 'Site Administrator']
+        for permission in PERMISSIONS_MANAGER_ONLY:
             roles = self.portal.rolesOfPermission(permission)
             roles = [r['name'] for r in roles if r['selected']]
             self.assertListEqual(roles, expected)

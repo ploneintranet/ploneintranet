@@ -1,6 +1,7 @@
 from plone import api
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
+from ploneintranet.workspace.unrestricted import execute_as_manager
 from zope.component import queryAdapter
 
 
@@ -10,6 +11,7 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
 
     def setUp(self):
         self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
         pwft = api.portal.get_tool("portal_placeful_workflow")
         workspaces = api.content.create(
             type="ploneintranet.workspace.workspacecontainer",
@@ -65,3 +67,25 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
             container=workspaces,
         )
         self.assertTrue(queryAdapter(workspace, IMetroMap) is None)
+
+    def test_add_case_from_template(self):
+        template = api.content.create(
+            type='ploneintranet.workspace.case',
+            id='template1',
+            container=self.portal.templates,
+        )
+        api.content.create(
+            type='Document',
+            id='doc1',
+            container=template,
+        )
+        case_request = self.request.clone()
+        case_request['workspace-type'] = 'template1'
+        add_workspace = api.content.get_view(
+            'add_workspace',
+            context=self.portal.workspaces,
+            request=case_request,
+        )
+        add_workspace.title = u'Case from template'
+        self.case = execute_as_manager(add_workspace.create_from_template)
+        self.assertTrue('doc1' in self.portal.workspaces['case-from-template'])
