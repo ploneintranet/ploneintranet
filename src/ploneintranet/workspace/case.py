@@ -43,44 +43,40 @@ class Case(WorkspaceFolder):
           task of the current milestone:
           Remove Guest access
         """
-        wft = api.portal.get_tool("portal_workflow")
-        case_state = wft.getInfoFor(self, "review_state")
+        # First of all we take the set of the todo assignees
+        pc = api.portal.get_tool('portal_catalog')
+        review_state = api.content.get_state(self)
+        brains = pc.unrestrictedSearchResults(
+            path='/'.join(self.getPhysicalPath()),
+            portal_type='todo',
+        )
+        objs = filter(
+            lambda obj: obj.assignee and obj.milestone == review_state,
+            (brain._unrestrictedGetObject() for brain in brains)
+        )
+        assignees = {obj.assignee for obj in objs}
 
-        tasks_by_state = self.tasks()
-        existing_users = self.existing_users_by_id()
-        existing_guests = set([
-            id for (id, record) in existing_users.items() if
-            record.get('role') == 'Guest'])
+        # now we make a partition of the user associated to this context
+        existing_users = self.existing_users()
 
-        remove_access = set()
-        grant_access = set()
-        for state in tasks_by_state:
-            for task in tasks_by_state[state]:
-                if not task.get('assignee'):
-                    continue
-                assignee_id = task.get('assignee').getId()
-                if case_state == state:
-                    if (
-                        assignee_id not in existing_users or
-                        (assignee_id in existing_users and
-                            existing_users[assignee_id]['role'] == 'Guest')
-                    ):
-                        grant_access.add(assignee_id)
-                else:
-                    if (
-                        assignee_id in existing_users and
-                        existing_users[assignee_id]['role'] == 'Guest'
-                    ):
-                        remove_access.add(assignee_id)
+        existing_guests = set([])
+        non_guests = set([])
+        for user in existing_users:
+            if user.get('role') == 'Guest':
+                existing_guests.add(user['id'])
+            else:
+                non_guests.add(user['id'])
+
+        # We find out which assignees are guests
+        entitled_guests = assignees.difference(non_guests)
+
         workspace = IWorkspace(self)
-        # All existing guests which were not found worthy of keeping their
-        # access permissions need to be removed
-        remove_access = existing_guests.difference(grant_access)
-        # We don't need to remove users that will be added again
-        remove_ids = remove_access.difference(grant_access)
-        # We don't need to grant access to users who already have it
-        grant_ids = grant_access.difference(remove_access)
-        for user_id in remove_ids:
+        # We have some stale guests that should be removed from this context
+        stale_guests = existing_guests.difference(entitled_guests)
+        for user_id in stale_guests:
             workspace.remove_from_team(user_id)
-        for user_id in grant_ids:
+
+        # We have some new guests that should be added to this context
+        new_guests = entitled_guests.difference(existing_guests)
+        for user_id in new_guests:
             workspace.add_to_team(user_id, groups=['Guests'])
