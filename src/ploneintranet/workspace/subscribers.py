@@ -232,7 +232,7 @@ def update_todo_state(obj, event):
     obj.reindexObject()
     parent = parent_workspace(obj)
     if ICase.providedBy(parent):
-        _update_case_access(parent)
+        parent.update_case_access()
 
 
 def handle_case_workflow_state_changed(obj, event):
@@ -242,7 +242,7 @@ def handle_case_workflow_state_changed(obj, event):
     * Grant assignees on tasks of the current milestone guest access
     """
     _update_todos_state(obj)
-    _update_case_access(obj)
+    obj.update_case_access()
 
 
 def _update_todos_state(obj):
@@ -261,10 +261,6 @@ def _update_todos_state(obj):
 def _update_todo_state(todo):
     todo.set_appropriate_state()
     todo.reindexObject()
-
-
-def _update_case_access(case):
-    execute_as_manager(case.update_case_access)
 
 
 def workspace_groupbehavior_toggled(obj, event):
