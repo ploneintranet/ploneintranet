@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from BTrees import OOBTree
+from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from transaction import commit
@@ -7,6 +8,7 @@ from zope.component import queryUtility
 import logging
 
 logger = logging.getLogger('ploneintranet.microblog.migration')
+PROFILE_ID = 'ploneintranet.microblog:default'
 
 
 def setup_uuid_mapping(context):
@@ -103,4 +105,7 @@ def statusupdate_edit_delete(context):
     """Upgrade for edit/delete feature"""
     tool = queryUtility(IMicroblogTool)
     tool._update_ctime()
+    setup = api.portal.get_tool('portal_setup')
+    # setup new edit/delete permissions
+    setup.runImportStepFromProfile(PROFILE_ID, 'rolemap')
     commit()
