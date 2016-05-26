@@ -242,7 +242,6 @@ class StatusUpdateView(BrowserView):
 
     @property
     def actions(self):
-        logger.info("Hit actions for %s", self.context.id)
         actions = []
         if self.context.can_delete:
             actions.append(dict(
@@ -259,6 +258,14 @@ class StatusUpdateView(BrowserView):
         # edit_tags not implemented yet
         # edit_mentions not implemented yet
         return actions
+
+    def __call__(self):
+        action = self.request.form.get('action_id', None)
+        if action == 'delete':
+            logger.info("Deleting %s", self.context.id)
+            # security is checked in backend
+            self.context.delete()
+        return super(StatusUpdateView, self).__call__()
 
     # ----------- content updates only ------------------
 

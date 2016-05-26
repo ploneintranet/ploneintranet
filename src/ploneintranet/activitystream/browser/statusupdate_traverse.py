@@ -26,9 +26,8 @@ class StatusUpdateTraverse(BrowserView):
     supported_views = [
         'post-menu.html',
         'panel-delete-post.html',
+        'post-deleted.html',
         'panel-edit-post.html',
-        'panel-edit-tags.html',  # not implemented yet
-        'panel-edit-mentions.html',  # not implemented yet
     ]
 
     def publishTraverse(self, request, name):
@@ -50,7 +49,7 @@ class StatusUpdateTraverse(BrowserView):
 
         # block a gazillion ./absolute_url ./copy etc views
         if self.view_name not in self.supported_views:
-            raise Unauthorized(self.view_name)
+            raise Unauthorized("Disallowed view: %s" % self.view_name)
 
         # if you can access this view and the statusupdate
         # you are also allowed to access the helper views
@@ -63,4 +62,4 @@ class StatusUpdateTraverse(BrowserView):
         except api.exc.InvalidParameterError:
             # this only ever happens when your code is broken
             # and typically masks another exception - go pdb here
-            raise AttributeError(self.view_name)
+            raise AttributeError("Unsupported view: %s" % self.view_name)

@@ -8,9 +8,11 @@ from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.microblog.interfaces import IMicroblogTool
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component.hooks import getSite
+from zope.component import queryUtility
 from zope.interface import implements
 import logging
 import time
@@ -58,6 +60,12 @@ class StatusUpdate(Persistent):
         if not self.original_text:
             self._original_text = self.text
         self.text = text
+
+    def delete(self):
+        if not self.can_delete:
+            raise Unauthorized("You are not allowed to edit this statusupdate")
+        container = queryUtility(IMicroblogTool)
+        container.delete(self.id)
 
     @property
     def can_edit(self):

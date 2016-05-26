@@ -182,6 +182,7 @@ class BaseStatusContainer(Persistent, Explicit):
             self._unidx(xid)
             self._status_mapping.pop(xid)
         self._update_ctime()  # purge cache
+        logger.info("Deleted %s", id)
 
     def _unidx(self, id):
         status = self._get(id)  # bypass view permission check

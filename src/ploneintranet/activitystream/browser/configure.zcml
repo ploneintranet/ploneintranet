@@ -56,7 +56,7 @@
         permission="ploneintranet.microblog.ViewStatusUpdate"
         />
 
-    <!-- traversal views -->
+    <!-- edit/delete actions via traversal views -->
 
     <browser:page
         name="statusupdate"
@@ -75,4 +75,22 @@
         permission="ploneintranet.microblog.AddStatusUpdate"
         />
 
+    <browser:page
+        name="panel-delete-post.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/panel-delete-post.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        />
+
+    <browser:page
+        name="post-deleted.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/post-deleted.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        />
+    
 </configure>
