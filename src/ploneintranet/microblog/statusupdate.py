@@ -187,6 +187,7 @@ class StatusUpdate(Persistent):
         context = self._uuid2object(uuid)
         if context is None:
             # typically happens when unauthorized to access context
+            # but may be caused by missing uuid index (e.g. on copy)
             raise Unauthorized(
                 "Context with uuid {0} could not be "
                 "retrieved".format(uuid)

@@ -1,3 +1,4 @@
+from AccessControl import Unauthorized
 import logging
 
 from ploneintranet import api as pi_api
@@ -28,7 +29,7 @@ def content_created(obj, event):
             content_context=obj,
             action_verb=u'created',
         )
-    except AttributeError:
+    except Unauthorized:
         # on content tree copy the IObjectAdded event is fired before the
         # child content obj is properly uuid indexed
         logger.warn("No statusupdate created for %s", obj.absolute_url())

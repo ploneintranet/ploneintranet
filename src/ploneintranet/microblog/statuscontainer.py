@@ -304,7 +304,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def _check_add_permission(self, status):
         permission = "Plone Social: Add Microblog Status Update"
-        # do not mask possible microblog_context uuid lookup AttributeError
+        # can also throw statusupdate._uuid2context() uuid lookup Unauthorized
         if not api.user.has_permission(
                 permission,
                 obj=status.microblog_context):  # None=SiteRoot handled by api
