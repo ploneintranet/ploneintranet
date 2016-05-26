@@ -231,6 +231,14 @@ class TestStatusUpdateEdit(unittest.TestCase):
         su.edit('bar')
         self.assertEqual(su.text, 'bar')
 
+    def test_edit_sets_edited(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.edited, None)
+        su.edit('bar')
+        self.assertEqual(str(su.edited.__class__),
+                         "<class 'DateTime.DateTime.DateTime'>")
+        self.assertNotEqual(su.edited, su.date)
+
     def test_original_text_default(self):
         su = StatusUpdate('foo')
         self.assertEqual(su.original_text, None)

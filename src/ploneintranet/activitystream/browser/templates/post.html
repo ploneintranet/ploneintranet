@@ -28,8 +28,8 @@
           tal:content="context/action_verb">posted</em>
       <time class="datestamp pat-display-time"
             data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
-            datetime="${view/raw_date/ISO}"
-          >${view/raw_date/ISO}</time>
+            datetime="${context/date/ISO}"
+          >${context/date/ISO}</time>
       <tal:location condition="context/microblog_context/Title|nothing">
         in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
       </tal:location>
@@ -78,8 +78,8 @@
         (Edited
         <time class="datestamp pat-display-time"
               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
-              datetime="${view/raw_date/ISO}"
-              >${view/raw_date/ISO}</time> <!-- FIXME provided modified date -->
+              datetime="${context/edited/ISO}"
+              >${context/edited/ISO}</time>
         )</a> 
     </p>
   </section>

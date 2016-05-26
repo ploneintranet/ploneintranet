@@ -60,6 +60,7 @@ class StatusUpdate(Persistent):
         if not self.original_text:
             self._original_text = self.text
         self.text = text
+        self._edited_date = DateTime()
         # this would be the right place to notify modification
         logger.info("%s modified text on statusupdate %s",
                     api.user.get_current().id, self.id)
@@ -105,6 +106,14 @@ class StatusUpdate(Persistent):
         """Return original text of a (multiply) edited update."""
         try:
             return self._original_text
+        except AttributeError:
+            return None
+
+    @property
+    def edited(self):
+        """Return last edit date if modified, or None if never changed."""
+        try:
+            return self._edited_date
         except AttributeError:
             return None
 

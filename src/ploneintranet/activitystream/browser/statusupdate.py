@@ -1,6 +1,5 @@
 # coding=utf-8
 import logging
-from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from plone import api
@@ -85,37 +84,6 @@ class StatusUpdateView(BrowserView):
             self.context.getId(),
         )
         return toggle_like_view
-
-    @property
-    @memoize
-    def toLocalizedTime(self):  # noqa
-        ''' Facade for the toLocalizedTime method
-        '''
-        return api.portal.get_tool('translation_service').toLocalizedTime
-
-    @property
-    @memoize
-    def date(self):
-        ''' The date of our context object
-        '''
-        # We have to transform Python datetime into Zope DateTime
-        # before we can call toLocalizedTime.
-        date = self.raw_date
-
-        return self.toLocalizedTime(
-            date,
-            long_format=True,
-        )
-
-    @property
-    @memoize
-    def raw_date(self):
-        ''' The raw date of our context object
-        '''
-        date = self.context.date
-        if hasattr(date, 'isoformat'):
-            date = DateTime(self.context.raw_date.isoformat())
-        return date
 
     @property
     @memoize
