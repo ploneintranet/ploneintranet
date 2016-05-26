@@ -1002,6 +1002,38 @@ I post a status update
 I submit the status update
     Click button  css=button[name='form.buttons.statusupdate']
 
+I open the post action menu
+    [arguments]  ${message}
+    Click Link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I cannot open the post action menu
+    [arguments]  ${message}
+    Page should not contain link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I delete the status update
+    [arguments]  ${message}
+    I open the post action menu  ${message}    
+    Click Link  Delete post
+    Click Button  I am sure, delete now
+    
+I can see the status delete confirmation
+    Wait Until Page Contains    This post has been succesfully deleted.
+
+I can edit the status update
+    [arguments]  ${message1}  ${message2}
+    I open the post action menu  ${message1}
+    Click Link  Edit post
+    Input Text  xpath=//textarea[contains(text(), '${message1}')]  ${message2}
+    Click Button  Save
+    Wait Until Page Contains  Edited
+
+I can access the original text
+    [arguments]  ${message1}  ${message2}
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message2}')]/a[contains(@class, 'edited-toggle')]
+    Comment  Working around some Selenium limitations here
+    Wait Until Element Is Visible  //section[contains(@class, 'original-text')]//p/strong
+    Page Should Contain  ${message1}
+    
 I can mention the user
     [arguments]  ${username}
     Click link    link=Mention people
