@@ -101,11 +101,6 @@ class StatusUpdate(Persistent):
         )
 
     @property
-    def edited(self):
-        """Is this an edited update?"""
-        return bool(self.original_text)
-
-    @property
     def original_text(self):
         """Return original text of a (multiply) edited update."""
         try:

@@ -246,12 +246,6 @@ class TestStatusUpdateEdit(unittest.TestCase):
         su.edit('shoob')
         self.assertEqual(su.original_text, 'foo')
 
-    def test_edited(self):
-        su = StatusUpdate('foo')
-        self.assertFalse(su.original_text)
-        su.edit('bar')
-        self.assertTrue(su.original_text)
-
     def test_admin_can_edit(self):
         login(self.portal, 'user_steve')
         su = StatusUpdate('foo')
