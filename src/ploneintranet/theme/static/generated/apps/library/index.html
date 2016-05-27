@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Boilerplate library | Plone Intranet</title>
+		<title>Library publisher | Plone Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" href="/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="/style/colours.css" type="text/css">
@@ -15,21 +15,11 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing   application-boilerplate-library application- ">
-		<div id="content" class="state-on">
-	<div id="application-body" class="application- application-boilerplate-library">
-		<div id="document-body">
-	<div id="document-content">
-		<div class="application-welcome-info">
-			<article class="pat-rich" id="boilerplate-library-introduction">
-				<a href="help/instruction.txt" class="pat-inject" data-pat-inject="target: #boilerplate-library-introduction; trigger: autoload; data-type: markdown">Thank you for using the boilerplate library!</a>
-			</article>
-		</div>
-	</div>
-</div>
-<aside class="sidebar left" id="sidebar">
-    <div id="sidebar-content">
-        
+	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing   application-library-publisher application- ">
+			<div id="content">
+	<aside class="sidebar left" id="sidebar-news-cms">
+    <div id="sidebar-content" class="mode-follow">
+    	
 
 <div class="item-selector mode-follow" id="selector">
     
@@ -61,11 +51,13 @@
             <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar">Expand sidebar</a>
                 
+                    <a class="selector-toggle-select more-menu-trigger">Functions</a>
                 
                 
                 
                 
-                    <a title="Create new boilerplate" href="/panel-create-boilerplate.html#document-content" class="create-boilerplate pat-modal icon-plus" data-pat-modal="class: large">Create boilerplate</a>
+                    <a title="Create new document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
+                
                 
                 
                     <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
@@ -78,7 +70,7 @@
     
 
     
-        <form class="search-box pat-inject pat-autosubmit" action="#selector-items">
+        <form class="search-box pat-inject pat-autosubmit" action="/feedback/workspace-search-results-min.html#selector-items">
             <label>
                 <input name="" type="search" placeholder="Search" />
                 <button type="submit">Search</button>
@@ -118,7 +110,7 @@
                                     type="submit"
                                     name="batch-function"
                                     value="paste"
-                                    formaction="/apps/boilerplate-library/#items"
+                                    formaction="/apps/library/#items"
                                     class="float-before icon-paste no-label"
                                     title="Paste">Paste</button>
                         </span>
@@ -419,55 +411,57 @@
                     
                 
                     
-                
+                        
+                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item group type-folder has-no-description">
+                                <input name="hr" type="checkbox" />
+                                <a href="/hr#items" class="follow pat-inject"
+                                data-pat-inject="source: #selector-items; target: #selector-items &&
+                                source: #selector-contextual-functions; target: #selector-contextual-functions"
+                                >
+                                    <strong class="title">HR</strong>
+                                    
+                                </a>
+                            </label>
+                        
                     
                 
                     
-                
+                        
+                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item group type-folder has-no-description">
+                                <input name="regulations" type="checkbox" />
+                                <a href="/regulations#items" class="follow pat-inject"
+                                data-pat-inject="source: #selector-items; target: #selector-items &&
+                                source: #selector-contextual-functions; target: #selector-contextual-functions"
+                                >
+                                    <strong class="title">Regulations</strong>
+                                    
+                                </a>
+                            </label>
+                        
                     
                 
                     
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
+                        
+                            <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynanmic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
+                            -->
+                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
+                            <label class="item group type-folder has-no-description">
+                                <input name="transportation" type="checkbox" />
+                                <a href="/transportation#items" class="follow pat-inject"
+                                data-pat-inject="source: #selector-items; target: #selector-items &&
+                                source: #selector-contextual-functions; target: #selector-contextual-functions"
+                                >
+                                    <strong class="title">Transportation</strong>
+                                    
+                                </a>
+                            </label>
+                        
                     
                 
                     
@@ -511,12 +505,12 @@
 
                             -->
                             <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
-                            <label class="item document type-text-boilerplate has-description">
-                                <input name="report" type="checkbox" />
-                                <a href="/report#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record">
-                                    <strong class="title">Report</strong>
+                            <label class="item document type-rich has-description">
+                                <input name="appslibraryabout-library-publisher" type="checkbox" />
+                                <a href="/apps/library/about-library-publisher#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record">
+                                    <strong class="title">About the library</strong>
                                     
-                                        <dfn class="byline">A default structure for reports such as management reports and evaluations.</dfn>
+                                        <dfn class="byline">Consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus.</dfn>
                                     
                                 </a>
                                 <div class="additional-meta-data">
@@ -524,8 +518,8 @@
                                         Liz Baker
                                     </a>
                                     <time class="modification-date meta-column" title="Date and time of the latest modification">
-                                        <!-- January 17, 2000 -->
-                                        2000-01-17 00:00:00 +0000
+                                        <!-- April 30, 2004 -->
+                                        2004-04-30 00:00:00 +0000
                                     </time>
                                     <nav class="tag-cloud tags meta-column">
                                         <!-- <a href="/library-tag-mitgliederbeitraege.html" class="tag">Mitgliederbeiträge</a>  -->
@@ -538,54 +532,51 @@
                     
                 
                     
-                        
-                            <!-- Each document has a class name on the label element that indicates the document type.
-
-                            Supported types include (class names):
-
-                            - type-presentation
-                            - type-slide
-                            - type-date
-                            - type-event
-                            - type-user
-                            - type-tag
-                            - type-powerpoint
-                            - type-word
-                            - type-zip
-                            - type-video
-                            - type-excel
-                            - type-sound
-                            - type-image
-                            - type-code
-                            - type-rich
-                            - type-pdf
-
-                            -->
-                            <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
-                            <label class="item document type-text-boilerplate has-description">
-                                <input name="memo" type="checkbox" />
-                                <a href="/memo#document-body" class="pat-inject follow pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: record">
-                                    <strong class="title">Memo</strong>
-                                    
-                                        <dfn class="byline">A default structure for short notes, messages and announcements.</dfn>
-                                    
-                                </a>
-                                <div class="additional-meta-data">
-                                    <a href="/guido-stevens/" class="author meta-column" title="Author of this document">
-                                        Liz Baker
-                                    </a>
-                                    <time class="modification-date meta-column" title="Date and time of the latest modification">
-                                        <!-- January 17, 2000 -->
-                                        2000-01-17 00:00:00 +0000
-                                    </time>
-                                    <nav class="tag-cloud tags meta-column">
-                                        <!-- <a href="/library-tag-mitgliederbeitraege.html" class="tag">Mitgliederbeiträge</a>  -->
-                                        <a href="#" class="tag">Finanzplanung</a>
-                                        <a href="#" class="tag">Statuten</a>
-                                    </nav>
-                                </div>
-                            </label>
-                        
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -640,6 +631,15 @@
             <a href="/panel-create-document.html#document-content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create document</a>
             <a href="/panel-create-folder.html#document-content" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large">Create folder</a>
         </div> -->
+        
+            <form action="./#workspace-documents" class="pat-inject" enctype="multipart/form-data">
+                <fieldset class="pat-upload" data-pat-upload="label: Drop files here or click to browse…; trigger: auto;">
+                    <label class="accessibility-options">
+                        <input type="file" name="file" multiple> Upload files
+                    </label>
+                </fieldset>
+                <button type="submit" hidden>Upload</button>
+            </form>
         
     
 
@@ -705,13 +705,25 @@
     
 </div>
 
+        <ul class="sidebar-extras">
+            <li class="item">
+                <a href="/apps/library/" class="icon-help-circle">Read the manual</a>
+            </li>
+        </ul>
     </div>
 </aside>
-	</div>
-	
+<div id="document-body">
+	<div id="document-content" class="news-feed">
+		<div class="application-welcome-info">
+			<article class="pat-rich" id="boilerplate-library-introduction">
+				<a href="help/instruction.txt" class="pat-inject" data-pat-inject="target: #boilerplate-library-introduction; trigger: autoload; data-type: markdown">Thank you for using the boilerplate library!</a>
+			</article>
+		</div>
+	</div>	
 </div>
+	</div>
 
-<a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+    <a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 
 <header id="global-header">
 
@@ -722,7 +734,7 @@
 
     <nav class="breadcrumbs">
         
-            <a class="current" href="#">Boilerplate library</a>
+            <a class="current" href="#"></a>
         
 
         
