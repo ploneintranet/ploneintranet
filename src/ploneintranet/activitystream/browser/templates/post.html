@@ -82,16 +82,18 @@
               >${context/edited/ISO}</time>
         )</a> 
     </p>
+
+    <section tal:condition="context/original_text"
+             class="original-text pat-collapsible closed"
+             data-pat-collapsible="trigger: #edited-toggle-${context/id}">
+      <p>
+        <strong i18n:translate="">Original text:</strong> 
+        ${context/original_text}
+      </p>
+    </section>
+    
   </section>
 
-  <section tal:condition="context/original_text"
-           class="original-text pat-collapsible closed"
-           data-pat-collapsible="trigger: #edited-toggle-${context/id}">
-    <p>
-      <strong i18n:translate="">Original text:</strong> 
-      ${context/original_text}
-    </p>
-  </section>
   
   <tal:comment condition="nothing">
   prototype distinguishes:
