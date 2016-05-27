@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-25 15:32+0000\n"
+"POT-Creation-Date: 2016-05-27 11:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ploneintranet\n"
 
+#: ../activitystream/browser/templates/post-menu.html:11
+msgid "${action/title}"
+msgstr ""
+
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr ""
@@ -25,7 +29,6 @@ msgstr ""
 msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)...</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:27
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
 msgstr ""
@@ -450,6 +453,10 @@ msgstr ""
 msgid "Delete ${contenttype}"
 msgstr ""
 
+#: ../activitystream/browser/templates/panel-delete-post.html:10
+msgid "Delete post"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 msgid "Delete this document"
@@ -518,7 +525,7 @@ msgstr ""
 msgid "Download as"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:131
+#: ../activitystream/browser/templates/post.html:151
 msgid "Download this file"
 msgstr ""
 
@@ -545,6 +552,10 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:141
 msgid "Edit name/description"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-edit-post.html:10
+msgid "Edit post"
 msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:133
@@ -698,6 +709,10 @@ msgstr ""
 msgid "General tasks"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:29
+msgid "Generic workspace"
+msgstr ""
+
 #: ../workspace/browser/workspacecontainer.py:82
 msgid "Generic workspaces"
 msgstr ""
@@ -735,6 +750,7 @@ msgstr ""
 msgid "How many items to list."
 msgstr ""
 
+#: ../activitystream/browser/templates/panel-delete-post.html:30
 #: ../layout/browser/actions.py:58
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:61
 msgid "I am sure, delete now"
@@ -911,6 +927,7 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:30
 #: ../workspace/browser/templates/workspace-add.pt:82
 msgid "Locked down, secret workspace"
 msgstr ""
@@ -1152,6 +1169,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:36
 #: ../workspace/browser/templates/workspace-add.pt:84
 msgid "Open community"
 msgstr ""
@@ -1166,6 +1184,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:101
 msgid "Organiser"
+msgstr ""
+
+#: ../activitystream/browser/templates/post.html:91
+msgid "Original text:"
 msgstr ""
 
 #: ../workspace/policies.py:43
@@ -1446,6 +1468,10 @@ msgstr ""
 msgid "Self-managed, private teamspace"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:33
+msgid "Self-managed, private workspace"
+msgstr ""
+
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:66
 msgid "Send"
@@ -1507,6 +1533,10 @@ msgstr ""
 
 #: ../search/browser/templates/all_results.pt:128
 msgid "Sort by relevancy"
+msgstr ""
+
+#: ../workspace/browser/templates/add_workspace.pt:44
+msgid "Special workspace"
 msgstr ""
 
 #: ../search/interfaces.py:92
@@ -1717,6 +1747,10 @@ msgstr ""
 msgid "This portlet displays the latest news that must be read."
 msgstr ""
 
+#: ../activitystream/browser/templates/post-deleted.html:9
+msgid "This post has been succesfully deleted."
+msgstr ""
+
 #: ../workspace/browser/forms.py:24
 msgid "This user doesn't have an email associated with their account."
 msgstr ""
@@ -1852,7 +1886,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:235
+#: ../activitystream/browser/templates/post.html:255
 msgid "View"
 msgstr ""
 
@@ -1954,8 +1988,12 @@ msgstr ""
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:50
+#: ../layout/browser/templates/delete_confirmation.pt:49
 msgid "You are about to delete this ${contenttype}. Are you sure?"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-delete-post.html:23
+msgid "You are about to delete this post. Are you sure?"
 msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:95
@@ -2267,6 +2305,8 @@ msgid "label_btn_follow_user"
 msgstr ""
 
 #. Default: "Cancel"
+#: ../activitystream/browser/templates/panel-delete-post.html:34
+#: ../activitystream/browser/templates/panel-edit-post.html:33
 #: ../layout/browser/actions.py:64
 msgid "label_cancel"
 msgstr ""
@@ -2367,6 +2407,7 @@ msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
+#: ../activitystream/browser/templates/panel-edit-post.html:29
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
 msgstr ""
@@ -2466,7 +2507,7 @@ msgid "label_workspace_types_css_mapping"
 msgstr ""
 
 #. Default: "Leave a comment..."
-#: ../activitystream/browser/statusupdate.py:31
+#: ../activitystream/browser/statusupdate.py:30
 #: ../microblog/browser/update_social.py:257
 msgid "leave_a_comment"
 msgstr ""
