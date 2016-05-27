@@ -59,8 +59,8 @@ class StatusUpdateTraverse(BrowserView):
             view = api.content.get_view(self.view_name,
                                         statusupdate,
                                         self.request)
-            return view()
         except api.exc.InvalidParameterError:
             # this only ever happens when your code is broken
             # and typically masks another exception - go pdb here
             raise AttributeError("Unsupported view: %s" % self.view_name)
+        return view()
