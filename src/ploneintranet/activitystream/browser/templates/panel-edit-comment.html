@@ -7,16 +7,25 @@
 
     <div id="content" class="modal">
       <div id="document-content" class="pat-modal ">
-        <h1 i18n:translate="">Edit post</h1>
+        <h1 i18n:translate="">Edit comment</h1>
     
         <form method="post"
-              action="${view/traverse}/post-modify.html#post-${context/id}"
+              action="${view/traverse_threadparent}/post-modify.html#${context/thread_id}-comment-${context/id}"
               class="wizard-box pat-inject "
-              data-pat-inject="source: #post-${context/id} .post-content;
-                               target: #post-${context/id} .post-content">
-            <span tal:replace="structure view/context_url/@@authenticator/authenticator"/>
-          
-            <input type="hidden" name="statusupdate_id" value="${context/id}">
+              data-pat-inject="source: #${context/thread_id}-comment-${context/id} .comment-content;
+                               target: #${context/thread_id}-comment-${context/id} .comment-content">
+          <span tal:replace="structure view/context_url/@@authenticator/authenticator"/>
+          <tal:comment condition="nothing">
+            <!-- When editing a comment, we render the full thread
+                 via traverse_threadparent above.
+                 That means we're switching context, from the current reply
+                 to it's parent.
+                 To still know which reply we were editing, we need to propagate
+                 the statusupdate_id of the to-be-changed reply below.
+              -->
+          </tal:comment>
+          <input type="hidden" name="statusupdate_id" value="${context/id}">
+
             <div class="panel-body">
               <fieldset class="vertical">
 	        <label>

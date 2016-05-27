@@ -6,33 +6,66 @@
 
 <!-- ploneintranet.prototype/_includes/comment.html -->
 
-        <div class="comment">
-            <div class="comment-header">
-              <tal:avatar define="avatar view/avatar">
-                <a href="${avatar/url}">
-                  <img src="${avatar/img}"
-                       alt="${avatar/fullname}"
-                       class="pat-avatar"
-                       id="${avatar/id}"
-                       >
-                  <h4 class="name">${avatar/fullname}</h4>
-                </a>
-              </tal:avatar>
-            </div>
-            <section class="comment-content">
-                <p tal:content="structure view/decorated_text">
-                    The text of the comment
-                </p>
-            </section>
-
-            <section class="preview">
-                <figure tal:repeat="attachment view/attachments">
-                    <a href="${attachment/link|attachment}">
-                        <img alt="" src="${attachment/img_src|attachment}" alt="" />
-                    </a>
-                </figure>
-            </section>
-        </div>
+<div class="comment"
+     id="${context/thread_id}-comment-${context/id}">
+     <div class="comment-header">
+       <tal:avatar define="avatar view/avatar">
+         <a href="${avatar/url}">
+           <img src="${avatar/img}"
+                alt="${avatar/fullname}"
+                class="pat-avatar"
+                id="${avatar/id}"
+                >
+           <h4 class="name">${avatar/fullname}</h4>
+         </a>
+         <time class="date pat-display-time"
+               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+               datetime="${context/date/ISO}"
+               >${context/date/ISO}</time>
+       </tal:avatar>
+       <tal:comment condition="nothing">
+         <!-- post-menu.html == comment-menu.html -->
+       </tal:comment>
+       <a tal:condition="view/actions"
+          href="${view/traverse}/post-menu.html#content"
+          class="iconified icon-cog pat-tooltip inactive"
+          data-pat-tooltip="source: ajax">Options</a>
+     </div>
+     <section class="comment-content">
+       <p>
+         <span tal:replace="structure view/decorated_text">
+           The text of the comment
+         </span>
+         <a tal:condition="context/original_text"
+            class="edited-toggle"
+            id="edited-toggle-${context/thread_id}-comment-${context/id}">
+           (Edited
+           <time class="pat-display-time"
+                 data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+                 datetime="${context/edited/ISO}"
+                 >${context/edited/ISO}</time>
+           )</a> 
+         
+       </p>
+       <section tal:condition="context/original_text"
+                class="original-text pat-collapsible closed"
+                data-pat-collapsible="trigger: #edited-toggle-${context/thread_id}-comment-${context/id}">
+         <p>
+           <strong i18n:translate="">Original text:</strong> 
+           ${context/original_text}
+         </p>
+    </section>
+       
+     </section>
+     
+     <section class="preview">
+       <figure tal:repeat="attachment view/attachments">
+         <a href="${attachment/link|attachment}">
+           <img alt="" src="${attachment/img_src|attachment}" alt="" />
+         </a>
+       </figure>
+     </section>
+</div>
 
 </body>
 </html>

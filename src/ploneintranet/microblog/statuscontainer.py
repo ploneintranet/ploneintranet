@@ -181,10 +181,10 @@ class BaseStatusContainer(Persistent, Explicit):
         for xid in to_delete:
             self._unidx(xid)
             self._status_mapping.pop(xid)
+            # this would be the right place to notify deletion
+            logger.info("%s deleted statusupdate %s",
+                        api.user.get_current().id, xid)
         self._update_ctime()  # purge cache
-        # this would be the right place to notify deletion
-        logger.info("%s deleted statusupdate %s",
-                    api.user.get_current().id, id)
 
     def _unidx(self, id):
         status = self._get(id)  # bypass view permission check

@@ -28,7 +28,11 @@ class StatusUpdateTraverse(BrowserView):
         'post-menu.html',
         'panel-delete-post.html',
         'post-deleted.html',
+        'panel-delete-comment.html',
+        'comment-deleted.html',
         'panel-edit-post.html',
+        'panel-edit-comment.html',
+        'post-modify.html'
     ]
 
     def publishTraverse(self, request, name):

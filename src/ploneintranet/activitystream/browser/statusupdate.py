@@ -202,6 +202,7 @@ class StatusUpdateView(BrowserView):
         return replies_rendered
 
     # ----------- actions (edit, delete) ----------------
+    # actual write/delete handling done in subclass below
 
     @property
     def traverse(self):
@@ -209,35 +210,46 @@ class StatusUpdateView(BrowserView):
         return "{}/statusupdate/{}".format(self.portal_url, self.context.id)
 
     @property
+    def traverse_threadparent(self):
+        """After editing a reply we need to show the full thread"""
+        return "{}/statusupdate/{}".format(
+            self.portal_url, self.context.thread_id)
+
+    @property
     def actions(self):
         actions = []
+
         if self.context.can_delete:
-            actions.append(dict(
-                icon='trash',
-                title='Delete post',
-                url=self.traverse + '/panel-delete-post.html'
-            ))
+            if self.context.thread_id:
+                actions.append(dict(
+                    icon='trash',
+                    title='Delete comment',
+                    url=self.traverse + '/panel-delete-comment.html'
+                ))
+            else:
+                actions.append(dict(
+                    icon='trash',
+                    title='Delete post',
+                    url=self.traverse + '/panel-delete-post.html'
+                ))
+
         if self.context.can_edit:
-            actions.append(dict(
-                icon='edit',
-                title='Edit post',
-                url=self.traverse + '/panel-edit-post.html'
-            ))
+            if self.context.thread_id:
+                actions.append(dict(
+                    icon='edit',
+                    title='Edit comment',
+                    url=self.traverse + '/panel-edit-comment.html'
+                ))
+            else:
+                actions.append(dict(
+                    icon='edit',
+                    title='Edit post',
+                    url=self.traverse + '/panel-edit-post.html'
+                ))
+
         # edit_tags not implemented yet
         # edit_mentions not implemented yet
         return actions
-
-    def __call__(self):
-        if self.request.method == 'POST':
-            self.handle_action()
-        return super(StatusUpdateView, self).__call__()
-
-    def handle_action(self):
-        """Handle edit/delete actions. Security is checked in backend."""
-        if self.request.form.get('delete', False):
-            self.context.delete()
-        elif self.request.form.get('text', None):
-            self.context.edit(self.request.form.get('text'))
 
     # ----------- content updates only ------------------
 
@@ -299,3 +311,30 @@ class StatusUpdateView(BrowserView):
             return '{}/view'.format(self.content_context.absolute_url())
         elif self.is_content_update:
             return self.content_context.absolute_url()
+
+
+class StatusUpdateModify(StatusUpdateView):
+    """
+    A shared view class for editing and deleting statusupdates.
+    """
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.handle_action()
+        return super(StatusUpdateModify, self).__call__()
+
+    def handle_action(self):
+        """
+        Handle edit/delete actions. Security is checked in backend.
+        Takes care to handle any HTTP POST only once, even with
+        a cloned request.
+        """
+        # pop() removes id to avoid multi-handling cloned POST request
+        id = self.request.form.pop('statusupdate_id', None)
+        if not id:
+            return
+        statusupdate = pi_api.microblog.statusupdate.get(id)
+        if self.request.form.get('delete', False):
+            statusupdate.delete()
+        elif self.request.form.get('text', None):
+            statusupdate.edit(self.request.form.get('text'))
