@@ -26,7 +26,7 @@
       </tal:comment>
 
       <tal:post repeat="statusupdate_view view/statusupdate_views">
-        <div tal:replace="structure statusupdate_view">
+        <tal:statusupdate replace="structure statusupdate_view" />
       </tal:post>
 
       </div><!-- #comments-document-comments -->

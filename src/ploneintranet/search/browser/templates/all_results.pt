@@ -153,7 +153,8 @@
           <tal:results repeat="result search_response">
             <tal:result tal:define="
                           type_class python:view.get_facet_type_class(result.friendly_type_name);
-                          result_url string:${result/url}${python:view.url_fragments.get(result.portal_type)};
+                          fragments python: view.url_fragments.get(result.portal_type);
+                          result_url string:${result/url}${fragments};
                           is_archived result/is_archived;
                           workspace_state python:'archived' if is_archived else result.review_state;
                           highlights result/highlighted_summary;

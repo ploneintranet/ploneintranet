@@ -48,7 +48,7 @@
                <a href="${view/target/absolute_url}/@@add_workspace" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
                <span tal:replace="structure context/@@authenticator/authenticator"/>
             </div>
-             <input type="search" placeholder="Search workspaces" focus name="SearchableText" i18n:attributes="placeholder" tal:attributes="value request/SearchableText | nothing">
+             <input type="search" placeholder="Search workspaces" focus name="SearchableText" i18n:attributes="placeholder" tal:attributes="value request/SearchableText|nothing">
         </form>
 
         <tal:no_grouping condition="python:request.get('grouping', '') == ''">
