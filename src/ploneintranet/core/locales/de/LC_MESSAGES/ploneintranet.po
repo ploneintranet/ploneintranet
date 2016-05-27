@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-25 15:32+0000\n"
+"POT-Creation-Date: 2016-05-27 11:30+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Language: de\n"
 "X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
 
+#: ../activitystream/browser/templates/post-menu.html:11
+msgid "${action/title}"
+msgstr ""
+
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr "${results} Treffer gefunden."
@@ -26,7 +30,6 @@ msgstr "${results} Treffer gefunden."
 msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)...</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:27
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
 msgstr "Ein Arbeitsraum in dem Informationen gemeinsam bearbeitet werden können."
@@ -451,6 +454,10 @@ msgstr "Löschen"
 msgid "Delete ${contenttype}"
 msgstr "${contenttype} löschen"
 
+#: ../activitystream/browser/templates/panel-delete-post.html:10
+msgid "Delete post"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 msgid "Delete this document"
@@ -519,7 +526,7 @@ msgstr "Erledigt"
 msgid "Download as"
 msgstr "Herunterladen als"
 
-#: ../activitystream/browser/templates/post.html:131
+#: ../activitystream/browser/templates/post.html:151
 msgid "Download this file"
 msgstr ""
 
@@ -547,6 +554,10 @@ msgstr "\"Aktuelle Nachrichten\" Portlet bearbeiten"
 #: ../workspace/browser/tiles/templates/sidebar.pt:141
 msgid "Edit name/description"
 msgstr "Name/Beschreibung bearbeiten"
+
+#: ../activitystream/browser/templates/panel-edit-post.html:10
+msgid "Edit post"
+msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:133
 msgid "Edit profile"
@@ -699,6 +710,10 @@ msgstr "Allgemein"
 msgid "General tasks"
 msgstr "Allgemeine Aufgaben"
 
+#: ../workspace/browser/templates/add_workspace.pt:29
+msgid "Generic workspace"
+msgstr "Normaler Arbeitsraum"
+
 #: ../workspace/browser/workspacecontainer.py:82
 msgid "Generic workspaces"
 msgstr "Allgemeiner Arbeitsraum"
@@ -736,6 +751,7 @@ msgstr "Hoch"
 msgid "How many items to list."
 msgstr "Wie viele Artikel sollen im Portlet aufgelistet werden?"
 
+#: ../activitystream/browser/templates/panel-delete-post.html:30
 #: ../layout/browser/actions.py:58
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:61
 msgid "I am sure, delete now"
@@ -912,6 +928,7 @@ msgstr "Weitere Suchergebnisse laden&hellip;"
 msgid "Location"
 msgstr "Ort"
 
+#: ../workspace/browser/templates/add_workspace.pt:30
 #: ../workspace/browser/templates/workspace-add.pt:82
 msgid "Locked down, secret workspace"
 msgstr "Verschlossener, sicherer Arbeitsraum"
@@ -1153,6 +1170,7 @@ msgstr "Nur Administratoren können Mitglieder zu Arbeitsräumen hinzufügen."
 msgid "Open"
 msgstr "Offen"
 
+#: ../workspace/browser/templates/add_workspace.pt:36
 #: ../workspace/browser/templates/workspace-add.pt:84
 msgid "Open community"
 msgstr "Offene Gesellschaft"
@@ -1168,6 +1186,10 @@ msgstr "Optionen"
 #: ../workspace/browser/templates/content_macros.pt:101
 msgid "Organiser"
 msgstr "Veranstalter"
+
+#: ../activitystream/browser/templates/post.html:91
+msgid "Original text:"
+msgstr ""
 
 #: ../workspace/policies.py:43
 msgid "Outsiders can self-join becoming a workspace member."
@@ -1447,6 +1469,10 @@ msgstr "Selbstverwaltet"
 msgid "Self-managed, private teamspace"
 msgstr "Selbstverwalteter, privater Arbeitsraum"
 
+#: ../workspace/browser/templates/add_workspace.pt:33
+msgid "Self-managed, private workspace"
+msgstr "Selbstverwalteter, privater Arbeitsraum"
+
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:66
 msgid "Send"
@@ -1509,6 +1535,10 @@ msgstr "Nach Datum sortieren"
 #: ../search/browser/templates/all_results.pt:128
 msgid "Sort by relevancy"
 msgstr "Nach Relevanz sortieren"
+
+#: ../workspace/browser/templates/add_workspace.pt:44
+msgid "Special workspace"
+msgstr "Geschäft"
 
 #: ../search/interfaces.py:92
 msgid "Spell corrected search string"
@@ -1718,6 +1748,10 @@ msgstr "Zugehörige Organisation"
 msgid "This portlet displays the latest news that must be read."
 msgstr "Dieses Portlet zeigt aktuelle Nachrichten, die gelesen werden sollen."
 
+#: ../activitystream/browser/templates/post-deleted.html:9
+msgid "This post has been succesfully deleted."
+msgstr ""
+
 #: ../workspace/browser/forms.py:24
 msgid "This user doesn't have an email associated with their account."
 msgstr "Dieser Benutzer hat keine E-Mail Adresse gespeichert."
@@ -1853,7 +1887,7 @@ msgstr "Benutzerkennung"
 msgid "Username"
 msgstr "Benutzername"
 
-#: ../activitystream/browser/templates/post.html:235
+#: ../activitystream/browser/templates/post.html:255
 msgid "View"
 msgstr ""
 
@@ -1955,9 +1989,13 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsraums."
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:50
+#: ../layout/browser/templates/delete_confirmation.pt:49
 msgid "You are about to delete this ${contenttype}. Are you sure?"
 msgstr "Sie sind dabei, dieses Objekt (${contenttype}) zu löschen. Sind Sie sicher?"
+
+#: ../activitystream/browser/templates/panel-delete-post.html:23
+msgid "You are about to delete this post. Are you sure?"
+msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:95
 msgid "You can always change these settings later via the security control panel in the workspace."
@@ -1977,7 +2015,7 @@ msgstr "Für einige der Objekte haben Sie nicht die Berechtigung diese zu lösch
 
 #: ../workspace/browser/templates/add_workspace.pt:65
 msgid "You may at any time change these settings later via the security control panel in the workspace."
-msgstr ""
+msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen des Arbeitsraums ändern."
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
@@ -2288,6 +2326,8 @@ msgid "label_btn_follow_user"
 msgstr "${username} folgen"
 
 #. Default: "Cancel"
+#: ../activitystream/browser/templates/panel-delete-post.html:34
+#: ../activitystream/browser/templates/panel-edit-post.html:33
 #: ../layout/browser/actions.py:64
 msgid "label_cancel"
 msgstr "Abbrechen"
@@ -2388,6 +2428,7 @@ msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
+#: ../activitystream/browser/templates/panel-edit-post.html:29
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
 msgstr "Speichern"
@@ -2487,7 +2528,7 @@ msgid "label_workspace_types_css_mapping"
 msgstr ""
 
 #. Default: "Leave a comment..."
-#: ../activitystream/browser/statusupdate.py:31
+#: ../activitystream/browser/statusupdate.py:30
 #: ../microblog/browser/update_social.py:257
 msgid "leave_a_comment"
 msgstr "Kommentar verfassen"

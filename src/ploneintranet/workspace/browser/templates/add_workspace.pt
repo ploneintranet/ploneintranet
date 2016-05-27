@@ -26,14 +26,14 @@
 
 	<label>
 	  <select name="workspace-type">
-	    <optgroup label="Generic workspace">
-	      <option value="secret">
+	    <optgroup label="Generic workspace" i18n:attributes="label">
+	      <option value="secret" i18n:translate="">
 		Locked down, secret workspace
 	      </option>
-	      <option value="private" selected name="security-level">
+	      <option value="private" selected name="security-level" i18n:translate="">
 		Self-managed, private workspace
 	      </option>
-	      <option value="open">
+	      <option value="open" i18n:translate="">
 		Open community
 	      </option>
               <option tal:repeat="template view/workspace_templates"
@@ -41,7 +41,7 @@
                       tal:content="template/title">workspace template
               </option>
 	    </optgroup>
-	    <optgroup label="Special workspace"
+	    <optgroup label="Special workspace" i18n:attributes="label"
                       tal:define="options view/special_options"
                       tal:condition="options">
               <option tal:repeat="template options"
@@ -87,10 +87,10 @@
             </option>
           </select>
         </label>
-        
-            
+
+
           </fieldset>
-          
+
         </div>
 
 
