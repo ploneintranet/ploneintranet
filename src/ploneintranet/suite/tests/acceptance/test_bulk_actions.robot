@@ -15,33 +15,41 @@ Test Teardown  Close all browsers
 Content Editors can copy and paste content
    Given I am logged in as the user christian_stoney
      and I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
      and I can enter the Manage Information Folder
     when I toggle the bulk action controls
     then I can copy the Minutes word document
     when I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
     when I toggle the bulk action controls
     then I can paste the Minutes word document
     when I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
     then I can enter the Projection Materials Folder
     when I toggle the bulk action controls
     then I can paste the Minutes word document
     when I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
     when I toggle the bulk action controls
     then I can delete the Minutes word document
     when I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
      and I can enter the Projection Materials Folder
     when I toggle the bulk action controls
     then I can cut the Minutes word document
     when I go to the Open Market Committee Workspace
+     and I open the sidebar documents tile
     when I toggle the bulk action controls
     then I can paste the Minutes word document
 
 A member can only bulk delete the items they are allowed to delete
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
       and I toggle the bulk action controls
       and I add an item to the cart  Terms and conditions
       and I go to the Open Parliamentary Papers Guidance Workspace
+      and I open the sidebar documents tile
       and I can create a new document  Deletable doc
       and I save the document
       and I toggle the bulk action controls
@@ -50,11 +58,13 @@ A member can only bulk delete the items they are allowed to delete
      then I confirm to delete the items
       and I see a message that items have been deleted  "Deletable doc"
       and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
       and I can see the document  Terms and conditions
 
 A member can only cut items they are allowed to delete
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
       and I toggle the bulk action controls
       and I add an item to the cart  Terms and conditions
       and I choose to cut the items in the cart
@@ -63,12 +73,14 @@ A member can only cut items they are allowed to delete
 A member can paste items where they are allowed to add content
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
       and I toggle the bulk action controls
       and I add an item to the cart  Terms and conditions
       and I choose to copy the items in the cart
       and I see a message that files have been copied
       and I see that the paste button is disabled
       and I go to the Open Parliamentary Papers Guidance Workspace
+      and I open the sidebar documents tile
       and I toggle the bulk action controls
       and I choose to paste the items in the cart
       and I see a message that items have been pasted
@@ -76,6 +88,7 @@ A member can paste items where they are allowed to add content
 A member can send items by email
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
       and I toggle the bulk action controls
       and I add an item to the cart  Terms and conditions
       and I choose to send the items in the cart
