@@ -53,6 +53,12 @@
   <permission>Add portal content</permission>
   <permission>Plone Social: Add Microblog Status Update</permission>
   <permission>Plone Social: View Microblog Status Update</permission>
+  <permission>Plone Social: Modify Microblog Status Update</permission>
+  <permission>Plone Social: Delete Microblog Status Update</permission>
+  <!--
+      Modify Own Status Update and Delete Own Status Update are acquired
+      unchanged from sitewide configuration.
+  -->
 
   <state state_id="new" title="New">
     <description>Basic data is being gathered and added to the case.</description>
@@ -107,6 +113,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="prepare" title="Prepare">
@@ -163,6 +181,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>        
   </state>
 
   <state state_id="complete" title="Complete">
@@ -219,6 +249,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="audit" title="Audit">
@@ -275,6 +317,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="propose" title="Propose">
@@ -331,6 +385,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="decided" title="Decided">
@@ -386,6 +452,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="closed" title="Closed">
@@ -441,6 +519,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="archived" title="Archived">
@@ -495,6 +585,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <!-- permission-role>Manager</permission-role -->
+      <!-- permission-role>Site Administrator</permission-role -->
+      <!-- permission-role>TeamMember</permission-role -->
+      <!-- permission-role>TeamManager</permission-role -->
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <!-- permission-role>Manager</permission-role -->
+      <!-- permission-role>Site Administrator</permission-role -->
+      <!--permission-role>TeamMember</permission-role-->
+      <!-- permission-role>TeamManager</permission-role -->
+    </permission-map>    
   </state>
 
   <state state_id="frozen" title="Frozen">
