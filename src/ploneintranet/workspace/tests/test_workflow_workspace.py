@@ -12,6 +12,10 @@ MANAGE = 'ploneintranet.workspace: Manage workspace'
 ADD_CONTENT = 'Add portal content'
 ADD_STATUS = 'Plone Social: Add Microblog Status Update'
 VIEW_STATUS = 'Plone Social: View Microblog Status Update'
+MODIFY_OWN_STATUS = 'Plone Social: Modify Own Microblog Status Update'
+MODIFY_STATUS = 'Plone Social: Modify Microblog Status Update'
+DELETE_OWN_STATUS = 'Plone Social: Delete Own Microblog Status Update'
+DELETE_STATUS = 'Plone Social: Delete Microblog Status Update'
 
 """
 This tests the workflow of the workspacefolder itself.
@@ -302,6 +306,27 @@ class TestWorkSpaceWorkflow(BaseTestCase):
                                'make_secret')
         self.assertEqual(api.content.get_state(self.workspace_folder),
                          'secret')
+
+    def test_workspace_statusupdate_siteadmin(self):
+        """Site admin should retain manage statusupdate permissions"""
+        # logged in as global admin
+        permissions = api.user.get_permissions(
+            obj=self.workspace_folder,
+        )
+        self.assertIn(MODIFY_STATUS, permissions)
+        self.assertIn(DELETE_STATUS, permissions)
+
+    def test_workspace_statusupdate_teamadmin(self):
+        """Team admin should gain manage statusupdate permissions"""
+        self.assertTrue(self.admin_permissions(MODIFY_STATUS))
+        self.assertTrue(self.admin_permissions(DELETE_STATUS))
+
+    def test_workspace_statusupdate_teammember(self):
+        """Member should retain global own statusupdate permissions"""
+        self.assertTrue(self.member_permissions(MODIFY_OWN_STATUS))
+        self.assertTrue(self.member_permissions(DELETE_OWN_STATUS))
+        self.assertFalse(self.member_permissions(MODIFY_STATUS))
+        self.assertFalse(self.member_permissions(DELETE_STATUS))
 
 
 class TestWorkSpaceContainerWorkflow(BaseTestCase):
