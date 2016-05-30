@@ -10,7 +10,7 @@
         <h1 i18n:translate="">Edit comment</h1>
     
         <form method="post"
-              action="${view/traverse_threadparent}/post-modify.html#${context/thread_id}-comment-${context/id}"
+              action="${view/traverse}/comment-edited.html#${context/thread_id}-comment-${context/id}"
               class="wizard-box pat-inject "
               data-pat-inject="source: #${context/thread_id}-comment-${context/id} .comment-content;
                                target: #${context/thread_id}-comment-${context/id} .comment-content">

@@ -210,12 +210,6 @@ class StatusUpdateView(BrowserView):
         return "{}/statusupdate/{}".format(self.portal_url, self.context.id)
 
     @property
-    def traverse_threadparent(self):
-        """After editing a reply we need to show the full thread"""
-        return "{}/statusupdate/{}".format(
-            self.portal_url, self.context.thread_id)
-
-    @property
     def actions(self):
         actions = []
 

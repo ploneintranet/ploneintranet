@@ -90,7 +90,7 @@
         class=".statusupdate.StatusUpdateView"
         template="templates/panel-edit-post.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
-        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
         />
 
     <browser:page
@@ -108,20 +108,18 @@
         class=".statusupdate.StatusUpdateView"
         template="templates/panel-edit-comment.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
-        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
         />
 
     <!-- special modify views handle POST -->
 
-    <!-- this one is the same as post.html
-         except it writes to the backend -->
     <browser:page
-        name="post-modify.html"
+        name="post-edited.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"
         class=".statusupdate.StatusUpdateModify"
         template="templates/post.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
-        permission="ploneintranet.microblog.AddStatusUpdate"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
         />
     
     <browser:page
@@ -133,6 +131,15 @@
         permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
         />
 
+    <browser:page
+        name="comment-edited.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateModify"
+        template="templates/comment.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
+        />
+    
     <browser:page
         name="comment-deleted.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"
