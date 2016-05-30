@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-27 11:30+0000\n"
+"POT-Creation-Date: 2016-05-30 13:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,7 +206,7 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:163
+#: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
 #: ../workspace/browser/templates/workspaces.pt:45
 msgid "Archived"
@@ -433,6 +433,11 @@ msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:106
 msgid "Days running"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:2
+#: ../workspace/browser/templates/email_invitees_text.pt:2
+msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:190
@@ -682,6 +687,8 @@ msgid "Freeze case"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:128
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "From"
 msgstr ""
 
@@ -919,11 +926,13 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:261
+#: ../search/browser/templates/all_results.pt:262
 msgid "Loading more search results&hellip;"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:94
+#: ../workspace/browser/templates/email_invitees_html.pt:13
+#: ../workspace/browser/templates/email_invitees_text.pt:12
 msgid "Location"
 msgstr ""
 
@@ -1357,6 +1366,10 @@ msgstr ""
 msgid "Recipients..."
 msgstr ""
 
+#: ../workspace/browser/templates/email_invitees_html.pt:21
+msgid "Regards"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
 msgstr ""
@@ -1624,6 +1637,10 @@ msgstr ""
 msgid "The action to be taken on the content"
 msgstr ""
 
+#: ../workspace/browser/templates/email_invitees_html.pt:15
+msgid "The agenda for this event can be found here:"
+msgstr ""
+
 #: ../layout/browser/templates/app-not-available.pt:18
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
 msgstr ""
@@ -1773,6 +1790,11 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:167
 msgid "Timezone"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
+msgid "Title:"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:24
@@ -2018,6 +2040,14 @@ msgstr ""
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_text.pt:4
+msgid "You received this email from ${context/plone_portal_state/navigation_root_title} because you are invited to the following date:"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:6
+msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:70
@@ -2624,6 +2654,11 @@ msgstr ""
 #. Default: "You are now following ${fullname}. Click to unfollow."
 #: ../network/browser/follows.py:50
 msgid "title_unfollow"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
+msgid "to"
 msgstr ""
 
 #. Default: "Todo"

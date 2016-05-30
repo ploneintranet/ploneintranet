@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-25 15:32+0000\n"
+"POT-Creation-Date: 2016-05-30 13:42+0000\n"
 "PO-Revision-Date: 2015-05-22 10:12+0000\n"
 "Last-Translator: Giacomo <giacomo.spettoli@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/plone-intranet/language/it/)\n"
@@ -18,6 +18,10 @@ msgstr ""
 "X-Is-Fallback-For: it-ch it-it\n"
 "Language: it\n"
 
+#: ../activitystream/browser/templates/post-menu.html:11
+msgid "${action/title}"
+msgstr ""
+
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
 msgstr ""
@@ -26,7 +30,6 @@ msgstr ""
 msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)...</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:27
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
 msgstr "Un'area di lavoro dove gli utenti possono collaborare"
@@ -204,7 +207,7 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:163
+#: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
 #: ../workspace/browser/templates/workspaces.pt:45
 msgid "Archived"
@@ -433,6 +436,11 @@ msgstr ""
 msgid "Days running"
 msgstr ""
 
+#: ../workspace/browser/templates/email_invitees_html.pt:2
+#: ../workspace/browser/templates/email_invitees_text.pt:2
+msgid "Dear Mr./Ms. ${invitee_name},"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:190
 msgid "Declined"
 msgstr ""
@@ -449,6 +457,10 @@ msgstr "Elimina"
 
 #: ../layout/browser/templates/delete_confirmation.pt:25
 msgid "Delete ${contenttype}"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-delete-post.html:10
+msgid "Delete post"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:36
@@ -519,7 +531,7 @@ msgstr ""
 msgid "Download as"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:131
+#: ../activitystream/browser/templates/post.html:151
 msgid "Download this file"
 msgstr ""
 
@@ -546,6 +558,10 @@ msgstr "Modifica la portlet con le ultime notizie"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:141
 msgid "Edit name/description"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-edit-post.html:10
+msgid "Edit post"
 msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:133
@@ -672,6 +688,8 @@ msgid "Freeze case"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:128
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "From"
 msgstr ""
 
@@ -697,6 +715,10 @@ msgstr "Generale"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:295
 msgid "General tasks"
+msgstr ""
+
+#: ../workspace/browser/templates/add_workspace.pt:29
+msgid "Generic workspace"
 msgstr ""
 
 #: ../workspace/browser/workspacecontainer.py:82
@@ -736,6 +758,7 @@ msgstr "Alto"
 msgid "How many items to list."
 msgstr "Quanti elementi sono da mostrare."
 
+#: ../activitystream/browser/templates/panel-delete-post.html:30
 #: ../layout/browser/actions.py:58
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:61
 msgid "I am sure, delete now"
@@ -904,14 +927,17 @@ msgstr "Mi piace"
 msgid "Link"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:261
+#: ../search/browser/templates/all_results.pt:262
 msgid "Loading more search results&hellip;"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:94
+#: ../workspace/browser/templates/email_invitees_html.pt:13
+#: ../workspace/browser/templates/email_invitees_text.pt:12
 msgid "Location"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:30
 #: ../workspace/browser/templates/workspace-add.pt:82
 msgid "Locked down, secret workspace"
 msgstr ""
@@ -1153,6 +1179,7 @@ msgstr "Solo gli amministratori possono aggiungere nuovi membri all'area di lavo
 msgid "Open"
 msgstr "Aperto"
 
+#: ../workspace/browser/templates/add_workspace.pt:36
 #: ../workspace/browser/templates/workspace-add.pt:84
 msgid "Open community"
 msgstr ""
@@ -1167,6 +1194,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:101
 msgid "Organiser"
+msgstr ""
+
+#: ../activitystream/browser/templates/post.html:91
+msgid "Original text:"
 msgstr ""
 
 #: ../workspace/policies.py:43
@@ -1336,6 +1367,10 @@ msgstr "Pubblica"
 msgid "Recipients..."
 msgstr ""
 
+#: ../workspace/browser/templates/email_invitees_html.pt:21
+msgid "Regards"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
 msgstr ""
@@ -1447,6 +1482,10 @@ msgstr "Auto-gestito"
 msgid "Self-managed, private teamspace"
 msgstr ""
 
+#: ../workspace/browser/templates/add_workspace.pt:33
+msgid "Self-managed, private workspace"
+msgstr ""
+
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:66
 msgid "Send"
@@ -1508,6 +1547,10 @@ msgstr ""
 
 #: ../search/browser/templates/all_results.pt:128
 msgid "Sort by relevancy"
+msgstr ""
+
+#: ../workspace/browser/templates/add_workspace.pt:44
+msgid "Special workspace"
 msgstr ""
 
 #: ../search/interfaces.py:92
@@ -1594,6 +1637,10 @@ msgstr ""
 #: ../todo/interfaces.py:18
 msgid "The action to be taken on the content"
 msgstr "L'azione da intraprendere sul contenuto"
+
+#: ../workspace/browser/templates/email_invitees_html.pt:15
+msgid "The agenda for this event can be found here:"
+msgstr ""
 
 #: ../layout/browser/templates/app-not-available.pt:18
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
@@ -1718,6 +1765,10 @@ msgstr ""
 msgid "This portlet displays the latest news that must be read."
 msgstr "Questa portlet mostra le ultime notizie che devono essere lette."
 
+#: ../activitystream/browser/templates/post-deleted.html:9
+msgid "This post has been succesfully deleted."
+msgstr ""
+
 #: ../workspace/browser/forms.py:24
 msgid "This user doesn't have an email associated with their account."
 msgstr "Questo utente non ha un email associata al suo account"
@@ -1740,6 +1791,11 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:167
 msgid "Timezone"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
+msgid "Title:"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:24
@@ -1853,7 +1909,7 @@ msgstr "Userid"
 msgid "Username"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:235
+#: ../activitystream/browser/templates/post.html:255
 msgid "View"
 msgstr ""
 
@@ -1955,8 +2011,12 @@ msgstr "Sei un membro di questa area di lavoro ora"
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
-#: ../layout/browser/templates/delete_confirmation.pt:50
+#: ../layout/browser/templates/delete_confirmation.pt:49
 msgid "You are about to delete this ${contenttype}. Are you sure?"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-delete-post.html:23
+msgid "You are about to delete this post. Are you sure?"
 msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:95
@@ -1981,6 +2041,14 @@ msgstr ""
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_text.pt:4
+msgid "You received this email from ${context/plone_portal_state/navigation_root_title} because you are invited to the following date:"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:6
+msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:70
@@ -2273,6 +2341,8 @@ msgid "label_btn_follow_user"
 msgstr ""
 
 #. Default: "Cancel"
+#: ../activitystream/browser/templates/panel-delete-post.html:34
+#: ../activitystream/browser/templates/panel-edit-post.html:33
 #: ../layout/browser/actions.py:64
 msgid "label_cancel"
 msgstr ""
@@ -2373,6 +2443,7 @@ msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
+#: ../activitystream/browser/templates/panel-edit-post.html:29
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
 msgstr ""
@@ -2472,7 +2543,7 @@ msgid "label_workspace_types_css_mapping"
 msgstr ""
 
 #. Default: "Leave a comment..."
-#: ../activitystream/browser/statusupdate.py:31
+#: ../activitystream/browser/statusupdate.py:30
 #: ../microblog/browser/update_social.py:257
 msgid "leave_a_comment"
 msgstr "Lascia un commento"
@@ -2589,6 +2660,11 @@ msgstr ""
 #. Default: "You are now following ${fullname}. Click to unfollow."
 #: ../network/browser/follows.py:50
 msgid "title_unfollow"
+msgstr ""
+
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
+msgid "to"
 msgstr ""
 
 #. Default: "Todo"
