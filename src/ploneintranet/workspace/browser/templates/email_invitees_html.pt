@@ -1,5 +1,4 @@
-<tal:domain i18n:domain="ploneintranet">
-<p i18n:translate="">Dear Mr./Ms. <tal:name i18n:name="invitee_name">${view/invitee_name}</tal:name>,</p>
+<tal:domain i18n:domain="ploneintranet"><p i18n:translate="">Dear Mr./Ms. <tal:name i18n:name="invitee_name">${view/invitee_name}</tal:name>,</p>
 
 <p i18n:translate="">
   You received this email from
