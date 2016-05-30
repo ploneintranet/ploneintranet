@@ -109,7 +109,10 @@ def query(path=None, path_depth=None, tags=[], portal_types=None,
     if debug:
         solr_query = sitesearch._apply_debug(solr_query)
 
-    response = sitesearch.execute(solr_query, debug=debug)
+    response = sitesearch.execute(
+        solr_query.paginate(rows=99999),
+        debug=debug
+    )
     return ISearchResponse(response)
 
 
