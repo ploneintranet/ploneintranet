@@ -8,6 +8,13 @@ BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDL
 help:
 	@grep " ## " $(MAKEFILE_LIST) | grep -v MAKEFILE_LIST | sed 's/\([^:]*\).*##/\1\t/'
 
+
+devel: bin/buildout ldap/schema ## 	 Run development buildout
+	bin/buildout
+
+ldap/schema:
+	[ -L ldap/schema ] || ln -s /etc/ldap/schema ldap/schema
+
 all:: fetchrelease
 default: all
 clean:
@@ -143,9 +150,6 @@ docker-run:  ## Start docker container
 
 ####################################################################
 # Guido's lazy targets
-
-devel: bin/buildout  ## 	 Run development buildout
-	bin/buildout
 
 gitlab-ci: bin/buildout
 	bin/buildout -c gitlab-ci.cfg
