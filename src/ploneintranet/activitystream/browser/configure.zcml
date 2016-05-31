@@ -85,19 +85,66 @@
         />
 
     <browser:page
-        name="post-deleted.html"
+        name="panel-edit-post.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"
         class=".statusupdate.StatusUpdateView"
+        template="templates/panel-edit-post.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
+        />
+
+    <browser:page
+        name="panel-delete-comment.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/panel-delete-comment.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
+        />
+
+    <browser:page
+        name="panel-edit-comment.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateView"
+        template="templates/panel-edit-comment.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
+        />
+
+    <!-- special modify views handle POST -->
+
+    <browser:page
+        name="post-edited.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateModify"
+        template="templates/post.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
+        />
+    
+    <browser:page
+        name="post-deleted.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateModify"
         template="templates/post-deleted.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
         permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
         />
 
     <browser:page
-        name="panel-edit-post.html"
+        name="comment-edited.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"
-        class=".statusupdate.StatusUpdateView"
-        template="templates/panel-edit-post.html"
+        class=".statusupdate.StatusUpdateModify"
+        template="templates/comment.html"
+        layer=".interfaces.IPloneIntranetActivitystreamLayer"
+        permission="ploneintranet.microblog.ModifyOwnStatusUpdate"
+        />
+    
+    <browser:page
+        name="comment-deleted.html"
+        for="ploneintranet.microblog.interfaces.IStatusUpdate"
+        class=".statusupdate.StatusUpdateModify"
+        template="templates/comment-deleted.html"
         layer=".interfaces.IPloneIntranetActivitystreamLayer"
         permission="ploneintranet.microblog.DeleteOwnStatusUpdate"
         />

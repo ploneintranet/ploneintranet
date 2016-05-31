@@ -29,6 +29,11 @@ class StatusUpdateTraverse(BrowserView):
         'panel-delete-post.html',
         'post-deleted.html',
         'panel-edit-post.html',
+        'post-edited.html',
+        'panel-delete-comment.html',
+        'comment-deleted.html',
+        'panel-edit-comment.html',
+        'comment-edited.html',
     ]
 
     def publishTraverse(self, request, name):
@@ -59,8 +64,8 @@ class StatusUpdateTraverse(BrowserView):
             view = api.content.get_view(self.view_name,
                                         statusupdate,
                                         self.request)
-            return view()
         except api.exc.InvalidParameterError:
             # this only ever happens when your code is broken
             # and typically masks another exception - go pdb here
             raise AttributeError("Unsupported view: %s" % self.view_name)
+        return view()

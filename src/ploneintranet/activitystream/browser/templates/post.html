@@ -26,7 +26,7 @@
     <p class="byline">
       <em class="action" i18n:translate=""
           tal:content="context/action_verb">posted</em>
-      <time class="datestamp pat-display-time"
+      <time class="pat-display-time"
             data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
             datetime="${context/date/ISO}"
           >${context/date/ISO}</time>
@@ -82,16 +82,18 @@
               >${context/edited/ISO}</time>
         )</a> 
     </p>
+
+    <section tal:condition="context/original_text"
+             class="original-text pat-collapsible closed"
+             data-pat-collapsible="trigger: #edited-toggle-${context/id}">
+      <p>
+        <strong i18n:translate="">Original text:</strong> 
+        ${context/original_text}
+      </p>
+    </section>
+    
   </section>
 
-  <section tal:condition="context/original_text"
-           class="original-text pat-collapsible closed"
-           data-pat-collapsible="trigger: #edited-toggle-${context/id}">
-    <p>
-      <strong i18n:translate="">Original text:</strong> 
-      ${context/original_text}
-    </p>
-  </section>
   
   <tal:comment condition="nothing">
   prototype distinguishes:
@@ -317,6 +319,13 @@
     </tal:comment>
     <form tal:replace="structure view/toggle_like" />
   </div>
+
+  <tal:comment condition="nothing">
+----------------------------------------------------------------
+   *** comments ***
+----------------------------------------------------------------
+  </tal:comment>
+  
   <div class="comments"
        id="${string:comments-${thread_id}}">
     <div tal:attributes="id string:comment-trail-${thread_id}">

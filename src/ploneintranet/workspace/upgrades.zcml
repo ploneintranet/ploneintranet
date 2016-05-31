@@ -35,4 +35,12 @@
         handler=".upgrades.import_search_registry"
         profile="ploneintranet.workspace:default" />
 
+    <genericsetup:upgradeStep
+        title="Statusupdate edit/delete"
+        description="Grant manage statusupdate to teamadmin"
+        source="*"
+        destination="0009"
+        handler=".upgrades.statusupdate_edit_delete"
+        profile="ploneintranet.workspace:default" />
+
 </configure>

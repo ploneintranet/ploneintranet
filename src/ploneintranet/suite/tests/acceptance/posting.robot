@@ -37,7 +37,7 @@ Alice can post a status update
     when I open the Dashboard
     and I post a status update    ${MESSAGE2}
     then The message is visible as new status update    ${MESSAGE2}
-    and The message is visibile after a reload    ${MESSAGE2}
+    and The message is visible after a reload    ${MESSAGE2}
     Comment  Cleanup for easier interactive testing    
     I delete the status update    ${MESSAGE2}
 
@@ -68,7 +68,7 @@ Alice can edit modify status update of herself
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
     then I can edit the status update    ${MESSAGE1}  ${MESSAGE2}
-    and The message is visibile after a reload    ${MESSAGE2}
+    and The message is visible after a reload    ${MESSAGE2}
     and the message is not visible    ${MESSAGE1}
     and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
     Comment  Cleanup for easier interactive testing    
@@ -81,7 +81,7 @@ Manager can edit modify status update of anybody
     When I'm logged in as a 'Manager'
     and I open the Dashboard    
     then I can edit the status update    ${MESSAGE1}  ${MESSAGE2}
-    and The message is visibile after a reload    ${MESSAGE2}
+    and The message is visible after a reload    ${MESSAGE2}
     and the message is not visible    ${MESSAGE1}
     and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
     Comment  Cleanup for easier interactive testing    
@@ -105,7 +105,7 @@ Allan can post a reply
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
-    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    then The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE2}
     and The reply is visible after a reload    ${MESSAGE1}    ${MESSAGE2}
 
 Esmeralda can reply to a reply
@@ -114,20 +114,89 @@ Esmeralda can reply to a reply
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
-    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    then The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
-    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    then The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE3}
      And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
+
+
+Alice can delete modify status reply of herself
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    when I delete the status reply    ${MESSAGE2}
+    then I can see the status reply delete confirmation
+    And The reply is not visible    ${MESSAGE2}
+    when I open the Dashboard
+    Then The reply is not visible   ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing        
+    I delete the status update    ${MESSAGE1}
+
+Manager can delete modify status reply of anybody
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    When I'm logged in as a 'Manager'
+    and I open the Dashboard    
+    when I delete the status reply    ${MESSAGE2}
+    then I can see the status reply delete confirmation
+    And The reply is not visible    ${MESSAGE2}
+    when I open the Dashboard
+    Then The reply is not visible   ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing        
+    I delete the status update    ${MESSAGE1}
+
+Allan cannot edit or delete modify status reply of others
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}    
+    When I am logged in as the user allan_neece
+    and I open the Dashboard
+    Then I cannot open the comment action menu    ${MESSAGE2}
+    Comment  Cleanup for easier interactive testing
+    I am logged in as the user alice_lindstrom
+    I open the dashboard
+    I delete the status update    ${MESSAGE1}
+
+
+Alice can edit modify status reply of herself
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}    
+    then I can edit the status reply    ${MESSAGE2}  ${MESSAGE3}
+    and The reply is not visible    ${MESSAGE2}    
+    and The reply is visible after a reload    ${MESSAGE1}  ${MESSAGE3}
+    and I can access the original reply text  ${MESSAGE2}  ${MESSAGE3}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE1}
+
+Manager can edit modify status reply of anybody
+    Given I am logged in as the user alice_lindstrom
+    when I open the Dashboard
+    and I post a status update    ${MESSAGE1}
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
+    When I'm logged in as a 'Manager'
+    and I open the Dashboard        
+    then I can edit the status reply    ${MESSAGE2}  ${MESSAGE3}
+    and The reply is not visible    ${MESSAGE2}    
+    and The reply is visible after a reload    ${MESSAGE1}  ${MESSAGE3}
+    and I can access the original reply text  ${MESSAGE2}  ${MESSAGE3}
+    Comment  Cleanup for easier interactive testing    
+    I delete the status update    ${MESSAGE1}
 
 Member can reply to a reply in a workspace
     Given I am in a workspace as a workspace member
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
-    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    then The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE2}
     When I post a reply on a status update    ${MESSAGE1}    ${MESSAGE3}
-    then The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE3}
+    then The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE3}
     And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
@@ -137,7 +206,7 @@ Global stream replies to workspace posts are only visible for members of that wo
     and The message is visible as new status update    ${MESSAGE1}
     and I open the Dashboard
     and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
-    and The reply is visibile as a comment    ${MESSAGE1}    ${MESSAGE2}
+    and The reply is visible as a comment    ${MESSAGE1}    ${MESSAGE2}
     and I post a status update    ${MESSAGE3}
     and The message is visible as new status update    ${MESSAGE3}
     When I am logged in as the user alice_lindstrom
@@ -218,6 +287,10 @@ The message is visible as new status update
     [arguments]  ${message}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
 
+The reply is visible
+    [arguments]  ${message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='comment-content']//p[contains(text(), '${message}')][1]
+
 The message is not visible
     [arguments]  ${message}
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
@@ -237,7 +310,7 @@ The status update only appears once
     Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][2]
 
-The message is visibile after a reload
+The message is visible after a reload
     [arguments]  ${message}
     ${location} =  Get Location
     Go to    ${location}
@@ -250,27 +323,31 @@ I post a reply on a status update
     Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
     Click button  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
 
-The reply is visibile as a comment
+The reply is visible as a comment
     [arguments]  ${message}  ${reply_message}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]//..//..//..//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${reply_message}')]
+
+The reply is not visible
+    [arguments]  ${message}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${message}')]
 
 The reply is visible after a reload
     [arguments]  ${message}  ${reply_message}
     ${location} =  Get Location
     Go to    ${location}
-    The reply is visibile as a comment  ${message}  ${reply_message}
+    The reply is visible as a comment  ${message}  ${reply_message}
 
 Both replies are visible
     [arguments]  ${message}  ${reply_message1}  ${reply_message2}
-    The reply is visibile as a comment  ${message}  ${reply_message1}
-    The reply is visibile as a comment  ${message}  ${reply_message2}
+    The reply is visible as a comment  ${message}  ${reply_message1}
+    The reply is visible as a comment  ${message}  ${reply_message2}
 
 Both replies are visible after a reload
     [arguments]  ${message}  ${reply_message1}  ${reply_message2}
     ${location} =  Get Location
     Go to    ${location}
-    The reply is visibile as a comment  ${message}  ${reply_message1}
-    The reply is visibile as a comment  ${message}  ${reply_message2}
+    The reply is visible as a comment  ${message}  ${reply_message1}
+    The reply is visible as a comment  ${message}  ${reply_message2}
 
 I can add a tag
     [arguments]  ${tag}

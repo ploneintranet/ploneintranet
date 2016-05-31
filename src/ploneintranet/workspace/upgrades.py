@@ -38,3 +38,10 @@ def import_search_registry(context):
         'plone.app.registry',
         run_dependencies=False,
     )
+
+
+def statusupdate_edit_delete(context):
+    logger.info('Statusupdate edit/delete permissions')
+    context.runImportStepFromProfile(default_profile, 'workflow')
+    wf_tool = api.portal.get_tool('portal_workflow')
+    wf_tool.updateRoleMappings()
