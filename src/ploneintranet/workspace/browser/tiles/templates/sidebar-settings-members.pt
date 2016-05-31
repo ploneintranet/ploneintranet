@@ -87,7 +87,7 @@
 
               </fieldset>
               <tal:guests condition="view/guests">
-                <h3>Guests</h3>
+                <h3 i18n:translate="">Guests</h3>
                 <fieldset class="checklist pat-checklist users unchecked" id="existing_guests">
                     <label class="item user has-no-description"
                            tal:repeat="user view/guests"
