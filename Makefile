@@ -9,8 +9,11 @@ help:
 	@grep " ## " $(MAKEFILE_LIST) | grep -v MAKEFILE_LIST | sed 's/\([^:]*\).*##/\1\t/'
 
 
-devel: bin/buildout  ## 	 Run development buildout
+devel: bin/buildout ldap/schema ## 	 Run development buildout
 	bin/buildout
+
+ldap/schema:
+	[ -L ldap/schema ] || ln -s /etc/ldap/schema ldap/schema
 
 all:: fetchrelease
 default: all
