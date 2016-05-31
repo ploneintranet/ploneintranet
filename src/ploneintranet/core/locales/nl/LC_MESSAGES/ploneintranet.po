@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-30 13:42+0000\n"
+"POT-Creation-Date: 2016-05-31 13:18+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Coen van der Kamp <cvanderkamp@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Is-Fallback-For: nl-be nl-nl\n"
 "Language: nl\n"
 
-#: ../activitystream/browser/templates/post-menu.html:11
+#: ../activitystream/browser/templates/post-menu.html:18
 msgid "${action/title}"
 msgstr ""
 
@@ -207,9 +207,12 @@ msgstr ""
 msgid "Apps"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
+msgid "Archive workspace"
+msgstr ""
+
 #: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
-#: ../workspace/browser/templates/workspaces.pt:45
 msgid "Archived"
 msgstr ""
 
@@ -436,8 +439,8 @@ msgstr ""
 msgid "Days running"
 msgstr ""
 
-#: ../workspace/browser/templates/email_invitees_html.pt:2
-#: ../workspace/browser/templates/email_invitees_text.pt:2
+#: ../workspace/browser/templates/email_invitees_html.pt:1
+#: ../workspace/browser/templates/email_invitees_text.pt:1
 msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr ""
 
@@ -457,6 +460,10 @@ msgstr "Verwijderen"
 
 #: ../layout/browser/templates/delete_confirmation.pt:25
 msgid "Delete ${contenttype}"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-delete-comment.html:10
+msgid "Delete comment"
 msgstr ""
 
 #: ../activitystream/browser/templates/panel-delete-post.html:10
@@ -531,8 +538,12 @@ msgstr ""
 msgid "Download as"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:151
+#: ../activitystream/browser/templates/post.html:153
 msgid "Download this file"
+msgstr ""
+
+#: ../activitystream/browser/templates/post.html:211
+msgid "Download this image"
 msgstr ""
 
 #: ../todo/behaviors.py:63
@@ -552,6 +563,10 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: ../activitystream/browser/templates/panel-edit-comment.html:10
+msgid "Edit comment"
+msgstr ""
+
 #: ../todo/portlets/latest.py:87
 msgid "Edit latest news portlet"
 msgstr "Wijzig laatste nieuws-portlet"
@@ -566,6 +581,10 @@ msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:133
 msgid "Edit profile"
+msgstr ""
+
+#: ../activitystream/browser/templates/post.html:78
+msgid "Edited"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:45
@@ -688,8 +707,8 @@ msgid "Freeze case"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:128
-#: ../workspace/browser/templates/email_invitees_html.pt:12
-#: ../workspace/browser/templates/email_invitees_text.pt:11
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "From"
 msgstr ""
 
@@ -758,9 +777,9 @@ msgstr "Hoog"
 msgid "How many items to list."
 msgstr "Het aantal weer te geven items."
 
-#: ../activitystream/browser/templates/panel-delete-post.html:30
+#: ../activitystream/browser/templates/panel-delete-comment.html:31
+#: ../activitystream/browser/templates/panel-delete-post.html:31
 #: ../layout/browser/actions.py:58
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:61
 msgid "I am sure, delete now"
 msgstr ""
 
@@ -932,8 +951,8 @@ msgid "Loading more search results&hellip;"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:94
-#: ../workspace/browser/templates/email_invitees_html.pt:13
-#: ../workspace/browser/templates/email_invitees_text.pt:12
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
 msgstr ""
 
@@ -1196,7 +1215,7 @@ msgstr ""
 msgid "Organiser"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:91
+#: ../activitystream/browser/templates/post.html:90
 msgid "Original text:"
 msgstr ""
 
@@ -1367,7 +1386,8 @@ msgstr "Publiseren"
 msgid "Recipients..."
 msgstr ""
 
-#: ../workspace/browser/templates/email_invitees_html.pt:21
+#: ../workspace/browser/templates/email_invitees_html.pt:20
+#: ../workspace/browser/templates/email_invitees_text.pt:19
 msgid "Regards"
 msgstr ""
 
@@ -1638,7 +1658,8 @@ msgstr ""
 msgid "The action to be taken on the content"
 msgstr "De actie die toegepast moet worden op de inhoud"
 
-#: ../workspace/browser/templates/email_invitees_html.pt:15
+#: ../workspace/browser/templates/email_invitees_html.pt:14
+#: ../workspace/browser/templates/email_invitees_text.pt:13
 msgid "The agenda for this event can be found here:"
 msgstr ""
 
@@ -1761,6 +1782,10 @@ msgstr ""
 msgid "This belongs to a division"
 msgstr ""
 
+#: ../activitystream/browser/templates/comment-deleted.html:9
+msgid "This comment has been succesfully deleted."
+msgstr ""
+
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
 msgstr "Dit portlet geeft het laatste nieuws weer dat gelezen moet worden."
@@ -1793,8 +1818,8 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: ../workspace/browser/templates/email_invitees_html.pt:11
-#: ../workspace/browser/templates/email_invitees_text.pt:10
+#: ../workspace/browser/templates/email_invitees_html.pt:10
+#: ../workspace/browser/templates/email_invitees_text.pt:9
 msgid "Title:"
 msgstr ""
 
@@ -1909,7 +1934,7 @@ msgstr "Userid"
 msgid "Username"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:255
+#: ../activitystream/browser/templates/post.html:258
 msgid "View"
 msgstr ""
 
@@ -2015,7 +2040,11 @@ msgstr ""
 msgid "You are about to delete this ${contenttype}. Are you sure?"
 msgstr ""
 
-#: ../activitystream/browser/templates/panel-delete-post.html:23
+#: ../activitystream/browser/templates/panel-delete-comment.html:24
+msgid "You are about to delete this comment. Are you sure?"
+msgstr ""
+
+#: ../activitystream/browser/templates/panel-delete-post.html:24
 msgid "You are about to delete this post. Are you sure?"
 msgstr ""
 
@@ -2043,11 +2072,8 @@ msgstr ""
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
 msgstr ""
 
-#: ../workspace/browser/templates/email_invitees_text.pt:4
-msgid "You received this email from ${context/plone_portal_state/navigation_root_title} because you are invited to the following date:"
-msgstr ""
-
-#: ../workspace/browser/templates/email_invitees_html.pt:6
+#: ../workspace/browser/templates/email_invitees_html.pt:5
+#: ../workspace/browser/templates/email_invitees_text.pt:5
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
@@ -2341,9 +2367,9 @@ msgid "label_btn_follow_user"
 msgstr ""
 
 #. Default: "Cancel"
-#: ../activitystream/browser/templates/panel-delete-post.html:34
-#: ../activitystream/browser/templates/panel-edit-post.html:33
-#: ../layout/browser/actions.py:64
+#: ../activitystream/browser/templates/panel-delete-comment.html:35
+#: ../activitystream/browser/templates/panel-delete-post.html:35
+#: ../activitystream/browser/templates/panel-edit-comment.html:43
 msgid "label_cancel"
 msgstr ""
 
@@ -2443,7 +2469,8 @@ msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
-#: ../activitystream/browser/templates/panel-edit-post.html:29
+#: ../activitystream/browser/templates/panel-edit-comment.html:39
+#: ../activitystream/browser/templates/panel-edit-post.html:30
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
 msgstr ""
@@ -2496,6 +2523,11 @@ msgstr ""
 #: ../messaging/browser/messaging.py:34
 msgid "label_sendmessage"
 msgstr "Verzenden"
+
+#. Default: "Archived"
+#: ../workspace/browser/templates/workspaces.pt:45
+msgid "label_show_archived"
+msgstr ""
 
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
@@ -2662,8 +2694,8 @@ msgstr ""
 msgid "title_unfollow"
 msgstr ""
 
-#: ../workspace/browser/templates/email_invitees_html.pt:12
-#: ../workspace/browser/templates/email_invitees_text.pt:11
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "to"
 msgstr ""
 

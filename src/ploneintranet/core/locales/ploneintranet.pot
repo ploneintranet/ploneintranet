@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-31 09:20+0000\n"
+"POT-Creation-Date: 2016-05-31 13:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,6 +204,10 @@ msgstr ""
 
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
+msgstr ""
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
+msgid "Archive workspace"
 msgstr ""
 
 #: ../search/browser/templates/all_results.pt:164

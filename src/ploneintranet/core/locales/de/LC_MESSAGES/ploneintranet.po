@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-31 09:20+0000\n"
+"POT-Creation-Date: 2016-05-31 13:18+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -206,6 +206,10 @@ msgstr "App nicht verfügbar"
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
 msgstr "Apps"
+
+#: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
+msgid "Archive workspace"
+msgstr ""
 
 #: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
