@@ -5,6 +5,8 @@ prune docs/html
 prune docs/_static
 prune docs/_templates
 exclude docs/conf.py
+graft etc
+graft ldap
 prune src
 graft src/ploneintranet.egg-info
 graft src/ploneintranet
