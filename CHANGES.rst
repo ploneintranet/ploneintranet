@@ -4,6 +4,7 @@ Changelog
 1.1.0a2 (unreleased)
 --------------------
 
+* Include deployment example configs in egg distribution [Guido A.J. Stevens]
 * Update changelog [Guido A.J. Stevens]
 * Merge pull request #269 from quaive/translate-email-invitees [goibhniu]
 * Merge pull request #267 from quaive/statusupdate-edit-delete-2 [Wolfgang Thomas]
