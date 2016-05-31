@@ -66,7 +66,7 @@
                               tal:define="is_archived context/archival_date;
                                           dt python:modules['DateTime'].DateTime();">
                       <label class="pat-checklist">
-                        Archive workspace
+                        <tal:translate i18n:translate="">Archive workspace</tal:translate>
                         <input type="checkbox" name="archival_date" value="1005"
                                tal:attributes="checked python:is_archived and 'checked';
                                                value python:is_archived if is_archived else dt.strftime('%Y-%m-%d');
