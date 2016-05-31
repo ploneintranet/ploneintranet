@@ -155,7 +155,7 @@
                     i18n:attributes="placeholder"/>
               </label>
               <label class="six columns">
-                <input type="time" size="10" class="time" name="end" placeholder="Time" value=""
+                <input type="time" size="10" class="time" name="end" placeholder="Time"
                        i18n:attributes="placeholder"
                        tal:attributes="disabled read_only"
                        value="${python:end and end.strftime('%H:%M')}"/>
