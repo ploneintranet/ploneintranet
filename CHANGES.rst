@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a2 (unreleased)
+1.1.0a2 (2016-05-31)
 --------------------
 
 * Include deployment example configs in egg distribution [Guido A.J. Stevens]
