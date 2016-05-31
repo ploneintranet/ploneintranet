@@ -1,8 +1,8 @@
-<tal:translate i18n:translate="">Dear Mr./Ms. ${view/invitee_name},</tal:translate>
+<tal:domain i18n:domain="ploneintranet"><tal:translate i18n:translate="">Dear Mr./Ms. <tal:name i18n:name="invitee_name">${view/invitee_name}</tal:name>,</tal:translate>
 
 <tal:translate i18n:translate="">
 You received this email from
-${context/plone_portal_state/navigation_root_title}
+<tal:name i18n:name="portal_title">${context/plone_portal_state/navigation_root_title}</tal:name>
 because you are invited to the following date:
 </tal:translate>
 
@@ -10,10 +10,11 @@ because you are invited to the following date:
 <tal:translate i18n:translate="">From</tal:translate> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <tal:translate i18n:translate="">to</tal:translate> ${python:context.end.strftime('%d.%m.%Y %H:%M')}
 <tal:translate i18n:translate="">Location</tal:translate>: ${context/location}
 
-<tal:translate>
+<tal:translate i18n:translate="">
 The agenda for this event can be found here:
 </tal:translate>
 
 ${context/absolute_url}
 
-<tal:translate>Regards</tal:translate>
+<tal:translate i18n:translate="">Regards</tal:translate>
+</tal:domain>

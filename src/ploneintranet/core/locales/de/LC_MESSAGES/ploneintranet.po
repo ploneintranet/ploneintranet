@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-27 11:30+0000\n"
+"POT-Creation-Date: 2016-05-30 13:42+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -207,7 +207,7 @@ msgstr "App nicht verfügbar"
 msgid "Apps"
 msgstr "Apps"
 
-#: ../search/browser/templates/all_results.pt:163
+#: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
 #: ../workspace/browser/templates/workspaces.pt:45
 msgid "Archived"
@@ -435,6 +435,11 @@ msgstr "Zeitraum"
 #: ../workspace/browser/templates/case_manager.pt:106
 msgid "Days running"
 msgstr "Tage laufend"
+
+#: ../workspace/browser/templates/email_invitees_html.pt:2
+#: ../workspace/browser/templates/email_invitees_text.pt:2
+msgid "Dear Mr./Ms. ${invitee_name},"
+msgstr "Sehr geehrte/r ${invitee_name},"
 
 #: ../workspace/browser/templates/content_macros.pt:190
 msgid "Declined"
@@ -683,6 +688,8 @@ msgid "Freeze case"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:128
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "From"
 msgstr "Von"
 
@@ -920,11 +927,13 @@ msgstr "Like"
 msgid "Link"
 msgstr "Link"
 
-#: ../search/browser/templates/all_results.pt:261
+#: ../search/browser/templates/all_results.pt:262
 msgid "Loading more search results&hellip;"
 msgstr "Weitere Suchergebnisse laden&hellip;"
 
 #: ../workspace/browser/templates/content_macros.pt:94
+#: ../workspace/browser/templates/email_invitees_html.pt:13
+#: ../workspace/browser/templates/email_invitees_text.pt:12
 msgid "Location"
 msgstr "Ort"
 
@@ -1358,6 +1367,10 @@ msgstr "Veröffentlichen"
 msgid "Recipients..."
 msgstr "Empfänger..."
 
+#: ../workspace/browser/templates/email_invitees_html.pt:21
+msgid "Regards"
+msgstr "Freundlich Grüße"
+
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
 msgid "Remove"
 msgstr "Entfernen"
@@ -1625,6 +1638,10 @@ msgstr "Absolute URL des Inhalts dieses Suchergebnisses, beruhend auf dem Pfad u
 msgid "The action to be taken on the content"
 msgstr "Die Aktion, die auf diesen Inhalt angewendet wird"
 
+#: ../workspace/browser/templates/email_invitees_html.pt:15
+msgid "The agenda for this event can be found here:"
+msgstr "Die Traktandenliste für diesen Termin finden Sie hier:"
+
 #: ../layout/browser/templates/app-not-available.pt:18
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
 msgstr "Die App, die Sie ausgewählt haben, ist noch nicht verfügbar, wird jedoch in naher Zukunft aktiviert."
@@ -1775,6 +1792,11 @@ msgstr "Zeitleiste"
 #: ../workspace/browser/templates/content_macros.pt:167
 msgid "Timezone"
 msgstr "Zeitzone"
+
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
+msgid "Title:"
+msgstr "Titel:"
 
 #: ../messaging/browser/send-message.pt:24
 msgid "To:"
@@ -2020,6 +2042,10 @@ msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
 msgstr "Diese Nachricht kann an eine oder mehrere Personen verschickt werden. Der oder die Empfänger erhalten eine E-Mail mit Verweis auf das oder die jeweilige(n) Objekt(e). Es ist möglich, die Namen von im System existierenden Benutzern oder einfach deren E-Mail-Adressen einzutragen."
+
+#: ../workspace/browser/templates/email_invitees_html.pt:6
+msgid "You received this email from ${portal_title} because you are invited to the following date:"
+msgstr "Sie erhalten diese E-Mail von ${portal_title}, weil Sie zu folgendem Termin eingeladen sind:"
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
@@ -2646,6 +2672,11 @@ msgstr "Klicken Sie hier, um ${fullname} zu folgen"
 #: ../network/browser/follows.py:50
 msgid "title_unfollow"
 msgstr "Sie folgen ${fullname}. Klicken Sie hier, um ${fullname} nicht weiter zu folgen"
+
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
+msgid "to"
+msgstr "bis"
 
 #. Default: "Todo"
 #: ../layout/adapters/app_tiles.py:81
