@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-30 13:42+0000\n"
+"POT-Creation-Date: 2016-05-31 09:20+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: de\n"
 "X-Is-Fallback-For: de-at de-li de-lu de-ch de-de\n"
 
-#: ../activitystream/browser/templates/post-menu.html:11
+#: ../activitystream/browser/templates/post-menu.html:18
 msgid "${action/title}"
 msgstr ""
 
@@ -209,7 +209,6 @@ msgstr "Apps"
 
 #: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
-#: ../workspace/browser/templates/workspaces.pt:45
 msgid "Archived"
 msgstr "Archiviert"
 
@@ -436,8 +435,8 @@ msgstr "Zeitraum"
 msgid "Days running"
 msgstr "Tage laufend"
 
-#: ../workspace/browser/templates/email_invitees_html.pt:2
-#: ../workspace/browser/templates/email_invitees_text.pt:2
+#: ../workspace/browser/templates/email_invitees_html.pt:1
+#: ../workspace/browser/templates/email_invitees_text.pt:1
 msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr "Sehr geehrte/r ${invitee_name},"
 
@@ -459,9 +458,13 @@ msgstr "Löschen"
 msgid "Delete ${contenttype}"
 msgstr "${contenttype} löschen"
 
+#: ../activitystream/browser/templates/panel-delete-comment.html:10
+msgid "Delete comment"
+msgstr "Kommentar löschen"
+
 #: ../activitystream/browser/templates/panel-delete-post.html:10
 msgid "Delete post"
-msgstr ""
+msgstr "Beitrag löschen"
 
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
@@ -531,9 +534,13 @@ msgstr "Erledigt"
 msgid "Download as"
 msgstr "Herunterladen als"
 
-#: ../activitystream/browser/templates/post.html:151
+#: ../activitystream/browser/templates/post.html:153
 msgid "Download this file"
-msgstr ""
+msgstr "Datei herunterladen"
+
+#: ../activitystream/browser/templates/post.html:211
+msgid "Download this image"
+msgstr "Bild herunterladen"
 
 #: ../todo/behaviors.py:63
 #: ../workspace/browser/templates/content_macros.pt:38
@@ -552,6 +559,10 @@ msgstr "Frühestes Bearbeitungsdatum"
 msgid "Edit"
 msgstr "Bearbeiten"
 
+#: ../activitystream/browser/templates/panel-edit-comment.html:10
+msgid "Edit comment"
+msgstr "Kommentar bearbeiten"
+
 #: ../todo/portlets/latest.py:87
 msgid "Edit latest news portlet"
 msgstr "\"Aktuelle Nachrichten\" Portlet bearbeiten"
@@ -562,11 +573,15 @@ msgstr "Name/Beschreibung bearbeiten"
 
 #: ../activitystream/browser/templates/panel-edit-post.html:10
 msgid "Edit post"
-msgstr ""
+msgstr "Beitrag bearbeiten"
 
 #: ../userprofile/browser/templates/userprofile.pt:133
 msgid "Edit profile"
 msgstr "Profil bearbeiten"
+
+#: ../activitystream/browser/templates/post.html:78
+msgid "Edited"
+msgstr "Bearbeitet"
 
 #: ../userprofile/content/userprofile.py:45
 msgid "Email"
@@ -688,8 +703,8 @@ msgid "Freeze case"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:128
-#: ../workspace/browser/templates/email_invitees_html.pt:12
-#: ../workspace/browser/templates/email_invitees_text.pt:11
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "From"
 msgstr "Von"
 
@@ -758,9 +773,9 @@ msgstr "Hoch"
 msgid "How many items to list."
 msgstr "Wie viele Artikel sollen im Portlet aufgelistet werden?"
 
-#: ../activitystream/browser/templates/panel-delete-post.html:30
+#: ../activitystream/browser/templates/panel-delete-comment.html:31
+#: ../activitystream/browser/templates/panel-delete-post.html:31
 #: ../layout/browser/actions.py:58
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:61
 msgid "I am sure, delete now"
 msgstr "Ja, löschen"
 
@@ -932,8 +947,8 @@ msgid "Loading more search results&hellip;"
 msgstr "Weitere Suchergebnisse laden&hellip;"
 
 #: ../workspace/browser/templates/content_macros.pt:94
-#: ../workspace/browser/templates/email_invitees_html.pt:13
-#: ../workspace/browser/templates/email_invitees_text.pt:12
+#: ../workspace/browser/templates/email_invitees_html.pt:12
+#: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
 msgstr "Ort"
 
@@ -1196,9 +1211,9 @@ msgstr "Optionen"
 msgid "Organiser"
 msgstr "Veranstalter"
 
-#: ../activitystream/browser/templates/post.html:91
+#: ../activitystream/browser/templates/post.html:90
 msgid "Original text:"
-msgstr ""
+msgstr "Originaltext:"
 
 #: ../workspace/policies.py:43
 msgid "Outsiders can self-join becoming a workspace member."
@@ -1330,7 +1345,7 @@ msgstr ""
 #: ../messaging/browser/your-inbox.pt:140
 #: ../microblog/browser/templates/update-social.html:131
 msgid "Post"
-msgstr "Post"
+msgstr "Beitrag"
 
 msgid "PowerPoint 2007 presentation"
 msgstr "PowerPoint 2007 Präsentation"
@@ -1367,7 +1382,8 @@ msgstr "Veröffentlichen"
 msgid "Recipients..."
 msgstr "Empfänger..."
 
-#: ../workspace/browser/templates/email_invitees_html.pt:21
+#: ../workspace/browser/templates/email_invitees_html.pt:20
+#: ../workspace/browser/templates/email_invitees_text.pt:19
 msgid "Regards"
 msgstr "Freundlich Grüße"
 
@@ -1638,7 +1654,8 @@ msgstr "Absolute URL des Inhalts dieses Suchergebnisses, beruhend auf dem Pfad u
 msgid "The action to be taken on the content"
 msgstr "Die Aktion, die auf diesen Inhalt angewendet wird"
 
-#: ../workspace/browser/templates/email_invitees_html.pt:15
+#: ../workspace/browser/templates/email_invitees_html.pt:14
+#: ../workspace/browser/templates/email_invitees_text.pt:13
 msgid "The agenda for this event can be found here:"
 msgstr "Die Traktandenliste für diesen Termin finden Sie hier:"
 
@@ -1761,13 +1778,17 @@ msgstr "Es ist ein Problem aufgetreten: %s."
 msgid "This belongs to a division"
 msgstr "Zugehörige Organisation"
 
+#: ../activitystream/browser/templates/comment-deleted.html:9
+msgid "This comment has been succesfully deleted."
+msgstr "Dieser Kommentar wurde erfolgreich gelöscht."
+
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
 msgstr "Dieses Portlet zeigt aktuelle Nachrichten, die gelesen werden sollen."
 
 #: ../activitystream/browser/templates/post-deleted.html:9
 msgid "This post has been succesfully deleted."
-msgstr ""
+msgstr "Dieser Beitrag wurde erfolgreich gelöscht."
 
 #: ../workspace/browser/forms.py:24
 msgid "This user doesn't have an email associated with their account."
@@ -1793,8 +1814,8 @@ msgstr "Zeitleiste"
 msgid "Timezone"
 msgstr "Zeitzone"
 
-#: ../workspace/browser/templates/email_invitees_html.pt:11
-#: ../workspace/browser/templates/email_invitees_text.pt:10
+#: ../workspace/browser/templates/email_invitees_html.pt:10
+#: ../workspace/browser/templates/email_invitees_text.pt:9
 msgid "Title:"
 msgstr "Titel:"
 
@@ -1909,9 +1930,9 @@ msgstr "Benutzerkennung"
 msgid "Username"
 msgstr "Benutzername"
 
-#: ../activitystream/browser/templates/post.html:255
+#: ../activitystream/browser/templates/post.html:258
 msgid "View"
-msgstr ""
+msgstr "Ansehen"
 
 #: ../workspace/subscribers.py:144
 msgid "Welcome to our family, Stranger"
@@ -2009,15 +2030,19 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsraums."
 
 #: ../workspace/browser/templates/panel-change-role.pt:31
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr ""
+msgstr "Sie sind dabei, die Rolle der folgenden <strong>${num_users}</strong> Mitglieder dieses Arbeitsraumes zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
 #: ../layout/browser/templates/delete_confirmation.pt:49
 msgid "You are about to delete this ${contenttype}. Are you sure?"
 msgstr "Sie sind dabei, dieses Objekt (${contenttype}) zu löschen. Sind Sie sicher?"
 
-#: ../activitystream/browser/templates/panel-delete-post.html:23
+#: ../activitystream/browser/templates/panel-delete-comment.html:24
+msgid "You are about to delete this comment. Are you sure?"
+msgstr "Sie sind dabei, diesen Kommentar zu löschen. Sind Sie sicher?"
+
+#: ../activitystream/browser/templates/panel-delete-post.html:24
 msgid "You are about to delete this post. Are you sure?"
-msgstr ""
+msgstr "Sie sind dabei, diesen Beitrag zu löschen. Sind Sie sicher?"
 
 #: ../workspace/browser/templates/workspace-add.pt:95
 msgid "You can always change these settings later via the security control panel in the workspace."
@@ -2043,7 +2068,8 @@ msgstr "Sie können diese Einstellung jederzeit in den Sicherheitseinstellungen 
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
 msgstr "Diese Nachricht kann an eine oder mehrere Personen verschickt werden. Der oder die Empfänger erhalten eine E-Mail mit Verweis auf das oder die jeweilige(n) Objekt(e). Es ist möglich, die Namen von im System existierenden Benutzern oder einfach deren E-Mail-Adressen einzutragen."
 
-#: ../workspace/browser/templates/email_invitees_html.pt:6
+#: ../workspace/browser/templates/email_invitees_html.pt:5
+#: ../workspace/browser/templates/email_invitees_text.pt:5
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr "Sie erhalten diese E-Mail von ${portal_title}, weil Sie zu folgendem Termin eingeladen sind:"
 
@@ -2301,7 +2327,7 @@ msgstr "Sie haben ${num_items} Objekte ausgewählt, die gelöscht werden sollen.
 #. Default: "Loading more posts"
 #: ../activitystream/browser/templates/stream_tile.pt:42
 msgid "info_loading_more_posts"
-msgstr "Weitere Posts werden geladen…"
+msgstr "Weitere Beiträge werden geladen"
 
 #. Default: "This workspace was archived on ${archival_date}. Archived workspaces are hidden from the ${workspaces_page}, but can still be made visible by users by ticking 'Archived'."
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:78
@@ -2352,9 +2378,9 @@ msgid "label_btn_follow_user"
 msgstr "${username} folgen"
 
 #. Default: "Cancel"
-#: ../activitystream/browser/templates/panel-delete-post.html:34
-#: ../activitystream/browser/templates/panel-edit-post.html:33
-#: ../layout/browser/actions.py:64
+#: ../activitystream/browser/templates/panel-delete-comment.html:35
+#: ../activitystream/browser/templates/panel-delete-post.html:35
+#: ../activitystream/browser/templates/panel-edit-comment.html:43
 msgid "label_cancel"
 msgstr "Abbrechen"
 
@@ -2454,7 +2480,8 @@ msgid "label_sanitize_html"
 msgstr ""
 
 #. Default: "Save"
-#: ../activitystream/browser/templates/panel-edit-post.html:29
+#: ../activitystream/browser/templates/panel-edit-comment.html:39
+#: ../activitystream/browser/templates/panel-edit-post.html:30
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
 msgstr "Speichern"
@@ -2507,6 +2534,11 @@ msgstr "Senden"
 #: ../messaging/browser/messaging.py:34
 msgid "label_sendmessage"
 msgstr "Mitteilung senden"
+
+#. Default: "Archived"
+#: ../workspace/browser/templates/workspaces.pt:45
+msgid "label_show_archived"
+msgstr "Archiviert"
 
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
@@ -2673,8 +2705,8 @@ msgstr "Klicken Sie hier, um ${fullname} zu folgen"
 msgid "title_unfollow"
 msgstr "Sie folgen ${fullname}. Klicken Sie hier, um ${fullname} nicht weiter zu folgen"
 
-#: ../workspace/browser/templates/email_invitees_html.pt:12
-#: ../workspace/browser/templates/email_invitees_text.pt:11
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "to"
 msgstr "bis"
 
