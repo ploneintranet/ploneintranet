@@ -42,7 +42,7 @@
               <input type="checkbox"
                      name="archived"
                      checked="${python:request.get('archived') and 'checked' or None}"
-                    > <tal:archived i18n:translate="">Archived</tal:archived>
+                    > <tal:archived i18n:translate="label_show_archived">Archived</tal:archived>
             </label>
             <div class="icons">
                <a href="${view/target/absolute_url}/@@add_workspace" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
