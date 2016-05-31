@@ -133,6 +133,7 @@ Create structure
 
 Member can upload a file
     Given I am in a workspace as a workspace member
+      And I open the sidebar documents tile
       And I select a file to upload
      Then the file appears in the sidebar
 

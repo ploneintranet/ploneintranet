@@ -15,19 +15,19 @@
 				<link rel="shortcut icon" type="image/x-icon" href="++theme++ploneintranet.theme/generated/media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="integrated sidebar-normal gh-collapsed sidebar-left-open focus-listing   application-home application- ">
+	<body class="integrated sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing   application-home application- ">
 			<div id="content">
-	<form action="search-results.html#results" id="global-search" class="pat-autosubmit pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
+	<form action="search-results.html#results" id="global-search" class="pat-form pat-inject" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav; history: record">
 
 	<div class="container input">
-		<fieldset class="search">
+		<fieldset class="search pat-subform pat-inject pat-autosubmit" data-pat-inject="source: #results; target: #results; && source: #tabs-nav; target: #tabs-nav;">
 			<label>
 				<input type="search" value="min" name="lemma" placeholder="Search the entire intranet" />
 			</label>
 			<button type="submit">Search</button>
 		</fieldset>
 	</div>
-	<nav class="tabs navigation" id="tabs-nav">
+	<nav class="tabs pat-tabs navigation" id="tabs-nav">
 		<!-- the search term name/value pair should be present in the tabs link to carry over the search term to the next page when the user switches tabs -->
 		<a class="" href="/search-results.html?lemma=min">All</a>
 		<a class="" href="/search-results-people.html?lemma=min">People</a>
@@ -39,7 +39,7 @@
 		<div class="container results">
 			<div class="row">
 	<div class="three columns filters">
-		<fieldset class="pat-subform pat-inject" data-pat-inject="source: #listing; target: #listing;">
+		<fieldset class="pat-subform pat-inject pat-autosubmit" data-pat-inject="source: #listing; target: #listing;" id="filters">
 			<!-- The hidden input below always gets the same value as the searchbox it self in each result. This is needed to make sure when the filters are changed within their subform, they are posted to the server also together with the search term. -->
 			<input type="hidden" name="lemma" value="min" />
 			<!-- The pat-depends condition below should be composed dynamically based on the document types and tags listed on the page. Alternately, all possible document types and tags that are used system wide could be populated here, but that might generate a really long list. -->
@@ -82,6 +82,13 @@
 				<label class="type-library-item">	
 					<input name="type-library-item" type="checkbox"> Library items<sup class="counter">7</sup>
 				</label>
+				<label class="type-library-section">	
+					<!-- Ideally library sections and library subsections would be bundled, taking away the need for a seperate subsection toggle bar. -->		
+					<input name="type-library-section" type="checkbox"> Library section<sup class="counter">1</sup>
+				</label>
+<!-- 			<label class="type-library-subsection">			
+					<input name="type-library-subsection" type="checkbox"> Library subsection<sup class="counter">1</sup>
+				</label> -->
 				<label class="type-event">			
 					<input name="type-event" type="checkbox"> Events<sup class="counter">7</sup>
 				</label>
@@ -94,7 +101,7 @@
 				<label class="type-workspace">		
 					<input name="type-workspace" type="checkbox"> Workspaces<sup class="counter">1</sup>
 				</label>
-				<label class="type-super-spaces">			
+				<label class="type-super-space">			
 					<input name="type-super-space" type="checkbox"> Super space<sup class="counter">1</sup>
 				</label>
 			</fieldset>
@@ -126,28 +133,28 @@
 		<p class="introduction">
 			87 items matched your search. 
 
-			<a href="#view-options" class="bare pat-select float-after pat-tooltip" data-pat-tooltip="target: #global-search; source: ajax; position-list: tr">
+			<a href="#view-options" class="bare pat-select float-after pat-tooltip" data-pat-tooltip="target: #filters; source: ajax; position-list: tr">
 				Options
 			</a>
+		</p>
 
-			<div hidden id="view-options">
-				<fieldset class="vertical pat-subform pat-inject pat-autosubmit" data-pat-inject="source: #listing; target: #listing;">
-					<fieldset class="pat-checklist">
-						<label>
-							<input type="checkbox" name="display-previews" checked /> Display previews
-						</label>
-					</fieldset>
-					<fieldset class="pat-checklist radio">
-						<label>
-							<input type="radio" name="results-sorting" checked value="relevancy"> Sort by relevancy
-						</label>
-						<label>
-							<input type="radio" name="results-sorting" value="date"> Sort by date
-						</label>
+		<div hidden id="view-options">
+			<fieldset class="vertical" data-pat-inject="source: #listing; target: #listing;">
+				<fieldset class="pat-checklist">
+					<label>
+						<input type="checkbox" name="display-previews" checked /> Display previews
 					</label>
 				</fieldset>
-			</div>
-		</p>
+				<fieldset class="pat-checklist radio">
+					<label>
+						<input type="radio" name="results-sorting" checked value="relevancy"> Sort by relevancy
+					</label>
+					<label>
+						<input type="radio" name="results-sorting" value="date"> Sort by date
+					</label>
+				</label>
+			</fieldset>
+		</div>
 
 		<p class="did-you-mean">
 			Did you mean <strong><a href="#">Mini</a></strong>?
@@ -221,13 +228,15 @@
 			<!-- Next generated search results of various content/mime types: -->
 			
 				
-				    <dt class="title type-workspace">
+				    <dt class="title type-workspace ">
 						<a href="/minifest">MinistrantInnen-Fest vom 7. September 2014 in St. Gallen</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- type-workspace">
 		    			
-							
+							<a href="/minifest" class="preview workspace-preview workspace-state-active workspace-type-case">
+								<h4>Worksspace name</h4>
+							</a>
 						
 
 						<p class="fragment">
@@ -300,11 +309,11 @@
 				
 			
 				
-				    <dt class="title type-word">
+				    <dt class="title  type-word">
 						<a href="/zusage">Zusage DAMP Minifest</a>
 					</dt>
 
-					<dd class="description type-word">
+					<dd class="description type-word ">
 		    			
 							
 								<a href="/zusage" class="preview file">
@@ -333,11 +342,11 @@
 				
 			
 				
-				    <dt class="title type-word">
+				    <dt class="title  type-word">
 						<a href="/antrag-minifest">Antrag RT Minifest 2014</a>
 					</dt>
 
-					<dd class="description type-word">
+					<dd class="description type-word ">
 		    			
 							
 								<a href="/antrag-minifest" class="preview file">
@@ -368,11 +377,11 @@
 				
 			
 				
-				    <dt class="title type-word">
+				    <dt class="title  type-word">
 						<a href="/stellungnahme-generalvikar">Stellungnahme Generalvikar Minifest</a>
 					</dt>
 
-					<dd class="description type-word">
+					<dd class="description type-word ">
 		    			
 							
 						
@@ -392,11 +401,11 @@
 				
 			
 				
-				    <dt class="title type-people">
+				    <dt class="title  type-people">
 						<a href="/mario-minstreel">Mario Minstreel</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/mario-minstreel" class="preview user">
 								<img src="++theme++ploneintranet.theme/generated/media/avatar-mario-minstreel.jpg" alt="Mario Minstreel" class="pat-avatar ">   
@@ -408,7 +417,7 @@
 
 						<p class="fragment">
 							
-								Some content goes here on Adrian
+								
 
 							 
 						</p>
@@ -469,11 +478,11 @@
 				
 			
 				
-				    <dt class="title type-event">
+				    <dt class="title  ">
 						<a href="/event-gerald-aylmer-seminar">The Gerald Aylmer seminar 2015: Secret histories</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/event-gerald-aylmer-seminar" class="preview event">
 								<time class="calendar-medium pat-auto-scale">
@@ -512,11 +521,11 @@
 				
 			
 				
-				    <dt class="title type-people">
+				    <dt class="title  type-people">
 						<a href="/camille-fermin">Camille Fermin</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/camille-fermin" class="preview user">
 								<img src="++theme++ploneintranet.theme/generated/media/avatar-camille-fermin.jpg" alt="Camille Fermin" class="pat-avatar ">   
@@ -626,11 +635,11 @@
 				
 			
 				
-				    <dt class="title type-rich">
+				    <dt class="title  type-rich">
 						<a href="/minutes-of-2014-06-09">Minutes of 2014-06-09</a>
 					</dt>
 
-					<dd class="description type-rich">
+					<dd class="description type-rich ">
 		    			
 							
 								<article class="preview rich pat-rich">
@@ -711,11 +720,11 @@
 				
 			
 				
-				    <dt class="title type-rich">
+				    <dt class="title  type-rich">
 						<a href="/minutes-of-2014-05-03">Minutes of 2014-05-03</a>
 					</dt>
 
-					<dd class="description type-rich">
+					<dd class="description type-rich ">
 		    			
 							
 								<article class="preview rich pat-rich">
@@ -788,14 +797,22 @@
 				
 			
 				
-				    <dt class="title type-news">
+			
+				
+			
+				
+			
+				
+			
+				
+				    <dt class="title  type-news">
 						<a href="/news-press-1">Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/news-press-1" class="preview news">
-								<img src="++theme++ploneintranet.theme/generated/media/corporate.png" alt="Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3">   
+								<img src="/Media/corporate.png" alt="Star Alliance Officially Opens New Lounge At São Paulo - Guarulhos Airport Terminal 3">   
 							</a>
 						
 
@@ -829,14 +846,14 @@
 				
 			
 				
-				    <dt class="title type-news">
+				    <dt class="title  type-news">
 						<a href="/hot-news2">KLM to give Edmonton only route to mainland Europe CrewTerminal 2</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/hot-news2" class="preview news">
-								<img src="++theme++ploneintranet.theme/generated/media/klm-tulips.jpg" alt="KLM to give Edmonton only route to mainland Europe CrewTerminal 2">   
+								<img src="/Media/klm-tulips.jpg" alt="KLM to give Edmonton only route to mainland Europe CrewTerminal 2">   
 							</a>
 						
 
@@ -854,14 +871,14 @@
 				
 			
 				
-				    <dt class="title type-news">
+				    <dt class="title  type-news">
 						<a href="/hot-news1">Air France A380 Turns Back to Paris After Turbulence Hurts CrewTerminal 2</a>
 					</dt>
 
-					<dd class="description type-">
+					<dd class="description type- ">
 		    			
 							<a href="/hot-news1" class="preview news">
-								<img src="++theme++ploneintranet.theme/generated/media/air-france-a380.jpg" alt="Air France A380 Turns Back to Paris After Turbulence Hurts CrewTerminal 2">   
+								<img src="/Media/air-france-a380.jpg" alt="Air France A380 Turns Back to Paris After Turbulence Hurts CrewTerminal 2">   
 							</a>
 						
 
@@ -925,11 +942,11 @@
 				
 			
 				
-				    <dt class="title type-rich">
+				    <dt class="title  type-rich">
 						<a href="/minutes-of-the-federal-open-market-committee-june-2014">Minutes of the Federal Open Market Committee June 17–18, 2014</a>
 					</dt>
 
-					<dd class="description type-rich">
+					<dd class="description type-rich ">
 		    			
 							
 								<article class="preview rich pat-rich">
@@ -1067,13 +1084,6 @@
 </header>
 
 		<style type="text/css">
-			
-				.tiles .tile.workspace.type-regular .link,
-				.workspace-type-regular #workspace-name,
-				.super-space-preview.workspace-type-regular:before, 
-				.workspace-preview.workspace-type-regular:before {
-					background-color: #869EBF;
-				}
 			
 				.tiles .tile.workspace.type-case .link,
 				.workspace-type-case #workspace-name,

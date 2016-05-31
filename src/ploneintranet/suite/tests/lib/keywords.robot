@@ -184,6 +184,10 @@ I select a file to upload
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Element  xpath=//button[text()='Upload']
 
+I open the sidebar documents tile
+    Click Link  css=a.documents
+    Wait Until Page Contains Element  css=div#workspace-documents
+
 I can go to the sidebar info tile
     Click Link  link=Workspace settings and about
     Wait Until Page Contains  General
@@ -193,7 +197,6 @@ I can go to the sidebar info tile
 I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
-
 
 I can open the workspace advanced settings tab
     Click Link  link=Workspace settings and about
