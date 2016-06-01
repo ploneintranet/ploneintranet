@@ -19,6 +19,7 @@
 .pypirc
 .ssh/
 .Python
+.DS_Store
 pip-selfcheck.json
 .*.sw[op]
 bin/
