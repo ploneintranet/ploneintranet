@@ -342,8 +342,7 @@ Supported types include (class names):
               </tal:workspace_tasks>
 
               <tal:case_tasks condition="ws/is_case"
-                              define="milestones ws_view/metromap_sequence | nothing;
-                                      read_only read_only|not:view/can_edit;">
+                              define="milestones ws_view/metromap_sequence | nothing">
                 <tal:milestone_id repeat="milestone_id milestones">
                 <tal:milestone define="milestone python:milestones[milestone_id];">
 
@@ -359,7 +358,7 @@ Supported types include (class names):
                     <h4 class="section-label state-finished" tal:content="python:milestone['title']" i18n:translate=""
                         tal:attributes="class string:section-label state-${state}"/>
                     <tal:task repeat="task python:tasks[milestone_id]">
-                      <label>
+                      <label tal:define="read_only not:task/can_edit">
                         <input type="checkbox" name="active-tasks:list"
                                tal:attributes="value task/id;
                                                checked python:'checked' if task['checked'] else '';

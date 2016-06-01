@@ -111,6 +111,8 @@ class WorkspaceFolder(Container):
                 'assignee': assignee,
                 'initiator': initiator,
                 'obj': obj,
+                'can_edit': api.user.has_permission(
+                    'Modify portal content', obj=obj),
             }
             if self.is_case:
                 milestone = "unassigned"
