@@ -7,7 +7,7 @@
      i18n_domain="ploneintranet">
 
   <browser:page
-        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        for="*"
         name="solr-maintenance"
         class=".maintenance.SolrMaintenanceView"
         allowed_interface="..interfaces.ISolrMaintenanceView"
@@ -16,7 +16,7 @@
         />
 
   <browser:page
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"      
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="solr-optimize"
       class=".maintenance.SolrOptimizeView"
       permission="zope2.View"
