@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-05-31 13:18+0000\n"
+"POT-Creation-Date: 2016-05-31 16:24+0000\n"
 "PO-Revision-Date: 2015-05-22 10:54+0000\n"
 "Last-Translator: gnafou <fmgre-fboi@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/plone-intranet/language/fr/)\n"
@@ -55,18 +55,6 @@ msgstr ""
 msgid "A longint unique status id"
 msgstr "Un identifiant unique (longint) pour le statut"
 
-#: ../microblog/browser/configure.zcml:18
-msgid "A tile to add a new post"
-msgstr ""
-
-#: ../layout/browser/configure.zcml:120
-msgid "A title for the news"
-msgstr ""
-
-#: ../layout/browser/configure.zcml:109
-msgid "A title for the tasks"
-msgstr ""
-
 #: ../todo/behaviors.py:52
 msgid "A user (or a group) assigned to this task"
 msgstr "Un utilisateur (ou un groupe) auquel cette tâche est assignée"
@@ -108,16 +96,8 @@ msgstr ""
 msgid "Add users"
 msgstr ""
 
-#: ../userprofile/content/configure.zcml:17
-msgid "Additional profile fields"
-msgstr ""
-
 #: ../userprofile/content/userprofile.py:76
 msgid "Address"
-msgstr ""
-
-#: ../workspace/behaviors/configure.zcml:11
-msgid "Adds Case specific Metadata"
 msgstr ""
 
 #: ../workspace/policies.py:33
@@ -230,10 +210,6 @@ msgstr ""
 msgid "Assignee"
 msgstr "Responsable"
 
-#: ../async/configure.zcml:18
-msgid "Async task dispatch for PloneIntranet"
-msgstr ""
-
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
 #: ../microblog/browser/templates/update-social.html:104
@@ -298,10 +274,6 @@ msgstr ""
 #: ../workspace/basecontent/document.py:77
 msgid "Cancel"
 msgstr "Annuler"
-
-#: ../workspace/behaviors/configure.zcml:11
-msgid "Case Metadata"
-msgstr ""
 
 msgid "Case Workspace"
 msgstr ""
@@ -449,10 +421,6 @@ msgstr ""
 msgid "Declined"
 msgstr ""
 
-#: ../userprofile/content/configure.zcml:17
-msgid "Default additional fields for UserProfile."
-msgstr ""
-
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 #: ../workspace/basecontent/templates/event_view.pt:51
@@ -525,7 +493,6 @@ msgstr ""
 msgid "Document types"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:132
 #: ../layout/browser/templates/my_documents.pt:11
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:18
 msgid "Documents"
@@ -600,10 +567,6 @@ msgstr ""
 msgid "Emails sent successfully"
 msgstr ""
 
-#: ../themeswitcher/configure.zcml:41
-msgid "Enables on-the-fly theme switching"
-msgstr ""
-
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
 msgstr ""
@@ -643,19 +606,11 @@ msgstr ""
 msgid "Expand sidebar"
 msgstr ""
 
-#: ../layout/configure.zcml:37
-msgid "Extension profile for ploneintranet.layout."
-msgstr ""
-
 #: ../userprofile/sync.py:80
 msgid "External property sync complete."
 msgstr ""
 
 msgid "File"
-msgstr ""
-
-#: ../workspace/behaviors/configure.zcml:29
-msgid "File field"
 msgstr ""
 
 #: ../userprofile/browser/user_import.py:133
@@ -766,6 +721,10 @@ msgstr ""
 msgid "Guest"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:90
+msgid "Guests"
+msgstr ""
+
 #: ../workspace/policies.py:78
 msgid "Guests are only used internally and cannot be assigned."
 msgstr ""
@@ -796,10 +755,6 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: ../workspace/behaviors/configure.zcml:20
-msgid "Image field"
-msgstr ""
-
 #: ../userprofile/browser/templates/userprofile-edit.pt:14
 #: ../userprofile/browser/templates/userprofile.pt:27
 msgid "Image of {{ page.title }}"
@@ -826,14 +781,6 @@ msgstr "Info"
 #: ../todo/behaviors.py:45
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Initiator"
-msgstr ""
-
-#: ../themeswitcher/configure.zcml:50
-msgid "Installs testthemeA for test purposes"
-msgstr ""
-
-#: ../userprofile/configure.zcml:49
-msgid "Installs the ploneintranet.userprofile package"
 msgstr ""
 
 #: ../invitations/invitations.py:75
@@ -936,10 +883,6 @@ msgstr ""
 msgid "Library Section"
 msgstr ""
 
-#: ../library/configure.zcml:19
-msgid "Library for PloneIntranet"
-msgstr ""
-
 #: ../network/browser/likes.py:56
 msgid "Like"
 msgstr ""
@@ -994,10 +937,6 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/sidebar.pt:510
 msgid "Members"
 msgstr "Membres"
-
-#: ../workspace/behaviors/configure.zcml:46
-msgid "Membrane Group (Workspace)"
-msgstr ""
 
 #: ../messaging/browser/send-message.pt:48
 #: ../messaging/browser/your-inbox.pt:136
@@ -1063,10 +1002,6 @@ msgstr ""
 msgid "My profile"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:109
-msgid "My tile's description"
-msgstr ""
-
 #: ../userprofile/browser/templates/userprofile.pt:145
 msgid "Name"
 msgstr ""
@@ -1088,10 +1023,6 @@ msgid "News"
 msgstr ""
 
 msgid "News Item"
-msgstr ""
-
-#: ../layout/browser/configure.zcml:120
-msgid "News tile showing news on the dashboard"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:42
@@ -1288,62 +1219,6 @@ msgstr ""
 
 #: ../workspace/browser/add_workspace.py:164
 msgid "Please specify which Case Template to use"
-msgstr ""
-
-#: ../async/configure.zcml:26
-msgid "Plone Intranet: -- [Async uninstall]"
-msgstr ""
-
-#: ../async/configure.zcml:18
-msgid "Plone Intranet: -- [Async]"
-msgstr ""
-
-#: ../layout/configure.zcml:46
-msgid "Plone Intranet: -- [Layout uninstall]"
-msgstr ""
-
-#: ../layout/configure.zcml:37
-msgid "Plone Intranet: -- [Layout]"
-msgstr ""
-
-#: ../library/configure.zcml:27
-msgid "Plone Intranet: -- [Library uninstall]"
-msgstr ""
-
-#: ../library/configure.zcml:19
-msgid "Plone Intranet: -- [Library]"
-msgstr ""
-
-#: ../themeswitcher/configure.zcml:50
-msgid "Plone Intranet: -- [Themeswitcher: Testing]"
-msgstr ""
-
-#: ../themeswitcher/configure.zcml:41
-msgid "Plone Intranet: -- [Themeswitcher]"
-msgstr ""
-
-#: ../userprofile/configure.zcml:68
-msgid "Plone Intranet: -- [User Profiles Testing]"
-msgstr ""
-
-#: ../userprofile/configure.zcml:59
-msgid "Plone Intranet: -- [User Profiles uninstall]"
-msgstr ""
-
-#: ../userprofile/configure.zcml:49
-msgid "Plone Intranet: -- [User Profiles]"
-msgstr ""
-
-#: ../workspace/configure.zcml:172
-msgid "Plone Intranet: -- [Workspace uninstall]"
-msgstr ""
-
-#: ../workspace/configure.zcml:163
-msgid "Plone Intranet: -- [Workspace]"
-msgstr ""
-
-#: ../workspace/behaviors/configure.zcml:36
-msgid "PloneIntranet Event Fields"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:58
@@ -1627,10 +1502,6 @@ msgstr ""
 msgid "Tentative"
 msgstr ""
 
-#: ../userprofile/configure.zcml:68
-msgid "Testing of the ploneintranet.userprofile package"
-msgstr ""
-
 #: ../docconv/client/templates/pdf_not_available.pt:6
 msgid "The PDF version has not been generated yet, please try again later."
 msgstr ""
@@ -1799,10 +1670,6 @@ msgstr ""
 msgid "This user doesn't have an email associated with their account."
 msgstr ""
 
-#: ../layout/browser/configure.zcml:132
-msgid "Tile to list recently modified documents"
-msgstr ""
-
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Time"
 msgstr ""
@@ -1869,14 +1736,6 @@ msgstr ""
 msgid "Ungrouped"
 msgstr ""
 
-#: ../library/configure.zcml:27
-msgid "Uninstall Library for PloneIntranet"
-msgstr ""
-
-#: ../async/configure.zcml:26
-msgid "Uninstalls ploneintranet.async"
-msgstr ""
-
 #: ../layout/browser/widgets.py:19
 msgid "Unknown"
 msgstr ""
@@ -1913,10 +1772,6 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:243
 msgid "Upload file(s)"
-msgstr ""
-
-#: ../workspace/behaviors/configure.zcml:46
-msgid "Use this content as a membrane group"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:198
@@ -1969,10 +1824,6 @@ msgstr ""
 #: ../workspace/browser/templates/add_workspace.pt:24
 #: ../workspace/browser/templates/workspace-add.pt:26
 msgid "Workspace description"
-msgstr ""
-
-#: ../workspace/configure.zcml:163
-msgid "Workspace for PloneIntranet"
 msgstr ""
 
 #: ../workspace/browser/views.py:23
