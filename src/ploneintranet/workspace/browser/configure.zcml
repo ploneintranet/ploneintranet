@@ -39,12 +39,22 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+  <!-- this one overrides the one below in default Quaive rendering -->
   <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.WorkspaceView"
       permission="zope2.AccessContentsInformation"
       template="templates/workspace.pt"
+      layer="..interfaces.IThemedWorkspaceLayer"
+      />
+  <!-- this one shadows the one above, only in barceloneta -->
+  <browser:page
+      name="view"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.WorkspaceView"
+      permission="zope2.AccessContentsInformation"
+      template="templates/workspace-barceloneta.pt"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 

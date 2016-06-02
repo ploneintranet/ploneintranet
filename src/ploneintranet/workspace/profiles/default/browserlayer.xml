@@ -5,6 +5,10 @@
     interface="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
   />
   <layer
+    name="ploneintranet.workspace.themed"
+    interface="ploneintranet.workspace.interfaces.IThemedWorkspaceLayer"
+  />
+  <layer
     name="ploneintranet.workspace.appcontent"
     interface="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
   />

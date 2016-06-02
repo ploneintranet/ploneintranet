@@ -88,6 +88,16 @@
     factory=".hiddenprofiles.HiddenProfiles"
     name="ploneintranet" />
 
+
+  <genericsetup:upgradeStep
+      title="Enable barceloneta specific workspace layer"
+      description="Enable fallback views for barceloneta workspace"
+      source="*"
+      destination="0008"
+      handler=".upgrades.barceloneta_workspace"
+      profile="ploneintranet.suite:default" />
+
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>

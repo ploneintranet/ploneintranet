@@ -8,7 +8,11 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 
 
 class IPloneintranetWorkspaceLayer(Interface):
-    """Marker interface that defines a Zope 3 browser layer."""
+    """Zope 3 browser layer which is active regardless of themeswitching"""
+
+
+class IThemedWorkspaceLayer(IPloneintranetWorkspaceLayer):
+    """Zope 3 browser layer which is *not* present in Barceloneta fallback"""
 
 
 class IWorkspaceAppContentLayer(ilayout.IPloneintranetContentLayer,
