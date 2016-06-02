@@ -7,6 +7,7 @@
 <!-- ploneintranet.prototype/_includes/comment.html -->
 
 <div class="comment"
+     i18n:domain="ploneintranet"
      id="${context/thread_id}-comment-${context/id}">
      <div class="comment-header">
        <tal:avatar define="avatar view/avatar">
@@ -39,25 +40,25 @@
          <a tal:condition="context/original_text"
             class="edited-toggle"
             id="edited-toggle-${context/thread_id}-comment-${context/id}">
-           (Edited
+           (<span tal:omit-tag="" i18n:translate="">Edited</span>
            <time class="pat-display-time"
                  data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
                  datetime="${context/edited/ISO}"
                  >${context/edited/ISO}</time>
-           )</a> 
-         
+           )</a>
+
        </p>
        <section tal:condition="context/original_text"
                 class="original-text pat-collapsible closed"
                 data-pat-collapsible="trigger: #edited-toggle-${context/thread_id}-comment-${context/id}">
          <p>
-           <strong i18n:translate="">Original text:</strong> 
+           <strong i18n:translate="">Original text:</strong>
            ${context/original_text}
          </p>
     </section>
-       
+
      </section>
-     
+
      <section class="preview">
        <figure tal:repeat="attachment view/attachments">
          <a href="${attachment/link|attachment}">

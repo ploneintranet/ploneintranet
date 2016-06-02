@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-05-31 16:24+0000\n"
+"POT-Creation-Date: 2016-06-02 08:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,18 @@ msgstr ""
 msgid "A longint unique status id"
 msgstr ""
 
+#: ../microblog/browser/configure.zcml:18
+msgid "A tile to add a new post"
+msgstr ""
+
+#: ../layout/browser/configure.zcml:120
+msgid "A title for the news"
+msgstr ""
+
+#: ../layout/browser/configure.zcml:109
+msgid "A title for the tasks"
+msgstr ""
+
 #: ../todo/behaviors.py:52
 msgid "A user (or a group) assigned to this task"
 msgstr ""
@@ -94,8 +106,16 @@ msgstr ""
 msgid "Add users"
 msgstr ""
 
+#: ../userprofile/content/configure.zcml:17
+msgid "Additional profile fields"
+msgstr ""
+
 #: ../userprofile/content/userprofile.py:76
 msgid "Address"
+msgstr ""
+
+#: ../workspace/behaviors/configure.zcml:11
+msgid "Adds Case specific Metadata"
 msgstr ""
 
 #: ../workspace/policies.py:33
@@ -103,7 +123,7 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:520
+#: ../workspace/browser/tiles/templates/sidebar.pt:519
 msgid "Advanced"
 msgstr ""
 
@@ -208,6 +228,10 @@ msgstr ""
 msgid "Assignee"
 msgstr ""
 
+#: ../async/configure.zcml:18
+msgid "Async task dispatch for PloneIntranet"
+msgstr ""
+
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
 #: ../microblog/browser/templates/update-social.html:104
@@ -273,6 +297,10 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: ../workspace/behaviors/configure.zcml:11
+msgid "Case Metadata"
+msgstr ""
+
 msgid "Case Workspace"
 msgstr ""
 
@@ -307,7 +335,7 @@ msgstr ""
 msgid "Changes applied"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:382
+#: ../workspace/browser/tiles/templates/sidebar.pt:381
 msgid "Close milestone"
 msgstr ""
 
@@ -419,6 +447,10 @@ msgstr ""
 msgid "Declined"
 msgstr ""
 
+#: ../userprofile/content/configure.zcml:17
+msgid "Default additional fields for UserProfile."
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 #: ../workspace/basecontent/templates/event_view.pt:51
@@ -491,6 +523,7 @@ msgstr ""
 msgid "Document types"
 msgstr ""
 
+#: ../layout/browser/configure.zcml:132
 #: ../layout/browser/templates/my_documents.pt:11
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:18
 msgid "Documents"
@@ -549,6 +582,7 @@ msgstr ""
 msgid "Edit profile"
 msgstr ""
 
+#: ../activitystream/browser/templates/comment.html:43
 #: ../activitystream/browser/templates/post.html:78
 msgid "Edited"
 msgstr ""
@@ -563,6 +597,10 @@ msgstr ""
 
 #: ../workspace/browser/event.py:126
 msgid "Emails sent successfully"
+msgstr ""
+
+#: ../themeswitcher/configure.zcml:41
+msgid "Enables on-the-fly theme switching"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:15
@@ -604,11 +642,19 @@ msgstr ""
 msgid "Expand sidebar"
 msgstr ""
 
+#: ../layout/configure.zcml:37
+msgid "Extension profile for ploneintranet.layout."
+msgstr ""
+
 #: ../userprofile/sync.py:80
 msgid "External property sync complete."
 msgstr ""
 
 msgid "File"
+msgstr ""
+
+#: ../workspace/behaviors/configure.zcml:29
+msgid "File field"
 msgstr ""
 
 #: ../userprofile/browser/user_import.py:133
@@ -682,7 +728,7 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:506
+#: ../workspace/browser/tiles/templates/sidebar.pt:505
 msgid "General"
 msgstr ""
 
@@ -753,6 +799,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
+#: ../workspace/behaviors/configure.zcml:20
+msgid "Image field"
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile-edit.pt:14
 #: ../userprofile/browser/templates/userprofile.pt:27
 msgid "Image of {{ page.title }}"
@@ -779,6 +829,14 @@ msgstr ""
 #: ../todo/behaviors.py:45
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Initiator"
+msgstr ""
+
+#: ../themeswitcher/configure.zcml:50
+msgid "Installs testthemeA for test purposes"
+msgstr ""
+
+#: ../userprofile/configure.zcml:49
+msgid "Installs the ploneintranet.userprofile package"
 msgstr ""
 
 #: ../invitations/invitations.py:75
@@ -881,6 +939,10 @@ msgstr ""
 msgid "Library Section"
 msgstr ""
 
+#: ../library/configure.zcml:19
+msgid "Library for PloneIntranet"
+msgstr ""
+
 #: ../network/browser/likes.py:56
 msgid "Like"
 msgstr ""
@@ -932,8 +994,12 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:510
+#: ../workspace/browser/tiles/templates/sidebar.pt:509
 msgid "Members"
+msgstr ""
+
+#: ../workspace/behaviors/configure.zcml:46
+msgid "Membrane Group (Workspace)"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:48
@@ -1000,6 +1066,10 @@ msgstr ""
 msgid "My profile"
 msgstr ""
 
+#: ../layout/browser/configure.zcml:109
+msgid "My tile's description"
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile.pt:145
 msgid "Name"
 msgstr ""
@@ -1021,6 +1091,10 @@ msgid "News"
 msgstr ""
 
 msgid "News Item"
+msgstr ""
+
+#: ../layout/browser/configure.zcml:120
+msgid "News tile showing news on the dashboard"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:42
@@ -1111,7 +1185,7 @@ msgstr ""
 msgid "Older"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:488
+#: ../workspace/browser/tiles/templates/sidebar.pt:487
 msgid "Older events"
 msgstr ""
 
@@ -1145,6 +1219,7 @@ msgstr ""
 msgid "Organiser"
 msgstr ""
 
+#: ../activitystream/browser/templates/comment.html:55
 #: ../activitystream/browser/templates/post.html:90
 msgid "Original text:"
 msgstr ""
@@ -1219,10 +1294,60 @@ msgstr ""
 msgid "Please specify which Case Template to use"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:58
-#: ../messaging/browser/your-inbox.pt:140
-#: ../microblog/browser/templates/update-social.html:131
-msgid "Post"
+#: ../async/configure.zcml:26
+msgid "Plone Intranet: -- [Async uninstall]"
+msgstr ""
+
+#: ../async/configure.zcml:18
+msgid "Plone Intranet: -- [Async]"
+msgstr ""
+
+#: ../layout/configure.zcml:46
+msgid "Plone Intranet: -- [Layout uninstall]"
+msgstr ""
+
+#: ../layout/configure.zcml:37
+msgid "Plone Intranet: -- [Layout]"
+msgstr ""
+
+#: ../library/configure.zcml:27
+msgid "Plone Intranet: -- [Library uninstall]"
+msgstr ""
+
+#: ../library/configure.zcml:19
+msgid "Plone Intranet: -- [Library]"
+msgstr ""
+
+#: ../themeswitcher/configure.zcml:50
+msgid "Plone Intranet: -- [Themeswitcher: Testing]"
+msgstr ""
+
+#: ../themeswitcher/configure.zcml:41
+msgid "Plone Intranet: -- [Themeswitcher]"
+msgstr ""
+
+#: ../userprofile/configure.zcml:68
+msgid "Plone Intranet: -- [User Profiles Testing]"
+msgstr ""
+
+#: ../userprofile/configure.zcml:59
+msgid "Plone Intranet: -- [User Profiles uninstall]"
+msgstr ""
+
+#: ../userprofile/configure.zcml:49
+msgid "Plone Intranet: -- [User Profiles]"
+msgstr ""
+
+#: ../workspace/configure.zcml:172
+msgid "Plone Intranet: -- [Workspace uninstall]"
+msgstr ""
+
+#: ../workspace/configure.zcml:163
+msgid "Plone Intranet: -- [Workspace]"
+msgstr ""
+
+#: ../workspace/behaviors/configure.zcml:36
+msgid "PloneIntranet Event Fields"
 msgstr ""
 
 msgid "PowerPoint 2007 presentation"
@@ -1289,7 +1414,7 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:385
+#: ../workspace/browser/tiles/templates/sidebar.pt:384
 msgid "Reopen milestone"
 msgstr ""
 
@@ -1349,7 +1474,7 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:515
+#: ../workspace/browser/tiles/templates/sidebar.pt:514
 msgid "Security"
 msgstr ""
 
@@ -1498,6 +1623,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:189
 msgid "Tentative"
+msgstr ""
+
+#: ../userprofile/configure.zcml:68
+msgid "Testing of the ploneintranet.userprofile package"
 msgstr ""
 
 #: ../docconv/client/templates/pdf_not_available.pt:6
@@ -1668,6 +1797,10 @@ msgstr ""
 msgid "This user doesn't have an email associated with their account."
 msgstr ""
 
+#: ../layout/browser/configure.zcml:132
+msgid "Tile to list recently modified documents"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Time"
 msgstr ""
@@ -1714,7 +1847,7 @@ msgstr ""
 msgid "Transfer members to another workspace."
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:401
+#: ../workspace/browser/tiles/templates/sidebar.pt:400
 msgid "Unassigned"
 msgstr ""
 
@@ -1734,6 +1867,14 @@ msgstr ""
 msgid "Ungrouped"
 msgstr ""
 
+#: ../library/configure.zcml:27
+msgid "Uninstall Library for PloneIntranet"
+msgstr ""
+
+#: ../async/configure.zcml:26
+msgid "Uninstalls ploneintranet.async"
+msgstr ""
+
 #: ../layout/browser/widgets.py:19
 msgid "Unknown"
 msgstr ""
@@ -1751,7 +1892,7 @@ msgid "Until"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:434
+#: ../workspace/browser/tiles/templates/sidebar.pt:433
 msgid "Upcoming events"
 msgstr ""
 
@@ -1772,6 +1913,10 @@ msgstr ""
 msgid "Upload file(s)"
 msgstr ""
 
+#: ../workspace/behaviors/configure.zcml:46
+msgid "Use this content as a membrane group"
+msgstr ""
+
 #: ../workspace/browser/tiles/templates/sidebar.pt:198
 msgid "User not found"
 msgstr ""
@@ -1788,8 +1933,12 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:258
+#: ../activitystream/browser/templates/post.html:259
 msgid "View"
+msgstr ""
+
+#: ../activitystream/browser/templates/post.html:302
+msgid "View this image"
 msgstr ""
 
 #: ../workspace/subscribers.py:144
@@ -1822,6 +1971,10 @@ msgstr ""
 #: ../workspace/browser/templates/add_workspace.pt:24
 #: ../workspace/browser/templates/workspace-add.pt:26
 msgid "Workspace description"
+msgstr ""
+
+#: ../workspace/configure.zcml:163
+msgid "Workspace for PloneIntranet"
 msgstr ""
 
 #: ../workspace/browser/views.py:23
@@ -1983,6 +2136,13 @@ msgstr ""
 msgid "button_close"
 msgstr ""
 
+#. Default: "Post"
+#: ../messaging/browser/send-message.pt:58
+#: ../messaging/browser/your-inbox.pt:140
+#: ../microblog/browser/templates/update-social.html:131
+msgid "button_post"
+msgstr ""
+
 #. Default: "Calendar"
 #: ../layout/adapters/app_tiles.py:87
 msgid "calendar"
@@ -1999,6 +2159,9 @@ msgstr ""
 #. Default: "Contacts"
 #: ../layout/adapters/app_tiles.py:69
 msgid "contacts"
+msgstr ""
+
+msgid "created"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:25
@@ -2304,7 +2467,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:497
+#: ../workspace/browser/tiles/templates/sidebar.pt:496
 msgid "label_no_events_available"
 msgstr ""
 
@@ -2459,7 +2622,7 @@ msgid "num_items_can_be_deleted"
 msgstr ""
 
 #. Default: "${no_members} Members"
-#: ../workspace/workspacefolder.py:157
+#: ../workspace/workspacefolder.py:159
 msgid "number_of_members"
 msgstr ""
 

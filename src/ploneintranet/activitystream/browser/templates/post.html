@@ -250,6 +250,7 @@
 	      <a tal:condition="view/is_content_downloadable"
                  href="${content_context/absolute_url}"
                  class="icon iconified icon-download"
+                 i18n:attributes="title"
                  title="Download this file">Download</a>
               <tal:comment condition="nothing">
               <!-- XXX images gallery view not implemented yet -->
@@ -299,11 +300,13 @@
           <!-- XXX images zip download not implemented yet -->
           </tal:comment>
           <a href="${view/content_url}"
-             title="View ${content_context/Title}">
+             i18n:attributes="title"
+             title="View this image">
 	    <span class="icon iconified icon-eye">View</span>
 	  </a>
           <a href="${content_context/absolute_url}"
-             title="Download ${content_context/Title}">
+             i18n:attributes="title"
+             title="Download this image">
 	    <span class="icon iconified icon-download">Download</span>
 	  </a>
 	</p>

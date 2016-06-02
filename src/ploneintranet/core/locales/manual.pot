@@ -91,3 +91,6 @@ msgstr ""
 #. Default: "Library"
 msgid "my_docs_heading_library"
 msgstr ""
+
+msgid "created"
+msgstr ""
