@@ -70,4 +70,16 @@
     </field>
     <value purge="false">True</value>
   </record>
+  <record name="ploneintranet.workspace.workspace_type_filters">
+    <field type="plone.registry.field.Dict">
+      <title i18n:translate="label_workspace_type_filters">Workspace type filters</title>
+      <description i18n:translate="help_workspace_type_filters">Workspace types which can be used for filtering on the workspaces view</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element key="ploneintranet.workspace.workspacefolder">Generic workspaces</element>
+      <element key="ploneintranet.workspace.case">Cases</element>
+    </value>
+  </record>
 </registry>
