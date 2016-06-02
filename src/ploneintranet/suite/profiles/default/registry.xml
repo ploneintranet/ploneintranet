@@ -16,6 +16,7 @@
         <element>ploneintranet.notifications.browser.interfaces.IPloneintranetNotificationsLayer</element>
         <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>
         <element>ploneintranet.library.interfaces.ILibraryContentLayer</element>
+        <element>ploneintranet.workspace.interfaces.IThemedWorkspaceLayer</element>
       </value>
       <value key="fallback_enabled_bundles"></value>
       <value key="fallback_disabled_bundles">
