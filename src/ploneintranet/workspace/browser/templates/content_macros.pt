@@ -41,7 +41,7 @@
                value="${context/due | nothing}"
                tal:attributes="disabled read_only"
                data-pat-autosubmit="delay: defocus"
-               data-pat-date-picker="behaviour: polyfill; show: date"
+               data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"
                class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
       <br/>
@@ -133,7 +133,7 @@
                   <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="start" id="${start_id}" placeholder="Date" value="${start}"
                          data-pat-validation="type: date; not-after: #${end_id}; message-date: This date must be on or before the end date."
                          i18n:attributes="placeholder"
-                    data-pat-date-picker="behaviour: polyfill; show: date" />
+                    data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json" />
               </label>
               <label class="six columns">
                 <input type="time" size="10" class="time" name="start" placeholder="Time"
@@ -151,7 +151,7 @@
               <label class="six columns">
                   <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="end" id="${end_id}" placeholder="Date" value="${end}"
                     data-pat-validation="type: date; not-before: #${start_id}; message-date: this date must be on or after the start date."
-                    data-pat-date-picker="behaviour: polyfill; show: date"
+                    data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"
                     i18n:attributes="placeholder"/>
               </label>
               <label class="six columns">
