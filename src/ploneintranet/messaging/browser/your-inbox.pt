@@ -137,7 +137,7 @@
                                             <br>
                                             <a class="iconified icon-tags pat-tooltip inactive" data-pat-tooltip="position: tl; source: ajax; class: tags;" href="/feedback/panel-tags.html#content" i18n:translate="">Add tags</a>
                                             <br>
-                                            <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="submit" i18n:translate="">Post</button>
+                                            <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="submit" i18n:translate="button_post">Post</button>
                                             <button class="pat-switch" data-pat-switch="#new-message status-* status-inactive" type="reset" i18n:domain="plone" i18n:translate="">Cancel</button>
                                             <!-- <a class="iconified icon-users" href="panel-visibility.html">Define who can see this</a> -->
 
