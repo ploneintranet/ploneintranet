@@ -76,13 +76,26 @@ class Workspaces(BrowserView):
         return options
 
     def workspace_types(self):
-        options = [{'value': '',
-                    'content': _(u'All workspace types')},
-                   {'value': 'ploneintranet.workspace.workspacefolder',
-                    'content': _(u'Generic workspaces')},
-                   {'value': 'ploneintranet.workspace.case',
-                    'content': _(u'Cases')},
-                   ]
+        options = [{'value': '', 'content': _(u'All workspace types')}]
+        translate = self.context.translate
+        try:
+            additional_filters = api.portal.get_registry_record(
+                'ploneintranet.workspace.workspace_type_filters')
+            # Sort them by the translated values
+            for portal_type in sorted(
+                    additional_filters,
+                    key=lambda x: translate(_(additional_filters.get(x))),
+            ):
+                label = additional_filters[portal_type]
+                options.append({'value': portal_type, 'content': _(label)})
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            options.extend([
+                {'value': 'ploneintranet.workspace.workspacefolder',
+                 'content': _(u'Generic workspaces')},
+                {'value': 'ploneintranet.workspace.case',
+                 'content': _(u'Cases')},
+            ])
         return options
 
     def workspaces_by_division(self):

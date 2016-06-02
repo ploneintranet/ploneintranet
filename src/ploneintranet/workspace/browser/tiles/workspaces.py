@@ -103,11 +103,9 @@ def my_workspaces(context,
     workspace_types = request.get('workspace_type', []) or workspace_types
     if not workspace_types:
         try:
-            workspace_types = list(
-                api.portal.get_registry_record(
-                    'ploneintranet.workspace.workspace_types'
-                )
-            )
+            workspace_type_filters = api.portal.get_registry_record(
+                'ploneintranet.workspace.workspace_type_filters')
+            workspace_types = workspace_type_filters.keys()
         except api.exc.InvalidParameterError:
             workspace_types = [
                 'ploneintranet.workspace.case',
