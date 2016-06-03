@@ -347,6 +347,28 @@ Task is read only for user
     Wait Until Page Contains  This is for you ${name}
     Element Should Be Visible  jquery=input:disabled[name=due]
 
+# workspace member sidebar
+I can enable user selection
+    Wait Until Page Contains Element  jquery=.quick-functions a.toggle-select
+    Click Element  jquery=.quick-functions a:last
+
+I select all members
+    Click Element  css=#existing_users .select-buttons .select-all
+
+I deselect all members
+    Click Element  css=#existing_users .select-buttons .deselect-all
+
+The batch action buttons are disabled
+    Wait Until Page Contains Element  jquery=button.disabled:contains("Change role")
+    Wait Until Page Contains Element  jquery=button.disabled:contains("Remove")
+
+The batch action buttons are enabled
+    Wait Until Page Contains Element  jquery=button:not('[disabled]'):contains("Change role")
+    Wait Until Page Contains Element  jquery=button:not('[disabled]'):contains("Remove")
+
+I toggle the selection of the first user
+    Click Element  jquery=#member-list-items label.item.user:first
+
 I can invite Alice to join the workspace
     Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
@@ -1023,19 +1045,19 @@ I cannot open the comment action menu
 
 I delete the status update
     [arguments]  ${message}
-    I open the post action menu  ${message}    
+    I open the post action menu  ${message}
     Click Link  Delete post
     Click Button  I am sure, delete now
-    
+
 I can see the status delete confirmation
     Wait Until Page Contains    This post has been succesfully deleted.
 
 I delete the status reply
     [arguments]  ${message}
-    I open the comment action menu  ${message}    
+    I open the comment action menu  ${message}
     Click Link  Delete comment
     Click Button  I am sure, delete now
-    
+
 I can see the status reply delete confirmation
     Wait Until Page Contains    This comment has been succesfully deleted.
 

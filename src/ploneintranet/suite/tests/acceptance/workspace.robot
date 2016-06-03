@@ -105,6 +105,20 @@ The manager can modify workspace security policies
       And I can set the join policy to Admin-Managed
       And I can set the participant policy to Moderate
 
+The manager can access member batch-functions only after selecting
+  Given I am in a workspace as a workspace admin
+   Then I can open the workspace member settings tab
+   Then I can enable user selection
+    And The batch action buttons are disabled
+   Then I select all members
+    And The batch action buttons are enabled
+   Then I deselect all members
+    And The batch action buttons are disabled
+   Then I toggle the selection of the first user
+    And The batch action buttons are enabled
+   Then I toggle the selection of the first user
+    And The batch action buttons are disabled
+
 The manager can invite Alice to join the Open Market Committee Workspace
     Given I am in a workspace as a workspace admin
      Then I can open the workspace member settings tab
