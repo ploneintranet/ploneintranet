@@ -213,7 +213,7 @@ def get_preview_urls(obj, scale='normal'):
 
     # If there aren't any previews, return the placeholder url
     if number_of_previews < 1:
-        return [fallback_image_url()]
+        return [fallback_image_url(obj)]
     scale = _backward_map(scale)
     return [dv_data['resources']['page']['image'].format(size=scale,
                                                          page=page)
