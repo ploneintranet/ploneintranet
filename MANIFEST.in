@@ -7,6 +7,10 @@ prune docs/_templates
 exclude docs/conf.py
 graft etc
 graft ldap
+prune ldap/args
+prune ldap/log
+prune ldap/pid
+prune ldap/schema
 prune src
 graft src/ploneintranet.egg-info
 graft src/ploneintranet
