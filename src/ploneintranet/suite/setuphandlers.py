@@ -7,6 +7,7 @@ from plone.app.event.base import localized_now
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
 from ploneintranet import api as pi_api
+from ploneintranet.docconv.client.decorators import force_synchronous_previews
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
@@ -50,6 +51,7 @@ def default(context):
     log.info("default setup: done.")
 
 
+@force_synchronous_previews
 def testing(context):
     """
     Important!
