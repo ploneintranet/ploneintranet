@@ -70,21 +70,19 @@ class TestUpload(FunctionalTestCase):
         '''
         # Test objects that have a generated preview
         urls = self.upload_view.get_thumbs_urls(self.pdf)
-        self.assertTrue(
-            '/test-file/small' in urls[0]
-        )
+        self.assertIn('/test-file/small', urls[0])
 
     def test_get_thumbs_urls_image(self):
         # Test image previews
         urls = self.upload_view.get_thumbs_urls(self.image)
         self.assertTrue(len(urls) == 1)
-        self.assertTrue('@@images' in urls[0])
+        self.assertIn('@@images', urls[0])
 
     def test_get_thumbs_urls_file(self):
         # Test a File instance that contains an image
         urls = self.upload_view.get_thumbs_urls(self.fileimage)
         self.assertTrue(len(urls) == 1)
-        self.assertTrue('test-image-file/small' in urls[0])
+        self.assertIn('test-image-file/small', urls[0])
 
     def test_get_thumbs_urls_empty(self):
         self.assertListEqual(
@@ -110,4 +108,5 @@ class TestUpload(FunctionalTestCase):
         request = self.request.clone()
         request['page'] = 1
         previews = pi_api.previews.get(self.pdf)
+        self.assertTrue(len(previews) >= 1)
         self.assertIsInstance(previews[0], Blob)
