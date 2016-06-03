@@ -89,3 +89,15 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         add_workspace.title = u'Case from template'
         self.case = execute_as_manager(add_workspace.create_from_template)
         self.assertTrue('doc1' in self.portal.workspaces['case-from-template'])
+
+    def test_metromap_frozen_state(self):
+        """
+        When a Case is Frozen, the metromap should display the pre-frozen state
+        as if it were the current state.
+        """
+        api.content.transition(self.case, 'freeze')
+        mm_seq = IMetroMap(self.case).metromap_sequence
+        wft = api.portal.get_tool("portal_workflow")
+        review_state = wft.getInfoFor(self.case, 'review_state')
+        self.assertEqual(review_state, 'frozen')
+        self.assertTrue(mm_seq['new']['is_current'])
