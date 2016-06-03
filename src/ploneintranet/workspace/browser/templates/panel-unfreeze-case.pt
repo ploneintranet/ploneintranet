@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <head>
+  </head>
+
+  <body>
+    <div id="content">
+
+      <div id="document-content" class="pat-modal ">
+        <h1 i18n:translate="">Unfreeze case</h1>
+        <form action="${context/absolute_url}/@@unfreeze-view" class="wizard-box">
+          <div class="panel-body">
+            <article>
+              <p i18n:translate="">
+                You are about to unfreeze this case. After unfreezing
+                a case, its members will able again to make changes.
+              </p>
+            </article>
+          </div>
+          <div class="buttons panel-footer">
+            <button type="submit" class="icon-ok-circle" i18n:translate="">
+              I am sure, unfreeze now
+            </button>
+            <button type="button" class="close-panel icon-cancel-circle">
+              Cancel
+            </button>
+            <input tal:replace="structure context/@@authenticator/authenticator"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

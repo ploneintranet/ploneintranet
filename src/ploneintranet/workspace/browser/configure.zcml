@@ -293,6 +293,14 @@
       />
 
     <browser:page
+        name="panel-unfreeze-case"
+        for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+        permission="ploneintranet.workspace.ManageWorkspace"
+        template="templates/panel-unfreeze-case.pt"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
         name="allusers.json"
         for="*"
         class=".workspace.AllUsersJSONView"

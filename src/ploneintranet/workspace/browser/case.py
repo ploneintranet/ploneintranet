@@ -107,6 +107,10 @@ class FreezeView(BrowserView):
         review_state = wft.getInfoFor(self.context, 'review_state')
         return review_state == self.frozen_state
 
+    def frozen_date(self):
+        wft = api.portal.get_tool('portal_workflow')
+        frozen_date = wft.getInfoFor(self.context, 'time')
+        return frozen_date.strftime('%d %B %Y')
 
 class UnfreezeView(BrowserView):
     """
