@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a3 (unreleased)
+1.1.0a3 (2016-06-03)
 --------------------
 
 * Merge pull request #292 from quaive/date-picker-i18n [Wolfgang Thomas]
