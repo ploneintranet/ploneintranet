@@ -15,7 +15,7 @@ def content_created(obj, event):
         # We are not installed
         return
 
-    whitelist = ('Document', 'File', 'Image', 'News Item')
+    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
     try:
         if obj.portal_type not in whitelist:
             return

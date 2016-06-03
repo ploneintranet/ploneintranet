@@ -1,6 +1,7 @@
 # -*- coding=utf-8 -*-
 from BTrees import OOBTree
 from plone import api
+from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from transaction import commit
@@ -109,4 +110,31 @@ def statusupdate_edit_delete(context):
     setup = api.portal.get_tool('portal_setup')
     # setup new edit/delete permissions
     setup.runImportStepFromProfile(PROFILE_ID, 'rolemap')
+    commit()
+
+
+def discuss_older_docs(context):
+    """Add document discussion on pre-existing documents.
+    This only adds a 'created' message, since we cannot reconstruct
+    the publication date and actor.
+    """
+    logger.info("Adding streams to older content")
+    mtool = queryUtility(IMicroblogTool)
+    haveseen = [x for x in mtool._content_uuid_mapping.keys()]
+    ctool = api.portal.get_tool('portal_catalog')
+    i = 0
+    for brain in ctool.unrestrictedSearchResults(
+            {'portal_type': [
+                'Document', 'File', 'Image', 'Event', 'News Item']}):
+        if brain.UID in haveseen:
+            continue
+        pi_api.microblog.statusupdate.create(
+            content_context=brain.getObject(),
+            action_verb=u'created',
+            userid=brain.Creator,
+            time=brain.created.asdatetime(),
+        )
+        haveseen.append(brain.UID)
+        i += 1
+    logger.info("Added streams to %s older content objects", i)
     commit()

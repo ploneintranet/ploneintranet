@@ -78,4 +78,13 @@
       profile="ploneintranet.microblog:default"
       />
 
+    <genericsetup:upgradeStep
+        title="discuss older docs"
+        description="add streams to older content"
+        source="0007"
+        destination="0008"
+        handler=".migration.discuss_older_docs"
+        profile="ploneintranet.microblog:default"
+        />
+
 </configure>
