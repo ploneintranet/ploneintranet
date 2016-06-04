@@ -2,12 +2,7 @@
 
   <tal:block condition="not: view/anonymous">
     <a class="pat-avatar pat-tooltip"
-       data-pat-tooltip="
-         position-list: tr;
-         position-policy: force;
-         trigger: click;
-         source: content;
-       "
+       data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: content;"
        href="#portal-personaltools-menu"
        id="user-avatar">
       <img src="${view/avatar_url}" title="${view/user_name}" />
