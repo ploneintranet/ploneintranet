@@ -14,12 +14,21 @@
       title="Activity stream tile"
       description="Provides an activity stream as a tile"
       add_permission="cmf.ManagePortal"
-      class=".stream_tile.StreamTile"
+      class=".stream.StreamTile"
       permission="ploneintranet.microblog.ViewStatusUpdate"
       for="*"
       layer=".interfaces.IPloneIntranetActivitystreamLayer"
       />
 
+  <browser:page
+      name="tagstream"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".stream.TagStream"
+      template="templates/tag-stream.html"
+      layer=".interfaces.IPloneIntranetActivitystreamLayer"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
+      />
+      
     <browser:page
         name="comment.html"
         for="ploneintranet.microblog.interfaces.IStatusUpdate"

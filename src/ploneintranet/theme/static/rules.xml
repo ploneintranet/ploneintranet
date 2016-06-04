@@ -121,6 +121,7 @@
   </rules>
 
   <rules css:if-content="body.template-dashboard-html,
+                         body.template-tagstream,
                          body.template-apps-html,
                          body.template-workspaces-html">
     <theme href="generated/empty-home.html" />

@@ -1,27 +1,28 @@
 # coding=utf-8
 from AccessControl import Unauthorized
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class StreamTile(Tile):
-    '''Tile view similar to StreamView.'''
+class StreamBase(object):
+    """Shared base class for activity streams"""
 
-    index = ViewPageTemplateFile("templates/stream_tile.pt")
     count = 15
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        # BBB: the or None should be moved to the microblog methods
-        self.tag = self.data.get('tag') or None
+        self.tag = None
         if 'last_seen' in request:
             self.last_seen = request.get('last_seen')
         else:
@@ -169,3 +170,29 @@ class StreamTile(Tile):
                 statusupdate,
                 self.request
             )
+
+
+class StreamTile(StreamBase, Tile):
+    '''Stream as a tile, for use in other views (dashboard etc.)'''
+
+    index = ViewPageTemplateFile("templates/stream_tile.pt")
+
+
+@implementer(IPublishTraverse)
+class TagStream(StreamBase, BrowserView):
+    """Show the stream, filtered by a tag.
+
+    Gets tag from the url.
+    For example, /tagstream/foo will display
+    the stream of activities tagged #foo.
+    """
+
+    def publishTraverse(self, request, name):
+        if isinstance(name, unicode):
+            self.tag = name
+        else:
+            self.tag = name.decode('utf8')
+        # stop traversing, we have arrived
+        request['TraversalRequestNameStack'] = []
+        # return self so the publisher calls this view
+        return self
