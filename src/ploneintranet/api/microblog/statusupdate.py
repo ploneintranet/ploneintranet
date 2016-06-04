@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pytz
 from DateTime import DateTime
 from datetime import datetime
 from plone import api
@@ -75,7 +76,13 @@ def create(
     # Passing a time (as a datetime-object) the id and the date can be set
     if time is not None:
         assert(isinstance(time, datetime))
-        delta = time - datetime.utcfromtimestamp(0)
+        epoch = datetime.utcfromtimestamp(0)
+        try:
+            delta = time - epoch
+        except TypeError:
+            # TypeError: can't subtract offset-naive and offset-aware datetimes
+            epoch_utc = pytz.timezone('UTC').localize(epoch)
+            delta = time - epoch_utc
         status_obj.id = long(delta.total_seconds() * 1e6)
         status_obj.date = DateTime(time)
 
