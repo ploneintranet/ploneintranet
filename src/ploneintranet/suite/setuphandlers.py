@@ -9,6 +9,7 @@ from plone.namedfile.file import NamedBlobImage
 from ploneintranet import api as pi_api
 from ploneintranet.docconv.client.decorators import force_synchronous_previews
 from ploneintranet.microblog.interfaces import IMicroblogTool
+from ploneintranet.microblog.migration import discuss_older_docs
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
@@ -94,6 +95,10 @@ def testing(context):
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
     commit()
+
+    log.info("add discussion streams on testcontent")
+    # easier than emitting event and running into async issues
+    discuss_older_docs(None)
 
     log.info("done.")
 
