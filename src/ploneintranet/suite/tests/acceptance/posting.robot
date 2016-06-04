@@ -246,6 +246,20 @@ Neil can tag a post by searching for a tag
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
 
+Neil can view tagged posts
+    Given I am logged in as the user neil_wichmann
+    when I open the Dashboard
+    and I write a status update    ${MESSAGE1}
+    and I can add a tag    ${TAG1}
+    and I submit the status update
+    and I write a status update    ${MESSAGE2}
+    and I can add a tag    ${TAG2}
+    and I submit the status update
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
+    when I click the tag link  ${TAG2}
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
+    and The message is not visible  ${MESSAGE1}
+    
 Creating a page creates a statusupdate
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
@@ -303,7 +317,11 @@ The message is visible as new status update that mentions the user
 The message is visible as new status update and includes the tag
     [arguments]  ${message}  ${tag}
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//span[contains(text(), '#${tag}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '#${tag}')][1]
+
+I click the tag link
+    [arguments]  ${tag}
+    Click Link  \#${tag}
 
 The status update only appears once
     [arguments]  ${message}
@@ -354,10 +372,10 @@ I can add a tag
     Click link    link=Add tags
     Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
     Click element    css=input[name=tagsearch]
-    Input text    css=input[name=tagsearch]  ${tag1}
+    Input text    css=input[name=tagsearch]  ${tag}
     [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
     Wait until page does not contain element  xpath=//form[@id='postbox-tags' and contains(@class, 'injecting-content')]
-    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag1}')][1]
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag}')][1]
     Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
     Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]
     Click element    css=textarea.pat-content-mirror
