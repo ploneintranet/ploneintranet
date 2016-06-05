@@ -2,11 +2,11 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       >
-  <body>
+  <body i18n:domain="ploneintranet">
 
     <tal:comment condition="nothing">
-      <!-- 
-           extracted from prototype/_layouts/document.html 
+      <!--
+           extracted from prototype/_layouts/document.html
            rendered via content-stream.html
            into workspace/browser/basecontent/templates/document_view.pt
         -->
@@ -15,12 +15,12 @@
     <div class="document-comments-header"
          tal:define="avatar view/avatar">
       <a href="${avatar/url}">
-        <img src="${avatar/img}" alt="${avatar/fullname}" class="pat-avatar ">   
+        <img src="${avatar/img}" alt="${avatar/fullname}" class="pat-avatar ">
         <h4 class="name">${avatar/fullname}</h4>
       </a>
       <p class="byline">
         <em class="action" i18n:translate=""
-            >${context/action_verb} this item</em>
+            ><span tal:omit-tag="" i18n:name="action_verb" i18n:translate="">has_${context/action_verb}</span> this item</em>
         <time class="datestamp pat-display-time"
               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
               datetime="${context/date/ISO}"
@@ -35,6 +35,6 @@
     </div>
     <div id="new-comment-${context/id}"></div>
     <div tal:replace="structure view/context/@@update-social.html" />
-    
+
 </body>
 </html>
