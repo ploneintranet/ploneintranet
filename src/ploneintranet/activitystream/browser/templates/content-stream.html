@@ -2,7 +2,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       >
-  <body>
+  <body i18n:domain="ploneintranet">
 
     <tal:comment condition="nothing">
       <!--
@@ -16,7 +16,7 @@
          >
       <p class="comment-sentinel pat-bumper" data-pat-bumper="side: bottom;">
         <a href="#comments-document-comments"><!-- how to i18n this??? -->
-          There are <span tal:replace="view/num_comments">{{ page.comments.size }}</span> comments on <span tal:replace="view/num_shares">1</span> shares</a>
+          <span tal:omit-tag="" i18n:translate="">There are <span i18n:name="num_comments" tal:replace="view/num_comments">{{ page.comments.size }}</span> comments on <span i18n:name="num_shares" tal:replace="view/num_shares">1</span> shares</span></a>
       </p>
 
       <tal:comment condition="nothing">
@@ -29,7 +29,7 @@
         <tal:statusupdate replace="structure statusupdate_view" />
       </tal:post>
 
-      </div><!-- #comments-document-comments -->
+    </div><!-- #comments-document-comments -->
 
 
 </body>
