@@ -164,7 +164,7 @@ bin/python2.7:
 devrun:
 	sudo service redis-server start
 	bin/supervisord
-	bin/supervisorctl stop instance
+	bin/supervisorctl stop instance instance2
 	bin/instance fg
 
 ####################################################################
