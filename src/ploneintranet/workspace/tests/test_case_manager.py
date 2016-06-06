@@ -34,15 +34,47 @@ class TestCaseManagerView(FunctionalBaseTestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
 
+    def get_view(self, options={}):
+        ''' Get a fresh @@case-manager view
+        adding options to the request
+        '''
+        request = self.request.clone()
+        request.form.update(options)
+        return api.content.get_view(
+            'case-manager',
+            self.portal,
+            request,
+        )
+
     def test_review_states_select(self):
         ''' Check if the review state select is configured properly
         '''
-        case_manager = api.content.get_view(
-            'case-manager',
-            self.portal,
-            self.request,
-        )
+        case_manager = self.get_view()
         self.assertTupleEqual(
             case_manager.get_states(),
             (u'new', u'pending', u'published', u'rejected', u'frozen'),
+        )
+
+    def test_batching(self):
+        ''' Check if the review state select is configured properly
+        '''
+        case_manager = self.get_view()
+        self.assertEqual(case_manager.batch_size, 5)
+        self.assertEqual(case_manager.batch_start, 0)
+        case_manager.cases = lambda: range(4)
+        self.assertEqual(
+            case_manager.next_batch_url,
+            ''
+        )
+        case_manager = self.get_view()
+        case_manager.cases = lambda: range(5)
+        self.assertEqual(
+            case_manager.next_batch_url,
+            'http://localhost:55001/plone/@@case-manager?b_start=5'
+        )
+        case_manager = self.get_view()
+        case_manager.cases = lambda: range(6)
+        self.assertEqual(
+            case_manager.next_batch_url,
+            'http://localhost:55001/plone/@@case-manager?b_start=5'
         )

@@ -13,7 +13,9 @@
             <div id="document-content" class="cases-overview">
               <div class="row">
 
-                <aside class="four columns pat-bumper case-filters">
+                <aside class="four columns pat-bumper case-filters"
+                       tal:condition="not:view/is_ajax"
+                      >
                   <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
                         tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
                     <fieldset class="vertical">
@@ -45,12 +47,12 @@
                         </select>
                       </label>
 
-        			  <fieldset class="group">
-        				<legend i18n:translate="">Archived</legend>
-		        		<label class="pat-checklist">
-		        		  <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
-		        		</label>
-        			  </fieldset>
+                      <fieldset class="group">
+                        <legend i18n:translate="">Archived</legend>
+                        <label class="pat-checklist">
+                          <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
+                        </label>
+                      </fieldset>
 
                       <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
 
@@ -81,7 +83,7 @@
                 <div id="case-mats" class="eight columns"
                      tal:define="cases view/cases">
 
-                  <tal:nocases condition="not:cases">
+                  <tal:nocases condition="python:not view.is_ajax and not cases" >
                     <!-- FIXME: needs to be designed -->
                     <p i18n:translate="">No results</p>
                   </tal:nocases>
@@ -126,15 +128,15 @@
                     </tal:is_archived>
                   </tal:cases>
 
-                  <tal:batchnavigation
-                      define="batchnavigation nocall:context/@@batchnavigation"
-                      replace="structure python:batchnavigation(cases)" />
-
+                  <div id="load-more" tal:condition="view/next_batch_url">
+                    <!-- FIXME: needs to be designed -->
+                    <a href="${view/next_batch_url}"
+                       class="infinite-scrolling-trigger pat-inject"
+                       data-pat-inject="trigger: autoload-visible; source: #case-mats; target: #load-more::element"
+                       >Next</a>
+                  </div>
                 </div>
-
-
               </div>
-
             </div>
           </div>
         </div>
