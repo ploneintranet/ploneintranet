@@ -1,7 +1,7 @@
 RELEASE_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
-BUNDLENAME      = ploneintranet
+BUNDLENAME      = ploneintranet-bundle
 BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
 
 # Add help text after each target name starting with ' \#\# '
