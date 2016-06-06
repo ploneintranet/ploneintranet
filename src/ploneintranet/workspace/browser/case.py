@@ -112,6 +112,7 @@ class FreezeView(BrowserView):
         frozen_date = wft.getInfoFor(self.context, 'time')
         return frozen_date.strftime('%d %B %Y')
 
+
 class UnfreezeView(BrowserView):
     """
     Return to the workflow state that the item was at before being frozen.
