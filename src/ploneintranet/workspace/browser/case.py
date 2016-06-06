@@ -107,19 +107,27 @@ class FreezeView(BrowserView):
         review_state = wft.getInfoFor(self.context, 'review_state')
         return review_state == self.frozen_state
 
+    def frozen_date(self):
+        wft = api.portal.get_tool('portal_workflow')
+        frozen_date = wft.getInfoFor(self.context, 'time')
+        return frozen_date.strftime('%d %B %Y')
+
 
 class UnfreezeView(BrowserView):
     """
     Return to the workflow state that the item was at before being frozen.
     """
 
-    def __call__(self):
+    @property
+    def pre_frozen_state(self):
         wft = api.portal.get_tool('portal_workflow')
         wf_id = wft.getWorkflowsFor(self.context)[0].getId()
         history = self.context.workflow_history.get(wf_id)
         previous_wf = history[-2]
-        previous_state = previous_wf.get('review_state')
+        return previous_wf.get('review_state')
 
+    def __call__(self):
+        previous_state = self.pre_frozen_state
         if previous_state:
             api.content.transition(self.context, to_state=previous_state)
         else:

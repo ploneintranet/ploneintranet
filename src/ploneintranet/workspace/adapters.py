@@ -25,6 +25,8 @@ from plone.indexer.wrapper import IndexableObjectWrapper
 from plone.uuid.interfaces import IUUID
 from OFS.owner import Owned
 from utils import parent_workspace
+from zope.component import getMultiAdapter
+
 import persistent
 
 logger = logging.getLogger(__name__)
@@ -295,7 +297,16 @@ class MetroMap(object):
         except api.exc.UserNotFoundError:
             raise api.exc.UserNotFoundError(
                 "Unknown user. Do not use Zope rescue user.")
-        current_state = wft.getInfoFor(self.context, "review_state")
+
+        # If the case is frozen, render the MetroMap for the pre-frozen state
+        freeze_view = getMultiAdapter(
+            (self.context, self.context.REQUEST), name='freeze-view')
+        if freeze_view.is_frozen():
+            unfreeze_view = getMultiAdapter(
+                (self.context, self.context.REQUEST), name='unfreeze-view')
+            current_state = unfreeze_view.pre_frozen_state
+        else:
+            current_state = wft.getInfoFor(self.context, "review_state")
         finished = True
         sequence = OrderedDict()
         tasks = self.context.tasks()

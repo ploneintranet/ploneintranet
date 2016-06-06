@@ -1107,6 +1107,12 @@ I unfreeze the case
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click link  Unfreeze case
 
+I unfreeze the case via the metromap
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Unfreeze
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Button  I am sure, unfreeze now
+
 I see that the workspace is frozen
     Wait Until Page Contains  Frozen
 
