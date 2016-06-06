@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a4 (unreleased)
+1.1.0a4 (2016-06-06)
 --------------------
 
 * Merge pull request #311 from quaive/frozen-metromap [Alexander Pilz]
