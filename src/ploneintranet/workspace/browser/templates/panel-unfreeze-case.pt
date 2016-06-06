@@ -25,7 +25,7 @@
             <button type="submit" class="icon-ok-circle" i18n:translate="">
               I am sure, unfreeze now
             </button>
-            <button type="button" class="close-panel icon-cancel-circle">
+            <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
               Cancel
             </button>
             <input tal:replace="structure context/@@authenticator/authenticator"/>
