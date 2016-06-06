@@ -20,6 +20,7 @@ ${USERNAME1}   François Gast
 ${USERNAME2}   Silvio De Paoli
 ${TAG1}        Rain
 ${TAG2}        Sun
+${TAG3}        Moonshine
 
 *** Test Cases ***
 
@@ -294,6 +295,18 @@ Content status updates respect document security
     When I am logged in as the user allan_neece
     And I open the Dashboard
     Then the stream does not link to the document       My created document
+
+Tagged content status updates link to the tagstream
+    Given I am in a workspace as a workspace admin
+    And I can create a new document    My created document
+    And I tag the item  ${TAG3}
+    And I save the document
+    Comment  We can only tag after creation has already fired. Fire publication.
+    When I can publish the content item
+    And I open the Dashboard
+    And the stream links to the document     My created document
+    Then I click the tag link  ${TAG3}
+    And the stream links to the document     My created document
 
 *** Keywords ***
 

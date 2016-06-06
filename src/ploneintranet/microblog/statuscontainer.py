@@ -213,7 +213,7 @@ class BaseStatusContainer(Persistent, Explicit):
         Update the `StatusContainer` tag index with any new tags
         :param status: a `StatusUpdate` object
         """
-        if status.tags is None:
+        if not status.tags:
             return
         for tag in [tag.decode('utf-8') for tag in status.tags]:
             # If the key was already in the collection, there is no change
@@ -223,7 +223,7 @@ class BaseStatusContainer(Persistent, Explicit):
             self._tag_mapping[tag].insert(status.id)
 
     def _unidx_tag(self, status):
-        if status.tags is None:
+        if not status.tags:
             return
         for tag in [tag.decode('utf-8') for tag in status.tags]:
             self._tag_mapping[tag].remove(status.id)

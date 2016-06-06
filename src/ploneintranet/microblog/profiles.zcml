@@ -87,4 +87,13 @@
         profile="ploneintranet.microblog:default"
         />
 
+    <genericsetup:upgradeStep
+        title="tag older contentupdates"
+        description="add tags to older content updates"
+        source="0008"
+        destination="0009"
+        handler=".migration.tag_older_contentupdates"
+        profile="ploneintranet.microblog:default"
+        />
+    
 </configure>

@@ -134,13 +134,42 @@ def discuss_older_docs(context):
         created = brain.created
         if isinstance(created, DateTime):
             created = created.asdatetime()
+        obj = brain.getObject()
         pi_api.microblog.statusupdate.create(
-            content_context=brain.getObject(),
+            content_context=obj,
             action_verb=u'created',
+            tags=obj.Subject() or None,
             userid=brain.Creator,
             time=created,
         )
         haveseen.append(brain.UID)
         i += 1
     logger.info("Added streams to %s older content objects", i)
+    commit()
+
+
+def tag_older_contentupdates(context):
+    """Retroactively apply tags on auto-generated content updates.
+    Is backported to discuss_older_docs.
+    """
+    logger.info("Adding tags to older content updates")
+    tool = queryUtility(IMicroblogTool)
+    i = 0
+    for status in tool.values(limit=None):
+        if status.thread_id:
+            # not a generated toplevel update but a reply
+            continue
+        if status.tags:
+            # already tagged
+            continue
+        content_context = status.content_context
+        if not content_context:
+            # not a content update
+            continue
+        tags = content_context.Subject()
+        if tags:
+            status.tags = tags
+            tool._idx_tag(status)
+            i += 1
+    logger.info("Added tags to %s older content updates", i)
     commit()

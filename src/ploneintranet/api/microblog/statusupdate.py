@@ -55,6 +55,9 @@ def create(
     :param content_context: a content referenced we are talking about
     :type content_context: content object
 
+    :param action_verb: indicate event source (posted, created, published)
+    :type action_verb: string
+
     :returns: Newly created statusupdate
     :rtype: StatusUpdate object
     """
