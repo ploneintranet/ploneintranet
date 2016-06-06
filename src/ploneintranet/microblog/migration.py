@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from BTrees import OOBTree
+from DateTime import DateTime
 from plone import api
 from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -128,11 +129,14 @@ def discuss_older_docs(context):
                 'Document', 'File', 'Image', 'Event', 'News Item']}):
         if brain.UID in haveseen:
             continue
+        created = brain.created
+        if isinstance(created, DateTime):
+            created = created.asdatetime()
         pi_api.microblog.statusupdate.create(
             content_context=brain.getObject(),
             action_verb=u'created',
             userid=brain.Creator,
-            time=brain.created.asdatetime(),
+            time=created,
         )
         haveseen.append(brain.UID)
         i += 1
