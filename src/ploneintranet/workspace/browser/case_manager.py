@@ -1,11 +1,14 @@
+# coding=utf-8
 from datetime import datetime
 from DateTime import DateTime
 from logging import getLogger
 from Products.CMFPlone.PloneBatch import Batch
 from plone import api
+from plone.memoize.view import memoize
 from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IMetroMap
+from urllib import urlencode
 from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
@@ -40,6 +43,47 @@ def percent_complete(task_details):
 
 class CaseManagerView(BrowserView):
 
+    _b_size = 5
+
+    @property
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    @property
+    @memoize
+    def batch_size(self):
+        ''' The size for this batch
+        '''
+        return int(self.request.get('b_size', self._b_size))
+
+    @property
+    @memoize
+    def batch_start(self):
+        ''' The size for this batch
+        '''
+        return int(self.request.get('b_start', 0))
+
+    @property
+    @memoize
+    def next_batch_url(self):
+        ''' The url to retrieve the next batch
+
+        Return empty string if we have not enough results
+        '''
+        if len(self.cases()) < self.batch_size:
+            return ''
+        form = self.request.form.copy()
+        form['b_start'] = self.batch_start + self.batch_size
+        return '{url}/@@{view}?{query_string}'.format(
+            url=self.context.absolute_url(),
+            view=self.__name__,
+            query_string=urlencode(form),
+        )
+
     def extract_date_field(self, fieldname):
         ''' Extract the date field as a datetime object if possible,
         otherwise return None
@@ -69,6 +113,7 @@ class CaseManagerView(BrowserView):
                 date_query[date_field + '__gt'] = latest
         return date_query
 
+    @memoize
     def cases(self):
         pc = api.portal.get_tool('portal_catalog')
         form = self.request.form
@@ -77,8 +122,6 @@ class CaseManagerView(BrowserView):
         ws_folder = portal.get("workspaces")
         ws_path = "/".join(ws_folder.getPhysicalPath())
 
-        b_size = int(form.get('b_size', 5))
-        b_start = int(form.get('b_start', 0))
         sort_by = 'modified'
 
         query = {
@@ -120,6 +163,9 @@ class CaseManagerView(BrowserView):
             results.sort(key=lambda item: item.title.lower())
 
         cases = []
+
+        b_size = self.batch_size
+        b_start = self.batch_start
         for idx, item in enumerate(results):
             if item is None or idx < b_start or idx > b_start + b_size:
                 cases.append(None)
