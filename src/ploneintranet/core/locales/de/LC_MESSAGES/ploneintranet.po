@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-06-02 08:53+0000\n"
+"POT-Creation-Date: 2016-06-06 10:19+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -21,6 +21,10 @@ msgstr ""
 #: ../activitystream/browser/templates/post-menu.html:18
 msgid "${action/title}"
 msgstr ""
+
+#: ../activitystream/browser/templates/content-share.html:23
+msgid "${action_verb} this item"
+msgstr "${action_verb} dieses Objekt"
 
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
@@ -82,7 +86,7 @@ msgstr "Startseiten-Ansicht"
 msgid "Add a comment"
 msgstr "Füge einen Kommentar hinzu."
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:114
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
 msgid "Add group"
 msgstr "Gruppe hinzufügen"
 
@@ -99,7 +103,7 @@ msgstr "Füge ein 'aktuelle Nachrichten' Portlet hinzu."
 msgid "Add tags"
 msgstr "Tags hinzufügen"
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:111
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:113
 msgid "Add user"
 msgstr "Benutzer hinzufügen"
 
@@ -182,7 +186,7 @@ msgstr "Alle Benachrichtigungen"
 msgid "All topics"
 msgstr "Alle Themen"
 
-#: ../workspace/browser/workspacecontainer.py:80
+#: ../workspace/browser/workspacecontainer.py:79
 msgid "All workspace types"
 msgstr "Alle Typen"
 
@@ -209,9 +213,8 @@ msgstr "Apps"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
 msgid "Archive workspace"
-msgstr ""
+msgstr "Arbeitsbereich archivieren"
 
-#: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
 msgid "Archived"
 msgstr "Archiviert"
@@ -305,7 +308,7 @@ msgstr ""
 msgid "Case Workspace"
 msgstr "Geschäft"
 
-#: ../workspace/browser/workspacecontainer.py:84
+#: ../workspace/browser/workspacecontainer.py:97
 msgid "Cases"
 msgstr "Geschäfte"
 
@@ -317,7 +320,7 @@ msgstr "Titel und Beschreibung des Ordners ändern"
 msgid "Change personal image"
 msgstr "Profilbild ändern"
 
-#: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-change-role.pt:16
 #: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
@@ -512,7 +515,7 @@ msgstr "Vorschau anzeigen"
 msgid "Division"
 msgstr "Organisation"
 
-#: ../workspace/interfaces.py:90
+#: ../workspace/interfaces.py:94
 msgid "Divisions represent sections of the overall organisation and appear as groupings on the workspace overview."
 msgstr ""
 
@@ -705,7 +708,7 @@ msgstr "Für Geschäfte wird die Sicherheit durch den geschäftseigenen Arbeitsa
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:85
 msgid "Freeze case"
-msgstr ""
+msgstr "Geschäft abbrechen"
 
 #: ../workspace/browser/templates/content_macros.pt:128
 #: ../workspace/browser/templates/email_invitees_html.pt:11
@@ -715,7 +718,7 @@ msgstr "Von"
 
 #: ../workspace/browser/templates/case.pt:42
 msgid "Frozen"
-msgstr ""
+msgstr "Eingestellt"
 
 #: ../userprofile/browser/templates/userprofile.pt:110
 msgid "Full list of followers"
@@ -741,7 +744,7 @@ msgstr "Allgemeine Aufgaben"
 msgid "Generic workspace"
 msgstr "Normaler Arbeitsraum"
 
-#: ../workspace/browser/workspacecontainer.py:82
+#: ../workspace/browser/workspacecontainer.py:95
 msgid "Generic workspaces"
 msgstr "Allgemeiner Arbeitsraum"
 
@@ -766,7 +769,7 @@ msgstr "Nach Tag gruppieren"
 msgid "Guest"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:90
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:92
 msgid "Guests"
 msgstr "Gäste"
 
@@ -1112,6 +1115,10 @@ msgstr "Keine Gruppierung"
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr "Keine Element ID übergeben in Teilpfad. Benutze .../@@toggle_like/123456"
 
+#: ../workspace/browser/cart_actions/delete.py:38
+msgid "No items could be deleted"
+msgstr "Es wurden keine Elemente gelöscht."
+
 #: ../messaging/browser/your-inbox.pt:65
 msgid "No messages"
 msgstr "Keine Nachrichten"
@@ -1178,7 +1185,7 @@ msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
 #: ../workspace/browser/templates/panel-add-user.pt:26
-#: ../workspace/browser/templates/panel-remove-user.pt:36
+#: ../workspace/browser/templates/panel-remove-user.pt:38
 msgid "Ok"
 msgstr "Ok"
 
@@ -1253,7 +1260,7 @@ msgid "People"
 msgstr "Personen"
 
 msgid "Person"
-msgstr ""
+msgstr "Person"
 
 #: ../userprofile/content/userprofile.py:30
 msgid "Person title"
@@ -1391,15 +1398,15 @@ msgstr "Empfänger..."
 msgid "Regards"
 msgstr "Freundlich Grüße"
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove member or group"
 msgstr "Mitglied oder Gruppe entfernen"
 
-#: ../workspace/browser/templates/panel-remove-user.pt:14
+#: ../workspace/browser/templates/panel-remove-user.pt:16
 msgid "Remove members"
 msgstr "Benutzer entfernen"
 
@@ -1761,6 +1768,10 @@ msgstr "Dieser Arbeitsraum ist nur für Personen zugänglich, die eingeladen wur
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr "Der Arbeitsraum ist nur zugänglich für Mitglieder. Jedes Mitglied kann neue Mitglieder hinzufügen. Sobald man Mitglied in der Arbeitsgruppe ist, kann man grundsätzlich alles tun. Nichts in dieser Gruppe ist je sichtbar für Nichtmitglieder."
 
+#: ../activitystream/browser/templates/content-stream.html:19
+msgid "There are ${num_comments} comments on ${num_shares} shares"
+msgstr "Es gibt ${num_comments} Kommentar(e) zu ${num_shares} Aktivität(en)"
+
 #: ../workspace/browser/cart_actions/download.py:86
 msgid "There are no downloadable items in your cart."
 msgstr "Sie haben keine Objekte ausgewählt, die heruntergeladen werden können."
@@ -1862,7 +1873,7 @@ msgstr "Nicht weiter folgen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:87
 msgid "Unfreeze case"
-msgstr ""
+msgstr "Geschäft wiederaufnehmen"
 
 #: ../workspace/browser/templates/workspaces.pt:112
 msgid "Ungrouped"
@@ -1920,7 +1931,7 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:198
 msgid "User not found"
-msgstr ""
+msgstr "Benutzer nicht gefunden"
 
 #: ../userprofile/browser/templates/user_import_form.pt:18
 msgid "User profile management"
@@ -1940,7 +1951,7 @@ msgstr "Ansehen"
 
 #: ../activitystream/browser/templates/post.html:302
 msgid "View this image"
-msgstr "Dieses Bild ansehen"
+msgstr "Bild ansehen"
 
 #: ../workspace/subscribers.py:144
 msgid "Welcome to our family, Stranger"
@@ -2036,7 +2047,7 @@ msgstr "JJJJ-MM-TT"
 msgid "You are a member of this workspace now"
 msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsraums."
 
-#: ../workspace/browser/templates/panel-change-role.pt:31
+#: ../workspace/browser/templates/panel-change-role.pt:33
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr "Sie sind dabei, die Rolle der folgenden <strong>${num_users}</strong> Mitglieder dieses Arbeitsraumes zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
@@ -2104,7 +2115,7 @@ msgstr "Was steht gerade an?"
 
 #. from this workspace. Are you sure? (un-tick to exclude from removing)"
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
-#: ../workspace/browser/templates/panel-remove-user.pt:24
+#: ../workspace/browser/templates/panel-remove-user.pt:26
 msgid "alert_remove_users_from_workspace"
 msgstr "Sie haben die folgenden ${num_users} Mitglieder ausgewählt um sie aus diesem Arbeitsraum zu entfernen. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
@@ -2132,6 +2143,11 @@ msgstr "Die folgenden Objekte konnten nicht ausgeschnitten werden: ${num_elems}"
 #: ../workspace/browser/cart_actions/cut.py:52
 msgid "batch_cut_success"
 msgstr "${num_elems} Objekt(e) wurde(n) ausgeschnitten und in die Zwischenablage gelegt."
+
+#. Default: "The following items have been deleted: ${title_elems}"
+#: ../workspace/browser/cart_actions/delete.py:26
+msgid "batch_delete_success"
+msgstr "Folgende Objekte wurden gelöscht: ${title_elems}"
 
 #. Default: "Close"
 #: ../layout/viewlets/globalstatusmessage.py:21
@@ -2227,6 +2243,16 @@ msgstr "Verzeichnis"
 msgid "follow"
 msgstr "Folgen"
 
+#: ../activitystream/browser/templates/content-share.html:23
+msgid "has_${context/action_verb}"
+msgstr ""
+
+msgid "has_created"
+msgstr "erstellte"
+
+msgid "has_published"
+msgstr "veröffentlichte"
+
 #. Default: "Roster for ${folder}"
 #: ../workspace/browser/templates/roster-edit.pt:24
 msgid "heading_edit_roster"
@@ -2314,9 +2340,9 @@ msgstr ""
 msgid "help_tags"
 msgstr ""
 
-#. Default: "Only this types are searched when looking for workspaces"
+#. Default: "Workspace types which can be used for filtering on the workspaces view"
 #: ../workspace/profiles/default/registry.xml
-msgid "help_workspace_types"
+msgid "help_workspace_type_filters"
 msgstr ""
 
 #. The values should be passed as \"{type}|{css class}\",\n        e.g.
@@ -2325,6 +2351,12 @@ msgstr ""
 #: ../workspace/profiles/default/registry.xml
 msgid "help_workspace_types_css_mapping"
 msgstr ""
+
+#. Default: "Archived"
+#: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
+#: ../search/browser/templates/all_results.pt:164
+msgid "icon_archived"
+msgstr "Archiviert"
 
 #. Default: "Image bank"
 #: ../layout/adapters/app_tiles.py:99
@@ -2386,7 +2418,7 @@ msgid "label"
 msgstr "Markierung"
 
 #. Default: "Archived"
-#: ../workspace/interfaces.py:75
+#: ../workspace/interfaces.py:79
 msgid "label_archived"
 msgstr "Archiviert"
 
@@ -2574,28 +2606,28 @@ msgid "label_toggle_navigation"
 msgstr "Navigation umschalten"
 
 #. Default: "Calendar visible in central calendar"
-#: ../workspace/interfaces.py:58
+#: ../workspace/interfaces.py:62
 msgid "label_workspace_calendar_visibility"
 msgstr "Kalender im zentralen Kalender sichtbar"
 
 #. Default: "Belongs to this Division"
-#: ../workspace/interfaces.py:65
+#: ../workspace/interfaces.py:69
 msgid "label_workspace_division"
 msgstr ""
 
 #. Default: "E-mail address"
-#: ../workspace/interfaces.py:70
+#: ../workspace/interfaces.py:74
 msgid "label_workspace_email"
 msgstr "E-mail Adresse"
 
 #. Default: "Is this workspace representing a division?"
-#: ../workspace/interfaces.py:87
+#: ../workspace/interfaces.py:91
 msgid "label_workspace_is_division"
 msgstr ""
 
-#. Default: "Select workspace types"
+#. Default: "Workspace type filters"
 #: ../workspace/profiles/default/registry.xml
-msgid "label_workspace_types"
+msgid "label_workspace_type_filters"
 msgstr ""
 
 #. Default: "Maps workspace portal types to css classes"
@@ -2662,7 +2694,7 @@ msgstr "Gruppen ${num_groups}"
 msgid "person-workspaces"
 msgstr "Arbeitsbereiche ${num_workspaces}"
 
-#: ../workspace/browser/tiles/workspaces.py:193
+#: ../workspace/browser/tiles/workspaces.py:191
 msgid "posted"
 msgstr "abgeschickt"
 
