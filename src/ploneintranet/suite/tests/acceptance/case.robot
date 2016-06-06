@@ -137,6 +137,18 @@ Manager can freeze and unfreeze a case
       And I go to the Example Case
      Then I see that the workspace is not frozen
 
+Manager can unfreeze a case via the metromap
+    Given I am in a case workspace as a workspace admin
+      And I can open the workspace advanced settings tab
+      And I freeze the case
+      And I go to the Example Case
+     Then I see that the workspace is frozen
+      And I go to the Example Case
+      And I unfreeze the case via the metromap
+      And I go to the Example Case
+     Then I see that the workspace is not frozen
+
+
 ## These tagging tests are intractable because the save confirmation
 ## message is set OK but not displayed - no indicator of injection complete
 ## is available that works for both tasks and documents/files/images
