@@ -94,3 +94,9 @@ msgstr ""
 
 msgid "created"
 msgstr ""
+
+msgid "has_created"
+msgstr ""
+
+msgid "has_published"
+msgstr ""

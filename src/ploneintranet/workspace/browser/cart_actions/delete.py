@@ -3,6 +3,7 @@
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 
@@ -23,14 +24,19 @@ class DeleteView(BaseCartView):
 
         if handled:
             titles = ', '.join(sorted(handled))
+            msg = _(
+                u"batch_delete_success",
+                default=u"The following items have been deleted: ${title_elems}",  # noqa
+                mapping={"title_elems": titles}
+            )
             api.portal.show_message(
-                message=u"The following items have been deleted: %s" % titles,
+                message=msg,
                 request=self.request,
                 type="success",
             )
         else:
             api.portal.show_message(
-                message=u"No items could be deleted",
+                message=_(u"No items could be deleted"),
                 request=self.request,
                 type="info",
             )

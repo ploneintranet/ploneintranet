@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-02 08:53+0000\n"
+"POT-Creation-Date: 2016-06-06 10:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,10 @@ msgstr ""
 
 #: ../activitystream/browser/templates/post-menu.html:18
 msgid "${action/title}"
+msgstr ""
+
+#: ../activitystream/browser/templates/content-share.html:23
+msgid "${action_verb} this item"
 msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
@@ -81,7 +85,7 @@ msgstr ""
 msgid "Add a comment"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:114
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
 msgid "Add group"
 msgstr ""
 
@@ -98,7 +102,7 @@ msgstr ""
 msgid "Add tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:111
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:113
 msgid "Add user"
 msgstr ""
 
@@ -181,7 +185,7 @@ msgstr ""
 msgid "All topics"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:80
+#: ../workspace/browser/workspacecontainer.py:79
 msgid "All workspace types"
 msgstr ""
 
@@ -210,7 +214,6 @@ msgstr ""
 msgid "Archive workspace"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:164
 #: ../workspace/browser/templates/case_manager.pt:49
 msgid "Archived"
 msgstr ""
@@ -304,7 +307,7 @@ msgstr ""
 msgid "Case Workspace"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:84
+#: ../workspace/browser/workspacecontainer.py:97
 msgid "Cases"
 msgstr ""
 
@@ -316,7 +319,7 @@ msgstr ""
 msgid "Change personal image"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-change-role.pt:14
+#: ../workspace/browser/templates/panel-change-role.pt:16
 #: ../workspace/browser/templates/panel-member-role-actions.pt:17
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role"
@@ -511,7 +514,7 @@ msgstr ""
 msgid "Division"
 msgstr ""
 
-#: ../workspace/interfaces.py:90
+#: ../workspace/interfaces.py:94
 msgid "Divisions represent sections of the overall organisation and appear as groupings on the workspace overview."
 msgstr ""
 
@@ -740,7 +743,7 @@ msgstr ""
 msgid "Generic workspace"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:82
+#: ../workspace/browser/workspacecontainer.py:95
 msgid "Generic workspaces"
 msgstr ""
 
@@ -765,7 +768,7 @@ msgstr ""
 msgid "Guest"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:90
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:92
 msgid "Guests"
 msgstr ""
 
@@ -1111,6 +1114,10 @@ msgstr ""
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr ""
 
+#: ../workspace/browser/cart_actions/delete.py:38
+msgid "No items could be deleted"
+msgstr ""
+
 #: ../messaging/browser/your-inbox.pt:65
 msgid "No messages"
 msgstr ""
@@ -1177,7 +1184,7 @@ msgstr ""
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
 #: ../workspace/browser/templates/panel-add-user.pt:26
-#: ../workspace/browser/templates/panel-remove-user.pt:36
+#: ../workspace/browser/templates/panel-remove-user.pt:38
 msgid "Ok"
 msgstr ""
 
@@ -1390,15 +1397,15 @@ msgstr ""
 msgid "Regards"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:53
+#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove member or group"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-remove-user.pt:14
+#: ../workspace/browser/templates/panel-remove-user.pt:16
 msgid "Remove members"
 msgstr ""
 
@@ -1760,6 +1767,10 @@ msgstr ""
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
+#: ../activitystream/browser/templates/content-stream.html:19
+msgid "There are ${num_comments} comments on ${num_shares} shares"
+msgstr ""
+
 #: ../workspace/browser/cart_actions/download.py:86
 msgid "There are no downloadable items in your cart."
 msgstr ""
@@ -2035,7 +2046,7 @@ msgstr ""
 msgid "You are a member of this workspace now"
 msgstr ""
 
-#: ../workspace/browser/templates/panel-change-role.pt:31
+#: ../workspace/browser/templates/panel-change-role.pt:33
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
 msgstr ""
 
@@ -2102,7 +2113,7 @@ msgid "add_statusupdate_button"
 msgstr ""
 
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
-#: ../workspace/browser/templates/panel-remove-user.pt:24
+#: ../workspace/browser/templates/panel-remove-user.pt:26
 msgid "alert_remove_users_from_workspace"
 msgstr ""
 
@@ -2129,6 +2140,11 @@ msgstr ""
 #. Default: "${num_elems} Files were cut and moved to your cloud clipboard."
 #: ../workspace/browser/cart_actions/cut.py:52
 msgid "batch_cut_success"
+msgstr ""
+
+#. Default: "The following items have been deleted: ${title_elems}"
+#: ../workspace/browser/cart_actions/delete.py:26
+msgid "batch_delete_success"
 msgstr ""
 
 #. Default: "Close"
@@ -2224,6 +2240,16 @@ msgstr ""
 msgid "follow"
 msgstr ""
 
+#: ../activitystream/browser/templates/content-share.html:23
+msgid "has_${context/action_verb}"
+msgstr ""
+
+msgid "has_created"
+msgstr ""
+
+msgid "has_published"
+msgstr ""
+
 #. Default: "Roster for ${folder}"
 #: ../workspace/browser/templates/roster-edit.pt:24
 msgid "heading_edit_roster"
@@ -2299,14 +2325,20 @@ msgstr ""
 msgid "help_tags"
 msgstr ""
 
-#. Default: "Only this types are searched when looking for workspaces"
+#. Default: "Workspace types which can be used for filtering on the workspaces view"
 #: ../workspace/profiles/default/registry.xml
-msgid "help_workspace_types"
+msgid "help_workspace_type_filters"
 msgstr ""
 
 #. Default: "If a portal_type is not here it will default to regular.\n        The values should be passed as \"{type}|{css class}\",\n        e.g. \"ploneintranet.workspace.case|type-case\""
 #: ../workspace/profiles/default/registry.xml
 msgid "help_workspace_types_css_mapping"
+msgstr ""
+
+#. Default: "Archived"
+#: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
+#: ../search/browser/templates/all_results.pt:164
+msgid "icon_archived"
 msgstr ""
 
 #. Default: "Image bank"
@@ -2365,7 +2397,7 @@ msgid "label"
 msgstr ""
 
 #. Default: "Archived"
-#: ../workspace/interfaces.py:75
+#: ../workspace/interfaces.py:79
 msgid "label_archived"
 msgstr ""
 
@@ -2553,28 +2585,28 @@ msgid "label_toggle_navigation"
 msgstr ""
 
 #. Default: "Calendar visible in central calendar"
-#: ../workspace/interfaces.py:58
+#: ../workspace/interfaces.py:62
 msgid "label_workspace_calendar_visibility"
 msgstr ""
 
 #. Default: "Belongs to this Division"
-#: ../workspace/interfaces.py:65
+#: ../workspace/interfaces.py:69
 msgid "label_workspace_division"
 msgstr ""
 
 #. Default: "E-mail address"
-#: ../workspace/interfaces.py:70
+#: ../workspace/interfaces.py:74
 msgid "label_workspace_email"
 msgstr ""
 
 #. Default: "Is this workspace representing a division?"
-#: ../workspace/interfaces.py:87
+#: ../workspace/interfaces.py:91
 msgid "label_workspace_is_division"
 msgstr ""
 
-#. Default: "Select workspace types"
+#. Default: "Workspace type filters"
 #: ../workspace/profiles/default/registry.xml
-msgid "label_workspace_types"
+msgid "label_workspace_type_filters"
 msgstr ""
 
 #. Default: "Maps workspace portal types to css classes"
@@ -2641,7 +2673,7 @@ msgstr ""
 msgid "person-workspaces"
 msgstr ""
 
-#: ../workspace/browser/tiles/workspaces.py:193
+#: ../workspace/browser/tiles/workspaces.py:191
 msgid "posted"
 msgstr ""
 
