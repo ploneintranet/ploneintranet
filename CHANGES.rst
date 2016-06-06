@@ -4,7 +4,40 @@ Changelog
 1.1.0a4 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Merge pull request #311 from quaive/frozen-metromap [Alexander Pilz]
+* Merge pull request #313 from quaive/fix-case-manager-batching [Alexander Pilz]
+* Merge pull request #312 from quaive/rename-bundle [Alexander Pilz]
+* Added missing i18n:translate [Alexander Pilz]
+* Merge pull request #309 from quaive/i18n_supp_for_archive_and_frozen [Alexander Pilz]
+* Use auto load instead of batching [ale-rt]
+* Fix import error [Wolfgang Thomas]
+* Merge pull request #307 from quaive/fix-attribute-error [Wolfgang Thomas]
+* rename bundle name to ploneintranet-bundle, to remove naming conflict with ploneintranet see also discussion on #310 [Wolfgang Thomas]
+* Code style fix [Cillian de Róiste]
+* Add a robot test for unfreezing via the MetroMap [Cillian de Róiste]
+* added i18n support to archive related templates added i18n support to cart_actions delete status messages added translations for archive, freeze and activity stream on documents [Angela Steinhardt]
+* Merge pull request #306 from quaive/245_autload [Alessandro Pisa]
+* Fixes AttributeError when brain.created is not a DateTime instance [ale-rt]
+* Dashboard autoload injection requires id, fixes #245 [Guido A.J. Stevens]
+* Merge pull request #305 from quaive/translation_prep_comments_on_documents [Alexander Pilz]
+* added i18n statements for files used for commenting documents (activity stream) [Angela Steinhardt]
+* Merge pull request #300 from quaive/293-fix-broken-injection [Wolfgang Thomas]
+* Merge pull request #304 from quaive/fix-js-error-in-dashboard [Wolfgang Thomas]
+* fix data-pat-tooltip parameters [ale-rt]
+* pat-depends controls member batch functions [ale-rt]
+* Merge pull request #302 from quaive/295_discussion_on_older [Alessandro Pisa]
+* Merge pull request #301 from quaive/maurits-fallback-image-url [Guido Stevens]
+* Create statusupdates on older content fixes #295 [Guido A.J. Stevens]
+* Merge pull request #298 from quaive/release-1.1.x [Guido Stevens]
+* Merge pull request #296 from quaive/280-fix-testing-content-creation [Guido Stevens]
+* Add Unfreeze button to MetroMap [Cillian de Róiste]
+* If there aren't any previews, call fallback_image_url with the object. [Maurits van Rees]
+* Use assertIn a bit more. [Maurits van Rees]
+* Merge pull request #299 from quaive/document_releasing [Wolfgang Thomas]
+* Document egg releasing [Guido A.J. Stevens]
+* Back to development: 1.1.0a4 [Guido A.J. Stevens]
+* MetroMap: display pre-frozen state on MetroMap [Cillian de Róiste]
+* Synchronous previews when creating testing content [ale-rt]
 
 
 1.1.0a3 (2016-06-03)
