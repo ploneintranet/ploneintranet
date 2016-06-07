@@ -9,6 +9,7 @@ from ploneintranet.suite.testing import\
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
 # from ploneintranet.microblog.interfaces import IMicroblogContext
+from ploneintranet.microblog import migration
 from ploneintranet.microblog.statusupdate import StatusUpdate
 
 
@@ -60,3 +61,33 @@ class TestMicroblogSecurity(unittest.TestCase):
         login(self.portal, 'alice_lindstrom')
         # silently filters all you're not allowed to see
         self.assertFalse(su.id in self.tool.keys())
+
+
+class TestMicroblogMigration(unittest.TestCase):
+    """
+    Security filters result in missing statusupdates when using
+    the normal microblog accessors.
+    Testing needs complex test fixures which are not available in microblog.
+    Instead we use the existing suite test fixture.
+    """
+
+    layer = PLONEINTRANET_SUITE_FUNCTIONAL
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.tool = queryUtility(IMicroblogTool)
+        self.workspace = self.portal.workspaces['open-market-committee']
+
+    def test_document_discussion_fields(self):
+        """Verify migration hits raw accessors.
+        """
+        for update in self.tool._status_mapping.values():
+            del(update._content_context_uuid)
+        migration.document_discussion_fields(None)
+        for update in self.tool._status_mapping.values():
+            try:
+                update._content_context_uuid
+            # turn error into a test failure
+            except AttributeError, exc:
+                self.fail(exc)
