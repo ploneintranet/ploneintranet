@@ -917,13 +917,13 @@ I select the task centric view
 
 I mark a new task complete
     Wait until element is visible  xpath=(//a[@title='Todo soon'])
-    Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
+    Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[@name="active-tasks:list"]
     Wait until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
-    Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
     ### Without the following sleep statement the 'Wait until' statement that follows it
     ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
     ### This leads to errors later on when the box is assumed to be checked.
@@ -933,7 +933,7 @@ I select the task check box
 I unselect the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
-    Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
     ### Without the following sleep statement the 'Wait until' statement that follows it
     ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
     ### This leads to errors later on when the box is assumed to be checked.
