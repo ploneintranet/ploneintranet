@@ -12,6 +12,10 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
     In case neither minv nor maxv is given, performs an optimization
     by not sorting the whole keyspace, but instead heuristically chunk
     the keyspace and sort only chunks, until the limit is reached.
+
+    Note that without a maxv, this defaults to now() meaning any
+    *future* statusupdates are filtered out implicitly.
+    We don't support time travel.
     """
     try:
         accessor = btreeish.keys
@@ -20,15 +24,15 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
 
     i = 0
 
-    minv_or_maxv = minv or maxv
-
-    if minv_or_maxv:
-        # no optimization - chunking defined by parameters
-        tmin = minv
+    if maxv:
         tmax = maxv
     else:
-        # first auto-chunk: last hour
         tmax = long(time.time() * 1e6)
+
+    if minv:
+        tmin = minv
+    else:
+        # first auto-chunk: last hour
         tmin = long(tmax - 3600 * 1e6)
 
     keys = sorted(accessor(min=tmin, max=tmax), reverse=True)
@@ -38,14 +42,11 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
         if i == limit:
             return  # no need to sort 2nd and 3rd chunks
 
-    # unoptimized stops here even if under limit
-    if minv_or_maxv:
-        return
-
     # second auto-chunk: last day until last hour
-    tmax = tmin
+    tmax = tmin - 1
     tmin = long(tmax - 23 * 3600 * 1e6)
     keys = sorted(accessor(min=tmin, max=tmax), reverse=True)
+
     for key in keys:
         yield key
         i += 1
@@ -53,7 +54,7 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
             return  # no need to sort 3rd chunk
 
     # final auto-chunk: everything else
-    tmax = tmin
+    tmax = tmin - 1
     keys = sorted(accessor(max=tmax), reverse=True)
     for key in keys:
         yield key

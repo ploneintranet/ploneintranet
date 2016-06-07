@@ -1,5 +1,6 @@
 import unittest2 as unittest
 from AccessControl import Unauthorized
+from plone import api
 from plone.app.testing import login, logout
 from zope.component import queryUtility
 
@@ -11,6 +12,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 # from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog import migration
 from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.microblog.utils import longkeysortreverse
 
 
 class TestMicroblogSecurity(unittest.TestCase):
@@ -61,6 +63,28 @@ class TestMicroblogSecurity(unittest.TestCase):
         login(self.portal, 'alice_lindstrom')
         # silently filters all you're not allowed to see
         self.assertFalse(su.id in self.tool.keys())
+
+    def test_admin_access(self):
+        """Admin should have full access"""
+        self.assertIn('Manager', api.user.get_roles())
+        self.assertEquals([], self.tool._blacklist_microblogcontext_uuids())
+        self.assertEquals([x for x in self.tool.allowed_status_keys()],
+                          [x for x in self.tool._status_mapping.keys()])
+        self.assertEquals(
+            [x for x in self.tool._keys_tag(
+                None, self.tool.allowed_status_keys())],
+            [x for x in self.tool._status_mapping.keys()])
+        self.assertEquals([x for x in self.tool.keys(limit=None)],
+                          [x for x in self.tool._status_mapping.keys()])
+
+    def test_admin_access_longkeysortreverse(self):
+        """Admin access should not be impacted by longkeysortreverse"""
+        self.assertIn('Manager', api.user.get_roles())
+        print([x for x in self.tool._status_mapping.keys()])
+        self.assertEquals(
+            sorted([x for x in longkeysortreverse(
+                self.tool._status_mapping.keys(), None, None, None)]),
+            sorted([x for x in self.tool._status_mapping.keys()]))
 
 
 class TestMicroblogMigration(unittest.TestCase):
