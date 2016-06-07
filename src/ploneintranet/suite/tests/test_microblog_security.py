@@ -9,6 +9,7 @@ from ploneintranet.suite.testing import\
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
 # from ploneintranet.microblog.interfaces import IMicroblogContext
+from ploneintranet.microblog import migration
 from ploneintranet.microblog.statusupdate import StatusUpdate
 
 
@@ -60,3 +61,51 @@ class TestMicroblogSecurity(unittest.TestCase):
         login(self.portal, 'alice_lindstrom')
         # silently filters all you're not allowed to see
         self.assertFalse(su.id in self.tool.keys())
+
+
+class TestMicroblogMigration(unittest.TestCase):
+    """
+    Security filters result in missing statusupdates when using
+    the normal microblog accessors.
+    Testing needs complex test fixures which are not available in microblog.
+    Instead we use the existing suite test fixture.
+    """
+
+    layer = PLONEINTRANET_SUITE_FUNCTIONAL
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.tool = queryUtility(IMicroblogTool)
+        self.workspace = self.portal.workspaces['open-market-committee']
+
+    @unittest.skip("No reproducable problems in this migration")
+    def test_enforce_parent_context(self):
+        # setup
+        for status in self.tool._status_mapping.values():
+            if status.thread_id:
+                del(status._microblog_context_uuid)
+        # migrate - accessor not changed because no problem detected
+        migration.enforce_parent_context(None)
+        # verify
+        for status in self.tool._status_mapping.values():
+            if status.thread_id:
+                parent = self.tool._get(status.thread_id)
+                self.assertEquals(status._microblog_context_uuid,
+                                  parent._microblog_context_uuid)
+
+    def test_document_discussion_fields(self):
+        """Verify migration hits raw accessors.
+        """
+        # setup
+        for status in self.tool._status_mapping.values():
+            del(status._content_context_uuid)
+        # migrate
+        migration.document_discussion_fields(None)
+        # verify
+        for status in self.tool._status_mapping.values():
+            try:
+                status._content_context_uuid
+            # turn error into a test failure
+            except AttributeError, exc:
+                self.fail(exc)
