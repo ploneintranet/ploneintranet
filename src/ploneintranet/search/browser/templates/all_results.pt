@@ -71,24 +71,21 @@
                      i18n:attributes="placeholder label_created_before;" />
             </label>
           </fieldset>
-          <fieldset class="pat-checklist pat-bar-toggles tags"
-                    tal:condition="view/tag_facets">
-            <legend i18n:translate="">Tags</legend>
-            <!-- Only list tags in this list that are relevant for this search
-                 result. Tags are ordered by occurance count. Should there be no
-                 objects tags in the search results, then this entire fieldset is not printed.
-                 The total amount of checkboxes is maximised to 8. Should there be more different
-                 tags in the search result, then those are bundled under 'All other tags' as a
-                 9th item. -->
-            <tal:for repeat="tag view/tag_facets">
-              <label>
-              <input type="checkbox"
-                     checked="${python:tag['id'] in request and 'checked' or None}"
-                     name="tags"
-                     value="${tag/title}"
-              />${tag/title}</label>
-            </tal:for>
-          </fieldset>
+          <tal:additional_facets tal:repeat="facet view/get_additional_facets">
+            <fieldset class="pat-checklist pat-bar-toggles ${facet/id}"
+                      tal:define="items python:view.get_facets(facet['id'])"
+                      tal:condition="items">
+              <legend i18n:translate="">${facet/label}</legend>
+              <tal:for repeat="item items">
+                <label>
+                <input type="checkbox"
+                       checked="${python:item['id'] in request and 'checked' or None}"
+                       name="${facet/id}"
+                       value="${item/title}"
+                />${item/title}</label>
+              </tal:for>
+            </fieldset>
+          </tal:additional_facets>
         </fieldset>
       </div>
       <div class="nine columns last document-listing"

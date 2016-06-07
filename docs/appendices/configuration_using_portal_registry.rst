@@ -133,6 +133,24 @@ ploneintranet.search.ui.persistent_options
     **default**: False
 
 
+ploneintranet.search.ui.additional_facets
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Additional facets for filtering your results
+
+    **description**: The search results page, by default,
+                     facets the search results using the friendly_type_name field.
+                     Here you can list additional fields you want to use for faceting.
+                     Each field should be specified as field
+                     (should match the values from ploneintranet.search.facet_fields)
+                     and label
+                     (a value that can be translate in the ploneintranet 18n domain)
+
+    **type**: plone.registry.field.Dict {plone.registry.field.ASCII: plone.registry.field.TextLine}
+
+    **default**: {'tags': 'Tags'}
+
+
 ploneintranet.userprofile
 -------------------------
 
