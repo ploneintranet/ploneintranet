@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-06-06 10:19+0000\n"
+"POT-Creation-Date: 2016-06-06 21:17+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -137,7 +137,7 @@ msgid "Advanced permissions"
 msgstr "Erweiterte Berechtigungen"
 
 #: ../search/browser/templates/search_template.pt:26
-#: ../workspace/browser/templates/case_manager.pt:43
+#: ../workspace/browser/templates/case_manager.pt:45
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 msgid "All"
 msgstr "Alles"
@@ -215,7 +215,7 @@ msgstr "Apps"
 msgid "Archive workspace"
 msgstr "Arbeitsbereich archivieren"
 
-#: ../workspace/browser/templates/case_manager.pt:49
+#: ../workspace/browser/templates/case_manager.pt:51
 msgid "Archived"
 msgstr "Archiviert"
 
@@ -438,7 +438,7 @@ msgstr "Zuletzt bearbeitet"
 msgid "Date range"
 msgstr "Zeitraum"
 
-#: ../workspace/browser/templates/case_manager.pt:106
+#: ../workspace/browser/templates/case_manager.pt:108
 msgid "Days running"
 msgstr "Tage laufend"
 
@@ -483,7 +483,7 @@ msgid "Delete this event"
 msgstr "Termin löschen"
 
 #: ../userprofile/content/userprofile.py:64
-#: ../workspace/browser/templates/case_manager.pt:34
+#: ../workspace/browser/templates/case_manager.pt:36
 msgid "Department"
 msgstr "Abteilung"
 
@@ -554,11 +554,11 @@ msgstr "Bild herunterladen"
 msgid "Due date"
 msgstr "Fälligkeitsdatum"
 
-#: ../workspace/browser/templates/case_manager.pt:58
+#: ../workspace/browser/templates/case_manager.pt:60
 msgid "Earliest creation date"
 msgstr "Frühestes Erstelldatum"
 
-#: ../workspace/browser/templates/case_manager.pt:65
+#: ../workspace/browser/templates/case_manager.pt:67
 msgid "Earliest modification date"
 msgstr "Frühestes Bearbeitungsdatum"
 
@@ -720,6 +720,10 @@ msgstr "Von"
 msgid "Frozen"
 msgstr "Eingestellt"
 
+#: ../workspace/browser/templates/case.pt:44
+msgid "Frozen on"
+msgstr "Abgebrochen am"
+
 #: ../userprofile/browser/templates/userprofile.pt:110
 msgid "Full list of followers"
 msgstr "Liste aller Personen, die mir folgen"
@@ -794,6 +798,10 @@ msgstr "Ja, löschen"
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
 msgstr "Ja, Rolle entfernen"
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:25
+msgid "I am sure, unfreeze now"
+msgstr "Ja, jetzt wiederaufnehmen"
 
 #: ../workspace/browser/forms.py:64
 msgid "If checked, users will be removed from workspace"
@@ -911,11 +919,11 @@ msgstr "Letzte Woche"
 msgid "Last name"
 msgstr "Nachname"
 
-#: ../workspace/browser/templates/case_manager.pt:60
+#: ../workspace/browser/templates/case_manager.pt:62
 msgid "Latest creation date"
 msgstr "Spätestes Erstelldatum"
 
-#: ../workspace/browser/templates/case_manager.pt:67
+#: ../workspace/browser/templates/case_manager.pt:69
 msgid "Latest modification date"
 msgstr "Spätestes Bearbeitungsdatum"
 
@@ -1044,7 +1052,7 @@ msgstr "MockFolder"
 msgid "Moderate"
 msgstr "Moderieren"
 
-#: ../workspace/browser/templates/case_manager.pt:110
+#: ../workspace/browser/templates/case_manager.pt:112
 msgid "Modifications past 7 days"
 msgstr "Änderungen der letzten 7 Tage"
 
@@ -1115,7 +1123,7 @@ msgstr "Keine Gruppierung"
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr "Keine Element ID übergeben in Teilpfad. Benutze .../@@toggle_like/123456"
 
-#: ../workspace/browser/cart_actions/delete.py:38
+#: ../workspace/browser/cart_actions/delete.py:39
 msgid "No items could be deleted"
 msgstr "Es wurden keine Elemente gelöscht."
 
@@ -1131,7 +1139,7 @@ msgstr "Keine ungelesenen Benachrichtigungen"
 msgid "No preview available"
 msgstr "Keine Vorschau verfügbar"
 
-#: ../workspace/browser/templates/case_manager.pt:86
+#: ../workspace/browser/templates/case_manager.pt:88
 msgid "No results"
 msgstr "Keine Ergebnisse"
 
@@ -1290,7 +1298,7 @@ msgstr "Wählen Sie einen Beauftragten"
 msgid "Pick an initiator"
 msgstr "Wählen Sie einen Ersteller"
 
-#: ../workspace/browser/templates/case_manager.pt:35
+#: ../workspace/browser/templates/case_manager.pt:37
 msgid "Pick the responsible department"
 msgstr "Wählen Sie die verantwortliche Abteilung"
 
@@ -1470,7 +1478,7 @@ msgstr "Existierende Benutzer durchsuchen"
 msgid "Search for a user"
 msgstr "Benutzer suchen"
 
-#: ../workspace/browser/templates/case_manager.pt:22
+#: ../workspace/browser/templates/case_manager.pt:24
 msgid "Search in title and description"
 msgstr "Titel und Beschreibung durchsuchen"
 
@@ -1542,7 +1550,7 @@ msgstr "Teilen"
 msgid "Share this document"
 msgstr "Dieses Dokument teilen"
 
-#: ../workspace/browser/templates/case_manager.pt:51
+#: ../workspace/browser/templates/case_manager.pt:53
 msgid "Show archived workspaces"
 msgstr "Archivierte Arbeitsräume anzeigen"
 
@@ -1588,7 +1596,7 @@ msgstr "Suchanfrage (verbessert)"
 msgid "Start date should be lower than end date"
 msgstr "Anfangsdatum sollte früher sein als Enddatum."
 
-#: ../workspace/browser/templates/case_manager.pt:42
+#: ../workspace/browser/templates/case_manager.pt:44
 msgid "Status"
 msgstr "Status"
 
@@ -1617,7 +1625,7 @@ msgstr "Aufgabentitel"
 msgid "Tasks"
 msgstr "Aufgaben"
 
-#: ../workspace/browser/templates/case_manager.pt:102
+#: ../workspace/browser/templates/case_manager.pt:104
 msgid "Tasks finished"
 msgstr "Aufgaben erledigt"
 
@@ -1871,6 +1879,11 @@ msgstr "Unentschieden"
 msgid "Unfollow"
 msgstr "Nicht weiter folgen"
 
+#: ../workspace/browser/templates/case.pt:121
+msgid "Unfreeze"
+msgstr "Wiederaufnehmen"
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:14
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:87
 msgid "Unfreeze case"
 msgstr "Geschäft wiederaufnehmen"
@@ -2039,7 +2052,7 @@ msgstr "Nachricht an den oder die Empfänger..."
 msgid "Wrong type for {} at row {}.field"
 msgstr "Falscher Typ für {} in Zeile {}."
 
-#: ../workspace/browser/templates/case_manager.pt:58
+#: ../workspace/browser/templates/case_manager.pt:60
 msgid "YYYY-MM-DD"
 msgstr "JJJJ-MM-TT"
 
@@ -2062,6 +2075,10 @@ msgstr "Sie sind dabei, diesen Kommentar zu löschen. Sind Sie sicher?"
 #: ../activitystream/browser/templates/panel-delete-post.html:24
 msgid "You are about to delete this post. Are you sure?"
 msgstr "Sie sind dabei, diesen Beitrag zu löschen. Sind Sie sicher?"
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:18
+msgid "You are about to unfreeze this case. After unfreezing a case, its members will able again to make changes."
+msgstr "Sie sind dabei, dieses Geschäft wiederaufzunehmen. Nach Wiederaufnahme eines abgebrochenen Geschäftes werden dessen Mitglieder wieder Änderungen vornehmen können."
 
 #: ../workspace/browser/templates/workspace-add.pt:95
 msgid "You can always change these settings later via the security control panel in the workspace."
@@ -2145,7 +2162,7 @@ msgid "batch_cut_success"
 msgstr "${num_elems} Objekt(e) wurde(n) ausgeschnitten und in die Zwischenablage gelegt."
 
 #. Default: "The following items have been deleted: ${title_elems}"
-#: ../workspace/browser/cart_actions/delete.py:26
+#: ../workspace/browser/cart_actions/delete.py:27
 msgid "batch_delete_success"
 msgstr "Folgende Objekte wurden gelöscht: ${title_elems}"
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-06 10:19+0000\n"
+"POT-Creation-Date: 2016-06-06 21:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,7 +136,7 @@ msgid "Advanced permissions"
 msgstr ""
 
 #: ../search/browser/templates/search_template.pt:26
-#: ../workspace/browser/templates/case_manager.pt:43
+#: ../workspace/browser/templates/case_manager.pt:45
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 msgid "All"
 msgstr ""
@@ -214,7 +214,7 @@ msgstr ""
 msgid "Archive workspace"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:49
+#: ../workspace/browser/templates/case_manager.pt:51
 msgid "Archived"
 msgstr ""
 
@@ -437,7 +437,7 @@ msgstr ""
 msgid "Date range"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:106
+#: ../workspace/browser/templates/case_manager.pt:108
 msgid "Days running"
 msgstr ""
 
@@ -482,7 +482,7 @@ msgid "Delete this event"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:64
-#: ../workspace/browser/templates/case_manager.pt:34
+#: ../workspace/browser/templates/case_manager.pt:36
 msgid "Department"
 msgstr ""
 
@@ -553,11 +553,11 @@ msgstr ""
 msgid "Due date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:58
+#: ../workspace/browser/templates/case_manager.pt:60
 msgid "Earliest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:65
+#: ../workspace/browser/templates/case_manager.pt:67
 msgid "Earliest modification date"
 msgstr ""
 
@@ -719,6 +719,10 @@ msgstr ""
 msgid "Frozen"
 msgstr ""
 
+#: ../workspace/browser/templates/case.pt:44
+msgid "Frozen on"
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile.pt:110
 msgid "Full list of followers"
 msgstr ""
@@ -792,6 +796,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
+msgstr ""
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:25
+msgid "I am sure, unfreeze now"
 msgstr ""
 
 #: ../workspace/browser/forms.py:64
@@ -910,11 +918,11 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:60
+#: ../workspace/browser/templates/case_manager.pt:62
 msgid "Latest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:67
+#: ../workspace/browser/templates/case_manager.pt:69
 msgid "Latest modification date"
 msgstr ""
 
@@ -1043,7 +1051,7 @@ msgstr ""
 msgid "Moderate"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:110
+#: ../workspace/browser/templates/case_manager.pt:112
 msgid "Modifications past 7 days"
 msgstr ""
 
@@ -1114,7 +1122,7 @@ msgstr ""
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/delete.py:38
+#: ../workspace/browser/cart_actions/delete.py:39
 msgid "No items could be deleted"
 msgstr ""
 
@@ -1130,7 +1138,7 @@ msgstr ""
 msgid "No preview available"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:86
+#: ../workspace/browser/templates/case_manager.pt:88
 msgid "No results"
 msgstr ""
 
@@ -1289,7 +1297,7 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:35
+#: ../workspace/browser/templates/case_manager.pt:37
 msgid "Pick the responsible department"
 msgstr ""
 
@@ -1469,7 +1477,7 @@ msgstr ""
 msgid "Search for a user"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:22
+#: ../workspace/browser/templates/case_manager.pt:24
 msgid "Search in title and description"
 msgstr ""
 
@@ -1541,7 +1549,7 @@ msgstr ""
 msgid "Share this document"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:51
+#: ../workspace/browser/templates/case_manager.pt:53
 msgid "Show archived workspaces"
 msgstr ""
 
@@ -1587,7 +1595,7 @@ msgstr ""
 msgid "Start date should be lower than end date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:42
+#: ../workspace/browser/templates/case_manager.pt:44
 msgid "Status"
 msgstr ""
 
@@ -1616,7 +1624,7 @@ msgstr ""
 msgid "Tasks"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:102
+#: ../workspace/browser/templates/case_manager.pt:104
 msgid "Tasks finished"
 msgstr ""
 
@@ -1870,6 +1878,11 @@ msgstr ""
 msgid "Unfollow"
 msgstr ""
 
+#: ../workspace/browser/templates/case.pt:121
+msgid "Unfreeze"
+msgstr ""
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:14
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:87
 msgid "Unfreeze case"
 msgstr ""
@@ -2038,7 +2051,7 @@ msgstr ""
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:58
+#: ../workspace/browser/templates/case_manager.pt:60
 msgid "YYYY-MM-DD"
 msgstr ""
 
@@ -2060,6 +2073,10 @@ msgstr ""
 
 #: ../activitystream/browser/templates/panel-delete-post.html:24
 msgid "You are about to delete this post. Are you sure?"
+msgstr ""
+
+#: ../workspace/browser/templates/panel-unfreeze-case.pt:18
+msgid "You are about to unfreeze this case. After unfreezing a case, its members will able again to make changes."
 msgstr ""
 
 #: ../workspace/browser/templates/workspace-add.pt:95
@@ -2143,7 +2160,7 @@ msgid "batch_cut_success"
 msgstr ""
 
 #. Default: "The following items have been deleted: ${title_elems}"
-#: ../workspace/browser/cart_actions/delete.py:26
+#: ../workspace/browser/cart_actions/delete.py:27
 msgid "batch_delete_success"
 msgstr ""
 
