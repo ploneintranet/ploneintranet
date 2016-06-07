@@ -79,15 +79,33 @@ class TestMicroblogMigration(unittest.TestCase):
         self.tool = queryUtility(IMicroblogTool)
         self.workspace = self.portal.workspaces['open-market-committee']
 
+    @unittest.skip("No reproducable problems in this migration")
+    def test_enforce_parent_context(self):
+        # setup
+        for status in self.tool._status_mapping.values():
+            if status.thread_id:
+                del(status._microblog_context_uuid)
+        # migrate - accessor not changed because no problem detected
+        migration.enforce_parent_context(None)
+        # verify
+        for status in self.tool._status_mapping.values():
+            if status.thread_id:
+                parent = self.tool._get(status.thread_id)
+                self.assertEquals(status._microblog_context_uuid,
+                                  parent._microblog_context_uuid)
+
     def test_document_discussion_fields(self):
         """Verify migration hits raw accessors.
         """
-        for update in self.tool._status_mapping.values():
-            del(update._content_context_uuid)
+        # setup
+        for status in self.tool._status_mapping.values():
+            del(status._content_context_uuid)
+        # migrate
         migration.document_discussion_fields(None)
-        for update in self.tool._status_mapping.values():
+        # verify
+        for status in self.tool._status_mapping.values():
             try:
-                update._content_context_uuid
+                status._content_context_uuid
             # turn error into a test failure
             except AttributeError, exc:
                 self.fail(exc)
