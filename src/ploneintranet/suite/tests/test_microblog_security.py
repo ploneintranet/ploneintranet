@@ -64,35 +64,64 @@ class TestMicroblogSecurity(unittest.TestCase):
         # silently filters all you're not allowed to see
         self.assertFalse(su.id in self.tool.keys())
 
-    def test_admin_access(self):
+
+class TestMicroblogAdminAccess(unittest.TestCase):
+    """
+    This test expans on microblog/tests/test_tool.py
+    It uses the dynamic character of the suite-generated statusupdates,
+    which have different ids on every test run, to extra rigourously
+    check the statuscontainer accessors and filtering logic.
+    """
+
+    layer = PLONEINTRANET_SUITE_FUNCTIONAL
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.tool = queryUtility(IMicroblogTool)
+        self.allkeys = [x for x in self.tool._status_mapping.keys()]
+
+    def test_blacklist(self):
         """Admin should have full access"""
         self.assertIn('Manager', api.user.get_roles())
         self.assertEquals([], self.tool._blacklist_microblogcontext_uuids())
-        self.assertEquals([x for x in self.tool.allowed_status_keys()],
-                          [x for x in self.tool._status_mapping.keys()])
-        self.assertEquals(
-            [x for x in self.tool._keys_tag(
-                None, self.tool.allowed_status_keys())],
-            [x for x in self.tool._status_mapping.keys()])
-        self.assertEquals([x for x in self.tool.keys(limit=None)],
-                          [x for x in self.tool._status_mapping.keys()])
 
-    def test_admin_access_longkeysortreverse(self):
+    def test_allowed(self):
+        """Admin should have full access"""
+        got = [x for x in self.tool.allowed_status_keys()]
+        self.assertEquals(len(got), len(self.allkeys))
+        self.assertEquals(got, self.allkeys)
+
+    def test_via_keys_tag(self):
+        """Admin should have full access"""
+        got = [x for x in self.tool._keys_tag(
+            None, self.tool.allowed_status_keys())]
+        self.assertEquals(len(got), len(self.allkeys))
+        self.assertEquals(got, self.allkeys)
+
+    def test_keys_direct(self):
+        """Admin should have full access"""
+        got = sorted([x for x in self.tool.keys(limit=None)])
+        self.assertEquals(len(got), len(self.allkeys))
+        self.assertEquals(got, self.allkeys)
+
+    def test_longkeysortreverse(self):
         """Admin access should not be impacted by longkeysortreverse"""
         self.assertIn('Manager', api.user.get_roles())
-        print([x for x in self.tool._status_mapping.keys()])
-        self.assertEquals(
-            sorted([x for x in longkeysortreverse(
-                self.tool._status_mapping.keys(), None, None, None)]),
-            sorted([x for x in self.tool._status_mapping.keys()]))
+        got = sorted([x for x in longkeysortreverse(
+            self.tool._status_mapping.keys(), None, None, None)])
+        self.assertEquals(len(got), len(self.allkeys))
+        self.assertEquals(got, self.allkeys)
 
 
 class TestMicroblogMigration(unittest.TestCase):
     """
-    Security filters result in missing statusupdates when using
-    the normal microblog accessors.
-    Testing needs complex test fixures which are not available in microblog.
-    Instead we use the existing suite test fixture.
+    Security filters resulted in missing statusupdates when using
+    the old normal microblog accessors.
+
+    This test uses the dynamic character of the suite-generated statusupdates,
+    which have different ids on every test run, to extra rigourously
+    verify the microblog migration logic.
     """
 
     layer = PLONEINTRANET_SUITE_FUNCTIONAL

@@ -89,14 +89,14 @@ class TestLongkeysortreverse2(unittest.TestCase):
 
     def test_all2(self):
         got = sorted(longkeysortreverse(self.treeset, None, None, None))
-        expect = past_ids
+        expect = replay_ids
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
     def test_minv(self):
         minv = 1465289825265391
         got = sorted(longkeysortreverse(self.treeset, minv, None, None))
-        expect = [x for x in past_ids if minv <= x]
+        expect = [x for x in replay_ids if minv <= x]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
@@ -109,13 +109,13 @@ class TestLongkeysortreverse2(unittest.TestCase):
 
     def test_limit_20(self):
         got = sorted(longkeysortreverse(self.treeset, None, None, 20))
-        expect = past_ids[:20]
+        expect = replay_ids[-20:]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
     def test_limit_50(self):
         got = sorted(longkeysortreverse(self.treeset, None, None, 50))
-        expect = past_ids[:50]
+        expect = replay_ids[-50:]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
@@ -130,14 +130,14 @@ class TestLongkeysortreverse2(unittest.TestCase):
     def test_minv_limit(self):
         minv = 1465289825265391
         got = sorted(longkeysortreverse(self.treeset, minv, None, 20))
-        expect = [x for x in past_ids if minv <= x][:20]
+        expect = [x for x in replay_ids if minv <= x][-20:]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
     def test_maxv_limit(self):
         maxv = 1465894624580543
         got = sorted(longkeysortreverse(self.treeset, None, maxv, 20))
-        expect = [x for x in replay_ids if x <= maxv][:20]
+        expect = [x for x in replay_ids if x <= maxv][-20:]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
@@ -145,12 +145,12 @@ class TestLongkeysortreverse2(unittest.TestCase):
         minv = 1465289825265391
         maxv = 1465894624580543
         got = sorted(longkeysortreverse(self.treeset, minv, maxv, 10))
-        expect = [x for x in replay_ids if minv <= x <= maxv][:10]
+        expect = [x for x in replay_ids if minv <= x <= maxv][-10:]
         self.assertEquals(len(got), len(expect))
         self.assertEquals(got, expect)
 
 
-# this is a real set, but contains future updates!!!
+# this is a real set, but contains (at time of test coding) future updates!!!
 replay_ids = [
     1465289821764142, 1465289821814609, 1465289822248430, 1465289822807139,
     1465289823102934, 1465289823177254, 1465289823237715, 1465289823445777,
@@ -182,6 +182,3 @@ replay_ids = [
     1467968223979796, 1467968224098918, 1467968224359132, 1467968224469261,
     1467968224729651, 1467968224990235, 1467968225027332, 1467968225175325,
     1467968225310759, 1467968225573445, 1467968225647622]
-
-max_time = time.time() * 1e6
-past_ids = [x for x in replay_ids if x < max_time]
