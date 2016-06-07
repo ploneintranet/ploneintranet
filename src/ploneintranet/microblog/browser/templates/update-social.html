@@ -4,152 +4,150 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="ploneintranet"
       >
-    <body>
-<tal:comment condition="nothing">
-  <!-- ploneintranet.prototype/_includes/update-social.html -->
-</tal:comment>
-<tal:block tal:define="portal_url view/portal_url">
-    <div
-        class="ploneintranet"
-        tal:define="
-          form_id view/form_id;
-          thread_id view/thread_id;
-          is_posting view/is_posting;
-          tags request/tags|nothing;
-          users request/users|nothing;
-          microblog_context_url view/microblog_context_url;
-        "
-        tal:attributes="
-          id python:thread_id and 'microblog-%s' % thread_id or 'microblog';
-        "
-        >
-      <form id="post-box" method="post"
-            class="pat-inject update-social status-inactive"
-            tal:attributes="
-              action view/form_action;
-              id form_id;
-              data-pat-inject python:view.get_pat_inject(form_id, thread_id);
-            ">
+  <body>
 
-        <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
+    <tal:block tal:define="portal_url view/portal_url">
+      <div
+          class="content"
+          tal:define="
+            form_id view/form_id;
+            thread_id view/thread_id;
+            is_posting view/is_posting;
+            tags request/tags|nothing;
+            users request/users|nothing;
+            microblog_context_url view/microblog_context_url;
+          "
+          tal:attributes="
+            id python:thread_id and 'microblog-%s' % thread_id or None;
+          "
+          tal:omit-tag="not:thread_id"
+          >
+        <form id="post-box" method="post"
+              class="pat-inject update-social status-inactive"
+              tal:attributes="
+                action view/form_action;
+                id form_id;
+                data-pat-inject python:view.get_pat_inject(form_id, thread_id);
+              ">
 
-        <tal:direct condition="view/direct">
-          <tal:hideuser condition="not: view/hideuser">
-                <label>
-                    To:
-                    <tal:fixeduser condition="view/fixeduser">
-                        <input disabled="disabled" value="user" tal:attributes="value view/user" />
-                    </tal:fixeduser>
-                    <tal:fixeduser condition="not: view/fixeduser">
-                        <a class="iconified icon-user pat-tooltip"
-                            data-pat-tooltip="position: tl; source: ajax; class: user;"
-                            href="panel-user.html#content"
-                            tal:attributes="href string:${microblog_context_url}/@@panel-users#content"></a>
-                        <span id="selected-user"><input value="user" tal:attributes="value view/user" /></span>
-                    </tal:fixeduser>
-                </label>
-            </tal:hideuser>
-            <tal:hideuser condition="view/hideuser">
-                <input type="hidden" value="user" tal:attributes="value view/user" />
-            </tal:hideuser>
-        </tal:direct>
+          <input type="hidden" tal:condition="thread_id" name="thread_id:int" tal:attributes="value thread_id" />
 
+          <tal:direct condition="view/direct">
+            <tal:hideuser condition="not: view/hideuser">
+                  <label>
+                      To:
+                      <tal:fixeduser condition="view/fixeduser">
+                          <input disabled="disabled" value="user" tal:attributes="value view/user" />
+                      </tal:fixeduser>
+                      <tal:fixeduser condition="not: view/fixeduser">
+                          <a class="iconified icon-user pat-tooltip"
+                              data-pat-tooltip="position: tl; source: ajax; class: user;"
+                              href="panel-user.html#content"
+                              tal:attributes="href string:${microblog_context_url}/@@panel-users#content"></a>
+                          <span id="selected-user"><input value="user" tal:attributes="value view/user" /></span>
+                      </tal:fixeduser>
+                  </label>
+              </tal:hideuser>
+              <tal:hideuser condition="view/hideuser">
+                  <input type="hidden" value="user" tal:attributes="value view/user" />
+              </tal:hideuser>
+          </tal:direct>
 
 
-        <fieldset>
-          <p class="content-mirror"
-            ><span class="text" id="mirror-${form_id}"
-              ><em class="placeholder">${view/placeholder}</em></span
-            ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
-              ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
-                ><a tal:define="fullname python:view.microblog_context.portal_membership.getMemberById(user).getProperty('fullname');
-                display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
-                ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
-              ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
-              ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
-                ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
-                name="tags:list" type="hidden" tal:attributes="value tag" /></tal:block
-                ></tal:tags
-            ></em>
-          </p>
 
-<tal:comment condition="nothing">
-          <!-- This is a deliberate duplication of hidden inputs with name mentions. This one is used for handing over selected
-               users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
-</tal:comment>
-<span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
-          type="hidden" name="mentions:list" tal:attributes="value user" /></span>
-<tal:comment condition="nothing">
-<!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
-     tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
-</tal:comment>
-<span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
-                          type="hidden" name="tags:list" tal:attributes="value tag" /></span>
-
-          <textarea placeholder="placeholder"
-                    class="pat-content-mirror pat-switch"
-                    data-pat-switch="#post-box status-inactive status-active"
-                    tal:attributes="placeholder placeholder|view/placeholder;
-                                    data-pat-content-mirror string:target: #mirror-${form_id};
-                                    data-pat-switch string:#${form_id} status-inactive status-active"
-                    name="form.widgets.text"></textarea>
-
-          <fieldset
-             class="attachments pat-subform pat-autosubmit pat-inject"
-             data-pat-inject="url: @@upload-statusupdate-attachments; source: #attachments;"
-             tal:attributes="data-pat-inject string:url:${microblog_context_url}/@@upload-statusupdate-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
-            <label class="iconified icon-attach pat-switch"
-                   data-pat-switch="#post-box status-* status-attach"
-                   tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
-                   ><input multiple capture="camera" type="file" title="Attach a file" name="form.widgets.attachments" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
-            <p class="attachment-previews"
-               id="post-box-attachment-previews"
-               tal:attributes="id string:${form_id}-attachment-previews" i18n:translate="">
-              No attachments selected.
+          <fieldset>
+            <p class="content-mirror"
+              ><span class="text" id="mirror-${form_id}"
+                ><em class="placeholder">${view/placeholder}</em></span
+              ><em class="selected-users" id="selected-users" tal:attributes="id string:${form_id}-selected-users"
+                ><tal:users tal:condition="python:not is_posting and users"> — <tal:block tal:repeat="user request/users|nothing"
+                  ><a tal:define="fullname python:view.microblog_context.portal_membership.getMemberById(user).getProperty('fullname');
+                  display_name python:fullname or user" tal:content="string:@${display_name}" tal:attributes="data-user-id user"></a
+                  ><tal:space condition="not:repeat/user/end"> </tal:space><input type="hidden" name="mentions:list" tal:attributes="value user" /></tal:block></tal:users
+                ></em><em class="selected-tags" id="selected-tags" tal:attributes="id string:${form_id}-selected-tags"
+                ><tal:tags tal:condition="python:not is_posting and tags"> — <tal:block tal:repeat="tag tags"
+                  ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
+                  name="tags:list" type="hidden" tal:attributes="value tag" /></tal:block
+                  ></tal:tags
+              ></em>
             </p>
-            <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/attachment_form_token">
-            <span tal:replace="structure view/microblog_context/@@authenticator/authenticator"/>
+
+            <tal:comment condition="nothing">
+                      <!-- This is a deliberate duplication of hidden inputs with name mentions. This one is used for handing over selected
+                           users to the panel-users when the user performs a search, to be picked up by pat-inject. -->
+            </tal:comment>
+            <span id="selected-users-data" tal:condition="python:not is_posting and users"><input tal:repeat="user users"
+                      type="hidden" name="mentions:list" tal:attributes="value user" /></span>
+            <tal:comment condition="nothing">
+            <!-- This is a deliberate duplication of hidden inputs with name tags. This one is used for handing over selected
+                 tags to the panel-tags when the users performs a search, to be picked up by pat-inject. -->
+            </tal:comment>
+            <span id="selected-tags-data" tal:condition="python:not is_posting and tags"><input tal:repeat="tag tags"
+                                      type="hidden" name="tags:list" tal:attributes="value tag" /></span>
+
+            <textarea placeholder="placeholder"
+                      class="pat-content-mirror pat-switch"
+                      data-pat-switch="#post-box status-inactive status-active"
+                      tal:attributes="placeholder placeholder|view/placeholder;
+                                      data-pat-content-mirror string:target: #mirror-${form_id};
+                                      data-pat-switch string:#${form_id} status-inactive status-active"
+                      name="form.widgets.text"></textarea>
+
+            <fieldset
+               class="attachments pat-subform pat-autosubmit pat-inject"
+               data-pat-inject="url: @@upload-statusupdate-attachments; source: #attachments;"
+               tal:attributes="data-pat-inject string:url:${microblog_context_url}/@@upload-statusupdate-attachments;; source: #attachments;; target: #${form_id}-attachment-previews">
+              <label class="iconified icon-attach pat-switch"
+                     data-pat-switch="#post-box status-* status-attach"
+                     tal:attributes="data-pat-switch string:#${form_id} status-* status-attach"
+                     ><input multiple capture="camera" type="file" title="Attach a file" name="form.widgets.attachments" i18n:attributes="title"> <span tal:omit-tag="" i18n:translate="">Attach a file (or create a picture)</span></label>
+              <p class="attachment-previews"
+                 id="post-box-attachment-previews"
+                 tal:attributes="id string:${form_id}-attachment-previews" i18n:translate="">
+                No attachments selected.
+              </p>
+              <input type="hidden" name="attachment-form-token" value="854e4838a29f4f378e0beaf3100f0b83-admin-20130807093933376415" tal:attributes="value view/attachment_form_token">
+              <span tal:replace="structure view/microblog_context/@@authenticator/authenticator"/>
+            </fieldset>
+
+            <tal:comment condition="nothing">
+                      <!-- The proto conditionally includes the share_tile in this place. Since
+                           there's no design for it yet in PI, the markup has not been copied. -->
+            </tal:comment>
+
+            <div class="button-bar">
+              <a class="iconified icon-user-add pat-tooltip"
+                 data-pat-tooltip="position: tl; source: ajax; class: mentions;"
+                 tal:attributes="href string:${microblog_context_url}/@@panel-users?thread_id=${thread_id}#status-user-selector::element"
+                 href="/feedback/panel-mentions.html#content">Mention people</a>
+
+              <a class="iconified icon-tags pat-tooltip"
+                 data-pat-tooltip="position: tl; source: ajax; class: tags;"
+                 href="/feedback/panel-tags.html#content"
+                 tal:attributes="href string:${microblog_context_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
+                 Add tags</a>
+
+              <button
+                 class="pat-switch close-panel"
+                 data-pat-switch="#post-box status-* status-inactive"
+                 tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
+                 type="submit"
+                 name="form.buttons.statusupdate" i18n:translate="button_post">Post</button>
+              <button
+                 class="pat-switch close-panel"
+                 data-pat-switch="#post-box status-* status-inactive"
+                 tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
+                 type="reset" i18n:translate="">Cancel</button>
+
+              <tal:comment condition="nothing">
+                          <!-- The proto conditionally includes the visibility selection in this place. Since
+                               there's no design for it yet in PI, the markup has not been copied. -->
+              </tal:comment>
+            </div>
           </fieldset>
+        </form>
+      </div>
 
-<tal:comment condition="nothing">
-          <!-- The proto conditionally includes the share_tile in this place. Since
-               there's no design for it yet in PI, the markup has not been copied. -->
-</tal:comment>
-
-          <div class="button-bar">
-            <a class="iconified icon-user-add pat-tooltip"
-               data-pat-tooltip="position: tl; source: ajax; class: mentions;"
-               tal:attributes="href string:${microblog_context_url}/@@panel-users?thread_id=${thread_id}#status-user-selector::element"
-               href="/feedback/panel-mentions.html#content">Mention people</a>
-
-            <a class="iconified icon-tags pat-tooltip"
-               data-pat-tooltip="position: tl; source: ajax; class: tags;"
-               href="/feedback/panel-tags.html#content"
-               tal:attributes="href string:${microblog_context_url}/@@panel-tags?thread_id=${thread_id}#status-tag-selector::element">
-               Add tags</a>
-
-            <button
-               class="pat-switch close-panel"
-               data-pat-switch="#post-box status-* status-inactive"
-               tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
-               type="submit"
-               name="form.buttons.statusupdate" i18n:translate="button_post">Post</button>
-            <button
-               class="pat-switch close-panel"
-               data-pat-switch="#post-box status-* status-inactive"
-               tal:attributes="data-pat-switch string:#${form_id} status-* status-inactive"
-               type="reset" i18n:translate="">Cancel</button>
-
-<tal:comment condition="nothing">
-            <!-- The proto conditionally includes the visibility selection in this place. Since
-                 there's no design for it yet in PI, the markup has not been copied. -->
-</tal:comment>
-
-          </div>
-        </fieldset>
-      </form>
-    </div>
-
-  </tal:block>
-    </body>
+    </tal:block>
+  </body>
 </html>
