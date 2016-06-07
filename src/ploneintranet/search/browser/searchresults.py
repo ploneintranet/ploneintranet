@@ -261,6 +261,17 @@ class SearchResultsView(BrowserView):
         if sorting == 'date':
             return '-created'
 
+    def reset_button_pat_depends(self):
+        ''' Returm the pat_depends expression for the pat-depends
+        that displays the reset button
+        '''
+        inputs = ['friendly_type_name']
+        for facet in self.get_additional_facets():
+            inputs.append(facet['id'])
+        return 'condition: {condition}; transition: slide'.format(
+            condition=' or '.join(inputs)
+        )
+
     @memoize
     def search_response(self):
         ''' Parse the parameters from the request
