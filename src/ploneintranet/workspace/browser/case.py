@@ -109,8 +109,9 @@ class FreezeView(BrowserView):
 
     def frozen_date(self):
         wft = api.portal.get_tool('portal_workflow')
+        ts = api.portal.get_tool('translation_service')
         frozen_date = wft.getInfoFor(self.context, 'time')
-        return frozen_date.strftime('%d %B %Y')
+        return ts.toLocalizedTime(frozen_date)
 
 
 class UnfreezeView(BrowserView):
