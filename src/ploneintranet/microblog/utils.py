@@ -22,10 +22,10 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
     except AttributeError:
         accessor = LLBTree.TreeSet(btreeish).keys
 
-    if minv or maxv or limit is None:
+    if minv or limit is None:
         return _longkeysortreverse_direct(accessor, minv, maxv, limit)
     else:
-        return _longkeysortreverse_optimized(accessor, limit)
+        return _longkeysortreverse_optimized(accessor, maxv, limit)
 
 
 def _longkeysortreverse_direct(accessor, minv, maxv, limit):
@@ -40,14 +40,16 @@ def _longkeysortreverse_direct(accessor, minv, maxv, limit):
     return  # reached end of keyset
 
 
-def _longkeysortreverse_optimized(accessor, limit):
-    """not minv and not maxv and limit is not None:
-    Optimize by winding backward until limit is reached"""
+def _longkeysortreverse_optimized(accessor, maxv, limit):
+    """not minv and limit is not None:
+    Optimize by winding backward until limit is reached.
+    This is the normal scenario: walking back 15 at a time.
+    """
     i = 0
 
     # first auto-chunk: last hour
     tmin = long((time.time() - 3600) * 1e6)
-    keys = sorted(accessor(min=tmin), reverse=True)
+    keys = sorted(accessor(min=tmin, max=maxv), reverse=True)
     for key in keys:
         yield key
         i += 1
