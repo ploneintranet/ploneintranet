@@ -364,6 +364,9 @@ Supported types include (class names):
                                                checked python:'checked' if task['checked'] else '';
                                                disabled read_only;"
                                />
+                        <input type="hidden" name="disabled-checked-tasks:list" value="${task/id}" tal:condition="python: read_only and task['checked']" />
+                        <input type="hidden" name="checked-tasks:list" value="${task/id}" tal:condition="python: not read_only and task['checked']" />
+
 
                         <a class="pat-inject follow pat-switch"
                            data-pat-inject="source: #document-body; target: #document-body"
