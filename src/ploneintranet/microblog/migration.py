@@ -95,6 +95,8 @@ def document_discussion_fields(context):
     if not hasattr(tool, '_content_uuid_mapping'):
         logger.info("Adding missing content_uuid mapping to %s" % repr(tool))
         tool._content_uuid_mapping = OOBTree.OOBTree()
+    # use raw accessor to avoid security filters skipping some updates
+    # see test in suite/tests/test_microblog_security
     for status in tool._status_mapping.values():
         if not hasattr(status, '_content_context_uuid'):
             status._content_context_uuid = None
