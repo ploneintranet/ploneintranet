@@ -93,7 +93,7 @@
                       <div class="case-mat ${archived_class}">
                         <article class="summary row">
                           <h2 class="case-title twelve columns">
-                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="">Archived</strong></tal:archived></a>
+                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="icon_archived">Archived</strong></tal:archived></a>
                           </h2>
                           <p class="description four columns">
                             ${case/description}
