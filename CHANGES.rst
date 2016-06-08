@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a5 (unreleased)
+1.1.0a5 (2016-06-08)
 --------------------
 
 * Merge pull request #320 from quaive/318_longkeysortreverse [Alexander Pilz]
