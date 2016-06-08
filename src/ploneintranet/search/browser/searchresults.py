@@ -200,28 +200,42 @@ class SearchResultsView(BrowserView):
         '''
         return bool(self.request.get('SearchableText_filtered'))
 
+    @property
+    @memoize
+    def supported_filters(self):
+        ''' The list of supported filters as defined in the registry
+        '''
+        return plone_api.portal.get_registry_record(
+            'ploneintranet.search.filter_fields'
+        )
+
     def get_filters(self):
         ''' Return the filters for this search
         '''
         form = self.request.form
-        filters = {
-            'tags': form.get('tags', []),
-            'friendly_type_name': form.get('friendly_type_name', [])
-        }
-
-        if not self.is_filtering():
-            return filters
-
-        # If we are here it means that the filters were changed,
-        # so we refine an existing search
-        supported_filters = plone_api.portal.get_registry_record(
-            'ploneintranet.search.filter_fields'
-        )
-        for key in supported_filters:
-            value = form.get(key)
+        filters = {}
+        for key in self.supported_filters:
+            value = form.get(key, '')
             if value:
                 filters[key] = safe_unicode(value)
         return filters
+
+    @memoize
+    def get_additional_facets(self):
+        ''' Returns additional facets as read from the registry
+        '''
+        record = get_record_from_registry(
+            'ploneintranet.search.ui.additional_facets',
+            {'tags': 'Tags'}
+        )
+        supported_filters = self.supported_filters
+
+        facets = [
+            {'id': key, 'label': record[key]}
+            for key in supported_filters
+            if key in record
+        ]
+        return facets
 
     @memoize
     def get_sorting(self):
@@ -246,6 +260,17 @@ class SearchResultsView(BrowserView):
 
         if sorting == 'date':
             return '-created'
+
+    def reset_button_pat_depends(self):
+        ''' Returm the pat_depends expression for the pat-depends
+        that displays the reset button
+        '''
+        inputs = ['friendly_type_name']
+        for facet in self.get_additional_facets():
+            inputs.append(facet['id'])
+        return 'condition: {condition}; transition: slide'.format(
+            condition=' or '.join(inputs)
+        )
 
     @memoize
     def search_response(self):
@@ -327,26 +352,25 @@ class SearchResultsView(BrowserView):
         return locale.strcoll(item1['title'].lower(), item2['title'].lower())
 
     @memoize
-    def tag_facets(self):
+    def get_facets(self, facet):
         ''' Return the tags for faceting search results
         '''
         response = self.search_response()
-        tags = response.facets.get('tags', [])
-        tags = [
+        items = [
             {
                 'id': getUtility(IIDNormalizer).normalize(t['name']),
                 'title': t['name'],
                 'counter': t['count'],
             }
-            for t in tags
+            for t in response.facets.get(facet, [])
         ]
         # BBB: I am commenting the following method
         # because we do not show the number of matching results per tags.
         # The order coming for the commented line will appear as disorder
         # to the user
         # tags.sort(key=lambda t: (-t['counter'], t['title'].lower()))
-        tags.sort(cmp=self.cmp_item_title)
-        return tags
+        items.sort(cmp=self.cmp_item_title)
+        return items
 
     @memoize
     def type_facets(self):
