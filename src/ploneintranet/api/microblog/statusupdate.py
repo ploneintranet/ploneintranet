@@ -87,7 +87,7 @@ def create(
         status_obj.id = long(delta.total_seconds() * 1e6)
         status_obj.date = DateTime(time)
         if time > UTC.localize(datetime.now()):
-            logger.warn("Creating future statusupdate %s", status_obj.id)
+            raise ValueError("Future statusupdates are an abomination")
 
     microblog = queryUtility(IMicroblogTool)
     microblog.add(status_obj)
