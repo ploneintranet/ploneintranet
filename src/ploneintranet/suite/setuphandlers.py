@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
-from DateTime import DateTime
 from datetime import timedelta
+from datetime import datetime
 from plone import api
 from plone.app.event.base import localized_now
 from plone.app.textfield.value import RichTextValue
@@ -10,7 +10,6 @@ from ploneintranet import api as pi_api
 from ploneintranet.docconv.client.decorators import force_synchronous_previews
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.migration import discuss_older_docs
-from ploneintranet.microblog.statusupdate import StatusUpdate
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
@@ -763,32 +762,21 @@ def create_stream(context, stream, files_dir):
     like_tool = getUtility(INetworkTool)
     microblog.clear()
     for status in stream:
-        kwargs = {}
         microblog_context = status['microblog_context']
         if microblog_context:
             if microblog_context not in contexts_cache:
                 contexts_cache[microblog_context] = api.content.get(
                     path='/' + decode(microblog_context).lstrip('/')
                 )
-            kwargs['microblog_context'] = contexts_cache[microblog_context]
-        status_obj = StatusUpdate(status['text'], **kwargs)
-        status_obj.userid = status['user']
-        status_obj.creator = api.user.get(
-            username=status['user']
-        ).getUserName()
+            m_context_obj = contexts_cache[microblog_context]
         offset_time = status['timestamp'] * 60
-        status_obj.id -= int(offset_time * 1e6)
-        status_obj.date = DateTime(time.time() - offset_time)
-        # THIS BREAKS BECAUSE docconv.client.async.queueConversionJob FIXME
-        # if 'attachment' in status:
-        #     _definition = status['attachment']
-        #     _filename = os.path.join(files_dir, _definition['filename'])
-        #     _data = context.readDataFile(_filename)
-        #     attachment_obj = create_attachment(_filename, _data)
-        #     attachments = IAttachmentStorage(status_obj)
-        #     attachments.add(attachment_obj)
-        microblog.add(status_obj)
-
+        _time = datetime.utcfromtimestamp(time.time() - abs(offset_time))
+        status_obj = pi_api.microblog.statusupdate.create(
+            text=status['text'],
+            microblog_context=m_context_obj,
+            userid=status['user'],
+            time=_time,
+        )  # stored by pi_api
         # like some status-updates
         if 'likes' in status:
             for user_id in status['likes']:

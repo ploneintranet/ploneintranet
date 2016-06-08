@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import pytz
 from DateTime import DateTime
 from datetime import datetime
@@ -6,6 +7,8 @@ from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.component import queryUtility
+
+logger = logging.getLogger(__name__)
 
 
 def get(status_id):
@@ -76,15 +79,15 @@ def create(
     # Passing a time (as a datetime-object) the id and the date can be set
     if time is not None:
         assert(isinstance(time, datetime))
-        epoch = datetime.utcfromtimestamp(0)
-        try:
-            delta = time - epoch
-        except TypeError:
-            # TypeError: can't subtract offset-naive and offset-aware datetimes
-            epoch_utc = pytz.timezone('UTC').localize(epoch)
-            delta = time - epoch_utc
+        UTC = pytz.timezone('UTC')
+        if not time.tzinfo:
+            time = UTC.localize(time)
+        epoch = UTC.localize(datetime.utcfromtimestamp(0))
+        delta = time - epoch
         status_obj.id = long(delta.total_seconds() * 1e6)
         status_obj.date = DateTime(time)
+        if time > UTC.localize(datetime.now()):
+            raise ValueError("Future statusupdates are an abomination")
 
     microblog = queryUtility(IMicroblogTool)
     microblog.add(status_obj)
