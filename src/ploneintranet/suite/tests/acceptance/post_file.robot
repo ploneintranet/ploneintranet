@@ -65,14 +65,14 @@ I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
 
 I create a new post
-    Input Text      css=#microblog textarea  Look at this new doc
+    Input Text      css=#post-box textarea  Look at this new doc
 
 I add a file
-    Click Element   css=#microblog input[name='form.widgets.attachments']
-    Choose File     css=#microblog input[name='form.widgets.attachments']    ${UPLOADS}/basic.txt
+    Click Element   css=#post-box input[name='form.widgets.attachments']
+    Choose File     css=#post-box input[name='form.widgets.attachments']    ${UPLOADS}/basic.txt
 
 I can see the file preview in the post box
-    Wait Until Element Is visible   css=#microblog #post-box-attachment-previews img    timeout=60
+    Wait Until Element Is visible   css=#post-box #post-box-attachment-previews img    timeout=60
 
 I submit the new post
     Click Element  css=button[name='form.buttons.statusupdate']
@@ -86,11 +86,11 @@ I can open the file from the stream preview
    Wait until page contains  Proin at congue nisl
 
 I add a UTF-8 file
-    Click Element   css=#microblog input[name='form.widgets.attachments']
-    Choose File     css=#microblog input[name='form.widgets.attachments']    ${UPLOADS}/bärtige_flößer.odt
+    Click Element   css=#post-box input[name='form.widgets.attachments']
+    Choose File     css=#post-box input[name='form.widgets.attachments']    ${UPLOADS}/bärtige_flößer.odt
 
 I can see the UTF-8 file preview in the post box
-    Wait Until Element Is visible   css=#microblog #post-box-attachment-previews img    timeout=60
+    Wait Until Element Is visible   css=#post-box #post-box-attachment-previews img    timeout=60
 
 I can see the UTF-8 file preview in the stream
     Wait Until Element Is visible   css=#activity-stream .document-preview img[src$='/bärtige_flößer.odt/small']
