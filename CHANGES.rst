@@ -4,7 +4,36 @@ Changelog
 1.1.0a5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Merge pull request #320 from quaive/318_longkeysortreverse [Alexander Pilz]
+* Future statusupdates are an abomination. Especially since they only happened because of a double negative (- -) developer mistake. [Guido A.J. Stevens]
+* Log warning when creating future statusupdate [Guido A.J. Stevens]
+* Use optimized longkeysortreverse for typical stream autoexpand [Guido A.J. Stevens]
+* Refactor longkeysortreverse fixes #318 refs #316 - Do not hide future statusupdates - Avoid off-by-one error on autochunk boundaries [Guido A.J. Stevens]
+* Longkeysortreverse fixing WIP [Guido A.J. Stevens]
+* Merge pull request #323 from quaive/i18n_label_changed_CM [Wolfgang Thomas]
+* changed i18n label for archived cases to fit other implementations [Angela Steinhardt]
+* Merge pull request #321 from quaive/dashboard-markup [Wolfgang Thomas]
+* Tests updated to the new markup [ale-rt]
+* Merge pull request #319 from quaive/facet-filters-configurable [Alexander Pilz]
+* Fix the pat-depends data attribute to handle configurable facets [ale-rt]
+* Added an upgrade step to reread the registry [ale-rt]
+* Facets filters are now configurable [ale-rt]
+* Make dashboard markup compliant with prototype [ale-rt]
+* Merge pull request #322 from quaive/task-checkbox-permissions [Alessandro Pisa]
+* Fix flaky selector in robot Since we have a new input field, use the input field's name rather than counting... [Wolfgang Thomas]
+* Merge pull request #303 from quaive/testcontent_contentstream [Wolfgang Thomas]
+* Following #288 we have the situation that tasks can appear in the sidebar as checked, but disabled, i.e. status "done" without the user having the permission to edit them. A disabled checkbox, even if checked, is not present in the request. This messes up the handler for the checkboxes in the sidebar. Therefore, we need to track via "hidden" input fields which tasks are really checked and also which tasks have just been unchecked. [Wolfgang Thomas]
+* Merge pull request #317 from quaive/frozen-date-i18n [Alessandro Pisa]
+* Merge pull request #316 from quaive/microblog_migration_security [Alessandro Pisa]
+* Use localized date for the Frozen overlay [Cillian de Róiste]
+* Add comment to document accessor issue in migration [Guido A.J. Stevens]
+* Other microblog migrations appear to be unaffected by accessor filters [Guido A.J. Stevens]
+* Fix document discussion migration security [Guido A.J. Stevens]
+* Merge pull request #315 from quaive/translations_frozen_case [Alessandro Pisa]
+* Merge pull request #314 from quaive/release-1.1.x [Alessandro Pisa]
+* added last translations for frozen cases [Angela Steinhardt]
+* Back to development: 1.1.0a5 [Alexander Pilz]
+* Avoid async issues by adding content updates on testcontent via migration handler [Guido A.J. Stevens]
 
 
 1.1.0a4 (2016-06-06)
