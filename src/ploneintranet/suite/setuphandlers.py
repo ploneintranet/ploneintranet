@@ -23,6 +23,7 @@ import logging
 import loremipsum
 import os
 import random
+import re
 import time
 
 log = logging.getLogger(__name__)
@@ -757,10 +758,14 @@ def create_library_content(parent,
 
 
 def create_stream(context, stream, files_dir):
+    hashtags = re.compile('#(\S+)')
+    atmentions = re.compile('@(\S+)')
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
     like_tool = getUtility(INetworkTool)
     microblog.clear()
+    _orig_async = microblog.ASYNC
+    microblog.ASYNC = False
     for status in stream:
         microblog_context = status['microblog_context']
         if microblog_context:
@@ -774,6 +779,8 @@ def create_stream(context, stream, files_dir):
         status_obj = pi_api.microblog.statusupdate.create(
             text=status['text'],
             microblog_context=m_context_obj,
+            mention_ids=atmentions.findall(status['text']),
+            tags=hashtags.findall(status['text']),
             userid=status['user'],
             time=_time,
         )  # stored by pi_api
@@ -784,8 +791,8 @@ def create_stream(context, stream, files_dir):
                     "update",
                     user_id=user_id,
                     item_id=str(status_obj.id),
-
                 )
+    microblog.ASYNC = _orig_async
 
 
 def decode(value):
