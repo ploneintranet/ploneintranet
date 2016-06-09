@@ -47,6 +47,9 @@ Maneuver to
     Go to homepage
     Click link  jquery=a:contains("${title}")
 
+I can reload the page
+    Reload Page
+
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
 

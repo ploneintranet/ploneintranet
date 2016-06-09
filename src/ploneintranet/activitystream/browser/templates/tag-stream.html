@@ -21,15 +21,18 @@
     <h1>
       <em class="tag">#${view/tag}</em>
     </h1>
-    <!--form action="/tag-stream-following.html#follow-function"
+    <form action="${view/url}#follow-function"
+          method="post"
           class="pat-inject">
       <fieldset id="follow-function">
-	<button class="pat-button icon-eye" title="Click to follow this tag."><strong>Follow</strong> this tag</button>
+	<button tal:condition="not:view/following" class="pat-button icon-eye" title="Click to follow this tag."><strong>Follow</strong> this tag</button>
+	<button tal:condition="view/following" class="pat-button icon-eye active" title="You are following #{view/tag}. Click to unfollow">Following</button>
       </fieldset>
-    </form-->
+    </form>
   </article>
   
-  <div class="activity-stream" id="activity-stream">	
+  <div class="activity-stream" id="activity-stream"
+       tal:condition="view/show_stream">	
     <div class="activities" id="posts-batch">
       <tal:loop
          tal:repeat="post_view view/post_views"
@@ -37,7 +40,7 @@
          />
 
       <a tal:condition="not:view/stop_asking"
-         href="${view/context/absolute_url}/@@tagstream/${view/tag}?last_seen=${view/last_seen}"
+         href="${view/url}?last_seen=${view/last_seen}"
          class="pat-inject infinite-scrolling-trigger"
          data-pat-inject="trigger: autoload-visible; source: #posts-batch; target: self::element">Loading more posts…</a>
     </div>

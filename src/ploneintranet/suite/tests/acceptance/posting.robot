@@ -308,6 +308,24 @@ Tagged content status updates link to the tagstream
     Then I click the tag link  ${TAG3}
     And the stream links to the document     My created document
 
+Neil can follow and unfollow tags from the tagstream
+    Given I am logged in as the user neil_wichmann
+    when I open the Dashboard
+    and I write a status update    ${MESSAGE1}
+    and I can add a tag    ${TAG1}
+    and I submit the status update
+    and The message is visible as new status update and includes the tag    ${MESSAGE1}  ${TAG1}
+    and I click the tag link  ${TAG1}
+    and I am not following the tag
+    when I can toggle following the tag
+    then I am following the tag
+    and I can reload the page
+    and I am following the tag
+    when I can toggle following the tag
+    then I am not following the tag
+    and I can reload the page
+    and I am not following the tag
+
 *** Keywords ***
 
 The message is visible as new status update
@@ -445,4 +463,15 @@ The stream links to the document
 
 The stream does not link to the document
     [arguments]  ${text}
-    Page should not contain       link=${text}    
+    Page should not contain       link=${text}
+
+I can toggle following the tag
+    Click Element  css=#follow-function button
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I am following the tag
+    Page Should Contain Element  css=#follow-function button.active
+
+I am not following the tag
+    Page Should Not Contain Element  css=#follow-function button.active
+

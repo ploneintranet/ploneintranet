@@ -6,7 +6,9 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
+from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 import logging
@@ -196,3 +198,33 @@ class TagStream(StreamBase, BrowserView):
         request['TraversalRequestNameStack'] = []
         # return self so the publisher calls this view
         return self
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.handle_action()
+        return super(TagStream, self).__call__()
+
+    def handle_action(self):
+        g = queryUtility(INetworkGraph)
+        userid = api.user.get_current().id
+        if g.is_followed('tag', self.tag, userid):
+            g.unfollow('tag', self.tag, userid)
+        else:
+            g.follow('tag', self.tag, userid)
+
+    @property
+    def show_stream(self):
+        """Optimize by not rendering stream on POST"""
+        return self.request.method == 'GET'
+
+    @property
+    def following(self):
+        g = queryUtility(INetworkGraph)
+        userid = api.user.get_current().id
+        return g.is_followed('tag', self.tag, userid)
+
+    @property
+    def url(self):
+        return "{}/@@tagstream/{}".format(
+            self.context.absolute_url(), self.tag
+        )
