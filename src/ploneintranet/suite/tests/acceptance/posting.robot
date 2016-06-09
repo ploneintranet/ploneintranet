@@ -121,7 +121,6 @@ Esmeralda can reply to a reply
      And Both replies are visible    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
     and Both replies are visible after a reload    ${MESSAGE1}    ${MESSAGE3}    ${MESSAGE2}
 
-
 Alice can delete modify status reply of herself
     Given I am logged in as the user alice_lindstrom
     when I open the Dashboard
@@ -162,7 +161,6 @@ Allan cannot edit or delete modify status reply of others
     I am logged in as the user alice_lindstrom
     I open the dashboard
     I delete the status update    ${MESSAGE1}
-
 
 Alice can edit modify status reply of herself
     Given I am logged in as the user alice_lindstrom
@@ -247,20 +245,6 @@ Neil can tag a post by searching for a tag
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG1}
     then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
 
-Neil can view tagged posts
-    Given I am logged in as the user neil_wichmann
-    when I open the Dashboard
-    and I write a status update    ${MESSAGE1}
-    and I can add a tag    ${TAG1}
-    and I submit the status update
-    and I write a status update    ${MESSAGE2}
-    and I can add a tag    ${TAG2}
-    and I submit the status update
-    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
-    when I click the tag link  ${TAG2}
-    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
-    and The message is not visible  ${MESSAGE1}
-    
 Creating a page creates a statusupdate
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
@@ -296,182 +280,5 @@ Content status updates respect document security
     And I open the Dashboard
     Then the stream does not link to the document       My created document
 
-Tagged content status updates link to the tagstream
-    Given I am in a workspace as a workspace admin
-    And I can create a new document    My created document
-    And I tag the item  ${TAG3}
-    And I save the document
-    Comment  We can only tag after creation has already fired. Fire publication.
-    When I can publish the content item
-    And I open the Dashboard
-    And the stream links to the document     My created document
-    Then I click the tag link  ${TAG3}
-    And the stream links to the document     My created document
-
-Neil can follow and unfollow tags from the tagstream
-    Given I am logged in as the user neil_wichmann
-    when I open the Dashboard
-    and I write a status update    ${MESSAGE1}
-    and I can add a tag    ${TAG1}
-    and I submit the status update
-    and The message is visible as new status update and includes the tag    ${MESSAGE1}  ${TAG1}
-    and I click the tag link  ${TAG1}
-    and I am not following the tag
-    when I can toggle following the tag
-    then I am following the tag
-    and I can reload the page
-    and I am following the tag
-    when I can toggle following the tag
-    then I am not following the tag
-    and I can reload the page
-    and I am not following the tag
-
 *** Keywords ***
-
-The message is visible as new status update
-    [arguments]  ${message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-
-The reply is visible
-    [arguments]  ${message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='comment-content']//p[contains(text(), '${message}')][1]
-
-The message is not visible
-    [arguments]  ${message}
-    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-
-The message is visible as new status update that mentions the user
-    [arguments]  ${message}  ${username}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '@${username}')][1]
-
-The message is visible as new status update and includes the tag
-    [arguments]  ${message}  ${tag}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '#${tag}')][1]
-
-I click the tag link
-    [arguments]  ${tag}
-    Click Link  \#${tag}
-
-The status update only appears once
-    [arguments]  ${message}
-    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
-    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][2]
-
-The message is visible after a reload
-    [arguments]  ${message}
-    ${location} =  Get Location
-    Go to    ${location}
-    The message is visible as new status update    ${message}
-
-I post a reply on a status update
-    [arguments]  ${message}  ${reply_message}
-    Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
-    Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
-    Click button  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
-
-The reply is visible as a comment
-    [arguments]  ${message}  ${reply_message}
-    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]//..//..//..//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${reply_message}')]
-
-The reply is not visible
-    [arguments]  ${message}
-    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${message}')]
-
-The reply is visible after a reload
-    [arguments]  ${message}  ${reply_message}
-    ${location} =  Get Location
-    Go to    ${location}
-    The reply is visible as a comment  ${message}  ${reply_message}
-
-Both replies are visible
-    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
-    The reply is visible as a comment  ${message}  ${reply_message1}
-    The reply is visible as a comment  ${message}  ${reply_message2}
-
-Both replies are visible after a reload
-    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
-    ${location} =  Get Location
-    Go to    ${location}
-    The reply is visible as a comment  ${message}  ${reply_message1}
-    The reply is visible as a comment  ${message}  ${reply_message2}
-
-I can add a tag
-    [arguments]  ${tag}
-    Click link    link=Add tags
-    Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click element    css=input[name=tagsearch]
-    Input text    css=input[name=tagsearch]  ${tag}
-    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
-    Wait until page does not contain element  xpath=//form[@id='postbox-tags' and contains(@class, 'injecting-content')]
-    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag}')][1]
-    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]
-    Click element    css=textarea.pat-content-mirror
-
-I can add a tag and search for a tag
-    [arguments]  ${tag1}  ${tag2}
-    Click link    link=Add tags
-    Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
-    Click element    css=input[name=tagsearch]
-    Input text    css=input[name=tagsearch]  ${tag1}
-    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag1}')][1]
-    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag1}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag1}')][1]
-    Click element    css=input[name=tagsearch]
-    Input text    css=input[name=tagsearch]  ${tag2}
-    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
-    Wait until page does not contain element  xpath=//form[@id='postbox-tags' and contains(@class, 'injecting-content')]
-    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]
-    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag2}')][1]
-    Click element    css=textarea.pat-content-mirror
-
-I can mention a user and search for a user
-    [arguments]  ${username1}  ${username2}
-    Click link    link=Mention people
-    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
-    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username1}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username1}')][1]
-    Click element    css=input[name=usersearch]
-    Input text    css=input[name=usersearch]  ${username2}
-    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
-    Wait until page does not contain element  xpath=//form[@id='postbox-users' and contains(@class, 'injecting-content')]
-    Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]
-    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(),'${username2}')][1]
-    Click element    css=textarea.pat-content-mirror
-
-The content stream is visible
-    Wait until element is visible       css=#comments-document-comments
-
-I save the document
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click button  Close
-    Wait until page does not contain  Your changes have been saved
-
-The stream contains
-    [arguments]    ${text}
-    Wait until page contains    ${text}
-
-The stream links to the document
-    [arguments]  ${text}
-    Wait until page contains element       link=${text}
-
-The stream does not link to the document
-    [arguments]  ${text}
-    Page should not contain       link=${text}
-
-I can toggle following the tag
-    Click Element  css=#follow-function button
-    Wait Until Page Does Not Contain Element  css=.injecting-content
-
-I am following the tag
-    Page Should Contain Element  css=#follow-function button.active
-
-I am not following the tag
-    Page Should Not Contain Element  css=#follow-function button.active
 

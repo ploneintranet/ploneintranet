@@ -18,13 +18,14 @@ Allan can view the stream
     when I open the Dashboard
     then I can see updates by  Christian Stoney
 
-Allan can filter the stream on only people he is following
+Allan can open his filter stream and see only people he is following
     Given I am logged in as the user allan_neece
     when I open the Dashboard
     and I filter the stream as  network
     then I cannot see updates by  Christian Stoney
+    and I can see updates by  Jorge Primavera
 
-Allan can filter the stream and switch back to show all again
+Allan can open his filter stream and switch back to show all again
     Given I am logged in as the user allan_neece
     and I open the Dashboard
     and I filter the stream as  network
@@ -32,17 +33,64 @@ Allan can filter the stream and switch back to show all again
     when I filter the stream as  all
     then I can see updates by  Christian Stoney
 
+Allan can add a user to his filter stream and remove him again
+    Given I am logged in as the user allan_neece
+    and I open the Dashboard
+    and I can follow the profile link for user  Christian Stoney
+    when I can toggle following the user
+    and I open the Dashboard
+    and I filter the stream as  network
+    then I can see updates by  Christian Stoney
+    when I can follow the profile link for user  Christian Stoney
+    and I can toggle following the user
+    and I open the Dashboard
+    and I filter the stream as  network
+    then I cannot see updates by  Christian Stoney
+
+Neil can view the tag stream
+    Given I am logged in as the user neil_wichmann
+    when I open the Dashboard
+    and I write a status update    ${MESSAGE1}
+    and I can add a tag    ${TAG1}
+    and I submit the status update
+    and I write a status update    ${MESSAGE2}
+    and I can add a tag    ${TAG2}
+    and I submit the status update
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
+    when I click the tag link  ${TAG2}
+    then The message is visible as new status update and includes the tag    ${MESSAGE2}  ${TAG2}
+    and The message is not visible  ${MESSAGE1}
+
+Tagged content status updates link to the tagstream
+    Given I am in a workspace as a workspace admin
+    And I can create a new document    My created document
+    And I tag the item  ${TAG3}
+    And I save the document
+    Comment  We can only tag after creation has already fired. Fire publication.
+    When I can publish the content item
+    And I open the Dashboard
+    And the stream links to the document     My created document
+    Then I click the tag link  ${TAG3}
+    And the stream links to the document     My created document
+
+Neil can follow and unfollow tags from the tagstream
+    Given I am logged in as the user neil_wichmann
+    when I open the Dashboard
+    and I write a status update    ${MESSAGE1}
+    and I can add a tag    ${TAG1}
+    and I submit the status update
+    and The message is visible as new status update and includes the tag    ${MESSAGE1}  ${TAG1}
+    and I click the tag link  ${TAG1}
+    and I am not following the tag
+    when I can toggle following the tag
+    then I am following the tag
+    and I can reload the page
+    and I am following the tag
+    when I can toggle following the tag
+    then I am not following the tag
+    and I can reload the page
+    and I am not following the tag
+
+
 *** Keywords ***
 
-I can see updates by
-    [arguments]  ${user_fullname}
-    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
-
-I cannot see updates by
-    [arguments]  ${user_fullname}
-    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
-
-I filter the stream as
-    [arguments]  ${stream_filter}
-    Click element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}']
-    Wait until page contains element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}'][@selected='selected']
