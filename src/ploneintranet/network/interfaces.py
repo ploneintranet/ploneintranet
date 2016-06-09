@@ -9,42 +9,49 @@ class INetworkGraph(Interface):
 
     All references are string ids.
 
+    Every method that has a user_id=None fallback, will fall back
+    to the id of the currently logged in user if no user_id is given.
+
     Return values are BTrees.OOBTree.OOTreeSet iterables.
     """
 
     # follow API
 
-    def follow(item_type, item_id, user_id):
+    def follow(item_type, item_id, user_id=None):
         """User <user_id> subscribes to <item_type> <item_id>"""
 
-    def unfollow(item_type, item_id, user_id):
+    def unfollow(item_type, item_id, user_id=None):
         """User <user_id> unsubscribes from <item_type> <item_id>"""
 
-    def get_following(item_type, user_id):
+    def get_following(item_type, user_id=None):
         """List all <item_type> that <user_id> subscribes to"""
 
     def get_followers(item_type, item_id):
         """List all users that subscribe to <item_type> <item_id>"""
 
-    def is_followed(item_type, item_id, user_id):
+    def is_followed(item_type, item_id, user_id=None):
         """Does <user_id> follow <item_type> <item_id>?"""
+
+    id_following = is_followed
 
     # like API
 
-    def like(item_type, item_id, user_id):
+    def like(item_type, item_id, user_id=None):
         """User <user_id> likes <item_type> <item_id>"""
 
-    def unlike(item_type, item_id, user_id):
+    def unlike(item_type, item_id, user_id=None):
         """User <user_id> unlikes <item_type> <item_id>"""
 
-    def get_likes(item_type, user_id):
+    def get_likes(item_type, user_id=None):
         """List all <item_type> liked by <user_id>"""
 
     def get_likers(item_type, item_id):
         """List all userids liking <item_type> <item_id>"""
 
-    def is_liked(item_type, item_id, user_id):
+    def is_liked(item_type, item_id, user_id=None):
         """Does <user_id> like <item_type> <item_id>?"""
+
+    is_liking = is_liked
 
     # tags API
 
