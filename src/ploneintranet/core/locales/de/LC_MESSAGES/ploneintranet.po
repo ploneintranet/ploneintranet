@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-06-06 21:17+0000\n"
+"POT-Creation-Date: 2016-06-09 10:27+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -25,6 +25,10 @@ msgstr ""
 #: ../activitystream/browser/templates/content-share.html:23
 msgid "${action_verb} this item"
 msgstr "${action_verb} dieses Objekt"
+
+#: ../search/browser/templates/all_results.pt:77
+msgid "${facet/label}"
+msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
 msgid "${results} items matched your search."
@@ -128,7 +132,7 @@ msgid "Admin-Managed"
 msgstr "Verwaltet durch einen Administrator"
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:519
+#: ../workspace/browser/tiles/templates/sidebar.pt:522
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -238,13 +242,13 @@ msgstr ""
 
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
-#: ../microblog/browser/templates/update-social.html:104
+#: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file"
 msgstr "Datei hinzufügen"
 
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
-#: ../microblog/browser/templates/update-social.html:104
+#: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file (or create a picture)"
 msgstr "Füge eine Datei hinzu (oder erstelle ein Bild)"
 
@@ -296,7 +300,7 @@ msgid "Can't download, no items found."
 msgstr "Herunterladen nicht möglich, es wurden keine Objekte gefunden."
 
 #: ../messaging/browser/send-message.pt:63
-#: ../microblog/browser/templates/update-social.html:137
+#: ../microblog/browser/templates/update-social.html:136
 #: ../workspace/basecontent/document.py:77
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -339,7 +343,7 @@ msgstr "Workflow status ändern"
 msgid "Changes applied"
 msgstr "Änderungen gespeichert"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:381
+#: ../workspace/browser/tiles/templates/sidebar.pt:384
 msgid "Close milestone"
 msgstr "Meilenstein schließen"
 
@@ -434,7 +438,7 @@ msgstr "Datum"
 msgid "Date and time of the latest modification"
 msgstr "Zuletzt bearbeitet"
 
-#: ../search/browser/templates/all_results.pt:56
+#: ../search/browser/templates/all_results.pt:55
 msgid "Date range"
 msgstr "Zeitraum"
 
@@ -502,11 +506,11 @@ msgstr "Beschreibung für die Suchergebnisse (optional)"
 msgid "Deslect all"
 msgstr "Alles abwählen"
 
-#: ../search/browser/templates/all_results.pt:140
+#: ../search/browser/templates/all_results.pt:136
 msgid "Did you mean"
 msgstr "Meinten Sie"
 
-#: ../search/browser/templates/all_results.pt:121
+#: ../search/browser/templates/all_results.pt:117
 msgid "Display previews"
 msgstr "Vorschau anzeigen"
 
@@ -523,7 +527,7 @@ msgstr ""
 msgid "Document title"
 msgstr "Titel des Dokuments"
 
-#: ../search/browser/templates/all_results.pt:43
+#: ../search/browser/templates/all_results.pt:42
 msgid "Document types"
 msgstr "Inhaltstypen"
 
@@ -736,7 +740,7 @@ msgstr "Liste aller Personen, denen ${name_of_followee} folgt"
 msgid "Functions"
 msgstr "Funktionen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:505
+#: ../workspace/browser/tiles/templates/sidebar.pt:508
 msgid "General"
 msgstr "Allgemein"
 
@@ -962,7 +966,7 @@ msgstr "Like"
 msgid "Link"
 msgstr "Link"
 
-#: ../search/browser/templates/all_results.pt:262
+#: ../search/browser/templates/all_results.pt:258
 msgid "Loading more search results&hellip;"
 msgstr "Weitere Suchergebnisse laden&hellip;"
 
@@ -985,6 +989,16 @@ msgstr "Abmelden"
 msgid "Low"
 msgstr "Niedrig"
 
+msgid "Make open"
+msgstr "Offen schalten"
+
+# change security settings on a generic workspace
+msgid "Make private"
+msgstr "Privat schalten"
+
+msgid "Make secret"
+msgstr "Geheim schalten"
+
 #: ../todo/portlets/latest.pt:34
 msgid "Mark read"
 msgstr "Als gelesen markieren"
@@ -1006,7 +1020,7 @@ msgid "Member(s) removed"
 msgstr "Benutzer entfernt"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:509
+#: ../workspace/browser/tiles/templates/sidebar.pt:512
 msgid "Members"
 msgstr "Benutzer"
 
@@ -1111,7 +1125,7 @@ msgstr ""
 
 #: ../messaging/browser/send-message.pt:42
 #: ../messaging/browser/your-inbox.pt:130
-#: ../microblog/browser/templates/update-social.html:105
+#: ../microblog/browser/templates/update-social.html:104
 msgid "No attachments selected."
 msgstr "Keine Anhänge gewählt"
 
@@ -1201,7 +1215,7 @@ msgstr "Ok"
 msgid "Older"
 msgstr "Ältere Objekte"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:487
+#: ../workspace/browser/tiles/templates/sidebar.pt:490
 msgid "Older events"
 msgstr "Ältere Termine"
 
@@ -1227,7 +1241,7 @@ msgstr "Offene Gesellschaft"
 msgid "Open in External Editor"
 msgstr "In externem Editor öffnen"
 
-#: ../search/browser/templates/all_results.pt:104
+#: ../search/browser/templates/all_results.pt:100
 msgid "Options"
 msgstr "Optionen"
 
@@ -1430,11 +1444,11 @@ msgstr "Sonder-Rolle entfernen"
 msgid "Reopen"
 msgstr "Wiedereröffnen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:384
+#: ../workspace/browser/tiles/templates/sidebar.pt:387
 msgid "Reopen milestone"
 msgstr "Meilenstein erneut öffnen"
 
-#: ../search/browser/templates/all_results.pt:35
+#: ../search/browser/templates/all_results.pt:34
 msgid "Reset filters"
 msgstr "Filter zurücksetzen"
 
@@ -1490,7 +1504,7 @@ msgstr "durchsuchen"
 msgid "Secret"
 msgstr "Verborgen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:514
+#: ../workspace/browser/tiles/templates/sidebar.pt:517
 msgid "Security"
 msgstr "Sicherheit"
 
@@ -1576,11 +1590,11 @@ msgstr "Etwas Kontext"
 msgid "Some items have been sent to you."
 msgstr "Einige Objekte wurden an Sie verschickt."
 
-#: ../search/browser/templates/all_results.pt:133
+#: ../search/browser/templates/all_results.pt:129
 msgid "Sort by date"
 msgstr "Nach Datum sortieren"
 
-#: ../search/browser/templates/all_results.pt:128
+#: ../search/browser/templates/all_results.pt:124
 msgid "Sort by relevancy"
 msgstr "Nach Relevanz sortieren"
 
@@ -1604,15 +1618,11 @@ msgstr "Status"
 msgid "Status updates by ${fullname}:"
 msgstr "Statusänderung von ${fullname}:"
 
-#: ../search/browser/templates/all_results.pt:76
-msgid "Tags"
-msgstr "Schlagworte"
-
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
 msgstr "Cockpit-Ansicht"
 
-#: ../todo/utils.py:32
+#: ../todo/utils.py:51
 msgid "Task state changed"
 msgstr "Aufgabenstatus geändert"
 
@@ -1867,7 +1877,7 @@ msgstr "Token nicht länger gültig."
 msgid "Transfer members to another workspace."
 msgstr "Mitglieder zu anderem Arbeitsraum übertragen."
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:400
+#: ../workspace/browser/tiles/templates/sidebar.pt:403
 msgid "Unassigned"
 msgstr "Nicht zugewiesen"
 
@@ -1917,7 +1927,7 @@ msgid "Until"
 msgstr "Bis"
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:433
+#: ../workspace/browser/tiles/templates/sidebar.pt:436
 msgid "Upcoming events"
 msgstr "Anstehende Termine"
 
@@ -2174,7 +2184,7 @@ msgstr "Schließen"
 #. Default: "Post"
 #: ../messaging/browser/send-message.pt:58
 #: ../messaging/browser/your-inbox.pt:140
-#: ../microblog/browser/templates/update-social.html:131
+#: ../microblog/browser/templates/update-social.html:130
 msgid "button_post"
 msgstr "Abschicken"
 
@@ -2371,7 +2381,8 @@ msgstr ""
 
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
-#: ../search/browser/templates/all_results.pt:164
+#: ../search/browser/templates/all_results.pt:160
+#: ../workspace/browser/templates/case_manager.pt:96
 msgid "icon_archived"
 msgstr "Archiviert"
 
@@ -2419,7 +2430,7 @@ msgstr "Wenn diese URL geklickt wird, wird automatisch ein Benutzerkonto angeleg
 msgid "invititations"
 msgstr "Einladungen"
 
-#: ../search/browser/templates/all_results.pt:101
+#: ../search/browser/templates/all_results.pt:97
 #: ../search/browser/templates/image_results.pt:14
 #: ../search/browser/templates/people_results.pt:14
 msgid "items matched your search."
@@ -2467,12 +2478,12 @@ msgid "label_copyrights"
 msgstr ""
 
 #. Default: "Created after…"
-#: ../search/browser/templates/all_results.pt:58
+#: ../search/browser/templates/all_results.pt:57
 msgid "label_created_after"
 msgstr "Erstellt nach…"
 
 #. Default: "Created before…"
-#: ../search/browser/templates/all_results.pt:66
+#: ../search/browser/templates/all_results.pt:65
 msgid "label_created_before"
 msgstr "Erstellt vor…"
 
@@ -2537,7 +2548,7 @@ msgid "label_news"
 msgstr "Neuigkeiten"
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:496
+#: ../workspace/browser/tiles/templates/sidebar.pt:499
 msgid "label_no_events_available"
 msgstr "Keine Termine verfügbar"
 

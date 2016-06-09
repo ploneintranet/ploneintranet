@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-06 21:17+0000\n"
+"POT-Creation-Date: 2016-06-09 10:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,10 @@ msgstr ""
 
 #: ../activitystream/browser/templates/content-share.html:23
 msgid "${action_verb} this item"
+msgstr ""
+
+#: ../search/browser/templates/all_results.pt:77
+msgid "${facet/label}"
 msgstr ""
 
 #: ../search/browser/templates/file_results.pt:14
@@ -127,7 +131,7 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:519
+#: ../workspace/browser/tiles/templates/sidebar.pt:522
 msgid "Advanced"
 msgstr ""
 
@@ -237,13 +241,13 @@ msgstr ""
 
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
-#: ../microblog/browser/templates/update-social.html:104
+#: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file"
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
-#: ../microblog/browser/templates/update-social.html:104
+#: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file (or create a picture)"
 msgstr ""
 
@@ -295,7 +299,7 @@ msgid "Can't download, no items found."
 msgstr ""
 
 #: ../messaging/browser/send-message.pt:63
-#: ../microblog/browser/templates/update-social.html:137
+#: ../microblog/browser/templates/update-social.html:136
 #: ../workspace/basecontent/document.py:77
 msgid "Cancel"
 msgstr ""
@@ -338,7 +342,7 @@ msgstr ""
 msgid "Changes applied"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:381
+#: ../workspace/browser/tiles/templates/sidebar.pt:384
 msgid "Close milestone"
 msgstr ""
 
@@ -433,7 +437,7 @@ msgstr ""
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:56
+#: ../search/browser/templates/all_results.pt:55
 msgid "Date range"
 msgstr ""
 
@@ -501,11 +505,11 @@ msgstr ""
 msgid "Deslect all"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:140
+#: ../search/browser/templates/all_results.pt:136
 msgid "Did you mean"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:121
+#: ../search/browser/templates/all_results.pt:117
 msgid "Display previews"
 msgstr ""
 
@@ -522,7 +526,7 @@ msgstr ""
 msgid "Document title"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:43
+#: ../search/browser/templates/all_results.pt:42
 msgid "Document types"
 msgstr ""
 
@@ -735,7 +739,7 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:505
+#: ../workspace/browser/tiles/templates/sidebar.pt:508
 msgid "General"
 msgstr ""
 
@@ -961,7 +965,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:262
+#: ../search/browser/templates/all_results.pt:258
 msgid "Loading more search results&hellip;"
 msgstr ""
 
@@ -982,6 +986,16 @@ msgstr ""
 
 #: ../todo/vocabularies.py:7
 msgid "Low"
+msgstr ""
+
+msgid "Make open"
+msgstr ""
+
+# change security settings on a generic workspace
+msgid "Make private"
+msgstr ""
+
+msgid "Make secret"
 msgstr ""
 
 #: ../todo/portlets/latest.pt:34
@@ -1005,7 +1019,7 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:509
+#: ../workspace/browser/tiles/templates/sidebar.pt:512
 msgid "Members"
 msgstr ""
 
@@ -1110,7 +1124,7 @@ msgstr ""
 
 #: ../messaging/browser/send-message.pt:42
 #: ../messaging/browser/your-inbox.pt:130
-#: ../microblog/browser/templates/update-social.html:105
+#: ../microblog/browser/templates/update-social.html:104
 msgid "No attachments selected."
 msgstr ""
 
@@ -1200,7 +1214,7 @@ msgstr ""
 msgid "Older"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:487
+#: ../workspace/browser/tiles/templates/sidebar.pt:490
 msgid "Older events"
 msgstr ""
 
@@ -1226,7 +1240,7 @@ msgstr ""
 msgid "Open in External Editor"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:104
+#: ../search/browser/templates/all_results.pt:100
 msgid "Options"
 msgstr ""
 
@@ -1429,11 +1443,11 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:384
+#: ../workspace/browser/tiles/templates/sidebar.pt:387
 msgid "Reopen milestone"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:35
+#: ../search/browser/templates/all_results.pt:34
 msgid "Reset filters"
 msgstr ""
 
@@ -1489,7 +1503,7 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:514
+#: ../workspace/browser/tiles/templates/sidebar.pt:517
 msgid "Security"
 msgstr ""
 
@@ -1575,11 +1589,11 @@ msgstr ""
 msgid "Some items have been sent to you."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:133
+#: ../search/browser/templates/all_results.pt:129
 msgid "Sort by date"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:128
+#: ../search/browser/templates/all_results.pt:124
 msgid "Sort by relevancy"
 msgstr ""
 
@@ -1603,15 +1617,11 @@ msgstr ""
 msgid "Status updates by ${fullname}:"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:76
-msgid "Tags"
-msgstr ""
-
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
 msgstr ""
 
-#: ../todo/utils.py:32
+#: ../todo/utils.py:51
 msgid "Task state changed"
 msgstr ""
 
@@ -1866,7 +1876,7 @@ msgstr ""
 msgid "Transfer members to another workspace."
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:400
+#: ../workspace/browser/tiles/templates/sidebar.pt:403
 msgid "Unassigned"
 msgstr ""
 
@@ -1916,7 +1926,7 @@ msgid "Until"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:433
+#: ../workspace/browser/tiles/templates/sidebar.pt:436
 msgid "Upcoming events"
 msgstr ""
 
@@ -2172,7 +2182,7 @@ msgstr ""
 #. Default: "Post"
 #: ../messaging/browser/send-message.pt:58
 #: ../messaging/browser/your-inbox.pt:140
-#: ../microblog/browser/templates/update-social.html:131
+#: ../microblog/browser/templates/update-social.html:130
 msgid "button_post"
 msgstr ""
 
@@ -2354,7 +2364,8 @@ msgstr ""
 
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
-#: ../search/browser/templates/all_results.pt:164
+#: ../search/browser/templates/all_results.pt:160
+#: ../workspace/browser/templates/case_manager.pt:96
 msgid "icon_archived"
 msgstr ""
 
@@ -2398,7 +2409,7 @@ msgstr ""
 msgid "invititations"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:101
+#: ../search/browser/templates/all_results.pt:97
 #: ../search/browser/templates/image_results.pt:14
 #: ../search/browser/templates/people_results.pt:14
 msgid "items matched your search."
@@ -2446,12 +2457,12 @@ msgid "label_copyrights"
 msgstr ""
 
 #. Default: "Created after…"
-#: ../search/browser/templates/all_results.pt:58
+#: ../search/browser/templates/all_results.pt:57
 msgid "label_created_after"
 msgstr ""
 
 #. Default: "Created before…"
-#: ../search/browser/templates/all_results.pt:66
+#: ../search/browser/templates/all_results.pt:65
 msgid "label_created_before"
 msgstr ""
 
@@ -2516,7 +2527,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:496
+#: ../workspace/browser/tiles/templates/sidebar.pt:499
 msgid "label_no_events_available"
 msgstr ""
 
