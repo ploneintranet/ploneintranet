@@ -432,6 +432,8 @@ The content stream is visible
 I save the document
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
+    Click button  Close
+    Wait until page does not contain  Your changes have been saved
 
 The stream contains
     [arguments]    ${text}
