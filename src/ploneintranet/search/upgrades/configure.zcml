@@ -6,7 +6,7 @@
 
   <genericsetup:upgradeStep
       title="Reread registry configuration"
-      description="Enable fallback views for barceloneta workspace"
+      description="Setup registry records to define additional facets"
       source="*"
       destination="0002"
       handler=".helpers.update_registry"
