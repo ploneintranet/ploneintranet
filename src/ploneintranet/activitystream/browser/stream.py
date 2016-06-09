@@ -206,11 +206,10 @@ class TagStream(StreamBase, BrowserView):
 
     def handle_action(self):
         g = queryUtility(INetworkGraph)
-        userid = api.user.get_current().id
-        if g.is_followed('tag', self.tag, userid):
-            g.unfollow('tag', self.tag, userid)
+        if g.is_following('tag', self.tag):
+            g.unfollow('tag', self.tag)
         else:
-            g.follow('tag', self.tag, userid)
+            g.follow('tag', self.tag)
 
     @property
     def show_stream(self):
@@ -220,8 +219,7 @@ class TagStream(StreamBase, BrowserView):
     @property
     def following(self):
         g = queryUtility(INetworkGraph)
-        userid = api.user.get_current().id
-        return g.is_followed('tag', self.tag, userid)
+        return g.is_following('tag', self.tag)
 
     @property
     def url(self):
