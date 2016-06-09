@@ -80,6 +80,13 @@ We want to quality-check the new egg release by running a CI test on it.
 
 If you don't have a `gaia` build already, initialize it, see below.
 
+The Gaia buildout assumes that it's `buildout.d` directory is identical to the
+ploneintranet `buildout.d` directory.
+If your release involved a change in `ploneintranet/buildout.d` e.g. a Plone upgrade,
+a new version pinning, or a new solr field, copy all the buildout.d configs to gaia::
+
+  cp buildout.d/* ../gaia/buildout.d/  # or wherever your gaia build lives
+
 Now go to `gaia`, update the `ploneintranet` pin::
 
   cd ../gaia  # or wherever your gaia build lives
