@@ -6,10 +6,6 @@
              tal:define="filter request/stream_filter|nothing;
                          context_url here/absolute_url|here/context/absolute_url;">
 
-          <!--h2 tal:condition="view/tag" i18n:translate="">Updates tagged
-          #<span tal:replace="view/tag" i18n:name="tag">sometag</span>
-          </h2-->
-          
           <form tal:attributes="action string:${context_url}/@@activitystream.tile#activity-stream"
                 tal:condition="request/stream_filter_menu|filter"
                 class="functions pat-autosubmit pat-inject">

@@ -24,7 +24,7 @@ class StreamBase(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.tag = None
+        self.tag = None  # only used in TagStream below
         if 'last_seen' in request:
             self.last_seen = request.get('last_seen')
         else:
@@ -108,7 +108,6 @@ class StreamBase(object):
                 self.microblog_context,
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
             )
         elif IUserProfile.providedBy(self.context):
             # Get the updates for this user
@@ -116,7 +115,6 @@ class StreamBase(object):
                 self.context.username,
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
             )
         elif stream_filter == 'network':
             # Only activities from people I follow
@@ -129,7 +127,6 @@ class StreamBase(object):
                 following,
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
             )
         elif stream_filter in ('interactions', 'posted', 'likes'):
             raise NotImplementedError("unsupported stream filter: %s"
