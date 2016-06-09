@@ -40,9 +40,7 @@ class StatusUpdate(statusupdate.StatusUpdate):
         pass
 
 
-class TestStatusContainer_Tags(unittest.TestCase):
-
-    # user/tag accessors
+class TestStatusContainer_Threaded(unittest.TestCase):
 
     def test_keys_self(self):
         container = StatusContainer()

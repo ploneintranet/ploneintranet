@@ -65,25 +65,25 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None, limit=100, tag=None):
+    def items(min=None, max=None, limit=100, tags=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
         """
 
-    def keys(min=None, max=None, limit=100, tag=None):
+    def keys(min=None, max=None, limit=100, tags=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
         """
 
-    def values(min=None, max=None, limit=100, tag=None):
+    def values(min=None, max=None, limit=100, tags=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
         """
 
     iteritems = items
@@ -92,72 +92,69 @@ class IStatusContainer(Interface):
 
     # user_* accessors
 
-    def user_items(users, min=None, max=None, limit=100, tag=None):
+    def user_items(users, min=None, max=None, limit=100, tags=None):
         """Filter (key, IStatusUpdate) items by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags=['foo','bar'] *extends* the result set, so you'll get
+        the statusupdates that either match the users or the tags.
         """
 
-    def user_keys(users, min=None, max=None, limit=100, tag=None):
+    def user_keys(users, min=None, max=None, limit=100, tags=None):
         """Filter IStatusUpdate keys by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags=['foo','bar'] *extends* the result set, so you'll get
+        the statusupdates that either match the users or the tags.
         """
 
-    def user_values(users, min=None, max=None, limit=100, tag=None):
+    def user_values(users, min=None, max=None, limit=100, tags=None):
         """Filter IStatusUpdate values by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        tags=['foo','bar'] *extends* the result set, so you'll get
+        the statusupdates that either match the users or the tags.
         """
 
     # context_* accessors
 
-    def context_items(context, min=None, max=None, limit=100, tag=None):
+    def context_items(context, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
         context <object> filters on StatusUpdates keyed to that context's UUID.
         """
 
-    def context_keys(context, min=None, max=None, limit=100, tag=None):
+    def context_keys(context, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def context_values(context, min=None, max=None, limit=100, tag=None):
+    def context_values(context, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
-
         """
 
     # mention_* accessors
 
-    def mention_items(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_items(mentions, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def mention_keys(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_keys(mentions, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def mention_values(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_values(mentions, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
 

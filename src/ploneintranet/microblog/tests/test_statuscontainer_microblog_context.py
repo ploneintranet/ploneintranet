@@ -97,38 +97,6 @@ class TestStatusContainerMicroblogContext(unittest.TestCase):
         self.assertEqual(2, len(values))
         self.assertEqual([self.su3, self.su2], values)
 
-    def test_items_tag_context(self):
-        values = [x[1] for x in self.container.context_items(
-            self.mockcontext,
-            nested=False)]
-        self.assertEqual([self.su3, self.su2], values)
-        values = [x[1] for x in self.container.context_items(
-            self.mockcontext,
-            tag='bar',
-            nested=False)]
-        self.assertEqual([self.su3, self.su2], values)
-        values = [x[1] for x in self.container.context_items(
-            self.mockcontext,
-            tag='foo',
-            nested=False)]
-        self.assertEqual([self.su2], values)
-
-    def test_values_tag_context(self):
-        values = list(self.container.context_values(
-            self.mockcontext,
-            nested=False))
-        self.assertEqual([self.su3, self.su2], values)
-        values = list(self.container.context_values(
-            self.mockcontext,
-            tag='bar',
-            nested=False))
-        self.assertEqual([self.su3, self.su2], values)
-        values = list(self.container.context_values(
-            self.mockcontext,
-            tag='foo',
-            nested=False))
-        self.assertEqual([self.su2], values)
-
     def test_allowed_status_keys(self):
         values = [self.container.get(i) for i in
                   self.container.allowed_status_keys()]

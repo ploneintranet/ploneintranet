@@ -463,21 +463,19 @@ class BaseStatusContainer(Persistent, Explicit):
     def _get(self, key):
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100, tag=None):
+    def items(self, min=None, max=None, limit=100, tags=None):
         # secured in keys()
         return ((key, self._get(key))
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags))
 
-    def values(self, min=None, max=None, limit=100, tag=None):
+    def values(self, min=None, max=None, limit=100, tags=None):
         # secured in keys()
         return (self._get(key)
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags))
 
-    def keys(self, min=None, max=None, limit=100, tag=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+    def keys(self, min=None, max=None, limit=100, tags=None):
         # secure
-        mapping = self._keys_tag(tag, self.allowed_status_keys())
+        mapping = self._keys_tags_intersect(tags, self.allowed_status_keys())
         return longkeysortreverse(mapping,
                                   min, max, limit)
 
@@ -507,23 +505,21 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # --- USER ACCESSORS ---
 
-    def user_items(self, users, min=None, max=None, limit=100, tag=None):
+    def user_items(self, users, min=None, max=None, limit=100, tags=None):
         # secured by user_keys
         return ((key, self._get(key)) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit, tags))
 
-    def user_values(self, users, min=None, max=None, limit=100, tag=None):
+    def user_values(self, users, min=None, max=None, limit=100, tags=None):
         # secured by user_keys
         return (self._get(key) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit, tags))
 
-    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
+    def user_keys(self, users, min=None, max=None, limit=100, tags=None):
         if not users:
             return ()
-        if tag and tag not in self._tag_mapping:
-            return ()
 
-        if users == str(users):
+        if isinstance(users, (str, unicode)):
             # single user optimization
             userid = users
             mapping = self._user_mapping.get(userid)
@@ -532,13 +528,13 @@ class BaseStatusContainer(Persistent, Explicit):
 
         else:
             # collection of user LLTreeSet
-            treesets = (self._user_mapping.get(userid)
+            treesets = [self._user_mapping.get(userid)
                         for userid in users
-                        if userid in self._user_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
+                        if userid in self._user_mapping.keys()]
+            mapping = LLBTree.multiunion(treesets)
 
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
+        # returns unchanged mapping if tags is None
+        mapping = self._keys_tags_union(tags, mapping)
         mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
                                   min, max, limit)
@@ -546,24 +542,22 @@ class BaseStatusContainer(Persistent, Explicit):
     # --- CONTEXT ACCESSORS = microblog_context security context ---
 
     def context_items(self, microblog_context,
-                      min=None, max=None, limit=100, tag=None, nested=True):
+                      min=None, max=None, limit=100, nested=True):
         # secured by microblog_context_keys
         return ((key, self._get(key)) for key
                 in self.context_keys(microblog_context,
-                                     min, max, limit, tag, nested))
+                                     min, max, limit, nested))
 
     def context_values(self, microblog_context,
-                       min=None, max=None, limit=100, tag=None, nested=True):
+                       min=None, max=None, limit=100, nested=True):
         # secured by microblog_context_keys
         return (self._get(key) for key
                 in self.context_keys(microblog_context, min, max,
-                                     limit, tag, nested))
+                                     limit, nested))
 
     def context_keys(self, microblog_context,
                      min=None, max=None, limit=100,
-                     tag=None, nested=True, mention=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+                     nested=True, mention=None):
 
         if nested:
             # hits portal_catalog
@@ -580,13 +574,11 @@ class BaseStatusContainer(Persistent, Explicit):
                 return ()
             nested_uuids = [uuid]
 
-        # tag and uuid filters handle None inputs gracefully
-        keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
-
         # mention and uuid filters handle None inputs gracefully
-        keyset_mention = self._keys_tag(mention, keyset_tag)
+        keyset_mention = self._keys_mention(mention,
+                                            self.allowed_status_keys())
 
-        # calculate the tag+mention+uuid intersection for microblog_context
+        # calculate the mention+uuid intersection for microblog_context
         keyset_uuids = [self._keys_uuid(_uuid, keyset_mention)
                         for _uuid in nested_uuids]
 
@@ -622,22 +614,19 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # --- MENTION ACCESSORS ---
 
-    def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_items(self, mentions, min=None, max=None, limit=100):
         # secured by mention_keys
         return ((key, self._get(key)) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
     def mention_values(self, mentions,
-                       min=None, max=None, limit=100,
-                       tag=None):
+                       min=None, max=None, limit=100):
         # secured by mention_keys
         return (self._get(key) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
-    def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_keys(self, mentions, min=None, max=None, limit=100):
         if not mentions:
-            return ()
-        if tag and tag not in self._tag_mapping:
             return ()
 
         if mentions == str(mentions):
@@ -654,8 +643,6 @@ class BaseStatusContainer(Persistent, Explicit):
                         if mention in self._mentions_mapping.keys())
             mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
 
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
         mapping = self.secure(mapping)
         return longkeysortreverse(mapping,
                                   min, max, limit)
@@ -669,12 +656,55 @@ class BaseStatusContainer(Persistent, Explicit):
                           object_implements=IMicroblogContext)
         return([item.UID for item in results])
 
-    def _keys_tag(self, tag, keyset):
-        if tag is None:
+    def _keys_tags_intersect(self, tags, keyset):
+        """
+        Filter the given keyset so that it contains only status ids
+        of updates that were tagged with one of the <tags>.
+
+        Returns an unchanged keyset if <tags>==None.
+        Returns an emtpy set if <tags>==[].
+        Ignores any tags that do not actually exist in the index.
+        """
+        if tags is None:
             return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._tag_mapping[tag])
+        tagset = self._keys_tags_matching(tags)
+        # return only ids that are in our tag set AND in the keyset
+        return LLBTree.intersection(LLBTree.LLTreeSet(keyset), tagset)
+
+    def _keys_tags_union(self, tags, keyset):
+        """
+        Adds to the given keyset all status ids
+        of updates that were tagged with one of the <tags>.
+
+        Returns an unchanged keyset if <tags>==None or <tags>==[].
+        Ignores any tags that do not actually exist in the index.
+        """
+        if tags is None:
+            return keyset
+        tagset = self._keys_tags_matching(tags)
+        # return all ids that are in our tag set OR in the keyset
+        return LLBTree.union(LLBTree.LLTreeSet(keyset), tagset)
+
+    def _keys_tags_matching(self, tags):
+        """
+        Returns the status ids of all updates tagged with one of the
+        <tags>.
+
+        Returns an empty LLSet if <tags>==None or <tags>==[].
+        Ignores any tags that do not actually exist in the index.
+        """
+        if tags is None:
+            tags = []
+        elif isinstance(tags, (str, unicode)):
+            # convert single tag to list
+            tags = [tags]
+        if not isinstance(tags, (list, tuple)):
+            raise ValueError("Invalid parameter:", tags)
+        # calculate the union set of matching ids across all tags
+        treesets = [self._tag_mapping.get(t)
+                    for t in tags
+                    if t in self._tag_mapping.keys()]
+        return LLBTree.multiunion(treesets)
 
     def _keys_mention(self, mention, keyset):
         if mention is None:

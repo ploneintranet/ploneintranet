@@ -89,16 +89,8 @@ class TestUUIDIntegration(unittest.TestCase):
         container.add(su2)
         container.add(su3)
         container.add(su4)
-        values = [x[1] for x in container.context_items(
-            mockcontext1,
-            tag='foo')]
+        values = [x[1] for x in container.context_items(mockcontext1)]
         self.assertEqual([su1], values)
-        values = [x[1] for x in container.context_items(mockcontext1,
-                                                        tag='bar')]
-        self.assertEqual([], values)
-        values = [x[1] for x in container.context_items(mockcontext2,
-                                                        tag='foo')]
-        self.assertEqual([su3, su2], values)
         values = [x[1] for x in container.context_items(mockcontext2)]
         self.assertEqual([su4, su3, su2], values)
         values = [x[1] for x in container.items()]
