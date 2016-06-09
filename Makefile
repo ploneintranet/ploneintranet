@@ -1,8 +1,9 @@
 RELEASE_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
-BUNDLENAME      = ploneintranet-bundle
-BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
+BUNDLEPLONEID	= ploneintranet
+BUNDLEDISTNAME  = ploneintranet-bundle
+BUNDLEDISTURL	= https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
 
 # Add help text after each target name starting with ' \#\# '
 help:
@@ -26,15 +27,15 @@ check-clean:
 
 fetchrelease: ## Download and install the latest javascript bundle into the theme.
 	$(eval LATEST := $(shell cat LATEST))
-	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
+	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz)
 	# fetch non-git-controlled required javascript resources
 	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
-	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+	@curl $(BUNDLEDISTURL) -o $(DIAZO_DIR)/bundles/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLEDISTNAME)-$(LATEST).tar.gz && rm $(BUNDLEDISTNAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).js; then rm $(BUNDLEPLONEID).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).min.js; then rm $(BUNDLEPLONEID).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).js $(BUNDLEPLONEID).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).min.js $(BUNDLEPLONEID).min.js
 
 ########################################################################
 ## Setup
@@ -77,7 +78,7 @@ _diazo:
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
 	for file in `grep 'href="generated' $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
 		echo "Rewriting resource URLs in $$file"; \
-		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLEPLONEID).js"#' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#="/*\(media\|style\)/#="++theme++ploneintranet.theme/generated/\1/#g' $(RELEASE_DIR)/$$file; \
 		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
@@ -100,7 +101,7 @@ jsdev: clean-proto dev-bundle diazo _jsdev ## 	 Full js development refresh
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
 	# replace normal js bundle with dev bundle, directly in diazo theme dir
-	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/ploneintranet.js
+	cp prototype/bundles/$(BUNDLEPLONEID)-dev.js $(DIAZO_DIR)/bundles/$(BUNDLEPLONEID).js
 
 dev-bundle: prototype
 	cd prototype && make dev-bundle
