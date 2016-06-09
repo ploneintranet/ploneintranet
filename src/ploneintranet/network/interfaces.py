@@ -32,7 +32,7 @@ class INetworkGraph(Interface):
     def is_followed(item_type, item_id, user_id=None):
         """Does <user_id> follow <item_type> <item_id>?"""
 
-    id_following = is_followed
+    is_following = is_followed
 
     # like API
 
