@@ -1,5 +1,6 @@
 from Acquisition import aq_inner
 from collections import defaultdict
+from email.Utils import formatdate
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
@@ -7,9 +8,10 @@ from plone.tiles import Tile
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
-from zope.publisher.browser import BrowserView
 from ploneintranet.workspace.interfaces import IMetroMap
+from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
+from time import time
+from zope.publisher.browser import BrowserView
 from zope.schema.interfaces import IVocabularyFactory
 from zope.component import getUtility
 
@@ -18,6 +20,9 @@ vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 class Workspaces(BrowserView):
     """ A view to serve as overview over workspaces """
+
+    _sorting_cookie = 'ploneintranet.workspace.my_workspace_sorting'
+    _sorting_cookie_seconds = 30 * 86400  # 30 days
 
     def __call__(self):
         """Render the default template"""
@@ -31,6 +36,8 @@ class Workspaces(BrowserView):
             'Add portal content',
             obj=self.target
         )
+        if not api.user.is_anonymous():
+            self.persist_sort_option()
         return super(Workspaces, self).__call__()
 
     def get_selected_sort_option(self):
@@ -39,11 +46,16 @@ class Workspaces(BrowserView):
         The rules are:
 
         1. Check the request
-        2. Check the registry
-        3. Default to "alphabet"
+        2. Check the cookie
+        3. Check the registry
+        4. Default to "alphabet"
         '''
         requested_sort = self.request.get('sort')
         if requested_sort:
+            return requested_sort
+        requested_sort = self.request.get(self._sorting_cookie)
+        if requested_sort:
+            self.request.form['sort'] = requested_sort
             return requested_sort
         try:
             return api.portal.get_registry_record(
@@ -53,6 +65,7 @@ class Workspaces(BrowserView):
             # fallback if registry entry is not there
             return 'alphabet'
 
+    @memoize
     def sort_options(self):
         options = [{'value': 'alphabet',
                     'content': _(u'Alphabetical')},
@@ -63,6 +76,27 @@ class Workspaces(BrowserView):
                    #  'content': 'Most active workspaces on top'}
                    ]
         return options
+
+    def persist_sort_option(self):
+        ''' This will persist the selected sort option in to a cookie
+        '''
+        option = self.get_selected_sort_option()
+
+        # if its already equal to the cookie don't do nothing
+        if option == self.request.get(self._sorting_cookie):
+            return
+
+        # otherwise check that it is a valid option
+        for valid_option in self.sort_options():
+            if valid_option['value'] == option:
+                # if it is set the cookie and return
+                expiration_seconds = time() + self._sorting_cookie_seconds
+                expires = formatdate(expiration_seconds, usegmt=True)
+                return self.request.response.setCookie(
+                    self._sorting_cookie,
+                    option,
+                    expires=expires
+                )
 
     def grouping_options(self):
         options = [{'value': '',

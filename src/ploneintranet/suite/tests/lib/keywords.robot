@@ -140,6 +140,18 @@ I can create a new workspace
     Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
 
+I can see the first listed workspace is
+    [arguments]  ${title}
+    Wait until page contains Element  jquery=.tiles .tile:first h3:contains("${title}")
+
+I can see the last listed workspace is
+    [arguments]  ${title}
+    Wait until page contains Element  jquery=.tiles .tile:last h3:contains("${title}")
+
+I can set workspace listing order
+    [arguments]  ${value}
+    Select From List  css=select[name=sort]  ${value}
+
 I can create a new template workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder

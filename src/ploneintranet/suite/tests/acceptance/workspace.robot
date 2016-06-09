@@ -31,6 +31,20 @@ User can create a workspace template
      Then I can delete a template case  new-template
      Then I can delete a case  a-new-type-of-workspace
 
+Alice can list workspaces sorted
+    Given I am logged in as the user alice_lindstrom
+     And I can create a new workspace  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the last listed workspace is  Zulu
+     And I can set workspace listing order  Newest workspaces on top
+     And I can see the first listed workspace is  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the first listed workspace is  Zulu
+     And I can set workspace listing order  Alphabetical
+     And I can see the last listed workspace is  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the last listed workspace is  Zulu
+
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
       And I can create a new workspace  Aerospace
