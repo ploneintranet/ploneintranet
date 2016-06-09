@@ -14,7 +14,7 @@
 		<option value="all" i18n:translate=""
                         tal:attributes="selected python:filter=='all'">All activities</option>
 		<option value="network" i18n:translate=""
-                        tal:attributes="selected python:filter=='network'">Only activities from people I follow</option>
+                        tal:attributes="selected python:filter=='network'">Only people and things I follow</option>
                 <!--
 		<option value="interactions">Interactions with other people</option>
 		<option value="posted">My activities</option>

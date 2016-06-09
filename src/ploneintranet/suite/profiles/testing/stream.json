@@ -601,7 +601,7 @@
             "title": "aliquid id inventore aliquam doloremque sequi cum doloremque"
         },
         "microblog_context": null,
-        "text": "@silvio_depaoli this is the draft for my presentation of Wednesday, \"aliquid id inventore aliquam doloremque sequi cum doloremque\"",
+        "text": "@silvio_depaoli this is the #confidential #draft for my presentation of Wednesday, \"aliquid id inventore aliquam doloremque sequi cum doloremque\"",
         "timestamp": 0,
         "user": "esmeralda_claassen"
     },

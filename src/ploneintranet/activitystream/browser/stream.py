@@ -117,16 +117,16 @@ class StreamBase(object):
                 limit=self.count,
             )
         elif stream_filter == 'network':
-            # Only activities from people I follow
+            # Only activities from people and things I follow
             graph = api.portal.get_tool("ploneintranet_network")
-            userid = api.user.get_current().id
-            following = graph.unpack(
-                graph.get_following(u'user', userid))
-            following.append(userid)  # show own updates, as well
+            users = graph.unpack(graph.get_following(u'user'))
+            users.append(api.user.get_current().id)  # show own updates also
+            tags = graph.unpack(graph.get_following(u'tag'))
             statusupdates = container.user_values(
-                following,
+                users,
                 max=self.next_max,
                 limit=self.count,
+                tags=tags
             )
         elif stream_filter in ('interactions', 'posted', 'likes'):
             raise NotImplementedError("unsupported stream filter: %s"
@@ -136,7 +136,7 @@ class StreamBase(object):
             statusupdates = container.values(
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
+                tags=self.tag
             )
         return statusupdates
 

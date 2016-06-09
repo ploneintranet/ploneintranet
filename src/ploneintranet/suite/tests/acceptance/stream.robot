@@ -18,14 +18,14 @@ Allan can view the stream
     when I open the Dashboard
     then I can see updates by  Christian Stoney
 
-Allan can open his filter stream and see only people he is following
+Allan can open his user filter stream and see only people he is following
     Given I am logged in as the user allan_neece
     when I open the Dashboard
     and I filter the stream as  network
     then I cannot see updates by  Christian Stoney
     and I can see updates by  Jorge Primavera
 
-Allan can open his filter stream and switch back to show all again
+Allan can open his user filter stream and switch back to show all again
     Given I am logged in as the user allan_neece
     and I open the Dashboard
     and I filter the stream as  network
@@ -33,7 +33,7 @@ Allan can open his filter stream and switch back to show all again
     when I filter the stream as  all
     then I can see updates by  Christian Stoney
 
-Allan can add a user to his filter stream and remove him again
+Allan can add a user to his user filter stream and remove him again
     Given I am logged in as the user allan_neece
     and I open the Dashboard
     and I can follow the profile link for user  Christian Stoney
@@ -46,6 +46,26 @@ Allan can add a user to his filter stream and remove him again
     and I open the Dashboard
     and I filter the stream as  network
     then I cannot see updates by  Christian Stoney
+
+Allan can open his tag filter stream and see only tags he is following
+    Given I am logged in as the user allan_neece
+    when I open the Dashboard
+    and I filter the stream as  network
+    then I cannot see updates tagged  confidential
+
+Allan can add a tag to his tag filter stream and remove it again
+    Given I am logged in as the user allan_neece
+    and I open the Dashboard
+    and I click the tag link  confidential
+    when I can toggle following the tag
+    and I open the Dashboard
+    and I filter the stream as  network
+    then I can see updates tagged  confidential
+    and I click the tag link  confidential
+    when I can toggle following the tag
+    and I open the Dashboard
+    and I filter the stream as  network
+    then I cannot see updates tagged  confidential
 
 Neil can view the tag stream
     Given I am logged in as the user neil_wichmann
