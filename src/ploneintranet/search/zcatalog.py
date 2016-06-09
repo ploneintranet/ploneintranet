@@ -84,6 +84,9 @@ class SiteSearch(base.SiteSearch):
             # valid sort values:
             #  - 'created': sort results ascending by creation date
             #  - '-created': sort results descending by creation date
+            #  - 'title': sort results ascending by title
+            if sort == 'title':
+                sort = 'sortable_title'
             if sort.startswith('-'):
                 query['sort_order'] = 'descending'
                 query['sort_on'] = sort[1:]

@@ -1,22 +1,24 @@
-from zope.component import getUtility
-from zope.interface import implements
-from Products.Five import BrowserView
-from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
-from zExceptions import NotFound
+# coding=utf-8
 from AccessControl import Unauthorized
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from collections import defaultdict
 from plone import api as plone_api
-from zope.publisher.interfaces import IPublishTraverse
-
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import shorten
 from ploneintranet.network.interfaces import INetworkTool
-from ploneintranet import api as pi_api
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
-from ploneintranet.workspace.browser.tiles.workspaces import (
-    escape_id_to_class,
-    get_workspaces_css_mapping
-)
+from ploneintranet.workspace.browser.tiles.workspaces import escape_id_to_class
+from ploneintranet.workspace.browser.tiles.workspaces import get_workspaces_css_mapping  # noqa
+from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
+from Products.Five import BrowserView
+from zExceptions import NotFound
+from zope.component import getUtility
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 
 import os
 
@@ -157,6 +159,26 @@ class UserProfileView(UserProfileViewForm):
 
     def fields_for_display(self):
         return get_fields_for_template(self)
+
+    @memoize
+    def my_documents_by_letter(self):
+        ''' Return the list of my documents grouped by letter
+        '''
+        search_util = getUtility(ISiteSearch)
+        response = search_util.query(
+            filters={'Creator': self.context.getId()},
+            step=9999,
+            sort='title',
+        )
+        docs = defaultdict(list)
+        for result in response:
+            stripped_title = result.title.strip()
+            if stripped_title:
+                key = stripped_title[0].upper()
+            else:
+                _('No title')
+            docs[key].append(result)
+        return docs
 
 
 class AuthorView(BaseAuthorView):

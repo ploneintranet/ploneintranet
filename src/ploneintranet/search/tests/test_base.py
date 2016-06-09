@@ -289,6 +289,26 @@ class SearchTestsBase(ContentSetup):
             {'Page', 'Image', },
         )
 
+    def test_query_filter_by_creator(self):
+        self._create_content(
+            type='Document',
+            id='test_creator',
+            title="A different title",
+            container=self.layer['portal'],
+        )
+        obj = self.layer['portal']['test_creator']
+        obj.setCreators(['my_alter_ego'])
+        obj.reindexObject()
+        transaction.commit()
+        util = self._make_utility()
+        self.assertListEqual(
+            [u'A different title'],
+            [
+                x.getObject().title
+                for x in util.query('', filters={'Creator': 'my_alter_ego'})
+            ],
+        )
+
     def test_query_facets_invalid(self):
         util = self._make_utility()
         self.assertRaises(LookupError,
