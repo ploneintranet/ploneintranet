@@ -1,5 +1,18 @@
-.. image:: http://jenkins.quaive.net/job/quaive-master-complete/badge/icon
-    :alt: Jenkins build status 
+Release status: |gitlab-gaia|.
+Development status: Jenkins |jenkins-master| Gitlab |gitlab-master|.
+
+.. |jenkins-master| image:: http://jenkins.quaive.net/job/quaive-master-complete/badge/icon
+   :target: http://jenkins.quaive.net/job/quaive-master-complete/
+      :alt: Jenkins development build status
+
+.. |gitlab-master| image:: https://gitlab.com/quaive/ploneintranet/badges/master/build.svg
+   :target: https://gitlab.com/quaive/ploneintranet/pipelines
+      :alt: Gitlab development build status
+
+.. |gitlab-gaia| image:: https://gitlab.com/quaive/gaia/badges/master/build.svg
+   :target: https://gitlab.com/quaive/gaia/pipelines
+      :alt: Gaia release build status
+
 
 Plone Intranet
 ==============

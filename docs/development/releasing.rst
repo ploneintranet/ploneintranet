@@ -59,15 +59,60 @@ Please make sure to *not* push a private release to pypi.python.org!
 
 The new release is now available on pypi.quaive.net and on Github.
 
-Please submit a new pull request from the release branch into master.
-Do not delete the release branch, it will be re-used for subsequent releases.
-
 If you do this a lot, you probably want to add an alias into your .gitconfig::
 
     [alias]
 	changelog = log --pretty='* %s [%cn]'
 
 So then you can do `git changelog` instead of `git log --pretty='* %s [%cn]'`. YMMV.
+
+Merge the release changes
+-------------------------
+
+Please submit a new pull request from the release branch into master.
+Do not delete the release branch, it will be re-used for subsequent releases.
+
+
+Update the gaia deployment
+--------------------------
+
+We want to quality-check the new egg release by running a CI test on it.
+
+If you don't have a `gaia` build already, initialize it, see below.
+
+The Gaia buildout assumes that it's `buildout.d` directory is identical to the
+ploneintranet `buildout.d` directory.
+If your release involved a change in `ploneintranet/buildout.d` e.g. a Plone upgrade,
+a new version pinning, or a new solr field, copy all the buildout.d configs to gaia::
+
+  cp buildout.d/* ../gaia/buildout.d/  # or wherever your gaia build lives
+
+Now go to `gaia`, update the `ploneintranet` pin::
+
+  cd ../gaia  # or wherever your gaia build lives
+  sed -i 's/ploneintranet = .*/ploneintranet = 1.1.0a5/' buildout.cfg
+  git commit -am 'Release 1.1.0a5'
+
+Obviously you're supposed to change the release number to match the actual release
+you created above!
+
+Finally, trigger a CI build by pushing the change::
+
+  git push gitlab master
+  git push origin master
+
+
+Initializing a gaia deploy build
+================================
+
+If you don't have a `gaia` build already, check it out::
+
+  git clone git@github.com:quaive/gaia.git
+
+Add a remote for Gitlab pushes::
+
+  git remote add gitlab git@gitlab.com:quaive/gaia.git
+
 
 Using a private egg release
 ===========================
@@ -81,6 +126,7 @@ To your non-public project buildout.cfg::
   # we want to pull in development releases
   prefer-final = false
 
+You can use the `gaia` egg based deployment as a template.
 
 Managing users on pypi.quaive.net
 =================================
