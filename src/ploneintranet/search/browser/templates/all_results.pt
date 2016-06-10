@@ -148,122 +148,123 @@
         <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
             id="result-listing"
             data-search-string="${request/QUERY_STRING|nothing}">
-          <tal:results repeat="result search_response">
-            <tal:result tal:define="
-                          type_class python:view.get_facet_type_class(result.friendly_type_name);
-                          fragments python: view.url_fragments.get(result.portal_type);
-                          result_url string:${result/url}${fragments};
-                          is_archived result/is_archived;
-                          workspace_state python:'archived' if is_archived else result.review_state;
-                          highlights result/highlighted_summary;
-                          ">
-              <dt class="title ${type_class}">
-                <a href="${result_url}">
-                  ${result/title} <strong class="icon-archive workspace-state archived" tal:condition="is_archived" i18n:translate="icon_archived">Archived</strong>
-                </a>
-              </dt>
-              <dd class="description ${type_class}">
-                <tal:preview tal:condition="display_previews">
-                  <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
-                                        switch="preview_class">
+          <metal:results_macro metal:define-macro="result_items">
+            <tal:results repeat="result search_response">
+              <tal:result tal:define="
+                            type_class python:view.get_facet_type_class(result.friendly_type_name);
+                            fragments python: view.url_fragments.get(result.portal_type);
+                            result_url string:${result/url}${fragments};
+                            is_archived result/is_archived;
+                            workspace_state python:'archived' if is_archived else result.review_state;
+                            highlights result/highlighted_summary;
+                            ">
+                <dt class="title ${type_class}">
+                  <a href="${result_url}">
+                    ${result/title} <strong class="icon-archive workspace-state archived" tal:condition="is_archived" i18n:translate="icon_archived">Archived</strong>
+                  </a>
+                </dt>
+                <dd class="description ${type_class}">
+                  <tal:preview tal:condition="display_previews">
+                    <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
+                                          switch="preview_class">
 
-                    <tal:preview_rich case="string:rich">
-                      <article class="preview rich pat-rich"
-                               tal:content="structure python:view.get_text_preview(result)" />
-                    </tal:preview_rich>
+                      <tal:preview_rich case="string:rich">
+                        <article class="preview rich pat-rich"
+                                 tal:content="structure python:view.get_text_preview(result)" />
+                      </tal:preview_rich>
 
-                    <tal:preview_workspace case="string:workspace">
-                      <a href="${result_url}"
-                         class="preview workspace-preview
-                                workspace-state-${workspace_state}
-                                workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
-                         >
-                        <h4>${result/title}</h4>
-                      </a>
-                    </tal:preview_workspace>
+                      <tal:preview_workspace case="string:workspace">
+                        <a href="${result_url}"
+                           class="preview workspace-preview
+                                  workspace-state-${workspace_state}
+                                  workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
+                           >
+                          <h4>${result/title}</h4>
+                        </a>
+                      </tal:preview_workspace>
 
-                    <tal:preview_rich case="string:event">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <time class="calendar-medium pat-auto-scale"
-                              tal:define="
-                                obj result/getObject;
-                                event_date obj/start|obj/due|nothing;
-                              ">
-                          <tal:has_time condition="event_date">
-                            <tal:calendar define="
-                                day python:event_date.strftime('%d');
-                                month python:event_date.strftime('%B');
-                                year python:event_date.strftime('%Y');
-                              ">
-                              <strong class="day">${day}</strong>
-                              <strong class="month char-count-${python:len(month)}">${month}</strong>
-                              <strong class="year">${year}</strong>
-                            </tal:calendar>
-                          </tal:has_time>
-                        </time>
-                      </a>
-                    </tal:preview_rich>
+                      <tal:preview_rich case="string:event">
+                        <a href="${result_url}"
+                           class="preview ${preview_class}"
+                           >
+                          <time class="calendar-medium pat-auto-scale"
+                                tal:define="
+                                  obj result/getObject;
+                                  event_date obj/start|obj/due|nothing;
+                                ">
+                            <tal:has_time condition="event_date">
+                              <tal:calendar define="
+                                  day python:event_date.strftime('%d');
+                                  month python:event_date.strftime('%B');
+                                  year python:event_date.strftime('%Y');
+                                ">
+                                <strong class="day">${day}</strong>
+                                <strong class="month char-count-${python:len(month)}">${month}</strong>
+                                <strong class="year">${year}</strong>
+                              </tal:calendar>
+                            </tal:has_time>
+                          </time>
+                        </a>
+                      </tal:preview_rich>
 
-                    <tal:preview_file tal:case="string:file">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
-                             alt="${result/title}"
-                         />
-                      </a>
-                    </tal:preview_file>
+                      <tal:preview_file tal:case="string:file">
+                        <a href="${result_url}"
+                           class="preview ${preview_class}"
+                           >
+                          <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
+                               alt="${result/title}"
+                           />
+                        </a>
+                      </tal:preview_file>
 
-                    <tal:preview_user tal:case="string:user">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <img src="${result/preview_image_url}"
-                             class="pat-avatar"
-                             alt="${result/title}"
-                             tal:condition="result/preview_image_url" />
-                        <h4 class="name">${result/title}</h4>
-                      </a>
-                    </tal:preview_user>
-                  </tal:preview_selector>
-                </tal:preview>
+                      <tal:preview_user tal:case="string:user">
+                        <a href="${result_url}"
+                           class="preview ${preview_class}"
+                           >
+                          <img src="${result/preview_image_url}"
+                               class="pat-avatar"
+                               alt="${result/title}"
+                               tal:condition="result/preview_image_url" />
+                          <h4 class="name">${result/title}</h4>
+                        </a>
+                      </tal:preview_user>
+                    </tal:preview_selector>
+                  </tal:preview>
 
-                <tal:highlights condition="highlights">
-                  <p class="fragment"
-                     tal:content="structure highlights">
-                  </p>
-                </tal:highlights>
-                <tal:nohighlights condition="not:highlights">
-                  <p class="fragment"
-                     tal:condition="result/description"
-                     tal:content="result/description"></p>
-                </tal:nohighlights>
-                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                   class="link">${python:view.friendly_path(result.url)}</a>
-              </dd>
-            </tal:result>
-          </tal:results>
-          <tal:autoload define="next_url python: search_response and view.next_page_url(search_response.total_results)">
-
-            <dd id="load-more-results"
+                  <tal:highlights condition="highlights">
+                    <p class="fragment"
+                       tal:content="structure highlights">
+                    </p>
+                  </tal:highlights>
+                  <tal:nohighlights condition="not:highlights">
+                    <p class="fragment"
+                       tal:condition="result/description"
+                       tal:content="result/description"></p>
+                  </tal:nohighlights>
+                  <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                     class="link">${python:view.friendly_path(result.url)}</a>
+                </dd>
+              </tal:result>
+            </tal:results>
+            <tal:autoload define="next_url python: search_response and view.next_page_url(search_response.total_results)">
+              <dd id="load-more-results"
                 tal:condition="next_url">
-              <!-- The link below is what would basically be the 'Next' link
-                   when you have pagination. Batches of 10 results or so would
-                   be nice. -->
-              <!-- This is an example for infinate scrolling with a list (DL or
-                   UL or OL), which is a little bit different from non list
-                   cases. In non list cases, the link tag is replaced by the injection, but a link
-                   tag may not be placed directly into a list tag. Therefor the DD is replaced
-                   instead. In case of OL/UL an extra LI tag is added. -->
-              <a href="${next_url}#result-listing"
-                 class="pat-inject infinite-scrolling-trigger"
-                 data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
-                 i18n:translate="">Loading more search
-                 results&hellip;</a>
-            </dd>
-          </tal:autoload>
+                <!-- The link below is what would basically be the 'Next' link
+                when you have pagination. Batches of 10 results or so would
+                be nice. -->
+                <!-- This is an example for infinate scrolling with a list (DL or
+                UL or OL), which is a little bit different from non list
+                cases. In non list cases, the link tag is replaced by the injection, but a link
+                tag may not be placed directly into a list tag. Therefor the DD is replaced
+                instead. In case of OL/UL an extra LI tag is added. -->
+                <a href="${next_url}"
+                  class="pat-inject infinite-scrolling-trigger"
+                  data-pat-inject="trigger: autoload-visible; source: ${view/autoload_source}; target: #load-more-results::element"
+                  i18n:translate="">Loading more search
+                  results&hellip;</a>
+                </dd>
+              </tal:autoload>
+          </metal:results_macro>
         </dl>
       </div>
     </div>

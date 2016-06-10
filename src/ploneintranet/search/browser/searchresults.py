@@ -31,6 +31,9 @@ except locale.Error:
 
 class SearchResultsView(BrowserView):
 
+    # used by the "load more" link
+    autoload_source = '#result-listing'
+
     # Map portal types to url fragments so that the correct sidebar
     # section is opened
     url_fragments = {

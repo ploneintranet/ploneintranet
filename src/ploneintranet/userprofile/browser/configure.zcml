@@ -125,4 +125,14 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
+  <browser:page
+      name="search"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".search.UserSearchView"
+      permission="zope2.View"
+      template="templates/search.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+
 </configure>

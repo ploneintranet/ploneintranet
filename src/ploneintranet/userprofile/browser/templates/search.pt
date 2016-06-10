@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+<metal:content fill-slot="content"
+               tal:define="
+                 display_previews view/display_previews;
+                 portal_url here/portal_url;
+                 search_response view/search_response;
+               ">
+  <div id="search-result">
+    <dl class="search-results previews-${python: display_previews and 'on' or 'off'}">
+      <metal:items use-macro="view/results_macro"></metal:items>
+    </dl>
+  </div>
+</metal:content>
+</html>
