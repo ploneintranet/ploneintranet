@@ -116,7 +116,7 @@ def statusupdate_edit_delete(context):
     commit()
 
 
-def discuss_older_docs(context):
+def discuss_older_docs(context, do_commit=True):
     """Add document discussion on pre-existing documents.
     This only adds a 'created' message, since we cannot reconstruct
     the publication date and actor.
@@ -145,7 +145,9 @@ def discuss_older_docs(context):
         haveseen.append(brain.UID)
         i += 1
     logger.info("Added streams to %s older content objects", i)
-    commit()
+    if do_commit:
+        # breaks in testing setuphandler
+        commit()
 
 
 def tag_older_contentupdates(context):

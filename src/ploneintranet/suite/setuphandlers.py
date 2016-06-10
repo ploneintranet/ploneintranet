@@ -98,7 +98,8 @@ def testing(context):
 
     log.info("add discussion streams on testcontent")
     # easier than emitting event and running into async issues
-    discuss_older_docs(None)
+    discuss_older_docs(None, do_commit=False)
+    commit()  # no-op when in test mode avoids breakage
 
     log.info("done.")
 
