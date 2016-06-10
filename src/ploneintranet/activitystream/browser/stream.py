@@ -122,10 +122,10 @@ class StreamBase(object):
             users = graph.unpack(graph.get_following(u'user'))
             users.append(api.user.get_current().id)  # show own updates also
             tags = graph.unpack(graph.get_following(u'tag'))
-            statusupdates = container.user_values(
-                users,
+            statusupdates = container.values(
                 max=self.next_max,
                 limit=self.count,
+                users=users,
                 tags=tags
             )
         elif stream_filter in ('interactions', 'posted', 'likes'):

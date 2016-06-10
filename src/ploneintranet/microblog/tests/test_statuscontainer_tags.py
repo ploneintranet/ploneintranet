@@ -63,26 +63,26 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.sortAndAssertEqual([self.sb], values)
 
     def test_user_keys_match(self):
-        keys = [x for x in self.container.user_keys(
-            ['arnold'],
+        keys = [x for x in self.container.keys(
+            users=['arnold'],
             tags=['b'])]
         self.sortAndAssertEqual([self.sa.id, self.sb.id], keys)
 
     def test_user_keys_nomatch(self):
-        keys = [x for x in self.container.user_keys(
-            ['foo', ],
+        keys = [x for x in self.container.keys(
+            users=['foo', ],
             tags=['c'])]
         self.sortAndAssertEqual([self.sc.id], keys)
 
     def test_user_values(self):
-        values = [x for x in self.container.user_values(
-            ['arnold', ],
+        values = [x for x in self.container.values(
+            users=['arnold', ],
             tags=['b'])]
         self.sortAndAssertEqual([self.sa, self.sb], values)
 
     def test_user_items(self):
-        values = [x[1] for x in self.container.user_items(
-                  ['cary'],
+        values = [x[1] for x in self.container.items(
+                  users=['cary'],
                   tags=['c'])]
         self.sortAndAssertEqual([self.sc], values)
 
@@ -92,7 +92,7 @@ class TestStatusContainer_Tags(unittest.TestCase):
         self.sortAndAssertEqual([], keys)
 
     def test_user_keys_nosuchtag(self):
-        keys = [x for x in self.container.user_keys(
-                ['john', 'mary'],
+        keys = [x for x in self.container.keys(
+                users=['john', 'mary'],
                 tags=['foo', 'bar'])]
         self.sortAndAssertEqual([], keys)

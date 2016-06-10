@@ -65,25 +65,25 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None, limit=100, tags=None):
+    def items(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
+        returns matching for either users or tags, if given.
         """
 
-    def keys(min=None, max=None, limit=100, tags=None):
+    def keys(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
+        returns matching for either users or tags, if given.
         """
 
-    def values(min=None, max=None, limit=100, tags=None):
+    def values(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags ['foo', 'bar'] filter on updates tagged #foo or #bar
+        returns matching for either users or tags, if given.
         """
 
     iteritems = items
@@ -92,28 +92,22 @@ class IStatusContainer(Interface):
 
     # user_* accessors
 
-    def user_items(users, min=None, max=None, limit=100, tags=None):
+    def user_items(users, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags=['foo','bar'] *extends* the result set, so you'll get
-        the statusupdates that either match the users or the tags.
         """
 
-    def user_keys(users, min=None, max=None, limit=100, tags=None):
+    def user_keys(users, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags=['foo','bar'] *extends* the result set, so you'll get
-        the statusupdates that either match the users or the tags.
         """
 
-    def user_values(users, min=None, max=None, limit=100, tags=None):
+    def user_values(users, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tags=['foo','bar'] *extends* the result set, so you'll get
-        the statusupdates that either match the users or the tags.
         """
 
     # context_* accessors
