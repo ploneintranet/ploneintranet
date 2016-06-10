@@ -118,6 +118,7 @@
                     <a href="#person-info" i18n:translate="">Info</a>
                     <a href="#person-followers" class="link-followers" i18n:translate="">Followers <sup tal:content="num_followers" i18n:name="num_followers">12</sup></a>
                     <a href="#person-following" class="link-following" i18n:translate="">Following <sup tal:content="num_following" i18n:name="num_following">8</sup></a>
+                    <a href="#person-documents" class="link-documents" i18n:translate="">Documents</a>
                     <a href="#person-workspaces" tal:condition="num_workspaces" class="link-workspaces" i18n:translate="person-workspaces">Workspaces <sup tal:content="num_workspaces" i18n:name="num_workspaces">XX</sup></a>
                     <a href="#person-groups" tal:condition="num_groups" class="link-groups" i18n:translate="person-groups">Groups <sup tal:content="num_groups" i18n:name="num_groups">XX</sup></a>
 
@@ -204,7 +205,37 @@
                             </form>
                          </div>
                     </div>
-
+                    <div id="person-documents">
+                      <!--BBB form action="/feedback/user-document-search-result.html#search-result" class="pat-inject pat-autosubmit canvas-toolbar">
+                        <label class="pat-select bare">
+                          <select>
+                            <option>Group by first letter</option>
+                            <option>Group by date</option>
+                          </select>
+                        </label>
+                        <input type="search" size="38" placeholder="Search Liz' documents">
+                      </form-->
+                      <div id="search-result">
+                        <div class="small directory"
+                             tal:define="
+                               my_documents_by_letter view/my_documents_by_letter;
+                             "
+                          >
+                          <tal:letters repeat="letter python:sorted(my_documents_by_letter.keys())">
+                            <div class="group">
+                              <h3 class="group-title">${letter}</h3>
+                              <ul class="menu links">
+                                <li class="bookmark"
+                                  tal:repeat="item my_documents_by_letter/?letter"
+                                  title="${item/description|nothing}">
+                                  <a href="${item/url}" class="icon-doc-text">${item/title}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </tal:letters>
+                        </div>
+                      </div>
+                    </div>
                     <div id="person-workspaces" tal:condition="num_workspaces">
                         <article class="pat-rich">
                             <p i18n:translate="user_member_of_workspaces">

@@ -38,6 +38,12 @@ Alice cannot view her personal preferences
     When I open the personal preferences page
     Then The page is not found
 
+Alice can view her documents
+    Given I am logged in as the user alice_lindstrom
+    Then I can view the profile for user alice_lindstrom
+    Then Click Link  Documents
+    Then Click Link  Human Resources
+
 Alice cannot open the password reset form
     Given I am logged in as the user alice_lindstrom
     When I open the password reset form

@@ -12,6 +12,14 @@
       handler=".helpers.update_registry"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:upgradeStep
+      title="Reread registry configuration"
+      description="Setup registry records filter on creator"
+      source="*"
+      destination="0003"
+      handler=".to0003.update_registry_filter_fields"
+      profile="ploneintranet.search:default" />
+
 
   <!-- -*- extra stuff goes here -*- -->
 
