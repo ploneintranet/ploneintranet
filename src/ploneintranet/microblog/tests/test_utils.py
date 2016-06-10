@@ -11,11 +11,11 @@ class TestLongkeysortreverse1(unittest.TestCase):
         self.treeset = LLTreeSet()
         self.k0 = long(1)
         self.treeset.insert(self.k0)
-        self.k1 = long((time.time() - 3700) * 1e6)
+        self.k1 = long((time.time() - 3600 * 25) * 1e6)
         self.treeset.insert(self.k1)
-        self.k2 = self.k1 + 1
+        self.k2 = long((time.time() - 3600 * 4) * 1e6)
         self.treeset.insert(self.k2)
-        self.k3 = self.k2 + 1
+        self.k3 = long((time.time() - 3600 * 3) * 1e6)
         self.treeset.insert(self.k3)
         self.k10 = long(time.time() * 1e6 - 10)
         self.treeset.insert(self.k10)
@@ -42,13 +42,13 @@ class TestLongkeysortreverse1(unittest.TestCase):
     def test_min_day(self):
         minv = long((time.time() - 3600 * 24) * 1e6)
         values = list(longkeysortreverse(self.treeset, minv=minv))
-        expect = [self.k11, self.k10, self.k3, self.k2, self.k1]
+        expect = [self.k11, self.k10, self.k3, self.k2]
         self.assertEquals(values, expect)
 
     def test_max_day(self):
         maxv = long((time.time() - 3600 * 24) * 1e6)
         values = list(longkeysortreverse(self.treeset, maxv=maxv))
-        expect = [self.k0]
+        expect = [self.k1, self.k0]
         self.assertEquals(values, expect)
 
     def test_min_day_max_hour(self):
@@ -57,7 +57,7 @@ class TestLongkeysortreverse1(unittest.TestCase):
         values = list(longkeysortreverse(self.treeset,
                                          minv=minv,
                                          maxv=maxv))
-        expect = [self.k3, self.k2, self.k1]
+        expect = [self.k3, self.k2]
         self.assertEquals(values, expect)
 
     def test_all_limit(self):
