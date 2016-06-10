@@ -33,9 +33,29 @@ class TestLongkeysortreverse1(unittest.TestCase):
         expect = [self.k11, self.k10]
         self.assertEquals(values, expect)
 
-    def test_max_hour(self):
+    def test_max_hour_direct(self):
         maxv = long((time.time() - 3600) * 1e6)
         values = list(longkeysortreverse(self.treeset, maxv=maxv))
+        expect = [self.k3, self.k2, self.k1, self.k0]
+        self.assertEquals(values, expect)
+
+    def test_max_hour2_direct(self):
+        maxv = long((time.time() - 3600 * 2) * 1e6)
+        values = list(longkeysortreverse(self.treeset, maxv=maxv))
+        expect = [self.k3, self.k2, self.k1, self.k0]
+        self.assertEquals(values, expect)
+
+    def test_max_hour_optimize(self):
+        maxv = long((time.time() - 3600) * 1e6)
+        values = list(longkeysortreverse(self.treeset, maxv=maxv,
+                                         limit=100))
+        expect = [self.k3, self.k2, self.k1, self.k0]
+        self.assertEquals(values, expect)
+
+    def test_max_hour2_optimize(self):
+        maxv = long((time.time() - 3600 * 2) * 1e6)
+        values = list(longkeysortreverse(self.treeset, maxv=maxv,
+                                         limit=100))
         expect = [self.k3, self.k2, self.k1, self.k0]
         self.assertEquals(values, expect)
 
@@ -45,9 +65,16 @@ class TestLongkeysortreverse1(unittest.TestCase):
         expect = [self.k11, self.k10, self.k3, self.k2]
         self.assertEquals(values, expect)
 
-    def test_max_day(self):
+    def test_max_day_direct(self):
         maxv = long((time.time() - 3600 * 24) * 1e6)
         values = list(longkeysortreverse(self.treeset, maxv=maxv))
+        expect = [self.k1, self.k0]
+        self.assertEquals(values, expect)
+
+    def test_max_day_optimize(self):
+        maxv = long((time.time() - 3600 * 24) * 1e6)
+        values = list(longkeysortreverse(self.treeset, maxv=maxv,
+                                         limit=100))
         expect = [self.k1, self.k0]
         self.assertEquals(values, expect)
 

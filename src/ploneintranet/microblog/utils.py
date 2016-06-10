@@ -29,7 +29,7 @@ def longkeysortreverse(btreeish, minv=None, maxv=None, limit=None):
 
 
 def _longkeysortreverse_direct(accessor, minv, maxv, limit):
-    """minv or maxv or limit is None: do not optimize"""
+    """minv or limit is None: do not optimize"""
     i = 0
     keys = sorted(accessor(min=minv, max=maxv), reverse=True)
     for key in keys:
@@ -48,7 +48,11 @@ def _longkeysortreverse_optimized(accessor, maxv, limit):
     i = 0
 
     # first auto-chunk: last hour
-    tmin = long((time.time() - 3600) * 1e6)
+    if maxv:
+        # no use searching for more recent updates than maxv
+        tmin = long(maxv - 3600 * 1e6)
+    else:
+        tmin = long((time.time() - 3600) * 1e6)
     keys = sorted(accessor(min=tmin, max=maxv), reverse=True)
     for key in keys:
         yield key
