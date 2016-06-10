@@ -168,7 +168,6 @@ class UserProfileView(UserProfileViewForm):
         response = search_util.query(
             filters={'Creator': self.context.getId()},
             step=9999,
-            sort='title',
         )
         docs = defaultdict(list)
         for result in response:
