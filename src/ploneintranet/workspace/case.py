@@ -2,8 +2,10 @@
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.workspacefolder import WorkspaceFolder
+from zope.event import notify
 from zope.interface import implementer
 
 
@@ -80,3 +82,7 @@ class Case(WorkspaceFolder):
         new_guests = entitled_guests.difference(existing_guests)
         for user_id in new_guests:
             workspace.add_to_team(user_id, groups=['Guests'])
+
+        # If roles were changed, throw the required event
+        if len(stale_guests) + len(new_guests):
+            notify(WorkspaceRosterChangedEvent(self))
