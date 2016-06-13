@@ -1,27 +1,30 @@
 # coding=utf-8
 from AccessControl import Unauthorized
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
+from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+from zope.component import queryUtility
+from zope.interface import implementer
+from zope.publisher.interfaces import IPublishTraverse
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class StreamTile(Tile):
-    '''Tile view similar to StreamView.'''
+class StreamBase(object):
+    """Shared base class for activity streams"""
 
-    index = ViewPageTemplateFile("templates/stream_tile.pt")
     count = 15
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        # BBB: the or None should be moved to the microblog methods
-        self.tag = self.data.get('tag') or None
+        self.tag = None  # only used in TagStream below
         if 'last_seen' in request:
             self.last_seen = request.get('last_seen')
         else:
@@ -105,7 +108,6 @@ class StreamTile(Tile):
                 self.microblog_context,
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
             )
         elif IUserProfile.providedBy(self.context):
             # Get the updates for this user
@@ -113,20 +115,18 @@ class StreamTile(Tile):
                 self.context.username,
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
             )
         elif stream_filter == 'network':
-            # Only activities from people I follow
+            # Only activities from people and things I follow
             graph = api.portal.get_tool("ploneintranet_network")
-            userid = api.user.get_current().id
-            following = graph.unpack(
-                graph.get_following(u'user', userid))
-            following.append(userid)  # show own updates, as well
-            statusupdates = container.user_values(
-                following,
+            users = graph.unpack(graph.get_following(u'user'))
+            users.append(api.user.get_current().id)  # show own updates also
+            tags = graph.unpack(graph.get_following(u'tag'))
+            statusupdates = container.values(
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
+                users=users,
+                tags=tags
             )
         elif stream_filter in ('interactions', 'posted', 'likes'):
             raise NotImplementedError("unsupported stream filter: %s"
@@ -136,7 +136,7 @@ class StreamTile(Tile):
             statusupdates = container.values(
                 max=self.next_max,
                 limit=self.count,
-                tag=self.tag
+                tags=self.tag
             )
         return statusupdates
 
@@ -169,3 +169,57 @@ class StreamTile(Tile):
                 statusupdate,
                 self.request
             )
+
+
+class StreamTile(StreamBase, Tile):
+    '''Stream as a tile, for use in other views (dashboard etc.)'''
+
+    index = ViewPageTemplateFile("templates/stream_tile.pt")
+
+
+@implementer(IPublishTraverse)
+class TagStream(StreamBase, BrowserView):
+    """Show the stream, filtered by a tag.
+
+    Gets tag from the url.
+    For example, /tagstream/foo will display
+    the stream of activities tagged #foo.
+    """
+
+    def publishTraverse(self, request, name):
+        if isinstance(name, unicode):
+            self.tag = name
+        else:
+            self.tag = name.decode('utf8')
+        # stop traversing, we have arrived
+        request['TraversalRequestNameStack'] = []
+        # return self so the publisher calls this view
+        return self
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.handle_action()
+        return super(TagStream, self).__call__()
+
+    def handle_action(self):
+        g = queryUtility(INetworkGraph)
+        if g.is_following('tag', self.tag):
+            g.unfollow('tag', self.tag)
+        else:
+            g.follow('tag', self.tag)
+
+    @property
+    def show_stream(self):
+        """Optimize by not rendering stream on POST"""
+        return self.request.method == 'GET'
+
+    @property
+    def following(self):
+        g = queryUtility(INetworkGraph)
+        return g.is_following('tag', self.tag)
+
+    @property
+    def url(self):
+        return "{}/@@tagstream/{}".format(
+            self.context.absolute_url(), self.tag
+        )

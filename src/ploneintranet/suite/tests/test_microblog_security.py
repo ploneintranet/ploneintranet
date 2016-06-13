@@ -92,14 +92,7 @@ class TestMicroblogAdminAccess(unittest.TestCase):
         self.assertEquals(len(got), len(self.allkeys))
         self.assertEquals(got, self.allkeys)
 
-    def test_via_keys_tag(self):
-        """Admin should have full access"""
-        got = [x for x in self.tool._keys_tag(
-            None, self.tool.allowed_status_keys())]
-        self.assertEquals(len(got), len(self.allkeys))
-        self.assertEquals(got, self.allkeys)
-
-    def test_keys_direct(self):
+    def test_keys(self):
         """Admin should have full access"""
         got = sorted([x for x in self.tool.keys(limit=None)])
         self.assertEquals(len(got), len(self.allkeys))

@@ -28,6 +28,7 @@ def content_created(obj, event):
         pi_api.microblog.statusupdate.create(
             content_context=obj,
             action_verb=u'created',
+            tags=obj.Subject() or None,
         )
     except Unauthorized:
         # on content tree copy the IObjectAdded event is fired before the
@@ -43,10 +44,10 @@ def content_statechanged(obj, event):
 
     if event.new_state.id not in ('published',):
         return
-
     action_verb = event.new_state.id
     # microblog_context is automatically derived from content_context
     pi_api.microblog.statusupdate.create(
         content_context=obj,
         action_verb=action_verb,
+        tags=obj.Subject() or None,
     )

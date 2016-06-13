@@ -213,7 +213,7 @@ class BaseStatusContainer(Persistent, Explicit):
         Update the `StatusContainer` tag index with any new tags
         :param status: a `StatusUpdate` object
         """
-        if status.tags is None:
+        if not status.tags:
             return
         for tag in [tag.decode('utf-8') for tag in status.tags]:
             # If the key was already in the collection, there is no change
@@ -223,7 +223,7 @@ class BaseStatusContainer(Persistent, Explicit):
             self._tag_mapping[tag].insert(status.id)
 
     def _unidx_tag(self, status):
-        if status.tags is None:
+        if not status.tags:
             return
         for tag in [tag.decode('utf-8') for tag in status.tags]:
             self._tag_mapping[tag].remove(status.id)
@@ -463,23 +463,29 @@ class BaseStatusContainer(Persistent, Explicit):
     def _get(self, key):
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100, tag=None):
+    def items(self, min=None, max=None, limit=100,
+              tags=None, users=None):
         # secured in keys()
         return ((key, self._get(key))
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags, users))
 
-    def values(self, min=None, max=None, limit=100, tag=None):
+    def values(self, min=None, max=None, limit=100,
+               tags=None, users=None):
         # secured in keys()
         return (self._get(key)
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags, users))
 
-    def keys(self, min=None, max=None, limit=100, tag=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+    def keys(self, min=None, max=None, limit=100,
+             tags=None, users=None):
         # secure
-        mapping = self._keys_tag(tag, self.allowed_status_keys())
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
+        if tags is None and users is None:
+            matches = self.allowed_status_keys()
+        else:
+            matches = self.secure(LLBTree.union(
+                self._query_mapping(self._tag_mapping, tags),
+                self._query_mapping(self._user_mapping, users),
+            ))
+        return longkeysortreverse(matches, min, max, limit)
 
     iteritems = items
     iterkeys = keys
@@ -507,63 +513,40 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # --- USER ACCESSORS ---
 
-    def user_items(self, users, min=None, max=None, limit=100, tag=None):
+    def user_items(self, users, min=None, max=None, limit=100):
         # secured by user_keys
         return ((key, self._get(key)) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit))
 
-    def user_values(self, users, min=None, max=None, limit=100, tag=None):
+    def user_values(self, users, min=None, max=None, limit=100):
         # secured by user_keys
         return (self._get(key) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit))
 
-    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
+    def user_keys(self, users, min=None, max=None, limit=100):
         if not users:
             return ()
-        if tag and tag not in self._tag_mapping:
-            return ()
-
-        if users == str(users):
-            # single user optimization
-            userid = users
-            mapping = self._user_mapping.get(userid)
-            if not mapping:
-                return ()
-
-        else:
-            # collection of user LLTreeSet
-            treesets = (self._user_mapping.get(userid)
-                        for userid in users
-                        if userid in self._user_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
-        mapping = self.secure(mapping)
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
+        return self.keys(min, max, limit, users=users)
 
     # --- CONTEXT ACCESSORS = microblog_context security context ---
 
     def context_items(self, microblog_context,
-                      min=None, max=None, limit=100, tag=None, nested=True):
+                      min=None, max=None, limit=100, nested=True):
         # secured by microblog_context_keys
         return ((key, self._get(key)) for key
                 in self.context_keys(microblog_context,
-                                     min, max, limit, tag, nested))
+                                     min, max, limit, nested))
 
     def context_values(self, microblog_context,
-                       min=None, max=None, limit=100, tag=None, nested=True):
+                       min=None, max=None, limit=100, nested=True):
         # secured by microblog_context_keys
         return (self._get(key) for key
                 in self.context_keys(microblog_context, min, max,
-                                     limit, tag, nested))
+                                     limit, nested))
 
     def context_keys(self, microblog_context,
                      min=None, max=None, limit=100,
-                     tag=None, nested=True, mention=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+                     nested=True):
 
         if nested:
             # hits portal_catalog
@@ -580,21 +563,9 @@ class BaseStatusContainer(Persistent, Explicit):
                 return ()
             nested_uuids = [uuid]
 
-        # tag and uuid filters handle None inputs gracefully
-        keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
-
-        # mention and uuid filters handle None inputs gracefully
-        keyset_mention = self._keys_tag(mention, keyset_tag)
-
-        # calculate the tag+mention+uuid intersection for microblog_context
-        keyset_uuids = [self._keys_uuid(_uuid, keyset_mention)
-                        for _uuid in nested_uuids]
-
-        # merge the intersections
-        merged_set = LLBTree.multiunion(keyset_uuids)
-        merged_set = self.secure(merged_set)
-        return longkeysortreverse(merged_set,
-                                  min, max, limit)
+        matches = self._query_mapping(self._uuid_mapping, nested_uuids)
+        matches = self.secure(matches)
+        return longkeysortreverse(matches, min, max, limit)
 
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
@@ -622,43 +593,23 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # --- MENTION ACCESSORS ---
 
-    def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_items(self, mentions, min=None, max=None, limit=100):
         # secured by mention_keys
         return ((key, self._get(key)) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
     def mention_values(self, mentions,
-                       min=None, max=None, limit=100,
-                       tag=None):
+                       min=None, max=None, limit=100):
         # secured by mention_keys
         return (self._get(key) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
-    def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_keys(self, mentions, min=None, max=None, limit=100):
         if not mentions:
             return ()
-        if tag and tag not in self._tag_mapping:
-            return ()
-
-        if mentions == str(mentions):
-            # single mention optimization
-            mention = mentions
-            mapping = self._mentions_mapping.get(mention)
-            if not mapping:
-                return ()
-
-        else:
-            # collection of LLTreeSet
-            treesets = (self._mentions_mapping.get(mention)
-                        for mention in mentions
-                        if mention in self._mentions_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
-        mapping = self.secure(mapping)
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
+        matches = self._query_mapping(self._mentions_mapping, mentions)
+        matches = self.secure(matches)
+        return longkeysortreverse(matches, min, max, limit)
 
     # --- HELPERS ---
 
@@ -669,26 +620,23 @@ class BaseStatusContainer(Persistent, Explicit):
                           object_implements=IMicroblogContext)
         return([item.UID for item in results])
 
-    def _keys_tag(self, tag, keyset):
-        if tag is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._tag_mapping[tag])
-
-    def _keys_mention(self, mention, keyset):
-        if mention is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._mentions_mapping[mention])
-
-    def _keys_uuid(self, uuid, keyset):
-        if uuid is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._uuid_mapping[uuid])
+    def _query_mapping(self, mapping, keys):
+        """
+        Calculate the union of all statusids indexed in <mapping>
+        on any of the <keys>.
+        Always returns an LLTreeSet ready for further processing.
+        """
+        if not keys:
+            return LLBTree.LLTreeSet()
+        elif isinstance(keys, (str, unicode)):
+            # convert single key to list
+            keys = [keys]
+        # calculate the union set of matching ids across all tags
+        # silently discards all non-existing key ids
+        treesets = [mapping.get(id)
+                    for id in keys
+                    if id in mapping.keys()]
+        return LLBTree.multiunion(treesets)
 
     def _update_mtime(self):
         """Update _mtime on statusupdate add.

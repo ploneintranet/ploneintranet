@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+  <head>
+    <title>#${view/tag}</title>
+  </head>
+  <body class="view-secure">
+
+  <tal:comment condition="nothing">
+    <!-- ploneintranet.prototype/tag-stream.html -->
+  </tal:comment>
+
+  <metal:content fill-slot="content">
+    <div class="container">
+  
+  <article class="pat-rich canvas-intro">
+    <h1>
+      <em class="tag">#${view/tag}</em>
+    </h1>
+    <form action="${view/url}#follow-function"
+          method="post"
+          class="pat-inject">
+      <fieldset id="follow-function">
+	<button tal:condition="not:view/following" class="pat-button icon-eye" title="Click to follow this tag."><strong>Follow</strong> this tag</button>
+	<button tal:condition="view/following" class="pat-button icon-eye active" title="You are following #${view/tag}. Click to unfollow">Following</button>
+      </fieldset>
+    </form>
+  </article>
+  
+  <div class="activity-stream" id="activity-stream"
+       tal:condition="view/show_stream">	
+    <div class="activities" id="posts-batch">
+      <tal:loop
+         tal:repeat="post_view view/post_views"
+         tal:content="structure post_view"
+         />
+
+      <a tal:condition="not:view/stop_asking"
+         href="${view/url}?last_seen=${view/last_seen}"
+         class="pat-inject infinite-scrolling-trigger"
+         data-pat-inject="trigger: autoload-visible; source: #posts-batch; target: self::element">Loading more posts…</a>
+    </div>
+  </div>
+
+    </div>
+  </metal:content>
+</body>
+</html>
