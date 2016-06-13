@@ -4,269 +4,304 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/search_template/macros/search"
+      metal:use-macro="context/main_template/macros/master"
       i18n:domain="ploneintranet">
-  <metal:results fill-slot="results">
-  <div class="container results pat-subform pat-autosubmit pat-inject"
-       data-pat-inject="source: #listing; target: #listing;">
-    <div class="row"
-         tal:define="
-            search_response view/search_response;
-            display_previews view/display_previews;
-            results_sorting view/get_sorting;
-            portal_url portal_url|here/portal_url;
-          ">
-      <div class="three columns filters">
-        <fieldset tal:condition="search_response">
-          <!-- The hidden input below always gets the same value as the
-               searchbox it self in each result. This is needed to make sure
-               when the filters are changed within their subform, they are posted to the server
-               also together with the search term. -->
-          <input type="hidden"
-                 name="SearchableText_filtered"
-                 value="${request/SearchableText|request/SearchableText_filtered|nothing}" />
-          <!-- The pat-depends condition below should be composed dynamically
-               based on the document types and tags listed on the page.
-               Alternately, all possible document types and tags that are used system wide
-               could be populated here, but that might generate a really long list. -->
-          <p class="button-bar pat-depends"
-             data-pat-depends="${view/reset_button_pat_depends}">
-            <a class="pat-button icon-cancel-circle pat-inject"
-               href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
-               data-pat-inject="source: #results; target: #results"
-               i18n:translate=""
-               >Reset filters</a>
-          </p>
-          <fieldset class="pat-checklist pat-bar-toggles document-types"
-                    tal:condition="view/type_facets">
-            <legend i18n:translate="">Document types</legend>
-            <!-- Only list content types in this list that are relevant for this search result. -->
-            <tal:for repeat="type view/type_facets">
-              <label class="${type/id}">
-              <input name="friendly_type_name"
-                     checked="${python:type['id'] in request and 'checked' or None}"
-                     type="checkbox"
-                     value="${type/title}"
-                      /><tal:type i18n:translate="" i18n:domain="ploneintranet" tal:replace="type/title"></tal:type>
-              <!--sup class="counter">${type/counter}</sup--></label>
-            </tal:for>
-          </fieldset>
-          <fieldset class="vertical">
-            <legend i18n:translate="">Date range</legend>
+  <body>
+    
+    <div metal:fill-slot="content">
+      <form action="${request/getURL}" id="global-search">
+        
+        <div class="container input">
+          <fieldset class="search pat-subform pat-autosubmit pat-inject"
+                    data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record;">
             <label>
-              <input type="date"
-                     name="start_date"
-                     class="pat-date-picker"
-                     placeholder="Created after&hellip;"
-                     value="${python:request.get('created_after')}"
-                     data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
-                     i18n:attributes="placeholder label_created_after;" />
+              <input type="search" name="SearchableText" placeholder="Search the entire intranet" value="${request/SearchableText|nothing}"
+                     i18n:attributes="placeholder label_search_entire_intranet"
+                     />
             </label>
-            <label>
-              <input type="date"
-                     name="end_date"
-                     class="pat-date-picker"
-                     placeholder="Created before&hellip;"
-                     value="${request/created_before|nothing}"
-                     data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
-                     i18n:attributes="placeholder label_created_before;" />
-            </label>
-          </fieldset>
-          <tal:additional_facets tal:repeat="facet view/get_additional_facets">
-            <fieldset class="pat-checklist pat-bar-toggles ${facet/id}"
-                      tal:define="items python:view.get_facets(facet['id'])"
-                      tal:condition="items">
-              <legend i18n:translate="">${facet/label}</legend>
-              <tal:for repeat="item items">
-                <label>
-                <input type="checkbox"
-                       checked="${python:item['id'] in request and 'checked' or None}"
-                       name="${facet/id}"
-                       value="${item/title}"
-                />${item/title}</label>
-              </tal:for>
-            </fieldset>
-          </tal:additional_facets>
-        </fieldset>
-      </div>
-      <div class="nine columns last document-listing"
-           id="listing">
-        <p class="introduction">
-          <tal:if condition="search_response/total_results|nothing">
-
-            <span tal:replace="search_response/total_results">
-            87</span>
-            <span i18n:translate=""
-                  tal:omit-tag="">items matched your search.</span>
-          </tal:if>
-          <a href="#view-options"
-             class="bare pat-select float-after pat-tooltip"
-             data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr" i18n:translate="">Options</a>
-        </p>
-
-        <div id="view-options" hidden="">
-          <fieldset class="vertical pat-inject"
-                    data-pat-inject="source: #listing; target: #listing;">
-            <input tal:replace="structure context/@@authenticator/authenticator"
-                   tal:condition="view/persistent_options"
-              />
-            <input type="hidden" name="options.submitted" value="1" />
-            <input type="hidden" name="display-previews-old" value="on" tal:condition="display_previews" />
-            <fieldset class="pat-checklist">
-              <label>
-              <input type="checkbox"
-                     name="display-previews"
-                     checked="${python:display_previews and 'checked' or None}" /><span tal:omit-tag="" i18n:translate="">Display previews</span></label>
-            </fieldset>
-            <fieldset class="pat-checklist radio">
-              <label>
-              <input type="radio"
-                     name="results-sorting"
-                     checked="${python: results_sorting==None and 'checked' or None}"
-                     value="relevancy" /><span tal:omit-tag="" i18n:translate="">Sort by relevancy</span></label>
-              <label>
-              <input type="radio"
-                     name="results-sorting"
-                     checked="${python: results_sorting=='-created' and 'checked' or None}"
-                     value="date" /><span tal:omit-tag="" i18n:translate="">Sort by date</span></label>
-            </fieldset>
+            <button type="search" i18n:translate="">Search</button>
           </fieldset>
         </div>
-        <p class="did-you-mean"
-           tal:define="corrected search_response/spell_corrected_search|nothing"
-           tal:condition="corrected">
-        <span i18n:translate=""
-              tal:omit-tag="">Did you mean</span>
-        <strong>
-          <a href="${portal_url}/@@search?SearchableText=${corrected}"
-             tal:content="corrected"></a>
-        </strong>?</p>
-        <!-- The class 'previews-on' may be changed out with 'previews-off' depending on
-             the state of the checkbox 'display-previews' that appears in the options tooltip.
-             The class is set server side (the search results reload)
-             and should be stored in the user profile as a preference. -->
-        <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
-            id="result-listing"
-            data-search-string="${request/QUERY_STRING|nothing}">
-          <tal:results repeat="result search_response">
-            <tal:result tal:define="
-                          type_class python:view.get_facet_type_class(result.friendly_type_name);
-                          fragments python: view.url_fragments.get(result.portal_type);
-                          result_url string:${result/url}${fragments};
-                          is_archived result/is_archived;
-                          workspace_state python:'archived' if is_archived else result.review_state;
-                          highlights result/highlighted_summary;
-                          ">
-              <dt class="title ${type_class}">
-                <a href="${result_url}">
-                  ${result/title} <strong class="icon-archive workspace-state archived" tal:condition="is_archived" i18n:translate="icon_archived">Archived</strong>
-                </a>
-              </dt>
-              <dd class="description ${type_class}">
-                <tal:preview tal:condition="display_previews">
-                  <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
-                                        switch="preview_class">
 
-                    <tal:preview_rich case="string:rich">
-                      <article class="preview rich pat-rich"
-                               tal:content="structure python:view.get_text_preview(result)" />
-                    </tal:preview_rich>
+        <nav class="tabs navigation" id="tabs-nav">
+          <a href="@@search?SearchableText=${request/SearchableText|nothing}"
+             class="current" i18n:translate="">All</a>
+          <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
+             i18n:translate="">People</a>
+          <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
+             i18n:translate="">Images</a>
+          <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
+             i18n:translate="">Files</a>
+        </nav>
 
-                    <tal:preview_workspace case="string:workspace">
-                      <a href="${result_url}"
-                         class="preview workspace-preview
-                                workspace-state-${workspace_state}
-                                workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
-                         >
-                        <h4>${result/title}</h4>
-                      </a>
-                    </tal:preview_workspace>
-
-                    <tal:preview_rich case="string:event">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <time class="calendar-medium pat-auto-scale"
-                              tal:define="
-                                obj result/getObject;
-                                event_date obj/start|obj/due|nothing;
-                              ">
-                          <tal:has_time condition="event_date">
-                            <tal:calendar define="
-                                day python:event_date.strftime('%d');
-                                month python:event_date.strftime('%B');
-                                year python:event_date.strftime('%Y');
-                              ">
-                              <strong class="day">${day}</strong>
-                              <strong class="month char-count-${python:len(month)}">${month}</strong>
-                              <strong class="year">${year}</strong>
-                            </tal:calendar>
-                          </tal:has_time>
-                        </time>
-                      </a>
-                    </tal:preview_rich>
-
-                    <tal:preview_file tal:case="string:file">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
-                             alt="${result/title}"
-                         />
-                      </a>
-                    </tal:preview_file>
-
-                    <tal:preview_user tal:case="string:user">
-                      <a href="${result_url}"
-                         class="preview ${preview_class}"
-                         >
-                        <img src="${result/preview_image_url}"
-                             class="pat-avatar"
-                             alt="${result/title}"
-                             tal:condition="result/preview_image_url" />
-                        <h4 class="name">${result/title}</h4>
-                      </a>
-                    </tal:preview_user>
-                  </tal:preview_selector>
-                </tal:preview>
-
-                <tal:highlights condition="highlights">
-                  <p class="fragment"
-                     tal:content="structure highlights">
+        <div class="results" id="results">
+      
+          <div class="container results pat-subform pat-autosubmit pat-inject"
+               data-pat-inject="source: #listing; target: #listing;">
+            <div class="row"
+                 tal:define="
+                             search_response view/search_response;
+                             display_previews view/display_previews;
+                             results_sorting view/get_sorting;
+                             portal_url portal_url|here/portal_url;
+                             ">
+              <div class="three columns filters">
+                <fieldset tal:condition="search_response">
+                  <!-- The hidden input below always gets the same value as the
+                       searchbox it self in each result. This is needed to make sure
+                       when the filters are changed within their subform, they are posted to the server
+                       also together with the search term. -->
+                  <input type="hidden"
+                         name="SearchableText_filtered"
+                         value="${request/SearchableText|request/SearchableText_filtered|nothing}" />
+                  <!-- The pat-depends condition below should be composed dynamically
+                       based on the document types and tags listed on the page.
+                       Alternately, all possible document types and tags that are used system wide
+                       could be populated here, but that might generate a really long list. -->
+                  <p class="button-bar pat-depends"
+                     data-pat-depends="${view/reset_button_pat_depends}">
+                    <a class="pat-button icon-cancel-circle pat-inject"
+                       href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
+                       data-pat-inject="source: #results; target: #results"
+                       i18n:translate=""
+                       >Reset filters</a>
                   </p>
-                </tal:highlights>
-                <tal:nohighlights condition="not:highlights">
-                  <p class="fragment"
-                     tal:condition="result/description"
-                     tal:content="result/description"></p>
-                </tal:nohighlights>
-                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                   class="link">${python:view.friendly_path(result.url)}</a>
-              </dd>
-            </tal:result>
-          </tal:results>
-          <tal:autoload define="next_url python: search_response and view.next_page_url(search_response.total_results)">
+                  <fieldset class="pat-checklist pat-bar-toggles document-types"
+                            tal:condition="view/type_facets">
+                    <legend i18n:translate="">Document types</legend>
+                    <!-- Only list content types in this list that are relevant for this search result. -->
+                    <tal:for repeat="type view/type_facets">
+                      <label class="${type/id}">
+                        <input name="friendly_type_name"
+                               checked="${python:type['id'] in request and 'checked' or None}"
+                               type="checkbox"
+                               value="${type/title}"
+                               /><tal:type i18n:translate="" i18n:domain="ploneintranet" tal:replace="type/title"></tal:type>
+                        <!--sup class="counter">${type/counter}</sup--></label>
+                    </tal:for>
+                  </fieldset>
+                  <fieldset class="vertical">
+                    <legend i18n:translate="">Date range</legend>
+                    <label>
+                      <input type="date"
+                             name="start_date"
+                             class="pat-date-picker"
+                             placeholder="Created after&hellip;"
+                             value="${python:request.get('created_after')}"
+                             data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
+                             i18n:attributes="placeholder label_created_after;" />
+                    </label>
+                    <label>
+                      <input type="date"
+                             name="end_date"
+                             class="pat-date-picker"
+                             placeholder="Created before&hellip;"
+                             value="${request/created_before|nothing}"
+                             data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
+                             i18n:attributes="placeholder label_created_before;" />
+                    </label>
+                  </fieldset>
+                  <tal:additional_facets tal:repeat="facet view/get_additional_facets">
+                    <fieldset class="pat-checklist pat-bar-toggles ${facet/id}"
+                              tal:define="items python:view.get_facets(facet['id'])"
+                              tal:condition="items">
+                      <legend i18n:translate="">${facet/label}</legend>
+                      <tal:for repeat="item items">
+                        <label>
+                          <input type="checkbox"
+                                 checked="${python:item['id'] in request and 'checked' or None}"
+                                 name="${facet/id}"
+                                 value="${item/title}"
+                                 />${item/title}</label>
+                      </tal:for>
+                    </fieldset>
+                  </tal:additional_facets>
+                </fieldset>
+              </div>
+              <div class="nine columns last document-listing"
+                   id="listing">
+                <p class="introduction">
+                  <tal:if condition="search_response/total_results|nothing">
+                    
+                    <span tal:replace="search_response/total_results">
+                      87</span>
+                    <span i18n:translate=""
+                          tal:omit-tag="">items matched your search.</span>
+                  </tal:if>
+                  <a href="#view-options"
+                     class="bare pat-select float-after pat-tooltip"
+                     data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr" i18n:translate="">Options</a>
+                </p>
+                
+                <div id="view-options" hidden="">
+                  <fieldset class="vertical pat-inject"
+                            data-pat-inject="source: #listing; target: #listing;">
+                    <input tal:replace="structure context/@@authenticator/authenticator"
+                           tal:condition="view/persistent_options"
+                           />
+                    <input type="hidden" name="options.submitted" value="1" />
+                    <input type="hidden" name="display-previews-old" value="on" tal:condition="display_previews" />
+                    <fieldset class="pat-checklist">
+                      <label>
+                        <input type="checkbox"
+                               name="display-previews"
+                               checked="${python:display_previews and 'checked' or None}" /><span tal:omit-tag="" i18n:translate="">Display previews</span></label>
+                    </fieldset>
+                    <fieldset class="pat-checklist radio">
+                      <label>
+                        <input type="radio"
+                               name="results-sorting"
+                               checked="${python: results_sorting==None and 'checked' or None}"
+                               value="relevancy" /><span tal:omit-tag="" i18n:translate="">Sort by relevancy</span></label>
+                      <label>
+                        <input type="radio"
+                               name="results-sorting"
+                               checked="${python: results_sorting=='-created' and 'checked' or None}"
+                               value="date" /><span tal:omit-tag="" i18n:translate="">Sort by date</span></label>
+                    </fieldset>
+                  </fieldset>
+                </div>
+                <p class="did-you-mean"
+                   tal:define="corrected search_response/spell_corrected_search|nothing"
+                   tal:condition="corrected">
+                  <span i18n:translate=""
+                        tal:omit-tag="">Did you mean</span>
+                  <strong>
+                    <a href="${portal_url}/@@search?SearchableText=${corrected}"
+                       tal:content="corrected"></a>
+                  </strong>?</p>
+                <!-- The class 'previews-on' may be changed out with 'previews-off' depending on
+                     the state of the checkbox 'display-previews' that appears in the options tooltip.
+                     The class is set server side (the search results reload)
+                     and should be stored in the user profile as a preference. -->
+                <div id="search-result">
+                <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
+                    id="result-listing"
+                    data-search-string="${request/QUERY_STRING|nothing}">
+                  <tal:results repeat="result search_response">
+                    <tal:result tal:define="
+                                            type_class python:view.get_facet_type_class(result.friendly_type_name);
+                                            fragments python: view.url_fragments.get(result.portal_type);
+                                            result_url string:${result/url}${fragments};
+                                            is_archived result/is_archived;
+                                            workspace_state python:'archived' if is_archived else result.review_state;
+                                            highlights result/highlighted_summary;
+                                            ">
+                      <dt class="title ${type_class}">
+                        <a href="${result_url}">
+                          ${result/title} <strong class="icon-archive workspace-state archived" tal:condition="is_archived" i18n:translate="icon_archived">Archived</strong>
+                        </a>
+                      </dt>
+                      <dd class="description ${type_class}">
+                        <tal:preview tal:condition="display_previews">
+                          <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
+                                                switch="preview_class">
+                            
+                            <tal:preview_rich case="string:rich">
+                              <article class="preview rich pat-rich"
+                                       tal:content="structure python:view.get_text_preview(result)" />
+                            </tal:preview_rich>
+                            
+                            <tal:preview_workspace case="string:workspace">
+                              <a href="${result_url}"
+                                 class="preview workspace-preview
+                                        workspace-state-${workspace_state}
+                                        workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
+                                 >
+                                <h4>${result/title}</h4>
+                              </a>
+                            </tal:preview_workspace>
+                            
+                            <tal:preview_rich case="string:event">
+                              <a href="${result_url}"
+                                 class="preview ${preview_class}"
+                                 >
+                                <time class="calendar-medium pat-auto-scale"
+                                      tal:define="
+                                                  obj result/getObject;
+                                                  event_date obj/start|obj/due|nothing;
+                                                  ">
+                                  <tal:has_time condition="event_date">
+                                    <tal:calendar define="
+                                                          day python:event_date.strftime('%d');
+                                                          month python:event_date.strftime('%B');
+                                                          year python:event_date.strftime('%Y');
+                                                          ">
+                                      <strong class="day">${day}</strong>
+                                      <strong class="month char-count-${python:len(month)}">${month}</strong>
+                                      <strong class="year">${year}</strong>
+                                    </tal:calendar>
+                                  </tal:has_time>
+                                </time>
+                              </a>
+                            </tal:preview_rich>
+                            
+                            <tal:preview_file tal:case="string:file">
+                              <a href="${result_url}"
+                                 class="preview ${preview_class}"
+                                 >
+                                <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
+                                     alt="${result/title}"
+                                     />
+                              </a>
+                            </tal:preview_file>
+                            
+                            <tal:preview_user tal:case="string:user">
+                              <a href="${result_url}"
+                                 class="preview ${preview_class}"
+                                 >
+                                <img src="${result/preview_image_url}"
+                                     class="pat-avatar"
+                                     alt="${result/title}"
+                                     tal:condition="result/preview_image_url" />
+                                <h4 class="name">${result/title}</h4>
+                              </a>
+                            </tal:preview_user>
+                          </tal:preview_selector>
+                        </tal:preview>
+                        
+                        <tal:highlights condition="highlights">
+                          <p class="fragment"
+                             tal:content="structure highlights">
+                          </p>
+                        </tal:highlights>
+                        <tal:nohighlights condition="not:highlights">
+                          <p class="fragment"
+                             tal:condition="result/description"
+                             tal:content="result/description"></p>
+                        </tal:nohighlights>
+                        <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                           class="link">${python:view.friendly_path(result.url)}</a>
+                      </dd>
+                    </tal:result>
+                  </tal:results>
+                  <tal:autoload define="next_url python: search_response and view.next_page_url(search_response.total_results)">
+                    <dd id="load-more-results"
+                        tal:condition="next_url">
+                      <!-- The link below is what would basically be the 'Next' link
+                           when you have pagination. Batches of 10 results or so would
+                           be nice. -->
+                      <!-- This is an example for infinate scrolling with a list (DL or
+                           UL or OL), which is a little bit different from non list
+                           cases. In non list cases, the link tag is replaced by the injection, but a link
+                           tag may not be placed directly into a list tag. Therefor the DD is replaced
+                           instead. In case of OL/UL an extra LI tag is added. -->
+                      <a href="${next_url}#result-listing"
+                         class="pat-inject infinite-scrolling-trigger"
+                         data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
+                         i18n:translate="">Loading more search
+                        results&hellip;</a>
+                    </dd>
+                  </tal:autoload>
+                </dl>
+                </div><!-- /#search-result -->
+              </div>
+            </div><!-- /row -->
+          </div><!-- /container -->
 
-            <dd id="load-more-results"
-                tal:condition="next_url">
-              <!-- The link below is what would basically be the 'Next' link
-                   when you have pagination. Batches of 10 results or so would
-                   be nice. -->
-              <!-- This is an example for infinate scrolling with a list (DL or
-                   UL or OL), which is a little bit different from non list
-                   cases. In non list cases, the link tag is replaced by the injection, but a link
-                   tag may not be placed directly into a list tag. Therefor the DD is replaced
-                   instead. In case of OL/UL an extra LI tag is added. -->
-              <a href="${next_url}#result-listing"
-                 class="pat-inject infinite-scrolling-trigger"
-                 data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
-                 i18n:translate="">Loading more search
-                 results&hellip;</a>
-            </dd>
-          </tal:autoload>
-        </dl>
-      </div>
-    </div>
-  </div>
-  </metal:results>
+        </div><!-- /results -->
+          
+      </form>
+    </div><!-- /content -->
+  </body>
 </html>

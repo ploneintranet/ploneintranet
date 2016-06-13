@@ -17,21 +17,22 @@
                            num_groups python: len(groups);
                            workspaces view/my_workspaces;
                            num_workspaces python: len(workspaces);
+                           absolute_url here/absolute_url;
                ">
             <aside class="four columns portlets sidebar">
                 <figure class="user-info-header">
                     <span class="pat-gallery">
                         <a href=""
-                           tal:attributes="href string:${context/absolute_url}/@@avatar_profile.jpg"
+                           tal:attributes="href string:${absolute_url}/@@avatar_profile.jpg"
                            class="pat-avatar pat-gallery user-info-avatar">
                             <img
-                             tal:attributes="src string:${context/absolute_url}/@@avatar_profile.jpg"
+                             tal:attributes="src string:${absolute_url}/@@avatar_profile.jpg"
                              src="{{ page.image_url }}"
                              alt="Image of {{ page.title }}"
                              i18n:attributes="alt" />
                         </a>
                     </span>
-                    <form action="${here/absolute_url}/personal-menu.html" id="change-personal-image"
+                    <form action="${absolute_url}/personal-menu.html" id="change-personal-image"
                           method="post"
                           enctype="multipart/form-data"
                           data-pat-inject="source: .pat-notification::element; target: #global-header::after"
@@ -43,7 +44,7 @@
                         </label>
                     </form>
                     <figcaption>
-                        <a href="" tal:attributes="href string:${context/absolute_url}; title string:Visit the profile of ${context/fullname}">
+                        <a href="" tal:attributes="href string:${absolute_url}; title string:Visit the profile of ${context/fullname}">
                             <span tal:replace="context/fullname" />
                         </a>
                     </figcaption>
@@ -126,12 +127,12 @@
                 <div class="pat-stacks simple" data-pat-stacks="transition: css">
                     <div class="activity-stream" id="person-timeline">
                         <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
-                        <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${context/absolute_url}/@@activitystream.tile" ></div>
+                        <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${absolute_url}/@@activitystream.tile" ></div>
                     </div>
                     <article id="person-info">
                         <tal:block condition="view/is_me">
 
-                            <a href="${context/absolute_url}/@@edit"
+                            <a href="${absolute_url}/@@edit"
                                class="pat-inject"
                                i18n:translate=""
                                data-pat-inject="source: #user-edit-form::element;
@@ -206,15 +207,26 @@
                          </div>
                     </div>
                     <div id="person-documents">
-                      <!--BBB form action="/feedback/user-document-search-result.html#search-result" class="pat-inject pat-autosubmit canvas-toolbar">
-                        <label class="pat-select bare">
+                      <form action="${absolute_url}/@@search#search-result"
+                            class="pat-inject pat-autosubmit canvas-toolbar"
+                            data-pat-inject="source: #search-result; target: #search-result;">
+                        <!-- label class="pat-select bare">
                           <select>
                             <option>Group by first letter</option>
                             <option>Group by date</option>
                           </select>
-                        </label>
-                        <input type="search" size="38" placeholder="Search Liz' documents">
-                      </form-->
+                        </label -->
+                        <input type="search"
+                               name="SearchableText"
+                               size="38"
+                               i18n:attributes="placeholder;"
+                               placeholder="Search ${here/fullname} documents"
+                              >
+                        <input type="hidden"
+                               name="Creator"
+                               value="${here/getId}"
+                            />
+                      </form>
                       <div id="search-result">
                         <div class="small directory"
                              tal:define="

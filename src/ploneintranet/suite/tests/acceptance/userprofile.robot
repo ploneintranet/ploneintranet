@@ -44,6 +44,10 @@ Alice can view her documents
     Then Click Link  Documents
     Then Click Link  Human Resources
 
+Alice can search her documents
+    Given I am logged in as the user alice_lindstrom
+     Then I can search in my documents for  Human
+
 Alice cannot open the password reset form
     Given I am logged in as the user alice_lindstrom
     When I open the password reset form
@@ -102,6 +106,15 @@ I open the personal preferences page
 
 I can follow the link to my profile
     Click Element  css=.tooltip-container .menu a.icon-user
+
+I can search in my documents for
+    [arguments]  ${VALUE}
+    I can open the personal tools menu
+    I can follow the link to my profile
+    Click Link  Documents
+    Input Text  jquery=#person-documents [name=SearchableText]  ${VALUE}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=.preview img[alt~="${VALUE}"]
 
 # This is disabled at the moment, see:
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509

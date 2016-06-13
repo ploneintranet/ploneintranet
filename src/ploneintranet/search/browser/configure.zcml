@@ -10,17 +10,18 @@
   <include package="ploneintranet.layout" file="permissions.zcml" />
 
   <browser:page
-     name="search_template"
-     for="plone.app.layout.navigation.interfaces.INavigationRoot"
-     permission="ploneintranet.viewsite"
-     template="templates/search_template.pt"
-     layer="..interfaces.IPloneintranetSearchLayer"
-     />
-
-  <browser:page
       name="search"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       permission="ploneintranet.viewsite"
+      class=".searchresults.SearchResultsView"
+      template="templates/all_results.pt"
+      layer="..interfaces.IPloneintranetSearchLayer"
+      />
+
+  <browser:page
+      name="search"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      permission="zope2.View"
       class=".searchresults.SearchResultsView"
       template="templates/all_results.pt"
       layer="..interfaces.IPloneintranetSearchLayer"
