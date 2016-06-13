@@ -174,6 +174,8 @@ class UserProfileView(UserProfileViewForm):
             stripped_title = result.title.strip()
             if stripped_title:
                 key = stripped_title[0].upper()
+                if isinstance(key, unicode):
+                    key = key.encode('utf8')
             else:
                 _('No title')
             docs[key].append(result)
