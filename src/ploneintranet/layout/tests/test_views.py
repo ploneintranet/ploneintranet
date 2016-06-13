@@ -1,9 +1,16 @@
 # coding=utf-8
 from json import loads
+from mock import patch
 from plone import api
+from ploneintranet import api as pi_api
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
 from zope.interface import alsoProvides
+
+
+class FakeCurrentUser(object):
+    ''' This mocks a membrane user ofr out tests
+    '''
 
 
 class TestViews(IntegrationTestCase):
@@ -20,14 +27,20 @@ class TestViews(IntegrationTestCase):
         )
         alsoProvides(self.request, IPloneintranetLayoutLayer)
 
+    def get_view(self, name, obj=None, **params):
+        ''' Retutn a view with a fresh request on the context of obj
+        If obj is None use the portal
+        '''
+        if obj is None:
+            obj = self.portal
+        request = self.request.clone()
+        request.form.update(params)
+        return api.content.get_view(name, obj, request)
+
     def test_date_picker_i18n_json(self):
         ''' We want pat-date-picker i18n
         '''
-        view = api.content.get_view(
-            'date-picker-i18n.json',
-            self.portal,
-            self.request,
-        )
+        view = self.get_view('date-picker-i18n.json')
         observed = loads(view())
         expected = {
             u'nextMonth': u'next_month_link',
@@ -74,11 +87,7 @@ class TestViews(IntegrationTestCase):
         ''' Check if the dashboard tiles are correctly configured
         through the registry
         '''
-        view = api.content.get_view(
-            'dashboard.html',
-            self.portal,
-            self.request,
-        )
+        view = self.get_view('dashboard.html')
         self.assertTupleEqual(
             view.activity_tiles(),
             (
@@ -103,11 +112,7 @@ class TestViews(IntegrationTestCase):
     def test_apps_view(self):
         ''' Check the @@apps view
         '''
-        view = api.content.get_view(
-            'apps.html',
-            self.portal,
-            self.request,
-        )
+        view = self.get_view('apps.html')
         self.assertListEqual(
             [tile.sorting_key for tile in view.tiles()],
             [
@@ -129,26 +134,12 @@ class TestViews(IntegrationTestCase):
         NEW_JS = u'<div>webstats_js</div>'
         OLD_JS = api.portal.get_registry_record('plone.webstats_js')
 
-        request1 = self.request.clone()
-        request2 = self.request.clone()
-        view1_portal = api.content.get_view(
-            'webstats_js',
-            self.portal,
-            request1
-        )
-        view1_folder = api.content.get_view(
-            'webstats_js',
-            self.folder,
-            request1
-        )
-        view2_portal = api.content.get_view(
-            'webstats_js',
-            self.portal,
-            request2
-        )
-
+        view1_portal = self.get_view('webstats_js')
+        view1_folder = self.get_view('webstats_js', obj=self.folder)
+        view2_portal = self.get_view('webstats_js',)
         # Test empty registry record
         self.assertEqual(view1_portal(), OLD_JS)
+        self.assertEqual(view1_folder(), OLD_JS)
 
         # Test modified registry record
         api.portal.set_registry_record('plone.webstats_js', NEW_JS)
@@ -161,3 +152,36 @@ class TestViews(IntegrationTestCase):
 
         # reset the registry record
         api.portal.set_registry_record('plone.webstats_js', OLD_JS)
+
+    def test_dashboard_view_default_dashboard(self):
+        ''' Check the various methods of the dashboard view
+        '''
+        view = self.get_view('dashboard.html')
+        # we are not a membrane user so persistency will not work
+        # the default is to return activity
+        self.assertEqual(pi_api.userprofile.get_current(), None)
+        self.assertEqual(view.default_dashboard(), 'activity')
+
+        # but we can ask for everything
+        view = self.get_view('dashboard.html', dashboard='test')
+        self.assertEqual(view.default_dashboard(), 'test')
+
+        # now we use a fake user for testing the persistency
+        with patch(
+            'ploneintranet.api.userprofile.get_current',
+            return_value=FakeCurrentUser(),
+        ):
+            view = self.get_view('dashboard.html', dashboard='evil')
+            self.assertEqual(view.default_dashboard(), 'evil')
+            user = pi_api.userprofile.get_current()
+            # value is not set because it is not a good one
+            with self.assertRaises(AttributeError):
+                user.dashboard_default
+            # if we specify a good one it will be set correctly
+            view = self.get_view('dashboard.html', dashboard='task')
+            self.assertEqual(view.default_dashboard(), 'task')
+            self.assertEqual(user.dashboard_default, 'task')
+            # now the view default persists to task, and not to activity
+            view = self.get_view('dashboard.html')
+            self.assertEqual(view.default_dashboard(), 'task')
+            self.assertEqual(user.dashboard_default, 'task')
