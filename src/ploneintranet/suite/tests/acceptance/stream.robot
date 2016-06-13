@@ -83,6 +83,7 @@ Neil can view the tag stream
     and I write a status update    ${MESSAGE1}
     and I can add a tag    ${TAG1}
     and I submit the status update
+    when I open the Dashboard    
     and I write a status update    ${MESSAGE2}
     and I can add a tag    ${TAG2}
     and I submit the status update
