@@ -3,6 +3,7 @@ from json import loads
 from mock import patch
 from plone import api
 from ploneintranet import api as pi_api
+from ploneintranet.layout.adapters.app_tiles import BaseTile
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
 from zope.interface import alsoProvides
@@ -127,6 +128,98 @@ class TestViews(IntegrationTestCase):
                 (90, u'app-market'),
             ]
         )
+
+    def get_app_tile(self, path=''):
+        ''' Return a fresh app tile with the given path
+        '''
+        tile = BaseTile(self.portal)
+        tile.path = path
+        return tile
+
+    def test_app_basetile_not_found(self):
+        ''' Check the not_found property of the app tile adapter
+        '''
+        # The path is empty, so we have nothing to look for
+        tile = self.get_app_tile()
+        self.assertTrue(tile.not_found)
+
+        # if we set a path, we have to find it event if we are anonymous
+        tile = self.get_app_tile('dashboard.html')
+        self.assertFalse(tile.not_found)
+
+        tile = self.get_app_tile('dashboard.html')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertFalse(tile.not_found)
+
+    def test_app_basetile_unauthorized(self):
+        ''' Check the unauthorized property of the app tile adapter
+        '''
+        # If we have not set a path, we cannot traverse to anything,
+        # so we cannot say if it is authorized or not
+        tile = self.get_app_tile()
+        with self.assertRaises(AttributeError):
+            tile.unauthorized
+
+        # If we set an existing path, we will have a different response
+        # according to our roles in context
+        tile = self.get_app_tile('dashboard.html')
+        self.assertFalse(tile.unauthorized)
+
+        tile = self.get_app_tile('dashboard.html')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertTrue(tile.unauthorized)
+
+    def test_app_basetile_url(self):
+        ''' Check the url property of the app tile adapter
+        '''
+        # If we do not set a path the tile url defaults to app-not-available
+        tile = self.get_app_tile()
+        self.assertEqual(
+            tile.url,
+            'http://nohost/plone/app-not-available.html#document-content'
+        )
+
+        # Otherwise the tile knows how to transform the path in to a url
+        tile = self.get_app_tile('dashboard.html')
+        self.assertEqual(tile.url, 'http://nohost/plone/dashboard.html')
+
+        # The tile should be disabled if the path is not allowed
+        tile = self.get_app_tile('dashboard.html')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertEqual(tile.url, 'http://nohost/plone/dashboard.html')
+
+    def test_app_basetile_modal(self):
+        ''' Check the modal property of the app tile adapter
+        '''
+        # With an empty path, when clicking on a tile,
+        # we will get an alert in a modal
+        tile = self.get_app_tile()
+        self.assertEqual(tile.modal, 'pat-modal')
+
+        # Otherwise we will open the tile
+        tile = self.get_app_tile('dashboard.html')
+        self.assertEqual(tile.modal, '')
+
+        # Even if we are unauthorized
+        tile = self.get_app_tile('dashboard.html')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertEqual(tile.modal, '')
+
+    def test_app_basetile_disabled(self):
+        ''' Check the disabled property of the app tile adapter
+        '''
+        # The tile should be disabled if path is not set (default)
+        tile = self.get_app_tile()
+        self.assertEqual(tile.disabled, 'disabled')
+
+        # The tile should be enabled because the path is allowed
+        tile = self.get_app_tile('dashboard.html')
+        self.assertEqual(tile.disabled, '')
+
+        # The tile should be disabled if the path is not allowed
+        tile = self.get_app_tile('dashboard.html')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertEqual(tile.disabled, 'disabled')
 
     def test_webstats_js(self):
         ''' Check if the view works and if it is correctly cached

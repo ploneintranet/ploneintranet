@@ -1,13 +1,13 @@
 # coding=utf-8
+from AccessControl.unauthorized import Unauthorized
 from plone import api
+from plone.memoize import instance
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class BaseTile(object):
     key = ''
     title = ''
-    disabled = 'disabled'
-    modal = 'pat-modal'
     path = ''
     position = 0
 
@@ -20,6 +20,52 @@ class BaseTile(object):
         ''' Add the context to this tile
         '''
         self.context = context
+
+    @property
+    @instance.memoize
+    def unauthorized(self):
+        if self.not_found:
+            # this will be the same error that restrictedTraverse will raise
+            raise AttributeError('Path not found')
+        try:
+            self.context.restrictedTraverse(self.path)
+        except Unauthorized:
+            return True
+        return False
+
+    @property
+    @instance.memoize
+    def not_found(self):
+        ''' Check if the url actually exists and is meaningful
+        '''
+        if not self.path:
+            return True
+        target = self.context.unrestrictedTraverse(self.path, None)
+        if target is None:
+            return True
+        return False
+
+    @property
+    @instance.memoize
+    def disabled(self):
+        ''' Check if the user has the rights to traverse to the existing path
+        '''
+        if not self.path:
+            return 'disabled'
+        if self.not_found:
+            return 'disabled'
+        if self.unauthorized:
+            return 'disabled'
+        return ''
+
+    @property
+    def modal(self):
+        ''' Open in a modal returning 'pat-modal'.
+        If you want, instead to follow the ling just return ''
+        '''
+        if self.not_found:
+            return 'pat-modal'
+        return ''
 
     @property
     def sorting_key(self):
@@ -52,7 +98,7 @@ class BaseTile(object):
         ''' Return the url generated from the path
         '''
         portal_url = api.portal.get().absolute_url()
-        if not self.path:
+        if self.not_found:
             url = self._url_not_available_template.format(
                 portal_url
             )
@@ -111,8 +157,6 @@ class CaseManagerTile(BaseTile):
     title = _('case-manager', u'Case manager',)
     position = 80
     path = 'workspaces/@@case-manager'
-    disabled = ''
-    modal = ''
 
 
 class AppMarketTile(BaseTile):
