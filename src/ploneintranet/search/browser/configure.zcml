@@ -18,6 +18,15 @@
       layer="..interfaces.IPloneintranetSearchLayer"
       />
 
+  <browser:page
+      name="search"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      permission="zope2.View"
+      class=".searchresults.SearchResultsView"
+      template="templates/all_results.pt"
+      layer="..interfaces.IPloneintranetSearchLayer"
+      />
+
    <browser:page
        name="search_images"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"

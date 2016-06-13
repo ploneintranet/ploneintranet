@@ -125,4 +125,6 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
+
+
 </configure>
