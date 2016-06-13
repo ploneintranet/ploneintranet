@@ -12,17 +12,23 @@
                              current_user context/portal_membership/getAuthenticatedMember;
                              user_name current_user/getUserName">
 
-        <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/#dashboard">
-          <label class="bare pat-select">
-            <select name="dashboard">
-              <option value="activity" i18n:translate="" tal:attributes="selected python:dashboard == 'activity' and 'selected' or nothing">
-                Activity centric view
-              </option>
-              <option value="task" i18n:translate="" tal:attributes="selected python:dashboard == 'task' and 'selected' or nothing">
-                Task centric view
-              </option>
-            </select>
-          </label>
+        <form class="canvas-toolbar"
+              action="${portal_url}/#dashboard"
+            >
+          <fieldset class="pat-subform pat-autosubmit pat-inject"
+                    data-pat-inject="history: record"
+                  >
+            <label class="bare pat-select">
+              <select name="dashboard">
+                <option value="activity" i18n:translate="" tal:attributes="selected python:dashboard == 'activity' and 'selected' or nothing">
+                  Activity centric view
+                </option>
+                <option value="task" i18n:translate="" tal:attributes="selected python:dashboard == 'task' and 'selected' or nothing">
+                  Task centric view
+                </option>
+              </select>
+            </label>
+          </fieldset>
         </form>
 
 
