@@ -44,6 +44,11 @@ Alice can view her documents
     Then Click Link  Documents
     Then Click Link  Human Resources
 
+Alice can view her documents sorted by date
+    Given I am logged in as the user alice_lindstrom
+    Then I can view the profile for user alice_lindstrom
+    Then I can see my documents grouped  by_date
+
 Alice can search her documents
     Given I am logged in as the user alice_lindstrom
      Then I can search in my documents for  Human
@@ -106,6 +111,14 @@ I open the personal preferences page
 
 I can follow the link to my profile
     Click Element  css=.tooltip-container .menu a.icon-user
+
+I can see my documents grouped
+    [arguments]  ${VALUE}
+    # BBB: fix the Go To when this one is closed:
+    # - https://github.com/quaive/ploneintranet.prototype/issues/262
+    # we should use the select
+    Go To  ${PLONE_URL}/profiles/alice_lindstrom?${VALUE}=1#person-documents
+    Wait until element is visible  jquery=.group:last a:contains("Human Resources")
 
 I can search in my documents for
     [arguments]  ${VALUE}

@@ -230,15 +230,16 @@
                       <div id="search-result">
                         <div class="small directory"
                              tal:define="
-                               my_documents_by_letter view/my_documents_by_letter;
+                               my_documents_grouped view/my_documents_grouped;
+                               my_documents_sorted_groups view/my_documents_sorted_groups;
                              "
                           >
-                          <tal:letters repeat="letter python:sorted(my_documents_by_letter.keys())">
+                          <tal:letters repeat="group my_documents_sorted_groups">
                             <div class="group">
-                              <h3 class="group-title">${letter}</h3>
+                              <h3 class="group-title">${group}</h3>
                               <ul class="menu links">
                                 <li class="bookmark"
-                                  tal:repeat="item my_documents_by_letter/?letter"
+                                  tal:repeat="item my_documents_grouped/?group"
                                   title="${item/description|nothing}">
                                   <a href="${item/url}" class="icon-doc-text">${item/title}</a>
                                 </li>
