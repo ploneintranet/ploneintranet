@@ -1,4 +1,5 @@
 # -*- coding=utf-8 -*-
+from AccessControl import Unauthorized
 from BTrees import OOBTree
 from DateTime import DateTime
 from plone import api
@@ -164,7 +165,11 @@ def tag_older_contentupdates(context):
         if status.tags:
             # already tagged
             continue
-        content_context = status.content_context
+        try:
+            content_context = status.content_context
+        except Unauthorized:
+            # happens for example when a document has been deleted
+            content_context = None
         if not content_context:
             # not a content update
             continue
