@@ -169,8 +169,8 @@ def tag_older_contentupdates(context):
         try:
             content_context = status.content_context
         except Unauthorized:
-            # happens for example when a document has been deleted
-            content_context = None
+            # context deleted, see ondelete_archive below
+            continue
         if not content_context:
             # not a content update
             continue
@@ -194,3 +194,19 @@ def ondelete_archive(context):
     if not hasattr(tool, '_status_archive'):
         logger.info("Adding missing status archive")
         tool._status_archive = LOBTree.LOBTree()
+    to_cleanup = set()
+    for (id, status) in tool.items(limit=None):
+        uuid = status._content_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+        uuid = status._microblog_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+    i = 0
+    for id in to_cleanup:
+        tool.delete(id, restricted=False)
+        i += 1
+    logger.info("archived %s statusupdates with stale uuid references", i)
+    commit()
