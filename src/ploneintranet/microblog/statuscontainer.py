@@ -169,10 +169,11 @@ class BaseStatusContainer(Persistent, Explicit):
                                  newName=status.id)
         notify(event)
 
-    def delete(self, id):
+    def delete(self, id, restricted=True):
         status = self._get(id)  # bypass view permission check
-        # delete permission check only original, not thread cascase
-        self._check_delete_permission(status)
+        # delete permission check only original, not thread cascade
+        if restricted:  # content_removed handler runs unrestricted
+            self._check_delete_permission(status)
         thread_mapping = self._threadid_mapping.get(id)
         if thread_mapping:
             # list() avoids RuntimeError
