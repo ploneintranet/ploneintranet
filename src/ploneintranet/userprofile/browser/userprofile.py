@@ -44,6 +44,21 @@ class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
     """View for user profile."""
 
+    # List of types excluded when loading the documents tab of the profile
+    _types_not_to_search_for = {
+        'Folder',
+        'Plone Site',
+        'TempFolder',
+        'ploneintranet.library.app',
+        'ploneintranet.library.folder'
+        'ploneintranet.library.section',
+        'ploneintranet.userprofile.userprofile',
+        'ploneintranet.userprofile.userprofilecontainer',
+        'ploneintranet.workspace.workspacecontainer',
+        'ploneintranet.workspace.workspacefolder',
+        'todo',
+    }
+
     my_groups = my_workspaces = []
 
     def update(self):
@@ -162,18 +177,32 @@ class UserProfileView(UserProfileViewForm):
         return get_fields_for_template(self)
 
     @memoize
+    def my_documents(self):
+        ''' Return the list of my documents
+        '''
+        search_util = getUtility(ISiteSearch)
+        pt = plone_api.portal.get_tool('portal_types')
+        types = [
+            t for t in pt.keys() if t not in self._types_not_to_search_for
+        ]
+        self.context.portal_types.listTypeTitles().keys()
+        response = search_util.query(
+            filters={
+                'Creator': self.context.getId(),
+                'portal_type': types,
+            },
+            step=9999,
+        )
+        return response
+
+    @memoize
     def my_documents_by_date(self):
         ''' Return the list of my documents grouped by date
         '''
-        search_util = getUtility(ISiteSearch)
-        response = search_util.query(
-            filters={'Creator': self.context.getId()},
-            step=9999,
-        )
         docs = defaultdict(list)
         today = date.today()
 
-        for result in response:
+        for result in self.my_documents():
             if hasattr(result.modified, 'date'):
                 day_past = (today - result.modified.date()).days
             else:
@@ -192,13 +221,8 @@ class UserProfileView(UserProfileViewForm):
     def my_documents_by_letter(self):
         ''' Return the list of my documents grouped by letter
         '''
-        search_util = getUtility(ISiteSearch)
-        response = search_util.query(
-            filters={'Creator': self.context.getId()},
-            step=9999,
-        )
         docs = defaultdict(list)
-        for result in response:
+        for result in self.my_documents():
             stripped_title = result.title.strip()
             if stripped_title:
                 key = stripped_title[0].upper()
