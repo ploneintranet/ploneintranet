@@ -1,6 +1,8 @@
 from AccessControl import Unauthorized
 import logging
 
+from plone import api
+from plone.uuid.interfaces import IUUID
 from ploneintranet import api as pi_api
 from ploneintranet.microblog.browser.interfaces import (
     IPloneIntranetMicroblogLayer
@@ -51,3 +53,23 @@ def content_statechanged(obj, event):
         action_verb=action_verb,
         tags=obj.Subject() or None,
     )
+
+
+def content_removed(obj, event):
+    """
+    Archive all statusupdates referencing a deleted content
+    object as microblog_context or content_context.
+    """
+    if not IPloneIntranetMicroblogLayer.providedBy(obj.REQUEST):
+        # We are not installed
+        return
+
+    tool = api.portal.get_tool('ploneintranet_microblog')
+    if tool.content_keys(obj) or tool.context_keys(obj):
+        # obj can be already detached from parent. reconstruct url
+        logger.info("Archiving statusupdates referencing uuid {} -> {}/{}",
+                    IUUID(obj), event.oldParent.absolute_url(), obj.id)
+    for id in tool.content_keys(obj):
+        tool.delete(id, restricted=False)
+    for id in tool.context_keys(obj):
+        tool.delete(id, restricted=False)

@@ -17,4 +17,10 @@
       handler=".subscribers.content_statechanged"
       />
 
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".subscribers.content_removed"
+      />
+
 </configure>

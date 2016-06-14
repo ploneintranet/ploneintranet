@@ -96,4 +96,13 @@
         profile="ploneintranet.microblog:default"
         />
     
+    <genericsetup:upgradeStep
+        title="archive on delete"
+        description="archive updates on deletion"
+        source="0009"
+        destination="0010"
+        handler=".migration.ondelete_archive"
+        profile="ploneintranet.microblog:default"
+        />
+    
 </configure>

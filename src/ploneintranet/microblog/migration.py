@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from AccessControl import Unauthorized
+from BTrees import LOBTree
 from BTrees import OOBTree
 from DateTime import DateTime
 from plone import api
@@ -168,8 +169,8 @@ def tag_older_contentupdates(context):
         try:
             content_context = status.content_context
         except Unauthorized:
-            # happens for example when a document has been deleted
-            content_context = None
+            # context deleted, see ondelete_archive below
+            continue
         if not content_context:
             # not a content update
             continue
@@ -179,4 +180,33 @@ def tag_older_contentupdates(context):
             tool._idx_tag(status)
             i += 1
     logger.info("Added tags to %s older content updates", i)
+    commit()
+
+
+def ondelete_archive(context):
+    """
+    Initialize archive for deleted statusupdates.
+    Archive updates whose microblog_context or content_context
+    has been deleted.
+    """
+    logger.info("ondelete_archive")
+    tool = queryUtility(IMicroblogTool)
+    if not hasattr(tool, '_status_archive'):
+        logger.info("Adding missing status archive")
+        tool._status_archive = LOBTree.LOBTree()
+    to_cleanup = set()
+    for (id, status) in tool.items(limit=None):
+        uuid = status._content_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+        uuid = status._microblog_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+    i = 0
+    for id in to_cleanup:
+        tool.delete(id, restricted=False)
+        i += 1
+    logger.info("archived %s statusupdates with stale uuid references", i)
     commit()

@@ -120,6 +120,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._ctime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
+        # archive deleted: (long statusid) -> (object IStatusUpdate)
+        self._status_archive = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
         self._user_mapping = OOBTree.OOBTree()
         # index by tag: (string tag) -> (object TreeSet(long statusid))
@@ -167,10 +169,14 @@ class BaseStatusContainer(Persistent, Explicit):
                                  newName=status.id)
         notify(event)
 
-    def delete(self, id):
+    def delete(self, id, restricted=True):
         status = self._get(id)  # bypass view permission check
-        # delete permission check only original, not thread cascase
-        self._check_delete_permission(status)
+        # thread expansion and batch delete can run into eachother
+        if not status:
+            return
+        # delete permission check only original, not thread cascade
+        if restricted:  # content_removed handler runs unrestricted
+            self._check_delete_permission(status)
         thread_mapping = self._threadid_mapping.get(id)
         if thread_mapping:
             # list() avoids RuntimeError
@@ -179,10 +185,14 @@ class BaseStatusContainer(Persistent, Explicit):
         else:
             to_delete = [id]
         for xid in to_delete:
+            # thread expansion and batch delete can run into eachother
+            if not self._get(xid):
+                continue
             self._unidx(xid)
-            self._status_mapping.pop(xid)
+            deleted = self._status_mapping.pop(xid)
+            self._status_archive.insert(xid, deleted)
             # this would be the right place to notify deletion
-            logger.info("%s deleted statusupdate %s",
+            logger.info("%s archived statusupdate %s",
                         api.user.get_current().id, xid)
         self._update_ctime()  # purge cache
 
