@@ -1,6 +1,7 @@
 # coding=utf-8
 from AccessControl import Unauthorized
 from collections import defaultdict
+from datetime import date
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
@@ -161,6 +162,33 @@ class UserProfileView(UserProfileViewForm):
         return get_fields_for_template(self)
 
     @memoize
+    def my_documents_by_date(self):
+        ''' Return the list of my documents grouped by date
+        '''
+        search_util = getUtility(ISiteSearch)
+        response = search_util.query(
+            filters={'Creator': self.context.getId()},
+            step=9999,
+        )
+        docs = defaultdict(list)
+        today = date.today()
+
+        for result in response:
+            if hasattr(result.modified, 'date'):
+                day_past = (today - result.modified.date()).days
+            else:
+                day_past = 100
+            if day_past < 1:
+                docs[_('Today')].append(result)
+            if day_past < 7:
+                docs[_('Last week')].append(result)
+            if day_past < 30:
+                docs[_('Last month')].append(result)
+            else:
+                docs[_('All time')].append(result)
+        return docs
+
+    @memoize
     def my_documents_by_letter(self):
         ''' Return the list of my documents grouped by letter
         '''
@@ -180,6 +208,31 @@ class UserProfileView(UserProfileViewForm):
                 _('No title')
             docs[key].append(result)
         return docs
+
+    @memoize
+    def my_documents_sorted_groups(self):
+        ''' Return the list of my documents grouped by letter
+        '''
+        if self.request.get('by_date'):
+            return [
+                _('Today'),
+                _('Last week'),
+                _('Last month'),
+                _('All time'),
+            ]
+        groups = sorted(self.my_documents_by_letter().keys())
+        if _('No title') in groups:
+            no_title = groups.pop(groups.index(_('No title')))
+            groups.append(no_title)
+        return groups
+
+    @memoize
+    def my_documents_grouped(self):
+        ''' Return the list of my documents grouped
+        '''
+        if self.request.get('by_date'):
+            return self.my_documents_by_date()
+        return self.my_documents_by_letter()
 
 
 class AuthorView(BaseAuthorView):
