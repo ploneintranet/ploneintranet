@@ -27,7 +27,32 @@
     <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
 
         <div id="document-body">
-        	
+        	<div id="workspace-header" class="pat-bumper ">
+	
+	<div class="content">
+		<h1 class="title" id="top">
+			Empty template
+		</h1>
+		<form class="pat-inject buttons">
+			<a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a>
+
+			<fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #follow-workspace" id="follow-workspace">
+				<button type="submit" class="icon-follow-empty iconified" formaction="/feedback/follow-workspace.html" title="Click to follow Empty template">Follow</button>
+			</fieldset>
+
+			<fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">	
+				
+	                <button type="submit" formaction="/feedback/bookmarked-workspace.html" class="icon-bookmark-empty iconified" title="Add this workspace to your bookmarks">Bookmark</button>    
+	            
+			</fieldset>
+		</form>
+		<h2 class="byline">
+			223 Followers
+		</h2>
+	</div>
+</div>
+
+
 
 <form id="post-box" class="pat-inject update-social status-inactive" action="/feedback/post-well-done.html" data-pat-inject="source: #activity-stream; target: #activity-stream::before && #new-post-box">
     
@@ -1873,6 +1898,7 @@
 
 </div>
 
+<a href="#top" class="pat-scroll" data-pat-scroll="trigger: auto" id="auto-back-to-top">Back to top</a>
         </div>
 
         <aside class="sidebar left tagging-off" id="sidebar">
@@ -4306,6 +4332,10 @@
                         Workspace brief description
                         <textarea rows="4" placeholder="Workspace brief description">The goal of this project is to integrate CA to ADC product.</textarea>
                     </label>
+                    <label>
+                        Workspace hero image
+                        <input type="file" name=""/>
+                    </label>
                     <fieldset class="pat-checklist">
                         <!-- <label>
                             <input type="checkbox" checked> Visible workspace
@@ -4330,7 +4360,7 @@
     <nav class="navigation workspace-tabs">
 
     
-    <a href="#document-body" title="Workspace landing page" class="pat-inject current landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document"></a>
+    <a href="#document-body" title="Workspace landing page" class=" current pat-inject current landing pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-closed && selector: body; remove: body focus-*; add: focus-document"></a>
     <a class="settings pat-switch" data-pat-switch="selector: body; remove: sidebar-left-*; add: sidebar-left-open && body focus-* focus-sidebar" href="#workspace-settings"
     title="Workspace settings">Workspace settings and about</a>
 
@@ -4359,7 +4389,7 @@
         
             <a href="/workspaces.html">Workspaces</a>
             
-            <a class="current " href=""> </a>
+            <a class="current " href="#top"> </a>
             
         
     </nav>
@@ -4412,6 +4442,7 @@
 			
 				.tiles .tile.workspace.type-case .link,
 				.workspace-type-case #workspace-name,
+				.workspace-type-case #workspace-header,
 				.super-space-preview.workspace-type-case:before, 
 				.workspace-preview.workspace-type-case:before {
 					background-color: #B09045;
@@ -4419,6 +4450,7 @@
 			
 				.tiles .tile.workspace.type-project .link,
 				.workspace-type-project #workspace-name,
+				.workspace-type-project #workspace-header,
 				.super-space-preview.workspace-type-project:before, 
 				.workspace-preview.workspace-type-project:before {
 					background-color: #C34F4B;
@@ -4426,6 +4458,7 @@
 			
 				.tiles .tile.workspace.type-steering-committee .link,
 				.workspace-type-steering-committee #workspace-name,
+				.workspace-type-steering-committee #workspace-header,
 				.super-space-preview.workspace-type-steering-committee:before, 
 				.workspace-preview.workspace-type-steering-committee:before {
 					background-color: #7ABD90;

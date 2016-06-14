@@ -58,8 +58,14 @@
 				<label class="type-excel">			
 					<input name="type-excel" type="checkbox"> Excel<sup class="counter">11</sup>
 				</label>
+				<label class="type-folder">			
+					<input name="type-folder" type="checkbox"> Folder<sup class="counter">2</sup>
+				</label>
 				<label class="type-link">			
 					<input name="type-rich" type="checkbox"> Link<sup class="counter">11</sup>
+				</label>
+				<label class="type-task">			
+					<input name="type-task" type="checkbox"> Task<sup class="counter">2</sup>
 				</label>
 				<label class="type-question">		
 					<input name="type-question" type="checkbox"> Question<sup class="counter">11</sup>
@@ -676,6 +682,12 @@
 
 <p>Nullam eget mi consectetur, suscipit arcu et, tincidunt nisl. Phasellus feugiat, eros id vestibulum vestibulum, est ligula ultrices erat, sit amet vulputate est ligula sed nisl. Duis ac tincidunt diam.</p>
 
+<ol class="roman">
+    <li>For the first</li>
+    <li>Second, we need to do it</li>
+    <li>And third, this has been decided.</li>
+</ol>
+
 <pre><code>&amp;lt;p&amp;gt;This is a great code example.&amp;lt;/p&amp;gt;
 </code></pre>
 
@@ -1087,6 +1099,7 @@
 			
 				.tiles .tile.workspace.type-case .link,
 				.workspace-type-case #workspace-name,
+				.workspace-type-case #workspace-header,
 				.super-space-preview.workspace-type-case:before, 
 				.workspace-preview.workspace-type-case:before {
 					background-color: #B09045;
@@ -1094,6 +1107,7 @@
 			
 				.tiles .tile.workspace.type-project .link,
 				.workspace-type-project #workspace-name,
+				.workspace-type-project #workspace-header,
 				.super-space-preview.workspace-type-project:before, 
 				.workspace-preview.workspace-type-project:before {
 					background-color: #C34F4B;
@@ -1101,6 +1115,7 @@
 			
 				.tiles .tile.workspace.type-steering-committee .link,
 				.workspace-type-steering-committee #workspace-name,
+				.workspace-type-steering-committee #workspace-header,
 				.super-space-preview.workspace-type-steering-committee:before, 
 				.workspace-preview.workspace-type-steering-committee:before {
 					background-color: #7ABD90;
