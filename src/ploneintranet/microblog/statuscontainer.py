@@ -120,6 +120,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._ctime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
+        # archive deleted: (long statusid) -> (object IStatusUpdate)
+        self._status_archive = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
         self._user_mapping = OOBTree.OOBTree()
         # index by tag: (string tag) -> (object TreeSet(long statusid))
@@ -180,9 +182,11 @@ class BaseStatusContainer(Persistent, Explicit):
             to_delete = [id]
         for xid in to_delete:
             self._unidx(xid)
-            self._status_mapping.pop(xid)
+            # deleted = status + all thread children of status
+            deleted = self._status_mapping.pop(xid)
+            self._status_archive.insert(xid, deleted)
             # this would be the right place to notify deletion
-            logger.info("%s deleted statusupdate %s",
+            logger.info("%s archived statusupdate %s",
                         api.user.get_current().id, xid)
         self._update_ctime()  # purge cache
 

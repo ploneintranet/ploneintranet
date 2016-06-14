@@ -138,6 +138,13 @@ class TestStatusContainer_Delete(unittest.TestCase):
         self.container.delete(su.id)
         self.assertEquals(None, self.container._status_mapping.get(su.id))
 
+    def test_status_archive(self):
+        su = StatusUpdate('foo')
+        self.container.add(su)
+        self.assertEquals(None, self.container._status_archive.get(su.id))
+        self.container.delete(su.id)
+        self.assertEquals(su, self.container._status_archive.get(su.id))
+
     def test_user_mapping(self):
         login(self.portal, 'user_steve')
         su = StatusUpdate('foo')

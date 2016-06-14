@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from AccessControl import Unauthorized
+from BTrees import LOBTree
 from BTrees import OOBTree
 from DateTime import DateTime
 from plone import api
@@ -180,3 +181,16 @@ def tag_older_contentupdates(context):
             i += 1
     logger.info("Added tags to %s older content updates", i)
     commit()
+
+
+def ondelete_archive(context):
+    """
+    Initialize archive for deleted statusupdates.
+    Archive updates whose microblog_context or content_context
+    has been deleted.
+    """
+    logger.info("ondelete_archive")
+    tool = queryUtility(IMicroblogTool)
+    if not hasattr(tool, '_status_archive'):
+        logger.info("Adding missing status archive")
+        tool._status_archive = LOBTree.LOBTree()
