@@ -171,6 +171,9 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def delete(self, id, restricted=True):
         status = self._get(id)  # bypass view permission check
+        # thread expansion and batch delete can run into eachother
+        if not status:
+            return
         # delete permission check only original, not thread cascade
         if restricted:  # content_removed handler runs unrestricted
             self._check_delete_permission(status)
@@ -182,8 +185,10 @@ class BaseStatusContainer(Persistent, Explicit):
         else:
             to_delete = [id]
         for xid in to_delete:
+            # thread expansion and batch delete can run into eachother
+            if not self._get(xid):
+                continue
             self._unidx(xid)
-            # deleted = status + all thread children of status
             deleted = self._status_mapping.pop(xid)
             self._status_archive.insert(xid, deleted)
             # this would be the right place to notify deletion

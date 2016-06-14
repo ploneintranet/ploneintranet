@@ -28,30 +28,32 @@ class TestDeleteSubscriber(unittest.TestCase):
 
     def test_delete_content_context(self):
         su1 = StatusUpdate('test')
-        su1.userid = 'dude'
-        su2 = StatusUpdate('foobar', content_context=self.document)
-        su2.userid = 'dude'
         self.container.add(su1)
+        su2 = StatusUpdate('foobar', content_context=self.document)
         self.container.add(su2)
         self.microblog_context.manage_delObjects([self.doc_id])
         self.assertEqual([su1], (list(self.container.values())))
 
     def test_delete_microblog_context(self):
         su1 = StatusUpdate('test')
-        su1.userid = 'dude'
-        su2 = StatusUpdate('foobar', microblog_context=self.microblog_context)
-        su2.userid = 'dude'
         self.container.add(su1)
+        su2 = StatusUpdate('foobar', microblog_context=self.microblog_context)
         self.container.add(su2)
         self.portal.manage_delObjects([self.ws_id])
         self.assertEqual([su1], (list(self.container.values())))
 
     def test_delete_microblog_context_and_content(self):
         su1 = StatusUpdate('test', content_context=self.document)
-        su1.userid = 'dude'
-        su2 = StatusUpdate('foobar', microblog_context=self.microblog_context)
-        su2.userid = 'dude'
         self.container.add(su1)
+        su2 = StatusUpdate('foobar', microblog_context=self.microblog_context)
         self.container.add(su2)
         self.portal.manage_delObjects([self.ws_id])
+        self.assertEqual([], (list(self.container.values())))
+
+    def test_delete_content_replies(self):
+        su1 = StatusUpdate('test', content_context=self.document)
+        self.container.add(su1)
+        su2 = StatusUpdate('foobar', thread_id=su1.id)
+        self.container.add(su2)
+        self.microblog_context.manage_delObjects([self.doc_id])
         self.assertEqual([], (list(self.container.values())))
