@@ -235,7 +235,7 @@
              tal:attributes="class view/content_preview_status_css">
       <figure>
         <a tal:condition="view/content_has_previews"
-           tal:repeat="preview_src view/content_preview_urls"
+           tal:define="preview_src python:view.content_preview_urls()[0]"
            tal:attributes="href view/content_url;
                            alt content_context/Title">
 	  <img src="${preview_src}" alt="" />
