@@ -147,10 +147,9 @@ Create document
     Given I am in a workspace as a workspace member
      Then I can create a new document    My Humble document
 
-Member can create and edit a folder
+Create folder
     Given I am in a workspace as a workspace member
      Then I can create a new folder
-     Then I can edit the new folder
 
 Create image
     Given I am in a workspace as a workspace member

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0010</version>
+  <version>0009</version>
   <dependencies>
     <dependency>profile-collective.workspace:default</dependency>
     <dependency>profile-Products.CMFPlacefulWorkflow:base</dependency>

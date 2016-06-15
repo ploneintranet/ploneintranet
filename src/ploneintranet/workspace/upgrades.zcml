@@ -43,13 +43,4 @@
         handler=".upgrades.statusupdate_edit_delete"
         profile="ploneintranet.workspace:default" />
 
-    <genericsetup:upgradeStep
-        title="Reread workflow"
-        description="In order to assign the folder_in_workspace_workflow"
-        source="*"
-        destination="0010"
-        handler=".upgrades.update_workflows"
-        profile="ploneintranet.workspace:default"
-      />
-
 </configure>

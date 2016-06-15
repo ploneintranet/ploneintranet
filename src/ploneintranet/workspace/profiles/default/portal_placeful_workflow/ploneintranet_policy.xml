@@ -10,10 +10,6 @@
     <bound-workflow workflow_id="todo_workflow" />
   </type>
 
-  <type type_id="Folder">
-    <bound-workflow workflow_id="folder_in_workspace_workflow" />
-  </type>
-
   <default>
    <bound-workflow workflow_id="ploneintranet_workflow"/>
   </default>
