@@ -22,7 +22,7 @@
       name="search"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       permission="zope2.View"
-      class=".searchresults.SearchResultsView"
+      class=".searchresults.UserSearchResultsView"
       template="templates/all_results.pt"
       layer="..interfaces.IPloneintranetSearchLayer"
       />
