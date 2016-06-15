@@ -724,6 +724,16 @@ I can create a new folder
     Click link  Documents
     Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder']
 
+I can edit the new folder
+    Click Element  jquery=.item .title:contains(My Humble Folder)
+    Wait until element is visible  jquery=.folder-title:contains(My Humble Folder) .icon-pencil
+    Click element  jquery=.folder-title:contains(My Humble Folder) .icon-pencil
+    Wait until element is visible  jquery=.panel-body [name=title]
+    Input Text  jquery=.panel-body [name=title]  My Superpowered Folder
+    Input Text  jquery=.panel-body [name=description]  The description of my superpowered folder
+    Click Element  jquery=.panel-footer #form-buttons-edit
+    Wait until element is visible  jquery=.folder-title:contains(My Superpowered Folder)
+
 I can create a new image
     Click link  Documents
     Click link  Functions

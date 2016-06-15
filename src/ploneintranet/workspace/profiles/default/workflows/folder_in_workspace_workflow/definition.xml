@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dc-workflow
+  workflow_id="folder_in_workspace_workflow"
+  title="Folder in workspace Workflow"
+  description="A workflow used to grant permissions to the members inside a workspace"
+  state_variable="review_state"
+  initial_state="default"
+  manager_bypass="True">
+  <permission>Modify portal content</permission>
+  <state state_id="default" title="Default">
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Owner</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+  </state>
+</dc-workflow>

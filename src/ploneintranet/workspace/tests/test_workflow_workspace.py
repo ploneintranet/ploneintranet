@@ -406,3 +406,25 @@ class TestWorkSpaceContainerWorkflow(BaseTestCase):
             contributor_permissions[ADD_CONTENT],
             "Contributor can't add content to a restricted workspace container"
         )
+
+    def test_folder_in_workspace_workflow(self):
+        '''A folder in a workspace should have a dedicated one state workflow
+        '''
+        ws = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            id='workspace-with-folder',
+        )
+        folder = api.content.create(
+            ws,
+            'Folder',
+            id='test-folder',
+        )
+        pw = api.portal.get_tool('portal_workflow')
+        self.assertListEqual(
+            ['folder_in_workspace_workflow'],
+            [x.getId() for x in pw.getWorkflowsFor(folder)]
+        )
+        with api.env.adopt_roles(['Owner']):
+            permissions = api.user.get_permissions(obj=folder)
+            self.assertTrue(permissions['Modify portal content'])
