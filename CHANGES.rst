@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0a6 (unreleased)
+1.1.0a6 (2016-06-15)
 --------------------
 
 * typo [Alexander Pilz]
