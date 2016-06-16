@@ -1,6 +1,6 @@
 # coding=utf-8
 from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.baseviews import ContentView
 from urllib import urlencode
 from ploneintranet.workspace.basecontent.utils import get_selection_classes

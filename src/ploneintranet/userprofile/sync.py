@@ -12,7 +12,7 @@ from zope.interface import alsoProvides
 from plone.protect.interfaces import IDisableCSRFProtection
 
 from ploneintranet import api as pi_api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from .content.userprofile import IUserProfile
 
 

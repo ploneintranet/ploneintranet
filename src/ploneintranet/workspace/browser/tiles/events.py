@@ -2,7 +2,7 @@ from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.tiles import Tile
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.i18nmessageid import MessageFactory
 from ploneintranet.workspace.utils import month_name
 

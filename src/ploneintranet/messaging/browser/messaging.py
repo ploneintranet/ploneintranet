@@ -14,7 +14,7 @@ from z3c.form import field
 from z3c.form import form
 from zope.component import getUtility
 from zope.component.hooks import getSite
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 import datetime
 import json
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five import BrowserView
 from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent

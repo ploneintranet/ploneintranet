@@ -11,7 +11,7 @@ from BTrees.OOBTree import OOBTree
 from plone.protect import CheckAuthenticator, PostOnly
 
 from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 ANNOTATION_KEY = 'ploneintranet.invitations.invitation_storage'

@@ -4,7 +4,7 @@ from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
 from Products.CMFPlone.utils import safe_unicode
 from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 

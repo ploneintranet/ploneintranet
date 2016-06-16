@@ -5,7 +5,7 @@ from plone import api
 from plone.protect import PostOnly
 from plone.app.uuid.utils import uuidToCatalogBrain
 from ploneintranet import api as piapi
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import INetworkTool
 from zope.component import getUtility
 from zope.interface import implementer

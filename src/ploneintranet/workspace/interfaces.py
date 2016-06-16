@@ -4,7 +4,7 @@ from plone.directives import form
 from ploneintranet.layout import interfaces as ilayout
 from plone.namedfile.interfaces import IImageScaleTraversable
 from zope import schema
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IPloneintranetWorkspaceLayer(Interface):

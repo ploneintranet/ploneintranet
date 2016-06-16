@@ -10,7 +10,7 @@ from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
 from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
 from ploneintranet.workspace.interfaces import IMetroMap
 from zope.component import adapts

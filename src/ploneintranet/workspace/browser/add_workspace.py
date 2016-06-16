@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.schema.interfaces import IVocabularyFactory
 from zope.component import getUtility
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.browser.add_content import AddBase
 
