@@ -1,10 +1,12 @@
-import os
+# coding=utf-8
 from plone import api
 from plone.namedfile.file import NamedBlobFile
-from ploneintranet.api.testing import FunctionalTestCase
-from ploneintranet import api as pi_api
-from ZODB.blob import Blob
 from plone.resource.file import FilesystemFile
+from ploneintranet import api as pi_api
+from ploneintranet.api.testing import FunctionalTestCase
+from ploneintranet.docconv.client.previews import PREVIEW_URL
+from ZODB.blob import Blob
+import os
 
 TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
 TEST_FILENAME = u'test.odt'
@@ -60,10 +62,13 @@ class TestPreviews(FunctionalTestCase):
         self.assertIn('/large/dump_1', preview_urls[0])
 
     def test_fallback_image_url(self):
-        fallback = pi_api.previews.fallback_image_url(self.testfile)
-        self.assertIn(
-            '++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square.svg',  # noqa
-            fallback)
+        self.assertEqual(
+            pi_api.previews.fallback_image_url(self.testfile),
+            '/'.join((
+                self.portal.absolute_url(),
+                PREVIEW_URL,
+            )),
+        )
 
     def test_get_thumbnail(self):
         thumbnail = pi_api.previews.get_thumbnail(self.testfile)
