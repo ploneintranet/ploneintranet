@@ -1,32 +1,31 @@
-import logging
-from Products.CMFCore.Expression import getExprContext
-from Products.CMFCore.interfaces import IContentish
-from Products.CMFCore.interfaces import IFolderish
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-    WorkflowPolicyConfig_id
+# coding=utf-8
+from Acquisition import aq_inner
+from Acquisition import Implicit
 from borg.localrole.default_adapter import DefaultLocalRoleAdapter
 from borg.localrole.interfaces import ILocalRoleProvider
+from BTrees.OOBTree import OOBTree
+from BTrees.OOBTree import OOTreeSet
 from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
-from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
-from ploneintranet.workspace.interfaces import IMetroMap
-from zope.component import adapts
-from zope.interface import implements
-from Acquisition import aq_inner
-from Acquisition import Implicit
-from BTrees.OOBTree import OOBTree
-from BTrees.OOBTree import OOTreeSet
 from datetime import datetime
+from OFS.owner import Owned
+from plone import api
 from plone.folder.ordered import OrderedBTreeFolderBase
 from plone.indexer.wrapper import IndexableObjectWrapper
 from plone.uuid.interfaces import IUUID
-from OFS.owner import Owned
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
+from ploneintranet.workspace.interfaces import IMetroMap
+from Products.CMFCore.Expression import getExprContext
+from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import IFolderish
 from utils import parent_workspace
+from zope.component import adapts
 from zope.component import getMultiAdapter
+from zope.interface import implements
 
+import logging
 import persistent
 
 logger = logging.getLogger(__name__)
@@ -179,25 +178,12 @@ class MetroMap(object):
         transitions between them.
 
         Return the workflow required to render the metromap.
-
-        NOTE: is it really this hard to get the workflow for an obj?
         """
-        policy_conf = self.context.get(WorkflowPolicyConfig_id)
-        if policy_conf is None:
-            return
-        policy = policy_conf.getPolicyIn()
-        if policy is None:
-            return
-        chain = policy.getChainFor(self.context)
-        if chain is None:
-            chain = policy.getDefaultChain(self.context)
-        if chain is not None:
-            wft = api.portal.get_tool('portal_workflow')
-            for wf_id in chain:
-                workflow = wft.getWorkflowById(wf_id)
-                if workflow and workflow.variables.get("metromap_transitions",
-                                                       False):
-                    return workflow
+        pw = api.portal.get_tool('portal_workflow')
+        workflows = pw.getWorkflowsFor(self.context)
+        for workflow in workflows:
+            if workflow.variables.get("metromap_transitions", False):
+                return workflow
 
     def get_available_metromap_workflows(self):
         """Return all globally available workflows with the
