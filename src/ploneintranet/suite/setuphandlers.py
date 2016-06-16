@@ -22,6 +22,7 @@ import json
 import logging
 import loremipsum
 import os
+import pytz
 import random
 import re
 import time
@@ -767,6 +768,7 @@ def create_stream(context, stream, files_dir):
     microblog.clear()
     _orig_async = microblog.ASYNC
     microblog.ASYNC = False
+    UTC = pytz.timezone('UTC')
     for status in stream:
         microblog_context = status['microblog_context']
         if microblog_context:
@@ -776,7 +778,8 @@ def create_stream(context, stream, files_dir):
                 )
             m_context_obj = contexts_cache[microblog_context]
         offset_time = status['timestamp'] * 60
-        _time = datetime.utcfromtimestamp(time.time() - abs(offset_time))
+        _time = UTC.localize(
+            datetime.utcfromtimestamp(time.time() - abs(offset_time)))
         status_obj = pi_api.microblog.statusupdate.create(
             text=status['text'],
             microblog_context=m_context_obj,
