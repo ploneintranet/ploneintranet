@@ -123,6 +123,10 @@ def discuss_older_docs(context, do_commit=True):
     This only adds a 'created' message, since we cannot reconstruct
     the publication date and actor.
     """
+    if context is not None:
+        # Backport ondelete_archive in order not to fail
+        # if some documents have been deleted (see quaive/ploneintranet #354)
+        ondelete_archive(context)
     logger.info("Adding streams to older content")
     mtool = queryUtility(IMicroblogTool)
     haveseen = [x for x in mtool._content_uuid_mapping.keys()]
@@ -156,6 +160,10 @@ def tag_older_contentupdates(context):
     """Retroactively apply tags on auto-generated content updates.
     Is backported to discuss_older_docs.
     """
+    if context is not None:
+        # Backport ondelete_archive in order not to fail
+        # if some documents have been deleted (see quaive/ploneintranet #354)
+        ondelete_archive(context)
     logger.info("Adding tags to older content updates")
     tool = queryUtility(IMicroblogTool)
     i = 0
