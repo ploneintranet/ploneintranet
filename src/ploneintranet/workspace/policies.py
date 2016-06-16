@@ -2,7 +2,7 @@
 Defines the policies that can be applied to a workspace
 """
 from collections import OrderedDict
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 EXTERNAL_VISIBILITY = OrderedDict([
     ('secret', {

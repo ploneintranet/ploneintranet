@@ -16,7 +16,7 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.CMFPlone.utils import safe_unicode

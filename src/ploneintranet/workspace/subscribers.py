@@ -14,7 +14,7 @@ from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from OFS.interfaces import IObjectWillBeRemovedEvent

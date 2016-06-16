@@ -6,7 +6,7 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.instance import clearafter
 from plone.protect import CheckAuthenticator, PostOnly
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import getMultiAdapter
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
 from ploneintranet.workspace.utils import existing_users

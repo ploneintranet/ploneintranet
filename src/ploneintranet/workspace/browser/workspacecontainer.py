@@ -5,7 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.interfaces import IMetroMap

@@ -3,7 +3,7 @@ from OFS.CopySupport import _cb_encode
 from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
 from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 

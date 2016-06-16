@@ -9,7 +9,7 @@ from plone.memoize import view
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.library.browser import utils
 from ploneintranet.search.interfaces import ISearchResult
 

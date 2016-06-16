@@ -4,7 +4,7 @@
 from datetime import datetime
 from plone import api
 from StringIO import StringIO
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 import zipfile
 

@@ -5,7 +5,7 @@ from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.search.interfaces import ISiteSearch
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import getUtility
 from zope.component import queryUtility
 from ploneintranet.layout.utils import shorten

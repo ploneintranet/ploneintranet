@@ -1,5 +1,5 @@
 from zope.interface import Interface, Attribute
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IPloneintranetInvitationsLayer(Interface):

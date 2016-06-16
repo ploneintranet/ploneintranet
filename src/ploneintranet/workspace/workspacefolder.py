@@ -5,7 +5,7 @@ from plone import api
 from plone.dexterity.content import Container
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from ploneintranet import api as pi_api
