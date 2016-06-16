@@ -50,7 +50,7 @@ def create(
     :type userid: string
 
     :param time: time when the post should happen. By default the current time.
-    :type time: datetime object
+    :type time: timezone aware datetime object
 
     :param content_context: a content referenced we are talking about
     :type content_context: content object
@@ -82,14 +82,14 @@ def create(
     # Passing a time (as a datetime-object) the id and the date can be set
     if time is not None:
         assert(isinstance(time, datetime))
+        if not time.tzinfo or time.tzinfo.utcoffset(time) is None:
+            raise ValueError("Naive datetime not supported")
         UTC = pytz.timezone('UTC')
-        if not time.tzinfo:
-            time = UTC.localize(time)
         epoch = UTC.localize(datetime.utcfromtimestamp(0))
         delta = time - epoch
         status_obj.id = long(delta.total_seconds() * 1e6)
         status_obj.date = DateTime(time)
-        if time > UTC.localize(datetime.now()):
+        if time > datetime.now(UTC):
             raise ValueError("Future statusupdates are an abomination")
 
     microblog = queryUtility(IMicroblogTool)
