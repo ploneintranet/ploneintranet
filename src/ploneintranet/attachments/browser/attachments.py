@@ -28,7 +28,7 @@ class Attachments(BrowserView):
     preview_type = None
     page = None
 
-    def publishTraverse(self, request, name):  # noqa
+    def publishTraverse(self, request, name):
         # @@attachments/{attachment_id}[/{preview_type}]
         self.attachment_id = name
 
@@ -177,7 +177,7 @@ class StatusAttachments(Attachments):
 
     status_id = None
 
-    def publishTraverse(self, request, name):  # noqa
+    def publishTraverse(self, request, name):
         # @@status-attachment/{status_id}/{attachment_id}[/{preview_type}]
         self.status_id = int(name)
 

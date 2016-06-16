@@ -4,7 +4,7 @@ from ploneintranet.activitystream.browser import utils
 
 
 text_with_links = "I want to link to http://ploneintranet.org or " \
-    "https://plone.org in my text."  # noqa
+    "https://plone.org in my text."
 text_with_links_replaced = "I want to link to " \
     """<a href="http://ploneintranet.org">"""\
     """http://ploneintranet.org</a> or <a href="https://plone.org">"""\

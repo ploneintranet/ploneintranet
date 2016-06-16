@@ -61,7 +61,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         # but we have valid messages
         msgs = list(view.iter_messages())
         self.assertEqual(len(msgs), 1)
-        msg = msgs[0]  # noqa
+        msg = msgs[0]
         self.assertTrue(msg['Subject'].startswith(u'invitees_members: 20'))
         self.assertEqual(msg['From'], 'None <None>')
         self.assertEqual(msg['To'], 'invitee <invitee@example.com>')
