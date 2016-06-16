@@ -308,6 +308,7 @@ Supported types include (class names):
                     <br/>
                     <label>
                       <input type="checkbox" name="active-tasks:list"
+                             disabled="${python:not task['can_edit'] and 'disabled' or None}"
                              tal:attributes="value task/id;
                                              checked python: 'checked' if task['checked'] else ''"
                              />
