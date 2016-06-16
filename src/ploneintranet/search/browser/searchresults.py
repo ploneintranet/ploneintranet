@@ -465,3 +465,15 @@ class SearchResultsView(BrowserView):
 
     def search_people(self):
         return self.search_by_type('ploneintranet.userprofile.userprofile')
+
+
+class UserSearchResultsView(SearchResultsView):
+    ''' The search view in the context of the user
+    '''
+
+    def is_searching(self):
+        ''' Return all the results
+        even if we do not submit any SearchableText,
+        otherwise we will an ugly looking blank page
+        '''
+        return True
