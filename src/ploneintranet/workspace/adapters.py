@@ -21,8 +21,10 @@ from Products.CMFCore.Expression import getExprContext
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from utils import parent_workspace
+from zope.annotation.interfaces import IAnnotations
 from zope.component import adapts
 from zope.component import getMultiAdapter
+from zope.globalrequest import getRequest
 from zope.interface import implements
 
 import logging
@@ -53,6 +55,22 @@ class PloneIntranetWorkspace(Workspace):
         u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
     }
 
+    def invalidate_cache_for(self, userid):
+        '''
+        Invalidate the collective.workspace pas plugin cache for a userid
+
+        :param userid: The id of the user to remove from this workspace
+        :type user: str
+
+        BBB: This one should be backported to collective.workspace
+        '''
+        request = getRequest()
+        if not request:
+            return
+        annotations = IAnnotations(request)
+        annotations.pop(('workspace_groups', userid), None)
+        annotations.pop(('workspaces', userid), None)
+
     def add_to_team(self, user, **kw):
         """
         Add user/group to this workspace
@@ -82,7 +100,21 @@ class PloneIntranetWorkspace(Workspace):
             raise SecretWorkspaceNotAllowed(
                 u'Forbidden: A secret workspace cannot be added as member.')
         data['user'] = user
-        return super(PloneIntranetWorkspace, self).add_to_team(**data)
+        membership = super(PloneIntranetWorkspace, self).add_to_team(**data)
+        # BBB backport he fix to collective.workspace
+        self.invalidate_cache_for(user)
+        return membership
+
+    def remove_from_team(self, user):
+        """
+        Remove a user from the workspace
+        :param user: The id of the user to remove from this workspace
+        :type user: str
+        """
+        membership = super(PloneIntranetWorkspace, self).remove_from_team(user)
+        # BBB backport he fix to collective.workspace
+        self.invalidate_cache_for(user)
+        return membership
 
     def group_for_policy(self, policy=None):
         """

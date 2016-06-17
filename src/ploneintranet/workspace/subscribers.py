@@ -1,29 +1,31 @@
-import logging
-from zope.annotation.interfaces import IAnnotations
+# coding=utf-8
 from AccessControl.SecurityManagement import newSecurityManager
+from Acquisition import aq_base
 from collective.workspace.interfaces import IWorkspace
+from OFS.CopySupport import cookie_path
+from OFS.interfaces import IObjectWillBeRemovedEvent
 from plone import api
 from plone.api.exc import PloneApiError
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
-    import WorkflowPolicyConfig_id
-from zope.globalrequest import getRequest
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace import workspacefolder
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
-from ploneintranet.workspace.utils import get_storage
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from OFS.interfaces import IObjectWillBeRemovedEvent
+from ploneintranet.workspace.unrestricted import execute_as_manager
+from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import purge_workspace_pas_cache
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
+from zExceptions import BadRequest
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-from Acquisition import aq_base
-from OFS.CopySupport import cookie_path
-from zExceptions import BadRequest
+
+import logging
 
 log = logging.getLogger(__name__)
 
@@ -281,7 +283,7 @@ def workspace_groupbehavior_toggled(obj, event):
     # In case the membrane_tool cannot be found, just return.
     # This can happen in test scenarios that do not set up the full stack of
     # PloneIntranet.
-    except PloneApiError, exc:
+    except PloneApiError as exc:
         log.error(exc)
         return
     if IMembraneGroup.__identifier__ in obj.behaviors:
@@ -305,3 +307,25 @@ def workspace_groupbehavior_toggled(obj, event):
         workspace = result.getObject()
         workspace.reindexObject()
         membrane_catalog.reindexObject(workspace)
+
+
+def on_generic_workspace_event(obj, event):
+    ''' When something happens to a workspace,
+    we want the pas plugin cache invalidated
+    '''
+    request = getRequest()
+    if not request:
+        return
+
+    purge_workspace_pas_cache()
+
+    # BBB is this second part really needed?
+    annotations = IAnnotations(request)
+    keys_to_remove = [
+        key for key in annotations
+        if (
+            isinstance(key, basestring) and
+            key.startswith('borg.localrole')
+        )
+    ]
+    map(annotations.pop, keys_to_remove)
