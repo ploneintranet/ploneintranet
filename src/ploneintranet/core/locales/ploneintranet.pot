@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-09 10:27+0000\n"
+"POT-Creation-Date: 2016-06-17 19:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "${action_verb} this item"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:77
+#: ../search/browser/templates/all_results.pt:108
 msgid "${facet/label}"
 msgstr ""
 
-#: ../search/browser/templates/file_results.pt:14
+#: ../search/browser/templates/file_results.pt:42
 msgid "${results} items matched your search."
 msgstr ""
 
@@ -131,7 +131,7 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:522
+#: ../workspace/browser/tiles/templates/sidebar.pt:523
 msgid "Advanced"
 msgstr ""
 
@@ -139,9 +139,9 @@ msgstr ""
 msgid "Advanced permissions"
 msgstr ""
 
-#: ../search/browser/templates/search_template.pt:26
-#: ../workspace/browser/templates/case_manager.pt:45
-#: ../workspace/browser/tiles/templates/navigation.pt:35
+#: ../search/browser/templates/all_results.pt:27
+#: ../search/browser/templates/file_results.pt:26
+#: ../search/browser/templates/image_results.pt:25
 msgid "All"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "All Types"
 msgstr ""
 
-#: ../activitystream/browser/templates/stream_tile.pt:18
+#: ../activitystream/browser/templates/stream_tile.pt:14
 msgid "All activities"
 msgstr ""
 
@@ -185,15 +185,19 @@ msgstr ""
 msgid "All notifications"
 msgstr ""
 
+#: ../userprofile/browser/userprofile.py:217
+msgid "All time"
+msgstr ""
+
 #: ../library/browser/views.py:104
 msgid "All topics"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:79
+#: ../workspace/browser/workspacecontainer.py:113
 msgid "All workspace types"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:58
+#: ../workspace/browser/workspacecontainer.py:71
 msgid "Alphabetical"
 msgstr ""
 
@@ -311,7 +315,7 @@ msgstr ""
 msgid "Case Workspace"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:97
+#: ../workspace/browser/workspacecontainer.py:131
 msgid "Cases"
 msgstr ""
 
@@ -342,7 +346,7 @@ msgstr ""
 msgid "Changes applied"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:384
+#: ../workspace/browser/tiles/templates/sidebar.pt:385
 msgid "Close milestone"
 msgstr ""
 
@@ -363,7 +367,7 @@ msgstr ""
 msgid "Consume"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:58
+#: ../userprofile/browser/templates/userprofile.pt:59
 msgid "Contact"
 msgstr ""
 
@@ -437,7 +441,7 @@ msgstr ""
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:55
+#: ../search/browser/templates/all_results.pt:84
 msgid "Date range"
 msgstr ""
 
@@ -505,11 +509,11 @@ msgstr ""
 msgid "Deslect all"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:136
+#: ../search/browser/templates/all_results.pt:167
 msgid "Did you mean"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:117
+#: ../search/browser/templates/all_results.pt:148
 msgid "Display previews"
 msgstr ""
 
@@ -526,13 +530,13 @@ msgstr ""
 msgid "Document title"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:42
+#: ../search/browser/templates/all_results.pt:71
 msgid "Document types"
 msgstr ""
 
 #: ../layout/browser/configure.zcml:132
 #: ../layout/browser/templates/my_documents.pt:11
-#: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:18
+#: ../userprofile/browser/templates/userprofile.pt:122
 msgid "Documents"
 msgstr ""
 
@@ -585,7 +589,7 @@ msgstr ""
 msgid "Edit post"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:133
+#: ../userprofile/browser/templates/userprofile.pt:135
 msgid "Edit profile"
 msgstr ""
 
@@ -668,7 +672,9 @@ msgstr ""
 msgid "File incorrectly formatted."
 msgstr ""
 
-#: ../search/browser/templates/search_template.pt:32
+#: ../search/browser/templates/all_results.pt:33
+#: ../search/browser/templates/file_results.pt:32
+#: ../search/browser/templates/image_results.pt:31
 msgid "Files"
 msgstr ""
 
@@ -691,7 +697,7 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:96
+#: ../userprofile/browser/templates/userprofile.pt:97
 msgid "Followers ${num_followers}"
 msgstr ""
 
@@ -701,7 +707,7 @@ msgstr ""
 msgid "Following"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:120
+#: ../userprofile/browser/templates/userprofile.pt:121
 msgid "Following ${num_following}"
 msgstr ""
 
@@ -727,11 +733,11 @@ msgstr ""
 msgid "Frozen on"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:110
+#: ../userprofile/browser/templates/userprofile.pt:111
 msgid "Full list of followers"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:90
+#: ../userprofile/browser/templates/userprofile.pt:91
 msgid "Full list of people ${name_of_followee} follows."
 msgstr ""
 
@@ -739,7 +745,7 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:508
+#: ../workspace/browser/tiles/templates/sidebar.pt:509
 msgid "General"
 msgstr ""
 
@@ -751,7 +757,7 @@ msgstr ""
 msgid "Generic workspace"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:95
+#: ../workspace/browser/workspacecontainer.py:129
 msgid "Generic workspaces"
 msgstr ""
 
@@ -760,7 +766,7 @@ msgstr ""
 msgid "Group by"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:71
+#: ../workspace/browser/workspacecontainer.py:105
 msgid "Group by division"
 msgstr ""
 
@@ -819,11 +825,13 @@ msgid "Image field"
 msgstr ""
 
 #: ../userprofile/browser/templates/userprofile-edit.pt:14
-#: ../userprofile/browser/templates/userprofile.pt:27
+#: ../userprofile/browser/templates/userprofile.pt:28
 msgid "Image of {{ page.title }}"
 msgstr ""
 
-#: ../search/browser/templates/search_template.pt:30
+#: ../search/browser/templates/all_results.pt:31
+#: ../search/browser/templates/file_results.pt:30
+#: ../search/browser/templates/image_results.pt:29
 msgid "Images"
 msgstr ""
 
@@ -835,7 +843,7 @@ msgstr ""
 msgid "Inbox"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:118
+#: ../userprofile/browser/templates/userprofile.pt:119
 #: ../workspace/browser/templates/sharingviewlet.pt:4
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:44
 msgid "Info"
@@ -918,8 +926,16 @@ msgstr ""
 msgid "Last Week"
 msgstr ""
 
+#: ../userprofile/browser/userprofile.py:215
+msgid "Last month"
+msgstr ""
+
 #: ../userprofile/content/userprofile.py:40
 msgid "Last name"
+msgstr ""
+
+#: ../userprofile/browser/userprofile.py:213
+msgid "Last week"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:62
@@ -958,14 +974,14 @@ msgstr ""
 msgid "Library for PloneIntranet"
 msgstr ""
 
-#: ../network/browser/likes.py:56
+#: ../network/browser/likes.py:51
 msgid "Like"
 msgstr ""
 
 msgid "Link"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:258
+#: ../search/browser/templates/all_results.pt:289
 msgid "Loading more search results&hellip;"
 msgstr ""
 
@@ -1019,7 +1035,7 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:512
+#: ../workspace/browser/tiles/templates/sidebar.pt:513
 msgid "Members"
 msgstr ""
 
@@ -1069,13 +1085,13 @@ msgstr ""
 msgid "Modifications past 7 days"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:70
+#: ../userprofile/browser/templates/userprofile.pt:71
 msgid "More information about"
 msgstr ""
 
-#: ../search/browser/templates/file_results.pt:32
-#: ../search/browser/templates/image_results.pt:32
-#: ../search/browser/templates/people_results.pt:75
+#: ../search/browser/templates/file_results.pt:60
+#: ../search/browser/templates/image_results.pt:58
+#: ../search/browser/templates/people_results.pt:103
 msgid "More results"
 msgstr ""
 
@@ -1095,7 +1111,7 @@ msgstr ""
 msgid "My tile's description"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:145
+#: ../userprofile/browser/templates/userprofile.pt:147
 msgid "Name"
 msgstr ""
 
@@ -1107,7 +1123,7 @@ msgstr ""
 msgid "New Message"
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:60
+#: ../workspace/browser/workspacecontainer.py:73
 msgid "Newest workspaces on top"
 msgstr ""
 
@@ -1128,11 +1144,11 @@ msgstr ""
 msgid "No attachments selected."
 msgstr ""
 
-#: ../workspace/browser/workspacecontainer.py:69
+#: ../workspace/browser/workspacecontainer.py:103
 msgid "No grouping"
 msgstr ""
 
-#: ../network/browser/likes.py:122
+#: ../network/browser/likes.py:115
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr ""
 
@@ -1163,6 +1179,10 @@ msgstr ""
 
 #: ../layout/browser/templates/tasks-tile.pt:11
 msgid "No tasks available"
+msgstr ""
+
+#: ../userprofile/browser/userprofile.py:232
+msgid "No title"
 msgstr ""
 
 #: ../invitations/views.py:30
@@ -1214,16 +1234,16 @@ msgstr ""
 msgid "Older"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:490
+#: ../workspace/browser/tiles/templates/sidebar.pt:491
 msgid "Older events"
-msgstr ""
-
-#: ../activitystream/browser/templates/stream_tile.pt:20
-msgid "Only activities from people I follow"
 msgstr ""
 
 #: ../workspace/policies.py:34
 msgid "Only administrators can add workspace members."
+msgstr ""
+
+#: ../activitystream/browser/templates/stream_tile.pt:16
+msgid "Only people and things I follow"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:74
@@ -1240,7 +1260,7 @@ msgstr ""
 msgid "Open in External Editor"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:100
+#: ../search/browser/templates/all_results.pt:131
 msgid "Options"
 msgstr ""
 
@@ -1276,7 +1296,9 @@ msgstr ""
 msgid "Paste document(s)"
 msgstr ""
 
-#: ../search/browser/templates/search_template.pt:28
+#: ../search/browser/templates/all_results.pt:29
+#: ../search/browser/templates/file_results.pt:28
+#: ../search/browser/templates/image_results.pt:27
 msgid "People"
 msgstr ""
 
@@ -1443,11 +1465,11 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:387
+#: ../workspace/browser/tiles/templates/sidebar.pt:388
 msgid "Reopen milestone"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:34
+#: ../search/browser/templates/all_results.pt:63
 msgid "Reset filters"
 msgstr ""
 
@@ -1475,8 +1497,12 @@ msgstr ""
 
 #: ../microblog/browser/templates/panel_tags.pt:21
 #: ../microblog/browser/templates/panel_users.pt:29
-#: ../search/browser/templates/search_template.pt:22
+#: ../search/browser/templates/all_results.pt:22
 msgid "Search"
+msgstr ""
+
+#: ../userprofile/browser/templates/userprofile.pt:219
+msgid "Search ${here/fullname} documents"
 msgstr ""
 
 #: ../workspace/browser/templates/panel-add-group.pt:21
@@ -1503,7 +1529,7 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:517
+#: ../workspace/browser/tiles/templates/sidebar.pt:518
 msgid "Security"
 msgstr ""
 
@@ -1589,11 +1615,11 @@ msgstr ""
 msgid "Some items have been sent to you."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:129
+#: ../search/browser/templates/all_results.pt:160
 msgid "Sort by date"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:124
+#: ../search/browser/templates/all_results.pt:155
 msgid "Sort by relevancy"
 msgstr ""
 
@@ -1838,7 +1864,7 @@ msgstr ""
 msgid "Time Zone"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:117
+#: ../userprofile/browser/templates/userprofile.pt:118
 msgid "Timeline"
 msgstr ""
 
@@ -1855,6 +1881,7 @@ msgstr ""
 msgid "To:"
 msgstr ""
 
+#: ../userprofile/browser/userprofile.py:211
 #: ../workspace/browser/tiles/sidebar.py:689
 msgid "Today"
 msgstr ""
@@ -1876,7 +1903,7 @@ msgstr ""
 msgid "Transfer members to another workspace."
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:403
+#: ../workspace/browser/tiles/templates/sidebar.pt:404
 msgid "Unassigned"
 msgstr ""
 
@@ -1917,7 +1944,7 @@ msgstr ""
 msgid "Unknown function"
 msgstr ""
 
-#: ../network/browser/likes.py:54
+#: ../network/browser/likes.py:49
 msgid "Unlike"
 msgstr ""
 
@@ -1926,11 +1953,11 @@ msgid "Until"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:436
+#: ../workspace/browser/tiles/templates/sidebar.pt:437
 msgid "Upcoming events"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:41
+#: ../userprofile/browser/templates/userprofile.pt:42
 msgid "Update avatar"
 msgstr ""
 
@@ -2145,7 +2172,7 @@ msgid "alert_remove_users_from_workspace"
 msgstr ""
 
 #. Default: "App market"
-#: ../layout/adapters/app_tiles.py:120
+#: ../layout/adapters/app_tiles.py:164
 msgid "app-market"
 msgstr ""
 
@@ -2187,12 +2214,12 @@ msgid "button_post"
 msgstr ""
 
 #. Default: "Calendar"
-#: ../layout/adapters/app_tiles.py:87
+#: ../layout/adapters/app_tiles.py:133
 msgid "calendar"
 msgstr ""
 
 #. Default: "Case manager"
-#: ../layout/adapters/app_tiles.py:111
+#: ../layout/adapters/app_tiles.py:157
 msgid "case-manager"
 msgstr ""
 
@@ -2200,7 +2227,7 @@ msgid "cases"
 msgstr ""
 
 #. Default: "Contacts"
-#: ../layout/adapters/app_tiles.py:69
+#: ../layout/adapters/app_tiles.py:115
 msgid "contacts"
 msgstr ""
 
@@ -2364,13 +2391,13 @@ msgstr ""
 
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
-#: ../search/browser/templates/all_results.pt:160
+#: ../search/browser/templates/all_results.pt:192
 #: ../workspace/browser/templates/case_manager.pt:96
 msgid "icon_archived"
 msgstr ""
 
 #. Default: "Image bank"
-#: ../layout/adapters/app_tiles.py:99
+#: ../layout/adapters/app_tiles.py:145
 msgid "image-bank"
 msgstr ""
 
@@ -2385,7 +2412,7 @@ msgid "info_items_selected"
 msgstr ""
 
 #. Default: "Loading more posts"
-#: ../activitystream/browser/templates/stream_tile.pt:42
+#: ../activitystream/browser/templates/stream_tile.pt:38
 msgid "info_loading_more_posts"
 msgstr ""
 
@@ -2409,9 +2436,9 @@ msgstr ""
 msgid "invititations"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:97
-#: ../search/browser/templates/image_results.pt:14
-#: ../search/browser/templates/people_results.pt:14
+#: ../search/browser/templates/all_results.pt:128
+#: ../search/browser/templates/image_results.pt:40
+#: ../search/browser/templates/people_results.pt:42
 msgid "items matched your search."
 msgstr ""
 
@@ -2457,12 +2484,12 @@ msgid "label_copyrights"
 msgstr ""
 
 #. Default: "Created after…"
-#: ../search/browser/templates/all_results.pt:57
+#: ../search/browser/templates/all_results.pt:86
 msgid "label_created_after"
 msgstr ""
 
 #. Default: "Created before…"
-#: ../search/browser/templates/all_results.pt:65
+#: ../search/browser/templates/all_results.pt:95
 msgid "label_created_before"
 msgstr ""
 
@@ -2527,7 +2554,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:499
+#: ../workspace/browser/tiles/templates/sidebar.pt:500
 msgid "label_no_events_available"
 msgstr ""
 
@@ -2569,7 +2596,9 @@ msgid "label_search_button"
 msgstr ""
 
 #. Default: "Search the entire intranet"
-#: ../search/browser/templates/search_template.pt:18
+#: ../search/browser/templates/all_results.pt:18
+#: ../search/browser/templates/file_results.pt:17
+#: ../search/browser/templates/image_results.pt:17
 msgid "label_search_entire_intranet"
 msgstr ""
 
@@ -2649,7 +2678,7 @@ msgid "leave_a_comment"
 msgstr ""
 
 #. Default: "Messages"
-#: ../layout/adapters/app_tiles.py:75
+#: ../layout/adapters/app_tiles.py:121
 msgid "messages"
 msgstr ""
 
@@ -2667,7 +2696,7 @@ msgid "my_docs_heading_workspaces"
 msgstr ""
 
 #. Default: "News publisher"
-#: ../layout/adapters/app_tiles.py:105
+#: ../layout/adapters/app_tiles.py:151
 msgid "news"
 msgstr ""
 
@@ -2692,12 +2721,12 @@ msgid "participant_policy_label"
 msgstr ""
 
 #. Default: "Groups ${num_groups}"
-#: ../userprofile/browser/templates/userprofile.pt:122
+#: ../userprofile/browser/templates/userprofile.pt:124
 msgid "person-groups"
 msgstr ""
 
 #. Default: "Workspaces ${num_workspaces}"
-#: ../userprofile/browser/templates/userprofile.pt:121
+#: ../userprofile/browser/templates/userprofile.pt:123
 msgid "person-workspaces"
 msgstr ""
 
@@ -2734,7 +2763,7 @@ msgid "sharing_policy_description"
 msgstr ""
 
 #. Default: "Slide bank"
-#: ../layout/adapters/app_tiles.py:93
+#: ../layout/adapters/app_tiles.py:139
 msgid "slide-bank"
 msgstr ""
 
@@ -2768,7 +2797,7 @@ msgid "to"
 msgstr ""
 
 #. Default: "Todo"
-#: ../layout/adapters/app_tiles.py:81
+#: ../layout/adapters/app_tiles.py:127
 msgid "todo"
 msgstr ""
 
@@ -2778,12 +2807,12 @@ msgid "unfollow"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_groups} groups."
-#: ../userprofile/browser/templates/userprofile.pt:232
+#: ../userprofile/browser/templates/userprofile.pt:276
 msgid "user_member_of_groups"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
-#: ../userprofile/browser/templates/userprofile.pt:211
+#: ../userprofile/browser/templates/userprofile.pt:255
 msgid "user_member_of_workspaces"
 msgstr ""
 
