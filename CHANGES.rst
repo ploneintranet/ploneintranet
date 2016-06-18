@@ -4,7 +4,7 @@ Changelog
 1.1.0b1 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Sync translation (.po/.pot) files with code. [Fred van Dijk]
 
 
 1.1.0a6 (2016-06-15)
