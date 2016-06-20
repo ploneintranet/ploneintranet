@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0b1 (unreleased)
+1.1.0b1 (2016-06-20)
 --------------------
 
 Initial beta release of *Gaia*.
