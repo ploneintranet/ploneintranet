@@ -1,10 +1,49 @@
 Changelog
 =========
 
-1.1.0b1 (unreleased)
+1.1.0b2 (unreleased)
 --------------------
 
-* Sync translation (.po/.pot) files with code. [Fred van Dijk]
+- Nothing changed yet.
+
+
+1.1.0b1 (2016-06-20)
+--------------------
+
+Initial beta release of *Gaia*.
+~8000 commits, 1085 tests, 85% test coverage.
+
+* Merge pull request #372 from quaive/fix_mobile_back [GitHub]
+* Fix mobile parent button refs https://github.com/quaive/ploneintranet.prototype/issues/240 [Guido A.J. Stevens]
+* Merge pull request #371 from quaive/update-po-files [GitHub]
+* Sync translation files with code [Fred van Dijk]
+* Merge pull request #364 from quaive/simplify-getting-workflow-in-mm [GitHub]
+* Merge pull request #366 from quaive/not-needed-noqa-step-2 [GitHub]
+* Merge pull request #367 from quaive/362_microblog_timezone [GitHub]
+* Remove not needed #noqas [Alessandro Pisa]
+* Enter beta release cycle for Gaia [Guido A.J. Stevens]
+* Simplify the way we get the current workflow [Alessandro Pisa]
+* Merge pull request #365 from quaive/not-needed-noqa [GitHub]
+* Remove any naive datetime handling from testcontent stream and microblog api fixes #362 [Guido A.J. Stevens]
+* Merge pull request #357 from quaive/354-fix-microblog-upgrade-steps [GitHub]
+* Merge pull request #360 from quaive/326-user-profile-search-logic [GitHub]
+* Merge pull request #363 from quaive/135-check-permission-on-task [GitHub]
+* Remove not needed #noqa [Alessandro Pisa]
+* Merge pull request #361 from quaive/1-pdf-preview-in-stream [GitHub]
+* Disable task checkbox if user can not modify [Alessandro Pisa]
+* Merge pull request #356 from quaive/fix-changelog [GitHub]
+* Only show the first preview image in the activity stream [Cillian de Róiste]
+* Return all documents in user profile search [Alessandro Pisa]
+* Call function only when context is not None [Alessandro Pisa]
+* Backport the upgrade step ondelete_archive [Alessandro Pisa]
+* Fix authors in changelog [Alessandro Pisa]
+* Merge pull request #353 from quaive/release-1.1.x [GitHub]
+* Revert "Merge pull request #352 from quaive/284-folder_in_workspace_workflow" [Guido A.J. Stevens]
+* Merge pull request #352 from quaive/284-folder_in_workspace_workflow [GitHub]
+* Merge pull request #344 from quaive/tiles-are-smarter [GitHub]
+* Back to development: 1.1.0a7 [Guido A.J. Stevens]
+* Dedicated workflow for Folders in workspaces [ale-rt]
+* Make the app tiles smarter [ale-rt]
 
 
 1.1.0a6 (2016-06-15)
