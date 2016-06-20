@@ -209,9 +209,9 @@ class UserProfileView(UserProfileViewForm):
                 day_past = 100
             if day_past < 1:
                 docs[_('Today')].append(result)
-            if day_past < 7:
+            elif day_past < 7:
                 docs[_('Last week')].append(result)
-            if day_past < 30:
+            elif day_past < 30:
                 docs[_('Last month')].append(result)
             else:
                 docs[_('All time')].append(result)
