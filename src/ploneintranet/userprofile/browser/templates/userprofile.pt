@@ -207,15 +207,21 @@
                          </div>
                     </div>
                     <div id="person-documents">
+                      <form action="${request/getURL}"
+                            class="pat-inject pat-autosubmit canvas-toolbar"
+                            data-pat-inject="source: #search-result; target: #search-result;"
+                            style="float:left;"
+                          >
+                        <label class="pat-select bare pat-inject">
+                          <select name="by_date">
+                            <option value="">Group by first letter</option>
+                            <option value="1">Group by date</option>
+                          </select>
+                        </label>
+                      </form>
                       <form action="${absolute_url}/@@search#search-result"
                             class="pat-inject pat-autosubmit canvas-toolbar"
                             data-pat-inject="source: #search-result; target: #search-result;">
-                        <!-- label class="pat-select bare">
-                          <select>
-                            <option>Group by first letter</option>
-                            <option>Group by date</option>
-                          </select>
-                        </label -->
                         <input type="search"
                                name="SearchableText"
                                size="38"
