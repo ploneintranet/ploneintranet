@@ -234,7 +234,7 @@
                             />
                       </form>
                       <div id="search-result">
-                        <div class="small directory"
+                        <div class="directory col-1"
                              tal:define="
                                my_documents_grouped view/my_documents_grouped;
                                my_documents_sorted_groups view/my_documents_sorted_groups;
