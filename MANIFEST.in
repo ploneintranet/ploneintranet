@@ -1,9 +1,16 @@
+prune buildout.d
 graft docs
 prune docs/doctrees
 prune docs/html
 prune docs/_static
 prune docs/_templates
 exclude docs/conf.py
+graft etc
+graft ldap
+prune ldap/args
+prune ldap/log
+prune ldap/pid
+prune ldap/schema
 prune src
 graft src/ploneintranet.egg-info
 graft src/ploneintranet
@@ -12,3 +19,7 @@ global-exclude *~
 global-exclude *.gitignore
 include *.rst
 include LATEST
+exclude .dockerignore
+exclude .gitlab-ci.yml
+exclude Dockerfile
+exclude Makefile
