@@ -18,12 +18,12 @@ Consortium Board
 Investment decisions and roadmap strategy are decided upon by the
 Plone Intranet Consortium Board.
 
-The Board has a private mailing list at board@quaive.com.
+The Board has a private mailing list at ploneintranet@lists.netsight.co.uk.
 
 .. note::
 
-    If you're a Board member but not on that list, please contact Guido at 
-    info@ploneintranet.org.
+    If you're a Board member but not on that list, please subscribe at
+    http://mailman.netsight.co.uk/mailman/listinfo/ploneintranet
 
 
 Development Team
@@ -33,6 +33,9 @@ Code lives on github, in the
 `Plone Intranet organization <https://github.com/ploneintranet>`_
 
 We manage our long-term roadmap in an internal Assembla tracker.
+
+We manage ongoing sprint tasks in
+`Work Bamboo <https://workbamboo.com>`_
 
 We use the #ploneintranet IRC channel on Freenode:
 http://webchat.freenode.net/?channels=ploneintranet
