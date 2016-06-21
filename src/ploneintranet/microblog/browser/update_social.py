@@ -220,7 +220,7 @@ class UpdateSocialView(UpdateSocialBase):
             'target: #new-comment-%(thread_id)s ::element::before '
             '&& '
             'source: #microblog-%(thread_id)s; '
-            'target: #microblog-%(thread_id)s; '
+            'target: #microblog-%(thread_id)s '
         ) % {
             'thread_id': thread_id,
         }
