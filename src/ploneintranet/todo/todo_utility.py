@@ -97,7 +97,7 @@ class TodoUtility(object):
             content_uids = [content_uids]
         if userids is None:
             userids = self._all_users()
-        reverse = True if sort_order == 'reverse' else False
+
         storage = self._get_storage()
         actions = []
 
@@ -120,7 +120,11 @@ class TodoUtility(object):
 
         # Sort results
         if sort_on is not None:
-            return sorted(actions, key=itemgetter(sort_on), reverse=reverse)
+            actions.sort(
+                key=itemgetter(sort_on),
+                reverse=sort_order == 'reverse'
+            )
+
         return actions
 
     def add_action(self, content_uid, verb, userids=None, completed=False):
