@@ -23,16 +23,16 @@
 	      </select>
 	    </label>
 	  </form>
-          
+
           <div class="activities" id="posts-batch">
             <tal:loop
                tal:repeat="post_view view/post_views"
                tal:content="structure post_view"
                />
-            
+
 
             <a tal:condition="not:view/stop_asking"
-               href="${context_url}/@@activitystream.tile#posts-batch?stream_filter=${filter}&last_seen=${view/last_seen}"
+               href="${context_url}/@@activitystream.tile?stream_filter=${filter}&amp;last_seen=${view/last_seen}&amp;_authenticator=${here/@@authenticator/token}"
                class="pat-inject infinite-scrolling-trigger"
                data-pat-inject="trigger: autoload-visible; source: #posts-batch; target: self::element">
                <tal:trans i18n:translate="info_loading_more_posts">Loading more posts</tal:trans>…</a>
