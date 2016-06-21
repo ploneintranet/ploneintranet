@@ -36,12 +36,6 @@
 
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
-          *"
-     handler=".subscribers.on_generic_workspace_event"
-     />
-
-  <subscriber
-     for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
      handler=".subscribers.workspace_added"
      />

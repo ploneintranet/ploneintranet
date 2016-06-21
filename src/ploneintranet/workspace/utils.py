@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
-from collective.workspace.interfaces import IWorkspace
-from plone import api
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
-from urllib2 import urlparse
+from plone import api
+
 from zope.annotation import IAnnotations
 from zope.component import getUtility
-from zope.globalrequest import getRequest
 from zope.i18nmessageid import MessageFactory
 
+from collective.workspace.interfaces import IWorkspace
+from urllib2 import urlparse
 import config
 import mimetypes
 import logging
@@ -57,7 +57,7 @@ def send_email(recipient,
             sender=sender,
             subject=subject,
             body=message)
-    except ValueError as e:
+    except ValueError, e:
         log.error("MailHost error: {0}".format(e))
 
 
@@ -195,24 +195,3 @@ def month_name(self, date):
     translate = self.context.translate
     short_month_name = date.strftime('%b').lower()  # jan
     return translate(pl_message('month_{}'.format(short_month_name)))
-
-
-def purge_workspace_pas_cache():
-    ''' Completely removes workspace pas plugin cache from the request
-
-    #BBB backport this to collective.workspace
-    '''
-    request = getRequest()
-    if not request:
-        return
-
-    annotations = IAnnotations(request)
-    keys_to_remove = [
-        key for key in annotations.keys()
-        if (
-            key and
-            isinstance(key, tuple) and
-            key[0] in ('workspaces', 'workspace_groups')
-        )
-    ]
-    map(annotations.pop, keys_to_remove)
