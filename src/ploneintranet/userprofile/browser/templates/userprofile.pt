@@ -238,20 +238,28 @@
                              tal:define="
                                my_documents_grouped view/my_documents_grouped;
                                my_documents_sorted_groups view/my_documents_sorted_groups;
+                               friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
                              "
                           >
-                          <tal:letters repeat="group my_documents_sorted_groups">
-                            <div class="group">
+                          <tal:groups repeat="group my_documents_sorted_groups">
+                            <div class="group"
+                                 tal:define="
+                                   group_items my_documents_grouped/?group;
+                                 "
+                                 tal:condition="group_items"
+                                >
                               <h3 class="group-title">${group}</h3>
                               <ul class="menu links">
                                 <li class="bookmark"
-                                  tal:repeat="item my_documents_grouped/?group"
+                                  tal:repeat="item group_items"
                                   title="${item/description|nothing}">
-                                  <a href="${item/url}" class="icon-doc-text">${item/title}</a>
+                                  <a href="${item/url}"
+                                     class="${python: friendly_type_to_icon_class(item.friendly_type_name)}"
+                                    >${item/title}</a>
                                 </li>
                               </ul>
                             </div>
-                          </tal:letters>
+                          </tal:groups>
                         </div>
                       </div>
                     </div>
