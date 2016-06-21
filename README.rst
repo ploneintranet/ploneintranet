@@ -1,20 +1,18 @@
-.. image:: http://ci3.syslab.com/job/quaive-master-complete/badge/icon
-    :alt: Jenkins build status 
-
 Plone Intranet
 ==============
 
-Plone Intranet is the leading open source digital workplace platform,
-created by the `Plone Intranet Consortium`_ and built on top of
+Plone Intranet is the community edition of the Quaive_ digital workplace
+and social intranet platform, built on top of
 Plone_ - the ultimate open source enterprise CMS.
 
 For more info about this product and how it is used, see our website
-at http://ploneintranet.com.
+at http://quaive.com
 
-Full developer documentation is available at http://docs.ploneintranet.org/
+Full community edition developer documentation is available at http://docs.ploneintranet.org/
 
-Please contact one of the Plone Intranet Consortium partners_ if you're
-interested in a demo and want to learn more about what our software can do.
+Please request a `free demo`_
+if you want to learn more about what our software can do.
+
 
 Installation
 ------------
@@ -22,7 +20,18 @@ Installation
 Experienced Plone developers can set up the system by following the 
 `documented installation procedure`_.
 
-If you don't want to install it yourself, contact one of our partners_ for support.
+If you run into any issues, get in touch with the development team via
+the `developer mailing list`_.
+
+Note that this is an open source community edition release - you're expected
+to bring your own expertise and effort to complement ours.
+
+If you'd rather have a Quaive expert install and manage the system for you,
+contact one of our partners_ to contract support. This also gives you access
+to the enterprise edition, which has more features than the community edition.
+
+See our blog_ and our Twitter_ stream or Facebook_ page for the latest status.
+
 
 Copyright (c) Plone Foundation
 ------------------------------
@@ -49,10 +58,15 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 `GNU General Public License`_ for more details.
 
-.. _Plone Intranet Consortium: http://ploneintranet.com
-.. _partners: http://ploneintranet.com
+.. _Quaive: http://quaive.com
+.. _partners: http://quaive.com/about-us
 .. _Plone: http://plone.com
+.. _free demo: http:/quaive.com/book-a-demo
 .. _documented installation procedure: http://docs.ploneintranet.org/installation/index.html
+.. _developer mailing list: https://groups.io/g/ploneintranet-dev
+.. _blog: http://quaive.com/blog
+.. _Twitter: https://twitter.com/QuaiveSoft
+.. _Facebook: https://facebook.com/quaive
 .. _Plone Foundation: https://plone.org/foundation
 .. _OSI-approved license: http://opensource.org/licenses
 .. _contributor agreement: https://plone.org/foundation/contributors-agreement

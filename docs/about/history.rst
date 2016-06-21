@@ -4,13 +4,13 @@ The History of Plone Intranet
 
 .. admonition:: Description
 
-    This document gives a short overview on the history and next steps. It is heavily in flux as the project is moving fast at the moment.
+    This document gives a short overview of the historical genesis of this project. For the current status, see the Quaive_ website.
 
 The Plone Intranet project started life as a discussion between Netsight and Cosent back in 2013. Like a number of Plone companies, Netsight had already been working on intranet projects for some years, starting with a bespoke intranet for Belron in 2007. In more recent years Netsight saw the need to componentise their offering to improve manageability of the codebase, to make supporting their solutions easier, and to help remain competitive in the marketplace (re-selling existing code was becoming a necessity).
 
 The idea behind this project is to build upon a number of existing packages out there in the Plone world that provide intranet-like functionality. Over the years many products have been developed, often inside individual organisations, with much repetition.
 
-At the 2013 Plone Conference an open space session indicated that there were a number of other Plone companies with a similar history to Netsight’s in the intranet marketplace. With the growth of the intranet/digital workplace industry, it became clear that a number of Plone companies saw an opportunity to commercialise on a common Plone-based intranet solution. These discussions continued with other Plone community members which lead to the organisation of the first Plone Intranet summit in November 2013, and the formation of the Plone Intranet Consortium.
+At the 2013 Plone Conference an open space session indicated that there were a number of other Plone companies with a similar history to Netsight’s in the intranet marketplace. With the growth of the intranet/digital workplace industry, it became clear that a number of Plone companies saw an opportunity to commercialise on a common Plone-based intranet solution. These discussions continued with other Plone community members which lead to the organisation of the first Plone Intranet summit in November 2013, and the formation of the Plone Intranet Consortium, which was later renamed into Quaive_.
 
 An in-person meeting was arranged to follow up and brainstorm on these ideas two weeks after the conference.
 For expediency, those invited were those we knew who had an interest and experience with Plone intranets and who
@@ -35,8 +35,9 @@ In early 2014, Netsight received funding to research social software within the 
 
 In October 2014, the Plone Intranet Consortium met in Munich and decided on a concrete commitment to developing Plone Intranet by investing money and manpower. Development was organised using Scrum and a roadmap for a first version was set.
 
+In October 2015, the Plone Intranet Consortium was renamed into Quaive and the first production version of the software suite was released.
 
-At time of writing, the Plone Intranet Consortium comprises:
+The founding partners of Quaive are:
 
 * Netsight (UK)
 * Cosent (Netherlands)
@@ -52,7 +53,7 @@ Important Aspects of Plone Intranet
 
 * Design First
 * Roadmap-driven Scrum development
-* Consortium board funds roadmap
+* Quaive board funds roadmap
 * 100% Open Source - all code is donated to the Plone Foundation
 * NOT a core fork
 * Compatible with mockup
@@ -69,4 +70,7 @@ Further reading
     * Slides at `Slideshare <http://www.slideshare.net/GuidoStevens/plone-intranet-consortium-united-we-stand-divided-we-fall>`_
     * Video at `Vimeo <http://vimeo.com/110489988>`_
 
+* Many talks given at the Plone Conference 2015 in Bucharest, see the `ploneintranet tweet stream`_      
 
+.. _Quaive: http://quaive.com
+.. _ploneintranet tweet stream: https://twitter.com/ploneintranet

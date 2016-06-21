@@ -6,10 +6,10 @@ Quick Start
 
     This document describes how to install Plone Intranet
 
-If you're not a Plone developer and interested in our technology, please contact one of the
-`Plone Intranet Consortium`_ partners to arrange for a demo. They will be able to show you 
+If you're not a Plone developer and interested in our technology, please contact a
+`Quaive partner`_ to arrange for a demo. They will be able to show you 
 the full extent of our system and how to use it.
-Also Consortium partners will provide you with specific insights into our roadmap and release planning.
+Also Quaive partners will provide you with specific insights into our roadmap and release planning.
 
 If you're a Plone dev and want to try Plone Intranet, follow the steps below.
 
@@ -62,7 +62,9 @@ so you can re-use a global eggs cache in `/var/tmp/` etc. YMMV.
 
 You can skip this section if you use the provided Dockerfile.
 
-If you want to prepare your system environment manually, please use the Dockerfile_ as a reference. YMMV.
+If you want to prepare your system environment manually, please use the Dockerfile_ as a reference.
+That is, even if you don't use docker, see the documented `apt-get install` command there
+for the list of packages you need to install in the operating system, before running buildout. YMMV.
 
 Make sure you have the OS-level packages you need to build Plone, this can be
 achieved using `install.plone.dependencies`_.
@@ -132,8 +134,8 @@ Create a new Plone instance
 ---------------------------
 
 - Goto the Zope Management Interface at http://localhost:8080.
-- Create a new Plone instance.
-- In the Zope Management Interface, go to `portal_setup > import`_.
+- Create a new Plone site.
+- In the Zope Management Interface of that Plone site, go to `portal_setup > import`_.
 - Select Profile `Plone Intranet: Suite : Create Testing Content`.
 - Scroll down to the bottom of the page and hit the button "Import all steps" - make sure "Include dependencies" is checked.
 
@@ -187,12 +189,21 @@ A traceback and an exact description of what you were doing would be very helpfu
 Please verify your local install by running the test suite before filing a bug;
 if you have test failures your local install is broken.
 
-Please don't file tickets about missing features, contact a `Plone Intranet Consortium`_ partner instead to discuss your needs.
+You can find more help on the `developer mailing list`_.
 
-.. _Plone Intranet Consortium: http://ploneintranet.com
+Note that running the community edition requires bringing your own effort and expertise.
+If that's a problem for you, contracting a `Quaive partner`_ to get a commercially supported
+Quaive enterprise edition deployment might be a better fit for you.
+
+We've given the community edition our best of efforts. This is not crippleware, it just lacks certain
+features and bugfixes that were only created after this release was cut.
+
+Please don't file tickets about missing features, contact a `Quaive partner`_ instead to discuss your needs.
+
+.. _Quaive partner: http://quaive.com/about-us
 .. _Dockerfile: https://raw.githubusercontent.com/ploneintranet/ploneintranet/master/Dockerfile
 .. _Docker installation docs: https://docs.docker.com/installation/
 .. _`docsplit installation instructions`: https://documentcloud.github.io/docsplit/
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
 .. _portal_setup > import: http://localhost:8080/Plone/portal_setup/manage_importSteps
-
+.. _developer mailing list: https://groups.io/g/ploneintranet-dev
