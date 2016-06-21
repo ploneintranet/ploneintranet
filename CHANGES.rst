@@ -1,6 +1,19 @@
 Changelog
 =========
 
+1.0.1 (2016-06-21)
+------------------
+
+* Update changelog and prepare release 1.0.1 [Guido A.J. Stevens]
+* Backport Gaia manifest to Venus [Guido A.J. Stevens]
+* Update docs version to upcoming 1.0.1 point release [Guido A.J. Stevens]
+* Merge branch 'community-master' into release-1.0.x [Guido A.J. Stevens]
+* Update documentation in preparation for new community release. [Guido A.J. Stevens]
+* Revert "update docs on board mailinglist" [Guido A.J. Stevens]
+* update version [Alexander Pilz]
+* update docs on board mailinglist [Alexander Pilz]
+* add hotfix Products.PloneHotfix20160419==1.0 [Claudio Kirchhoff]
+
 1.0.0 (2016-02-29)
 ------------------
 
