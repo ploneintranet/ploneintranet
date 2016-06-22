@@ -16,9 +16,12 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Manager can create a workspace
-    Given I'm logged in as a 'Manager'
-     Then I can create a new workspace    My new workspace
+# The case that a user created outside our local membrane context should be
+# able to create a workspace is not supported. Deactivating this test.
+
+# Manager can create a workspace
+#     Given I'm logged in as a 'Manager'
+#      Then I can create a new workspace    My new workspace
 
 Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
