@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0b2 (unreleased)
+1.1.0b2 (2016-06-22)
 --------------------
 
 * Merge pull request #393 from quaive/remove-unnecessary-line [GitHub]
