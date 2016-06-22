@@ -1,8 +1,6 @@
 from AccessControl import Unauthorized
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
-from plone.app.testing import login
-from plone.app.testing import logout
 from ploneintranet.workspace.browser.add_workspace import AddWorkspace
 
 VIEW = 'View'
@@ -107,7 +105,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         return permissions[permission]
 
     def anon_permissions(self, permission):
-        logout()
+        self.logout()
         permissions = api.user.get_permissions(
             obj=self.workspace_folder,
         )
@@ -118,7 +116,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         Test creation of a workspace
         """
         # open system. Workspaces folder is open for authenticated
-        login(self.portal, 'noaddrights')
+        self.login('noaddrights')
         request = self.layer['request'].clone()
         request.form['workspace-type'] = 'private'
         request.form['title'] = 'everybody can add'
@@ -136,14 +134,14 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             api.user.get_roles(username='noaddrights',
                                obj=self.restricted_workspaces)
         )
-        login(self.portal, 'noaddrights')
+        self.login('noaddrights')
         request = self.layer['request'].clone()
         request.form['workspace-type'] = 'private'
         request.form['title'] = 'not anyone is permitted'
         ac = AddWorkspace(self.restricted_workspaces, request)
         with self.assertRaises(Unauthorized):
             ac()
-        logout()
+        self.logout()
 
     def test_create_workspace_restricted_contributor(self):
         """
@@ -154,7 +152,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
             api.user.get_roles(username='hasaddrights',
                                obj=self.restricted_workspaces)
         )
-        login(self.portal, 'hasaddrights')
+        self.login('hasaddrights')
         request = self.layer['request'].clone()
         request.form['workspace-type'] = 'private'
         request.form['title'] = 'can-add-when-contributor'
@@ -163,7 +161,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertIn('can-add-when-contributor',
                       self.restricted_workspaces.objectIds())
 
-        logout()
+        self.logout()
 
     def test_private_workspace(self):
         """
@@ -290,7 +288,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
 
         # The Admin should be able to transition the workspace
         # through each state
-        login(self.portal, 'wsadmin')
+        self.login('wsadmin')
 
         api.content.transition(self.workspace_folder,
                                'make_private')

@@ -5,7 +5,6 @@ from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.browser.add_workspace import AddWorkspace
 from ploneintranet.workspace.browser.roster import EditRoster
 from plone.app.testing import login
-from zope.annotation.interfaces import IAnnotations
 from collective.workspace.interfaces import IWorkspace
 
 
@@ -65,8 +64,6 @@ class TestPolicy(BaseTestCase):
             'example-workspace',
             title='A workspace'
         )
-
-        IAnnotations(self.request)[('workspaces', 'workspacecreator')] = None
 
         # The creator should now have the Manage workspace permission
         permissions = api.user.get_permissions(
@@ -327,7 +324,6 @@ class TestPolicy(BaseTestCase):
         username = 'testuser'
         api.user.create(username=username, email='test@test.com')
         self.add_user_to_workspace(username, workspace)
-
         self.login(username)
         doc = api.content.create(
             container=workspace,
