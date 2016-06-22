@@ -185,7 +185,6 @@ class UserProfileView(UserProfileViewForm):
         types = [
             t for t in pt.keys() if t not in self._types_not_to_search_for
         ]
-        self.context.portal_types.listTypeTitles().keys()
         response = search_util.query(
             filters={
                 'Creator': self.context.getId(),
