@@ -188,12 +188,17 @@ class BaseStatusContainer(Persistent, Explicit):
             # thread expansion and batch delete can run into eachother
             if not self._get(xid):
                 continue
-            self._unidx(xid)
-            deleted = self._status_mapping.pop(xid)
-            self._status_archive.insert(xid, deleted)
-            # this would be the right place to notify deletion
-            logger.info("%s archived statusupdate %s",
-                        api.user.get_current().id, xid)
+            # cannot reproduce #379 but better safe than sorry
+            try:
+                self._unidx(xid)
+                deleted = self._status_mapping.pop(xid)
+                self._status_archive.insert(xid, deleted)
+                # this would be the right place to notify deletion
+                logger.info("%s archived statusupdate %s",
+                            api.user.get_current().id, xid)
+            except KeyError:
+                logger.error("%s failed to archive statusupdate %s",
+                             api.user.get_current().id, xid)
         self._update_ctime()  # purge cache
 
     def _unidx(self, id):
