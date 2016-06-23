@@ -13,7 +13,7 @@
       <tal:message tal:content="structure provider:plone.globalstatusmessage" />
     </aside>
      <span id="paste"><button type="submit" class="float-before icon-paste no-label pat-inject" formaction="${context/absolute_url}/@@cart-paste?_authenticator=${token}#items" title="Paste"
-            data-pat-inject="source: #items; target: #items && source: #global-statusmessage; target: #global-statusmessage"
+            data-pat-inject="source: #items; target: #items &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
             i18n:translate="" i18n:attributes="title"
             tal:attributes="disabled python:is_disabled and 'disabled'">Paste</button></span>
 

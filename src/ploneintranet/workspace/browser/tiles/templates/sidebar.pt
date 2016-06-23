@@ -92,14 +92,14 @@
                       <button type="button"
                               class="pat-shopping-cart float-before icon-cut no-label"
                               data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-cut?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
-                              data-pat-shopping-cart-inject="source: #paste; target: #paste && source: #global-statusmessage; target: #global-statusmessage"
+                              data-pat-shopping-cart-inject="source: #paste; target: #paste &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
                               title="Cut"
                               i18n:translate=""
                               i18n:attributes="title">Cut</button>
                       <button type="button"
                               class="pat-shopping-cart float-before icon-copy no-label"
                               data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-copy?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
-                              data-pat-shopping-cart-inject="source: #paste; target: #paste && source: #global-statusmessage; target: #global-statusmessage"
+                              data-pat-shopping-cart-inject="source: #paste; target: #paste &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
                               title="Copy"
                               i18n:translate=""
                               i18n:attributes="title">Copy</button>
@@ -112,7 +112,7 @@
                                                class="float-before icon-paste no-label pat-inject"
                                                formaction="${context/absolute_url}/@@cart-paste?_authenticator=${token}#items"
                                                title="Paste"
-                                               data-pat-inject="source: #items; target: #items && source: #global-statusmessage; target: #global-statusmessage"
+                                               data-pat-inject="source: #items; target: #items &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
                                                tal:attributes="disabled python:is_disabled and 'disabled'"
                                                i18n:translate=""
                                                i18n:attributes="title">Paste</button></span>
@@ -202,7 +202,7 @@ Supported types include (class names):
                         <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
                           <a class="tag pat-inject"
                              tal:repeat="subject item/subject"
-                             href="${context/absolute_url}/@@sidebar.default?grouping=label&groupname=${subject}#workspace-documents"
+                             href="${context/absolute_url}/@@sidebar.default?grouping=label&amp;groupname=${subject}#workspace-documents"
                              >${subject}</a>
                         </nav>
                     </div>
@@ -384,10 +384,10 @@ Supported types include (class names):
                          tal:condition="view/can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['transition_enabled']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets && source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['reopen_transition']"
-                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  && source:#document-body; target:#document-body" i18n:translate="">Reopen milestone</a>
+                         tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Reopen milestone</a>
                       <!-- should be there according to proto, but has offset error when displayed
                       <button class="small icon-stage success" disabled
                               tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and finished"
