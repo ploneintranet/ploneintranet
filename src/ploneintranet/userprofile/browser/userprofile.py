@@ -4,6 +4,7 @@ from collections import defaultdict
 from datetime import date
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -256,6 +257,23 @@ class UserProfileView(UserProfileViewForm):
         if self.request.get('by_date'):
             return self.my_documents_by_date()
         return self.my_documents_by_letter()
+
+    @forever.memoize
+    def friendly_type_to_icon_class(self, type_name):
+        ''' Convert the friendly_type_name of the search results
+        into an css class
+
+        For the time being reuse the search one
+        '''
+        view = plone_api.content.get_view(
+            'search',
+            self.context,
+            self.request,
+        )
+        search_class = view.get_facet_type_class(type_name)
+        return search_class.replace('type-', 'icon-file-', 1).replace(
+            'icon-file-rich', 'icon-doc-text'
+        )
 
 
 class AuthorView(BaseAuthorView):
