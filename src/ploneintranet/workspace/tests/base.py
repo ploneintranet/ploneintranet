@@ -28,6 +28,7 @@ class BaseTestCase(unittest.TestCase):
             title='Workspace container'
         )
         self.request = self.portal.REQUEST
+        self.portal_workflow = api.portal.get_tool('portal_workflow')
 
     def cleanup_request_annotations(self):
         ''' Invalidate the cache of the workspace

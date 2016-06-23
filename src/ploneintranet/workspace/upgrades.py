@@ -45,3 +45,21 @@ def statusupdate_edit_delete(context):
     context.runImportStepFromProfile(default_profile, 'workflow')
     wf_tool = api.portal.get_tool('portal_workflow')
     wf_tool.updateRoleMappings()
+
+
+def update_workflows(context):
+    logger.info('Update Workflows')
+    context.runImportStepFromProfile(
+        default_profile,
+        'workflow',
+        run_dependencies=False,
+    )
+    context.runImportStepFromProfile(
+        default_profile,
+        'placeful_workflow',
+        run_dependencies=False,
+    )
+    logger.info('Update role mapping (may take time) ...')
+    pw = api.portal.get_tool('portal_workflow')
+    count = pw.updateRoleMappings()
+    logger.info('Updated role mappings for %s objects', count)
