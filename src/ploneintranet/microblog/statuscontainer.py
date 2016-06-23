@@ -712,7 +712,7 @@ class QueuedStatusContainer(BaseStatusContainer):
     if api.env.test_mode():
         ASYNC = False
     else:
-        ASYNC = True
+        ASYNC = False  # disabled because of CSRF issues
     # max in-memory time in millisec before disk sync, if in ASYNC mode
     MAX_QUEUE_AGE = 1000
 
