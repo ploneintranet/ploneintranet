@@ -1,10 +1,43 @@
 Changelog
 =========
 
-1.1.0b2 (unreleased)
+1.1.0b3 (unreleased)
 --------------------
 
 - Nothing changed yet.
+
+
+1.1.0b2 (2016-06-22)
+--------------------
+
+* Merge pull request #393 from quaive/remove-unnecessary-line [GitHub]
+* Merge pull request #396 from quaive/379_microblog_keyerror [GitHub]
+* Merge pull request #373 from quaive/update-collective-workspace [GitHub]
+* cases need to grant permissions to guests [Alexander Pilz]
+* Cannot reproduce, but should fix #379 [Guido A.J. Stevens]
+* Deactivate robot test "Manager can create a workspace". The case that a user created outside our local membrane context should be able to create a workspace is not supported. [Wolfgang Thomas]
+* Merge pull request #387 from quaive/fix-injection-parameter [GitHub]
+* Merge pull request #386 from quaive/latest-make-diazo [GitHub]
+* use latest release of collective.workspace [Wolfgang Thomas]
+* add a fix to reinitialise the security manager when acl_users is cached [Alexander Pilz]
+* Remove unnecessary line [Alessandro Pisa]
+* WIP: Remove stuff to see if backporting to collective.workspace works [Alessandro Pisa]
+* Invalidate cache when adding or removing ws users [Alessandro Pisa]
+* try https checkout, maybe gitlab likes that better [Alessandro Pisa]
+* check put collective.workspace (temporarily) to get the lastest version Refs #370 [Alessandro Pisa]
+* Merge pull request #385 from quaive/user-docs-1-column [GitHub]
+* Fix autoload url [Alessandro Pisa]
+* Fix injection parameter [Alessandro Pisa]
+* Latest make diazo [Alessandro Pisa]
+* Change to 1 column layout [Alessandro Pisa]
+* Merge pull request #376 from quaive/375-fix-injection [GitHub]
+* Merge pull request #378 from quaive/guido_avatar [GitHub]
+* Add Guido testuser for easy demo preparation [Guido A.J. Stevens]
+* Merge pull request #377 from quaive/upgrade-selenium [GitHub]
+* Upgrade selenium to the latest release [Alessandro Pisa]
+* Merge pull request #374 from quaive/release-1.1.x [GitHub]
+* Dropdown for the user profile documents tab [Alessandro Pisa]
+* Back to development: 1.1.0b2 [Guido A.J. Stevens]
 
 
 1.1.0b1 (2016-06-20)
