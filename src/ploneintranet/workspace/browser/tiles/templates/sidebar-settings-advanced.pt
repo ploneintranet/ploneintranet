@@ -82,7 +82,7 @@
                                      is_frozen freeze_view/is_frozen;"
                          tal:condition="freeze_view/can_be_frozen">
                         <!-- Freeze is hidden by means of a dependency in case of an archived workspace. -->
-                        <a class="button pat-button pat-inject" href="${ws/absolute_url}/content_status_modify?workflow_action=freeze&_authenticator=${token}"
+                        <a class="button pat-button pat-inject" href="${ws/absolute_url}/content_status_modify?workflow_action=freeze&amp;_authenticator=${token}"
                            tal:condition="not:is_frozen" i18n:translate="">Freeze case</a>
                         <a class="button pat-button pat-inject" href="${ws/absolute_url}/@@unfreeze-view?_authenticator=${token}"
                            tal:condition="is_frozen" i18n:translate="">Unfreeze case</a>

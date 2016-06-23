@@ -77,7 +77,7 @@
                     </a>
                     <tal:manager condition="view/can_manage_roster">
                       <tal:role condition="user/role" define="role user/role">
-                        <a href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
+                        <a href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&amp;user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
                       </tal:role>
                     </tal:manager>
                     <tal:non_manager condition="not:view/can_manage_roster">
