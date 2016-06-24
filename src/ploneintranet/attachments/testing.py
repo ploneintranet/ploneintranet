@@ -2,10 +2,12 @@
 """Base module for unittesting."""
 
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
 from plone.testing import z2
 
 import unittest2 as unittest
@@ -37,6 +39,7 @@ class PloneintranetAttachmentsLayer(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.discussion:default')
         applyProfile(portal, 'ploneintranet.attachments:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownZope(self, app):
         """Tear down Zope."""

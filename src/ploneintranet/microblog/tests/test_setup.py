@@ -7,12 +7,16 @@ from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
 PROJECTNAME = 'ploneintranet.microblog'
-CSS = (
-    '++resource++ploneintranet.microblog.stylesheets/microblog.css',
-)
-PERMISSIONS = (
+
+PERMISSIONS_MEMBER = (
     'Plone Social: Add Microblog Status Update',
     'Plone Social: View Microblog Status Update',
+    'Plone Social: Modify Own Microblog Status Update',
+    'Plone Social: Delete Own Microblog Status Update',
+)
+PERMISSIONS_MANAGER_ONLY = (
+    'Plone Social: Modify Microblog Status Update',
+    'Plone Social: Delete Microblog Status Update',
 )
 
 
@@ -31,9 +35,16 @@ class TestInstall(unittest.TestCase):
         layers = [l.getName() for l in registered_layers()]
         self.assertIn('IPloneIntranetMicroblogLayer', layers)
 
-    def test_permissions(self):
+    def test_permissions_member(self):
         expected = ['Manager', 'Member', 'Site Administrator']
-        for permission in PERMISSIONS:
+        for permission in PERMISSIONS_MEMBER:
+            roles = self.portal.rolesOfPermission(permission)
+            roles = [r['name'] for r in roles if r['selected']]
+            self.assertListEqual(roles, expected)
+
+    def test_permissions_manager(self):
+        expected = ['Manager', 'Site Administrator']
+        for permission in PERMISSIONS_MANAGER_ONLY:
             roles = self.portal.rolesOfPermission(permission)
             roles = [r['name'] for r in roles if r['selected']]
             self.assertListEqual(roles, expected)
@@ -64,11 +75,6 @@ class TestUninstall(unittest.TestCase):
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
         self.assertNotIn('IPloneIntranetMicroblogLayer', layers)
-
-    def test_cssregistry_removed(self):
-        resource_ids = self.portal.portal_css.getResourceIds()
-        for id in CSS:
-            self.assertNotIn(id, resource_ids, '{0} not removed'.format(id))
 
     def test_tool_removed(self):
         self.assertNotIn('ploneintranet_microblog', self.portal)

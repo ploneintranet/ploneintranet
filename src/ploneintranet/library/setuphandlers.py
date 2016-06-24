@@ -10,11 +10,8 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
-    if context.readDataFile('ploneintranet.library_default.txt') is None:
-        return
-
     log.info('setupVarious')
-    portal = context.getSite()
+    portal = api.portal.get()
     catalog = api.portal.get_tool('portal_catalog')
     if len(catalog(portal_type='ploneintranet.library.app')) == 0:
         api.content.create(

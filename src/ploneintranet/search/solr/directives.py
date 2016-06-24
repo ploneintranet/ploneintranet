@@ -3,7 +3,7 @@ from zope.component.zcml import utility
 from zope.interface import Interface
 
 from .interfaces import IConnectionConfig
-from .utilities import ConnectionConfig
+from .solr_search import ConnectionConfig
 
 
 class IConnectionConfigDirective(Interface):

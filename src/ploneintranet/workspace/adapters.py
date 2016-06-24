@@ -1,29 +1,31 @@
-import logging
-from Products.CMFCore.Expression import getExprContext
-from Products.CMFCore.interfaces import IContentish
-from Products.CMFCore.interfaces import IFolderish
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import \
-    WorkflowPolicyConfig_id
+# coding=utf-8
+from Acquisition import aq_inner
+from Acquisition import Implicit
 from borg.localrole.default_adapter import DefaultLocalRoleAdapter
 from borg.localrole.interfaces import ILocalRoleProvider
+from BTrees.OOBTree import OOBTree
+from BTrees.OOBTree import OOTreeSet
 from collections import OrderedDict
 from collective.workspace.interfaces import IHasWorkspace
 from collective.workspace.workspace import Workspace
-from plone import api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
-from ploneintranet.workspace.interfaces import IMetroMap
-from zope.component import adapts
-from zope.interface import implements
-from Acquisition import aq_inner
-from Acquisition import Implicit
-from BTrees.OOBTree import OOBTree
-from BTrees.OOBTree import OOTreeSet
 from datetime import datetime
+from OFS.owner import Owned
+from plone import api
 from plone.folder.ordered import OrderedBTreeFolderBase
 from plone.indexer.wrapper import IndexableObjectWrapper
 from plone.uuid.interfaces import IUUID
-from OFS.owner import Owned
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.workspace.config import SecretWorkspaceNotAllowed
+from ploneintranet.workspace.interfaces import IMetroMap
+from Products.CMFCore.Expression import getExprContext
+from Products.CMFCore.interfaces import IContentish
+from Products.CMFCore.interfaces import IFolderish
 from utils import parent_workspace
+from zope.component import adapts
+from zope.component import getMultiAdapter
+from zope.interface import implements
+
+import logging
 import persistent
 
 logger = logging.getLogger(__name__)
@@ -43,6 +45,7 @@ class PloneIntranetWorkspace(Workspace):
         u'Admins': ('Contributor', 'Editor', 'Reviewer',
                     'Reader', 'TeamManager',),
         u'Members': ('TeamMember', ),
+        u"Guests": ('TeamGuest', ),
         # These are the 'participation policy' groups
         u'Consumers': (),
         u'Producers': ('Contributor',),
@@ -52,7 +55,7 @@ class PloneIntranetWorkspace(Workspace):
 
     def add_to_team(self, user, **kw):
         """
-        Add user to this workspace
+        Add user/group to this workspace
 
         We override this method from collective.workspace
         to add our additional participation
@@ -73,6 +76,11 @@ class PloneIntranetWorkspace(Workspace):
             default_group = self.context.participant_policy.title()
             data["groups"] = set([default_group])
 
+        # check: are we adding a group? And if so, is it a secret group?
+        group = api.group.get(groupname=user)
+        if group and group.getProperty('state') == 'secret':
+            raise SecretWorkspaceNotAllowed(
+                u'Forbidden: A secret workspace cannot be added as member.')
         data['user'] = user
         return super(PloneIntranetWorkspace, self).add_to_team(**data)
 
@@ -171,15 +179,11 @@ class MetroMap(object):
 
         Return the workflow required to render the metromap.
         """
-        policy_conf = self.context.get(WorkflowPolicyConfig_id)
-        if policy_conf is None:
-            return
-        policy = policy_conf.getPolicyIn()
-        policy_id = policy.getId()
-        wft = api.portal.get_tool('portal_workflow')
-        workflow = wft.getWorkflowById(policy_id)
-        if workflow and workflow.variables.get("metromap_transitions", False):
-            return workflow
+        pw = api.portal.get_tool('portal_workflow')
+        workflows = pw.getWorkflowsFor(self.context)
+        for workflow in workflows:
+            if workflow.variables.get("metromap_transitions", False):
+                return workflow
 
     def get_available_metromap_workflows(self):
         """Return all globally available workflows with the
@@ -279,7 +283,16 @@ class MetroMap(object):
         except api.exc.UserNotFoundError:
             raise api.exc.UserNotFoundError(
                 "Unknown user. Do not use Zope rescue user.")
-        current_state = wft.getInfoFor(self.context, "review_state")
+
+        # If the case is frozen, render the MetroMap for the pre-frozen state
+        freeze_view = getMultiAdapter(
+            (self.context, self.context.REQUEST), name='freeze-view')
+        if freeze_view.is_frozen():
+            unfreeze_view = getMultiAdapter(
+                (self.context, self.context.REQUEST), name='unfreeze-view')
+            current_state = unfreeze_view.pre_frozen_state
+        else:
+            current_state = wft.getInfoFor(self.context, "review_state")
         finished = True
         sequence = OrderedDict()
         tasks = self.context.tasks()
@@ -294,21 +307,32 @@ class MetroMap(object):
                 open_tasks = []  # we don't care so performance optimize
 
             # last workflow step: consider done if no open tasks left
-            if (state == current_state
-               and index > len(metromap_list)
-               and not open_tasks):
+            if (
+                state == current_state and
+                index > len(metromap_list) and
+                not open_tasks
+            ):
                 finished = True
 
-            # only current state can be closed
-            if (state == current_state and can_manage and not open_tasks):
-                next_transition = wfstep.get('next_transition', None)
-            else:
-                next_transition = None
-            if next_transition:
+            # get the id and title of the next transition, for display on the
+            # metromap
+            next_transition_id = metromap_list[index].get('next_transition')
+            if next_transition_id:
                 transition_title = _(
-                    cwf.transitions.get(next_transition).title)
+                    cwf.transitions.get(next_transition_id).title)
             else:
                 transition_title = ''
+
+            # only current state can be closed, archived state cannot be closed
+            if (
+                state == current_state and
+                can_manage and
+                not open_tasks and
+                next_transition_id
+            ):
+                next_transition_enabled = True
+            else:
+                next_transition_enabled = False
 
             # reopen only the before-current step, only for admins
             reopen_transition = None
@@ -323,7 +347,8 @@ class MetroMap(object):
 
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
-                'transition_id': next_transition,
+                'transition_enabled': next_transition_enabled,
+                'transition_id': next_transition_id,
                 'transition_title': transition_title,
                 'reopen_transition': reopen_transition,
                 'is_current': is_current,

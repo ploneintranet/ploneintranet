@@ -11,12 +11,14 @@
   <include package="collective.indexing" />
   <include file="meta.zcml" />
 
+  <include package=".browser" />
+
   <!-- Querying -->
 
   <class class="scorched.connection.SolrInterface">
     <implements interface=".interfaces.IConnection" />
   </class>
- 
+
   <class class="scorched.response.SolrResponse">
     <implements interface=".interfaces.IResponse" />
   </class>
@@ -27,9 +29,9 @@
            factory=".adapters.search_query" />
   <adapter factory=".adapters.SearchResponse" />
   <utility provides="..interfaces.ISiteSearch"
-           factory=".utilities.SiteSearch" />
+           factory=".solr_search.SiteSearch" />
   <utility provides=".interfaces.IMaintenance"
-           factory=".utilities.Maintenance"
+           factory=".solr_search.Maintenance"
            />
 
   <!-- Indexing -->
@@ -49,13 +51,9 @@
                 .interfaces.IConnection"
            name="File"
            />
-  <adapter factory=".indexers.BinaryAdder"
-           for="plone.dexterity.interfaces.IDexterityContent
-                .interfaces.IConnection"
-           name="Image"
-           />
-
+  <adapter name="getObjPositionInParent"
+           factory=".indexers.getObjPositionInParent" />
   <utility provides="collective.indexing.interfaces.IIndexQueueProcessor"
            factory=".indexers.ContentIndexer" />
-  
+
 </configure>

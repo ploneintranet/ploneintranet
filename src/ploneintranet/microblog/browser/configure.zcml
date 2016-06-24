@@ -2,9 +2,70 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="ploneintranet.microblog">
+    i18n_domain="ploneintranet">
 
-  <include package=".prototype" />
-  <include package=".tiles" />
+  <include package="plone.tiles" file="meta.zcml" />
 
+  <plone:tile
+      for="*"
+      name="newpostbox.tile"
+      title="A tile to add a new post"
+      description="A tile to add a new post"
+      class=".newpostbox_tile.NewPostBoxTile"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      add_permission="cmf.ManagePortal"
+      permission="ploneintranet.microblog.AddStatusUpdate"
+      />
+
+  <browser:page
+      name="update-social.html"
+      for="*"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      class=".update_social.UpdateSocialView"
+      template="templates/update-social.html"
+      permission="zope.Public"
+      />
+  
+  <browser:page
+      name="post-well-done.html"
+      for="*"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      class=".post_well_done.PostWellDoneView"
+      template="templates/post-well-done.html"
+      permission="zope.Public"
+      />
+  
+  <browser:page
+      name="comment-well-said.html"
+      for="*"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      class=".comment_well_said.CommentWellSaidView"
+      template="templates/comment-well-said.html"
+      permission="zope.Public"
+      />
+  
+  <browser:view
+      for="*"
+      name="panel-tags"
+      class=".panel_tags.Tags"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      />
+
+  <browser:view
+      for="*"
+      name="panel-users"
+      class=".panel_users.Users"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      />
+
+  <browser:view
+      for="*"
+      name="panel-user"
+      class=".panel_users.User"
+      permission="zope2.View"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      />
+  
 </configure>

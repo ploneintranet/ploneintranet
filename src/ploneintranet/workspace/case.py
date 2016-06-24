@@ -1,15 +1,15 @@
-from datetime import datetime
+# coding=utf-8
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
+from ploneintranet.workspace.workspacefolder import WorkspaceFolder
+from zope.event import notify
 from zope.interface import implementer
 
-from .config import TEMPLATES_FOLDER
-from .workspacefolder import IWorkspaceFolder
-from .workspacefolder import WorkspaceFolder
-from .unrestricted import execute_as_manager
 
-
-class ICase(IWorkspaceFolder):
+class ICase(IBaseWorkspaceFolder):
     """
     Interface for Case
     """
@@ -35,24 +35,54 @@ class Case(WorkspaceFolder):
         """
         return "case"
 
+    def update_case_access(self):
+        """
+        Iterate over all tasks inside the case.
+        - If a member is assigned to a task and the task in the current
+          milestone:
+          Grant Guest access, if the user is not a regular member of the Case
+        - If a member has Guest access, but is not an assignee in any
+          task of the current milestone:
+          Remove Guest access
+        """
+        # First of all we take the set of the todo assignees
+        pc = api.portal.get_tool('portal_catalog')
+        review_state = api.content.get_state(self)
+        brains = pc.unrestrictedSearchResults(
+            path='/'.join(self.getPhysicalPath()),
+            portal_type='todo',
+        )
+        objs = filter(
+            lambda obj: obj.assignee and obj.milestone == review_state,
+            (brain._unrestrictedGetObject() for brain in brains)
+        )
+        assignees = {obj.assignee for obj in objs}
 
-def create_case_from_template(template_id, target_id=None):
-    portal = api.portal.get()
-    template_folder = portal.get(TEMPLATES_FOLDER)
-    if template_folder:
-        src = template_folder.get(template_id)
-        if src:
-            target_folder = portal.restrictedTraverse('workspaces')
-            # need privilege escalation since normal users do not
-            # have View permission on case templates
-            # - that only comes after the template has been turned
-            # into an actual case with member users
-            new = execute_as_manager(
-                api.content.copy,
-                source=src,
-                target=target_folder,
-                id=target_id,
-                safe_id=True,
-            )
-            new.creation_date = datetime.now()
-            return new
+        # now we make a partition of the user associated to this context
+        existing_users = self.existing_users()
+
+        existing_guests = set([])
+        non_guests = set([])
+        for user in existing_users:
+            if user.get('role') == 'Guest':
+                existing_guests.add(user['id'])
+            else:
+                non_guests.add(user['id'])
+
+        # We find out which assignees are guests
+        entitled_guests = assignees.difference(non_guests)
+
+        workspace = IWorkspace(self)
+        # We have some stale guests that should be removed from this context
+        stale_guests = existing_guests.difference(entitled_guests)
+        for user_id in stale_guests:
+            workspace.remove_from_team(user_id)
+
+        # We have some new guests that should be added to this context
+        new_guests = entitled_guests.difference(existing_guests)
+        for user_id in new_guests:
+            workspace.add_to_team(user_id, groups=['Guests'])
+
+        # If roles were changed, throw the required event
+        if len(stale_guests) + len(new_guests):
+            notify(WorkspaceRosterChangedEvent(self))

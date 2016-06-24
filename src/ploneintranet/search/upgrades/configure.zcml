@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.suite">
+
+  <genericsetup:upgradeStep
+      title="Reread registry configuration"
+      description="Setup registry records to define additional facets"
+      source="*"
+      destination="0002"
+      handler=".helpers.update_registry"
+      profile="ploneintranet.search:default" />
+
+  <genericsetup:upgradeStep
+      title="Reread registry configuration"
+      description="Setup registry records filter on creator"
+      source="*"
+      destination="0003"
+      handler=".to0003.update_registry_filter_fields"
+      profile="ploneintranet.search:default" />
+
+
+  <!-- -*- extra stuff goes here -*- -->
+
+</configure>

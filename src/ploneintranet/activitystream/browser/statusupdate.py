@@ -1,28 +1,34 @@
 # coding=utf-8
 import logging
-from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.app.contenttypes.content import Image
+from plone.app.contenttypes.content import Image, File
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.core.browser.utils import link_tags
-from ploneintranet.core.browser.utils import link_users
-from ploneintranet.core.browser.utils import link_urls
+from ploneintranet.activitystream.browser.utils import link_tags
+from ploneintranet.activitystream.browser.utils import link_users
+from ploneintranet.activitystream.browser.utils import link_urls
 from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
 
 class StatusUpdateView(BrowserView):
     ''' This view renders a status update
+
+    See templates/post.html for an explanation of the various
+    rendering modes.
+
+    On top of that it also powers templates/comment.html
+
+    The API could use some cleanup.
     '''
-    as_comment = ViewPageTemplateFile('templates/statusupdate_as_comment.pt')
-    post_avatar = ViewPageTemplateFile('templates/statusupdate_post_avatar.pt')
-    comment_avatar = ViewPageTemplateFile('templates/statusupdate_comment_avatar.pt')  # noqa
+
+    newpostbox_placeholder = _(u'leave_a_comment',
+                               default=u'Leave a comment...')
 
     @property
     @memoize
@@ -75,50 +81,9 @@ class StatusUpdateView(BrowserView):
         )
         toggle_like_view = toggle_like_base.publishTraverse(
             self.request,
-            self.context.getId,
+            self.context.getId(),
         )
         return toggle_like_view
-
-    @property
-    @memoize
-    def newpostbox_view(self):
-        ''' Return the newpostbox.tile view
-        '''
-        return api.content.get_view(
-            'newpostbox.tile',
-            self.portal,
-            self.request,
-        )
-
-    @property
-    @memoize
-    def toLocalizedTime(self):  # noqa
-        ''' Facade for the toLocalizedTime method
-        '''
-        return api.portal.get_tool('translation_service').toLocalizedTime
-
-    @property
-    @memoize
-    def date(self):
-        ''' The date of our context object
-        '''
-        # We have to transform Python datetime into Zope DateTime
-        # before we can call toLocalizedTime.
-        time = self.context.date
-        if hasattr(time, 'isoformat'):
-            time = DateTime(self.context.raw_date.isoformat())
-
-        if DateTime().Date() == time.Date():
-            time_only = True
-        else:
-            # time_only=False still returns time only
-            time_only = None
-
-        return self.toLocalizedTime(
-            time,
-            long_format=True,
-            time_only=time_only
-        )
 
     @property
     @memoize
@@ -139,9 +104,7 @@ class StatusUpdateView(BrowserView):
         return text
 
     @memoize_contextless
-    def get_avatar_by_userid(
-        self, userid, show_link=False, css='', attributes={}
-    ):
+    def get_avatar_by_userid(self, userid):
         ''' Provide informations to display the avatar
         '''
         user = api.user.get(self.context.userid)
@@ -161,9 +124,6 @@ class StatusUpdateView(BrowserView):
             'fullname': fullname,
             'img': img,
             'url': url,
-            'show_link': show_link,
-            'css': css,
-            'attributes': attributes,
         }
         return avatar
 
@@ -235,8 +195,140 @@ class StatusUpdateView(BrowserView):
         replies.reverse()
         replies_rendered = [
             api.content.get_view(
-                'statusupdate_view',
+                'comment.html',
                 reply,
-                self.request).as_comment
+                self.request)
             for reply in replies]
         return replies_rendered
+
+    # ----------- actions (edit, delete) ----------------
+    # actual write/delete handling done in subclass below
+
+    @property
+    def traverse(self):
+        """Base URL for traversal views"""
+        return "{}/statusupdate/{}".format(self.portal_url, self.context.id)
+
+    @property
+    def actions(self):
+        actions = []
+
+        if self.context.can_delete:
+            if self.context.thread_id:
+                actions.append(dict(
+                    icon='trash',
+                    title='Delete comment',
+                    url=self.traverse + '/panel-delete-comment.html'
+                ))
+            else:
+                actions.append(dict(
+                    icon='trash',
+                    title='Delete post',
+                    url=self.traverse + '/panel-delete-post.html'
+                ))
+
+        if self.context.can_edit:
+            if self.context.thread_id:
+                actions.append(dict(
+                    icon='edit',
+                    title='Edit comment',
+                    url=self.traverse + '/panel-edit-comment.html'
+                ))
+            else:
+                actions.append(dict(
+                    icon='edit',
+                    title='Edit post',
+                    url=self.traverse + '/panel-edit-post.html'
+                ))
+
+        # edit_tags not implemented yet
+        # edit_mentions not implemented yet
+        return actions
+
+    # ----------- content updates only ------------------
+
+    @property
+    @memoize
+    def content_context(self):
+        return self.context.content_context
+
+    @property
+    def is_content_update(self):
+        return bool(self.content_context)
+
+    @property
+    def is_content_image_update(self):
+        return (self.content_context and
+                isinstance(self.content_context, Image))
+
+    @property
+    def is_content_file_update(self):
+        return (self.content_context and
+                isinstance(self.content_context, File))
+
+    @property
+    def is_content_downloadable(self):
+        return (self.is_content_image_update or
+                self.is_content_file_update)
+
+    def content_has_previews(self):
+        if not self.is_content_update:
+            return False
+        elif self.is_content_image_update:
+            return True
+        return pi_api.previews.has_previews(self.content_context)
+
+    def content_preview_status_css(self):
+        if not self.is_content_update:
+            return 'fixme'
+        base = 'document document-preview'
+        if self.is_content_image_update:
+            return base
+        elif pi_api.previews.converting(self.content_context):
+            return base + ' not-generated'
+        elif not self.content_has_previews():
+            return base + ' not-possible'
+        else:
+            return base
+
+    def content_preview_urls(self):
+        if not self.is_content_update:
+            return []
+        if self.is_content_image_update:
+            return [self.content_context.absolute_url(), ]
+        return pi_api.previews.get_preview_urls(
+            self.content_context, scale='large')
+
+    def content_url(self):
+        if self.is_content_image_update or \
+           self.is_content_file_update:
+            return '{}/view'.format(self.content_context.absolute_url())
+        elif self.is_content_update:
+            return self.content_context.absolute_url()
+
+
+class StatusUpdateModify(StatusUpdateView):
+    """
+    A shared view class for editing and deleting statusupdates.
+    """
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.handle_action()
+        return super(StatusUpdateModify, self).__call__()
+
+    def handle_action(self):
+        """
+        Handle edit/delete actions. Security is checked in backend.
+        Takes care to handle any HTTP POST only once, even with
+        a cloned request.
+        """
+        # pop() removes id to avoid multi-handling cloned POST request
+        id = self.request.form.pop('statusupdate_id', None)
+        if not id:
+            return
+        statusupdate = pi_api.microblog.statusupdate.get(id)
+        if self.request.form.get('delete', False):
+            statusupdate.delete()
+        elif self.request.form.get('text', None):
+            statusupdate.edit(self.request.form.get('text'))

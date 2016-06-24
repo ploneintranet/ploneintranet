@@ -27,8 +27,7 @@ class Todo(Item):
 
         Only Open items will appear in the dashboard.
         """
-        wft = api.portal.get_tool("portal_workflow")
-        todo_state = wft.getInfoFor(self, "review_state")
+        todo_state = api.content.get_state(self)
         workspace = parent_workspace(self)
         if not ICase.providedBy(workspace):
             if todo_state != 'open':
@@ -36,9 +35,16 @@ class Todo(Item):
         else:
             milestone = self.milestone
             if milestone:
-                case_state = wft.getInfoFor(workspace, 'review_state')
+                case_state = api.content.get_state(workspace)
                 mm = IMetroMap(workspace).metromap_sequence.keys()
-                future = mm.index(milestone) > mm.index(case_state)
+                # A case could be set to a state which isn't included in the
+                # metromap e.g. on-hold, rejected. If that happens we can treat
+                # it as a future state and set all open tasks to planned
+                mm_states = case_state in mm and milestone in mm
+                future = (
+                    not mm_states or
+                    mm.index(milestone) > mm.index(case_state)
+                )
                 current_or_past = not future
                 if current_or_past and todo_state != 'open':
                     api.content.transition(self, 'set_to_open')
@@ -52,8 +58,7 @@ class Todo(Item):
         If a Todo item is 'done', leave it, otherwise set it to 'open' or
         'planned' as appropriate.
         """
-        wft = api.portal.get_tool("portal_workflow")
-        state = wft.getInfoFor(self, "review_state")
+        state = api.content.get_state(self)
         if state == 'done':
             return
         else:

@@ -138,12 +138,22 @@ class TestAllUsersSync(SyncBaseTestCase):
 
     def _check_sync_dates(self):
         profiles = self._get_userprofiles()
-        sync_start = self.profiles.last_sync
-        not_disabled = lambda obj: api.content.get_state(obj=obj) != 'disabled'
-        synced_profiles = filter(get_last_sync, profiles)
-        synced_profiles = filter(not_disabled, synced_profiles)
-        self.assertTrue(all(sync_start < profile.last_sync
-                            for profile in synced_profiles))
+        # We want all the profiles that:
+        # - have been synced
+        # - are not disabled
+        synced_profiles = [
+            profile for profile in profiles
+            if (
+                get_last_sync(profile) and
+                api.content.get_state(obj=profile) != 'disabled'
+            )
+        ]
+        self.assertTrue(
+            all(
+                self.profiles.last_sync < profile.last_sync
+                for profile in synced_profiles
+            )
+        )
 
     def _call_view_under_test(self):
         view = AllUsersSync(self.profiles, self.request)

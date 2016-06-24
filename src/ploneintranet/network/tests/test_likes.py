@@ -2,6 +2,7 @@
 import time
 import unittest2 as unittest
 from ploneintranet.network.graph import NetworkGraph
+from ploneintranet.network.testing import IntegrationTestCase
 
 
 class TestLikeContent(unittest.TestCase):
@@ -206,3 +207,15 @@ class TestLikeMixed(unittest.TestCase):
             "content", self.userid), [])
         self.assertIterEqual(self.container.get_likes(
             "update", self.userid), [])
+
+
+class TestLikingDefaults(IntegrationTestCase):
+    """Check fallbacks to currently logged in user."""
+
+    def test_user_like_unlike(self):
+        g = NetworkGraph()
+        g.like('content', 'fake uuid')
+        self.assertTrue(g.is_liking('content', 'fake uuid'))
+        self.assertIn('fake uuid', g.get_likes('content'))
+        g.unlike('content', 'fake uuid')
+        self.assertFalse(g.is_liking('content', 'fake uuid'))

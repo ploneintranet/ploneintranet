@@ -17,7 +17,7 @@ Anonymous get redirected to login page
     Given I open the Dashboard
      then I am on the login page
      Do login as  allan_neece
-     Wait Until Element Is visible  css=#activity-stream  timeout=5
+     Wait Until Element Is visible  css=#activity-stream
      I see the Dashboard
 
 *** Keywords ***

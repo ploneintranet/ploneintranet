@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0005</version>
+  <version>0008</version>
   <dependencies>
+    <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-collective.externaleditor:default</dependency>
+    <dependency>profile-ploneintranet.async:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>
@@ -16,8 +18,6 @@
     <dependency>profile-ploneintranet.activitystream:default</dependency>
     <dependency>profile-ploneintranet.network:default</dependency>
     <dependency>profile-ploneintranet.messaging:default</dependency>
-    <dependency>profile-ploneintranet.userprofile:default</dependency>
-    <dependency>profile-ploneintranet.core:minimal</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
   </dependencies>

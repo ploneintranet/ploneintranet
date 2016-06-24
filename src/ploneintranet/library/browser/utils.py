@@ -1,5 +1,11 @@
 import logging
-from ploneintranet import api as pi_api
+
+from plone import api
+from plone.dexterity.utils import safe_unicode
+from zope.component import getUtility
+
+from ploneintranet.search.interfaces import ISiteSearch, ISearchResponse
+
 log = logging.getLogger(__name__)
 
 
@@ -10,10 +16,13 @@ hidden = ['Image']
 types_to_show = folderish + pageish
 
 
-def sections_of(context, **kwargs):
-    if 'portal_type' not in kwargs:
-        kwargs.update(portal_type=types_to_show)
-    results = context.restrictedTraverse('@@folderListing')(**kwargs)
+def sections_of(context):
+    path_elements = context.getPhysicalPath()
+    path = '/'.join(path_elements)
+    path_depth = len(path_elements) + 1
+    results = query(
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     struct = []
     for item in results:
         if item.portal_type in hidden:
@@ -26,28 +35,27 @@ def sections_of(context, **kwargs):
             # to add: collection, newsitem, event, link, file
             type_ = 'unsupported'
             log.error("Unsupported type %s", item.portal_type)
-        child = item.getObject()
-        if pi_api.previews.has_previews(child):
-            preview = pi_api.previews.get_preview_urls(child)[0]
-        else:
-            preview = ''
+        child = result2object(item)
         section = dict(title=item.title,
                        description=item.description,
-                       absolute_url=item.getURL(),
+                       absolute_url=item.url,
                        type=type_,
-                       preview=preview,
+                       preview=item.preview_image_path,
                        context=child)
         section['content'] = children_of(child)
         struct.append(section)
     return struct
 
 
-def children_of(context, **kwargs):
+def children_of(context):
     if context.portal_type not in folderish:
         return []
-    if 'portal_type' not in kwargs:
-        kwargs.update(portal_type=types_to_show)
-    results = context.restrictedTraverse('@@folderListing')(**kwargs)
+    path_elements = context.getPhysicalPath()
+    path = '/'.join(path_elements)
+    path_depth = len(path_elements) + 1
+    results = query(
+        path=path, path_depth=path_depth, portal_types=types_to_show,
+        sort_by='getObjPositionInParent')
     content = []
     for item in results:
         if item.portal_type in hidden:
@@ -62,7 +70,68 @@ def children_of(context, **kwargs):
             (follow, icon) = ("follow-x", "icon-x")
         content.append(dict(
             title=item.title,
-            absolute_url=item.getURL(),
+            absolute_url=item.url,
             follow=follow,
             icon=icon))
     return content
+
+
+def query(path=None, path_depth=None, tags=[], portal_types=None,
+          facet_by=None, sort_by=None,
+          debug=False):
+    """Helper method for Solr power search:
+    - adds request_tag to search phrase
+    - sorts on title
+    """
+    sitesearch = getUtility(ISiteSearch)
+    Q = sitesearch.Q
+
+    lucene_query = Q()
+    if path:
+        lucene_query &= Q(path_parents=path)
+    if path_depth:
+        lucene_query &= Q(path_depth=path_depth)
+    tags = tags or []
+    for tag in tags:
+        lucene_query &= Q(tags=safe_unicode(tag))
+    if portal_types:
+        subquery = Q()
+        for pt in portal_types:
+            subquery |= Q(portal_type=pt)
+        lucene_query &= subquery
+
+    solr_query = sitesearch._create_query_object(None)
+    solr_query = solr_query.filter(lucene_query)
+    if facet_by:
+        solr_query = solr_query.facet_by(facet_by)
+    if sort_by:
+        solr_query = solr_query.sort_by(sort_by)
+    if debug:
+        solr_query = sitesearch._apply_debug(solr_query)
+
+    response = sitesearch.execute(
+        solr_query.paginate(rows=99999),
+        debug=debug
+    )
+    return ISearchResponse(response)
+
+
+def result2object(searchresult):
+    """Return the object for this ISearchResult.
+
+    This method mimicks a subset of what publisher's traversal does,
+    so it allows access if the final object can be accessed even
+    if intermediate objects cannot.
+
+    Analogous to Products.ZCatalog.CatalogBrain.getObject()
+    but without the fallbacks needed when there is no request
+    i.e. in tests.
+    """
+    path = searchresult.path.split('/')
+    root = api.portal.get()
+    if len(path) > 1:
+        parent = root.unrestrictedTraverse(path[:-1])
+    else:
+        parent = root
+    # CatalogBrain has path[-1] without colon - breaks for me
+    return parent.restrictedTraverse(path[-1:])

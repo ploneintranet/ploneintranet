@@ -4,15 +4,11 @@ from Products.CMFPlone.utils import getToolByName
 from plone import api
 from plone.app.testing import TEST_USER_NAME
 from ploneintranet.notifications.interfaces import IMessageClassHandler
-from ploneintranet.notifications.testing import \
-    PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+from ploneintranet.notifications.testing import FunctionalTestCase
 from zope.component import getAdapter
-import unittest
 
 
-class TestGenericMessageClassHandler(unittest.TestCase):
-
-    layer = PLONEINTRANET_NOTIFICATIONS_INTEGRATION_TESTING
+class TestGenericMessageClassHandler(FunctionalTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

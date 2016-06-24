@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
-from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
+from collective.workspace.pas import purge_workspace_pas_cache
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
 
@@ -195,3 +197,31 @@ def month_name(self, date):
     translate = self.context.translate
     short_month_name = date.strftime('%b').lower()  # jan
     return translate(pl_message('month_{}'.format(short_month_name)))
+
+
+def purge_and_refresh_security_manager():
+    """ This is necessary in case you have a cache on your acl_users folder.
+
+    This method purges the configured cache on the acl_users folder and
+    reinitialises the security manager for the current user.
+
+    This is necessary as example when we are creating a workspace and right
+    afterwards transition it into the private state. The transition is guarded
+    by the TeamManager role which the current user just got when the workspace
+    was created. This is however not yet reflected in the cached user object.
+    This would not be an issue in the next upcoming request as the security
+    context will be rebuilt then, but in the current request, this is a
+    problem.
+    """
+    # Purge the cache on the current request object
+    purge_workspace_pas_cache()
+
+    # purge the acl_users cache
+    acl_users = api.portal.get_tool('acl_users')
+    if acl_users.ZCacheable_enabled():
+        acl_users.ZCacheable_invalidate()
+
+    # reinitialise the security manager
+    current_user_id = api.user.get_current().getId()
+    current_user = acl_users.getUser(current_user_id)
+    newSecurityManager(None, current_user)

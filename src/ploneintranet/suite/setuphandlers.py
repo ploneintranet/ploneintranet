@@ -1,50 +1,46 @@
 # -*- coding: utf-8 -*-
-import csv
-import copy
-import json
-import logging
-import os
-import random
-import time
-import transaction
-
-import loremipsum
-from DateTime import DateTime
 from collective.workspace.interfaces import IWorkspace
 from datetime import timedelta
+from datetime import datetime
 from plone import api
+from plone.app.event.base import localized_now
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
-# from plone.uuid.interfaces import IUUID
-from zope.component import getUtility, queryUtility
-from zope.interface import Invalid
-
 from ploneintranet import api as pi_api
+from ploneintranet.docconv.client.decorators import force_synchronous_previews
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.microblog.statusupdate import StatusUpdate
+from ploneintranet.microblog.migration import discuss_older_docs
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from plone.app.event.base import localized_now
+from zope.component import getUtility, queryUtility
+from zope.interface import Invalid
 
+import copy
+import csv
+import json
+import logging
+import loremipsum
+import os
+import pytz
+import random
+import re
+import time
 
 log = logging.getLogger(__name__)
 
 # commits are needed in interactive but break in test mode
 if api.env.test_mode:
-    commit = lambda: None
+    def commit():
+        return
 else:
-    commit = transaction.commit
+    from transaction import commit
 
 
 def default(context):
+    """Run when installing the default profile.
     """
-
-    """
-    if context.readDataFile('ploneintranet.suite_default.txt') is None:
-        return
     log.info("default setup")
-
     cleanup_default_content(context)
     commit()
 
@@ -57,15 +53,16 @@ def default(context):
     log.info("default setup: done.")
 
 
+@force_synchronous_previews
 def testing(context):
     """
     Important!
     We do not want to have users with global roles such as Editor or
     Contributor in out test setup.
     """
-    if context.readDataFile('ploneintranet.suite_testing.txt') is None:
-        return
     log.info("testcontent setup")
+    context = context._getImportContext(
+        'profile-ploneintranet.suite:testing')
 
     log.info("create_users")
     users = users_spec(context)
@@ -99,6 +96,11 @@ def testing(context):
         stream = json.load(stream_json_data)
     create_stream(context, stream, 'files')
     commit()
+
+    log.info("add discussion streams on testcontent")
+    # easier than emitting event and running into async issues
+    discuss_older_docs(None, do_commit=False)
+    commit()  # no-op when in test mode avoids breakage
 
     log.info("done.")
 
@@ -242,12 +244,12 @@ def workspaces_spec(context):
                      'christian_stoney': [u'Admins', u'Members'],
                      'neil_wichmann': [u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
                      'silvio_depaoli': [u'Members'],
                      'lance_stockstill': [u'Members'],
-                     'pearly_whitby': [u'Members'],
+                     'pearlie_whitby': [u'Members'],
                      'dollie_nocera': [u'Members'],
                      'esmeralda_claassen': [u'Members'],
                      'rosalinda_roache': [u'Members'],
@@ -339,7 +341,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -363,7 +365,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -386,7 +388,7 @@ def workspaces_spec(context):
          'members': {'allan_neece': [u'Members'],
                      'christian_stoney': [u'Admins', u'Members'],
                      'francois_gast': [u'Members'],
-                     'jaimie_jacko': [u'Members'],
+                     'jamie_jacko': [u'Members'],
                      'fernando_poulter': [u'Members'],
                      'jesse_shaik': [u'Members'],
                      'jorge_primavera': [u'Members'],
@@ -438,10 +440,13 @@ def create_workspaces(workspaces, force=False):
 
 
 def case_templates_spec(context):
+    now = localized_now()
     case_templates = [{
         'title': 'Case Template',
         'description': 'A Template Case Workspace, pre-populated with tasks',
-        'members': {},
+        'members': {'allan_neece': [u'Members'],
+                    'dollie_nocera': [u'Members'],
+                    'christian_stoney': [u'Admins', u'Members']},
         'contents': [{
             'title': 'Populate Metadata',
             'type': 'todo',
@@ -457,6 +462,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Create a draft proposal',
             'milestone': 'prepare',
+            'creation_date': now - timedelta(days=2),
         }, {
             'title': 'Budget',
             'type': 'todo',
@@ -472,6 +478,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Verify completeness of case proposal',
             'milestone': 'complete',
+            'creation_date': now - timedelta(days=4),
         }, {
             'title': 'Financial audit',
             'type': 'todo',
@@ -549,7 +556,11 @@ def caseworkspaces_spec(context):
     return caseworkspaces
 
 
-def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
+def create_caseworkspaces(caseworkspaces,
+                          container='workspaces',
+                          force=False,
+                          workflow_policy='case_workflow',
+                          portal_type='ploneintranet.workspace.case'):
     portal = api.portal.get()
     pwft = api.portal.get_tool("portal_placeful_workflow")
 
@@ -572,15 +583,24 @@ def create_caseworkspaces(caseworkspaces, container='workspaces', force=False):
         contents = w.pop('contents', None)
         members = w.pop('members', [])
         state = w.pop('state', None)
-        caseworkspace = api.content.create(
-            container=ws_folder,
-            type='ploneintranet.workspace.case',
-            **w
-        )
+        try:
+            caseworkspace = api.content.create(
+                container=ws_folder,
+                type=portal_type,
+                **w
+            )
+        except:
+            log.exception(
+                'Error creating %s in %r',
+                portal_type,
+                ws_folder,
+            )
+            continue
+
         caseworkspace.manage_addProduct[
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(caseworkspace)
-        wfconfig.setPolicyIn('case_workflow')
+        wfconfig.setPolicyIn(workflow_policy)
 
         if contents is not None:
             create_ws_content(caseworkspace, contents)
@@ -618,6 +638,9 @@ def create_ws_content(parent, contents):
             if 'modification_date' in content:
                 obj.modification_date = content['modification_date']
                 obj.reindexObject(idxs=['modified', ])
+            if 'creation_date' in content:
+                obj.creation_date = content['creation_date']
+                obj.reindexObject(idxs=['created', ])
         if state is not None:
             api.content.transition(obj, to_state=state)
         if sub_contents is not None:
@@ -737,41 +760,34 @@ def create_library_content(parent,
 
 
 def create_stream(context, stream, files_dir):
+    hashtags = re.compile('#(\S+)')
+    atmentions = re.compile('@(\S+)')
     contexts_cache = {}
     microblog = queryUtility(IMicroblogTool)
-    if len([x for x in microblog.keys()]) > 0:
-        log.info("microblog already setup. skipping for speed.")
-        return
-
     like_tool = getUtility(INetworkTool)
     microblog.clear()
+    _orig_async = microblog.ASYNC
+    microblog.ASYNC = False
+    UTC = pytz.timezone('UTC')
     for status in stream:
-        kwargs = {}
         microblog_context = status['microblog_context']
         if microblog_context:
             if microblog_context not in contexts_cache:
                 contexts_cache[microblog_context] = api.content.get(
                     path='/' + decode(microblog_context).lstrip('/')
                 )
-            kwargs['microblog_context'] = contexts_cache[microblog_context]
-        status_obj = StatusUpdate(status['text'], **kwargs)
-        status_obj.userid = status['user']
-        status_obj.creator = api.user.get(
-            username=status['user']
-        ).getUserName()
+            m_context_obj = contexts_cache[microblog_context]
         offset_time = status['timestamp'] * 60
-        status_obj.id -= int(offset_time * 1e6)
-        status_obj.date = DateTime(time.time() - offset_time)
-        # THIS BREAKS BECAUSE docconv.client.async.queueConversionJob FIXME
-        # if 'attachment' in status:
-        #     _definition = status['attachment']
-        #     _filename = os.path.join(files_dir, _definition['filename'])
-        #     _data = context.readDataFile(_filename)
-        #     attachment_obj = create_attachment(_filename, _data)
-        #     attachments = IAttachmentStorage(status_obj)
-        #     attachments.add(attachment_obj)
-        microblog.add(status_obj)
-
+        _time = UTC.localize(
+            datetime.utcfromtimestamp(time.time() - abs(offset_time)))
+        status_obj = pi_api.microblog.statusupdate.create(
+            text=status['text'],
+            microblog_context=m_context_obj,
+            mention_ids=atmentions.findall(status['text']),
+            tags=hashtags.findall(status['text']),
+            userid=status['user'],
+            time=_time,
+        )  # stored by pi_api
         # like some status-updates
         if 'likes' in status:
             for user_id in status['likes']:
@@ -779,8 +795,8 @@ def create_stream(context, stream, files_dir):
                     "update",
                     user_id=user_id,
                     item_id=str(status_obj.id),
-
                 )
+    microblog.ASYNC = _orig_async
 
 
 def decode(value):

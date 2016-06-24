@@ -6,7 +6,6 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="ploneintranet">
 
-    <include package=".browser" />
     <include file="profiles.zcml" />
     <includeDependencies package="." />
     <i18n:registerTranslations directory="locales" />

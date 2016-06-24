@@ -8,6 +8,7 @@
     i18n_domain="ploneintranet.search">
 
   <include package=".browser" />
+  <include package=".upgrades" />
 
   <include file="zcatalog.zcml" />
 

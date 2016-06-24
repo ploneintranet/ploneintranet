@@ -6,4 +6,7 @@ from plone.indexer.decorator import indexer
 @indexer(IUserProfile)
 def Title(ob, **kw):
     """Add support for the Title index/metadata from Products.membrane"""
-    return IMembraneUserObject(ob).get_full_name()
+    user = IMembraneUserObject(ob, None)
+    if user:
+        return user.get_full_name()
+    return ""

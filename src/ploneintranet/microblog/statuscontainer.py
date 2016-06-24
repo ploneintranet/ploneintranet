@@ -27,6 +27,7 @@ from zope.interface import implements
 from plone import api
 from plone.uuid.interfaces import IUUID
 from plone.memoize import ram
+from plone.protect.utils import safeWrite
 from interfaces import IStatusContainer
 from interfaces import IStatusUpdate
 from interfaces import IMicroblogContext
@@ -36,9 +37,6 @@ logger = logging.getLogger('ploneintranet.microblog')
 
 LOCK = threading.RLock()
 STATUSQUEUE = Queue.PriorityQueue()
-
-# max in-memory time in millisec before disk sync
-MAX_QUEUE_AGE = 1000
 
 
 def cache_key(method, self):
@@ -63,7 +61,8 @@ def cache_key(method, self):
         # getSite() fails in integration tests, disable caching
         raise ram.DontCache
     return (member.id,
-            self._mtime,  # last write (self is a statuscontainer)
+            self._mtime,  # last add in milliseconds (self = statuscontainer)
+            self._ctime,  # last delete in microseconds
             time.time() // 1)
 
 
@@ -100,21 +99,39 @@ class BaseStatusContainer(Persistent, Explicit):
     Special user_* prefixed accessors take an extra argument 'users',
     an interable of userids, and return IStatusUpdate keys, instances or items
     filtered by userids, in addition to the normal min/max statusid filters.
+
+    For backward compatibility sake, microblog_context is indexed as
+    _uuid_mapping and accessors are called .context_*.
+    This microblog_context is the security context for statusupdates.
+
+    The newer content_context is indexed as
+    _content_mapping and accessors are called .content_*.
+    This has no security impact and is only a convenience for per-document
+    accessors.
     """
 
     implements(IStatusContainer)
+    dontcache = False  # used to disable cache during deletion
 
     def __init__(self, context=None):
-        # last write stamp in milliseconds
+        # last add in milliseconds - used in both async and cache key
         self._mtime = 0
+        # cache buster in MICROseconds - used in cache key only
+        self._ctime = 0
         # primary storage: (long statusid) -> (object IStatusUpdate)
         self._status_mapping = LOBTree.LOBTree()
+        # archive deleted: (long statusid) -> (object IStatusUpdate)
+        self._status_archive = LOBTree.LOBTree()
         # index by user: (string userid) -> (object TreeSet(long statusid))
         self._user_mapping = OOBTree.OOBTree()
         # index by tag: (string tag) -> (object TreeSet(long statusid))
         self._tag_mapping = OOBTree.OOBTree()
-        # index by context (string UUID) -> (object TreeSet(long statusid))
-        self._uuid_mapping = OOBTree.OOBTree()
+        # index by microblog_context:
+        # (string UUID) -> (object TreeSet(long statusid))
+        self._uuid_mapping = OOBTree.OOBTree()  # keep old name for backcompat
+        # index by content_context:
+        # (string UUID) -> (object TreeSet(long statusid))
+        self._content_uuid_mapping = OOBTree.OOBTree()
         # index by thread (string UUID) -> (object TreeSet(long statusid))
         self._threadid_mapping = OOBTree.OOBTree()
         # index by mentions (string UUID) -> (object TreeSet(long statusid))
@@ -124,7 +141,6 @@ class BaseStatusContainer(Persistent, Explicit):
         self._check_status(status)
         self._check_add_permission(status)
         self._store(status)
-        self._update_mtime()
 
     def _store(self, status):
         # see ZODB/Btree/Interfaces.py
@@ -133,20 +149,66 @@ class BaseStatusContainer(Persistent, Explicit):
             status.id += 1
         self._idx_user(status)
         self._idx_tag(status)
-        self._idx_context(status)
+        self._idx_microblog_context(status)
+        self._idx_content_context(status)
         self._idx_threadid(status)
         self._idx_mentions(status)
-        self._notify(status)
+        self._notify_add(status)
+        # the _store() method is shared between Base and Async
+        # putting counter updates here ensures maximal consistency
+        self._update_mtime()  # millisec for async scheduler
+        self._update_ctime()  # microsecond granularity cache busting
 
     def _check_status(self, status):
         if not IStatusUpdate.providedBy(status):
             raise ValueError("IStatusUpdate interface not provided.")
 
-    def _notify(self, status):
+    def _notify_add(self, status):
         event = ObjectAddedEvent(status,
                                  newParent=self,
                                  newName=status.id)
         notify(event)
+
+    def delete(self, id, restricted=True):
+        status = self._get(id)  # bypass view permission check
+        # thread expansion and batch delete can run into eachother
+        if not status:
+            return
+        # delete permission check only original, not thread cascade
+        if restricted:  # content_removed handler runs unrestricted
+            self._check_delete_permission(status)
+        thread_mapping = self._threadid_mapping.get(id)
+        if thread_mapping:
+            # list() avoids RuntimeError
+            # mapping includes current parent id automatically
+            to_delete = list(thread_mapping)
+        else:
+            to_delete = [id]
+        for xid in to_delete:
+            # thread expansion and batch delete can run into eachother
+            if not self._get(xid):
+                continue
+            # cannot reproduce #379 but better safe than sorry
+            try:
+                self._unidx(xid)
+                deleted = self._status_mapping.pop(xid)
+                self._status_archive.insert(xid, deleted)
+                # this would be the right place to notify deletion
+                logger.info("%s archived statusupdate %s",
+                            api.user.get_current().id, xid)
+            except KeyError:
+                logger.error("%s failed to archive statusupdate %s",
+                             api.user.get_current().id, xid)
+        self._update_ctime()  # purge cache
+
+    def _unidx(self, id):
+        status = self._get(id)  # bypass view permission check
+        self._unidx_user(status)
+        self._unidx_tag(status)
+        self._unidx_microblog_context(status)
+        self._unidx_content_context(status)
+        self._unidx_threadid(status)
+        self._unidx_mentions(status)
 
     # --- INDEXES ---
 
@@ -158,12 +220,15 @@ class BaseStatusContainer(Persistent, Explicit):
         # add status id to user treeset
         self._user_mapping[userid].insert(status.id)
 
+    def _unidx_user(self, status):
+        self._user_mapping[status.userid].remove(status.id)
+
     def _idx_tag(self, status):
         """
         Update the `StatusContainer` tag index with any new tags
         :param status: a `StatusUpdate` object
         """
-        if status.tags is None:
+        if not status.tags:
             return
         for tag in [tag.decode('utf-8') for tag in status.tags]:
             # If the key was already in the collection, there is no change
@@ -172,7 +237,13 @@ class BaseStatusContainer(Persistent, Explicit):
             # add status id to tag treeset
             self._tag_mapping[tag].insert(status.id)
 
-    def _idx_context(self, status):
+    def _unidx_tag(self, status):
+        if not status.tags:
+            return
+        for tag in [tag.decode('utf-8') for tag in status.tags]:
+            self._tag_mapping[tag].remove(status.id)
+
+    def _idx_microblog_context(self, status):
         uuid = status._microblog_context_uuid
         if not uuid:
             return
@@ -180,6 +251,27 @@ class BaseStatusContainer(Persistent, Explicit):
         # create tag treeset if not already present
         self._uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
         self._uuid_mapping[uuid].insert(status.id)
+
+    def _unidx_microblog_context(self, status):
+        uuid = status._microblog_context_uuid
+        if not uuid:
+            return
+        self._uuid_mapping[uuid].remove(status.id)
+
+    def _idx_content_context(self, status):
+        uuid = status._content_context_uuid
+        if not uuid:
+            return
+        # If the key was already in the collection, there is no change
+        # create tag treeset if not already present
+        self._content_uuid_mapping.insert(uuid, LLBTree.LLTreeSet())
+        self._content_uuid_mapping[uuid].insert(status.id)
+
+    def _unidx_content_context(self, status):
+        uuid = status._content_context_uuid
+        if not uuid:
+            return
+        self._content_uuid_mapping[uuid].remove(status.id)
 
     def _idx_threadid(self, status):
         if not getattr(status, 'thread_id', False):
@@ -193,6 +285,13 @@ class BaseStatusContainer(Persistent, Explicit):
             # Make sure thread_id is also in the mapping
             self._threadid_mapping[thread_id].insert(thread_id)
 
+    def _unidx_threadid(self, status):
+        if not getattr(status, 'thread_id', False):
+            return
+        thread_id = status.thread_id
+        if thread_id:
+            self._threadid_mapping[thread_id].remove(status.id)
+
     def _idx_mentions(self, status):
         if not getattr(status, 'mentions', False):
             return
@@ -203,10 +302,18 @@ class BaseStatusContainer(Persistent, Explicit):
             self._mentions_mapping.insert(mention, LLBTree.LLTreeSet())
             self._mentions_mapping[mention].insert(status.id)
 
+    def _unidx_mentions(self, status):
+        if not getattr(status, 'mentions', False):
+            return
+        mentions = status.mentions.keys()
+        for mention in mentions:
+            self._mentions_mapping[mention].remove(status.id)
+
     def clear(self):
         self._user_mapping.clear()
         self._tag_mapping.clear()
         self._uuid_mapping.clear()
+        self._content_uuid_mapping.clear()
         self._threadid_mapping.clear()
         self._mentions_mapping.clear()
         return self._status_mapping.clear()
@@ -215,21 +322,44 @@ class BaseStatusContainer(Persistent, Explicit):
 
     def _check_add_permission(self, status):
         permission = "Plone Social: Add Microblog Status Update"
-        try:
-            check_context = status.microblog_context
-            if check_context is None:
-                check_context = self  # Fall back to tool
-        except AttributeError:
-            raise Unauthorized("You do not have permission <%s>" % permission)
+        # can also throw statusupdate._uuid2context() uuid lookup Unauthorized
         if not api.user.has_permission(
                 permission,
-                obj=check_context):
+                obj=status.microblog_context):  # None=SiteRoot handled by api
             raise Unauthorized("You do not have permission <%s>" % permission)
+
+    def _check_delete_permission(self, status):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        if not status.can_delete:
+            raise Unauthorized("Not allowed to delete this statusupdate")
 
     # --- READ SECURITY ---
 
+    def _check_global_view_permission(self):
+        """Stopgap. To support extranet scenarios this will need
+        to be refactored without sacrificing performance.
+        """
+        # hardcode non-anon protection at siteroot for now
+        permission = "Plone Social: View Microblog Status Update"
+        try:
+            if not api.user.has_permission(permission):
+                raise Unauthorized()
+        except api.exc.CannotGetPortalError:  # happens in tests
+            pass
+
     def secure(self, keyset):
-        """Filter keyset to return only keys the current user may see."""
+        """Filter keyset to return only keys the current user may see.
+
+        NB this may return statusupdates with a microblog_context (workspace)
+        accessible to the user, but referencing a content_context (document)
+        which the user may not access yet because of content workflow.
+
+        Filtering that is quite costly and not done here - instead there's a
+        postprocessing filter in activitystream just before rendering.
+        """
         return LLBTree.intersection(
             LLBTree.LLTreeSet(keyset),
             LLBTree.LLTreeSet(self.allowed_status_keys()))
@@ -244,6 +374,8 @@ class BaseStatusContainer(Persistent, Explicit):
         This is the key security protection used by all getters.
         Because it's called a lot we're caching results per user request.
         """
+        self._check_global_view_permission()
+
         uuid_blacklist = self._blacklist_microblogcontext_uuids()
         if not uuid_blacklist:
             return self._status_mapping.keys()
@@ -260,8 +392,6 @@ class BaseStatusContainer(Persistent, Explicit):
             all_statusids = LLBTree.LLSet(self._status_mapping.keys())
             return LLBTree.difference(all_statusids,
                                       blacklisted_statusids)
-
-        return self._allowed_status_keys()
 
     def _blacklist_microblogcontext_uuids(self):
         """Returns the uuids for all IMicroblogContext that the current
@@ -334,9 +464,13 @@ class BaseStatusContainer(Persistent, Explicit):
     # --- PRIMARY ACCESSORS ---
 
     def get(self, key):
+        key = int(key)
         # secure
-        if int(key) in self.allowed_status_keys():
+        if key in self.allowed_status_keys():
             return self._get(key)
+        # don't mask lookup error with Unauthorized
+        elif key not in self._status_mapping.keys():
+            raise KeyError(key)
         else:
             raise(Unauthorized("You're not allowed to get status %s'" % key))
 
@@ -344,23 +478,29 @@ class BaseStatusContainer(Persistent, Explicit):
     def _get(self, key):
         return self._status_mapping.get(key)
 
-    def items(self, min=None, max=None, limit=100, tag=None):
+    def items(self, min=None, max=None, limit=100,
+              tags=None, users=None):
         # secured in keys()
         return ((key, self._get(key))
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags, users))
 
-    def values(self, min=None, max=None, limit=100, tag=None):
+    def values(self, min=None, max=None, limit=100,
+               tags=None, users=None):
         # secured in keys()
         return (self._get(key)
-                for key in self.keys(min, max, limit, tag))
+                for key in self.keys(min, max, limit, tags, users))
 
-    def keys(self, min=None, max=None, limit=100, tag=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+    def keys(self, min=None, max=None, limit=100,
+             tags=None, users=None):
         # secure
-        mapping = self._keys_tag(tag, self.allowed_status_keys())
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
+        if tags is None and users is None:
+            matches = self.allowed_status_keys()
+        else:
+            matches = self.secure(LLBTree.union(
+                self._query_mapping(self._tag_mapping, tags),
+                self._query_mapping(self._user_mapping, users),
+            ))
+        return longkeysortreverse(matches, min, max, limit)
 
     iteritems = items
     iterkeys = keys
@@ -388,135 +528,103 @@ class BaseStatusContainer(Persistent, Explicit):
 
     # --- USER ACCESSORS ---
 
-    def user_items(self, users, min=None, max=None, limit=100, tag=None):
+    def user_items(self, users, min=None, max=None, limit=100):
         # secured by user_keys
         return ((key, self._get(key)) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit))
 
-    def user_values(self, users, min=None, max=None, limit=100, tag=None):
+    def user_values(self, users, min=None, max=None, limit=100):
         # secured by user_keys
         return (self._get(key) for key
-                in self.user_keys(users, min, max, limit, tag))
+                in self.user_keys(users, min, max, limit))
 
-    def user_keys(self, users, min=None, max=None, limit=100, tag=None):
+    def user_keys(self, users, min=None, max=None, limit=100):
         if not users:
             return ()
-        if tag and tag not in self._tag_mapping:
-            return ()
+        return self.keys(min, max, limit, users=users)
 
-        if users == str(users):
-            # single user optimization
-            userid = users
-            mapping = self._user_mapping.get(userid)
-            if not mapping:
-                return ()
+    # --- CONTEXT ACCESSORS = microblog_context security context ---
 
-        else:
-            # collection of user LLTreeSet
-            treesets = (self._user_mapping.get(userid)
-                        for userid in users
-                        if userid in self._user_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
-        mapping = self.secure(mapping)
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
-
-    # --- CONTEXT ACCESSORS ---
-
-    def context_items(self, context,
-                      min=None, max=None, limit=100, tag=None, nested=True):
-        # secured by context_keys
+    def context_items(self, microblog_context,
+                      min=None, max=None, limit=100, nested=True):
+        # secured by microblog_context_keys
         return ((key, self._get(key)) for key
-                in self.context_keys(context, min, max, limit, tag, nested))
+                in self.context_keys(microblog_context,
+                                     min, max, limit, nested))
 
-    def context_values(self, context,
-                       min=None, max=None, limit=100, tag=None, nested=True):
-        # secured by context_keys
+    def context_values(self, microblog_context,
+                       min=None, max=None, limit=100, nested=True):
+        # secured by microblog_context_keys
         return (self._get(key) for key
-                in self.context_keys(context, min, max, limit, tag, nested))
+                in self.context_keys(microblog_context, min, max,
+                                     limit, nested))
 
-    def context_keys(self, context,
+    def context_keys(self, microblog_context,
                      min=None, max=None, limit=100,
-                     tag=None, nested=True, mention=None):
-        if tag and tag not in self._tag_mapping:
-            return ()
+                     nested=True):
 
         if nested:
             # hits portal_catalog
-            nested_uuids = [uuid for uuid in self.nested_uuids(context)
+            nested_uuids = [uuid
+                            for uuid in self.nested_uuids(microblog_context)
                             if uuid in self._uuid_mapping]
             if not nested_uuids:
                 return ()
 
         else:
-            # used in test_statuscontainer_context for non-integration tests
-            uuid = self._context2uuid(context)
+            # used in test_statuscontainer_microblog_context
+            uuid = self._context2uuid(microblog_context)
             if uuid not in self._uuid_mapping:
                 return ()
             nested_uuids = [uuid]
 
-        # tag and uuid filters handle None inputs gracefully
-        keyset_tag = self._keys_tag(tag, self.allowed_status_keys())
-
-        # mention and uuid filters handle None inputs gracefully
-        keyset_mention = self._keys_tag(mention, keyset_tag)
-
-        # calculate the tag+mention+uuid intersection for each uuid context
-        keyset_uuids = [self._keys_uuid(_uuid, keyset_mention)
-                        for _uuid in nested_uuids]
-
-        # merge the intersections
-        merged_set = LLBTree.multiunion(keyset_uuids)
-        merged_set = self.secure(merged_set)
-        return longkeysortreverse(merged_set,
-                                  min, max, limit)
+        matches = self._query_mapping(self._uuid_mapping, nested_uuids)
+        matches = self.secure(matches)
+        return longkeysortreverse(matches, min, max, limit)
 
     # enable unittest override of plone.app.uuid lookup
     def _context2uuid(self, context):
         return IUUID(context)
 
+    # --- CONTENT ACCESSORS = content_context
+
+    def content_items(self, content_context):
+        return ((key, self._get(key)) for key
+                in self.content_keys(content_context))
+
+    def content_values(self, content_context):
+        return (self._get(key) for key
+                in self.content_keys(content_context))
+
+    def content_keys(self, content_context):
+        uuid = self._context2uuid(content_context)
+        mapping = self._content_uuid_mapping.get(uuid)
+        if not mapping:
+            return ()
+        # security is derived from microblog_context NOT from content_context
+        mapping = self.secure(mapping)
+        # not reversing, keep document discussion in chronological order
+        return mapping
+
     # --- MENTION ACCESSORS ---
 
-    def mention_items(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_items(self, mentions, min=None, max=None, limit=100):
         # secured by mention_keys
         return ((key, self._get(key)) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
     def mention_values(self, mentions,
-                       min=None, max=None, limit=100,
-                       tag=None):
+                       min=None, max=None, limit=100):
         # secured by mention_keys
         return (self._get(key) for key
-                in self.mention_keys(mentions, min, max, limit, tag))
+                in self.mention_keys(mentions, min, max, limit))
 
-    def mention_keys(self, mentions, min=None, max=None, limit=100, tag=None):
+    def mention_keys(self, mentions, min=None, max=None, limit=100):
         if not mentions:
             return ()
-        if tag and tag not in self._tag_mapping:
-            return ()
-
-        if mentions == str(mentions):
-            # single mention optimization
-            mention = mentions
-            mapping = self._mentions_mapping.get(mention)
-            if not mapping:
-                return ()
-
-        else:
-            # collection of LLTreeSet
-            treesets = (self._mentions_mapping.get(mention)
-                        for mention in mentions
-                        if mention in self._mentions_mapping.keys())
-            mapping = reduce(LLBTree.union, treesets, LLBTree.TreeSet())
-
-        # returns unchanged mapping if tag is None
-        mapping = self._keys_tag(tag, mapping)
-        mapping = self.secure(mapping)
-        return longkeysortreverse(mapping,
-                                  min, max, limit)
+        matches = self._query_mapping(self._mentions_mapping, mentions)
+        matches = self.secure(matches)
+        return longkeysortreverse(matches, min, max, limit)
 
     # --- HELPERS ---
 
@@ -527,31 +635,39 @@ class BaseStatusContainer(Persistent, Explicit):
                           object_implements=IMicroblogContext)
         return([item.UID for item in results])
 
-    def _keys_tag(self, tag, keyset):
-        if tag is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._tag_mapping[tag])
-
-    def _keys_mention(self, mention, keyset):
-        if mention is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._mentions_mapping[mention])
-
-    def _keys_uuid(self, uuid, keyset):
-        if uuid is None:
-            return keyset
-        return LLBTree.intersection(
-            LLBTree.LLTreeSet(keyset),
-            self._uuid_mapping[uuid])
+    def _query_mapping(self, mapping, keys):
+        """
+        Calculate the union of all statusids indexed in <mapping>
+        on any of the <keys>.
+        Always returns an LLTreeSet ready for further processing.
+        """
+        if not keys:
+            return LLBTree.LLTreeSet()
+        elif isinstance(keys, (str, unicode)):
+            # convert single key to list
+            keys = [keys]
+        # calculate the union set of matching ids across all tags
+        # silently discards all non-existing key ids
+        treesets = [mapping.get(id)
+                    for id in keys
+                    if id in mapping.keys()]
+        return LLBTree.multiunion(treesets)
 
     def _update_mtime(self):
-        """Update _mtime on write"""
+        """Update _mtime on statusupdate add.
+        Uses milliseconds. This flag is used for the cache key
+        and for the async time window.
+        """
         with LOCK:
             self._mtime = int(time.time() * 1000)
+
+    def _update_ctime(self):
+        """Update _ctime for cache busting.
+        Requires *micro*seconds granularity to avoid RuntimeError
+        by cache interference. Only used for cache invalidation.
+        """
+        with LOCK:
+            self._ctime = int(time.time() * 1000000)
 
 
 class QueuedStatusContainer(BaseStatusContainer):
@@ -592,10 +708,18 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     implements(IStatusContainer)
 
+    # set ASYNC=False to force sync mode and ignore MAX_QUEUE_AGE
+    if api.env.test_mode():
+        ASYNC = False
+    else:
+        ASYNC = False  # disabled because of CSRF issues
+    # max in-memory time in millisec before disk sync, if in ASYNC mode
+    MAX_QUEUE_AGE = 1000
+
     def add(self, status):
         self._check_status(status)
         self._check_add_permission(status)
-        if MAX_QUEUE_AGE > 0:
+        if self.ASYNC and self.MAX_QUEUE_AGE > 0:
             self._queue(status)
             # fallback sync in case of NO traffic (kernel timer)
             self._schedule_flush()
@@ -604,7 +728,6 @@ class QueuedStatusContainer(BaseStatusContainer):
             return self._autoflush()  # updates _mtime on write
         else:
             self._store(status)
-            self._update_mtime()
             return 1  # immediate write
 
     def _queue(self, status):
@@ -612,7 +735,7 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _schedule_flush(self):
         """A fallback queue flusher that runs without user interactions"""
-        if not MAX_QUEUE_AGE > 0:
+        if not self.MAX_QUEUE_AGE > 0:
             return
 
         try:
@@ -627,7 +750,7 @@ class QueuedStatusContainer(BaseStatusContainer):
             return
 
         # only a one-second granularity, round upwards
-        timeout = int(math.ceil(float(MAX_QUEUE_AGE) / 1000))
+        timeout = int(math.ceil(float(self.MAX_QUEUE_AGE) / 1000))
         # Get the global request,
         # we just need to copy over some environment stuff.
         request = getRequest()
@@ -673,7 +796,8 @@ class QueuedStatusContainer(BaseStatusContainer):
 
     def _autoflush(self):
         # logger.info("autoflush")
-        if int(time.time() * 1000) - self._mtime > MAX_QUEUE_AGE:
+        # compares millisecond _mtime with millisecond MAX_QUEUE_AGE
+        if int(time.time() * 1000) - self._mtime > self.MAX_QUEUE_AGE:
             return self.flush_queue()  # 1 on write, 0 on noop
         return 0  # no write
 
@@ -681,10 +805,13 @@ class QueuedStatusContainer(BaseStatusContainer):
         # update marker - block autoflush
         self._update_mtime()
         with LOCK:
-            # cancel scheduled flush
-            if MAX_QUEUE_AGE > 0 and self._v_timer is not None:
-                # logger.info("Cancelling timer")
-                self._v_timer.cancel()
+            try:
+                # cancel scheduled flush
+                if self.MAX_QUEUE_AGE > 0 and self._v_timer is not None:
+                    # logger.info("Cancelling timer")
+                    self._v_timer.cancel()
+                    self._v_timer = None
+            except AttributeError:
                 self._v_timer = None
 
         if STATUSQUEUE.empty():
@@ -693,6 +820,7 @@ class QueuedStatusContainer(BaseStatusContainer):
         while True:
             try:
                 (id, status) = STATUSQUEUE.get(block=False)
+                safeWrite(status)
                 self._store(status)
             except Queue.Empty:
                 break

@@ -59,7 +59,7 @@
                   class="pat-switch"
                   data-pat-switch="#new-post-box status-* status-inactive"
                   type="submit"
-                  name="form.buttons.send" i18n:translate="">Post</button>
+                  name="form.buttons.send" i18n:translate="button_post">Post</button>
                 <button
                   class="pat-switch"
                   data-pat-switch="#new-post-box status-* status-inactive"

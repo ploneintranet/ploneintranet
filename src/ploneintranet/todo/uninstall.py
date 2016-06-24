@@ -3,10 +3,6 @@ from plone import api
 
 
 def uninstall(context):
-    marker = 'ploneintranet.todo_uninstall.txt'
-    if context.readDataFile(marker) is None:
-        return
-
     # Delete roles
     portal = api.portal.get()
     valid_roles = portal.valid_roles()

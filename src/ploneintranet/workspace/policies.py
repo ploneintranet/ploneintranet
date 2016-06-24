@@ -2,7 +2,7 @@
 Defines the policies that can be applied to a workspace
 """
 from collections import OrderedDict
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 EXTERNAL_VISIBILITY = OrderedDict([
     ('secret', {
@@ -73,4 +73,9 @@ PARTICIPANT_POLICY = OrderedDict([
             u"edit content."
         ),
     }),
+    ('guests', {
+        "title": _(u"Guest"),
+        "help": _(u"Guests are only used internally and cannot be assigned."),
+        "exclude_from_ui": True,
+    })
 ])

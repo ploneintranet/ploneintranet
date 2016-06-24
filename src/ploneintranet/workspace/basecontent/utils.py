@@ -1,7 +1,12 @@
 from Products.CMFPlone.utils import safe_unicode
+from plone import api
+from collections import defaultdict
+from plone.app.textfield.interfaces import IRichTextValue
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.z3cform.z2 import processInputs
+from ploneintranet.workspace.html_cleaners import sanitize_html
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
@@ -11,7 +16,7 @@ from z3c.form.interfaces import NO_VALUE
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
-
+import json
 import logging
 
 log = logging.getLogger(__name__)
@@ -44,7 +49,7 @@ def dexterity_update(obj, request=None):
     Utility method to update the fields of all the schemas of the Dexterity
     object 'obj'.
     """
-    modified = False
+    modified = defaultdict(list)
     if not request:
         request = obj.REQUEST
     # Call processInputs to decode strings to unicode, otherwise the
@@ -54,7 +59,10 @@ def dexterity_update(obj, request=None):
     for schema in get_dexterity_schemas(context=obj):
         for name in getFieldNames(schema):
             # Only update fields which are included in the form
-            if name not in request.form:
+            # Look specifically for the empty-marker used to mark
+            # empty checkboxes
+            if name not in request.form and \
+               '%s-empty-marker' % name not in request.form:
                 continue
             field = schema[name]
             widget = component.getMultiAdapter(
@@ -74,6 +82,20 @@ def dexterity_update(obj, request=None):
 
             if raw is NO_VALUE:
                 continue
+
+            if (
+                IRichTextValue.providedBy(raw) and
+                api.portal.get_registry_record(
+                    'ploneintranet.workspace.sanitize_html')
+            ):
+                sanitized = RichTextValue(
+                    raw=sanitize_html(safe_unicode(raw.raw)),
+                    mimeType=raw.mimeType, outputMimeType=raw.outputMimeType)
+                if sanitized.raw != raw.raw:
+                    log.info(
+                        'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
+                            name, obj.absolute_url()))
+                    raw = sanitized
 
             value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
@@ -106,6 +128,23 @@ def dexterity_update(obj, request=None):
                     dm.query() != value or
                     interfaces.IObject.providedBy(field)):
                 dm.set(value)
-                modified = True
+                modified[schema].append(name)
+    return dict(modified), errors
 
-    return modified, errors
+
+def get_selection_classes(context, field, default=None):
+    """ identify all groups in the invitees """
+    acl_users = api.portal.get_tool('acl_users')
+    field_value = getattr(context, field, default)
+    if not field_value:
+        return ''
+    assigned_users = field_value.split(',')
+    selection_classes = {}
+    for assignee_id in assigned_users:
+        group = acl_users.getGroupById(assignee_id)
+        if group:
+            group_title = (
+                group.getProperty('title') or group.getId() or assignee_id)
+            selection_classes[group_title] = ["group"]
+
+    return json.dumps(selection_classes)

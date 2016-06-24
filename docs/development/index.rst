@@ -12,5 +12,5 @@ Developer documentation
     components/index
     testing_of_pi
     debugging
-
+    releasing
 

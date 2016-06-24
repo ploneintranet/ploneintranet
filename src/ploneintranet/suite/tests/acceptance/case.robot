@@ -20,7 +20,7 @@ User can create a case workspace
      Then I can create a new case    A case for outer space
       And I can delete a case  a-case-for-outer-space
 
-User can create a template case workspace
+User can create a case workspace template
     Given I am logged in as the user allan_neece
      Then I can create a new template case    New template
      Then I can create a new case from a template  New template  A new type of case
@@ -106,25 +106,48 @@ Member can view sidebar tasks
 Member can add a new task
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Make a plan  new
+     Then I can add a new task  Make a plan  Neece  new
 
 Member can close an unassigned task from the sidebar
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Unassigned task
+     Then I can add a new task  Unassigned task  Neece
      Then I select the task check box  Unassigned task
      Then I see a task is complete  Unassigned task
 
 Member can mark a new task complete on dashboard
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
-     Then I can add a new task  Todo soon  prepare
+     Then I can add a new task  Todo soon  Neece  prepare
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete
      Then I go to the dashboard
      Then I select the task centric view
      Then I do not see the completed task is not listed
+
+Manager can freeze and unfreeze a case
+    Given I am in a case workspace as a workspace admin
+      And I can open the workspace advanced settings tab
+      And I freeze the case
+      And I go to the Example Case
+     Then I see that the workspace is frozen
+     Then I can open the workspace advanced settings tab
+      And I unfreeze the case
+      And I go to the Example Case
+     Then I see that the workspace is not frozen
+
+Manager can unfreeze a case via the metromap
+    Given I am in a case workspace as a workspace admin
+      And I can open the workspace advanced settings tab
+      And I freeze the case
+      And I go to the Example Case
+     Then I see that the workspace is frozen
+      And I go to the Example Case
+      And I unfreeze the case via the metromap
+      And I go to the Example Case
+     Then I see that the workspace is not frozen
+
 
 ## These tagging tests are intractable because the save confirmation
 ## message is set OK but not displayed - no indicator of injection complete
@@ -154,6 +177,13 @@ The manager can invite Alice to join the Example Case from the menu
     Given I am in a case workspace as a workspace admin
       And I can open the workspace member settings tab
      Then I can invite Alice to join the workspace from the menu
+
+Member can assign a task to an external user
+    Given I am in a case workspace as a workspace member
+     When I can go to the sidebar tasks tile of my case
+     Then I can add a new task  Todo externally  Alice  prepare
+     When I can open the workspace member settings tab
+     Then I can see the user is a guest    Alice
 
 
 *** Keywords ***

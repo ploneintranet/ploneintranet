@@ -16,13 +16,54 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***
 
-Manager can create a workspace
-    Given I'm logged in as a 'Manager'
-     Then I can create a new workspace    My new workspace
+# The case that a user created outside our local membrane context should be
+# able to create a workspace is not supported. Deactivating this test.
+
+# Manager can create a workspace
+#     Given I'm logged in as a 'Manager'
+#      Then I can create a new workspace    My new workspace
 
 Alice can create a workspace
     Given I am logged in as the user alice_lindstrom
      Then I can create a new workspace    My user workspace
+
+User can create a workspace template
+    Given I am logged in as the user allan_neece
+     Then I can create a new template workspace    New template
+     Then I can create a new workspace from a template  New template  A new type of workspace
+     Then I can delete a template case  new-template
+     Then I can delete a case  a-new-type-of-workspace
+
+Alice can list workspaces sorted
+    Given I am logged in as the user alice_lindstrom
+     And I can create a new workspace  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the last listed workspace is  Zulu
+     And I can set workspace listing order  Newest workspaces on top
+     And I can see the first listed workspace is  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the first listed workspace is  Zulu
+     And I can set workspace listing order  Alphabetical
+     And I can see the last listed workspace is  Zulu
+     And Go to  ${PLONE_URL}/workspaces
+     And I can see the last listed workspace is  Zulu
+
+Alice can create a division and list workspaces by division
+    Given I am logged in as the user alice_lindstrom
+      And I can create a new workspace  Aerospace
+      And I can open the workspace advanced settings tab
+     When I can turn the workspace into a division
+      And I can list the workspaces grouped by division
+     Then I can see the division  Aerospace
+
+Alice can create a division and create a workspace for the division
+    Given I am logged in as the user alice_lindstrom
+      And I can create a new workspace  Aerospace
+      And I can open the workspace advanced settings tab
+     When I can turn the workspace into a division
+     Then I can create a new workspace for the division  Engines  Aerospace
+      And I can open the workspace advanced settings tab
+      And I can see the workspace belongs to division  Aerospace
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -81,6 +122,20 @@ The manager can modify workspace security policies
       And I can set the join policy to Admin-Managed
       And I can set the participant policy to Moderate
 
+The manager can access member batch-functions only after selecting
+  Given I am in a workspace as a workspace admin
+   Then I can open the workspace member settings tab
+   Then I can enable user selection
+    And The batch action buttons are disabled
+   Then I select all members
+    And The batch action buttons are enabled
+   Then I deselect all members
+    And The batch action buttons are disabled
+   Then I toggle the selection of the first user
+    And The batch action buttons are enabled
+   Then I toggle the selection of the first user
+    And The batch action buttons are disabled
+
 The manager can invite Alice to join the Open Market Committee Workspace
     Given I am in a workspace as a workspace admin
      Then I can open the workspace member settings tab
@@ -95,9 +150,10 @@ Create document
     Given I am in a workspace as a workspace member
      Then I can create a new document    My Humble document
 
-Create folder
+Member can create and edit a folder
     Given I am in a workspace as a workspace member
      Then I can create a new folder
+     Then I can edit the new folder
 
 Create image
     Given I am in a workspace as a workspace member
@@ -109,6 +165,7 @@ Create structure
 
 Member can upload a file
     Given I am in a workspace as a workspace member
+      And I open the sidebar documents tile
       And I select a file to upload
      Then the file appears in the sidebar
 
@@ -217,6 +274,30 @@ The manager can add other workspace admins
 The manager can remove a workspace member
     Given I am in a workspace as a workspace admin
      Then I can remove Allan from the workspace members
+
+The manager can archive a workspace
+    Given I am logged in as the user christian_stoney
+      And I can create a new workspace  Archived Workspace
+      And I can open the workspace advanced settings tab
+     When I can archive the workspace
+      And I can list the workspaces
+      And I can't see the workspace  Archived Workspace
+      And I can list the archived workspaces
+      And I can see the workspace  Archived Workspace
+     When I go to the Archived Workspace
+      And I can open the workspace advanced settings tab
+      And I can unarchive the workspace
+      And I can list the workspaces
+     Then I can see the workspace  Archived Workspace
+
+Archived workspaces are marked search results
+    Given I am in a workspace as a workspace admin
+      And I can create a new workspace  ArchivedWSSearch
+      And I can open the workspace advanced settings tab
+      And I can archive the workspace
+      And I can search in the site header for ArchivedWSSearch
+      And I can see the search result ArchivedWSSearch
+     Then I can see that the workspace is archived  ArchivedWSSearch
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration

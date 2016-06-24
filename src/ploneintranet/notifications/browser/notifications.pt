@@ -34,7 +34,10 @@
                tal:content="structure notification/obj/title">
               Who's up for a beer at Watershed at 8pm?
             </a>
-            <time class="datestamp pat-moment" data-pat-moment="format:relative" tal:content="notification/date">Just now</time>
+            <time class="datestamp pat-display-time"
+                  data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
+                  datetime="${notification/obj/message_last_modification_date}"
+                >${notification/date}</time>
           </li>
         </ul>
         <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>

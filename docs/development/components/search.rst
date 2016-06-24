@@ -80,6 +80,19 @@ If you are deploying Plone Intranet, you will need to use the solr.cfg buildout 
 
 If moving an existing site to a SOLR backend, you will need to run the 'Clear and Rebuild' step on the portal_catalog, which will sync all items with the solr database. (This only needs to be done once.)
 
+
+solr maintenance views
+----------------------
+
+Ploneintranet provides 2 solr maintenance views:
+
+`@@solr-optimize`
+  is a view you will want to call from cron at least once per day, to perform regular optimizations.
+
+`@@solr-maintenance`
+  does a full reindex of solr
+  
+
 Configuration
 =============
 
@@ -222,3 +235,124 @@ The full query API is as follows:
 
 .. autointerface:: ploneintranet.search.interfaces.ISiteSearch
    :members:
+
+
+
+Debugging Search
+================
+
+package architecture
+--------------------
+
+The search package can appear a bit impenetrable because of the complex way
+it has been engineered.
+
+Two things to keep in mind:
+
+- An original design goal was, to provide both ZCatalog and Solr support, and
+  later ElasticSearch as well. However, ZCatalog is now deprecated because its
+  feature set is too narrow. The code is still there though because of test
+  dependencies.
+
+- The implementation uses 'normal' ZCA Interfaces and Adapters, but also uses
+  `Abstract Base Class`_, which is just a `different way of defining an interface`_.
+
+.. _Abstract Base Class:  https://www.python.org/dev/peps/pep-3119/
+.. _different way of defining an interface: http://griddlenoise.blogspot.nl/2007/05/abc-may-be-easy-as-123-but-it-cant-beat.html
+
+The combination of these two can set you off on a goose chase if you're trying to
+reconstruct the call flow in your mind.
+
+The key entry point is `ploneintranet.search.solr.utilities.SiteSearch`.
+This is the search utility that you're using instead of `portal_catalog`
+so to speak.
+
+`ploneintranet.search.solr.utilities.SiteSearch` implements the interface
+`ploneintranet.search.interfaces.ISiteSearch` - but that's only the public interface
+definition that only requires a `.query(...)` method. The rest of the interface
+is defined elsewhere, hang on.
+
+`ploneintranet.search.solr.utilities.SiteSearch` is a subclass of
+`ploneintranet.search.base.SiteSearch` and it inherits its `.query(...)` implementation
+and field definitions from that base implementation.
+
+`ploneintranet.search.base.SiteSearch` in turn is registered whith the Abstract
+Base Class `ploneintranet.search.base.SiteSearchProtocol`. In plone speak one
+would say that `ploneintranet.search.base.SiteSearch` (and hence also the solr subclass)
+*implements* the `ploneintranet.search.base.SiteSearchProtocol` *interface*.
+
+In other words, due to the mixing of ZCA and ABC the interface contract definition
+of the SiteSearch utility is defined in two places: a bit in the ZCA Interface
+`ploneintranet.search.interfaces.ISiteSearch`, but most of the meat is defined
+in the `ploneintranet.search.base.SiteSearchProtocol`. Don't get hung up on the
+'Protocol' term, just think of it as a `SiteSearchInterface` in addition to the
+"real" `ISiteSearch` interface.
+
+The main difference is, that the ZCA interface is used to describe the public
+interface contract, while the ABC registration is used to constrain the
+private implementation method signature. That made sense at the time; however
+these private implementation methods are now also being used elsewhere
+(see 'power search' below), so there may be a case for future refactoring there.
+
+The upshot of all that is, that both `ploneintranet.search.interfaces.ISiteSearch`
+and `ploneintranet.search.base.SiteSearchProtocol` are interface contracts, not
+actual code in the call flow.
+
+call flow
+---------
+
+The call flow entry point is `ploneintranet.search.solr.utilities.SiteSearch.query()`
+which is actually `ploneintranet.search.base.SiteSearch.query()` which then calls
+a lot of `self._apply...` and other private methods, and finally `self.execute()`,
+all of which do not exist in `base` but are implemented in
+`ploneintranet.search.solr.utilities.SiteSearch`.
+So you have to jump between `base` where the toplevel call flow is defined,
+and `solr.utilities` where the actual implementation is.
+
+The difference between `query()` and `execute()` is, that `query()` takes the
+initial (user) query and then processes that with various extra filters, before
+using `execute()` to actually query the Solr engine. The `execute()` method adds one
+extra filter, to enforce security, and propagates the query parameters to the response,
+so that the original query remains available to the application, especially for
+subsequent filtering down by facet by the end user.
+
+`ISiteSearch.query()` returns a `ploneintranet.search.interfaces.ISearchResponse`
+which is implemented in `ploneintranet.search.solr.adapters.SearchResponse`, which
+is subclassed from `ploneintranet.search.base.SearchResponse`. So you have to jump
+between `base` and `solr.adapters` to understand that part.
+
+`ISearchResponse` is basically an iterator over
+`ploneintranet.search.interfaces.ISearchResult` items - analogous to a `ZBrain`
+for ZCatalog query results. The implementation of that is in
+in `ploneintranet.search.solr.adapters.SearchResult` which delegates almost
+all of the heavy lifting to its superclass `ploneintranet.search.base.SearchResult`.
+
+power search
+------------
+
+All of the above is when you use the search utility via the search page in Quaive.
+
+An alternative usage scenario is, to use the power of Solr instead of ZCatalog when
+constructing application code. An example of that can be found in
+`ploneintranet.library.browser.views.utils`, which has a different
+`query()` builder that operates directly on the `scorched query implementation`_.
+
+.. _scorched query implementation: http://scorched.readthedocs.org/en/latest/query.html
+
+debugging
+---------
+
+`ISiteSearch.query()` takes a `debug` argument. Set this to `True` to get an echo
+of the solr query being fired off in the instance log.
+
+In http://localhost:8983/solr/#/core1/query you can then start playing with the
+query manually. You'll have to split the FilterQuery `fq` into its separate subqueries one by one.
+
+Note that the `path_parents` syntax of the solr console is different from the scorched
+notation. You'll have to replace `path_parents:\\/Plone\\/library`
+with `path_parents:"/Plone/library"` i.e. remove escapes and add double quote wrapper.
+
+Just like in ZCatalog, there's a difference between returned metadata and indexed values.
+You can inspect the indices via e.g.
+http://localhost:8983/solr/#/core1/schema-browser?field=path_parents
+("Load Term Info").

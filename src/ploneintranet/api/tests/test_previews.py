@@ -1,10 +1,12 @@
-import os
+# coding=utf-8
 from plone import api
 from plone.namedfile.file import NamedBlobFile
-from ploneintranet.api.testing import FunctionalTestCase
-from ploneintranet import api as pi_api
-from ZODB.blob import Blob
 from plone.resource.file import FilesystemFile
+from ploneintranet import api as pi_api
+from ploneintranet.api.testing import FunctionalTestCase
+from ploneintranet.docconv.client.previews import PREVIEW_URL
+from ZODB.blob import Blob
+import os
 
 TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
 TEST_FILENAME = u'test.odt'
@@ -47,23 +49,26 @@ class TestPreviews(FunctionalTestCase):
     def test_get_preview_urls(self):
         preview_urls = pi_api.previews.get_preview_urls(self.testfile)
         self.assertEqual(len(preview_urls), 1)
-        self.assertTrue('/normal/dump_1' in preview_urls[0])
-        self.assertTrue(self.testfile.UID() in preview_urls[0])
+        self.assertIn('/normal/dump_1', preview_urls[0])
+        self.assertIn(self.testfile.UID(), preview_urls[0])
 
         preview_urls = pi_api.previews.get_preview_urls(self.testfile, 'small')
-        self.assertTrue('/small/dump_1' in preview_urls[0])
+        self.assertIn('/small/dump_1', preview_urls[0])
 
         preview_urls = pi_api.previews.get_preview_urls(self.testfile, 'large')
-        self.assertTrue('/large/dump_1' in preview_urls[0])
+        self.assertIn('/large/dump_1', preview_urls[0])
 
         preview_urls = pi_api.previews.get_preview_urls(self.testfile, 'foo')
-        self.assertTrue('/large/dump_1' in preview_urls[0])
+        self.assertIn('/large/dump_1', preview_urls[0])
 
     def test_fallback_image_url(self):
-        fallback = pi_api.previews.fallback_image_url(self.testfile)
-        self.assertTrue(
-            '++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square.svg'  # noqa
-            in fallback)
+        self.assertEqual(
+            pi_api.previews.fallback_image_url(self.testfile),
+            '/'.join((
+                self.portal.absolute_url(),
+                PREVIEW_URL,
+            )),
+        )
 
     def test_get_thumbnail(self):
         thumbnail = pi_api.previews.get_thumbnail(self.testfile)

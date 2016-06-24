@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+<head>
+</head>
+<body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace">
+  <div id="workspaces">
+      <h1 i18n:translate="">Create workspace</h1>
+
+      <form action="add_workspace" method="post" enctype="multipart/form-data"
+            class="wizard-box"
+            name="add_workspace" id="add_workspace"
+        tal:attributes="action string:${context/absolute_url}/add_workspace">
+
+        <div class="panel-body">
+          <fieldset class="vertical">
+            <label>
+              <input placeholder="Workspace title" type="text" required="required" maxlength="70" class="required" name="title" i18n:attributes="placeholder" />
+            </label>
+            <label>
+              <textarea placeholder="Workspace description" rows="6" name="description" i18n:attributes="placeholder"></textarea>
+            </label>
+
+	<label>
+	  <select name="workspace-type">
+	    <optgroup label="Generic workspace" i18n:attributes="label">
+	      <option value="secret" i18n:translate="">
+		Locked down, secret workspace
+	      </option>
+	      <option value="private" selected name="security-level" i18n:translate="">
+		Self-managed, private workspace
+	      </option>
+	      <option value="open" i18n:translate="">
+		Open community
+	      </option>
+              <option tal:repeat="template view/workspace_templates"
+                      tal:attributes="value template/id"
+                      tal:content="template/title">workspace template
+              </option>
+	    </optgroup>
+	    <optgroup label="Special workspace" i18n:attributes="label"
+                      tal:define="options view/special_options"
+                      tal:condition="options">
+              <option tal:repeat="template options"
+                      tal:attributes="value template/id"
+                      tal:content="template/title">special workspace template
+              </option>
+	    </optgroup>
+	  </select>
+	</label>
+
+
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:workspace-type=secret" i18n:translate="">
+                The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:workspace-type=private" i18n:translate="">
+                The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members.
+              </p>
+              <p class="pat-depends pat-well notice" data-pat-depends="condition:workspace-type=open" i18n:translate="">
+                Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member.
+              </p>
+              <p class="pat-depends pat-well" data-pat-depends="condition:workspace-type=secret or workspace-type=private or workspace-type=open" i18n:translate="">
+                You may at any time change these settings later via the security control panel in the workspace.
+              </p>
+
+            <p tal:repeat="template view/all_templates"
+               tal:condition="template/description|nothing"
+               class="pat-depends pat-well notice"
+               data-pat-depends="condition:workspace-type=${template/id}">
+              ${template/description}
+            </p>
+
+              <label class="pat-select"
+                     tal:define="divisions view/divisions"
+                     tal:condition="divisions">
+          <span tal:omit-tag="" i18n:translate="">Division</span>
+          <select name="division">
+            <option value i18n:translate="">None</option>
+            <option value=""
+                    tal:repeat="division divisions"
+                    tal:content="division/title"
+                    tal:attributes="value division/token">
+              Division
+            </option>
+          </select>
+        </label>
+
+
+          </fieldset>
+
+        </div>
+
+
+        <div class="buttons panel-footer">
+
+          <button id="form-buttons-create" name="save" type="submit" class="icon-ok-circle" i18n:translate="">
+              Create workspace
+          </button>
+          <button type="button" class="close-panel icon-cancel-circle validate-ignore" i18n:translate="" i18n:domain="plone">
+              Cancel
+          </button>
+        </div>
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+        <input type="hidden" name="redirect" value="#" value="#" tal:attributes="value context/absolute_url"/>
+      </form>
+  </div>
+</body>
+</html>

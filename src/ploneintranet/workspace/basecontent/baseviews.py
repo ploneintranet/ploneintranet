@@ -8,7 +8,7 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -16,6 +16,7 @@ from zope import component
 from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
+from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -46,7 +47,8 @@ class ContentView(BrowserView):
     def update(self):
         """ """
         context = aq_inner(self.context)
-        modified = False
+        workflow_modified = False
+        fields_modified = {}
         errors = None
         messages = []
         if (
@@ -61,18 +63,17 @@ class ContentView(BrowserView):
                 'Modify portal content',
                 obj=context
             )
-            modified = True
+            workflow_modified = True
             messages.append(
                 context.translate(_("The workflow state has been changed.")))
 
         if self.can_edit:
-            mod = False
+            fields_modified = {}
             if self.validate():
-                mod, errors = dexterity_update(context)
-                if mod:
+                fields_modified, errors = dexterity_update(context)
+                if fields_modified:
                     messages.append(
                         context.translate(_("Your changes have been saved.")))
-            modified = modified or mod
 
         if errors:
             error_msg = context.translate(_("There was a problem:"))
@@ -82,12 +83,18 @@ class ContentView(BrowserView):
                 type="error",
             )
 
-        elif modified:
+        elif workflow_modified or fields_modified:
             api.portal.show_message(
                 ' '.join(messages), request=self.request,
                 type="success")
-            context.reindexObject()
-            notify(ObjectModifiedEvent(context))
+
+            if fields_modified:
+                descriptions = [
+                    Attributes(interface, *fields)
+                    for interface, fields in fields_modified.items()]
+                notify(ObjectModifiedEvent(context, *descriptions))
+            else:
+                context.reindexObject()
 
     @property
     @memoize
@@ -151,6 +158,15 @@ class ContentView(BrowserView):
 
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
+
+    def is_allowed_document_type(self):
+        return pi_api.previews.is_allowed_document_type(self.context)
+
+    def converting(self):
+        return pi_api.previews.converting(self.context)
+
+    def successfully_converted(self):
+        return pi_api.previews.successfully_converted(self.context)
 
     def image_url(self):
         """The img-url used to construct the img-tag."""

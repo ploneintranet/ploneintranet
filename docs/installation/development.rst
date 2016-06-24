@@ -105,7 +105,7 @@ Those passwords are not actually secret, they're just the word "secret" without 
 
    If you end up with an empty site, you probably installed Plone Intranet Suite via the Plone Add-ons configuration screen.
 
-If you want an empty site, you can install Plone Intranet Suite via the Quickinstaller. Please read the section on :doc:`../development/components/userprofiles.rst`
+If you want an empty site, you can install Plone Intranet Suite via the Quickinstaller. Please read the section on :doc:`../development/components/userprofiles`
 to learn how you can manage users.
 
 

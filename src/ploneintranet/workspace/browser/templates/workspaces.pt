@@ -10,14 +10,25 @@
     <metal:content fill-slot="content">
 
     <div class="container" tal:define="ploneview here/@@plone">
-        <!--form class="canvas-toolbar pat-inject pat-autosubmit" action="/workspaces.html#workspaces" -->
-        <form  class="canvas-toolbar pat-inject pat-autosubmit" action="./workspaces.html" data-pat-inject="source: #workspaces; target: #workspaces" method="POST">
+        <form  class="canvas-toolbar pat-inject pat-autosubmit"
+               action="${here/absolute_url}/workspaces.html"
+               data-pat-inject="source: #workspaces; target: #workspaces"
+               method="POST"
+               >
             <label class="bare pat-select">
-                <select name="sort">
+                <select name="sort" tal:define="selected_sort_option view/get_selected_sort_option">
                     <tal:r repeat="o view/sort_options">
-                        <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                        <option selected="${python:o['value'] ==  selected_sort_option and 'selected' or None}"
+                                value="${o/value}">${o/content}</option>
                     </tal:r>
                  </select>
+            </label>
+            <label class="bare pat-select">
+              <select name="grouping">
+                <tal:r repeat="o view/grouping_options">
+                    <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                </tal:r>
+              </select>
             </label>
             <label class="bare pat-select">
                 <select name="workspace_type">
@@ -26,29 +37,109 @@
                   </tal:r>
                 </select>
             </label>
+            <label class="pat-checklist" title="Show or hide archived workspace" i18n:attributes="title">
+              <!-- Even though pat-depends is applied on archived workspace tiles, the value of the following checkbox must still be stored on the user object. The actual hiding and showing of the archived workspace tile is handled by pat-depends, but may also be handled server side (be including or not including the tile in the markup) if this offers significant performance advantages -->
+              <input type="checkbox"
+                     name="archived"
+                     checked="${python:request.get('archived') and 'checked' or None}"
+                    > <tal:archived i18n:translate="label_show_archived">Archived</tal:archived>
+            </label>
             <div class="icons">
-               <a href="${view/target/absolute_url}/@@workspace-add#content" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
+               <a href="${view/target/absolute_url}/@@add_workspace" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
                <span tal:replace="structure context/@@authenticator/authenticator"/>
             </div>
-             <input type="search" placeholder="Search workspaces" focus name="SearchableText" tal:attributes="value request/SearchableText | nothing">
-         </form>
+             <input type="search" placeholder="Search workspaces" focus name="SearchableText" i18n:attributes="placeholder" tal:attributes="value request/SearchableText|nothing">
+        </form>
 
-        <div id="workspaces" class="tiles row workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
-          <div class="grid-sizer four columns"></div>
-          <tal:r repeat="w view/workspaces">
+        <tal:no_grouping condition="python:request.get('grouping', '') == ''">
+          <span id="workspaces">
+            <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" tal:define="wrkspc view/workspaces">
+              <div class="grid-sizer four columns"></div>
+              <tal:rep repeat="w wrkspc">
+                <tal:archive_state define="is_archived w/is_archived;
+                                           archived_class python:'state-archived' if is_archived else ''">
+                  <div tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
 
-            <div class="tile workspace four columns  workspace-open-market-committee"
-                 tal:attributes="class string:tile workspace four columns ${w/class}">
-              <a href="/open-market-committee" class="link"
-                 tal:attributes="href w/url">
-                <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                <p class="description" tal:content="w/description">
-                    The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                </p>
-              </a>
+                    <a href="/open-market-committee" class="link"
+                       tal:attributes="href w/url">
+                      <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee ${not:is_archived}</h3>
+                      <p class="description" tal:content="w/description" tal:condition="w/description">
+                        The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                      </p>
+                      <p class="workspace-state" tal:condition="is_archived">
+	        	        <time class="icon-archive archived"><tal:archived_on i18n:translate="">Archived on</tal:archived_on> ${python:context.toLocalizedTime(w['archival_date'], long_format=0)}</time>
+	                  </p>
+
+                    </a>
+                  </div>
+                </tal:archive_state>
+              </tal:rep>
             </div>
-          </tal:r>
-        </div>
+          </span>
+        </tal:no_grouping>
+
+        <tal:group_by_division condition="python:request.get('grouping', '') == 'division'">
+          <span id="workspaces">
+            <tal:def define="
+                       wbd view/workspaces_by_division;
+                       divisions view/divisions;
+                     ">
+              <tal:r repeat="division divisions">
+                <section tal:define="workspaces python:wbd[division.token]" tal:condition="workspaces">
+                  <article class="pat-rich canvas-intro">
+                    <h1 class="group-title">${division/title}</h1>
+                    <p class="description" tal:condition="division/description">${division/description}</p>
+                  </article>
+                  <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                    <div class="grid-sizer four columns"></div>
+                    <tal:r repeat="w workspaces">
+                      <div class="tile workspace four columns  workspace-open-market-committee"
+                           tal:attributes="class string:tile workspace four columns ${w/class}">
+                           <a href="/open-market-committee" class="link"
+                           tal:attributes="href w/url">
+                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                            <p class="description" tal:content="w/description" tal:condition="w/description">
+                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                            </p>
+                           </a>
+                      </div>
+                    </tal:r>
+                  </div>
+                </section>
+              </tal:r>
+              <section tal:condition="python:wbd.get('')">
+                  <article class="pat-rich canvas-intro">
+                    <h1 class="group-title" i18n:translate="">
+                      Ungrouped
+                    </h1>
+                  </article>
+                  <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                    <div class="grid-sizer four columns"></div>
+                    <tal:r repeat="w python:wbd['']">
+                      <div class="tile workspace four columns  workspace-open-market-committee"
+                           tal:attributes="class string:tile workspace four columns ${w/class}">
+                           <a href="/open-market-committee" class="link"
+                           tal:attributes="href w/url">
+                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                            <p class="description" tal:content="w/description" tal:condition="w/description">
+                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                            </p>
+                           </a>
+                      </div>
+                    </tal:r>
+                  </div>
+                </section>
+            </tal:def>
+          </span>
+        </tal:group_by_division>
+
+
+        <tal:group_by_workspace_type condition="python:request.get('grouping', 'workspace_type') == ''">
+
+            <!-- Not implemented yet -->
+
+        </tal:group_by_workspace_type>
+
       </div>
 
     </metal:content>

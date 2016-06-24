@@ -137,13 +137,51 @@ def get(obj, scale='normal'):
     """
     previews = []
     settings = Settings(obj)
-    if settings.blob_files:
+    if settings.blob_files and settings.num_pages:
         ext = settings.pdf_image_format
         scale = _backward_map(scale)
         for i in range(settings.num_pages):
             preview = '%s/dump_%s.%s' % (scale, str(i + 1), ext)
             previews.append(settings.blob_files[preview])
     return previews
+
+
+def is_allowed_document_type(obj):
+    """ Check if object can actually be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if object can be converted
+    :rtype: boolean
+    """
+    site = getPortal(obj)
+    gsettings = GlobalSettings(site)
+
+    return allowedDocumentType(obj, gsettings.auto_layout_file_types)
+
+
+def converting(obj):
+    """ Check if object is currently being converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if converting, False if no longer converting
+    :rtype: boolean
+    """
+    settings = Settings(obj)
+    return settings.converting
+
+
+def successfully_converted(obj):
+    """ Check if object could be converted
+
+    :param obj: The Plone object to get previews for
+    :type obj: A Plone content object
+    :return: True if successfully converted, False if conversion failed
+    :rtype: boolean
+    """
+    settings = Settings(obj)
+    return settings.successfully_converted
 
 
 def has_previews(obj):
@@ -175,7 +213,7 @@ def get_preview_urls(obj, scale='normal'):
 
     # If there aren't any previews, return the placeholder url
     if number_of_previews < 1:
-        return [fallback_image_url()]
+        return [fallback_image_url(obj)]
     scale = _backward_map(scale)
     return [dv_data['resources']['page']['image'].format(size=scale,
                                                          page=page)
@@ -272,10 +310,10 @@ def generate_previews(obj, event=None):
     gsettings = GlobalSettings(site)
 
     if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
+        log.info('Object type is not in available file types for conversion.')
         return
 
     if gsettings.auto_convert:
-        # ASYNC HERE
         converter = Converter(obj)
         if not converter.can_convert:
             return

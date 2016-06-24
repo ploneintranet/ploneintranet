@@ -3,6 +3,7 @@ from Acquisition import Explicit
 from BTrees import OOBTree
 from interfaces import INetworkGraph
 from persistent import Persistent
+from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from zope.interface import implements
 import logging
@@ -135,8 +136,10 @@ class NetworkGraph(Persistent, Explicit):
 
     # following API
 
-    def follow(self, item_type, item_id, user_id):
+    def follow(self, item_type, item_id, user_id=None):
         """User <user_id> subscribes to <item_type> <item_id>"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
         user_id = decode(user_id)
@@ -148,8 +151,10 @@ class NetworkGraph(Persistent, Explicit):
         self._following[item_type][user_id].insert(item_id)
         self._followers[item_type][item_id].insert(user_id)
 
-    def unfollow(self, item_type, item_id, user_id):
+    def unfollow(self, item_type, item_id, user_id=None):
         """User <user_id> unsubscribes from <item_type> <item_id>"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
         user_id = decode(user_id)
@@ -163,8 +168,10 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             pass
 
-    def get_following(self, item_type, user_id):
+    def get_following(self, item_type, user_id=None):
         """List all <item_type> that <user_id> subscribes to"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
         user_id = decode(user_id)
@@ -184,8 +191,10 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return ()
 
-    def is_followed(self, item_type, item_id, user_id):
+    def is_followed(self, item_type, item_id, user_id=None):
         """Does <user_id> follow <item_type> <item_id>?"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
         user_id = decode(user_id)
@@ -196,10 +205,14 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return False
 
+    is_following = is_followed
+
     # like API
 
-    def like(self, item_type, item_id, user_id):
+    def like(self, item_type, item_id, user_id=None):
         """User <user_id> likes <item_type> <item_id>"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
         user_id = decode(user_id)
@@ -211,8 +224,10 @@ class NetworkGraph(Persistent, Explicit):
         self._likes[item_type][user_id].insert(item_id)
         self._liked[item_type][item_id].insert(user_id)
 
-    def unlike(self, item_type, item_id, user_id):
+    def unlike(self, item_type, item_id, user_id=None):
         """User <user_id> unlikes <item_type> <item_id>"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
         user_id = decode(user_id)
@@ -227,8 +242,10 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             pass
 
-    def get_likes(self, item_type, user_id):
+    def get_likes(self, item_type, user_id=None):
         """List all <item_type> liked by <user_id>"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
         user_id = decode(user_id)
@@ -247,8 +264,10 @@ class NetworkGraph(Persistent, Explicit):
         except KeyError:
             return []
 
-    def is_liked(self, item_type, item_id, user_id):
+    def is_liked(self, item_type, item_id, user_id=None):
         """Does <user_id> like <item_type> <item_id>?"""
+        if not user_id:
+            user_id = api.user.get_current().id
         item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
         user_id = decode(user_id)
@@ -258,6 +277,8 @@ class NetworkGraph(Persistent, Explicit):
             return user_id in self.get_likers(item_type, item_id)
         except KeyError:
             return False
+
+    is_liking = is_liked
 
     # tags API
 

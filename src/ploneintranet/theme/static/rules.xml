@@ -19,6 +19,7 @@
 
   <!-- Add the globalstatusmessage viewlet. -->
   <append css:theme="body" css:content="#global-statusmessage" />
+  <append css:theme="body" css:content-children="#webstats_js" />
 
   <!-- Copy over the id/class attributes on the body tag, this is
        important for Kupu and per-section styling -->
@@ -41,7 +42,6 @@
   <!-- drop from theme elements that should not be visible to anonymous -->
   <rules css:if-content=".userrole-anonymous">
     <drop css:theme="#hamburger" />
-    <drop css:theme="form#global-nav-search" />
     <drop css:theme="nav.tabs.navigation" />
   </rules>
 
@@ -59,15 +59,21 @@
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
-  <copy attributes="method id action"
-        css:content="form#searchGadget_form"
-        css:theme="form#global-nav-search" />
+  <replace css:content="#global-nav-search"
+           css:theme="#global-nav-search" />
 
-  <copy attributes="placeholder title"
-        css:content="form#searchGadget_form input[name=SearchableText]"
-        css:theme="form#global-nav-search label input[name=SearchableText]" />
 
   <!-- Login Form -->
+  <rules css:if-content="body.template-insufficient_privileges">
+    <theme href="generated/unauthorised.html" />
+    <replace css:content-children="#content .documentFirstHeading"
+             css:theme-children="#document-content .error-unauthorised > h1"
+      />
+    <replace css:content-children="#content .documentDescription"
+             css:theme-children="#document-content .error-unauthorised > p"
+      />
+  </rules>
+
   <rules css:if-content="body.template-login_form, body.template-logged_out, body.template-login_failed">
     <theme href="generated/index.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
@@ -79,7 +85,7 @@
   		<p class="colofon">
   			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
   		</p>
-      
+
     </replace>
   </rules>
 
@@ -90,17 +96,32 @@
                          body.app-workspace.portaltype-file,
                          body.app-workspace.portaltype-image,
                          body.app-workspace.portaltype-folder">
-                         <theme href="generated/minutes-of-2014-06-09/index.html" />
+                         <theme href="generated/empty-workspace.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
+
+  <rules css:if-content="body.template-case-manager">
+    <theme href="generated/apps/case-manager/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+
   <rules css:if-content="body.portaltype-todo">
       <theme href="generated/basisdaten/index.html" />
     <!-- Main content rule: Put plone content into theme content -->
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
+  <rules css:if-content=".template-app-audit-log">
+    <theme href="generated/apps/audit/index.html" />
+    <replace css:content="#application-body"
+             css:theme="#application-body"
+             />
+  </rules>
+
   <rules css:if-content="body.template-dashboard-html,
+                         body.template-tagstream,
                          body.template-apps-html,
                          body.template-workspaces-html">
     <theme href="generated/empty-home.html" />
@@ -123,7 +144,7 @@
 
   <rules css:if-content="body.template-userprofile-view,
                          body.template-edit.portaltype-ploneintranet-userprofile-userprofile">
-    <theme href="generated/liz-baker/index.html" />
+    <theme href="generated/liz-baker.html" />
     <drop css:theme-children="#person-timeline aside" />
     <drop css:theme-children="#person-timeline div.columns" />
     <append css:content-children="#portal-column-content aside" css:theme="aside" />

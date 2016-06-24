@@ -11,7 +11,7 @@ from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IUserProfile(form.Schema):
@@ -105,8 +105,7 @@ class UserProfile(Container):
         return self.fullname
 
     def Description(self):
-        if getattr(self, 'job_title'):
-            return self.job_title
+        return getattr(self, 'job_title', None)
 
     @property
     def fullname(self):

@@ -5,7 +5,7 @@ from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.search.interfaces import ISiteSearch
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import getUtility
 from zope.component import queryUtility
 from ploneintranet.layout.utils import shorten
@@ -42,42 +42,89 @@ class WorkspacesTile(Tile):
                              include_activities=include_activities)
 
 
+def get_workspaces_css_mapping():
+    try:
+        workspace_types_css_mapping = api.portal.get_registry_record(
+            'ploneintranet.workspace.workspace_types_css_mapping'
+        )
+    except api.exc.InvalidParameterError:
+        # backward compatibility
+        workspace_types_css_mapping = [
+            'ploneintranet.workspace.case|type-case'
+        ]
+
+    css_mapping = {}
+    for line in workspace_types_css_mapping:
+        key, value = line.partition('|')[::2]
+        css_mapping[key] = value
+    return css_mapping
+
+
 def my_workspaces(context,
-                  request=None,
-                  workspace_types=['ploneintranet.workspace.workspacefolder',
-                                   'ploneintranet.workspace.case'],
+                  request={},
+                  workspace_types=[],
                   include_activities=True):
     """ The list of my workspaces
     Is also used in theme/browser/workspace.py view.
+
+    To get the sorting method:
+
+    1. Check the request
+    2. Check the registry
+    3. Default to "alphabet"
     """
+    sort_option = request.get('sort', '')
+    if not sort_option:
+        try:
+            sort_option = api.portal.get_registry_record(
+                'ploneintranet.workspace.my_workspace_sorting'
+            )
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            sort_option = u'alphabet'
 
-    # determine sorting order (default: alphabetical)
-    sort_by = "sortable_title"
-    searchable_text = None
+    if sort_option == "activity":
+        raise NotImplementedError(
+            "Sorting by activity"
+            "is not yet possible")
+    elif sort_option == "newest":
+        sort_by = "modified"
+    elif sort_option == "alphabet":
+        sort_by = "sortable_title"
+    else:
+        sort_by = "sortable_title"
 
-    if request:
-        if 'sort' in request:
-            if request.sort == "activity":
-                raise NotImplementedError(
-                    "Sorting by activity"
-                    "is not yet possible")
-            elif request.sort == "newest":
-                sort_by = "modified"
-        if 'SearchableText' in request:
-            searchable_text = request['SearchableText'].strip()
-        if 'workspace_type' in request and request.get('workspace_type'):
-            workspace_types = request['workspace_type']
+    # The rule to get the workspace types is this one
+    #
+    # 1. Look in to the request
+    # 2. Use the function parameter
+    # 3. Check if we have something in the registry
+    # 4. Use a default for backward compatibility
+    workspace_types = request.get('workspace_type', []) or workspace_types
+    if not workspace_types:
+        try:
+            workspace_type_filters = api.portal.get_registry_record(
+                'ploneintranet.workspace.workspace_type_filters')
+            workspace_types = workspace_type_filters.keys()
+        except api.exc.InvalidParameterError:
+            workspace_types = [
+                'ploneintranet.workspace.case',
+                'ploneintranet.workspace.workspacefolder',
+            ]
 
-    portal = api.portal.get()
-    ws_folder = portal.get("workspaces")
-    ws_path = "/".join(ws_folder.getPhysicalPath())
+    searchable_text = request.get('SearchableText', '').strip()
+    ws_path = "/".join(context.getPhysicalPath())
 
     query = dict(
         portal_type=workspace_types,
-        path=ws_path)
+        path=ws_path,
+    )
+
+    include_archived = request.get('archived', False)
+    if not include_archived:
+        query['is_archived'] = False
 
     sitesearch = getUtility(ISiteSearch)
-
     if searchable_text:
         response = sitesearch.query(phrase=searchable_text,
                                     filters=query,
@@ -85,13 +132,17 @@ def my_workspaces(context,
     else:
         response = sitesearch.query(filters=query, step=99999)
 
+    portal = api.portal.get()
     workspaces = []
+
+    css_mapping = get_workspaces_css_mapping()
     for item in response:
         path_components = item.path.split('/')
-        id = path_components[-1]
-        css_class = escape_id_to_class(id)
-        if item.portal_type == 'ploneintranet.workspace.case':
-            css_class = 'type-case ' + css_class
+        item_id = path_components[-1]
+        css_class = " ".join((
+            escape_id_to_class(item_id),
+            css_mapping.get(item.portal_type, ''),
+        ))
 
         activities = []
         if include_activities:
@@ -99,13 +150,17 @@ def my_workspaces(context,
             activities = get_workspace_activities(obj)
 
         workspaces.append({
-            'id': id,
+            'id': item_id,
+            'uid': item.context['UID'],
             'title': item.title,
             'description': item.description,
             'url': item.url,
             'activities': activities,
             'class': css_class,
-            'modified': item.modified
+            'modified': item.modified,
+            'division': item.context.get('division', ''),
+            'is_archived': item.is_archived,
+            'archival_date': item.archival_date,
         })
 
     if sort_by == 'modified':

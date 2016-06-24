@@ -5,7 +5,7 @@ from plone import api
 from plone.protect import PostOnly
 from plone.app.uuid.utils import uuidToCatalogBrain
 from ploneintranet import api as piapi
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import INetworkTool
 from zope.component import getUtility
 from zope.interface import implementer
@@ -36,13 +36,8 @@ class ToggleLike(BrowserView):
         if not self.validate_id(self.item_id):
             return 'No valid item-id: %s' % self.item_id
 
-        self.current_user_id = api.user.get_current().getId()
-        if not self.current_user_id:
-            return 'No user-id'
-
         self.is_liked = self.util.is_liked(
             self.like_type,
-            user_id=self.current_user_id,
             item_id=self.item_id,
         )
 
@@ -68,11 +63,9 @@ class ToggleLike(BrowserView):
         PostOnly(self.request)
 
         if not self.is_liked:
-            self.util.like(self.like_type, self.item_id,
-                           self.current_user_id)
+            self.util.like(self.like_type, self.item_id)
         else:
-            self.util.unlike(self.like_type, self.item_id,
-                             self.current_user_id)
+            self.util.unlike(self.like_type, self.item_id)
         self.is_liked = not self.is_liked
 
     def validate_id(self, item_id):

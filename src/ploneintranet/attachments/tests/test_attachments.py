@@ -33,8 +33,8 @@ class TestAttachmentStorage(IntegrationTestCase):
         attachments.add(i)
         self.assertEqual(len(attachments.keys()), 2)
         self.assertEqual(len(attachments.values()), 2)
-        self.assertTrue(i.getId()in attachments.keys())
-        self.assertTrue(i in attachments.values())
+        self.assertIn(i.getId(), attachments.keys())
+        self.assertIn(i, attachments.values())
 
     def test_remove(self):
         """ """
@@ -52,6 +52,6 @@ class TestAttachmentStorage(IntegrationTestCase):
 
         attachments.remove('data1.dat')
         self.assertEqual(len(attachments.keys()), 1)
-        self.assertTrue('data2.dat' in attachments.keys())
+        self.assertIn('data2.dat', attachments.keys())
         attachments.remove('data2.dat')
         self.assertEqual(len(attachments.keys()), 0)

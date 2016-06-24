@@ -1,12 +1,14 @@
+# -*- coding: utf-8 -*-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
 from plone.testing import z2
-from zope.configuration import xmlconfig
-
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
+from zope.configuration import xmlconfig
 import ploneintranet.userprofile
 
 
@@ -31,6 +33,7 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ploneintranet.userprofile:testing')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownZope(self, app):
         """Tear down Zope."""

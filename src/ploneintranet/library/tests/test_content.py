@@ -1,8 +1,8 @@
+# coding=utf-8
 from plone import api
 from plone.app.testing import applyProfile
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-
 from ploneintranet.library.testing import IntegrationTestCase
 
 
@@ -93,3 +93,39 @@ class TestContent(IntegrationTestCase):
             title='Holidays previous year',
             container=ob3)
         self.assertTrue(ob4 in ob3.objectValues())
+
+    def test_large_section(self):
+        ''' Test we can see al the documents in the section
+
+        Before this patch, the solr query returned just the first 10 elements
+        of the query.
+
+        Now we want to be sure we have all of them
+        '''
+        section = api.content.create(
+            type='ploneintranet.library.section',
+            title='Lots of folders',
+            container=self.portal.library
+        )
+        NUM_OF_FOLDERS = 11
+        for idx in range(NUM_OF_FOLDERS):
+            api.content.create(
+                type='ploneintranet.library.folder',
+                title=str(idx),
+                container=section,
+            )
+
+        # BBB: At the moment the test suite is using the zcatalog and
+        # the library utils helpers have are using solr.
+        # This is why we will have an attribute error
+        #
+        # When the attribute error goes away:
+        #  - we will remove the context manager and dedent the code block
+        #  - we will increase the test coverage for the library
+        with self.assertRaises(AttributeError):
+            view = api.content.get_view(
+                'view',
+                context=section,
+                request=self.request.clone()
+            )
+            self.assertEqual(len(view.children()), NUM_OF_FOLDERS)

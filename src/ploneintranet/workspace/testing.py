@@ -1,31 +1,32 @@
-import collective.externaleditor
-import collective.workspace
-import Products.CMFPlacefulWorkflow
-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import applyProfile
+from plone.app.testing import setRoles
 from plone.app.tiles.testing import PLONE_APP_TILES_FIXTURE
 from plone.testing import z2
 from zope.configuration import xmlconfig
 
-import ploneintranet.workspace
-import ploneintranet.microblog
+import Products.CMFPlacefulWorkflow
 import ploneintranet.activitystream
 import ploneintranet.invitations
 import ploneintranet.layout
+import ploneintranet.microblog
+import ploneintranet.microblog.statuscontainer
 import ploneintranet.network
 import ploneintranet.theme
+import ploneintranet.userprofile
+import ploneintranet.workspace
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
-        PLONE_APP_TILES_FIXTURE
+        PLONE_APP_TILES_FIXTURE,
     )
 
     def setUpZope(self, app, configurationContext):
@@ -41,6 +42,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             package=ploneintranet.workspace,
         )
 
+        import collective.workspace
         xmlconfig.file(
             'configure.zcml',
             collective.workspace,
@@ -49,6 +51,12 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
 
         xmlconfig.file(
             'configure.zcml',
+            ploneintranet.microblog,
+            context=configurationContext
+        )
+
+        xmlconfig.file(
+            'subscribers.zcml',
             ploneintranet.microblog,
             context=configurationContext
         )
@@ -106,17 +114,30 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.docconv.client,
             context=configurationContext
         )
+        import collective.indexing
+        self.loadZCML(package=collective.indexing)
+        z2.installProduct(app, 'collective.indexing')
+
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.userprofile,
+            context=configurationContext
+        )
 
         # Install products that use an old-style initialize() function
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'Products.CMFPlacefulWorkflow')
+        z2.installProduct(app, 'Products.membrane')
 
     def tearDownZope(self, app):
         # Uninstall products installed above
         z2.uninstallProduct(app, 'collective.workspace')
         z2.uninstallProduct(app, 'Products.CMFPlacefulWorkflow')
+        z2.uninstallProduct(app, 'collective.indexing')
+        z2.uninstallProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'Products.membrane:default')
         applyProfile(portal, 'ploneintranet.workspace:default')
         applyProfile(portal, 'ploneintranet.todo:default')
         applyProfile(portal, 'ploneintranet.layout:default')
@@ -125,6 +146,10 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.docconv.client:default')
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
+        applyProfile(portal, 'ploneintranet.userprofile:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
+
 
 PLONEINTRANET_WORKSPACE_FIXTURE = PloneintranetworkspaceLayer()
 

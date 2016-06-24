@@ -2,7 +2,7 @@ from plone.directives import form
 from zope.interface import alsoProvides, Interface
 from zope.schema import Bool, Choice, Date, TextLine, Text
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from .vocabularies import todo_priority
 
 

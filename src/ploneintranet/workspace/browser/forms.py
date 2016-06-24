@@ -13,7 +13,7 @@ from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
 
 from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import get_storage, send_email
 
 
@@ -92,10 +92,12 @@ class TransferMembershipForm(form.SchemaForm):
             removable.append(member)
 
         if move:
-            func = lambda member: ws.membership_factory(
-                ws,
-                {"user": member}).remove_from_team()
-            map(func, removable)
+            for member in removable:
+                factory = ws.membership_factory(
+                    ws,
+                    {"user": member}
+                )
+                factory.remove_from_team()
 
         self.updateWidgets()
         self.status = "Members transfered."

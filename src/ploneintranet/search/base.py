@@ -81,7 +81,6 @@ class SearchResult(object):
     highlighted_summary = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context, response):
-        super(SearchResult, self).__init__()
         self.context = context
         self.response = response
         self.title = context['Title']
@@ -91,6 +90,18 @@ class SearchResult(object):
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
+
+        # The following try/except are needed because the get method of brains
+        # and the one from dicts behave differently
+        try:
+            self.is_archived = context['is_archived']
+        except KeyError:
+            self.is_archived = False
+        try:
+            self.archival_date = context['archival_date']
+        except KeyError:
+            self.archival_date = None
+
         if context['has_thumbs']:  # indexer in docconv
             # can occur in workspaces AND library
             if self.portal_type in ('Image', 'Document', 'News Item'):
@@ -98,10 +109,16 @@ class SearchResult(object):
                     '{.path}/@@images/image/preview'.format(self)
             else:
                 portal = api.portal.get()
-                self.preview_image_path = \
-                    pi_api.previews.get_thumbnail_url(
-                        portal.restrictedTraverse(self.path.encode('ascii')),
-                        relative=True)
+                try:
+                    obj = portal.restrictedTraverse(self.path.encode('ascii'))
+                except KeyError:
+                    logger.error("Cannot traverse to %s", self.path)
+                    self.title = "ERROR %s" % self.title
+                else:
+                    self.preview_image_path = \
+                        pi_api.previews.get_thumbnail_url(
+                            obj,
+                            relative=True)
 
         elif self.portal_type == 'Image':
             self.preview_image_path = '{.path}/@@images/image/preview'.format(
@@ -320,14 +337,17 @@ class SiteSearch(object):
         return self._apply_filters(query, filters)
 
     @at_least_one_of('phrase', 'filters')
-    def query(self,
-              phrase=None,
-              filters=None,
-              start_date=None,
-              end_date=None,
-              start=0,
-              step=None,
-              debug=False):
+    def query(
+            self,
+            phrase=None,
+            filters=None,
+            start_date=None,
+            end_date=None,
+            start=0,
+            step=None,
+            sort=None,
+            debug=False,
+    ):
         """Return a search response.
 
         :seealso: ploneintranet.search.interfaces.ISearchResponse
@@ -349,6 +369,7 @@ class SiteSearch(object):
                                 end_date=end_date,
                                 start=start,
                                 step=step,
+                                sort=sort,
                                 debug=debug)
         return ISearchResponse(response)
 

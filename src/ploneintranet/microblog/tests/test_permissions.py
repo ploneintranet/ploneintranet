@@ -19,7 +19,6 @@ from plone.app.testing import login, logout
 from ploneintranet.microblog.testing import\
     PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
 
-import ploneintranet.microblog.statuscontainer
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IStatusUpdate
@@ -54,13 +53,9 @@ class TestPermissions(unittest.TestCase):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
         self.mb_tool = queryUtility(IMicroblogTool)
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
-
-    def tearDown(self):
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 1000
+        setRoles(self.portal, TEST_USER_ID, ('Member',))
 
     def test_add_read_member(self):
-        setRoles(self.portal, TEST_USER_ID, ('Member',))
         sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
         container.add(sa)
@@ -68,18 +63,37 @@ class TestPermissions(unittest.TestCase):
         self.assertEqual([sa], values)
 
     def test_add_anon(self):
-        setRoles(self.portal, TEST_USER_ID, ())
+        logout()
         sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
-        self.assertRaises(Unauthorized, container.add, sa)
+        with self.assertRaises(Unauthorized):
+            container.add(sa)
 
     def test_read_anon(self):
-        setRoles(self.portal, TEST_USER_ID, ())
+        sa = MockStatusUpdate('test a', 'arnold')
         container = self.mb_tool
-        self.assertRaises(Unauthorized, container.get, 0)
-        self.assertEqual([x for x in container.values()], [])
-        self.assertEqual([x for x in container.items()], [])
-        self.assertEqual([x for x in container.keys()], [])
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            container.values()
+
+    # more edit checks in test_statusupdate
+    def test_edit_anon(self):
+        sa = MockStatusUpdate('test a', 'arnold')
+        container = self.mb_tool
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            sa.edit('hax0r')
+
+    # more delete checks in test_statuscontainer_delete
+    def test_delete_anon(self):
+        sa = MockStatusUpdate('test a', 'arnold')
+        container = self.mb_tool
+        container.add(sa)
+        logout()
+        with self.assertRaises(Unauthorized):
+            container.delete(sa.id)
 
 
 class TestMicroblogContextBlacklisting(unittest.TestCase):
@@ -132,12 +146,18 @@ class TestMicroblogContextBlacklisting(unittest.TestCase):
 
         # and now finally the actual test
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertNotIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
     def test_allowed_status_manager(self):
         """The default test user owns both IMicroblogContexts
         thus has access to both."""
         tool = queryUtility(IMicroblogTool)
-        self.assertEqual(list(tool.values()), [self.su2, self.su1])
+        found = list(tool.values())
+        # we also find auto updates but don't test those
+        self.assertIn(self.su1, found)
+        self.assertIn(self.su2, found)
 
 # more security testing in ploneintranet/suite/tests/test_microblog_security.py

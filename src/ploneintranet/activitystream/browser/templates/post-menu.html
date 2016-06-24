@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="ploneintranet"
+      >
+  <body>
+    <div id="content">
+      <tal:comment condition="nothing">
+        <!--
+            prototype/_site/feedback/post-menu.html
+            but also
+            prototype/_site/feedback/comment-menu.html
+          -->
+      </tal:comment>
+
+      <ul class="menu">
+	<li tal:repeat="action view/actions">
+	  <a class="icon-${action/icon} pat-modal"
+             href="${action/url}#document-content"
+             i18n:translate="">${action/title}</a>
+	</li>
+      </ul>
+
+    </div>
+  </body>
+</html>

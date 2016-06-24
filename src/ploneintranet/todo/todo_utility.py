@@ -1,11 +1,11 @@
-from operator import itemgetter
+# coding=utf-8
+from .content.content_action import ContentAction
+from .interfaces import ITodoUtility
 from BTrees.OOBTree import OOBTree
+from operator import itemgetter
 from plone import api
 from zope.annotation import IAnnotations
 from zope.interface import implements
-
-from .interfaces import ITodoUtility
-from .content.content_action import ContentAction
 
 ANNOTATION_KEY = 'ploneintranet.todo.action_storage'
 
@@ -34,8 +34,10 @@ class TodoUtility(object):
 
         :return: The userids of all site users
         :rtype: list
+
+        BBB: use pi_api.userprofile.get_users?
         """
-        return [x.getId() for x in api.user.get_users()]
+        return [x.getId() for x in api.user.get_users() if x is not None]
 
     def _user_in_storage(self, userid):
         """
@@ -95,7 +97,7 @@ class TodoUtility(object):
             content_uids = [content_uids]
         if userids is None:
             userids = self._all_users()
-        reverse = True if sort_order == 'reverse' else False
+
         storage = self._get_storage()
         actions = []
 
@@ -118,7 +120,11 @@ class TodoUtility(object):
 
         # Sort results
         if sort_on is not None:
-            return sorted(actions, key=itemgetter(sort_on), reverse=reverse)
+            actions.sort(
+                key=itemgetter(sort_on),
+                reverse=sort_order == 'reverse'
+            )
+
         return actions
 
     def add_action(self, content_uid, verb, userids=None, completed=False):

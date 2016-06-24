@@ -21,7 +21,7 @@
 
        Basic rule of thumb for creating a secure case workflow:
        - for every workflow state the case can have:
-       - explicitly manage ALL 7 permissions listed below
+       - explicitly manage ALL permissions listed below
        - always set acquired="False"
        - use the special local roles TeamMember and TeamManager
          provided automatically by our collective.workspace backend
@@ -49,33 +49,49 @@
   <permission>Access contents information</permission>
   <permission>View</permission>
   <permission>Modify portal content</permission>
+  <permission>Delete objects</permission>
   <permission>Add portal content</permission>
   <permission>Plone Social: Add Microblog Status Update</permission>
   <permission>Plone Social: View Microblog Status Update</permission>
+  <permission>Plone Social: Modify Microblog Status Update</permission>
+  <permission>Plone Social: Delete Microblog Status Update</permission>
+  <!--
+      Modify Own Status Update and Delete Own Status Update are acquired
+      unchanged from sitewide configuration.
+  -->
 
   <state state_id="new" title="New">
     <description>Basic data is being gathered and added to the case.</description>
     <exit-transition transition_id="assign"/>
+    <exit-transition transition_id="freeze"/>
     <exit-transition transition_id="reject"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
-      <!-- <permission-role>TeamMember</permission-role> -->
+      <!--<permission-role>TeamMember</permission-role>-->
     </permission-map>
     <permission-map name="Access contents information" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -99,6 +115,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="prepare" title="Prepare">
@@ -106,6 +134,7 @@
     <exit-transition transition_id="reset"/>
     <exit-transition transition_id="finalise"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -117,14 +146,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -148,6 +185,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>        
   </state>
 
   <state state_id="complete" title="Complete">
@@ -155,6 +204,7 @@
     <exit-transition transition_id="re_assign"/>
     <exit-transition transition_id="request"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -166,14 +216,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -197,6 +255,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="audit" title="Audit">
@@ -204,6 +274,7 @@
     <exit-transition transition_id="re_finalise"/>
     <exit-transition transition_id="submit"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -215,14 +286,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -246,6 +325,18 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="propose" title="Propose">
@@ -253,6 +344,7 @@
     <exit-transition transition_id="re_request"/>
     <exit-transition transition_id="decide"/>
     <exit-transition transition_id="reject"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -264,14 +356,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -295,12 +395,25 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="decided" title="Decided">
     <description>A decision has been reached, and needs to be implemented.</description>
     <exit-transition transition_id="re_submit"/>
     <exit-transition transition_id="close"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -312,14 +425,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -343,12 +464,25 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="closed" title="Closed">
     <description>The case is no longer active, and being prepared for archival.</description>
     <exit-transition transition_id="re_decide"/>
     <exit-transition transition_id="archive"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -360,14 +494,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
@@ -391,11 +533,24 @@
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
     </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <!--permission-role>TeamMember</permission-role-->
+      <permission-role>TeamManager</permission-role>
+    </permission-map>    
   </state>
 
   <state state_id="archived" title="Archived">
     <description>The case has been archived in read-only mode.</description>
     <exit-transition transition_id="re_close"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -407,14 +562,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
@@ -431,6 +594,80 @@
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
       <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Modify Microblog Status Update" acquired="False">
+      <!-- permission-role>Manager</permission-role -->
+      <!-- permission-role>Site Administrator</permission-role -->
+      <!-- permission-role>TeamMember</permission-role -->
+      <!-- permission-role>TeamManager</permission-role -->
+    </permission-map>
+    <permission-map name="Plone Social: Delete Microblog Status Update" acquired="False">
+      <!-- permission-role>Manager</permission-role -->
+      <!-- permission-role>Site Administrator</permission-role -->
+      <!--permission-role>TeamMember</permission-role-->
+      <!-- permission-role>TeamManager</permission-role -->
+    </permission-map>    
+  </state>
+
+  <state state_id="frozen" title="Frozen">
+    <description>The case has been put on hold.</description>
+    <exit-transition transition_id="re_assign"/>
+    <exit-transition transition_id="re_close"/>
+    <exit-transition transition_id="re_decide"/>
+    <exit-transition transition_id="re_finalise"/>
+    <exit-transition transition_id="re_reject"/>
+    <exit-transition transition_id="re_request"/>
+    <exit-transition transition_id="re_reset"/>
+    <exit-transition transition_id="re_submit"/>
+    <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Access contents information" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
+    </permission-map>
+    <permission-map name="View" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
+    </permission-map>
+    <permission-map name="Modify portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Add portal content" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
+    </permission-map>
+    <permission-map name="Plone Social: Add Microblog Status Update" acquired="False">
+      <permission-role>Manager</permission-role>
+      <permission-role>Site Administrator</permission-role>
+      <permission-role>TeamManager</permission-role>
+      <permission-role>TeamMember</permission-role>
     </permission-map>
     <permission-map name="Plone Social: View Microblog Status Update" acquired="False">
       <permission-role>Manager</permission-role>
@@ -443,6 +680,7 @@
   <state state_id="rejected" title="Rejected">
     <description>The case has been rejected before a decision was reached.</description>
     <exit-transition transition_id="reset"/>
+    <exit-transition transition_id="freeze"/>
     <permission-map name="ploneintranet.workspace: Manage workspace" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
@@ -454,14 +692,22 @@
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
-    </permission-map>
+      <permission-role>TeamGuest</permission-role>
+   </permission-map>
     <permission-map name="View" acquired="False">
       <permission-role>Manager</permission-role>
       <permission-role>Site Administrator</permission-role>
       <permission-role>TeamManager</permission-role>
       <permission-role>TeamMember</permission-role>
+      <permission-role>TeamGuest</permission-role>
     </permission-map>
     <permission-map name="Modify portal content" acquired="False">
+      <!-- <permission-role>Manager</permission-role> -->
+      <!-- <permission-role>Site Administrator</permission-role> -->
+      <!-- <permission-role>TeamManager</permission-role> -->
+      <!-- <permission-role>TeamMember</permission-role> -->
+    </permission-map>
+    <permission-map name="Delete objects" acquired="False">
       <!-- <permission-role>Manager</permission-role> -->
       <!-- <permission-role>Site Administrator</permission-role> -->
       <!-- <permission-role>TeamManager</permission-role> -->
@@ -494,7 +740,6 @@
     <action url="%(content_url)s/content_status_modify?workflow_action=reset" category="workflow" icon="">Reset</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
-      <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
 
@@ -617,6 +862,14 @@
     </guard>
   </transition>
 
+  <transition transition_id="freeze" title="Freeze" new_state="frozen" trigger="USER" before_script="" after_script="">
+    <description>Put the Case on hold</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=freeze" category="workflow" icon="">Freeze</action>
+    <guard>
+      <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
+    </guard>
+  </transition>
+
 
   <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
     <description>Previous transition</description>
@@ -682,5 +935,28 @@
     <guard>
     </guard>
   </variable>
-
+  <variable variable_id="frozen_state" for_catalog="False" for_status="True" update_always="True">
+    <description>Which workflow state is used for the frozen state</description>
+    <default>
+      <expression>string:frozen</expression>
+    </default>
+    <guard>
+    </guard>
+  </variable>
+  <variable variable_id="transition_icons" for_catalog="False" for_status="False" update_always="True" >
+    <description>Each transition can have its own icon.</description>
+    <default>
+       <expression>python:{
+      'assign': 'icon-right-hand',
+      'finalise': 'icon-pin',
+      'request': 'icon-right-circle',
+      'submit': 'icon-right-circle',
+      'decide': 'icon-hammer',
+      'close': 'icon-cancel-circle',
+      'archive': 'icon-archive',
+      }</expression>
+    </default>
+    <guard >
+    </guard>
+   </variable>
 </dc-workflow>

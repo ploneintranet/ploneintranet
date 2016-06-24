@@ -1,17 +1,18 @@
 # -*- coding=utf-8 -*-
 from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from DateTime import DateTime
 from interfaces import IStatusUpdate
 from persistent import Persistent
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
-from ploneintranet.activitystream.interfaces import IStatusActivityReply
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.microblog.interfaces import IMicroblogTool
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component.hooks import getSite
-from zope.interface import alsoProvides
+from zope.component import queryUtility
 from zope.interface import implements
 import logging
 import time
@@ -29,11 +30,13 @@ class StatusUpdate(Persistent):
 
     def __init__(
         self,
-        text,
+        text=u'',
         microblog_context=None,
         thread_id=None,
         mention_ids=None,
-        tags=None
+        tags=None,
+        content_context=None,
+        action_verb=None,
     ):
         self.__parent__ = self.__name__ = None
         self.id = long(time.time() * 1e6)  # modified by IStatusContainer
@@ -43,11 +46,76 @@ class StatusUpdate(Persistent):
         self._init_mentions(mention_ids)
         self._init_userid()
         self._init_creator()
-        self._init_microblog_context(thread_id, microblog_context)
+        self._init_microblog_context(thread_id,
+                                     microblog_context,
+                                     content_context)
+        self._init_content_context(thread_id, content_context)
         self.tags = tags
+        self._verb = action_verb
 
-        if thread_id:
-            alsoProvides(self, IStatusActivityReply)
+    def edit(self, text):
+        """keeps original text across multiple edits"""
+        if not self.can_edit:
+            raise Unauthorized("You are not allowed to edit this statusupdate")
+        if not self.original_text:
+            self._original_text = self.text
+        self.text = text
+        self._edited_date = DateTime()
+        # this would be the right place to notify modification
+        logger.info("%s modified text on statusupdate %s",
+                    api.user.get_current().id, self.id)
+
+    def delete(self):
+        if not self.can_delete:
+            raise Unauthorized("You are not allowed to edit this statusupdate")
+        container = queryUtility(IMicroblogTool)
+        container.delete(self.id)
+
+    @property
+    def can_edit(self):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        edit_all = 'Plone Social: Modify Microblog Status Update'
+        edit_own = 'Plone Social: Modify Own Microblog Status Update'
+        return api.user.has_permission(edit_all,
+                                       obj=self.microblog_context) or (
+            api.user.has_permission(edit_own,
+                                    obj=self.microblog_context) and
+            self.userid == api.user.get_current().id
+        )
+
+    @property
+    def can_delete(self):
+        """
+        StatusUpdates have no local 'owner' role. Instead we check against
+        permissions on the microblog context and compare with the creator.
+        """
+        delete_all = 'Plone Social: Delete Microblog Status Update'
+        delete_own = 'Plone Social: Delete Own Microblog Status Update'
+        return api.user.has_permission(delete_all,
+                                       obj=self.microblog_context) or (
+            api.user.has_permission(delete_own,
+                                    obj=self.microblog_context) and
+            self.userid == api.user.get_current().id
+        )
+
+    @property
+    def original_text(self):
+        """Return original text of a (multiply) edited update."""
+        try:
+            return self._original_text
+        except AttributeError:
+            return None
+
+    @property
+    def edited(self):
+        """Return last edit date if modified, or None if never changed."""
+        try:
+            return self._edited_date
+        except AttributeError:
+            return None
 
     # for unittest subclassing
     def _init_userid(self):
@@ -60,7 +128,9 @@ class StatusUpdate(Persistent):
         self.creator = member.getUserName()
 
     # for unittest subclassing
-    def _init_microblog_context(self, thread_id, context):
+    def _init_microblog_context(self, thread_id,
+                                microblog_context=None,
+                                content_context=None):
         """Set the right security context.
         If thread_id is given, the context of the thread parent is used
         and the given context arg is ignored.
@@ -69,13 +139,29 @@ class StatusUpdate(Persistent):
         takes the security context of the parent post.
         """
         from ploneintranet import api as piapi  # FIXME circular dependency
+        # thread_id takes precedence over microblog_context arg!
         if thread_id:
             parent = piapi.microblog.statusupdate.get(thread_id)
             self._microblog_context_uuid = parent._microblog_context_uuid
-        # thread_id takes precedence over microblog_context arg!
+        elif microblog_context is None and content_context is None:
+            self._microblog_context_uuid = None
         else:
-            m_context = piapi.microblog.get_microblog_context(context)
+            # derive microblog_context from content_context if necessary
+            m_context = piapi.microblog.get_microblog_context(
+                microblog_context or content_context)
             self._microblog_context_uuid = self._context2uuid(m_context)
+
+    # for unittest subclassing
+    def _init_content_context(self, thread_id, content_context):
+        ''' We store the uuid as a reference of a content_context
+        related to this status update
+        '''
+        from ploneintranet import api as piapi  # FIXME circular dependency
+        if thread_id:
+            parent = piapi.microblog.statusupdate.get(thread_id)
+            self._content_context_uuid = parent._content_context_uuid
+        else:
+            self._content_context_uuid = self._context2uuid(content_context)
 
     def _init_mentions(self, mention_ids):
         self.mentions = {}
@@ -86,25 +172,42 @@ class StatusUpdate(Persistent):
             if user is not None:
                 self.mentions[userid] = user.getProperty('fullname')
 
+    @property
+    def action_verb(self):
+        """Backward compatible accessor"""
+        return self._verb or u'posted'
+
     def replies(self):
         from ploneintranet import api as piapi
         container = piapi.microblog.get_microblog()
         for reply in container.thread_values(self.id):
-            if IStatusActivityReply.providedBy(reply):
+            if reply.id != self.id:
                 yield reply
 
     @property
     def microblog_context(self):
         uuid = self._microblog_context_uuid
+        return self._uuid2context(uuid)
+
+    @property
+    def content_context(self):
+        if not self._content_context_uuid:
+            return None
+        uuid = self._content_context_uuid
+        return self._uuid2context(uuid)
+
+    def _uuid2context(self, uuid=None):
         if not uuid:
             return None
-        microblog_context = self._uuid2object(uuid)
-        if microblog_context is None:
-            raise AttributeError(
-                "Microblog context with uuid {0} could not be "
+        context = self._uuid2object(uuid)
+        if context is None:
+            # typically happens when unauthorized to access context
+            # but may be caused by missing uuid index (e.g. on copy)
+            raise Unauthorized(
+                "Context with uuid {0} could not be "
                 "retrieved".format(uuid)
             )
-        return microblog_context
+        return context
 
     # unittest override point
     def _context2uuid(self, context):
@@ -144,21 +247,3 @@ class StatusUpdate(Persistent):
         See https://github.com/ploneintranet/ploneintranet/blob/251c8cf9f1e69c38030b6b6ac2f7c93c86ae1e60/src/ploneintranet/microblog/browser/attachments.py#L45  # noqa
         '''
         return 'utf8'
-
-    # BBB this should go after a proper migration has been setup
-    @property
-    def context(self):
-        ''' Be bold about the refactoring in #506!
-        '''
-        msg = "This is now the microblog_context"
-        logger.error(msg)
-        raise AttributeError(msg)
-
-    @property
-    def context_uuid(self):
-        ''' Be bold about the refactoring in #506!
-        '''
-        msg = "This is now the _microblog_context_uuid"
-        logger.error(msg)
-        raise AttributeError(msg)
-    # /BBB this should go after a proper migration has been setup

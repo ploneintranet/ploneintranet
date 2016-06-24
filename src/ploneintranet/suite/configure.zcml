@@ -15,11 +15,10 @@
   <include package="ploneintranet.core"/>
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
+  <include package="ploneintranet.microblog" file="subscribers.zcml"/>  
   <include package="ploneintranet.network"/>
   <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
-  <include package="ploneintranet.socialsuite"/>
-  <include package="ploneintranet.socialtheme"/>
   <include package="ploneintranet.library"/>
   <include package="ploneintranet.attachments"/>
   <include package="ploneintranet.docconv.client"/>
@@ -38,21 +37,33 @@
       directory="profiles/default"
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.suite.setuphandlers.default"
+      />
+
+  <genericsetup:registerProfile
+      name="ldap"
+      title="Plone Intranet:  Suite : LDAP"
+      directory="profiles/ldap"
+      description="Installs LDAP support in Plone Intranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="ldap-uninstall"
+      title="Plone Intranet: Suite : LDAP Uninstall"
+      directory="profiles/ldap-uninstall"
+      description="Removes LDAP support from Plone Intranet"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: Uninstall"
+      title="Plone Intranet: Suite : Uninstall"
       directory="profiles/uninstall"
       description="Uninstalls the Ploneintranet Suite"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.suite.uninstall.uninstall"
       />
-
-  <genericsetup:importStep
-      name="ploneintranet.suite.uninstall"
-      title="Plone Intranet: uninstall steps"
-      description="Various uninstall steps that are not handled by GS import/export handlers."
-      handler="ploneintranet.suite.uninstall.uninstall" />
 
   <genericsetup:registerProfile
       name="testing"
@@ -61,20 +72,8 @@
       description="WARNING: CANNOT BE UNINSTALLED! Do not run in a production environment. Creates fake user profiles and microblog posts."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
+      post_handler="ploneintranet.suite.setuphandlers.testing"
       />
-
-  <genericsetup:importStep
-      name="ploneintranet.testing"
-      title="Setup testing data"
-      description=""
-      handler="ploneintranet.suite.setuphandlers.testing"/>
-
-  <genericsetup:importStep
-      name="ploneintranet.default"
-      title="Setup default"
-      description=""
-      handler="ploneintranet.suite.setuphandlers.default"/>
-
 
   <!-- enable microblogging on workspaces -->
   <class class="ploneintranet.workspace.workspacefolder.WorkspaceFolder">
@@ -88,6 +87,16 @@
   <utility
     factory=".hiddenprofiles.HiddenProfiles"
     name="ploneintranet" />
+
+
+  <genericsetup:upgradeStep
+      title="Enable barceloneta specific workspace layer"
+      description="Enable fallback views for barceloneta workspace"
+      source="*"
+      destination="0008"
+      handler=".upgrades.barceloneta_workspace"
+      profile="ploneintranet.suite:default" />
+
 
   <!-- -*- extra stuff goes here -*- -->
 

@@ -11,10 +11,6 @@ def uninstall(context):
     - remove the dynamic groups plugin?
     - unset the ploneintranet_policy for all addable types?
     """
-    marker = 'ploneintranet.workspace_uninstall.txt'
-    if context.readDataFile(marker) is None:
-        return
-
     # Remove group that holds all intranet users
     if api.group.get(groupname=INTRANET_USERS_GROUP_ID):
         api.group.delete(groupname=INTRANET_USERS_GROUP_ID)
@@ -29,7 +25,9 @@ def uninstall(context):
     valid_roles = portal.valid_roles()
     portal_role_manager = pas.portal_role_manager
     roles = portal_role_manager.listRoleIds()
-    for role in ['TeamMember', 'TeamManager', 'SelfPublisher', 'Assignee']:
+    for role in [
+        'TeamMember', 'TeamManager', 'TeamGuest', 'SelfPublisher', 'Assignee'
+    ]:
         if role in roles:
             portal_role_manager.removeRole(role)
         if role in valid_roles:

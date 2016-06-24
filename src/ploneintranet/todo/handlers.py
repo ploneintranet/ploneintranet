@@ -1,4 +1,5 @@
 from zope.component import getUtility
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from plone import api
 
 from .interfaces import ITodoUtility
@@ -47,5 +48,7 @@ def todo_set_role(obj, evt):
     """
     todo = ITodo(obj)
     assignee = todo.assignee
+    if not assignee and IObjectAddedEvent.providedBy(evt):
+        assignee = obj.REQUEST.get('assignee')
     if assignee:
         obj.manage_addLocalRoles(assignee, ["Assignee", ])

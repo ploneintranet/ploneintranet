@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0.1'
+version = '1.1.0b3.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -46,7 +46,6 @@ setup(name='ploneintranet',
           'z3c.jbot',
           'plone.tiles',
           'plone.app.tiles',
-          'plone.app.async',
           'plone.app.blocks',
           'plone.app.theming',
           'BeautifulSoup',
@@ -72,6 +71,9 @@ setup(name='ploneintranet',
           'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
+          'collective.monkeypatcher',
+          'scorched',
+          'htmllaundry',
       ],
       extras_require={
           'test': [
@@ -80,9 +82,6 @@ setup(name='ploneintranet',
               'fake-factory',
               'mock',
               'responses',
-          ],
-          'socialsuite': [
-              'loremipsum',
           ],
           'suite': [
               'requests',
@@ -114,8 +113,7 @@ setup(name='ploneintranet',
               'plone.principalsource',
           ],
           'docconv': [
-              'slc.docconv',
-              'plone.async',
+              'collective.documentviewer',
               'BeautifulSoup',
           ],
           'pagerank': [

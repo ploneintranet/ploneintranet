@@ -7,7 +7,7 @@ from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 import mimetypes
 import json
@@ -50,14 +50,18 @@ class SharingView(BaseSharingView):
 
     def role_settings(self):
         """ Filter out unwanted to show groups """
-        result = super(SharingView, self).role_settings()
+        results = super(SharingView, self).role_settings()
         uid = self.context.UID()
-        filter_func = lambda x: not any((
-            x["id"].endswith(uid),
-            x["id"] == "AuthenticatedUsers",
-            x["id"] == INTRANET_USERS_GROUP_ID,
-        ))
-        return filter(filter_func, result)
+        # We do not want to share to the current context,
+        # to authenticated users
+        # and to all intranet users
+        return [
+            result for result in results
+            if not (
+                result["id"].endswith(uid) or
+                result["id"] in ("AuthenticatedUsers", INTRANET_USERS_GROUP_ID)
+            )
+        ]
 
     def user_search_results(self):
         """ Add [member] to a user title if user is a member

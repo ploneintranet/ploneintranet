@@ -47,8 +47,14 @@ Maneuver to
     Go to homepage
     Click link  jquery=a:contains("${title}")
 
+I can reload the page
+    Reload Page
+
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
+    Comment  auto bypass CSRF errors, typically in bin/pybot manual tests
+    Run Keyword And Ignore Error  Click Element  xpath=//input[@name='form.button.confirm']
+    Wait Until Page Contains Element  css=#dashboard
 
 I am in a workspace as a workspace member
     I am logged in as the user allan_neece
@@ -107,6 +113,10 @@ I go to the Service Announcements Workspace
     Wait Until Element Is Visible  css=h1#workspace-name
     Wait Until Page Contains  Service announcements
 
+I go to the Archived Workspace
+    Go To  ${PLONE_URL}/workspaces/archived-workspace
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
@@ -122,17 +132,246 @@ I open the password reset form
 The page is not found
     Page should contain  This page does not seem to exist
 
+# *** Posting and stream related keywords ***
+
+I can see updates by
+    [arguments]  ${user_fullname}
+    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
+
+I cannot see updates by
+    [arguments]  ${user_fullname}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
+
+I can follow the profile link for user
+    [arguments]  ${user_fullname}
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
+
+I can see updates tagged
+    [arguments]  ${tag}
+    Page Should Contain Link  \#${tag}
+
+I cannot see updates tagged
+    [arguments]  ${tag}
+    Page Should Not Contain Link  \#${tag}
+
+I click the tag link
+    [arguments]  ${tag}
+    Click Link  \#${tag}
+
+I can toggle following the tag
+    Click Element  css=#follow-function button
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I am following the tag
+    Page Should Contain Element  css=#follow-function button.active
+
+I am not following the tag
+    Page Should Not Contain Element  css=#follow-function button.active
+
+I can toggle following the user
+    Click Element  css=#portlet-follow form button
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I filter the stream as
+    [arguments]  ${stream_filter}
+    Click element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}']
+    Wait until page contains element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}'][@selected='selected']
+
+The message is visible as new status update
+    [arguments]  ${message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+
+The reply is visible
+    [arguments]  ${message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='comment-content']//p[contains(text(), '${message}')][1]
+
+The message is not visible
+    [arguments]  ${message}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+
+The message is visible as new status update that mentions the user
+    [arguments]  ${message}  ${username}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '@${username}')][1]
+
+The message is visible as new status update and includes the tag
+    [arguments]  ${message}  ${tag}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p//a[contains(text(), '#${tag}')][1]
+
+The status update only appears once
+    [arguments]  ${message}
+    Element should be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][2]
+
+The message is visible after a reload
+    [arguments]  ${message}
+    ${location} =  Get Location
+    Go to    ${location}
+    The message is visible as new status update    ${message}
+
+I post a reply on a status update
+    [arguments]  ${message}  ${reply_message}
+    Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
+    Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
+    Click button  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
+
+The reply is visible as a comment
+    [arguments]  ${message}  ${reply_message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')][1]//..//..//..//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${reply_message}')]
+
+The reply is not visible
+    [arguments]  ${message}
+    Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${message}')]
+
+The reply is visible after a reload
+    [arguments]  ${message}  ${reply_message}
+    ${location} =  Get Location
+    Go to    ${location}
+    The reply is visible as a comment  ${message}  ${reply_message}
+
+Both replies are visible
+    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
+    The reply is visible as a comment  ${message}  ${reply_message1}
+    The reply is visible as a comment  ${message}  ${reply_message2}
+
+Both replies are visible after a reload
+    [arguments]  ${message}  ${reply_message1}  ${reply_message2}
+    ${location} =  Get Location
+    Go to    ${location}
+    The reply is visible as a comment  ${message}  ${reply_message1}
+    The reply is visible as a comment  ${message}  ${reply_message2}
+
+I can add a tag
+    [arguments]  ${tag}
+    Click link    link=Add tags
+    Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
+    Click element    css=input[name=tagsearch]
+    Input text    css=input[name=tagsearch]  ${tag}
+    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
+    Wait until page does not contain element  xpath=//form[@id='postbox-tags' and contains(@class, 'injecting-content')]
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag}')][1]
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag}')][1]
+    Click element    css=textarea.pat-content-mirror
+
+I can add a tag and search for a tag
+    [arguments]  ${tag1}  ${tag2}
+    Click link    link=Add tags
+    Wait Until Element Is visible    xpath=//form[@id='postbox-tags']
+    Click element    css=input[name=tagsearch]
+    Input text    css=input[name=tagsearch]  ${tag1}
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag1}')][1]
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag1}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag1}')][1]
+    Click element    css=input[name=tagsearch]
+    Input text    css=input[name=tagsearch]  ${tag2}
+    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
+    Wait until page does not contain element  xpath=//form[@id='postbox-tags' and contains(@class, 'injecting-content')]
+    Wait Until Element Is visible  xpath=//form[@id='postbox-tags']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${tag2}')][1]
+    Click element  xpath=//form[@id='postbox-tags']//label/a/strong[contains(text(), '${tag2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '#${tag2}')][1]
+    Click element    css=textarea.pat-content-mirror
+
+I can mention a user and search for a user
+    [arguments]  ${username1}  ${username2}
+    Click link    link=Mention people
+    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username1}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username1}')][1]
+    Click element    css=input[name=usersearch]
+    Input text    css=input[name=usersearch]  ${username2}
+    [Documentation]  Wait until the temporary class 'injecting-content' has been removed, to be sure injection has completed
+    Wait until page does not contain element  xpath=//form[@id='postbox-users' and contains(@class, 'injecting-content')]
+    Wait Until Element Is visible  xpath=//form[@id='postbox-users']//fieldset[contains(@class, 'search-active')]//a//strong[contains(text(), '${username2}')][1]
+    Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username2}')]/../..
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(),'${username2}')][1]
+    Click element    css=textarea.pat-content-mirror
+
+The content stream is visible
+    Wait until element is visible       css=#comments-document-comments
+
+I save the document
+    Click Button  Save
+    Wait Until Page Contains  Your changes have been saved
+    Click button  Close
+    Wait until page does not contain  Your changes have been saved
+
+The stream contains
+    [arguments]    ${text}
+    Wait until page contains    ${text}
+
+The stream links to the document
+    [arguments]  ${text}
+    Wait until page contains element       link=${text}
+
+The stream does not link to the document
+    [arguments]  ${text}
+    Page should not contain       link=${text}
+
 # *** Workspace related keywords ***
 
 I can create a new workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
     Click Button  Create workspace
-    Wait Until Element Is visible  css=div#activity-stream  timeout=10
+    Wait Until Page Contains  Item created
+    Click Button  Close
+    Wait Until Element Is visible  css=div#activity-stream
+
+I can see the first listed workspace is
+    [arguments]  ${title}
+    Wait until page contains Element  jquery=.tiles .tile:first h3:contains("${title}")
+
+I can see the last listed workspace is
+    [arguments]  ${title}
+    Wait until page contains Element  jquery=.tiles .tile:last h3:contains("${title}")
+
+I can set workspace listing order
+    [arguments]  ${value}
+    Select From List  css=select[name=sort]  ${value}
+
+I can create a new template workspace
+    [arguments]  ${title}
+    Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder
+    Input Text  form.widgets.IBasic.title  New template
+    Click Button  Save
+    Go To  ${PLONE_URL}/workspaces
+
+I can create a new workspace for the division
+    [arguments]  ${title}  ${division}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal
+    Input Text  xpath=//input[@name='title']  text=${title}
+    Input Text  xpath=//textarea[@name='description']  text=Random description
+    Select From List  division  ${division}
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
+    Click Button  Close
+    Wait Until Element Is visible  css=div#activity-stream
+
+I can see the workspace belongs to division
+    [arguments]  ${division}
+    Wait Until Element Is Visible  xpath=//select//option[@selected='selected'][text()='${division}']
+
+I can create a new workspace from a template
+    [arguments]  ${template}  ${title}
+    Go To  ${PLONE_URL}/workspaces
+    Click Link  link=Create workspace
+    Wait Until Element Is visible  css=div#pat-modal
+    Input Text  name=title  text=${title}
+    Input Text  name=description  text=Something completely different
+    Select From List  workspace-type  new-template
+    Wait Until Page Contains  New template
+    Click Button  Create workspace
+    Wait Until Page Contains  Item created
+
 
 I select a file to upload
     [Documentation]  We can't drag and drop from outside the browser so it gets a little hacky here
@@ -140,6 +379,10 @@ I select a file to upload
     Execute JavaScript  jQuery('.pat-upload.upload').siblings('button').show()
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Element  xpath=//button[text()='Upload']
+
+I open the sidebar documents tile
+    Click Link  css=a.documents
+    Wait Until Page Contains Element  css=div#workspace-documents
 
 I can go to the sidebar info tile
     Click Link  link=Workspace settings and about
@@ -151,17 +394,76 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+I can open the workspace advanced settings tab
+    Click Link  link=Workspace settings and about
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Wait until page contains  Advanced
+    Click link  link=Advanced
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
+    Wait until page contains  Workspace e-mail address
 
 I can open the workspace security settings tab
     Click Link  link=Workspace settings and about
     Wait until page contains  Security
     Click link  link=Security
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
     Wait until page contains  Workspace policy
 
 I can open the workspace member settings tab
     Click Link  link=Workspace settings and about
     Click link  link=Members
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
     Wait until page contains element  css=#member-list
+
+I can turn the workspace into a division
+    Click element  xpath=//input[@name='is_division']/../..
+    Wait until page does not contain element   xpath=//div[@id='workspace-settings']/div[contains(@class, 'tabs-content injecting')]
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until element is visible  xpath=//input[@name='is_division' and @value='selected' and @checked='checked']/../..
+    Wait until page contains  Attributes changed
+    Click button  Close
+
+I can archive the workspace
+    Select checkbox  xpath=//input[@name='archival_date']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can unarchive the workspace
+    Unselect checkbox  xpath=//input[@name='archival_date']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can list the workspaces grouped by division
+    Go To  ${PLONE_URL}/workspaces
+    Click element  xpath=//select[@name='grouping']
+    Click element  xpath=//option[@value='division']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//span[@id='workspaces' and contains(@class, 'tabs-content injecting')]
+
+I can list the workspaces
+    Go To  ${PLONE_URL}/workspaces
+    Click element  xpath=//select[@name='grouping']
+    Click element  xpath=//option[@value='division']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see the division
+    [arguments]  ${title}
+    Wait Until Element Is Visible  xpath=//h1[text()='${title}']
+
+I can see the workspace
+    [arguments]  ${title}
+    Page should contain  ${title}
+
+I can't see the workspace
+    [arguments]  ${title}
+    Page should not contain  ${title}
+
+I can list the archived workspaces
+    I can list the workspaces
+    Select checkbox  xpath=//input[@name='archived']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//span[@id='workspaces'][contains(@class, 'injecting')]
 
 I can set the external visibility to Open
     Comment  AFAICT selenium doesn't yet have support to set the value of a range input field, using JavaScript instead
@@ -241,6 +543,28 @@ Task is read only for user
     Wait Until Page Contains  This is for you ${name}
     Element Should Be Visible  jquery=input:disabled[name=due]
 
+# workspace member sidebar
+I can enable user selection
+    Wait Until Page Contains Element  jquery=.quick-functions a.toggle-select
+    Click Element  jquery=.quick-functions a:last
+
+I select all members
+    Click Element  css=#existing_users .select-buttons .select-all
+
+I deselect all members
+    Click Element  css=#existing_users .select-buttons .deselect-all
+
+The batch action buttons are disabled
+    Wait Until Page Contains Element  jquery=button.disabled:contains("Change role")
+    Wait Until Page Contains Element  jquery=button.disabled:contains("Remove")
+
+The batch action buttons are enabled
+    Wait Until Page Contains Element  jquery=button:not('[disabled]'):contains("Change role")
+    Wait Until Page Contains Element  jquery=button:not('[disabled]'):contains("Remove")
+
+I toggle the selection of the first user
+    Click Element  jquery=#member-list-items label.item.user:first
+
 I can invite Alice to join the workspace
     Wait Until Page Contains Element  css=div.button-bar.create-buttons a.icon-user-add
     Click Link  css=div.button-bar.create-buttons a.icon-user-add
@@ -249,6 +573,7 @@ I can invite Alice to join the workspace
 I can invite Alice to join the workspace from the menu
     Wait Until Page Contains Element  link=Functions
     Click Link  link=Functions
+    Wait until page does not contain element   xpath=//div[@id='member-list-more-menu']/div[contains(@class, 'panel-content in-progress')]
     Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
     I can invite Alice to the workspace
@@ -310,12 +635,6 @@ I can remove the Producer role from Allan
 I can change Allan's role to Moderator
     I can open the workspace member settings tab
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
-    # Yes, adding Sleep is very ugly, but I see no other way to ensure that
-    # the sidebar and the element we need has really completely loaded.
-    # This heisenbug has already cost us numerous failures in jenkins for otherwise
-    # healthy test suites. Anybody who removes this Sleep statement is responsible
-    # for ensuring that the test still works 100% reliably. [pysailor]
-    Sleep  0.5
     Click element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
@@ -366,6 +685,10 @@ I can search for items
     Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
     Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
 
+I can see that the workspace is archived
+    [arguments]  ${title}
+    Wait until page contains element  xpath=//a/strong[text()='Archived']
+
 I see the option to create a document
     Click link  Documents
     Click link  Functions
@@ -400,6 +723,16 @@ I can create a new folder
     # On reload the navbar is closed by default - open it
     Click link  Documents
     Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder']
+
+I can edit the new folder
+    Click Element  jquery=.item .title:contains(My Humble Folder)
+    Wait until element is visible  jquery=.folder-title:contains(My Humble Folder) .icon-pencil
+    Click element  jquery=.folder-title:contains(My Humble Folder) .icon-pencil
+    Wait until element is visible  jquery=.panel-body [name=title]
+    Input Text  jquery=.panel-body [name=title]  My Superpowered Folder
+    Input Text  jquery=.panel-body [name=description]  The description of my superpowered folder
+    Click Element  jquery=.panel-footer #form-buttons-edit
+    Wait until element is visible  jquery=.folder-title:contains(My Superpowered Folder)
 
 I can create a new image
     Click link  Documents
@@ -524,10 +857,10 @@ Then I can delete an event
     Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
-    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']  timeout=20
+    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']
 
 The upload appears in the stream
-    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]  timeout=20
+    Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]
 
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
@@ -740,10 +1073,10 @@ I can create a new case
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
-    Select From List  portal_type  ploneintranet.workspace.case
+    Select From List  workspace-type  case-template
     Wait Until Page Contains  Case Template
     Click Button  Create workspace
     Wait Until Page Contains  Populate Metadata
@@ -759,12 +1092,11 @@ I can create a new case from a template
     [arguments]  ${template}  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal  timeout=5
+    Wait Until Element Is visible  css=div#pat-modal
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Something completely different
-    Select From List  portal_type  ploneintranet.workspace.case
-    Wait Until Page Contains  New template
-    Select Radio Button  template_id  new-template
+    Select From List  workspace-type  case-template
+    Wait Until Page Contains  Case Template
     Click Button  Create workspace
     Wait Until Page Contains  Item created
 
@@ -773,14 +1105,14 @@ I can delete a case
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
+    Wait Until Page Contains    has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
-    Wait Until Page Contains    has been deleted    5
+    Wait Until Page Contains    has been deleted
 
 I go to the dashboard
     Go To  ${PLONE_URL}
@@ -791,13 +1123,13 @@ I select the task centric view
 
 I mark a new task complete
     Wait until element is visible  xpath=(//a[@title='Todo soon'])
-    Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[1]
+    Select Checkbox  xpath=(//a[@title='Todo soon'])[1]/preceding-sibling::input[@name="active-tasks:list"]
     Wait until Page Contains  Task state changed
 
 I select the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
-    Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
     ### Without the following sleep statement the 'Wait until' statement that follows it
     ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
     ### This leads to errors later on when the box is assumed to be checked.
@@ -807,7 +1139,7 @@ I select the task check box
 I unselect the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
-    Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[1]
+    Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
     ### Without the following sleep statement the 'Wait until' statement that follows it
     ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
     ### This leads to errors later on when the box is assumed to be checked.
@@ -835,15 +1167,15 @@ I can go to the sidebar tasks tile of my case
     Wait Until Page Contains  General tasks
 
 I can add a new task
-    [arguments]  ${title}  ${milestone}=
+    [arguments]  ${title}  ${username}  ${milestone}=
     Click Link  Create task
     Wait Until Page Contains Element  css=.panel-body
     Input Text  xpath=//div[@class='panel-body']//input[@name='title']  text=${title}
     Input Text  xpath=//div[@class='panel-body']//textarea[@name='description']  text=Plan for success
     Element Should Contain  xpath=//label[@class='initiator']//li[@class='select2-search-choice']/div  Allan Neece
-    Input Text  css=label.assignee li.select2-search-field input  neece
-    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='Neece']
-    Click Element  xpath=//span[@class='select2-match'][text()='Neece']
+    Input Text  css=label.assignee li.select2-search-field input  ${username}
+    Wait Until Element Is visible  xpath=//span[@class='select2-match'][text()='${username}']
+    Click Element  xpath=//span[@class='select2-match'][text()='${username}']
     Select From List  milestone  ${milestone}
     Click Button  Create
     Wait Until Page Contains  ${title}
@@ -853,6 +1185,8 @@ I can close a milestone
     I can open a milestone task panel  ${milestone}
     Wait Until Page Contains Element  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
@@ -867,18 +1201,21 @@ I can reopen a milestone
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Reopen milestone']
+    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
+    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
-    ### The following sleep statement addresses the StaleElementReferenceException that sometimes occurs
-    ### Solutions proposed on the web address this programmatically with a combination of looping
-    ### and exception handling. I wouldn't know of an equivalent solution in robot.
-    sleep  2
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
 
 I can open a milestone task panel
     [arguments]  ${milestone}
     # panel 'open' state is session dependent, force open
     Run Keyword And Ignore Error  Click Element  css=#milestone-${milestone}.closed h4
+
+I can see the user is a guest
+    [arguments]  ${username}
+    Wait until page contains element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_guests']//strong[@class='title' and contains(text(), '${username}')]
+    Page should not contain element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_users']//strong[@class='title' and contains(text(), '${username}')]
 
 I write a status update
     [arguments]  ${message}
@@ -896,13 +1233,97 @@ I post a status update
 I submit the status update
     Click button  css=button[name='form.buttons.statusupdate']
 
+I open the post action menu
+    [arguments]  ${message}
+    Click Link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I cannot open the post action menu
+    [arguments]  ${message}
+    Page should not contain link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I open the comment action menu
+    [arguments]  ${message}
+    Click Link  xpath=//section[@class='comment-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I cannot open the comment action menu
+    [arguments]  ${message}
+    Page should not contain link  xpath=//section[@class='comment-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
+
+I delete the status update
+    [arguments]  ${message}
+    I open the post action menu  ${message}
+    Click Link  Delete post
+    Click Button  I am sure, delete now
+
+I can see the status delete confirmation
+    Wait Until Page Contains    This post has been succesfully deleted.
+
+I delete the status reply
+    [arguments]  ${message}
+    I open the comment action menu  ${message}
+    Click Link  Delete comment
+    Click Button  I am sure, delete now
+
+I can see the status reply delete confirmation
+    Wait Until Page Contains    This comment has been succesfully deleted.
+
+I can edit the status update
+    [arguments]  ${message1}  ${message2}
+    I open the post action menu  ${message1}
+    Click Link  Edit post
+    Input Text  xpath=//textarea[contains(text(), '${message1}')]  ${message2}
+    Click Button  Save
+    Wait Until Page Contains  Edited
+
+I can edit the status reply
+    [arguments]  ${message1}  ${message2}
+    I open the comment action menu  ${message1}
+    Click Link  Edit comment
+    Input Text  xpath=//textarea[contains(text(), '${message1}')]  ${message2}
+    Click Button  Save
+    Wait Until Page Contains  Edited
+
+I can access the original text
+    [arguments]  ${message1}  ${message2}
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message2}')]/a[contains(@class, 'edited-toggle')]
+    Comment  Working around some Selenium limitations here
+    Wait Until Element Is Visible  //section[contains(@class, 'original-text')]//p/strong
+    Page Should Contain  ${message1}
+
+I can access the original reply text
+    [arguments]  ${message1}  ${message2}
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='comment']//section[@class='comment-content']//p[contains(text(), '${message2}')]/a[contains(@class, 'edited-toggle')]
+    Comment  Working around some Selenium limitations here
+    Wait Until Element Is Visible  //section[contains(@class, 'original-text')]//p/strong
+    Page Should Contain  ${message1}
+
 I can mention the user
     [arguments]  ${username}
     Click link    link=Mention people
-    Wait Until Element Is visible    xpath=//form[@id='postbox-users']
+    Wait Until Element Is visible  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
     Click element  xpath=//form[@id='postbox-users']//label/a/strong[contains(text(), '${username}')]/../..
-    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]  2
+    Wait Until Element Is visible  xpath=//p[@class='content-mirror']//a[contains(text(), '@${username}')][1]
     Click element    css=textarea.pat-content-mirror
+
+I freeze the case
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Freeze case
+
+I unfreeze the case
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Unfreeze case
+
+I unfreeze the case via the metromap
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click link  Unfreeze
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Button  I am sure, unfreeze now
+
+I see that the workspace is frozen
+    Wait Until Page Contains  Frozen
+
+I see that the workspace is not frozen
+    Page Should Not Contain  Frozen
 
 # *** search related keywords ***
 
@@ -911,27 +1332,68 @@ I can see the site search button
 
 I can search in the site header for ${SEARCH_STRING}
     Input text  css=#global-header input.search  ${SEARCH_STRING}
-    Submit Form  css=#global-header form#searchGadget_form
+    Submit Form  css=#global-header form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
-    Element should be visible  link=${SEARCH_RESULT_TITLE}
+    Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
 
 I cannot see the search result ${SEARCH_RESULT_TITLE}
     Element should not be visible  link=${SEARCH_RESULT_TITLE}
 
 I can follow the search result ${SEARCH_RESULT_TITLE}
-    Click Link  link=${SEARCH_RESULT_TITLE}
+    Click Link  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
     Page should contain  ${SEARCH_RESULT_TITLE}
 
 I can filter content of type ${CONTENT_TYPE}
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
     Select Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+    Wait Until Element is Visible  css=.previews-on,.previews-off
+
+I can unfilter content of type ${CONTENT_TYPE}
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
+    Unselect Checkbox  css=input[type="checkbox"][value="${CONTENT_TYPE}"]
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 The search results do not contain ${STRING_IN_SEARCH_RESULTS}
     Wait Until Keyword Succeeds  1  3  Page should not contain  ${STRING_IN_SEARCH_RESULTS}
 
-I can set the date range to ${DATE_RANGE_VALUE}
-    Select From List By Value  css=select[name="created"]  ${DATE_RANGE_VALUE}
-    Wait Until Element is Visible  css=dl.search-results[data-search-string*="created=${DATE_RANGE_VALUE}"]
+I can set the date range to ${START_DATE} ${END_DATE}
+    Input Text  start_date  \
+    Focus  jquery=[name=start_date]
+    Press Key  jquery=[name=start_date]  ${START_DATE}
+    Input Text  end_date  \
+    Focus  jquery=[name=end_date]
+    Press Key  jquery=[name=end_date]  ${END_DATE}
+    Press Key  jquery=[name=end_date]  \n
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="start_date=${START_DATE}"]
+    Wait Until Element is Visible  css=dl.search-results[data-search-string*="end_date=${END_DATE}"]
+
+I toggle the search previews
+    Click Element  css=[href="#view-options"]
+    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Display previews")
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
+    Click Element  jquery=.tooltip-container label:contains("Display previews")
+    Wait Until Element is Visible  css=.previews-on,.previews-off
+
+I can see the search result previews
+    Wait Until Element is Visible  css=.previews-on .preview
+
+I cannot see the search result previews
+    Wait Until Element is Visible  css=.previews-off
+
+I can see that the first search result is ${RESULT_TITLE}
+    Wait Until Element is Visible  jquery=.search-results > :first-child > a:contains(${RESULT_TITLE})
+
+I can sort search results by ${FIELD}
+    Click Element  css=[href="#view-options"]
+    Wait Until Element is Visible  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
+    [Documentation]  We remove the classes we will look at to see if the injection is completed
+    Execute Javascript  jQuery('.previews-on,.previews-off').removeClass('previews-on').removeClass('previews-off')
+    Click Element  jquery=.tooltip-container label:contains("Sort by ${FIELD}")
+    Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}

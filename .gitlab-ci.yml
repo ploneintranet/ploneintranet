@@ -1,0 +1,19 @@
+before_script:
+  - export LC_CTYPE=en_US.UTF-8
+  - export LC_ALL=en_US.UTF-8
+  - export LANG=en_US.UTF-8
+  - make gitlab-ci
+  - /etc/init.d/redis-server start
+  - Xvfb :99 1>/dev/null 2>&1 &
+
+robot:
+  script:
+    - DISPLAY=:99 bin/test -t 'robot'
+
+norobot:
+  script:
+    - bin/code-analysis
+    - bin/test -t '!robot'
+    - ASYNC_ENABLED=true bin/test -s ploneintranet.async
+
+

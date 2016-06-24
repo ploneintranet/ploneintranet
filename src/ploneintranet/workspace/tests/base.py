@@ -11,7 +11,6 @@ from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
 from ploneintranet.workspace.testing import \
     PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
-from zope.annotation.interfaces import IAnnotations
 import unittest2 as unittest
 
 
@@ -29,16 +28,31 @@ class BaseTestCase(unittest.TestCase):
             title='Workspace container'
         )
         self.request = self.portal.REQUEST
+        self.portal_workflow = api.portal.get_tool('portal_workflow')
+
+    def cleanup_request_annotations(self):
+        ''' Invalidate the cache of the workspace
+        '''
+        try:
+            delattr(self.request, '__anotations__')
+        except AttributeError:
+            pass
 
     def login(self, username):
         """
         helper method to login as specific user
+
+        Before logging in cleanup the request annotations in case
+
+        - some pas plugins is storing there informations about the current user
+        - some memoized methods needs to be cleaned up
 
         :param username: the username of the user to add to the group
         :type username: str
         :rtype: None
 
         """
+        self.cleanup_request_annotations()
         login(self.portal, username)
 
     def logout(self):
@@ -70,8 +84,6 @@ class BaseTestCase(unittest.TestCase):
             user=username,
             groups=groups,
         )
-        # purge cache - only needed in tests since we're in same request
-        IAnnotations(self.request)[('workspaces', username)] = None
 
 
 class FunctionalBaseTestCase(BaseTestCase):

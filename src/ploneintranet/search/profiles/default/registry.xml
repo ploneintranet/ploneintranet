@@ -8,10 +8,15 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>Creator</element>
       <element>tags</element>
       <element>friendly_type_name</element>
       <element>portal_type</element>
       <element>path</element>
+      <element>review_state</element>
+      <element>is_division</element>
+      <element>is_archived</element>
+      <element>division</element>
     </value>
   </record>
 
@@ -24,6 +29,8 @@
     <value>
       <element>tags</element>
       <element>friendly_type_name</element>
+      <element>is_division</element>
+      <element>is_archived</element>
     </value>
   </record>
 
@@ -67,6 +74,36 @@
         <min>1</min>
       </value_type>
     </field>
+  </record>
+
+  <record name="ploneintranet.search.ui.additional_facets">
+    <field type="plone.registry.field.Dict">
+      <title>Additional facets for filtering your results</title>
+      <description>The search results page, by default,
+        facets the search results using the friendly_type_name field.
+        Here you can list additional fields you want to use for faceting.
+        Each field should be specified as field
+        (should match the values from ploneintranet.search.facet_fields)
+        and label
+        (a value that can be translate in the ploneintranet 18n domain)
+      </description>
+      <key_type type="plone.registry.field.ASCII" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element key="tags">Tags</element>
+    </value>
+  </record>
+
+  <record name="ploneintranet.search.ui.persistent_options">
+    <field type="plone.registry.field.Bool">
+      <title>Persistent search options</title>
+      <description>
+        If this option is enabled,
+        the selected search options will be stored for every user
+      </description>
+    </field>
+    <value>False</value>
   </record>
 
 </records>

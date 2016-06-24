@@ -1,4 +1,5 @@
 import unittest2 as unittest
+from AccessControl import Unauthorized
 from Products.ATContentTypes.content.file import ATFile
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.component import queryUtility
@@ -6,11 +7,13 @@ from zope.interface.verify import verifyClass
 from zope.interface import alsoProvides
 from zope.interface import implements
 
+from plone.app.testing import login
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone import api
 
-from ploneintranet.microblog.testing import\
-    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+from ploneintranet.microblog.testing import (
+    PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING,
+    PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING)
 
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.interfaces import IStatusUpdate
@@ -72,7 +75,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = StatusUpdate('foo', microblog_context=mockcontext)
         self.assertIsNone(su._microblog_context_uuid)
 
-    def test_microblog_context_UUID(self):
+    def test_microblog_context_uuid(self):
         import Acquisition
 
         class MockContext(Acquisition.Implicit):
@@ -128,7 +131,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
     def test_microblog_context_UUID_legacy(self):
         class OldStatusUpdate(StatusUpdate):
-            def _init_microblog_context(self, thread_id, context):
+            def _init_microblog_context(self, *args, **kwargs):
                 pass
         su = OldStatusUpdate('foo')
         # old data has new code accessors
@@ -160,7 +163,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         attachments.remove(f.getId())
         self.assertEqual(len(attachments.keys()), 0)
 
-    def test_statusupdate_mentions(self):
+    def test_mentions(self):
         test_user = api.user.create(
             email='test@example.com',
             username='testuser',
@@ -172,3 +175,188 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         fullname = test_user.getProperty('fullname')
         su = StatusUpdate('foo', mention_ids=[userid])
         self.assertEqual(su.mentions, {userid: fullname})
+
+    def test_action_verb_default(self):
+        su = StatusUpdate('foo bar')
+        self.assertEqual(su.action_verb, 'posted')
+
+    def test_action_verb_custom(self):
+        su = StatusUpdate('foo bar', action_verb='created')
+        self.assertEqual(su.action_verb, 'created')
+
+
+class TestStatusUpdateEdit(unittest.TestCase):
+
+    layer = PLONEINTRANET_MICROBLOG_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.user_admin = api.user.create(
+            email='admin@example.com',
+            username='user_admin',  # prevent collision with default admin
+            properties={
+                'fullname': 'Site Admin'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_admin,
+            roles=['Site Administrator', 'Member']
+        )
+        self.user_steve = api.user.create(
+            email='steve@example.com',
+            username='user_steve',
+            properties={
+                'fullname': 'Steve User'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_steve,
+            roles=['Member', ]
+        )
+        self.user_jane = api.user.create(
+            email='jane@example.com',
+            username='user_jane',
+            properties={
+                'fullname': 'Jane User'
+            }
+        )
+        api.user.grant_roles(
+            user=self.user_jane,
+            roles=['Member', ]
+        )
+
+    def test_edit_changes_text(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_edit_sets_edited(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.edited, None)
+        su.edit('bar')
+        self.assertEqual(str(su.edited.__class__),
+                         "<class 'DateTime.DateTime.DateTime'>")
+        self.assertNotEqual(su.edited, su.date)
+
+    def test_original_text_default(self):
+        su = StatusUpdate('foo')
+        self.assertEqual(su.original_text, None)
+
+    def test_original_text_on_firstedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_original_text_remains_secondedit(self):
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        su.edit('shoob')
+        self.assertEqual(su.original_text, 'foo')
+
+    def test_admin_can_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        login(self.portal, 'user_admin')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_creator_can_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        su.edit('bar')
+        self.assertEqual(su.text, 'bar')
+
+    def test_other_cannot_edit(self):
+        login(self.portal, 'user_steve')
+        su = StatusUpdate('foo')
+        login(self.portal, 'user_jane')
+        with self.assertRaises(Unauthorized):
+            su.edit('bar')
+
+
+class TestContentStatusUpdate(unittest.TestCase):
+
+    layer = PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
+        self.container = queryUtility(IMicroblogTool)
+
+    def test_content_context_mocked(self):
+        content = object()
+        su = MockStatusUpdate('foo bar', content_context=content)
+        self.assertEqual(
+            su._content_context_uuid,
+            su._context2uuid(content)
+        )
+
+    def test_content_context_subscriber(self):
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        # auto-created by event listener
+        self.assertEqual(1, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(2, len(found))
+        su = found[0]
+        self.assertEqual(None, su.microblog_context)
+        self.assertEqual(doc, su.content_context)
+
+    def test_thread_content_context(self):
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        su1 = found[0]
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertEqual(None, su2.microblog_context)
+        self.assertEqual(doc, su2.content_context)
+
+    def test_content_context_init_sets_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.assertEqual(f1, su1.microblog_context)
+
+    def test_content_context_subscriber_sets_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        su1 = found[0]
+        self.assertEqual(f1, su1.microblog_context)
+
+    def test_content_context_subscriber_sets_action_verb_published(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        su1 = found[0]
+        self.assertEqual('published', su1.action_verb)

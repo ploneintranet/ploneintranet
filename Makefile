@@ -1,12 +1,20 @@
 RELEASE_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
-BUNDLENAME      = ploneintranet
-BUNDLEURL	= https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz
+BUNDLEPLONEID	= ploneintranet
+BUNDLEDISTNAME  = ploneintranet-bundle
+BUNDLEDISTURL	= https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
 
 # Add help text after each target name starting with ' \#\# '
 help:
 	@grep " ## " $(MAKEFILE_LIST) | grep -v MAKEFILE_LIST | sed 's/\([^:]*\).*##/\1\t/'
+
+
+devel: bin/buildout ldap/schema ## 	 Run development buildout
+	bin/buildout
+
+ldap/schema:
+	[ -L ldap/schema ] || ln -s /etc/ldap/schema ldap/schema
 
 all:: fetchrelease
 default: all
@@ -19,29 +27,32 @@ check-clean:
 
 fetchrelease: ## Download and install the latest javascript bundle into the theme.
 	$(eval LATEST := $(shell cat LATEST))
-	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLENAME)/$(LATEST)/$(BUNDLENAME)-$(LATEST).tar.gz)
+	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz)
 	# fetch non-git-controlled required javascript resources
 	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
-	@curl $(BUNDLEURL) -o $(DIAZO_DIR)/bundles/$(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLENAME)-$(LATEST).tar.gz && rm $(BUNDLENAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).js; then rm $(BUNDLENAME).js; fi
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLENAME).min.js; then rm $(BUNDLENAME).min.js; fi
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).js $(BUNDLENAME).js
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLENAME)-$(LATEST).min.js $(BUNDLENAME).min.js
+	@curl $(BUNDLEDISTURL) -o $(DIAZO_DIR)/bundles/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLEDISTNAME)-$(LATEST).tar.gz && rm $(BUNDLEDISTNAME)-$(LATEST).tar.gz
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).js; then rm $(BUNDLEPLONEID).js; fi
+	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).min.js; then rm $(BUNDLEPLONEID).min.js; fi
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).js $(BUNDLEPLONEID).js
+	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).min.js $(BUNDLEPLONEID).min.js
 
 ########################################################################
 ## Setup
 ## You don't run these rules unless you're a prototype dev
 
-prototype:: ## Get the latest version of the prototype
+prototype: ## Get the latest version of the prototype
 	@if [ ! -d "prototype" ]; then \
-		git clone https://github.com/ploneintranet/ploneintranet.prototype.git prototype; \
+		git clone git@github.com:quaive/ploneintranet.prototype.git prototype; \
 	else \
 		cd prototype && git pull; \
 	fi;
+
+latest: prototype
 	cp prototype/LATEST .
 
 jekyll: prototype
+	@echo 'DO: rm prototype/stamp-bundler to force Jekyll re-install'
 	@cd prototype && make jekyll
 
 diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme, including removals
@@ -54,7 +65,7 @@ diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme
 	@sleep 10
 	git commit -a -m "protoype release $(shell cat LATEST)"
 
-diazo: jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
+diazo: latest jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
 _diazo:
 	# --- (1) --- prepare clean release dir
 	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
@@ -67,7 +78,7 @@ _diazo:
 	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
 	for file in `grep 'href="generated' $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
 		echo "Rewriting resource URLs in $$file"; \
-		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLENAME).js"#' $(RELEASE_DIR)/$$file; \
+		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLEPLONEID).js"#' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
 		sed -i -e 's#="/*\(media\|style\)/#="++theme++ploneintranet.theme/generated/\1/#g' $(RELEASE_DIR)/$$file; \
 		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
@@ -78,6 +89,7 @@ _diazo:
 	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
 	# logo
 	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
+	cp $(RELEASE_DIR)/media/icon* $(DIAZO_DIR)/media/
 	cp -R $(RELEASE_DIR)/media/logos $(DIAZO_DIR)/media/
 	# apps
 	@[ -d $(DIAZO_DIR)/apps/ ] || mkdir $(DIAZO_DIR)/apps/
@@ -89,7 +101,7 @@ jsdev: clean-proto dev-bundle diazo _jsdev ## 	 Full js development refresh
 # fast replace ploneintranet-dev.js - requires diazo to have run!
 _jsdev:
 	# replace normal js bundle with dev bundle, directly in diazo theme dir
-	cp prototype/bundles/$(BUNDLENAME)-dev.js $(DIAZO_DIR)/bundles/ploneintranet.js
+	cp prototype/bundles/$(BUNDLEPLONEID)-dev.js $(DIAZO_DIR)/bundles/$(BUNDLEPLONEID).js
 
 dev-bundle: prototype
 	cd prototype && make dev-bundle
@@ -101,12 +113,16 @@ jsrelease: prototype
 	cd prototype && make jsrelease
 	cp prototype/LATEST .
 
+demo: jekyll demo-run
+
+demo-run:
+	cd prototype && make demo-run
 
 ####################################################################
 # docker.io
 # see comments for using boot2docker on MacOSX
 
-PROJECT=ploneintranet
+PROJECT=quaive/ploneintranet-dev
 
 docker-build: .ssh/known_hosts  ## Create docker container
 	docker build -t $(PROJECT) .
@@ -118,8 +134,8 @@ docker-run:  ## Start docker container
                 --net=host \
                 -v /var/tmp:/var/tmp \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \
-                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.bashrc:/app/.bashrc \
+                -v $(HOME)/.buildout:/app/.buildout \
                 -v $(HOME)/.pypirc:/app/.pypirc \
                 -v $(HOME)/.gitconfig:/app/.gitconfig \
                 -v $(HOME)/.gitignore_global:/app/.gitignore_global \
@@ -136,14 +152,20 @@ docker-run:  ## Start docker container
 ####################################################################
 # Guido's lazy targets
 
-devel: bin/buildout  ## 	 Run development buildout
-	bin/buildout
+gitlab-ci: bin/buildout
+	bin/buildout -c gitlab-ci.cfg
 
 bin/buildout: bin/python2.7
 	@bin/pip install -r requirements.txt
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
+
+devrun:
+	sudo service redis-server start
+	bin/supervisord
+	bin/supervisorctl stop instance instance2
+	bin/instance fg
 
 ####################################################################
 # Solr
@@ -153,6 +175,16 @@ solr: devel
 solr-clean:
 	rm -rf parts/solr parts/solr-test var/solr var/solr-test bin/solr-instance bin/solr-test
 
+all-clean: db-clean solr-clean clean
+
+db-clean:
+	bin/supervisorctl shutdown || true
+	@echo "This will destroy your local database! ^C to abort..."
+	@sleep 10
+	rm -rf var/filestorage var/blobstorage
+
+allclean: all-clean
+
 ####################################################################
 # Testing
 
@@ -160,15 +192,16 @@ solr-clean:
 # bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
 # firefox localhost:55001/plone
 # To see the tests going on, use DISPLAY=:0, or use Xephyr -screen 1024x768 instead of Xvfb
+# ROBOT_SELENIUM_RUN_ON_FAILURE=Debug DISPLAY=:0 bin/test -s ploneintranet.suite -t post_file.robot
 test-robot: ## Run robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test -t 'robot'
+	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot'
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 test-norobot: ## Run all tests apart from robot tests
 	bin/test -t '!robot'
 
 test:: ## 	 Run all tests, including robot tests with a virtual X server
-	Xvfb :99 1>/dev/null 2>&1 & HOME=/app PATH=${PATH}:/usr/lib/chromium-browser DISPLAY=:99 bin/test
+	Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test
 	@ps | grep Xvfb | grep -v grep | awk '{print $2}' | xargs kill 2>/dev/null
 
 ####################################################################

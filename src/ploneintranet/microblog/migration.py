@@ -1,5 +1,10 @@
 # -*- coding=utf-8 -*-
+from AccessControl import Unauthorized
+from BTrees import LOBTree
 from BTrees import OOBTree
+from DateTime import DateTime
+from plone import api
+from ploneintranet import api as pi_api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from transaction import commit
@@ -7,6 +12,7 @@ from zope.component import queryUtility
 import logging
 
 logger = logging.getLogger('ploneintranet.microblog.migration')
+PROFILE_ID = 'ploneintranet.microblog:default'
 
 
 def setup_uuid_mapping(context):
@@ -46,8 +52,8 @@ def uuid_to_microblog_uuid(context):
     i = 0
     for status in tool.values(limit=None):
         if (
-            isinstance(status, StatusUpdate)
-            and not hasattr(status, '_microblog_context_uuid')
+            isinstance(status, StatusUpdate) and
+            not hasattr(status, '_microblog_context_uuid')
         ):
             i += 1
             uuid = getattr(status, '_context_uuid', None)
@@ -81,4 +87,134 @@ def enforce_parent_context(context):
         if i % 100 == 0:
             commit()
     logger.info("Fixed security context for %s replies", i)
+    commit()
+
+
+def document_discussion_fields(context):
+    '''Add new fields introduced for document discussion'''
+    tool = queryUtility(IMicroblogTool)
+    tool._update_ctime()
+    if not hasattr(tool, '_content_uuid_mapping'):
+        logger.info("Adding missing content_uuid mapping to %s" % repr(tool))
+        tool._content_uuid_mapping = OOBTree.OOBTree()
+    # use raw accessor to avoid security filters skipping some updates
+    # see test in suite/tests/test_microblog_security
+    for status in tool._status_mapping.values():
+        if not hasattr(status, '_content_context_uuid'):
+            status._content_context_uuid = None
+        if not hasattr(status, '_verb'):
+            status._verb = None
+    logger.info("Added document discussion fields")
+    commit()
+
+
+def statusupdate_edit_delete(context):
+    """Upgrade for edit/delete feature"""
+    tool = queryUtility(IMicroblogTool)
+    tool._update_ctime()
+    setup = api.portal.get_tool('portal_setup')
+    # setup new edit/delete permissions
+    setup.runImportStepFromProfile(PROFILE_ID, 'rolemap')
+    commit()
+
+
+def discuss_older_docs(context, do_commit=True):
+    """Add document discussion on pre-existing documents.
+    This only adds a 'created' message, since we cannot reconstruct
+    the publication date and actor.
+    """
+    if context is not None:
+        # Backport ondelete_archive in order not to fail
+        # if some documents have been deleted (see quaive/ploneintranet #354)
+        ondelete_archive(context)
+    logger.info("Adding streams to older content")
+    mtool = queryUtility(IMicroblogTool)
+    haveseen = [x for x in mtool._content_uuid_mapping.keys()]
+    ctool = api.portal.get_tool('portal_catalog')
+    i = 0
+    for brain in ctool.unrestrictedSearchResults(
+            {'portal_type': [
+                'Document', 'File', 'Image', 'Event', 'News Item']}):
+        if brain.UID in haveseen:
+            continue
+        created = brain.created
+        if isinstance(created, DateTime):
+            created = created.asdatetime()
+        obj = brain.getObject()
+        pi_api.microblog.statusupdate.create(
+            content_context=obj,
+            action_verb=u'created',
+            tags=obj.Subject() or None,
+            userid=brain.Creator,
+            time=created,
+        )
+        haveseen.append(brain.UID)
+        i += 1
+    logger.info("Added streams to %s older content objects", i)
+    if do_commit:
+        # breaks in testing setuphandler
+        commit()
+
+
+def tag_older_contentupdates(context):
+    """Retroactively apply tags on auto-generated content updates.
+    Is backported to discuss_older_docs.
+    """
+    if context is not None:
+        # Backport ondelete_archive in order not to fail
+        # if some documents have been deleted (see quaive/ploneintranet #354)
+        ondelete_archive(context)
+    logger.info("Adding tags to older content updates")
+    tool = queryUtility(IMicroblogTool)
+    i = 0
+    for status in tool.values(limit=None):
+        if status.thread_id:
+            # not a generated toplevel update but a reply
+            continue
+        if status.tags:
+            # already tagged
+            continue
+        try:
+            content_context = status.content_context
+        except Unauthorized:
+            # context deleted, see ondelete_archive below
+            continue
+        if not content_context:
+            # not a content update
+            continue
+        tags = content_context.Subject()
+        if tags:
+            status.tags = tags
+            tool._idx_tag(status)
+            i += 1
+    logger.info("Added tags to %s older content updates", i)
+    commit()
+
+
+def ondelete_archive(context):
+    """
+    Initialize archive for deleted statusupdates.
+    Archive updates whose microblog_context or content_context
+    has been deleted.
+    """
+    logger.info("ondelete_archive")
+    tool = queryUtility(IMicroblogTool)
+    if not hasattr(tool, '_status_archive'):
+        logger.info("Adding missing status archive")
+        tool._status_archive = LOBTree.LOBTree()
+    to_cleanup = set()
+    for (id, status) in tool.items(limit=None):
+        uuid = status._content_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+        uuid = status._microblog_context_uuid
+        if uuid and not status._uuid2object(uuid):
+            # postpone writing BTree while looping over its values
+            to_cleanup.add(id)
+    i = 0
+    for id in to_cleanup:
+        tool.delete(id, restricted=False)
+        i += 1
+    logger.info("archived %s statusupdates with stale uuid references", i)
     commit()

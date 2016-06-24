@@ -9,3 +9,4 @@ Appendices
    media_asset_storage_guidelines.rst
    infrastructure_overview.rst
    internet_domain_namespace.rst
+   configuration_using_portal_registry.rst

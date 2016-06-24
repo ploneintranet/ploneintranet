@@ -3,7 +3,7 @@
 from zope.interface import Interface
 from zope import schema
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IPloneintranetSearchLayer(Interface):

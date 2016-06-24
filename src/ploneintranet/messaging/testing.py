@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import unittest
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
@@ -26,11 +27,23 @@ class PloneIntranetmessagingLayer(PloneSandboxLayer):
 
 
 PLONEINTRANET_MESSAGING_FIXTURE = PloneIntranetmessagingLayer()
-PLONEINTRANET_MESSAGING_INTEGRATION_TESTING = IntegrationTesting(
+INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEINTRANET_MESSAGING_FIXTURE,),
     name='PloneIntranetmessagingLayer:Integration'
 )
-PLONEINTRANET_MESSAGING_FUNCTIONAL_TESTING = FunctionalTesting(
+FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEINTRANET_MESSAGING_FIXTURE, z2.ZSERVER_FIXTURE),
     name='PloneIntranetmessagingLayer:Functional'
 )
+
+
+class IntegrationTestCase(unittest.TestCase):
+    """Base class for integration tests."""
+
+    layer = INTEGRATION_TESTING
+
+
+class FunctionalTestCase(unittest.TestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL_TESTING

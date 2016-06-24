@@ -32,6 +32,9 @@ msgstr ""
 msgid "PowerPoint 2007 presentation"
 msgstr ""
 
+msgid "ODT document"
+msgstr ""
+
 msgid "Zip archive"
 msgstr ""
 
@@ -79,4 +82,31 @@ msgstr ""
 #: ../layout/browser/templates/dashboard.pt
 #. Cases
 msgid "tile_ploneintranet.workspace.case"
+msgstr ""
+
+#. Default: "My Documents"
+msgid "my_docs_heading_workspaces"
+msgstr ""
+
+#. Default: "Library"
+msgid "my_docs_heading_library"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "has_created"
+msgstr ""
+
+msgid "has_published"
+msgstr ""
+
+#change security settings on a generic workspace
+msgid "Make private"
+msgstr ""
+
+msgid "Make open"
+msgstr ""
+
+msgid "Make secret"
 msgstr ""

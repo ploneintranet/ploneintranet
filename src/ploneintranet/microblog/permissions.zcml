@@ -12,4 +12,30 @@
       id="ploneintranet.microblog.ViewStatusUpdate"
       title="Plone Social: View Microblog Status Update"
       />
+
+  <!-- statusupdates have no local 'owner' role
+       instead we check against global permissions
+       and compare with the creator userid
+  -->
+  <permission
+      id="ploneintranet.microblog.ModifyOwnStatusUpdate"
+      title="Plone Social: Modify Own Microblog Status Update"
+      />
+
+  <permission
+      id="ploneintranet.microblog.DeleteOwnStatusUpdate"
+      title="Plone Social: Delete Own Microblog Status Update"
+      />
+
+  <!-- "manage" permissions only assigned to admins not owners -->
+  <permission
+      id="ploneintranet.microblog.ModifyStatusUpdate"
+      title="Plone Social: Modify Microblog Status Update"
+      />
+
+  <permission
+      id="ploneintranet.microblog.DeleteStatusUpdate"
+      title="Plone Social: Delete Microblog Status Update"
+      />
+
 </configure>

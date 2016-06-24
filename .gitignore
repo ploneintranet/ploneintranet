@@ -7,7 +7,9 @@
 .buildout/
 .cache/
 .config/
+.coverage
 .dbus/
+.gem/
 .gitconfig
 .installed.cfg
 .mozilla/
@@ -17,6 +19,7 @@
 .pypirc
 .ssh/
 .Python
+.DS_Store
 pip-selfcheck.json
 .*.sw[op]
 bin/
@@ -33,10 +36,14 @@ node_modules/
 .pki/
 parts/
 /prototype
+/share/python-wheels
 release/
+/src/collective.*
+/src/quaive.app.*
 src/sphinx.themes.plone/
 stamp-bower
 stamp-npm
 uuid.txt
 var/
 vendor/
+ldap/data/

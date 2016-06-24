@@ -1,40 +1,68 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.i18n.normalizer import idnormalizer
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
-from ploneintranet.workspace.case import create_case_from_template
+from ploneintranet.workspace.basecontent.utils import get_selection_classes
 from ploneintranet.workspace.utils import parent_workspace
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.container.interfaces import INameChooser
 from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
 
 
-class AddContent(BrowserView):
-    """
-    Evaluate simple form and add arbitrary content.
-    """
-
+class AddBase(BrowserView):
+    ''' Basic stuff for adding contents
+    '''
     template = ViewPageTemplateFile('templates/add_content.pt')
     can_edit = True
 
-    def __call__(self, portal_type='', title=None):
-        """Evaluate form and redirect"""
-        if title is not None:
-            self.portal_type = portal_type.strip()
-            self.title = title.strip()
-            if self.portal_type in api.portal.get_tool('portal_types'):
-                url = self.create()
-                return self.redirect(url)
-        return self.template()
+    def redirect(self, url):
+        """
+        Has its own method to allow overriding
+        """
+        url = '{}/view'.format(url)
+        return self.request.response.redirect(url)
 
     def validate(self):
         ''' Validate input and return a truish
         '''
         return True
+
+    def get_new_unique_id(self):
+        ''' This will get a new unique id according to the request
+        '''
+        form = self.request.form
+        title = self.title or form.get('title')
+        request_id = form.get('id')
+
+        chooser = INameChooser(self.context)
+        new_id = chooser.chooseName(
+            idnormalizer.normalize(request_id or title),
+            self.context
+        )
+        return new_id
+
+    def get_new_object(self):
+        ''' This will create a new object
+        '''
+        obj = api.content.create(
+            container=self.context,
+            type=self.portal_type,
+            id=self.get_new_unique_id(),
+            title=self.title or self.request.get('title'),
+            safe_id=False,
+        )
+        return self.context[obj.getId()]
+
+    def update(self, obj):
+        ''' Update the object and returns the modified fields and errors
+        '''
+        modified, errors = dexterity_update(obj)
+        return modified, errors
 
     def create(self):
         """
@@ -48,63 +76,17 @@ class AddContent(BrowserView):
             # so we cannot show that one here
             pass
 
-        form = self.request.form
-        new = None
-
-        # BBB: this should be moved to a proper validate function!
-        if self.portal_type == 'ploneintranet.workspace.case':
-            template_id = form.get('template_id')
-            if template_id:
-                title = form.get('title')
-                case_id = idnormalizer.normalize(title)
-                new = create_case_from_template(template_id, case_id)
-            else:
-                api.portal.show_message(
-                    _('Please specify which Case Template to use'),
-                    request=self.request,
-                    type="error",
-                )
-        else:
-            container = self.context
-            new = api.content.create(
-                container=container,
-                type=self.portal_type,
-                title=self.title,
-                safe_id=True,
-            )
-
-        if not new:
-            return self.context.absolute_url()
-
-        if self.portal_type == 'ploneintranet.workspace.workspacefolder':
-            if 'scenario' in form:
-                if form['scenario'] == '1':
-                    external_visibility = 'secret'
-                    join_policy = 'admin'
-                    participant_policy = 'producers'
-                elif form['scenario'] == '2':
-                    external_visibility = 'private'
-                    join_policy = 'team'
-                    participant_policy = 'moderators'
-                elif form['scenario'] == '3':
-                    external_visibility = 'open'
-                    join_policy = 'self'
-                    participant_policy = 'publishers'
-                else:
-                    raise AttributeError
-
-                new.set_external_visibility(external_visibility)
-                new.join_policy = join_policy
-                new.participant_policy = participant_policy
-
-        modified, errors = dexterity_update(new)
+        new = self.get_new_object()
+        modified, errors = self.update(new)
 
         if not errors:
             api.portal.show_message(
-                _("Item created."), request=self.request, type="success")
+                _("Item created."),
+                request=self.request,
+                type="success"
+            )
             new.reindexObject()
-            notify(ObjectModifiedEvent(new))
-
+            notify(ObjectCreatedEvent(new))
         else:
             api.portal.show_message(
                 _("There was a problem: %s." % errors),
@@ -114,20 +96,28 @@ class AddContent(BrowserView):
 
         return new.absolute_url()
 
-    def redirect(self, url):
-        """
-        Has its own method to allow overriding
-        """
-        url = '{}/view'.format(url)
-        return self.request.response.redirect(url)
+    def __call__(self):
+        """Render form, or handle POST and redirect"""
+        title = self.request.form.get('title', None)
+        portal_type = self.request.form.get('portal_type', '')
+        if title is not None:
+            self.portal_type = portal_type.strip()
+            self.title = title.strip()
+            if self.portal_type in api.portal.get_tool('portal_types'):
+                url = self.create()
+                return self.redirect(url)
+        return self.template()
 
 
-class AddFolder(AddContent):
+# AddWorkspace now lives in add_workspace.AddWorkspace
+
+
+class AddFolder(AddBase):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
 
 
-class AddTask(AddContent):
+class AddTask(AddBase):
 
     template = ViewPageTemplateFile('templates/add_task.pt')
 
@@ -136,7 +126,7 @@ class AddTask(AddContent):
         return self.request.response.redirect(workspace.absolute_url())
 
 
-class AddEvent(AddContent):
+class AddEvent(AddBase):
 
     template = ViewPageTemplateFile('templates/add_event.pt')
 
@@ -215,3 +205,7 @@ class AddEvent(AddContent):
         if minutes == "60":
             minutes = "00"
         return hours + ":" + minutes
+
+    def get_selection_classes(self, field, default=None):
+        """ identify all groups in the invitees """
+        return get_selection_classes(self.context, field, default)

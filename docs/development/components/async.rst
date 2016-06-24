@@ -111,6 +111,20 @@ A special helper view `{portal_url}/@@async-status` implements a self-test on th
 
 If the unit tests pass but this one doesn't, it's a deployment issue.
 
+Debugging test problems
+-----------------------
+
+Because part of the async execution is running in a different process, in Celery, you can't
+just inject a `pdb` there. Instead, rely on the extensive logging.
+
+Normally, the test starts up it's own Celery, but only if there's not already a Celery process
+running. To debug test execution, start a Celery instance in debug log level to see what's
+going on during the tests::
+
+    bin/celery -A ploneintranet.async.celerytasks worker -l DEBUG
+
+Then run the tests from another terminal.
+
 
 Adding a new async task
 =======================

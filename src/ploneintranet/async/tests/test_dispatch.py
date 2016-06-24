@@ -52,6 +52,18 @@ class TestDispatch(IntegrationTestCase):
 
 
 class TestPost(FunctionalTestCase):
+    """
+    Verify async roundtrip. You can test this interactively
+    at: http://localhost:8080/Plone/@@async-status
+
+    You can debug async tests by attaching another terminal to the testenv
+    and starting celery in debug mode there::
+    docker exec -it <container> bash
+    bin/celery -A ploneintranet.async.celerytasks worker -l DEBUG
+    """
+
+    def setUpPlonesite(self, portal):
+        super(TestPost, self).setUpPloneSite(portal)
 
     def test_post(self):
         """Verify http post async task execution"""

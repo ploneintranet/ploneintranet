@@ -128,7 +128,8 @@ def dispatch(url, data={}, headers={}, cookies={}):
             logger.error(
                 "Error logged in {portal_url}/error_log/showEntry?id=%s",
                 errcode)
-    elif 'login_form' in resp.text:
+    elif 'login_form' in resp.text \
+         or 'Insufficient Privileges' in resp.text:
         logger.error("Unauthorized (masked as 200 OK)")
     else:
         logger.info("%s: %s", resp.status_code, resp.reason)

@@ -1,3 +1,4 @@
+import unittest
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
@@ -29,11 +30,23 @@ class PloneintranetinvitationsLayer(PloneSandboxLayer):
         helpers.applyProfile(portal, 'ploneintranet.invitations:default')
 
 PLONEINTRANET_INVITATIONS_FIXTURE = PloneintranetinvitationsLayer()
-PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING = IntegrationTesting(
+INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEINTRANET_INVITATIONS_FIXTURE,),
     name='PloneintranetinvitationsLayer:Integration'
 )
-PLONEINTRANET_INVITATIONS_FUNCTIONAL_TESTING = FunctionalTesting(
+FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEINTRANET_INVITATIONS_FIXTURE, z2.ZSERVER_FIXTURE),
     name='PloneintranetinvitationsLayer:Functional'
 )
+
+
+class IntegrationTestCase(unittest.TestCase):
+    """Base class for integration tests."""
+
+    layer = INTEGRATION_TESTING
+
+
+class FunctionalTestCase(unittest.TestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL_TESTING

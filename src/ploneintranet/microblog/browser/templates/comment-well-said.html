@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      >
+
+<body>
+
+  <!-- ploneintranet.prototype/feedback/comment-well-said.html -->
+  <div id="${string:comment-trail-${view/thread_id}}"
+       tal:condition="view/post"
+       tal:content="structure view/render_comment"
+     />
+  <div tal:replace="structure context/@@update-social.html" />
+
+</body>
+
+</html>

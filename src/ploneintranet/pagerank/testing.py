@@ -22,9 +22,6 @@ class PloneIntranetPagerank(PloneSandboxLayer):
         # we're loading all of ploneintranet so we can
         # use the included demo site for testing
 
-        import ploneintranet.socialsuite
-        self.loadZCML(package=ploneintranet.socialsuite)
-
         import ploneintranet.microblog
         self.loadZCML(package=ploneintranet.microblog)
 
@@ -39,9 +36,6 @@ class PloneIntranetPagerank(PloneSandboxLayer):
             'configure.zcml',
             package=plone.app.contenttypes,
         )
-
-        import ploneintranet.socialtheme
-        self.loadZCML(package=ploneintranet.socialtheme)
 
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'plone.app.contenttypes:default')

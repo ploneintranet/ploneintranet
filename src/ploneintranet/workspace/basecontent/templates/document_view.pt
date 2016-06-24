@@ -29,7 +29,7 @@
                   data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
               <div class="metadata pat-bumper" id="meta">
                 <div class="meta-bar">
-
+                  <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
                   <span class="title-group">
                     <h1 class="doc-title" id="document-title">${context/title}</h1>
                     <textarea name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title">${context/title}</textarea>
@@ -37,10 +37,20 @@
 
                   <div class="quick-functions">
                     <a href="${context/absolute_url}/external_edit"
-                       tal:condition="context/externalEditorEnabled/available"
-                       class="${view/icon_class} iconified">Open in External Editor</a>
-                    <a tal:condition="view/can_edit" href="${context/absolute_url}/delete_confirmation#content" title="Delete this document" i18n:attributes="title" data-pat-inject="source: #content" class="pat-modal icon-trash iconified" i18n:translate="">Delete</a>
+                       tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit"
+                       class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>
+                    <a tal:condition="view/can_edit"
+                       href="${context/absolute_url}/delete_confirmation#content"
+                       title="Delete this document"
+                       i18n:attributes="title"
+                       data-pat-inject="source: #content; hooks:"
+                       class="pat-modal icon-trash iconified"
+                       i18n:translate=""
+                      >Delete</a>
                     <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
+                    <tal:history tal:condition="exists:here/@@app-audit-button">
+                      <a tal:replace="structure here/@@app-audit-button" />
+                    </tal:history>
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                     <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
@@ -57,7 +67,7 @@
                     <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
                   </div><!-- quick-functions -->
                 </div> <!-- #meta-bar -->
-                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar"><p class="loader">Loading…</p></div>
+                <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader">Loading…</p></div>
 
                 <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                   <fieldset class="bar">
@@ -85,21 +95,29 @@
 
               <div id="document-content">
                 <article class="document rich" tal:condition="python: context.portal_type == 'Document'">
-                  <textarea tal:condition="not:read_only" name="text" class="pat-raptor"
-                        data-pat-raptor="toolbar-type: standard; toolbar-external: #editor-toolbar .loader;
-                            buttons: tagMenu, alignCenter, alignLeft, historyRedo, historyUndo, hrCreate, linkCreate, linkRemove, listOrdered, listUnordered, textBlockQuote, textBold, textItalic, textStrike, tableCreate, tableDeleteColumn, tableDeleteRow, tableInsertColumn, tableInsertRow, patternImagePicker;
-                            image-picker-url: ${workspace_url}/@@panel-image-picker"
+                  <textarea tal:condition="not:read_only" name="text" class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
+                        data-pat-redactor="imageupload: ${workspace_url}/fileUpload; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
                         tal:content="python: context.text.raw if context.text else ''">
                     Content of the textarea
                   </textarea>
                   <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
                 </article>
 
+                <tal:c condition="python: context.portal_type == 'File'">
                 <article class="document preview" tal:condition="view/is_available">
                   <tal:previews tal:repeat="preview view/previews">
                     <img src="${preview}" />
                   </tal:previews>
                 </article>
+                <article class="document preview" tal:condition="not:view/is_available">
+                  <p class="message no-preview">
+                        <strong class="title" tal:content="context/Title">projection-material.doc</strong>
+                        <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
+                        <em class="byline" tal:condition="view/is_allowed_document_type" i18n:translate="">Preview being generated</em>
+                        <em class="byline" tal:condition="not:view/is_allowed_document_type" i18n:translate="">No preview available</em>
+                  </p>
+                </article>
+                </tal:c>
 
                 <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
                   <figure>
@@ -109,6 +127,12 @@
               </div><!-- #document-content -->
               <input type="hidden" name="form.submitted" value="1" />
             </form>
+
+            <div tal:replace="structure context/@@content-stream.html">
+              #comments-document-comments document discussion goes here
+              implementation is in ploneintranet.activitystream
+            </div>
+            
           </div><!-- #document-body -->
           <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
           </aside>

@@ -16,8 +16,8 @@ ADDITIONAL_DEPENDENCIES = [
 
 
 def uninstall(context):
-    if context.readDataFile('ploneintranet.suite_uninstall.txt') is None:
-        return
+    """Run when installing the uninstall-profile.
+    """
     portal = api.portal.get()
     uninstall_dependencies(portal)
 

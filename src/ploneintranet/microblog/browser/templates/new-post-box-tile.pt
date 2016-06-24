@@ -1,0 +1,7 @@
+<html>
+    <body>
+
+      <div tal:replace="structure context/@@update-social.html" />
+
+    </body>
+</html>

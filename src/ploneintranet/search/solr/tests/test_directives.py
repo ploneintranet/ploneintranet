@@ -1,8 +1,8 @@
 from zope.component import queryUtility
 from zope.interface.verify import verifyObject
 
-from .. import testing
-from ..interfaces import IConnectionConfig
+from ploneintranet.search.solr import testing
+from ploneintranet.search.solr.interfaces import IConnectionConfig
 
 
 class TestSolrConfigDirective(testing.IntegrationTestCase):

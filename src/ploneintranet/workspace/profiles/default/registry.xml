@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.case_manager.states">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_case_manager_states">Case Manager Workflow States</title>
+      <description i18n:translate="help_case_manager_states">Only these States are shown for filtering</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>new</element>
+      <element>pending</element>
+      <element>published</element>
+      <element>rejected</element>
+      <element>frozen</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.externaleditor_always_activated">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <description i18n:translate="help_externaleditor_always_activated">When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used.</description>
+      <required>False</required>
+      <title i18n:translate="label_externaleditor_always_activated">External Editor always activated.</title>
+    </field>
+    <value purge="false">False</value>
+  </record>
+  <record name="ploneintranet.workspace.my_workspace_sorting">
+    <field type="plone.registry.field.TextLine">
+      <default>title</default>
+      <title i18n:translate="label_my_workspace_sorting">My workspace sorting.</title>
+      <description i18n:translate="help_my_workspace_sorting">
+        At the moment we are able to handle the values "alphabet" and "newest".
+        Planned is to allow sorting on "active".
+      </description>
+      <required>True</required>
+    </field>
+    <value purge="false">alphabet</value>
+  </record>
+  <record name="ploneintranet.workspace.workspace_type_filters">
+    <field type="plone.registry.field.Dict">
+      <title i18n:translate="label_workspace_type_filters">Workspace type filters</title>
+      <description i18n:translate="help_workspace_type_filters">Workspace types which can be used for filtering on the workspaces view</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element key="ploneintranet.workspace.workspacefolder">Generic workspaces</element>
+      <element key="ploneintranet.workspace.case">Cases</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.workspace_types_css_mapping">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_workspace_types_css_mapping">Maps workspace portal types to css classes</title>
+      <description i18n:translate="help_workspace_types_css_mapping">
+        If a portal_type is not here it will default to regular.
+        The values should be passed as "{type}|{css class}",
+        e.g. "ploneintranet.workspace.case|type-case"
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>ploneintranet.workspace.case|type-case</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.sanitize_html">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <description i18n:translate="help_sanitize_html">If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break.</description>
+      <required>False</required>
+      <title i18n:translate="label_sanitize_html">Sanitize HTML on saving.</title>
+    </field>
+    <value purge="false">True</value>
+  </record>
+</registry>

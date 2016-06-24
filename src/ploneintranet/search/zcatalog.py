@@ -1,12 +1,14 @@
+# coding=utf-8
+from collections import Counter
+import Missing
 from plone import api
 from plone.batching import Batch
+from ploneintranet.search import base
+from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.search.interfaces import ISearchResponse
+from ploneintranet.search.interfaces import ISearchResult
 from zope.component import adapter
 from zope.interface import implementer
-
-from . import base
-from .interfaces import ISiteSearch
-from .interfaces import ISearchResponse
-from .interfaces import ISearchResult
 
 
 @implementer(ISiteSearch)
@@ -33,10 +35,20 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_filters(self, query, filters):
-        query = dict(query)
-        tags = filters.get('tags')
-        if tags is not None:
-            query['Subject'] = filters.pop('tags')
+        # Do not apply empty filters to the catalog
+        query = {
+            key: value
+            for key, value in dict(query).iteritems()
+            if value or value is False
+        }
+        filters = {
+            key: value
+            for key, value in filters.iteritems()
+            if value or value is False
+        }
+        # Rename tags in Subject
+        if 'tags' in filters:
+            filters['Subject'] = filters.pop('tags')
         query.update(filters)
         return query
 
@@ -58,6 +70,8 @@ class SiteSearch(base.SiteSearch):
         return dict(query, batch_start=start, batch_step=step)
 
     def execute(self, query, secure=True, **kw):
+        ''' The sort parameter
+        '''
         start = query.pop('batch_start', 0)
         step = query.pop('batch_step', 100)
         catalog = api.portal.get_tool(name='portal_catalog')
@@ -65,6 +79,20 @@ class SiteSearch(base.SiteSearch):
             search = catalog.searchResults
         else:
             search = catalog.unrestrictedSearchResults
+        sort = kw.get('sort')
+        if sort and isinstance(sort, basestring):
+            # valid sort values:
+            #  - 'created': sort results ascending by creation date
+            #  - '-created': sort results descending by creation date
+            #  - 'title': sort results ascending by title
+            if sort == 'title':
+                sort = 'sortable_title'
+            if sort.startswith('-'):
+                query['sort_order'] = 'descending'
+                query['sort_on'] = sort[1:]
+            else:
+                query['sort_on'] = sort
+
         brains = search(query)
         return Batch(brains, step, start)
 
@@ -98,13 +126,23 @@ class SearchResponse(base.SearchResponse):
             else:
                 catalog_field = field
 
+            values = []
             if hasattr(all_results[0][catalog_field], '__iter__'):
                 # Support keyword-style fields (e.g. tags)
-                self.facets[field] = {y for x in all_results
-                                      for y in x[catalog_field] if y}
+                [values.extend(x[catalog_field]) for x in all_results]
             else:
-                self.facets[field] = {x[catalog_field]
-                                      for x in all_results if x[catalog_field]}
+                [values.append(x[catalog_field]) for x in all_results]
+            # from ploneintranet.suite.tests import robot_trace; robot_trace()
+            if values:
+                values = (x for x in values if x != Missing.Value)
+                values = [
+                    {
+                        'name': name,
+                        'count': count,
+                    }
+                    for name, count in Counter(values).iteritems()
+                ]
+            self.facets[field] = values
 
 
 @implementer(ISearchResult)
@@ -113,6 +151,13 @@ class SearchResult(base.SearchResult):
     and an ISearchResponse
     """
 
+    def getObject(self):
+        return self.context.getObject()
+
     @property
     def path(self):
         return self.context.getPath()
+
+    @property
+    def review_state(self):
+        return self.context.review_state

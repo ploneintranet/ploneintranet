@@ -1,16 +1,11 @@
-import unittest
-
 from zope.component import getUtility
 
 from ploneintranet.invitations.interfaces import ITokenUtility
-from ploneintranet.invitations.testing import \
-    PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+from ploneintranet.invitations.testing import IntegrationTestCase
 from ploneintranet.invitations.token import Token
 
 
-class TestTokenUtility(unittest.TestCase):
-
-    layer = PLONEINTRANET_INVITATIONS_INTEGRATION_TESTING
+class TestTokenUtility(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

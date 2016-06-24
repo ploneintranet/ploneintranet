@@ -4,7 +4,7 @@ from zope.interface import Interface
 
 from plone.uuid.interfaces import IUUIDAware
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IStatusUpdate(Interface):
@@ -17,11 +17,16 @@ class IStatusUpdate(Interface):
     userid = schema.TextLine(title=_(u"Userid"))
     creation_date = schema.Date(title=_(u"Creation date"))
     tags = Attribute("Tags/keywords")
-
-    # the UUID of the IMicroblogContext
-    context_UUID = Attribute("UUID of IMicroblogContext (e.g. a workspace)")
+    _microblog_context_uuid = Attribute(
+        "UUID of IMicroblogContext (e.g. a workspace)"
+    )
     # actual object context
     context_object = Attribute("UUID of context object (e.g. a Page)")
+
+    # uuid of an object related to this post
+    _content_context_uuid = Attribute(
+        "UUID of the object related to the status update"
+    )
     thread_id = Attribute("status.id from parent")
 
     def replies():
@@ -60,25 +65,25 @@ class IStatusContainer(Interface):
     def get(key):
         """Fetch an IStatusUpdate by IStatusUpdate.id key."""
 
-    def items(min=None, max=None, limit=100, tag=None):
+    def items(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        returns matching for either users or tags, if given.
         """
 
-    def keys(min=None, max=None, limit=100, tag=None):
+    def keys(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        returns matching for either users or tags, if given.
         """
 
-    def values(min=None, max=None, limit=100, tag=None):
+    def values(min=None, max=None, limit=100, tags=None, users=None):
         """BTree compatible accessor.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
+        returns matching for either users or tags, if given.
         """
 
     iteritems = items
@@ -87,72 +92,63 @@ class IStatusContainer(Interface):
 
     # user_* accessors
 
-    def user_items(users, min=None, max=None, limit=100, tag=None):
+    def user_items(users, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def user_keys(users, min=None, max=None, limit=100, tag=None):
+    def user_keys(users, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def user_values(users, min=None, max=None, limit=100, tag=None):
+    def user_values(users, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by iterable of userids.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
     # context_* accessors
 
-    def context_items(context, min=None, max=None, limit=100, tag=None):
+    def context_items(context, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
         context <object> filters on StatusUpdates keyed to that context's UUID.
         """
 
-    def context_keys(context, min=None, max=None, limit=100, tag=None):
+    def context_keys(context, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def context_values(context, min=None, max=None, limit=100, tag=None):
+    def context_values(context, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by IMicroblogContext object.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
-
         """
 
     # mention_* accessors
 
-    def mention_items(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_items(mentions, min=None, max=None, limit=100):
         """Filter (key, IStatusUpdate) items by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def mention_keys(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_keys(mentions, min=None, max=None, limit=100):
         """Filter IStatusUpdate keys by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
-    def mention_values(mentions, min=None, max=None, limit=100, tag=None):
+    def mention_values(mentions, min=None, max=None, limit=100):
         """Filter IStatusUpdate values by mentions.
         min and max are longint IStatusUpdate.id keys.
         limit returns [:limit] most recent items
-        tag 'foo' filters status text on hashtag '#foo'
         """
 
 

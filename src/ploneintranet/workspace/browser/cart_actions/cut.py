@@ -1,27 +1,17 @@
 # -*- coding: utf-8 -*-
-"""A Cart Action for deleting all items listed in cart."""
-
 from OFS.CopySupport import _cb_encode
 from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
+from Products.CMFPlone.utils import safe_unicode
 from plone import api
-
-NAME = 'cut'
-TITLE = u'Cut'
-WEIGHT = 17
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 
-class CutAction(object):
+class CutView(BaseCartView):
     """Cut Action implementation that performs "cut" on the items in cart."""
 
-    name = NAME
-    title = TITLE
-    weight = WEIGHT
-
-    def __init__(self, context):
-        self.context = context
-
-    def run(self):
+    def __call__(self):
         """Cut all items currently in cart and add them to clipboard.
 
         The tricky part here is that the method that Plone uses
@@ -31,44 +21,55 @@ class CutAction(object):
         stuff that manage_cutObjects does in our own way.
 
         """
-        cart_view = self.context.restrictedTraverse('cart')
-        request = self.context.REQUEST
-        cart = cart_view.cart
 
-        # create a list of "Monik-ed" object paths for those objects
-        # that we will store into clipboard
+        request = self.request
         obj_list = []
+        cannot_cut = []
+        for obj in self.items:
+            if obj:
+                is_allowed = api.user.has_permission(
+                    'Delete objects', obj=obj)
+                is_locked = obj.wl_isLocked()
+                is_movable = obj.cb_isMoveable()
+                can_cut = is_allowed and is_movable and not is_locked
+                if can_cut:
+                    m = Moniker(obj)
+                    obj_list.append(m.dump())
+                else:
+                    cannot_cut.append(u'"%s"' % safe_unicode(obj.Title()))
 
-        for obj_uuid in cart:
-            obj = api.content.get(UID=obj_uuid)
-            if obj is None:
-                # An object that is in cart was apparently deleted by someone
-                # else and dosn't exist anymore, so there's nothing to do.
-                continue
+        if obj_list:
+            # now store cutdata into a cookie
+            # TODO: what if there's nothing in the list?
+            ct_data = (1, obj_list)
+            ct_data = _cb_encode(ct_data)  # probably means "clipboard encode"?
 
-            if obj.wl_isLocked():
-                continue
+            response = request.response
+            path = '{0}'.format(cookie_path(request))
+            response.setCookie('__cp', ct_data, path=path)
+            request['__cp'] = ct_data
 
-            if not obj.cb_isMoveable():
-                continue
+            msg = _(
+                u"batch_cut_success",
+                default=u"${num_elems} Files were cut and moved to your cloud clipboard.",  # noqa
+                mapping={"num_elems": len(obj_list)}
+            )
+            api.portal.show_message(
+                message=msg,
+                request=request,
+                type="info",
+            )
 
-            m = Moniker(obj)
-            obj_list.append(m.dump())
+        if cannot_cut:
+            msg = _(
+                u"batch_cut_failure",
+                default=u"The following items could not be cut: ${num_elems}",
+                mapping={"num_elems": ', '.join(sorted(cannot_cut))}
+            )
+            api.portal.show_message(
+                message=msg,
+                request=request,
+                type="info",
+            )
 
-        # now store cutdata into a cookie
-        # TODO: what if there's nothing in the list?
-        ct_data = (1, obj_list)
-        ct_data = _cb_encode(ct_data)  # probably means "clipboard encode"?
-
-        response = request.response
-        path = '{0}'.format(cookie_path(request))
-        response.setCookie('__cp', ct_data, path=path)
-        request['__cp'] = ct_data
-
-        api.portal.show_message(
-            message="{0} item(s) cut.".format(len(obj_list)),
-            request=request,
-            type="info")
-
-        portal = api.portal.get()
-        response.redirect(portal.absolute_url())
+        self.request.response.redirect(self.context.absolute_url())

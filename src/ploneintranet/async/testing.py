@@ -4,6 +4,7 @@ import base64
 import os
 import socket
 import subprocess
+import sys
 import time
 import unittest
 
@@ -13,6 +14,8 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 
 from plone.testing import z2
 from plone.testing import Layer
@@ -30,6 +33,9 @@ _BUILDOUT_BIN_DIR = os.path.abspath(
 class CeleryLayer(Layer):
     """A Celery test layer that fires up and shuts down a Celery worker,
     but only if there's not already a Celery worker running.
+
+    You can start a celery worker manually for test debugging:
+    bin/celery -A ploneintranet.async.celerytasks worker -l DEBUG
     """
 
     tasks = 'ploneintranet.async.celerytasks'
@@ -38,8 +44,21 @@ class CeleryLayer(Layer):
         """Check whether celery is already running, else start a worker"""
         super(CeleryLayer, self).setUp()
         self.worker = None
-        if not self._celery_running():
+        if self._celery_running():
+            sys.stdout.write('[Re-using existing Celery worker] ')
+        else:
             self._celery_worker()
+            i = 0
+            while i < 10:
+                if self._celery_running():
+                    sys.stdout.write('[Celery connected] ')
+                    break
+                else:
+                    i += 1
+                    time.sleep(1)
+        if not self._celery_running():
+            # Do not raise. Let test_dispatch figure out what is wrong.
+            print('Celery could not be started (is Redis running?)')
 
     def tearDown(self):
         """Stop celery but only if we started it"""
@@ -48,13 +67,17 @@ class CeleryLayer(Layer):
         super(CeleryLayer, self).tearDown()
 
     def _celery_worker(self):
-        command = ['%s/celery' % _BUILDOUT_BIN_DIR, '-A', self.tasks, 'worker']
+        # allow root worker for gitlab-ci, only impacts tests run as root
+        # does not run as root unless the tests are also run as root
+        command = ['%s/celery' % _BUILDOUT_BIN_DIR,
+                   '-A', self.tasks, 'worker']
         self.worker = subprocess.Popen(
             command,
             close_fds=True,
             cwd=_BUILDOUT_BIN_DIR,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
+            env={'C_FORCE_ROOT': 'true'}
         )
         print('Celery worker (PID:{0.pid})'.format(self.worker))
 
@@ -94,11 +117,15 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         # Load ZCML
         import ploneintranet.async
         self.loadZCML(package=ploneintranet.async)
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Install into Plone site using portal_setup
         applyProfile(portal, 'ploneintranet.async:default')
+        applyProfile(portal, 'ploneintranet.docconv.client:default')
+        setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownZope(self, app):
         """Tear down Zope."""

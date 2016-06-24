@@ -14,11 +14,9 @@
     <includeDependencies package="." />
 
     <include package=".viewlets" />
+    <include package=".adapters" />
     <include package=".browser" />
-
-    <!-- include package=".tests" if you want to do interactive testing -->
-    <include package=".tests" />
-
+    <include package=".upgrades" />
 
     <!-- switch off all IAppLayer on the navigation root -->
     <subscriber
@@ -35,6 +33,7 @@
         directory="profiles/default"
         description="Extension profile for ploneintranet.layout."
         provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler="ploneintranet.layout.setuphandlers.setupVarious"
         />
 
     <genericsetup:registerProfile
@@ -43,19 +42,7 @@
         directory="profiles/uninstall"
         description="Extension profile for ploneintranet.layout."
         provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler="ploneintranet.layout.setuphandlers.uninstall"
         />
-
-    <genericsetup:importStep
-        name="ploneintranet.layout.setupVarious"
-        title="Delete default frontpage and configure dashboard as default"
-        description=""
-        handler="ploneintranet.layout.setuphandlers.setupVarious">
-    </genericsetup:importStep>
-
-    <genericsetup:importStep
-        name="ploneintranet.layout.uninstall"
-        title="Plone Intranet Laout: uninstall steps"
-        description="Various uninstall steps that are not handled by GS import/export handlers."
-        handler="ploneintranet.layout.setuphandlers.uninstall" />
 
 </configure>

@@ -14,7 +14,7 @@ from plone.app.portlets.portlets import base
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ..interfaces import ITodoUtility
 from ..interfaces import MUST_READ
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class ILatest(IPortletDataProvider):

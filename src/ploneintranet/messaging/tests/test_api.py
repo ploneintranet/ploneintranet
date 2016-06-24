@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from ploneintranet.messaging.testing import \
-    PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+from ploneintranet.messaging.testing import FunctionalTestCase
 from zope.interface.verify import verifyClass
-
-import unittest
-
 
 now = datetime.now
 
 
-class ApiTestCase(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+class ApiTestCase(FunctionalTestCase):
+    """
+    Even though these tests don't commit, the code they're calling may.
+    Hence FunctionalTestCase.
+    """
 
     def setUp(self):
         from ploneintranet.messaging.messaging import Inboxes

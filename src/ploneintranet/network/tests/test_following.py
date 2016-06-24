@@ -83,3 +83,16 @@ class TestFollowing(IntegrationTestCase):
         g.follow('tag', 'bar', 'alex')
         g.unfollow('tag', 'foo', 'alex')
         self.assertEqual(['bar'], list(g.get_following('tag', 'alex')))
+
+
+class TestFollowingDefaults(IntegrationTestCase):
+    """Check fallbacks to currently logged in user."""
+
+    def test_user_follow_unfollow(self):
+        g = NetworkGraph()
+        g.follow('user', u'bernard ☀')
+        self.assertTrue(g.is_following('user', u'bernard ☀'))
+        self.assertIn(u'bernard ☀', g.get_following('user'))
+        g.unfollow('user', u'bernard ☀')
+        self.assertFalse(g.is_following('user', u'bernard ☀'))
+        self.assertNotIn(u'bernard ☀', g.get_following('user'))

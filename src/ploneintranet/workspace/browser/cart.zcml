@@ -13,42 +13,40 @@
     <implements interface="zope.annotation.interfaces.IAttributeAnnotatable" />
   </class>
 
-  <browser:page
-      name="cart"
+  <browser:pages
       for="*"
-      class=".cart.Cart"
       permission="zope2.View"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
+      class=".cart_actions.delete.DeleteView">
+    <browser:page name="cart-delete" attribute="delete"/>
+    <browser:page name="cart-delete-confirm" attribute="confirm"/>
+  </browser:pages>
 
-  <!-- Action registration -->
-
-  <adapter
+  <browser:pages
       for="*"
-      factory=".cart_actions.copy.CopyAction"
-      name="copy"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      permission="zope2.View"
+      class=".cart_actions.mail.MailView">
+    <browser:page name="cart-mail" attribute="send"/>
+    <browser:page name="cart-mail-confirm" attribute="confirm"/>
+  </browser:pages>
 
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.cut.CutAction"
-      name="cut"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      permission="zope2.View"
+      class=".cart_actions.cut.CutView"
+      template="cart_actions/templates/message.pt"
+      name="cart-cut"/>
 
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.delete.DeleteAction"
-      name="delete"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      class=".cart_actions.copy.CopyView"
+      permission="zope2.View"
+      template="cart_actions/templates/message.pt"
+      name="cart-copy"/>
 
-  <adapter
+  <browser:page
       for="*"
-      factory=".cart_actions.download.DownloadAction"
-      name="download"
-      provides="ploneintranet.workspace.browser.cart.ICartAction"
-      />
+      class=".cart_actions.paste.PasteView"
+      permission="cmf.AddPortalContent"
+      name="cart-paste"/>
 
 </configure>

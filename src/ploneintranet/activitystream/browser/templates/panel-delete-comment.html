@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      i18n:domain="ploneintranet"
+      >
+  <body>
+
+    <div id="content" class="modal">
+      <div id="document-content" class="pat-modal ">
+        <h1 i18n:translate="">Delete comment</h1>
+    
+        <form method="post"
+              action="${view/traverse}/comment-deleted.html#document-content"
+              class="wizard-box pat-inject "
+              data-pat-inject="source: #document-content;
+                               target: #${context/thread_id}-comment-${context/id}::element">
+
+          <span tal:replace="structure view/context_url/@@authenticator/authenticator"/>
+          <input type="hidden" name="statusupdate_id" value="${context/id}">
+          <input type="hidden" name="delete" value="true"/>
+          
+          <div class="panel-body">
+            <article>
+	      <p i18n:translate="">
+		You are about to delete this comment. Are you sure?
+	      </p>
+            </article>
+          </div>
+          
+          <div class="buttons panel-footer">
+            <button type="submit" class="close-panel icon-ok-circle"
+                    i18n:translate="">
+              I am sure, delete now
+            </button>
+            <button type="button" class="close-panel icon-cancel-circle"
+                    i18n:translate="label_cancel">
+              Cancel
+            </button>
+          </div>
+          
+        </form>
+        
+      </div>
+    </div>
+  </body>
+</html>

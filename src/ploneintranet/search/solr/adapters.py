@@ -1,5 +1,6 @@
 import logging
 
+from plone import api
 from scorched import SolrInterface
 from zope.component import adapter
 from zope.interface import implementer
@@ -11,7 +12,7 @@ from .interfaces import IConnection
 from .interfaces import IConnectionConfig
 from .interfaces import IQuery
 from .interfaces import IResponse
-from .search import Search
+from .solr_search import Search
 
 
 logger = logging.getLogger(__name__)
@@ -46,9 +47,13 @@ class SearchResponse(base.SearchResponse):
     def _unpack_facets(self):
         facet_fields = self.context.facet_counts.facet_fields
         named_facets = {}
-        for (facet_field, items) in facet_fields.items():
-            field_facets = {name for (name, count) in items if count}
-            named_facets[facet_field] = field_facets
+        for key in facet_fields:
+            value = facet_fields[key]
+            field_facets = [
+                {'name': name, 'count': count}
+                for (name, count) in value if count
+            ]
+            named_facets[key] = field_facets
         return named_facets
 
     def _unpack_single_suggestion(self):
@@ -83,5 +88,15 @@ class SearchResult(base.SearchResult):
     """
 
     @property
+    def review_state(self):
+        return self.context.get('review_state', '')
+
+    @property
     def path(self):
         return self.context['path_string']
+
+    def getObject(self):
+        return api.portal.get().restrictedTraverse(
+            self.path.encode('utf8'),
+            None
+        )

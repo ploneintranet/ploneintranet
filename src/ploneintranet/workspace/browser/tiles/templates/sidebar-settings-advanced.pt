@@ -6,28 +6,87 @@
       i18n:domain="ploneintranet">
 <body>
     <div id="sidebar-content">
-        <div id="workspace-settings" tal:define="ws view/workspace">
+        <div id="workspace-settings"
+             tal:define="
+               ws view/workspace;
+               disable_attribute python: not view.can_manage_workspace() and 'disabled' or None;
+               token context/@@authenticator/token;
+             ">
 
             <div class="tabs-content">
-                <aside tal:condition="view/form_submitted" id="sidebar-statusmessage">
-                    <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
+                <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
+                  <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
                 </aside>
-                <form action="#" method="post" class="pat-inject pat-autosubmit"
-                            tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;
-                                            data-pat-inject string:target: #global-statusmessage;; source: #sidebar-statusmessage">
+                <form action="#" method="post" class="pat-inject pat-autosubmit" data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content"
+                            tal:attributes="action string:${ws/absolute_url}/@@sidebar.settings.advanced;">
                     <fieldset class="vertical">
                         <label>
                             <span tal:omit-tag="" i18n:translate="workspace_email_address">
                                 Workspace e-mail address</span>
                             <input type="email"
-                                   value=""
+                                   value="${ws/email}"
                                    placeholder="Workspace e-mail address"
                                    i18n:attributes="placeholder workspace_email_address"
                                    name="email"
-                                    tal:attributes="
-                                            value ws/email;
-                                            disabled not: view/can_manage_workspace"/>
+                                   disabled="${disable_attribute}"
+                                  />
                         </label>
+                    </fieldset>
+                    <fieldset class="pat-checklist" tal:condition="view/can_be_division">
+                        <label>
+                          <span tal:omit-tag="" i18n:translate="workspace_is_division">
+                          This represents a division</span>
+                          <input type="checkbox"
+                                 name="is_division"
+                                 value="selected"
+                                 checked="${python:getattr(context, 'is_division', False) == True and 'checked' or None}"
+                                 disabled="${disable_attribute}"
+                              />
+                          <input type="hidden" name="is_division-empty-marker" value="true" />
+                        </label>
+                    </fieldset>
+                    <fieldset class="vertical pat-depends"
+                              data-pat-depends="condition:is_division != selected">
+                        <label class="pat-select">
+                          <span tal:omit-tag="" i18n:translate="">This belongs to a division</span>
+                          <select name="division"
+                                  disabled="${disable_attribute}">
+                            <option i18n:translate="" value="">None</option>
+                            <tal:divisions repeat="division view/divisions">
+                              <option tal:condition="python:division.token != context.UID()"
+                                      value="${division/value}"
+                                      selected="${python:getattr(context, 'division', None) == division.value and 'selected' or None}"
+                                      >${division/title}</option>
+                          </tal:divisions>
+                          </select>
+                        </label>
+                    </fieldset>
+
+                    <fieldset class="vertical"
+                              tal:define="is_archived context/archival_date;
+                                          dt python:modules['DateTime'].DateTime();">
+                      <label class="pat-checklist">
+                        <tal:translate i18n:translate="">Archive workspace</tal:translate>
+                        <input type="checkbox" name="archival_date" value="1005"
+                               tal:attributes="checked python:is_archived and 'checked';
+                                               value python:is_archived if is_archived else dt.strftime('%Y-%m-%d');
+                                               "/>
+                        <input type="hidden" name="archival_date-empty-marker" value="true" />
+
+                      </label>
+                      <p class="pat-message pat-depends warning" tal:condition="is_archived" i18n:translate="info_was_archived_on">
+                        This workspace was archived on <time i18n:name="archival_date">${python:context.toLocalizedTime(context.archival_date, long_format=0)}</time>. Archived workspaces are hidden from the <a href="/workspaces" i18n:name="workspaces_page" i18n:translate="">workspaces page</a>, but can still be made visible by users by ticking 'Archived'.
+                      </p>
+                      <p class="pat-depends" data-pat-depends="condition: not archived" id="freeze"
+                         tal:define="freeze_view nocall:ws/freeze-view;
+                                     is_frozen freeze_view/is_frozen;"
+                         tal:condition="freeze_view/can_be_frozen">
+                        <!-- Freeze is hidden by means of a dependency in case of an archived workspace. -->
+                        <a class="button pat-button pat-inject" href="${ws/absolute_url}/content_status_modify?workflow_action=freeze&amp;_authenticator=${token}"
+                           tal:condition="not:is_frozen" i18n:translate="">Freeze case</a>
+                        <a class="button pat-button pat-inject" href="${ws/absolute_url}/@@unfreeze-view?_authenticator=${token}"
+                           tal:condition="is_frozen" i18n:translate="">Unfreeze case</a>
+                      </p>
                     </fieldset>
                 </form>
             </div>

@@ -33,6 +33,7 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
         portal.invokeFactory('Folder', 'folder')
+        portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
 
         # Commit so that the test browser sees these objects
         portal.portal_catalog.clearFindAndRebuild()

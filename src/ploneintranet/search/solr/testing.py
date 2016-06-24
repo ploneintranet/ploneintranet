@@ -15,7 +15,7 @@ from zope.component import getUtility
 import pkg_resources
 import requests
 
-from .. import testing
+from ploneintranet.search import testing as base_testing
 
 try:
     # Skip all SOLR tests and layers if SOLR has not been activated
@@ -119,7 +119,8 @@ NamedBaseLayers = collections.namedtuple(
 class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
     """ Basic Plone layer with SOLR support """
 
-    defaultBases = NamedBaseLayers(testing.FIXTURE, SOLR_FIXTURE)
+    defaultBases = NamedBaseLayers(base_testing.FIXTURE,
+                                   SOLR_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
         super(PloneIntranetSearchSolrLayer, self).setUpZope(
@@ -135,9 +136,11 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
                       name='testing.zcml')
 
     def testTearDown(self):
+        self.purge_solr()
+
+    def purge_solr(self):
         if not SOLR_ENABLED:
             return
-
         from .interfaces import IMaintenance
         getUtility(IMaintenance).purge()
 
@@ -145,7 +148,8 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
 class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
     """ Layer with SOLR support *and* example content """
 
-    defaultBases = (testing.FIXTURE, SOLR_FIXTURE,
+    defaultBases = (base_testing.FIXTURE,
+                    SOLR_FIXTURE,
                     PLONE_APP_CONTENTTYPES_FIXTURE)
 
     def setUpZope(self, app, configuration_context):
@@ -155,14 +159,13 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
 
-        import ploneintranet.microblog.statuscontainer
-        ploneintranet.microblog.statuscontainer.MAX_QUEUE_AGE = 0
-
         z2.installProduct(app, 'collective.workspace')
         z2.installProduct(app, 'collective.indexing')
         z2.installProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
+        # in case a previous teardown failed
+        self.purge_solr()
         # setup the default workflow
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # Install into Plone site using portal_setup
@@ -170,13 +173,7 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
 
     def tearDownPloneSite(self, portal):
         self.applyProfile(portal, 'ploneintranet.suite:uninstall')
-
-        if not SOLR_ENABLED:
-            return
-
-        # Final purge
-        from .interfaces import IMaintenance
-        getUtility(IMaintenance).purge()
+        self.purge_solr()
 
     def testTearDown(self):
         # Skip purging after every test
@@ -190,14 +187,21 @@ INTEGRATION_TESTING = IntegrationTesting(
     name='PloneIntranetSearchSolrLayer:Integration'
 )
 
+# no testcontent. create another fixture if you want that
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(FIXTURE,
+           z2.ZSERVER_FIXTURE),
+    name="PloneIntranetSearchSolrLayer:Functional")
+
+
 ROBOT_TESTING = FunctionalTesting(
     bases=(TEST_CONTENT_FIXTURE,
            PLONE_ROBOT_TESTING,
            z2.ZSERVER_FIXTURE),
-    name="PloneIntranetSearchSolrLayer:")
+    name="PloneIntranetSearchSolrLayer:Robot")
 
 
-class IntegrationTestCase(testing.IntegrationTestCase):
+class IntegrationTestCase(base_testing.IntegrationTestCase):
 
     _last_response = NotImplemented
 
@@ -211,3 +215,20 @@ class IntegrationTestCase(testing.IntegrationTestCase):
             from pprint import pprint
             pprint(json.loads(self._last_response))
         return super(IntegrationTestCase, self).failureException(msg)
+
+
+class FunctionalTestCase(base_testing.FunctionalTestCase):
+
+    _last_response = NotImplemented
+    layer = FUNCTIONAL_TESTING
+
+    def setUp(self):
+        super(FunctionalTestCase, self).setUp()
+        if not SOLR_ENABLED:
+            self.skipTest('Skipping SOLR tests - SOLR not enabled')
+
+    def failureException(self, msg):
+        if isinstance(self._last_response, str):
+            from pprint import pprint
+            pprint(json.loads(self._last_response))
+        return super(FunctionalTestCase, self).failureException(msg)

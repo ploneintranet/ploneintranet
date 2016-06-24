@@ -2,7 +2,7 @@ from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.tiles import Tile
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.i18nmessageid import MessageFactory
 from ploneintranet.workspace.utils import month_name
 
@@ -37,7 +37,7 @@ class EventsTile(Tile):
             sort_on='start',
             sort_order='ascending',
         )
-        return upcoming_events
+        return upcoming_events[:5]
 
     def format_event_date(self, event):
         """

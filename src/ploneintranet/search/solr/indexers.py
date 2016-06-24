@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
 import logging
+from Acquisition import aq_inner, aq_parent
+from OFS.interfaces import IOrderedContainer
 from urllib import urlencode
-
 from collective.indexing.interfaces import IIndexQueueProcessor
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.interfaces import IDexterityContent
@@ -13,9 +14,10 @@ from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
 import lxml.etree as etree
 import requests
+from ploneintranet.async.tasks import ReindexObject
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
-from .utilities import prepare_data
+from .solr_search import prepare_data
 
 
 logger = logging.getLogger(__name__)
@@ -61,27 +63,49 @@ class BinaryAdder(ContentAdder):
         :type data: collections.Mapping
         :returns:
         """
-        blob_data = self.blob_data
-        if blob_data is not None:
-            params = {}
-            headers = {'Content-type': data.get('content_type', 'text/plain')}
-            params['extractFormat'] = 'text'
-            params['extractOnly'] = 'true'
-            sparams = urlencode(params)
-            url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
-            try:
-                response = requests.post(url, data=blob_data, headers=headers)
-            except requests.ConnectionError as conn_err:
-                logger.exception(conn_err)
-            else:
-                tree = etree.fromstring(response.text.encode('utf-8'))
-                elems = tree.xpath('//response/str')
-                if elems:
-                    data['SearchableText'] = elems[0].text
-                else:
-                    logger.error(u'Failed to extract text from binary data '
-                                 u'for file upload: %r', data)
+        # async dispatch sets attributes
+        if self.context.REQUEST.get('attributes') == 'SearchableText':
+            logger.info("Indexing: Handle reindex of SearchableText")
+            data = self._add_handler(data)
+        else:
+            logger.info("Indexing: Dispatch reindex of SearchableText async")
+            # Dispatch an async job to also reindex the blob
+            ReindexObject(self.context, self.context.REQUEST)(
+                data=dict(attributes=["SearchableText"]),
+                countdown=10)
+
         super(BinaryAdder, self).add(data)
+
+    def _add_handler(self, data):
+        """Perform the actual reindex.
+        This handles the async request.
+        """
+        # An excplicit request to reindex Searchable text.
+        blob_data = self.blob_data
+        if blob_data is None:
+            return data
+        params = {}
+        headers = {'Content-type': data.get('content_type',
+                                            'text/plain')}
+        params['extractFormat'] = 'text'
+        params['extractOnly'] = 'true'
+        sparams = urlencode(params)
+        url = '{}update/extract?{}'.format(self.solr.conn.url, sparams)
+        try:
+            response = requests.post(url,
+                                     data=blob_data,
+                                     headers=headers)
+        except requests.ConnectionError as conn_err:
+            logger.exception(conn_err)
+        else:
+            tree = etree.fromstring(response.text.encode('utf-8'))
+            elems = tree.xpath('//response/str')
+            if elems:
+                data['SearchableText'] = elems[0].text
+            else:
+                logger.error(u'Failed to extract text from binary data'
+                             u' for file upload: %r', data)
+        return data
 
 
 @implementer(IIndexQueueProcessor)
@@ -268,9 +292,9 @@ class ContentIndexer(object):
 
     def commit(self):
         self._solr.commit(waitSearcher=None, expungeDeletes=True)
-        # TODO: Too expensive to do this every time?
-        # when do we optimize (and re-build the spellcheker) ?
-        self._solr.optimize(waitSearcher=None)
+        # Optimize: Too expensive to do this every time.
+        # Instead, call the solr-optimize browser view regularly (cron?)
+        # self._solr.optimize(waitSearcher=None)
 
     def index(self, obj, attributes=None):
         """Index the object.
@@ -309,7 +333,7 @@ def path_string(obj, **kwargs):
 @indexer(Interface)
 def path_depth(obj, **kwargs):
     """Return the depth of the physical path to the object."""
-    return len('/'.join(obj.getPhysicalPath()))
+    return len(obj.getPhysicalPath())
 
 
 @indexer(Interface)
@@ -317,3 +341,18 @@ def path_parents(obj, **kwargs):
     """Return all parent paths leading up to the object."""
     elements = obj.getPhysicalPath()
     return ['/'.join(elements[:n + 1]) for n in xrange(1, len(elements))]
+
+
+@indexer(Interface)
+def getObjPositionInParent(obj):
+    """ Helper method for catalog based folder contents.
+        Overwritten here to avoid problem during unindexing.
+    """
+    parent = aq_parent(aq_inner(obj))
+    ordered = IOrderedContainer(parent, None)
+    if ordered is not None:
+        try:
+            return ordered.getObjectPosition(obj.getId())
+        except ValueError:
+            return 0
+    return 0

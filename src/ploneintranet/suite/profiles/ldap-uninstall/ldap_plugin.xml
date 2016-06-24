@@ -1,0 +1,8 @@
+<?xml version="1.0"  ?>
+<ldapplugins>
+
+  <ldapplugin title="Plone managed LDAP" id="ldap-plugin" meta_type="Plone Active Directory plugin"
+              remove="True">
+  </ldapplugin>
+
+</ldapplugins>

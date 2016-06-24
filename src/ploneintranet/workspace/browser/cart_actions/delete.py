@@ -1,50 +1,55 @@
 # -*- coding: utf-8 -*-
 """A Cart Action for deleting all items listed in cart."""
-
-from plone import api
 from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
-NAME = 'delete'
-TITLE = u'Delete'
-WEIGHT = 20
 
+class DeleteView(BaseCartView):
 
-class DeleteAction(object):
-    """Delete Action implementation that deletes items listed in cart."""
+    def confirm(self):
+        index = ViewPageTemplateFile("templates/delete_confirmation.pt")
+        return index(self)
 
-    name = NAME
-    title = TITLE
-    weight = WEIGHT
+    def delete(self):
+        handled = []
+        uids = self.request.form.get('uids', [])
+        for uid in uids:
+            obj = api.content.get(UID=uid)
+            if obj:
+                handled.append(u'"%s"' % safe_unicode(obj.Title()))
+                api.content.delete(obj)
 
-    def __init__(self, context):
-        self.context = context
-
-    def run(self):
-        """Delete all items currently in cart and clear the cart's contents."""
-        cart_view = self.context.restrictedTraverse('cart')
-        request = self.context.REQUEST
-        if len(cart_view.items) == 0:
+        if handled:
+            titles = ', '.join(sorted(handled))
+            msg = _(
+                u"batch_delete_success",
+                default=u"The following items have been deleted: ${title_elems}",  # noqa
+                mapping={"title_elems": titles}
+            )
             api.portal.show_message(
-                message="You did not select any documents. Nothing was done.",
-                request=request,
-                type="warning")
-            cart_view._clear()
-            return
+                message=msg,
+                request=self.request,
+                type="success",
+            )
+        else:
+            api.portal.show_message(
+                message=_(u"No items could be deleted"),
+                request=self.request,
+                type="info",
+            )
 
-        handled = list()
-        for item in cart_view.items:
-            obj = api.content.get(UID=item['UID'])
-            if obj is None:
-                # An object that is in cart was apparently deleted by someone
-                # else and dosn't exist anymore, so there's nothing to do.
-                continue
-            api.content.delete(obj)
-            handled.append(u'"%s"' % safe_unicode(item['Title']))
+        self.request.response.redirect(self.context.absolute_url())
 
-        api.portal.show_message(
-            message=u"The following items have been deleted: %s" % ', '.join(
-                sorted(handled)),
-            request=request,
-            type="success")
-
-        cart_view._clear()
+    def items_by_permission(self):
+        pm = api.portal.get_tool('portal_membership')
+        deletable = []
+        not_deletable = []
+        for item in self.items:
+            if pm.checkPermission('Delete objects', item):
+                deletable.append(item)
+            else:
+                not_deletable.append(item)
+        return (deletable, not_deletable)

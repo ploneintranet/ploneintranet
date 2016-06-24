@@ -3,22 +3,27 @@ from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
 from collective.workspace.interfaces import IWorkspace
 from plone import api
+from plone.api.exc import PloneApiError
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
     import WorkflowPolicyConfig_id
 from zope.globalrequest import getRequest
+from ploneintranet.workspace import workspacefolder
+from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from zope.component import getAdapter
+from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 from Acquisition import aq_base
 from OFS.CopySupport import cookie_path
+from zExceptions import BadRequest
 
 log = logging.getLogger(__name__)
 
@@ -58,8 +63,8 @@ def workspace_added(ob, event):
 
     """
     # Whoever creates the workspace should be added as an Admin
-    # When copying a case template, that is the current user
-    # (not the one who created the original case template)
+    # When copying a template, that is the current user
+    # (not the one who created the original template)
     userid = api.user.get_current().id
     ob.setCreators([userid])
     IWorkspace(ob).add_to_team(
@@ -77,21 +82,29 @@ def workspace_added(ob, event):
     acl_users = api.portal.get_tool('acl_users')
     user = acl_users.getUserById(userid)
     if user is not None:
-        # NB when copying a case template with execute_as_manager
+        # NB when copying a template with execute_as_manager
         # this is 'finally' replaced again
         newSecurityManager(None, user)
 
-    if not ICase.providedBy(ob):
+    if ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
         """
-        # Configure our placeful workflow
-        cmfpw = 'CMFPlacefulWorkflow'
-        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+        return
 
-        # Set the policy for the config
-        pc = getattr(ob, WorkflowPolicyConfig_id)
-        pc.setPolicyIn('')
-        pc.setPolicyBelow('ploneintranet_policy')
+    # Configure our placeful workflow
+    cmfpw = 'CMFPlacefulWorkflow'
+
+    try:
+        ob.manage_addProduct[cmfpw].manage_addWorkflowPolicyConfig()
+    except BadRequest:
+        # 'The id ".wf_policy_config" is invalid - it is already in use.'
+        # copying a template workspace which already has a policy defined
+        return
+
+    # Set the policy for the config
+    pc = getattr(ob, WorkflowPolicyConfig_id)
+    pc.setPolicyIn('')
+    pc.setPolicyBelow('ploneintranet_policy')
 
 
 def invitation_accepted(event):
@@ -208,12 +221,31 @@ def update_todo_state(obj, event):
     """
     After editing a Todo item, set the workflow state to either Open or Planned
     depending on the state of the Case.
+    Also update access permissions on the Case, which might have changed due to
+    a change in assignment.
+
     """
+    # Do nothing on copy
+    if IObjectCopiedEvent.providedBy(event):
+        return
     obj.set_appropriate_state()
     obj.reindexObject()
+    parent = parent_workspace(obj)
+    if ICase.providedBy(parent):
+        parent.update_case_access()
 
 
-def update_todos_state(obj, event):
+def handle_case_workflow_state_changed(obj, event):
+    """
+    When the workflow state of a Case changes, perform the following actions:
+    * Update the contained Todo items ans set adjust their workflow state
+    * Grant assignees on tasks of the current milestone guest access
+    """
+    _update_todos_state(obj)
+    obj.update_case_access()
+
+
+def _update_todos_state(obj):
     """
     Update the workflow state of Todo items in a Case, when the workflow state
     of the Case is changed.
@@ -229,3 +261,47 @@ def update_todos_state(obj, event):
 def _update_todo_state(todo):
     todo.set_appropriate_state()
     todo.reindexObject()
+
+
+def workspace_groupbehavior_toggled(obj, event):
+    # If the IMembraneGroup behavior gets set or deactivated for workspaces,
+    # the membrane tool needs to be updated, and all workspaces need to be
+    # reindexed
+    if obj.id != workspacefolder.__name__:
+        return
+    relevant_change = False
+    for description in event.descriptions:
+        if getattr(description, 'attribute', None) == 'behaviors':
+            relevant_change = True
+            break
+    if not relevant_change:
+        return
+    try:
+        membrane_tool = api.portal.get_tool('membrane_tool')
+    # In case the membrane_tool cannot be found, just return.
+    # This can happen in test scenarios that do not set up the full stack of
+    # PloneIntranet.
+    except PloneApiError, exc:
+        log.error(exc)
+        return
+    if IMembraneGroup.__identifier__ in obj.behaviors:
+        # The behavior was activated
+        # Add the type to the membrane types and reindex all workspaces
+        types = set(membrane_tool.membrane_types)
+        types.add(workspacefolder.__name__)
+        log.info("Enabling IMembraneGroup on %s", workspacefolder.__name__)
+        membrane_tool.membrane_types = list(types)
+    else:
+        # The behavior was deactivated
+        # Remove the type from the membrane types and reindex all workspaces
+        types = [
+            typ for typ in membrane_tool.membrane_types if
+            typ != workspacefolder.__name__]
+        log.info("Disabling IMembraneGroup on %s", workspacefolder.__name__)
+        membrane_tool.membrane_types = types
+    catalog = api.portal.get_tool('portal_catalog')
+    membrane_catalog = membrane_tool._catalog
+    for result in catalog(portal_type=workspacefolder.__name__):
+        workspace = result.getObject()
+        workspace.reindexObject()
+        membrane_catalog.reindexObject(workspace)

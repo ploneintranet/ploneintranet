@@ -7,7 +7,9 @@
 
   <body tal:define="ws view/workspace;
                     workspace_url ws/absolute_url;
-                    num_users python:len(request['user_id']);
+                    user_ids request/user_id;
+                    user_ids python: isinstance(user_ids, basestring) and [user_ids] or user_ids;
+                    num_users python:len(user_ids);
                     ">
       <div id="content">
         <div id="document-content" class="pat-modal">
@@ -20,13 +22,13 @@
 
             <div class="panel-body">
                 <article>
-                    <p i18n:translate="">
-                        You've selected the following <strong>${num_users}</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)
+                    <p i18n:translate="alert_remove_users_from_workspace">
+                        You've selected the following <strong i18n:name="num_users" tal:content="num_users">1</strong> members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)
                     </p>
                 </article>
 
                 <fieldset class="pat-checklist">
-                    <label tal:repeat="user request/user_id">
+                    <label tal:repeat="user user_ids">
                         <input checked="checked" type="checkbox" name="user_id:list" value="${user}" class="focus">${user}
                     </label>
                 </fieldset>

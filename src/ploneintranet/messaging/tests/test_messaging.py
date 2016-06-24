@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from ploneintranet.messaging.testing import PLONEINTRANET_MESSAGING_INTEGRATION_TESTING  # noqa
+from ploneintranet.messaging.testing import IntegrationTestCase
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-import unittest
 
-
-class TestMessagingLocator(unittest.TestCase):
-
-    layer = PLONEINTRANET_MESSAGING_INTEGRATION_TESTING
+class TestMessagingLocator(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<metadata>
+  <version>0001</version>
+  <dependencies>
+    <!-- plone.app.ldap does not provide an uninstall profile
+         Please use the ZMI to remove acl_users/ldap_plugin manually
+    -->
+  </dependencies>
+</metadata>

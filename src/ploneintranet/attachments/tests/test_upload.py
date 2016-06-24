@@ -3,14 +3,14 @@ from pkg_resources import resource_string
 from plone import api
 from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.namedfile.file import NamedBlobFile
-from ploneintranet.attachments.testing import IntegrationTestCase
+from ploneintranet.attachments.testing import FunctionalTestCase
 from ploneintranet.attachments.interfaces import IPloneintranetAttachmentsLayer
 from ploneintranet import api as pi_api
 from zope.interface import alsoProvides
 from ZODB.blob import Blob
 
 
-class TestUpload(IntegrationTestCase):
+class TestUpload(FunctionalTestCase):
     ''' Test that the upload view is functional
     '''
     def setUp(self):
@@ -59,41 +59,45 @@ class TestUpload(IntegrationTestCase):
             id='test-empty',
         )
 
-    def test_get_thumbs_urls(self):
-        ''' Given an attachment we should have the urls to see its thumbnails
-        '''
-        upload_view = api.content.get_view(
+        self.upload_view = api.content.get_view(
             'upload-attachments',
             self.portal,
             self.request,
         )
+
+    def test_get_thumbs_urls_pdf(self):
+        ''' Given an attachment we should have the urls to see its thumbnails
+        '''
+        # Test objects that have a generated preview
+        urls = self.upload_view.get_thumbs_urls(self.pdf)
+        self.assertIn('/test-file/small', urls[0])
+
+    def test_get_thumbs_urls_image(self):
+        # Test image previews
+        urls = self.upload_view.get_thumbs_urls(self.image)
+        self.assertTrue(len(urls) == 1)
+        self.assertIn('@@images', urls[0])
+
+    def test_get_thumbs_urls_file(self):
+        # Test a File instance that contains an image
+        urls = self.upload_view.get_thumbs_urls(self.fileimage)
+        self.assertTrue(len(urls) == 1)
+        self.assertIn('test-image-file/small', urls[0])
+
+    def test_get_thumbs_urls_empty(self):
+        self.assertListEqual(
+            self.upload_view.get_thumbs_urls(self.empty),
+            self.upload_view.fallback_thumbs_urls
+        )
+
+    def test_get_thumbs_urls_portal(self):
         # Test objects that have no preview
         self.assertListEqual(
-            upload_view.get_thumbs_urls(self.portal),
-            upload_view.fallback_thumbs_urls,
+            self.upload_view.get_thumbs_urls(self.portal),
+            self.upload_view.fallback_thumbs_urls,
         )
 
-        # Test objects that have a generated preview
-        self.assertTrue(
-            '/test-file/small' in upload_view.get_thumbs_urls(self.pdf)[0]
-        )
-
-        # Test image previews
-        urls = upload_view.get_thumbs_urls(self.image)
-        self.assertTrue(len(urls) == 1)
-        self.assertTrue('test-image/small' in urls[0])
-
-        # Test a File instance that contains an image
-        urls = upload_view.get_thumbs_urls(self.fileimage)
-        self.assertTrue(len(urls) == 1)
-        self.assertTrue('test-image-file/small' in urls[0])
-
-        self.assertListEqual(
-            upload_view.get_thumbs_urls(self.empty),
-            upload_view.fallback_thumbs_urls
-        )
-
-    def test_previews_url_traversable(self):
+    def test_previews_url_traversable_pdf(self):
         ''' In the previous test we returned a URL similar to this:
          - http://nohost/plone/@@dvpdfview/1/f/1fe3402718445/normal/dump_1.gif
         in the case of a c.dv generated URL
@@ -104,4 +108,5 @@ class TestUpload(IntegrationTestCase):
         request = self.request.clone()
         request['page'] = 1
         previews = pi_api.previews.get(self.pdf)
+        self.assertTrue(len(previews) >= 1)
         self.assertIsInstance(previews[0], Blob)

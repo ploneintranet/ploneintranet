@@ -16,6 +16,7 @@ Introduction
 
 This stack of functionality used to be split into various packages (plonesocial.*). After the unification, the packages are now part of ploneintranet, but still under their original folder names (e.g. `ploneintranet.microblog <https://github.com/ploneintranet/ploneintranet/tree/master/src/ploneintranet/microblog>`_, which used to be plonesocial.microblog).
 
+
 Packages
 ========
 
@@ -27,13 +28,27 @@ Packages
 
     Display of status- and content-updates
 
-* core
-
-    Helper views (tags, mentions)
-
 * attachments
 
     This package was not previously part of the plonesocial namespace. It is used for handling :doc:`attachment previews <filepreviews>` on stream items.
+
+
+Overview
+========
+
+Activity streams with statusupdates are a pervasive feature in ploneintranet and key to the 'social' character of the system.
+
+Activity streams are rendered at three different levels:
+
+1. The "global" stream on the dashboard aggregates all statusupdates across the intranet
+2. Per-workspace streams provide a secure communication environment for teams;
+3. Per-document streams provide a conversation directly on the document that the conversation is about.
+
+The per-document streams in a workspace are part of the per-workspace stream for that workspace. All per-workspace streams in turn are shown as part of the overall "global" activity stream.
+
+At all levels, what a specific user can see is filtered by security permissions. In the global stream, you will only see updates from workspaces that you have access to - if you don't have access to the workspace you will not see the conversation that team is having, while team members will see their conversation both within the workspace and in the global stream.
+
+Likewise, you will only see updates referencing a specific content object, if you have access to both the content object _and_ to the workspace the content object is contained in.
 
 
 Philosophy
@@ -44,14 +59,7 @@ Design principles
 
 * Follow the structure of the :doc:`../frontend/prototype`
 * Avoid duplicating markup
-* Create small template snippets for easy use with ``pat-inject``, and make them macros so that they can be included easily
-
-Current problems
-----------------
-
-* plonesocial was originally built for stock Plone, for use with portlets
-* Template structure and call flow precedes the prototype
-* Mixture of ZCA abstractions (adapters) and Plone 2 abstractions (TAL macros with variables defined outside)
+* Minimize indirections
 
 
 --------------------------------
@@ -59,7 +67,6 @@ Template structure and injection
 --------------------------------
 
 The social functionality heavily relies on ``pat-inject`` for AJAX interactions.
-In combination with nested template re-use the template structure becomes quite a puzzle.
 
 The Plone implementation tries to closely follow the template naming from the :doc:`../frontend/prototype` so that any changes in the prototype can easily be ported to the corresponding TAL template.
 
@@ -78,96 +85,107 @@ The nested colored boxes show how each of the pages and all the elements in ther
 Architecture
 ------------
 
-.. error::
+For each of the prototype templates mentioned above, you will find a corresponding view and template in the implementation.
+The templates closely match the prototype templates on which they're based.
 
-   The following documentation is outdated.
-   The code has been drastically refactored.
+metal:use-macro deemed harmful
+------------------------------
 
-.. TODO::
+A previous version of this code based heavily relied on ``metal:use-macro`` for template and view composition.
+This lead to problems, because:
+- When viewing a template, it is unclear where any variables are coming from
+- It is unclear which python view is, via acquisition, bound to ``view``
+- Re-using templates via many indirections is a nightmare to comprehend
+- Re-using templates against different view classes leads to excessive code complexity,
+  where these views start delegating calls to eachother.
 
-   The refactoring is not yet completed.
-   After completion the documentation here will be updated.
-
-.. image:: socialcallflow-new.png
-   :alt: Stream page composition with tiles and injection.
-
-All templates that are copied over directly from the prototype are located inside a directory named ``prototype``. All of them are macros.
-
-The main elements that provide social functionality are wrapped in **tiles**.
+Instead, any template now has a matching view class that encapsulates state.
+All view composition is done by delegating to full view calls.
+So no state leakage between views.
+  
+The main starting point for the rendering are **tiles**, but these have been stripped of functionality
+and delegate the heavy lifting to specialized views.
 
 
-
-Tile "New post"
-===============
-
-Central class is ``NewPostBoxTile`` from microblog/browser/tiles/newpostbox.py and its associated template. It is used for two cases:
-
-* render a stand-alone form for posting a new status update, typically placed above an activity stream in a dashboard or workspace
-* render a form for posting comments / replies on an existing status
-
-That means this form is typically present multiple times on an activity stream, once "on top" and once for every exisiting status that is shown.
-
-The template for ``NewPostBoxTile`` is just a switch that distinguishes between three cases and includes the appropriate macros:
-
-* The tile is being viewed only, ready to receive input, and needs to include the macro for `Creating a post`_.
-* The tile has just handled the input of a status update and needs to include the macro for `displaying a new post`_ (and implicitly the form for creating a post).
-* The tile has just handled the input of a reply on a status update and needs to include the macro for `displaying a new comment`_ (and implicitly the form for creating a post).
+ploneintranet.microblog
+=======================
 
 Creating a post
 ---------------
 
-The template used is ``update-social.html`` from microblog. Its main purpose is rendering the form for creating a post.
+The template used is ``microblog/browser/templates/update-social.html`` from microblog.
+The corresponding view class ``microblog/browser/update_social.py`` is bound to ``@@update-social.html``
+Its main purpose is rendering the form for creating a post.
 
 Structure of the template
 _________________________
 
 * Since a new post form can be present multiple times on a page the ``id`` of the form needs to be unique. It defaults to "new-post" for the stand-alone version and contains the thread_id in case it's displayed under an existing post.
-* In case it's displayed under an existing post, this ``thread_id`` also needs to be handed over to the handling class via a hidden field.
+* In case it's displayed under an existing post, this ``thread_id`` is obtained from the view
 * The section guarded with ``condition="newpostbox_view/direct"`` is currently not used. It was just copied over from the prototype
 * In the outer ``<fieldset>`` the first section is a ``<p>`` with class "content-mirror". It is used for storing data for the Pattern of the same name. Apart from the actual text, it also holds tags and mentions. See `Tagging`_ and `Mentioning`_ for details.
 * There's the actual ``<textarea>`` in which the user enters text.
 * There's an inner ``<fieldset>`` with class "attachments" for `Adding an attachment`_.
 * Finally a ``<div>`` with the "button-bar" with buttons for `Tagging`_ and `Mentioning`_ as well as *Cancel* and *Submit*.
 
-Interactions
-____________
+View class structure
+____________________
 
-* The form itself uses ``pat-inject`` with the following settings::
+The ``update_social.py`` module contains two mixin classes in order to make the code more modular:
 
-    data-pat-inject="source: #activity-stream; target: #activity-stream .activities::before && #post-box"
+- ``UpdateSocialBase`` is used both when displaying the postbox form, and when handling the HTTP POST.
+- ``UpdateSocialHandler`` extends ``UpdateSocialBase`` and is used when `Creating and displaying a post`_ and
+  `Creating and displaying a comment`_, but not for rendering the postbox form itself.
 
-  That means, the reply of the form needs to contain a section with id "activity-stream", which will be pre-pended to the existing "activity-stream". Also, the form itself will be replaced. See `displaying a new post`_.
-
-
-
-Displaying a new post
----------------------
-
-When the handling class has processed a newly submitted post, the template for ``NewPostBoxTile`` uses the macro "post-well-done.html" to display the markup required by ``pat-inject``.
-
-The template "post-well-done.html" does two things:
-* It includes the macro for `Creating a post`_ so that a fresh new form gets rendered which ``pat-inject`` can pick up.
-* It calls the macro "activity-stream.html", but taking the list of activities to display from the ``NewPostBoxTile`` class. Its ``update`` method defines a list named ``activity_providers`` which contains only a single IStatusActivity - this is the new post that just got created.
+The actual rendering class ``UpdateSocialView`` extends only ``UpdateSocialBase``.
 
 
-Displaying a new comment
-------------------------
+Creating and displaying a new post
+----------------------------------
 
-When the handling class has processed a newly submitted reply to a post, the template for ``NewPostBoxTile`` uses the macro "comment-well-said.html" to display the markup required by ``pat-inject``.
+Creating a new post, and rendering it in a way that enables injection into the activitystream,
+is handled by the ``PostWellDoneView`` view in ``microblog/browser/post_well_done.py``,
+which is bound to URL ``@@post-well-done.html`` and uses template ``microblog/templates/post-well-done.html``.
 
-The template "comment-well-said.html" does two things:
-* It includes the macro for `Displaying a comment`_ - so that ``pat-inject`` can use it to replace the comment trail with the new comment
-* Below that it includes the macro for `Creating a post`_
+This view extends the ``UpdateSocialBase`` base class mentioned above for the actual HTTP POST handling.
+It renders a new ``@@update-social.html`` form and a fake activitystream with one post ``@@post.html``,
+both of which will be injected back into the originating page by the injection specified on the original
+``update-social.html``.
+
+Be aware that we have two different ``update-social.html`` instances in play here:
+- The original one on the dashboard in which the user has filled in their text, mentions, tags etc.
+  The HTTP POST from this is used to create a new post.
+- A new empty one in ``post-well-done.html``, suitable for injecting a pristine empty postbox.
+
+Because ``post-well-done.html`` is the form action, this view also handles the actual post creation.
+To keep related code together this is executed via the ``UpdateSocialHandler`` mixin.
+
+
+Creating and displaying a new comment
+-------------------------------------
+
+Creating a new post, and rendering it in a way that enables injection into the activitystream,
+is handled by the ``CommentWellSaidView`` view in ``microblog/browser/comment_well_said.py``,
+which is bound to URL ``@@comment-well-said.html`` and uses template ``microblog/templates/comment-well-said.html``.
+
+This view also extends the ``UpdateSocialBase`` base class mentioned above for the actual HTTP POST handling.
+
+It differs from ``post-well-done.html`` in that it renders the new post as a reply instead of as a toplevel post,
+and it renders a new ``update-social.html`` widget in reply mode below the reply, rather than as a standalone box.
+
+Because ``comment-well-said.html`` is the form action, this view also handles the actual post creation.
+To keep related code together this is executed via the ``UpdateSocialHandler`` mixin.
+
 
 Tagging
-=======
+-------
 
-The link "Add tags" in "upload.html" uses ``pat-tooltip`` with the helper view "@@panel-tags" as target. Via the ``href`` attribute the current ``thread_id`` is passed to  @@panel-tags. This is important so that the panel select form knows into which post box the tags need to be injected, since there might be more than one on the current page.
+The link "Add tags" uses ``pat-tooltip`` with the helper view ``@@panel-tags`` as both source and target. Via the ``href`` attribute the current ``thread_id`` is passed to  @@panel-tags. This is important so that the panel select form knows into which post box the tags need to be injected, since there might be more than one on the current page.
 
 Tag select form
----------------
+______________
 
-As mentioned above, this is the helper view ``panel_tags`` from core/browser that opens in a tooltip.
+As mentioned above, this is the helper view ``panel_tags`` from microblog/browser that opens in a tooltip.
 
 It contains **two separate forms**:
 
@@ -180,11 +198,11 @@ ____________
 The form with id "postbox-tags" lists all available tags as ``input`` fields with ``type="checkbox"``. It uses ``pat-autosubmit`` so that any action to select or de-select a tag causes a submit. And it uses ``pat-inject`` for writing the selected tag back to the original post-box; there are 2 different source-target statements for the injection::
 
   class="pat-autosubmit pat-inject"
-  action="@@newpostbox.tile"
+  action="@@update-social.html"
   data-pat-inject="source: #post-box-selected-tags; target:#post-box-selected-tags &&
                    source: #selected-tags-data; target: #selected-tags-data"
 
-The first replacemement is done in the "update-social" template inside the ``content-mirror``. It causes the *text* of the tag to be written into the content-mirror (thereby appearing as visible inside the text-area to the user), and it causes the *value* of the tag to be placed into a hidden input field with the id ``tags:list``. It is from this input that the handling method of "newpostbox.py" takes the tag(s) that will be added to the status update.
+The first replacemement is done on the "update-social" template into the ``content-mirror``. It causes the *text* of the tag to be written into the content-mirror (thereby appearing as visible inside the text-area to the user), and it causes the *value* of the tag to be placed into a hidden input field with the id ``tags:list``. It is from this input that the handling method of ``UpdateSocialHandler`` takes the tag(s) to be added to the status update.
 
 The second replacement done by ``pat-inject`` targets a span with the id "selected-tags-data", also in the "update-social" template, that is filled with hidden inputs for every tag. But *those* inputs land, via injection, in the form that lets the user search for tags in the *current* "panel-tags". Since searching for and selecting tags is handled in two separate forms, this is how we hand-over already selected tags to the search form.
 
@@ -194,7 +212,7 @@ The search form uses ``pat-inject`` too, but its action is the panel-tags helper
 
 
 Mentioning
-==========
+----------
 
 Mentioning works very similar to tagging. The same kind of template structure is used ("panel-users" for the tooltip). Also, the same interactions as with tagging (pat-inject magic and handover of selected values) are present.
 
@@ -202,12 +220,12 @@ Only difference: for mentions, we distinguish between a user's name (shown for e
 
 
 Adding an attachment
-====================
+--------------------
 
 The ``<fieldset>`` with class "attachments" contains an ``<input>`` of type "file" that tells the browser to open a file-picker if clicked. Additionally there's an empty ``<p>`` as a place-holder that will show the preview image (or fallback image) once the user has selected an attachment.
 
 Interactions
-------------
+____________
 
 The following patterns are used on the ``<fieldset>``:
 
@@ -218,52 +236,33 @@ On the ``<label>`` around the file input field ``pat-switch`` is used to set the
 
 
 
-Tile "activity stream"
-======================
+ploneintranet.activitystream
+============================
 
-The activity stream is defined in activitystream/browser/stream.py in class ``StreamTile``. It has a helper method ``activity_providers`` that returns a list of activity providers which it fetches from the stream_provider.
-
-.. note::
-
-  A clear fixme (can be simplified)
-
-The associated template includes the macro "activity-stream.html" that  iterates over this list of activity providers. However, a variable named ``activity_providers`` can also be passed in to this macro; this is used in the case of `Displaying a new post`_.
+The activity stream is defined in ``activitystream/browser/stream_tile.py`` in class ``StreamTile``. 
 
 Displaying a post
 -----------------
 
-For every activity provider, the macro "post.html" is called.
+Every statusupdate is rendered with view ``StatusUpdateView`` bound to ``@@post.html`` using template ``activitystream/browser/templates/post.html``
 
 Here's a quick overview of the structure:
 
-* Section "post-header" with avatar (macro "avatar.html") and byline
-* Section "post-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
+* Section "post-header" with avatar and byline
+* Section "post-content" with the actual content
 * Section "preview", for attachment previews
 * Section "functions" for Share and Like
-* Section "comments": It iterates over all reply providers that the current activity provider defines and calls the macro for `Displaying a comment`_. It has a unique ``id`` that consists of the word "comments-" and the ``thread_id``.
-* Finally, the macro for `Creating a post`_ is shown under the comments, so that a new new comment can be added to the comment trail.
-
-Interactions
-____________
-
-* The form for creating a new comment uses the same macro as for creating a new post. But `pat-inject` uses different parameters::
-
-    data-pat-inject="target: #comments-1234"
-
-With "comments-1234" in this example being the id of the complete "comments" section. That means when a new comment is posted, injection replaces all currently displayed comments with the comments section provided by the reply, see `Displaying a new comment`_.
-
-.. note::
-
-  At the moment, the reply only contains the newly added comment. That means ``pat-inject`` replaces the complete comment trail with the new comment. But the roadmap foresees that generally only the latest X comments will ever be displayed; the reply (macro "comment-well-said.html") will then need to be adjusted accordingly to not only show the fresh comment but also the latest X ones.
+* Section "comments": It iterates over all replies that the current statusupdate defines and renders those - see `Displaying a comment`_. It has a unique ``id`` that consists of the word "comments-" and the ``thread_id``.
+* Finally, the macro for `Creating and displaying a new reply`_ is shown under the comments, so that a new new comment can be added to the comment trail.
 
 
 Displaying a comment
 --------------------
 
-For every activity reply provider on a post, the macro "comment.html" is called.
+For each reply to a statusupdate, ``post.html``, renders that reply with ``@@comment.html``, which re-uses the ``StatusUpdateView`` class also used by ``post.html`` but with a different template ``activitystream/browser/templates/comment.html``. 
 
 * Section "comment-header" with avatar (macro "avatar.html") and byline
-* Section "comment-content" with the actual content; the ``getText`` method of the activity provider assembles text, mentions and tags
+* Section "comment-content" with the actual content
 * Section "preview", for attachment previews
 
 

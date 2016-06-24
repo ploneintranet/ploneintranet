@@ -1,6 +1,6 @@
 import unittest
 
-from ..base import FEATURE_NOT_IMPLEMENTED
+from ploneintranet.search.base import FEATURE_NOT_IMPLEMENTED
 
 
 class FeatureTests(unittest.TestCase):

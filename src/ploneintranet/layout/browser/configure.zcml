@@ -15,6 +15,9 @@
   <!-- Provides markup around the Dexterity Add/Edit forms -->
   <adapter factory=".formwrapper.layout_factory" />
 
+  <!-- Custom widgets using the provided layout -->
+  <adapter factory=".widgets.PloneIntranetSelectFieldWidget" />
+
   <!-- set 'app-whatever' body class -->
   <browser:page
       name="plone_layout"
@@ -22,6 +25,14 @@
       permission="zope.Public"
       class=".policy.LayoutPolicy"
       allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <browser:page
+      name="webstats_js"
+      for="*"
+      permission="zope.Public"
+      class=".webstats_js.View"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
@@ -69,6 +80,22 @@
       layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="date-picker-i18n.json"
+      class=".date_picker.I18nJSONView"
+      permission="zope2.View"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <browser:page
+      name="personal-menu.html"
+      for="*"
+      permission="zope.Public"
+      template="templates/personal-menu.pt"
+      class=".personal_tools.PersonalTools"
+      layer="..interfaces.IPloneintranetLayoutLayer"
+      />
 
   <plone:tile
       name="tasks.tile"
@@ -89,6 +116,18 @@
       class=".dashboard.NewsTile"
       permission="zope.Public"
       for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <plone:tile
+      name="my_documents.tile"
+      title="Documents"
+      description="Tile to list recently modified documents"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".dashboard.MyDocumentsTile"
+      template="templates/my_documents.pt"
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 

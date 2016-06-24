@@ -11,11 +11,6 @@
   <include package=".browser" />
   <!-- portlet is included in browser -->
 
-  <adapter
-	   factory=".adapters.StatusActivity"
-	   for="ploneintranet.microblog.interfaces.IStatusUpdate"
-	   />
-
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Activitystream]"
@@ -33,8 +28,5 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       i18n:attributes="title; description"
       />
-
-
-  <!-- -*- extra stuff goes here -*- -->
 
 </configure>

@@ -1,5 +1,4 @@
 # coding=utf-8
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ...basecontent.utils import dexterity_update
 from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY
@@ -9,30 +8,37 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
-from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
+from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
+from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
+from zope.schema import getFieldNames
+from zope.schema.interfaces import IVocabularyFactory
 import logging
+
 
 log = logging.getLogger(__name__)
 
 
 FOLDERISH_TYPES = ['Folder']
 BLACKLISTED_TYPES = ['Event', 'todo']
+vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
 class BaseTile(BrowserView):
@@ -45,6 +51,32 @@ class BaseTile(BrowserView):
 
     def __call__(self):
         return self.render()
+
+    def _basic_save(self):
+        ''' Performs a simple save of entered attributes.
+            Not all sidebars need this
+        '''
+        form = self.request.form
+        ws = self.workspace()
+        if self.request.method == 'POST' and form:
+            if self.can_manage_workspace():
+                modified, errors = dexterity_update(self.context)
+
+                if modified and not errors:
+                    api.portal.show_message(
+                        _("Attributes changed."),
+                        request=self.request,
+                        type="success")
+                    ws.reindexObject()
+                    notify(ObjectModifiedEvent(self.context))
+
+                if errors:
+                    api.portal.show_message(
+                        _("There was a problem updating the content: %s."
+                            % errors),
+                        request=self.request,
+                        type="error",
+                    )
 
     def status_messages(self):
         """
@@ -122,6 +154,12 @@ class SidebarSettingsGeneral(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-general.pt')
 
+    def __call__(self):
+        """ write attributes, if any, set state, render
+        """
+        self._basic_save()
+        return self.render()
+
 
 class SidebarSettingsMembers(BaseTile):
 
@@ -131,15 +169,21 @@ class SidebarSettingsMembers(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
 
-    def users(self):
+    users = []
+    guests = []
+
+    def render(self):
+        self._get_users_and_guests()
+        return self.index()
+
+    def _get_users_and_guests(self):
         """
         Get current users and add in any search results.
-
-        :returns: a list of dicts with keys
-         - id
-         - title
-        :rtype: list
+        Saves two list of dicts with keys, one for regular members,
+        one for users with the "Guest" role.
         """
+        users = []
+        guests = []
         existing_users = self.existing_users()
         existing_user_ids = [x['id'] for x in existing_users]
 
@@ -147,11 +191,18 @@ class SidebarSettingsMembers(BaseTile):
         sharing = getMultiAdapter((self.workspace(), self.request),
                                   name='sharing')
         search_results = sharing.user_search_results()
-        users = existing_users + [x for x in search_results
-                                  if x['id'] not in existing_user_ids]
+        all_users = existing_users + [
+            x for x in search_results if x['id'] not in existing_user_ids]
+        for record in all_users:
+            if record.get('role') == 'Guest':
+                guests.append(record)
+            else:
+                users.append(record)
 
         users.sort(key=lambda x: safe_unicode(x['title']))
-        return users
+        guests.sort(key=lambda x: safe_unicode(x['title']))
+        self.users = users
+        self.guests = guests
 
     def existing_users(self):
         return self.workspace().existing_users()
@@ -271,6 +322,22 @@ class SidebarSettingsAdvanced(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
 
+    def can_be_division(self):
+        ''' Check if this object can be a division,
+        i.e. has a division field in the schema or in a behavior
+        '''
+        schema = self.context.getTypeInfo().lookupSchema()
+        if 'is_division' in getFieldNames(schema):
+            return True
+
+        behavior_assignable = IBehaviorAssignable(self.context)
+        if behavior_assignable:
+            behaviors = behavior_assignable.enumerateBehaviors()
+            for behavior in behaviors:
+                if 'is_division' in getFieldNames(schema):
+                    return True
+        return False
+
     def __call__(self):
         """ write attributes, if any, set state, render
         """
@@ -297,6 +364,11 @@ class SidebarSettingsAdvanced(BaseTile):
                     )
 
         return self.render()
+
+    def divisions(self):
+        """ return available divisions """
+        divisions = getUtility(IVocabularyFactory, vocab)(self.context)
+        return divisions
 
 
 class Sidebar(BaseTile):

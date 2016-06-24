@@ -51,6 +51,7 @@ class PloneintranetSearchLayer(testing.PloneSandboxLayer):
         self.applyProfile(portal, 'ploneintranet.search:default')
         with login_session(testing.TEST_USER_NAME):
             api.user.create(username=TEST_USER_1_NAME, email=TEST_USER_1_EMAIL)
+        testing.setRoles(portal, testing.TEST_USER_ID, ['Manager'])
 
     def tearDownPloneSite(self, portal):
         with api.env.adopt_roles(roles=['Manager']):
@@ -70,6 +71,12 @@ class IntegrationTestCase(unittest.TestCase):
 
     layer = INTEGRATION_TESTING
 
+
+class FunctionalTestCase(unittest.TestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL_TESTING
+
     def _create_content(self, **kw):
         obj = api.content.create(**kw)
         obj.reindexObject()
@@ -81,19 +88,13 @@ class IntegrationTestCase(unittest.TestCase):
 
     def setUp(self):
         self._created = []
-        super(IntegrationTestCase, self).setUp()
+        super(FunctionalTestCase, self).setUp()
 
     def tearDown(self):
-        super(IntegrationTestCase, self).tearDown()
+        super(FunctionalTestCase, self).tearDown()
         for obj in self._created:
             obj_id = obj.getId()
             if obj_id in self.layer['portal']:
                 with api.env.adopt_roles(roles=['Manager']):
                     self._delete_content(obj)
             transaction.commit()
-
-
-class FunctionalTestCase(unittest.TestCase):
-    """Base class for functional tests."""
-
-    layer = FUNCTIONAL_TESTING

@@ -3,35 +3,15 @@ from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.dexterity.content import Container
-from plone.directives import form
-from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.todo.behaviors import ITodo
-from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from ploneintranet import api as pi_api
-from zope import schema
 from zope.event import notify
 from zope.interface import implementer
 from .policies import PARTICIPANT_POLICY
-
-
-class IWorkspaceFolder(form.Schema, IImageScaleTraversable):
-    """
-    Interface for WorkspaceFolder
-    """
-    calendar_visible = schema.Bool(
-        title=_(
-            u"label_workspace_calendar_visibility",
-            u"Calendar visible in central calendar"),
-        required=False,
-        default=False,
-    )
-    email = schema.TextLine(
-        title=_(u'label_workspace_email', u'E-mail address'),
-        required=False,
-        default=u'',
-    )
 
 
 @implementer(IWorkspaceFolder, IAttachmentStoragable)
@@ -114,7 +94,8 @@ class WorkspaceFolder(Container):
         brains = catalog(
             path=current_path,
             portal_type=ptype,
-            sort_on='due')
+            sort_on='getObjPositionInParent',
+        )
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
@@ -129,6 +110,9 @@ class WorkspaceFolder(Container):
                 'due': obj.due,
                 'assignee': assignee,
                 'initiator': initiator,
+                'obj': obj,
+                'can_edit': api.user.has_permission(
+                    'Modify portal content', obj=obj),
             }
             if self.is_case:
                 milestone = "unassigned"
@@ -159,13 +143,16 @@ class WorkspaceFolder(Container):
                          user_or_group_id)
                 # XXX tbd, we don't know what a persons description is, yet
                 description = ''
-                classes = 'user ' + (description and 'has-description'
-                                     or 'has-no-description')
+                classes = 'user ' + (description and 'has-description' or
+                                     'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)
             else:
                 typ = 'group'
                 group = api.group.get(user_or_group_id)
                 if group is None:
+                    continue
+                # Don't show a secret group, ever
+                if group.getProperty('state') == 'secret':
                     continue
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
@@ -228,14 +215,48 @@ class WorkspaceFolder(Container):
         Return JSON for pre-filling a pat-autosubmit field with the values for
         that field
         """
-        users = self.existing_users()
         field_value = getattr(context, field, default)
+        if not field_value:
+            return ''
+        assigned_users = field_value.split(',')
         prefill = {}
-        if field_value:
-            assigned_users = field_value.split(',')
-            for user in users:
-                if user['id'] in assigned_users:
-                    prefill[user['id']] = user['title']
+        for user_id in assigned_users:
+            user = api.user.get(user_id)
+            if user:
+                prefill[user_id] = (
+                    user.getProperty('fullname') or
+                    user.getId() or user_id
+                )
+        if prefill:
+            return dumps(prefill)
+        else:
+            return ''
+
+    def member_and_group_prefill(self, context, field, default=None):
+        """
+        Return JSON for pre-filling a pat-autosubmit field with the values for
+        that field
+        """
+        acl_users = api.portal.get_tool('acl_users')
+        field_value = getattr(context, field, default)
+        if not field_value:
+            return ''
+        assigned_users = field_value.split(',')
+        prefill = {}
+        for assignee_id in assigned_users:
+            user = api.user.get(assignee_id)
+            if user:
+                prefill[assignee_id] = (
+                    user.getProperty('fullname') or
+                    user.getId() or assignee_id
+                )
+            else:
+                group = acl_users.getGroupById(assignee_id)
+                if group:
+                    prefill[assignee_id] = (
+                        group.getProperty('title') or
+                        group.getId() or assignee_id
+                    )
         if prefill:
             return dumps(prefill)
         else:

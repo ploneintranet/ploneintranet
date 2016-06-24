@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <h1 i18n:translate="">Batch delete</h1>
+
+  <form method="POST" action="cart-delete">
+
+    <div class="panel-body"
+         tal:define="items view/items_by_permission;
+                     deleteable python:items[0];
+                     len_deleteable python:len(deleteable);
+                     has_deleteable python:len_deleteable > 0;
+                     not_deleteable python:items[1];
+                     len_not_deleteable python:len(not_deleteable);
+                     has_not_deleteable python:len_not_deleteable > 0;
+                     none_deleteable python:has_not_deleteable and not(has_deleteable);
+                     ">
+      <article>
+        <p>
+          <tal:selected i18n:translate="info_items_selected">
+            You've selected the following <strong i18n:name="num_items">${python:len_deleteable + len_not_deleteable}</strong> items to be deleted.
+          </tal:selected>
+          <tal:none_deleteable condition="none_deleteable" i18n:translate="">You don't have permission to delete any of them.
+          </tal:none_deleteable>
+          <tal:not_deleteable condition="python:has_not_deleteable and not none_deleteable" i18n:translate="info_has_not_deleteable_items"><strong i18n:name="num_not_deleteable">${len_not_deleteable}</strong> of the items cannot be deleted because you don't have permission.
+          </tal:not_deleteable>
+          <tal:deleteable condition="has_deleteable">
+            <tal:not_deleteable condition="has_not_deleteable" i18n:translate="num_items_can_be_deleted">
+              <strong i18n:name="num_deleteable">${len_deleteable}</strong> of the items can be deleted.
+            </tal:not_deleteable>
+            <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from deletion)</tal:ays>
+          </tal:deleteable>
+      </p>
+      </article>
+
+
+      <fieldset class="pat-checklist"
+                tal:define="checkPermission nocall: context/portal_membership/checkPermission">
+        <tal:deleteable repeat="item deleteable">
+          <label>
+            <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
+          </label>
+          <br />
+        </tal:deleteable>
+        <tal:not_deleteable repeat="item not_deleteable">
+          <label>
+            <input type="checkbox" name="uids:list" value="${item/UID}" disabled="disabled"/> ${item/Title}
+          </label>
+          <br />
+        </tal:not_deleteable>
+    </fieldset>
+    </div>
+
+    <div class="buttons panel-footer">
+      <span tal:replace="structure context/@@authenticator/authenticator"/>
+
+      <button type="submit" class="icon-ok-circle pat-shopping-cart"
+              data-pat-shopping-cart="action: empty" i18n:translate="">
+        I am sure, delete now
+      </button>
+      <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+</html>

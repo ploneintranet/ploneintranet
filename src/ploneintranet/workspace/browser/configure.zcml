@@ -31,20 +31,30 @@
       />
 
   <browser:page
-      name="workspace-add"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
-      class=".workspacecontainer.AddView"
+      name="add_workspace"
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"      
+      class=".add_workspace.AddWorkspace"
+      template="templates/add_workspace.pt"
       permission="cmf.AddPortalContent"
-      template="templates/workspace-add.pt"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+  <!-- this one overrides the one below in default Quaive rendering -->
   <browser:page
       name="view"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.WorkspaceView"
       permission="zope2.AccessContentsInformation"
       template="templates/workspace.pt"
+      layer="..interfaces.IThemedWorkspaceLayer"
+      />
+  <!-- this one shadows the one above, only in barceloneta -->
+  <browser:page
+      name="view"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      class=".workspace.WorkspaceView"
+      permission="zope2.AccessContentsInformation"
+      template="templates/workspace-barceloneta.pt"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -99,7 +109,7 @@
   <browser:page
       name="add_content"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".add_content.AddContent"
+      class=".add_content.AddBase"
       template="templates/add_content.pt"
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
@@ -132,6 +142,26 @@
       />
 
   <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="zope2.View"
+      class=".case.FreezeView"
+      name="freeze-view"/>
+
+  <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="zope2.View"
+      class=".case.UnfreezeView"
+      name="unfreeze-view"/>
+
+  <browser:page
+      name="case-manager"
+      for="*"
+      class=".case_manager.CaseManagerView"
+      permission="zope2.View"
+      template="templates/case_manager.pt"
+      />
+
+  <browser:page
       name="add_task"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".add_content.AddTask"
@@ -144,6 +174,14 @@
       class=".add_content.AddEvent"
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="email_invitees"
+      for="plone.event.interfaces.IEvent"
+      class=".event.EmailInvitees"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      permission="zope2.View"
       />
 
   <browser:viewlet
@@ -255,12 +293,20 @@
       />
 
     <browser:page
-      name="allusers.json"
-      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
-      class=".workspace.AllUsersJSONView"
-      permission="collective.workspace.ManageRoster"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
-      />
+        name="panel-unfreeze-case"
+        for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+        permission="ploneintranet.workspace.ManageWorkspace"
+        template="templates/panel-unfreeze-case.pt"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
+        name="allusers.json"
+        for="*"
+        class=".workspace.AllUsersJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
 
     <browser:page
       name="allgroups.json"
@@ -269,6 +315,14 @@
       permission="collective.workspace.ManageRoster"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
+
+    <browser:page
+        name="allusers-and-groups.json"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class=".workspace.AllUsersAndGroupsJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
 
     <browser:page
       name="case_workflow_guard"
@@ -292,7 +346,15 @@
       name="panel-image-picker"
       class=".workspace.ImagePickerPanel"
       template="templates/panel-image-picker.pt"
-      permission="zope.Public"
+      permission="zope2.View"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
+    <browser:page
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      name="images.json"
+      class=".workspace.ImagePickerJson"
+      permission="zope2.View"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
