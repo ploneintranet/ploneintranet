@@ -4,28 +4,41 @@ Roadmap
 
 .. admonition:: Description
 
-   This is a short outline of our development roadmap.
-   If you're interested to learn more about our vision for each of these headings,
-   please contact the Plone Intranet Consortium board at mailto:info@ploneintranet.org.
+   Roadmap development is driven by client needs and partner investments,
+   in alignment with our long-term vision.
+   If you're interested in prioritizing certain features, please contact us at hello@quaive.com.
 
-1. Mercury (spring 2015)
-------------------------
+1. Mercury (spring 2015) - Community Edition Released
+-----------------------------------------------------
 
 * Personal dashboard
 * Activity Streams
 * Team spaces
 
-2. Venus (fall 2015)
---------------------
+2. Venus (fall 2015) - Community Edition Released
+-------------------------------------------------
 
 * Faceted search
 * Document structures / wiki
 * Personal profiles
 * Adaptive case management
 
-3. Gaia (2016)
---------------
 
+3. Gaia (summer 2016) - Enterprise Edition Released
+---------------------------------------------------
+
+* Document-level activity stream
+* Follow tags
+* Stream edit/delete moderation controls
+* Case management reporting app
+* Security audit app
+
+4. Mars (winter 2016/2017) - under development
+----------------------------------------------   
+
+* Direct messaging
+* Taxonomies
+* Contacts/groups app
 * News hub
 * Notification center
 

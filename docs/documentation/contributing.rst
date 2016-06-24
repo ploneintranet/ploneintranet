@@ -15,7 +15,7 @@ Reaching the Plone Intranet team
 
 To reach the Plone Intranet team for any questions please contact
 
-* `Plone Intranet mailing list <mailto:ploneintranet@netsight.co.uk>`_
+* `Plone Intranet mailing list <https://groups.io/g/ploneintranet-dev>`_
 
 * *#ploneintranet* IRC channel on irc.freenode.net
 
@@ -53,6 +53,11 @@ Editing the documentation on GitHub
 ===================================
 
 This is the recommended way for smaller changes, and for people who are not familiar with Git.
+
+.. note::
+
+   If you're a member of the Quaive team, please use the private Quaive repo at 
+   https://github.com/quaive/ploneintranet instead of the public community repo given below.
 
 - Go to `Plone Intranet <https://github.com/ploneintranet/ploneintranet>`_ on  GitHub.
 - Press the **Fork** button. This will create your own personal copy of the documentation.

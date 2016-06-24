@@ -6,12 +6,16 @@ Development Install
 
     This document describes how to get a source checkout running to be able to develop for Plone Intranet.
 
-.. image:: https://badge.waffle.io/ploneintranet/ploneintranet.png?label=ready&title=Ready
- :target: https://waffle.io/ploneintranet/ploneintranet
- :alt: 'Stories in Ready'
-
 We assume you want to do some work on ploneintranet. Here is what you need
 to do to get yourself set up.
+
+Please subscribe to the `developer mailing list`_ and tell us what you want to do.
+It might already be done in enterprise edition, in which case we can talk about backporting that
+work to community. Or it might *not* be already done, in which case we can talk about the best
+way to do the feature.
+
+.. _developer mailing list: https://groups.io/g/ploneintranet-dev
+
 
 Prepare the Operating System Environment
 ----------------------------------------
@@ -71,7 +75,11 @@ Set-up a development environment::
 
 .. _`install.plone.dependencies`: https://github.com/collective/install.plone.dependencies
 
+.. note::
 
+   If you're a member of the Quaive team, please use the private Quaive repo at 
+   https://github.com/quaive/ploneintranet instead of the public community repo.
+   
 Create a new Plone instance
 ---------------------------
 
