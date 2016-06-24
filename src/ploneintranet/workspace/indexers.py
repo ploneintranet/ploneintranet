@@ -1,15 +1,20 @@
+# coding=utf-8
+from .case import ICase
+from datetime import datetime
 from plone.app.contenttypes.interfaces import IDocument
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
 from plone.app.contenttypes.interfaces import ILink
 from plone.app.contenttypes.interfaces import INewsItem
-from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from plone.dexterity.interfaces import IDexterityContent
-from plone.indexer.decorator import indexer
-from utils import guess_mimetype
 from plone.dexterity.utils import datify
-from datetime import datetime
-from .case import ICase
+from plone.indexer.decorator import indexer
+from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
+from Products.membrane.catalog import (
+    object_implements as membrane_object_implements
+)
+from Products.membrane.interfaces.membrane_tool import IMembraneTool
+from utils import guess_mimetype
 
 
 @indexer(IDocument)
@@ -110,3 +115,22 @@ def division(object, **kw):
     Since this index is a UUIDIndex it needs to return either a UID or None
     """
     return getattr(object, 'division', None) or None
+
+
+@indexer(IWorkspaceFolder, IMembraneTool)
+def object_implements(obj):
+    """
+    BBB: fix the code upstream and remove this indexer
+
+    Catalog indexer which returns a list of all interfaces implementing
+    :py:obj:`IMembraneQueryableInterface`. This boils down to the list of
+    supported membrane behaviours for an object..
+    """
+    # this iface is banned because otherwise the workspace will be listed
+    # among the users by the membrane catalog
+    banned = u'Products.membrane.interfaces.user.IMembraneUserObject'
+    identifiers = membrane_object_implements(obj)()
+    return tuple(
+        identifier for identifier in identifiers
+        if identifier != banned
+    )
