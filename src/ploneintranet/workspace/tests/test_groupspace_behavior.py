@@ -313,6 +313,20 @@ class TestGroupspaceBehavior(BaseTestCase):
             ])
         )
 
+    def test_user_enumeration(self):
+        ''' Check our list of user is correct
+        '''
+        users = api.user.get_users()
+        self.assertListEqual(
+            sorted(user.getId() for user in users),
+            [
+                'admin',
+                'janeschmo',
+                'johndoe',
+                'test_user_1_',
+            ]
+        )
+
     def test_workspace_members_listing_ignores_self(self):
         self.login_as_portal_owner()
         json_groups = self.workspace_a.restrictedTraverse('allgroups.json')()
