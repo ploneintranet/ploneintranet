@@ -83,13 +83,14 @@ class SearchResult(object):
     def __init__(self, context, response):
         self.context = context
         self.response = response
-        self.title = context['Title']
+        self.title = context.get('Title', 'No title')
         self.description = context.get('Description')
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
+        self.mimetype = context.get('mimetype', None)
 
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently
@@ -153,6 +154,12 @@ class SearchResult(object):
     def path(self):
         """Return the path URI to the object represented."""
 
+    def getPath(self):
+        return self.path
+
+    def getId(self):
+        return self.context['getId']
+
     @property
     def url(self):
         """Generate the absolute URL for the indexed document.
@@ -167,6 +174,9 @@ class SearchResult(object):
             url = '{}/view'.format(url)
         return url
 
+    def getURL(self):
+        return self.url
+
     @property
     def preview_image_url(self):
         """
@@ -176,6 +186,15 @@ class SearchResult(object):
         :rtype: str
         """
         return self._path_to_url(self.preview_image_path)
+
+    def __getitem__(self, key):
+        return self.context[key]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
 
 class SearchResponse(collections.Iterable):
