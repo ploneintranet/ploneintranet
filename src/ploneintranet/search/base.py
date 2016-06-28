@@ -4,6 +4,7 @@ import abc
 import collections
 import logging
 
+from Products.Archetypes.utils import shasattr
 from plone import api
 from plone.api.validation import at_least_one_of
 from ploneintranet import api as pi_api
@@ -177,6 +178,9 @@ class SearchResult(object):
     def getURL(self):
         return self.url
 
+    def Subject(self):
+        return self.context.get('Subject', ())
+
     @property
     def preview_image_url(self):
         """
@@ -188,6 +192,8 @@ class SearchResult(object):
         return self._path_to_url(self.preview_image_path)
 
     def __getitem__(self, key):
+        if shasattr(self, key) and callable(getattr(self, key)):
+            return getattr(self, key)()
         return self.context[key]
 
     def get(self, key, default=None):
