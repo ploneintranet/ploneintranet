@@ -84,8 +84,8 @@ class SearchResult(object):
     def __init__(self, context, response):
         self.context = context
         self.response = response
-        self.title = context.get('Title', 'No title')
-        self.description = context.get('Description')
+        self.title = context['Title']
+        self.description = context['Description']
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
