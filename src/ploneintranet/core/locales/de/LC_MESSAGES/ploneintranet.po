@@ -2836,14 +2836,19 @@ msgid "unfollow"
 msgstr "Nicht weiter folgen"
 
 #. Default: "${name} is a member of the following ${num_groups} groups."
-#: ../userprofile/browser/templates/userprofile.pt:290
+#: ../userprofile/browser/templates/userprofile.pt:289
 msgid "user_member_of_groups"
 msgstr "${name} ist Mitglied der folgenden ${num_groups} Gruppen."
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
-#: ../userprofile/browser/templates/userprofile.pt:269
+#: ../userprofile/browser/templates/userprofile.pt:268
 msgid "user_member_of_workspaces"
 msgstr "${name} ist Mitglied der folgenden ${num_workspaces} Arbeitsräume."
+
+#. Default: "Search ${user_name}'s documents"
+#: ../userprofile/browser/userprofile.py:280
+msgid "user_search_placeholder"
+msgstr "${user_name}'s Dokumente durchsuchen"
 
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30

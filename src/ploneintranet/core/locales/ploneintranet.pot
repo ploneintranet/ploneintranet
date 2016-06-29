@@ -2815,13 +2815,18 @@ msgid "unfollow"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_groups} groups."
-#: ../userprofile/browser/templates/userprofile.pt:290
+#: ../userprofile/browser/templates/userprofile.pt:289
 msgid "user_member_of_groups"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
-#: ../userprofile/browser/templates/userprofile.pt:269
+#: ../userprofile/browser/templates/userprofile.pt:268
 msgid "user_member_of_workspaces"
+msgstr ""
+
+#. Default: "Search ${user_name}'s documents"
+#: ../userprofile/browser/userprofile.py:280
+msgid "user_search_placeholder"
 msgstr ""
 
 #. Default: "Workspace brief description"

@@ -275,6 +275,15 @@ class UserProfileView(UserProfileViewForm):
             'icon-file-rich', 'icon-doc-text'
         )
 
+    @memoize
+    def user_search_placeholder(self):
+        msg = _(
+            u"user_search_placeholder",
+            default=u"Search ${user_name}'s documents",
+            mapping={"user_name": self.context.fullname}
+        )
+        return msg
+
 
 class AuthorView(BaseAuthorView):
     """Overrides default author view to link to PI profiles"""
