@@ -4,6 +4,7 @@ import abc
 import collections
 import logging
 
+from Products.Archetypes.utils import shasattr
 from plone import api
 from plone.api.validation import at_least_one_of
 from ploneintranet import api as pi_api
@@ -84,12 +85,13 @@ class SearchResult(object):
         self.context = context
         self.response = response
         self.title = context['Title']
-        self.description = context.get('Description')
+        self.description = context['Description']
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
+        self.mimetype = context.get('mimetype', None)
 
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently
@@ -153,6 +155,12 @@ class SearchResult(object):
     def path(self):
         """Return the path URI to the object represented."""
 
+    def getPath(self):
+        return self.path
+
+    def getId(self):
+        return self.context['getId']
+
     @property
     def url(self):
         """Generate the absolute URL for the indexed document.
@@ -167,6 +175,12 @@ class SearchResult(object):
             url = '{}/view'.format(url)
         return url
 
+    def getURL(self):
+        return self.url
+
+    def Subject(self):
+        return self.context.get('Subject', ())
+
     @property
     def preview_image_url(self):
         """
@@ -176,6 +190,17 @@ class SearchResult(object):
         :rtype: str
         """
         return self._path_to_url(self.preview_image_path)
+
+    def __getitem__(self, key):
+        if shasattr(self, key) and callable(getattr(self, key)):
+            return getattr(self, key)()
+        return self.context[key]
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
 
 class SearchResponse(collections.Iterable):
