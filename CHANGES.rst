@@ -4,7 +4,42 @@ Changelog
 1.1.0b3 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Merge pull request #405 from quaive/more-robust-solr [GitHub]
+* Fix accessing title and description [Alexander Pilz]
+* Merge pull request #404 from quaive/fix-date-sorting [GitHub]
+* Support Subject. Why would we not have it in solr? [Alexander Pilz]
+* Simple measures to make solr responses behave more like catalog responses [Alexander Pilz]
+* We should use the values if we pass them :/ [Alexander Pilz]
+* Merge pull request #402 from quaive/fix-user-enumeration [GitHub]
+* Fix user enumeration [Alessandro Pisa]
+* Merge pull request #401 from quaive/c2q_20160624 [GitHub]
+* Merge branch 'master' into c2q_20160624 Using -X theirs strategy option to prefer master over local changes. [Guido A.J. Stevens]
+* Merge pull request #359 from quaive/284-folder_in_workspace_workflow [GitHub]
+* Dedicated workflow for Folders in workspaces [Alessandro Pisa]
+* Merge pull request #400 from quaive/news-tile-sorting [GitHub]
+* Merge pull request #399 from quaive/force_microblog_sync [GitHub]
+* Merge pull request #398 from quaive/390-fix-ampersands [GitHub]
+* Merge pull request #392 from quaive/user-documents-improvements [GitHub]
+* Merge pull request #395 from quaive/code-clean-up [GitHub]
+* Merge pull request #397 from quaive/release-1.1.x [GitHub]
+* Dashboard new tile: Show unpublished items [Cillian de Róiste]
+* Disable microblog async, forces microblog into sync mode always. The python thread model used in async has issues with plone.protect and with ZODB connection binding. [Guido A.J. Stevens]
+* Merge pull request #391 from quaive/update-bundle [GitHub]
+* Fix ampersands [Alessandro Pisa]
+* Back to development: 1.1.0b3 [Alexander Pilz]
+* Update changelog and prepare release 1.0.1 [Guido A.J. Stevens]
+* Backport Gaia manifest to Venus [Guido A.J. Stevens]
+* Update docs version to upcoming 1.0.1 point release [Guido A.J. Stevens]
+* Merge branch 'community-master' into release-1.0.x [Guido A.J. Stevens]
+* Update documentation in preparation for new community release. [Guido A.J. Stevens]
+* Revert "update docs on board mailinglist" [Guido A.J. Stevens]
+* Clean up [Alessandro Pisa]
+* Filter empty users and suggest to use pi_api [Alessandro Pisa]
+* made a new bundle release [Wolfgang Thomas]
+* Strip empty letter and have dynamic icons [Alessandro Pisa]
+* update version [Alexander Pilz]
+* update docs on board mailinglist [Alexander Pilz]
+*  add hotfix Products.PloneHotfix20160419==1.0 [Claudio Kirchhoff]
 
 
 1.1.0b2 (2016-06-22)
