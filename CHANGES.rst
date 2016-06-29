@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0b3 (unreleased)
+1.1.0b3 (2016-06-29)
 --------------------
 
 * Merge pull request #405 from quaive/more-robust-solr [GitHub]
