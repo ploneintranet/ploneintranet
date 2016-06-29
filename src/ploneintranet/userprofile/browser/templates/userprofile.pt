@@ -214,8 +214,8 @@
                           >
                         <label class="pat-select bare pat-inject">
                           <select name="by_date">
-                            <option value="">Group by first letter</option>
-                            <option value="1">Group by date</option>
+                            <option value="" i18n:translate="">Group by first letter</option>
+                            <option value="1" i18n:translate="" >Group by date</option>
                           </select>
                         </label>
                       </form>

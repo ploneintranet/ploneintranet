@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-17 19:29+0000\n"
+"POT-Creation-Date: 2016-06-24 09:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -766,8 +766,16 @@ msgstr ""
 msgid "Group by"
 msgstr ""
 
+#: ../userprofile/browser/templates/userprofile.pt:218
+msgid "Group by date"
+msgstr ""
+
 #: ../workspace/browser/workspacecontainer.py:105
 msgid "Group by division"
+msgstr ""
+
+#: ../userprofile/browser/templates/userprofile.pt:217
+msgid "Group by first letter"
 msgstr ""
 
 #: ../library/browser/templates/library.html:47
@@ -1341,7 +1349,7 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_workspace.py:164
+#: ../workspace/browser/add_workspace.py:165
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1501,7 +1509,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: ../userprofile/browser/templates/userprofile.pt:219
+#: ../userprofile/browser/templates/userprofile.pt:225
 msgid "Search ${here/fullname} documents"
 msgstr ""
 
@@ -2807,12 +2815,12 @@ msgid "unfollow"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_groups} groups."
-#: ../userprofile/browser/templates/userprofile.pt:276
+#: ../userprofile/browser/templates/userprofile.pt:290
 msgid "user_member_of_groups"
 msgstr ""
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
-#: ../userprofile/browser/templates/userprofile.pt:255
+#: ../userprofile/browser/templates/userprofile.pt:269
 msgid "user_member_of_workspaces"
 msgstr ""
 
