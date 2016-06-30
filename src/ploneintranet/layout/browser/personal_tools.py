@@ -34,8 +34,6 @@ class PersonalTools(BrowserView):
                     filename=portrait.filename.decode('utf-8')
                 )
                 getattr(profiles, profile).portrait = image
-                getattr(profiles, profile).reindexObject()
-                transaction.commit()
 
                 IStatusMessage(self.request).add(
                     _("Personal image updated. Keep browsing or reload the "

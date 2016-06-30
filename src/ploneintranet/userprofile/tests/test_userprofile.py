@@ -59,13 +59,6 @@ class TestUserProfileBase(BaseTestCase):
 
         self.logout()
 
-    def tearDown(self):
-        super(TestUserProfileBase, self).tearDown()
-        self.login_as_portal_owner()
-        api.content.delete(self.profile1)
-        api.content.delete(self.profile2)
-        transaction.commit()
-
     def create_test_file_field(self, data, filename):
         field_storage = ZopeFieldStorage()
         field_storage.file = BytesIO(data)
