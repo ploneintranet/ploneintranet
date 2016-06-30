@@ -1,6 +1,6 @@
 import logging
 import requests
-import transaction
+
 from plone import api
 from plone.namedfile.file import NamedBlobImage
 from Products.CMFCore.utils import getToolByName

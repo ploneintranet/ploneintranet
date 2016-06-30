@@ -17,7 +17,6 @@ from zExceptions import NotFound
 from zope.component import getMultiAdapter
 
 import os
-import transaction
 
 TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
