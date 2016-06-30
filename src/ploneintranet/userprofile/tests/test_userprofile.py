@@ -17,6 +17,7 @@ from zExceptions import NotFound
 from zope.component import getMultiAdapter
 
 import os
+import transaction
 
 TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
@@ -57,6 +58,13 @@ class TestUserProfileBase(BaseTestCase):
             self.profile2.reindexObject()
 
         self.logout()
+
+    def tearDown(self):
+        super(TestUserProfileBase, self).tearDown()
+        self.login_as_portal_owner()
+        api.content.delete(self.profile1)
+        api.content.delete(self.profile2)
+        transaction.commit()
 
     def create_test_file_field(self, data, filename):
         field_storage = ZopeFieldStorage()
