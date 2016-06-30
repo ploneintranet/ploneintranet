@@ -85,7 +85,7 @@ class SearchResult(object):
         self.context = context
         self.response = response
         self.title = context['Title']
-        self.description = context['Description']
+        self.description = context.get('Description', '')
         self.friendly_type_name = context['friendly_type_name']
         self.portal_type = context['portal_type']
         self.contact_email = context.get('email')
