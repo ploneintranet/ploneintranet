@@ -30,7 +30,9 @@ class PersonalTools(BrowserView):
                 scaled, mimetype = scale_image(portrait)
                 img = Image(id=cleanId(profile), file=scaled, title='')
                 image = NamedBlobImage(
-                    data=img.data, filename=portrait.filename.decode('utf-8'))
+                    data=str(img.data),
+                    filename=portrait.filename.decode('utf-8')
+                )
                 getattr(profiles, profile).portrait = image
                 getattr(profiles, profile).reindexObject()
                 transaction.commit()
