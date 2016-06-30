@@ -16,3 +16,4 @@ Component Packages
     network
     pagerank
     case-management
+    mailin
