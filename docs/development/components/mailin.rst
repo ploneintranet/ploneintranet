@@ -38,6 +38,13 @@ Configure the email address of a workspace
 Mailserver configuration
 ------------------------
 
+Mail comes in through a mail server. So when you want mail for mailme@intranet.yourdomain.com to be handled by smtp2zope and sent to your web server, you should add an alias in your smtp server configuration. Something like this probably works (there might be slight differences depending on which mail server you use):
+
+.. code :: 
+
+    mailme@intranet.yourdomain.com "|/path/to/smtp2zope bin/smtp2zope -v -z localhost:8080 -u /Plone/@@mailrouter-inject 1000000"
+
+The number at the end restricts the maximum size of a message; this is optional, but highly recommended.
 
 
 Invoking the scripthandler manually
@@ -46,6 +53,7 @@ Invoking the scripthandler manually
 For testing purposes, you can also invoke the script handler manually. 
 
 To do so, you need a test email as file. 
+
 - Change the From: header to a user that exists in the system. (e.g. yourname@yourdomain.com)
 - Change the X-Original-to: header to match the friendly name of your workspace, which you configured above. (e.g. marketing@intranet.yourdomain.com)
 
