@@ -9,6 +9,8 @@ from plone.app.testing import setRoles
 from plone.testing import z2
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 from zope.configuration import xmlconfig
+
+import ploneintranet.layout
 import ploneintranet.userprofile
 
 
@@ -25,6 +27,11 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
         # Load ZCML
         xmlconfig.file(
             'configure.zcml',
+            ploneintranet.layout,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
             ploneintranet.userprofile,
             context=configurationContext
         )
@@ -32,6 +39,7 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
             z2.installProduct(app, p)
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'ploneintranet.layout:default')
         applyProfile(portal, 'ploneintranet.userprofile:testing')
         setRoles(portal, TEST_USER_ID, ['Manager'])
 
