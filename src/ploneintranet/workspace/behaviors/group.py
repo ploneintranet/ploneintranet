@@ -4,9 +4,10 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import IGroup
 from Products.membrane.interfaces import IMembraneUserGroups
-from Products.membrane.interfaces import IMembraneUserProperties
+from Products.membrane.interfaces import IMembraneGroupProperties
 from collective.workspace.interfaces import IWorkspace
 from collective.workspace.pas import WORKSPACE_INTERFACE
+from dexterity.membrane.behavior.group import MembraneGroup
 from dexterity.membrane.behavior.user import DxUserObject
 from plone import api
 from zope.interface import Interface
@@ -41,9 +42,9 @@ class MembraneWorkspaceGroup(object):
         return tuple(set([id for (id, details) in ws.members.items()]))
 
 
-@implementer(IMembraneUserProperties)
+@implementer(IMembraneGroupProperties)
 @adapter(IMembraneGroup)
-class MembraneGroupProperties(DxUserObject):
+class MembraneGroupProperties(MembraneGroup):
     """ Properties for our membrane group
     """
 
@@ -106,8 +107,10 @@ class IGroupsProvider(Interface):
 @implementer(IMembraneUserGroups)
 @adapter(IGroupsProvider)
 class MembraneWorkspaceGroupsProvider(DxUserObject):
-    """
-    Adapts from IGroupsProvider to IMembraneUserGroups
+    """Determine the groups to which a principal belongs.
+
+    Note: this is a plugin provider.  It is not meant to adapt a user or
+    group itself.  It is not meant for asking the groups of the context.
     """
 
     security = ClassSecurityInfo()
@@ -119,10 +122,24 @@ class MembraneWorkspaceGroupsProvider(DxUserObject):
             query['workspace_members'] = userid
         return (b.id for b in catalog.unrestrictedSearchResults(query))
 
+    def _build_groups(self, principal_id, groups=None):
+        """Build a set of groups recursively.
+
+        The groups variable is passed around recursively.
+        """
+        if groups is None:
+            groups = set()
+        for workspace in self._iterWorkspaces(principal_id):
+            if workspace in groups:
+                # We must watch out and prevent this:
+                # RuntimeError: maximum recursion depth exceeded in cmp
+                continue
+            groups.add(workspace)
+            # Recursive: get the groups of the groups.
+            self._build_groups(workspace, groups)
+        return groups
+
     # IGroupsPlugin implementation
     def getGroupsForPrincipal(self, principal, request=None):
-        groups = set()
-        for workspace in self._iterWorkspaces(principal.getId()):
-            groups.add(workspace)
-        return tuple(groups)
+        return tuple(self._build_groups(principal.getId()))
     security.declarePrivate('getGroupsForPrincipal')

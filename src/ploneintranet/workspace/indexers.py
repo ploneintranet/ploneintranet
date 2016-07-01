@@ -10,10 +10,6 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import datify
 from plone.indexer.decorator import indexer
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
-from Products.membrane.catalog import (
-    object_implements as membrane_object_implements
-)
-from Products.membrane.interfaces.membrane_tool import IMembraneTool
 from utils import guess_mimetype
 
 
@@ -115,22 +111,3 @@ def division(object, **kw):
     Since this index is a UUIDIndex it needs to return either a UID or None
     """
     return getattr(object, 'division', None) or None
-
-
-@indexer(IWorkspaceFolder, IMembraneTool)
-def object_implements(obj):
-    """
-    BBB: fix the code upstream and remove this indexer
-
-    Catalog indexer which returns a list of all interfaces implementing
-    :py:obj:`IMembraneQueryableInterface`. This boils down to the list of
-    supported membrane behaviours for an object..
-    """
-    # this iface is banned because otherwise the workspace will be listed
-    # among the users by the membrane catalog
-    banned = u'Products.membrane.interfaces.user.IMembraneUserObject'
-    identifiers = membrane_object_implements(obj)()
-    return tuple(
-        identifier for identifier in identifiers
-        if identifier != banned
-    )
