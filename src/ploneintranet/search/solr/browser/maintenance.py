@@ -279,7 +279,7 @@ class SolrMaintenanceView(BrowserView):
         processed = 0
         # XXX Why the difference to the reindex flush?
         # flush = notimeout(lambda: conn.flush())
-        flush = notimeout(lambda: conn.commit(soft=True))
+        flush = notimeout(lambda: conn.commit(softCommit=True))
 
         def checkPoint():
             msg = 'intermediate commit (%d items processed, ' \
