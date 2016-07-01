@@ -33,8 +33,9 @@
          tal:content="structure comment_view"
          />
     </div>
-    <div id="new-comment-${context/id}"></div>
-    <div tal:replace="structure view/context/@@update-social.html" />
-
+    <tal:commentable condition="view/commentable">
+      <div id="new-comment-${context/id}"></div>
+      <div tal:replace="structure view/context/@@update-social.html" />
+    </tal:commentable>
 </body>
 </html>
