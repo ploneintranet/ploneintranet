@@ -20,7 +20,7 @@
       </a>
       <p class="byline">
         <em class="action" i18n:translate=""
-            ><span tal:omit-tag="" i18n:name="action_verb" i18n:translate="">has_${context/action_verb}</span> this item</em>
+            ><span tal:omit-tag="" i18n:name="action_verb" i18n:translate="">${context/action_verb}</span> this item</em>
         <time class="datestamp pat-display-time"
               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
               datetime="${context/date/ISO}"
@@ -33,8 +33,9 @@
          tal:content="structure comment_view"
          />
     </div>
-    <div id="new-comment-${context/id}"></div>
-    <div tal:replace="structure view/context/@@update-social.html" />
-
+    <tal:commentable condition="view/commentable">
+      <div id="new-comment-${context/id}"></div>
+      <div tal:replace="structure view/context/@@update-social.html" />
+    </tal:commentable>
 </body>
 </html>

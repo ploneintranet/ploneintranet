@@ -250,7 +250,7 @@ Creating a page creates a statusupdate
     And I can create a new document    My created document
     When I save the document    
     Then the content stream is visible
-    And the stream contains     0 comments on 1 shares
+    And the stream contains     created this item
     When I go to the Open Market Committee Workspace
     Then the stream links to the document     My created document
     When I open the Dashboard
