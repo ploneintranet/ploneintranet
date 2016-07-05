@@ -241,7 +241,7 @@ def handle_case_workflow_state_changed(obj, event):
     * Update the contained Todo items ans set adjust their workflow state
     * Grant assignees on tasks of the current milestone guest access
     """
-    _update_todos_state(obj)
+    execute_as_manager(_update_todos_state, obj)
     obj.update_case_access()
 
 
@@ -255,7 +255,7 @@ def _update_todos_state(obj):
     brains = pc(path=current_path, portal_type='todo')
     for brain in brains:
         todo = brain.getObject()
-        execute_as_manager(_update_todo_state, todo)
+        _update_todo_state(todo)
 
 
 def _update_todo_state(todo):
