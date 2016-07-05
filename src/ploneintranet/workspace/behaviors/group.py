@@ -107,10 +107,39 @@ class IGroupsProvider(Interface):
 @implementer(IMembraneUserGroups)
 @adapter(IGroupsProvider)
 class MembraneWorkspaceGroupsProvider(DxUserObject):
-    """Determine the groups to which a principal belongs.
+    """
+    Determine the groups to which a principal belongs.
+    A principal can be a user or a group.
 
-    Note: this is a plugin provider.  It is not meant to adapt a user or
-    group itself.  It is not meant for asking the groups of the context.
+    This is a plugin provider, used by PAS. When the groups of a user
+    are determined, this is roughly the call flow:
+
+    The main method that plays a role is
+    `Products.PluggableAuthService.PluggableAuthService.PluggableAuthService.
+        _getGroupsForPrincipal`.
+    This method iterates over all plugins that are registered as groupmakers
+    (= they implement `IGroupsPlugin`). Among those plugins are source_groups
+    and auto_group, and also our workspace_groups plugin from
+    `collective.workspace.pas.WorkspaceGroupManager`.
+
+    But in this case, the membrane_groups plugin is the one we are interested
+    in. In `Products.membrane.plugins.groupmanager.getGroupsForPrincipal`
+    the providers that can be used for looking up the group memberships of the
+    principal are found via a call to `findMembraneUserAspect` of
+    Products.membrane.utils.
+    It does a catalog query for all objects that implement
+    `user_ifaces.IMembraneUserGroups` and fulfill the query (exact match of the
+    user id). Then it applies this interface to the results and returns them.
+    This is why this provider needs to announce that it provides the interface
+    `Products.membrane.interfaces.user.IMembraneUserGroups`
+    for membrane user objects `dexterity.membrane.behavior.user.IMembraneUser`.
+    Otherwise this provider will not be found by the membrane_plugin when it
+    is handling a user.
+
+    Note: this plugin provider should also be able to handle the lookup of
+    which groups a group is a member of (= case: principal is a group).
+    With the current implementation of Products.membrane, this is not possible.
+    See quaive/ploneintranet#415 for a discussion of this.
     """
 
     security = ClassSecurityInfo()

@@ -56,7 +56,9 @@
     />
 
   <!-- Adapt dexterity membrane users to IMembraneUserGroups so that the
-  lookup of user->groups is working for our workspaces -->
+  lookup of user->groups in PAS is working for our workspaces.
+  See the docstring of MembraneWorkspaceGroupsProvider for more details.
+   -->
   <adapter
     for="dexterity.membrane.behavior.user.IMembraneUser"
     factory=".group.MembraneWorkspaceGroupsProvider"
