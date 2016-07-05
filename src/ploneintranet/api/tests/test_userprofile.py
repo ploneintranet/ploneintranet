@@ -165,6 +165,12 @@ class TestUserProfileGetUsers(IntegrationTestCase):
             username='bobschmo',
             email='bobschmo@schmo.com'
         )
+        self.profile4 = pi_api.userprofile.create(
+            username='celinedijon',
+            email='celine@dijon.com'
+        )
+        self.group1 = plone_api.group.create(groupname='group1')
+        self.group1.addMember(self.profile4.getId())
         self.folder = plone_api.content.create(
             self.portal, 'Folder', 'my-folder', 'My Folder')
         self.folder.members = ['bobdoe', 'bobschmo']
@@ -194,21 +200,23 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         usergen = pi_api.userprofile.get_users(full_objects=False)
         self.assertEqual(
             sorted([x.getUserId for x in usergen]),
-            ['bobdoe', 'bobschmo', 'janedoe'])
+            ['bobdoe', 'bobschmo', 'celinedijon', 'janedoe'])
 
     def test_get_users_brains_email(self):
         usergen = pi_api.userprofile.get_users(full_objects=False)
         self.assertEqual(
             sorted([x.email for x in usergen]),
-            ['bobdoe@doe.com', 'bobschmo@schmo.com', 'janedoe@doe.com'])
+            ['bobdoe@doe.com', 'bobschmo@schmo.com',
+             'celine@dijon.com', 'janedoe@doe.com'])
 
     def test_get_users_fullobj(self):
         usergen = pi_api.userprofile.get_users(full_objects=True)
         found = [x for x in usergen]
-        self.assertEqual(len(found), 3)
+        self.assertEqual(len(found), 4)
         self.assertIn(self.profile1, found)
         self.assertIn(self.profile2, found)
         self.assertIn(self.profile3, found)
+        self.assertIn(self.profile4, found)
 
     def test_get_users_context_workspace_fullobj(self):
         usergen = pi_api.userprofile.get_users(self.folder, True)
@@ -227,6 +235,19 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
         self.assertIn(self.profile3, found)
+
+    def test_get_users_context_workspace_group_lookup(self):
+        folder = plone_api.content.create(
+            self.portal, 'Folder', 'my-folder-with-group', 'My Folder')
+        folder.members = ['bobdoe', 'bobschmo', 'group1']
+        directlyProvides(folder, IMemberGroup)
+        usergen = pi_api.userprofile.get_users(folder, True)
+        found = [x for x in usergen]
+        self.assertEqual(len(found), 3)
+        self.assertNotIn(self.profile1, found)
+        self.assertIn(self.profile2, found)
+        self.assertIn(self.profile3, found)
+        self.assertIn(self.profile4, found)
 
     def test_get_users_search_fulltext_1(self):
         usergen = pi_api.userprofile.get_users(
