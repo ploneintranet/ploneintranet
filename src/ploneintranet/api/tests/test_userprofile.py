@@ -249,12 +249,11 @@ class TestUserProfileGetUsers(IntegrationTestCase):
     def test_get_users_exactgetusername(self):
         usergen = pi_api.userprofile.get_users(
             full_objects=True,
-            exact_getUsername=['janedoe', 'bobdoe'])
+            exact_getUserName=['janedoe', 'bobdoe'])
         found = [x for x in usergen]
-        self.assertEqual(len(found), 3)
+        self.assertEqual(len(found), 2)
         self.assertIn(self.profile1, found)
         self.assertIn(self.profile2, found)
-        self.assertIn(self.profile3, found)
 
     def test_get_users_context_exactgetusername_1(self):
         """Specifiying both a context and exact_getUserName
