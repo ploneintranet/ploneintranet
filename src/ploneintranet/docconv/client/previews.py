@@ -259,7 +259,9 @@ def get_thumbnail(obj):
 
 def _resource_url_by_uid(uid):
     """ assuming we know we have a thumbnail, we can generate the path
-        using the uid only
+        using the uid only.
+        This code is mimicking c.docmentviewer.storage.getResourceRelURL:38
+        which is building the same from an object instead only an uid.
     """
     base = '@@dvpdffiles/'
     return '%s%s/%s/%s' % (base, uid[0], uid[1], uid)
