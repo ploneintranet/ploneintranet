@@ -64,5 +64,14 @@
     factory=".group.MembraneWorkspaceGroupsProvider"
     provides="Products.membrane.interfaces.user.IMembraneUserGroups"
     />
+  <!-- Adapt dexterity group users to IMembraneGroupGroups so that the
+  lookup of group->groups in PAS is working for our workspaces.
+  See the docstring of MembraneWorkspaceGroupsProvider for more details.
+   -->
+  <adapter
+    for="dexterity.membrane.behavior.group.IMembraneGroup"
+    factory=".group.MembraneWorkspaceGroupsProvider"
+    provides="Products.membrane.interfaces.group.IMembraneGroupGroups"
+    />
 
 </configure>

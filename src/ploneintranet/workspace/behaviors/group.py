@@ -3,12 +3,10 @@ from AccessControl import ClassSecurityInfo
 from Products.CMFPlone.utils import safe_unicode
 from Products.PlonePAS.sheet import MutablePropertySheet
 from Products.membrane.interfaces import IGroup
-from Products.membrane.interfaces import IMembraneUserGroups
 from Products.membrane.interfaces import IMembraneGroupProperties
 from collective.workspace.interfaces import IWorkspace
 from collective.workspace.pas import WORKSPACE_INTERFACE
 from dexterity.membrane.behavior.group import MembraneGroup
-from dexterity.membrane.behavior.user import DxUserObject
 from plone import api
 from zope.interface import Interface
 from zope.component import adapter
@@ -104,15 +102,13 @@ class IGroupsProvider(Interface):
     """
 
 
-@implementer(IMembraneUserGroups)
-@adapter(IGroupsProvider)
-class MembraneWorkspaceGroupsProvider(DxUserObject):
+class MembraneWorkspaceGroupsProvider(object):
     """
     Determine the groups to which a principal belongs.
     A principal can be a user or a group.
 
-    This is a plugin provider, used by PAS. When the groups of a user
-    are determined, this is roughly the call flow:
+    This is a plugin provider, used by Products.membrane. When the groups
+    of a user are determined, this is roughly the call flow:
 
     The main method that plays a role is
     `Products.PluggableAuthService.PluggableAuthService.PluggableAuthService.
@@ -136,13 +132,33 @@ class MembraneWorkspaceGroupsProvider(DxUserObject):
     Otherwise this provider will not be found by the membrane_plugin when it
     is handling a user.
 
-    Note: this plugin provider should also be able to handle the lookup of
-    which groups a group is a member of (= case: principal is a group).
-    With the current implementation of Products.membrane, this is not possible.
+    Similar for groups: we register this adapter for the interface
+    `dexterity.membrane.behavior.group.IMembraneGroup` to
+    `Products.membrane.interfaces.group.IMembraneGroupGroups`,
+    which is again called by
+    `Products.membrane.plugins.groupmanager.getGroupsForPrincipal`.
+
+    It is a bit quirky. The core membrane function
+    `Products.membrane.plugins.groupmanager.getGroupsForPrincipal`
+    gathers a list of providers.  The only providers it should be able
+    to find, are one principal: a user or group with the asked id.
+    Or rather: an adapter of this user or group.  In our case this will be
+    an instance of the MembraneWorkspaceGroupsProvider class.  Then it asks
+    this adapter for the list of groups of a principal.  But this
+    principal is this same user or group from the adapter.
+    So the groupmanager could simply ask: give me your groups.
+
+    We will look at the passed principal anyway, which also avoids the
+    need to determine whether we need to call getUserId or getGroupId
+    or getId to get the id of this user.
+
     See quaive/ploneintranet#415 for a discussion of this.
     """
 
     security = ClassSecurityInfo()
+
+    def __init__(self, context):
+        self.context = context
 
     def _iterWorkspaces(self, userid=None):
         catalog = api.portal.get_tool('portal_catalog')
@@ -151,24 +167,10 @@ class MembraneWorkspaceGroupsProvider(DxUserObject):
             query['workspace_members'] = userid
         return (b.id for b in catalog.unrestrictedSearchResults(query))
 
-    def _build_groups(self, principal_id, groups=None):
-        """Build a set of groups recursively.
-
-        The groups variable is passed around recursively.
-        """
-        if groups is None:
-            groups = set()
-        for workspace in self._iterWorkspaces(principal_id):
-            if workspace in groups:
-                # We must watch out and prevent this:
-                # RuntimeError: maximum recursion depth exceeded in cmp
-                continue
-            groups.add(workspace)
-            # Recursive: get the groups of the groups.
-            self._build_groups(workspace, groups)
-        return groups
-
     # IGroupsPlugin implementation
     def getGroupsForPrincipal(self, principal, request=None):
-        return tuple(self._build_groups(principal.getId()))
+        groups = set()
+        for workspace in self._iterWorkspaces(principal.getId()):
+            groups.add(workspace)
+        return tuple(groups)
     security.declarePrivate('getGroupsForPrincipal')
