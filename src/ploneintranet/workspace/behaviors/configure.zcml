@@ -69,7 +69,7 @@
   See the docstring of MembraneWorkspaceGroupsProvider for more details.
    -->
   <adapter
-    for="dexterity.membrane.behavior.group.IMembraneGroup"
+    for=".group.IMembraneGroup"
     factory=".group.MembraneWorkspaceGroupsProvider"
     provides="Products.membrane.interfaces.group.IMembraneGroupGroups"
     />
