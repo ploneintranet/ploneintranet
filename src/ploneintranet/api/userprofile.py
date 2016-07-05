@@ -38,17 +38,25 @@ def get_users(
     except InvalidParameterError:
         return []
     if context:
+        acl_users = plone_api.portal.get_tool('acl_users')
         try:
             # adapters provided by pi.userprofile and pi.workspace
-            members = [x for x in IMemberGroup(context).members]
+            members = set([x for x in IMemberGroup(context).members])
+            # In case of groups, resolve the group members
+            for id in list(members):
+                group = acl_users.getGroupById(id)
+                if group:
+                    members.remove(id)
+                    members = members.union(set(
+                        [user.getId() for user in group.getGroupMembers()]))
             # both context and query: calculate intersection
             if 'exact_getUserName' in kwargs:
                 _combi = list(
-                    set(members).intersection(
+                    members.intersection(
                         set(kwargs['exact_getUserName'])))
                 kwargs['exact_getUserName'] = _combi
             else:
-                kwargs['exact_getUserName'] = members
+                kwargs['exact_getUserName'] = list(members)
         except TypeError:
             # could not adapt to IMemberGroup
             pass
