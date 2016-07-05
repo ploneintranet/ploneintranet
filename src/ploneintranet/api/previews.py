@@ -123,6 +123,20 @@ def get_thumbnail_url(obj, relative=False):
     return previews.get_thumbnail_url(obj, relative)
 
 
+def get_thumbnail_url_by_uid(uid, relative=False):
+    """Convenience method to get the absolute URL of thumbnail image
+    this time without fetching the object but by calculating it from the uid
+    this can be used in catalog results where we already know using has_thumb
+    that a thumbnail image exists.
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: The absolute URL to the thumbnail image
+    :rtype: str
+    """
+    return previews.get_thumbnail_url_by_uid(uid, relative)
+
+
 def has_pdf(obj):
     """ NOT IMPLEMENTED. Once we do pdf generation for text content, this will work
 
