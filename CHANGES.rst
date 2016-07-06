@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.0b4 (unreleased)
+1.1.0b4 (2016-07-06)
 --------------------
 
 * Merge pull request #418 from quaive/avoid-getObject [GitHub]
