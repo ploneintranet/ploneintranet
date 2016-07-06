@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
-import os
-
-from zExceptions import NotFound
 from AccessControl import Unauthorized
+from ZPublisher.HTTPRequest import FileUpload
+from ZPublisher.HTTPRequest import ZopeFieldStorage
+from ZPublisher.Iterators import IStreamIterator
+from io import BytesIO
 from plone import api
 from plone.namedfile import NamedBlobImage
-from ZPublisher.Iterators import IStreamIterator
-
-from ploneintranet.userprofile.tests.base import BaseTestCase
-from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import AuthorView
-from ploneintranet.userprofile.browser.userprofile import MyProfileView
 from ploneintranet.userprofile.browser.userprofile import AvatarsView
 from ploneintranet.userprofile.browser.userprofile import MyAvatar
+from ploneintranet.userprofile.browser.userprofile import MyProfileView
+from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import default_avatar
+from ploneintranet.userprofile.tests.base import BaseTestCase
+from zExceptions import NotFound
+from zope.component import getMultiAdapter
+
+import os
 
 TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
@@ -23,29 +26,44 @@ class TestUserProfileBase(BaseTestCase):
     def setUp(self):
         super(TestUserProfileBase, self).setUp()
         self.login_as_portal_owner()
-        self.profile1 = api.content.create(
-            container=self.profiles,
-            type='ploneintranet.userprofile.userprofile',
-            id='johndoe',
-            username='johndoe',
-            first_name='John',
-            last_name='Doe',
-        )
-        api.content.transition(self.profile1, 'approve')
-        self.profile1.reindexObject()
+        username1 = 'johndoe'
+        if username1 in self.profiles:
+            self.profile1 = self.profiles[username1]
+        else:
+            self.profile1 = api.content.create(
+                container=self.profiles,
+                type='ploneintranet.userprofile.userprofile',
+                id=username1,
+                username=username1,
+                first_name='John',
+                last_name='Doe',
+            )
+            api.content.transition(self.profile1, 'approve')
+            self.profile1.reindexObject()
 
-        self.profile2 = api.content.create(
-            container=self.profiles,
-            type='ploneintranet.userprofile.userprofile',
-            id='janedoe',
-            username='janedoe',
-            first_name='Jane',
-            last_name='Doe',
-        )
-        api.content.transition(self.profile2, 'approve')
-        self.profile2.reindexObject()
+        username2 = 'janedoe'
+        if username2 in self.profiles:
+            self.profile2 = self.profiles[username2]
+        else:
+            self.profile2 = api.content.create(
+                container=self.profiles,
+                type='ploneintranet.userprofile.userprofile',
+                id=username2,
+                username=username2,
+                first_name='Jane',
+                last_name='Doe',
+            )
+            api.content.transition(self.profile2, 'approve')
+            self.profile2.reindexObject()
 
         self.logout()
+
+    def create_test_file_field(self, data, filename):
+        field_storage = ZopeFieldStorage()
+        field_storage.file = BytesIO(data)
+        field_storage.filename = filename
+        file_field = FileUpload(field_storage)
+        return file_field
 
 
 class TestUserProfileView(TestUserProfileBase):
@@ -168,3 +186,32 @@ class TestAvatarViews(TestUserProfileBase):
         avatar = MyAvatar(self.profile2, self.request)
 
         self.assertEqual(avatar(), self.default_avatar)
+
+    def test_upload_avatar(self):
+        self.login(self.profile1.username)
+        self.request.form['submit'] = 'submit'
+        avatar_file = open(
+            os.path.join(os.path.dirname(__file__), TEST_AVATAR_FILENAME), 'r')
+        self.request.form['portrait'] = self.create_test_file_field(
+            avatar_file.read(), TEST_AVATAR_FILENAME)
+
+        getMultiAdapter(
+            (self.profile1, self.request), name='personal-menu.html')()
+        self.assertEqual(self.profile1.portrait.filename, TEST_AVATAR_FILENAME)
+
+    def test_upload_avatar_large(self):
+        TEST_AVATAR_FILENAME_LARGE = u'test_avatar_large.jpg'
+        self.login(self.profile2.username)
+        self.request.form['submit'] = 'submit'
+        avatar_file = open(
+            os.path.join(
+                os.path.dirname(__file__), TEST_AVATAR_FILENAME_LARGE),
+            'r'
+        )
+        self.request.form['portrait'] = self.create_test_file_field(
+            avatar_file.read(), TEST_AVATAR_FILENAME_LARGE)
+
+        getMultiAdapter(
+            (self.profile2, self.request), name='personal-menu.html')()
+        self.assertEqual(
+            self.profile2.portrait.filename, TEST_AVATAR_FILENAME_LARGE)

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-06-17 19:29+0000\n"
+"POT-Creation-Date: 2016-06-24 09:54+0000\n"
 "PO-Revision-Date: 2015-05-22 19:10+0000\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -188,7 +188,7 @@ msgstr "Alle Benachrichtigungen"
 
 #: ../userprofile/browser/userprofile.py:217
 msgid "All time"
-msgstr ""
+msgstr "Immer"
 
 #: ../library/browser/views.py:104
 msgid "All topics"
@@ -767,9 +767,17 @@ msgstr "Allgemeiner Arbeitsraum"
 msgid "Group by"
 msgstr "Gruppieren nach"
 
+#: ../userprofile/browser/templates/userprofile.pt:218
+msgid "Group by date"
+msgstr "Nach Datum"
+
 #: ../workspace/browser/workspacecontainer.py:105
 msgid "Group by division"
 msgstr "Nach Organisation gruppieren"
+
+#: ../userprofile/browser/templates/userprofile.pt:217
+msgid "Group by first letter"
+msgstr "Alphabetisch"
 
 #: ../library/browser/templates/library.html:47
 msgid "Group by section"
@@ -929,7 +937,7 @@ msgstr "Letzte Woche"
 
 #: ../userprofile/browser/userprofile.py:215
 msgid "Last month"
-msgstr ""
+msgstr "Letzten Monat"
 
 #: ../userprofile/content/userprofile.py:40
 msgid "Last name"
@@ -937,7 +945,7 @@ msgstr "Nachname"
 
 #: ../userprofile/browser/userprofile.py:213
 msgid "Last week"
-msgstr ""
+msgstr "Letzte Woche"
 
 #: ../workspace/browser/templates/case_manager.pt:62
 msgid "Latest creation date"
@@ -1342,7 +1350,7 @@ msgstr "Wählen Sie die verantwortliche Abteilung"
 msgid "Planned"
 msgstr "Geplant"
 
-#: ../workspace/browser/add_workspace.py:164
+#: ../workspace/browser/add_workspace.py:165
 msgid "Please specify which Case Template to use"
 msgstr "Bitte geben Sie eine Vorlage an"
 
@@ -1502,9 +1510,9 @@ msgstr "Dokument speichern"
 msgid "Search"
 msgstr "Suche"
 
-#: ../userprofile/browser/templates/userprofile.pt:219
+#: ../userprofile/browser/templates/userprofile.pt:225
 msgid "Search ${here/fullname} documents"
-msgstr ""
+msgstr "${here/fullname}'s Dokumente durchsuchen"
 
 #: ../workspace/browser/templates/panel-add-group.pt:21
 msgid "Search existing groups"
@@ -2828,14 +2836,19 @@ msgid "unfollow"
 msgstr "Nicht weiter folgen"
 
 #. Default: "${name} is a member of the following ${num_groups} groups."
-#: ../userprofile/browser/templates/userprofile.pt:276
+#: ../userprofile/browser/templates/userprofile.pt:289
 msgid "user_member_of_groups"
 msgstr "${name} ist Mitglied der folgenden ${num_groups} Gruppen."
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
-#: ../userprofile/browser/templates/userprofile.pt:255
+#: ../userprofile/browser/templates/userprofile.pt:268
 msgid "user_member_of_workspaces"
 msgstr "${name} ist Mitglied der folgenden ${num_workspaces} Arbeitsräume."
+
+#. Default: "Search ${user_name}'s documents"
+#: ../userprofile/browser/userprofile.py:280
+msgid "user_search_placeholder"
+msgstr "${user_name}'s Dokumente durchsuchen"
 
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30

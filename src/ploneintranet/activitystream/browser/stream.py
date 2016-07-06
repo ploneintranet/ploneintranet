@@ -58,6 +58,11 @@ class StreamBase(object):
         The idea is:
          - if a StatusUpdate is a comment return the parent StatusUpdate
          - show threads only once
+
+        Additionally:
+        - if a content_context has multiple content share posts,
+          suppress older content shares without replies.
+
         The effectiveness of this is limited by the autoexpand:
         the current view "sees" only it's current 15 updates.
 
@@ -66,6 +71,7 @@ class StreamBase(object):
         but not to the (unpublished) content_context object
         '''
         seen_thread_ids = set()
+        seen_content_contexts = set()
         good_statusupdates = []
         container = piapi.microblog.get_microblog()
 
@@ -79,19 +85,29 @@ class StreamBase(object):
 
             if su.thread_id:
                 # resolve reply into toplevel
-                su = container.get(su.thread_id)
+                thread_su = container.get(su.thread_id)
+            else:
+                thread_su = su
 
             # process a thread only once
-            seen_thread_ids.add(su.id)
+            seen_thread_ids.add(thread_su.id)
 
             # content updates postprocessing filter
             try:
-                su.content_context
+                content_context = su.content_context
             except Unauthorized:
                 # skip thread on inaccessible content (e.g. draft)
                 continue
 
-            good_statusupdates.append(su)
+            # double content share filter works on original reply/toplevel
+            if content_context:
+                if content_context in seen_content_contexts \
+                   and not su.thread_id:
+                    # older toplevel share, suppress
+                    continue
+                seen_content_contexts.add(content_context)
+
+            good_statusupdates.append(thread_su)
 
         return good_statusupdates
 

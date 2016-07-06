@@ -14,7 +14,8 @@
     <div class="comments" id="comments-document-comments"
          tal:condition="view/has_shares"
          >
-      <p class="comment-sentinel pat-bumper" data-pat-bumper="side: bottom;">
+      <p class="comment-sentinel pat-bumper" data-pat-bumper="side: bottom;"
+         tal:condition="view/has_comments">
         <a href="#comments-document-comments"><!-- how to i18n this??? -->
           <span tal:omit-tag="" i18n:translate="">There are <span i18n:name="num_comments" tal:replace="view/num_comments">{{ page.comments.size }}</span> comments on <span i18n:name="num_shares" tal:replace="view/num_shares">1</span> shares</span></a>
       </p>

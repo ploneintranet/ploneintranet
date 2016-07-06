@@ -872,16 +872,16 @@ class Sidebar(BaseTile):
             # not the last 30 days.
             month_start = today_start - 30
 
-            if grouping_value == 'Today':
+            if grouping_value == 'today':
                 criteria['modified'] = \
                     {'range': 'min:max', 'query': (today_start, today_end)}
-            elif grouping_value == 'Last Week':
+            elif grouping_value == 'week':
                 criteria['modified'] = \
                     {'range': 'min:max', 'query': (week_start, today_start)}
-            elif grouping_value == 'Last Month':
+            elif grouping_value == 'month':
                 criteria['modified'] = \
                     {'range': 'min:max', 'query': (month_start, week_start)}
-            elif grouping_value == 'All Time':
+            elif grouping_value == 'ever':
                 criteria['modified'] = {'range': 'max', 'query': month_start}
 
             brains = catalog(**criteria)

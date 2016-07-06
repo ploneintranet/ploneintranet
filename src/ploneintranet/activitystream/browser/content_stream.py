@@ -35,6 +35,10 @@ class ContentStreamView(BrowserView):
         return len(self._statusupdates_threadparents())
 
     @property
+    def has_comments(self):
+        return bool(self.num_comments)
+
+    @property
     def num_comments(self):
         return len([su for su in self._statusupdates_all()
                     if su.thread_id])
