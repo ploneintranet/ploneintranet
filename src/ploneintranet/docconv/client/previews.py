@@ -263,6 +263,8 @@ def _resource_url_by_uid(uid):
         This code is mimicking c.docmentviewer.storage.getResourceRelURL:38
         which is building the same from an object instead only an uid.
     """
+    if not uid:
+        return PREVIEW_URL
     base = '@@dvpdffiles/'
     return '%s%s/%s/%s' % (base, uid[0], uid[1], uid)
 
