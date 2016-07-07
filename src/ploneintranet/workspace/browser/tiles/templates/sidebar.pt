@@ -122,7 +122,7 @@
                             i18n:translate="" i18n:attributes="title">Delete</button>
                     <span class="float-before button-cluster">
                       <button type="button" class="float-before no-label icon-mail pat-shopping-cart"
-                              data-pat-shopping-cart="action: ${ws/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal" i18n:attributes="title"
+                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal" i18n:attributes="title"
                               title="Send selected document(s)">Send</button>
                       <!-- <button formaction="/feedback/batch-share.html#content" -->
                       <!--         type="submit" -->
