@@ -257,6 +257,41 @@ def get_thumbnail(obj):
     return previews[0]
 
 
+def _resource_url_by_uid(uid):
+    """ assuming we know we have a thumbnail, we can generate the path
+        using the uid only.
+        This code is mimicking c.docmentviewer.storage.getResourceRelURL:38
+        which is building the same from an object instead only an uid.
+    """
+    if not uid:
+        return PREVIEW_URL
+    base = '@@dvpdffiles/'
+    return '%s%s/%s/%s' % (base, uid[0], uid[1], uid)
+
+
+def get_thumbnail_url_by_uid(uid, relative=False):
+    site = getSite()
+    portal_url = site.portal_url()
+    global_settings = GlobalSettings(site)
+    resource_url = global_settings.override_base_resource_url
+    rel_url = _resource_url_by_uid(uid)
+    if resource_url:
+        dvpdffiles = '%s/%s' % (resource_url.rstrip('/'),
+                                rel_url)
+    else:
+        dvpdffiles = '%s/%s' % (portal_url, rel_url)
+    dump_path = DUMP_FILENAME.rsplit('.', 1)[0]
+    image_format = global_settings.pdf_image_format
+    thumbnail_url = '%s/small/%s_1.%s' % (
+                    dvpdffiles, dump_path,
+                    image_format)
+    if relative:
+        portal = api.portal.get()
+        thumbnail_url = thumbnail_url.replace(portal.absolute_url(),
+                                              portal.absolute_url(1))
+    return thumbnail_url
+
+
 def get_thumbnail_url(obj, relative=False):
     """Convenience method to get the absolute URL of thumbnail image
 
