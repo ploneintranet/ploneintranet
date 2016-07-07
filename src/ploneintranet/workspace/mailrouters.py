@@ -69,13 +69,12 @@ class BaseImporter(object):
             if primary:
                 primary[1].set(obj, payload)
         obj.setSubject([MAILIN_LABEL])
-        # obj.reindexObject(idxs='Title')
         event.notify(ObjectEditedEvent(obj))
         return True
 
 
 class MailImporter(BaseImporter):
-    """ IMailImportAdapter which imports an email into an ikath.email object
+    """ IMailImportAdapter which imports an email into a content object
         inside the appropriate workspace.
     """
     component.adapts(IFolderish)
