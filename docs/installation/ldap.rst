@@ -58,6 +58,32 @@ If you installed ldapvi you can verify that the users have been added by running
 
 You will be promted for the password, which is 'secret' by default. If you have not installed ldapvi, you can use ldapsearch instead.
 
+Using a different ldap ldif
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To load a different ldif, e.g. supplied by a client, you'll have to:
+
+- Change ``slapd.conf`` to reflect the right organisational name.
+
+- Cleanup the provided ldif until it loads.
+
+This `blog post <http://vaab.blog.kal.fr/2010/03/10/import-export-ldap-database/>`_ provides a good primer on cleaning up your ldif. 
+
+Remove offending fields::
+
+  egrep -v  "^(structuralObjectClass|entryUUID|creatorsName|modifiersName|createTimestamp|modifyTimestamp|entryCSN|entryDN|hasSubordinates|subschemaSubentry):" /var/tmp/foo-import/foo.ldif > /var/tmp/foo-import/foo-stripped.ldif
+
+Clear database from previous failed attempts::
+
+  ldapdelete -H ldap://127.0.0.1:8389 -r -D cn=root,dc=example,dc=org dc=example,dc=org -w secret
+
+Load the new cleaned-up ldif::
+
+  ldapadd -H ldap://127.0.0.1:8389 -f /var/tmp/foo-import/foo-stripped.ldif -D "cn=root,dc=example,dc=org" -w secret
+
+You may have to iterate with loading/deleting the tree until you've found and stripped all offending fields - note that the egrep expression above contains more fields than the original from the blog post.
+
+
 Connecting Plone to LDAP
 ------------------------
 
@@ -66,6 +92,16 @@ Now that LDAP itself is ready, you can go on to connect it to Ploneintranet. To 
 After that you still need to configure the port of the ldap server manually. To this end, navigate to acl_users/ldap-plugin/acl_users tab 'LDAP Servers' in the ZMI (Typical direct URL: http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_servers ), delete the existing ldap server and create a new one with the host 'localhost' and the port '8389'.
 
 The LDAP conntection is now set up and you can log into your Plone site as elda_pearson using the password 'secret' (or as any of the Ploneintranet test users, such as christian_stoney, etc.)
+
+
+Using a different ldif
+~~~~~~~~~~~~~~~~~~~~~~
+
+You may have to change the suffix, rootdn and rootpw on the LDAPUserFolder configuration.
+
+http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_main
+
+Also make sure your Users Base DN and Groups Base DN correspond to the ldif you've loaded.
 
 Using LDAP in Ploneintranet
 ---------------------------
