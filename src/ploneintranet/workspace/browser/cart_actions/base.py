@@ -15,7 +15,7 @@ class BaseCartView(BrowserView):
             uids = cart_items.split(',')
             for uid in uids:
                 obj = api.content.get(UID=uid)
-                if obj:
+                if obj and obj.aq_parent == self.context:
                     items.append(obj)
         return items
 
