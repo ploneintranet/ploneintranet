@@ -39,6 +39,8 @@ parts/
 /share/python-wheels
 release/
 /src/collective.*
+/src/dexterity.membrane
+/src/Products.membrane
 /src/quaive.app.*
 src/sphinx.themes.plone/
 stamp-bower
