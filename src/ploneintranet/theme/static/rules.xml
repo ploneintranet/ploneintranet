@@ -120,6 +120,13 @@
              />
   </rules>
 
+  <rules css:if-content=".template-app-document-browser">
+    <theme href="generated/apps/document-browser/index.html" />
+    <replace css:content="#application-body"
+             css:theme="#application-body"
+             />
+  </rules>
+
   <rules css:if-content="body.template-dashboard-html,
                          body.template-tagstream,
                          body.template-apps-html,
