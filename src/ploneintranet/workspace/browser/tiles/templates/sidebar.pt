@@ -72,7 +72,7 @@
               </label>
             </form>
 
-            <form class="search-result docs" id="items">
+            <form class="pat-modal search-result docs" id="items" action="${context/absolute_url}/cart-dispatch?_authenticator=${token}">
               <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
@@ -89,40 +89,41 @@
                   </div>
                   <div class="button-bar">
                     <span class="float-before button-cluster">
-                      <button type="button"
-                              class="pat-shopping-cart float-before icon-cut no-label"
-                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-cut?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
-                              data-pat-shopping-cart-inject="source: #paste; target: #paste &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
+                      <button type="submit"
+                              name="action"
+                              value="cut"
+                              class="icon-cut no-label"
                               title="Cut"
                               i18n:translate=""
                               i18n:attributes="title">Cut</button>
-                      <button type="button"
-                              class="pat-shopping-cart float-before icon-copy no-label"
-                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-copy?_authenticator=${token}#global-statusmessage; patterns: pat-inject"
-                              data-pat-shopping-cart-inject="source: #paste; target: #paste &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
+                      <button type="submit"
+                              class="float-before icon-copy no-label"
+                              name="action"
+                              value="copy"
                               title="Copy"
                               i18n:translate=""
                               i18n:attributes="title">Copy</button>
-                      <span id="paste"
-                            tal:define="checkPermission nocall: context/portal_membership/checkPermission;
-                                        has_clipboard_items context/cb_dataValid;
-                                        can_paste python:checkPermission('Add portal content', context);
-                                        is_disabled python:not (can_paste and has_clipboard_items)"
-                            ><button type="submit"
-                                               class="float-before icon-paste no-label pat-inject"
-                                               formaction="${context/absolute_url}/@@cart-paste?_authenticator=${token}#items"
-                                               title="Paste"
-                                               data-pat-inject="source: #items; target: #items &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
-                                               tal:attributes="disabled python:is_disabled and 'disabled'"
-                                               i18n:translate=""
-                                               i18n:attributes="title">Paste</button></span>
-                    </span>
+                      <button type="submit"
+                              name="action"
+                              value="paste"
+                              class="float-before icon-paste no-label"
+                              title="Paste"
+                              i18n:translate=""
+                              i18n:attributes="title">Paste</button></span>
+
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button type="button" class="pat-shopping-cart float-before icon-trash no-label" data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-delete-confirm; contents: keep; patterns: pat-modal" title="Delete"
+                    <button type="submit"
+                            name="action"
+                            value="delete-confirm"
+                            class="float-before icon-trash no-label"
+                            title="Delete"
                             i18n:translate="" i18n:attributes="title">Delete</button>
                     <span class="float-before button-cluster">
-                      <button type="button" class="float-before no-label icon-mail pat-shopping-cart"
-                              data-pat-shopping-cart="action: ${context/absolute_url}/@@cart-mail-confirm; contents: keep; patterns: pat-modal" i18n:attributes="title"
+                      <button type="submit"
+                              name="action"
+                              value="mail-confirm"
+                              class="float-before no-label icon-mail"
+                              i18n:attributes="title"
                               title="Send selected document(s)">Send</button>
                       <!-- <button formaction="/feedback/batch-share.html#content" -->
                       <!--         type="submit" -->
@@ -178,7 +179,7 @@ Supported types include (class names):
                 <tal:block repeat="item view/items">
                   <label class="item document type-event has-description"
                          tal:attributes="class item/cls">
-                    <input type="checkbox" class="pat-shopping-cart" tal:define="uid python: item.get('UID', '')" tal:condition="uid" data-pat-shopping-cart="id: ${uid}"/>
+                    <input name="items:list" type="checkbox" tal:define="uid python: item.get('UID', '')" tal:condition="uid" value="${uid}"/>
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"
                        data-pat-inject="target: #document-body"

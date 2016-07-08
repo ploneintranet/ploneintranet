@@ -38,6 +38,7 @@ class CutView(BaseCartView):
                 else:
                     cannot_cut.append(u'"%s"' % safe_unicode(obj.Title()))
 
+        self.heading = _(u'Cut')
         if obj_list:
             # now store cutdata into a cookie
             # TODO: what if there's nothing in the list?
@@ -49,27 +50,17 @@ class CutView(BaseCartView):
             response.setCookie('__cp', ct_data, path=path)
             request['__cp'] = ct_data
 
-            msg = _(
+            self.message = _(
                 u"batch_cut_success",
                 default=u"${num_elems} Files were cut and moved to your cloud clipboard.",  # noqa
                 mapping={"num_elems": len(obj_list)}
             )
-            api.portal.show_message(
-                message=msg,
-                request=request,
-                type="info",
-            )
 
         if cannot_cut:
-            msg = _(
+            self.message = _(
                 u"batch_cut_failure",
                 default=u"The following items could not be cut: ${num_elems}",
                 mapping={"num_elems": ', '.join(sorted(cannot_cut))}
             )
-            api.portal.show_message(
-                message=msg,
-                request=request,
-                type="info",
-            )
 
-        self.request.response.redirect(self.context.absolute_url())
+        return self.index()

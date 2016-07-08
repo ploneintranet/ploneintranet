@@ -7,7 +7,8 @@
 
   <h1 i18n:translate="">Batch delete</h1>
 
-  <form method="POST" action="cart-delete">
+  <form class="pat-inject" method="POST" action="${context/absolute_url}/@@cart-delete"
+        data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: #global-statusmessage; target: #global-statusmessage">
 
     <div class="panel-body"
          tal:define="items view/items_by_permission;
@@ -38,8 +39,7 @@
       </article>
 
 
-      <fieldset class="pat-checklist"
-                tal:define="checkPermission nocall: context/portal_membership/checkPermission">
+      <fieldset class="pat-checklist">
         <tal:deleteable repeat="item deleteable">
           <label>
             <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
@@ -58,8 +58,7 @@
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
 
-      <button type="submit" class="icon-ok-circle pat-shopping-cart"
-              data-pat-shopping-cart="action: empty" i18n:translate="">
+      <button type="submit" class="close-panel icon-ok-circle pat-shopping-cart" i18n:translate="">
         I am sure, delete now
       </button>
       <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
