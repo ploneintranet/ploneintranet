@@ -22,6 +22,5 @@
 
   <adapter name="is_archived" factory=".indexers.is_archived_dexterity" />
   <adapter name="is_archived" factory=".indexers.is_archived" />
-  <adapter name="object_implements" factory=".indexers.object_implements" />
 
 </configure>
