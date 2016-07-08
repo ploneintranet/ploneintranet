@@ -1,0 +1,67 @@
+Woordenlijst Quaive
+===================
+
+We proberen in Quaive in eerste instantie zoveel mogelijk bij deze termenlijst
+te blijven. Verschil is wel dat Plone standaard in 'u'-vorm staat. 
+
+Zie TERMS-plone.txt voor de plone woordenlijst. 
+----------------------------------------------------
+
+
+1) U of jij?
+
+Zakelijk informeel: jij
+
+2) woordenlijst
+
+* = ook in Plone
+
+(user profile) management           = ... beheer
+activity                            =
+activity centric                    = georganiseerd rond activiteiten
+app                                 =
+assignee                            =
+atributes                           = eigenschappen, attributen
+attach (document)                   = bijvoegen
+batch delete                        =
+case                                = dossier (vgl. Duits: Geschäft)
+case workspace                      = dossiergroep
+community (open)                    = 
+contacts                            = contacten
+container for workspaces            = map voor groepen
+content                            *= inhoud
+dashboard                           = dashboard
+deadline                            = deadline
+department                          = afdeling
+division                            = divisie
+event                              *= Agenda-item
+facet                               =
+folder                             *= map
+initiator
+library                             = bibliotheek
+mention (people)                    =
+milestone                           = mijlpaal
+organiser                           = organisator
+produce                             =
+secret (workspace)                  = geheim, geheel afgeschermd?
+section                             = sectie
+self-managed                        = 
+tags                                = trefwoorden                    
+task                                = taak
+task centric                        = geoganiseerd rond taken
+un-tick (deselect?)                 = deselecteer
+user profile                        = gebruikersprofiel
+workspace                           = groep
+workspace folder                    = groepmap
+
+3) Vermijd het gebruike van 'popi' taal:
+
+Dus niet: 
+    msgid "Oh boy, oh boy, you are already a member"
+    msgstr "Hela, hola! Je bent al lid"
+
+Het lastige hiervan is wel dat de brontaal (Engels) al dergerlijke constructies bevat. 
+
+4) Woordvolgorde
+
+het significante woord zoveel mogelijk vooraan. Bijv. dus niet "Instellingen voor blabla", maar "blabla-instellingen".
