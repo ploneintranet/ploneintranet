@@ -1,4 +1,4 @@
-from Products.Archetypes.event import ObjectEditedEvent
+from zope.container.contained import ObjectAddedEvent
 from Products.CMFCore.interfaces import IFolderish
 from ploneintranet.workspace import utils
 from plone import api
@@ -69,7 +69,7 @@ class BaseImporter(object):
             if primary:
                 primary[1].set(obj, payload)
         obj.setSubject([MAILIN_LABEL])
-        event.notify(ObjectEditedEvent(obj))
+        event.notify(ObjectAddedEvent(obj))
         return True
 
 
