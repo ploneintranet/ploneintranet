@@ -2,6 +2,7 @@
 from OFS.CopySupport import _cb_encode
 from OFS.CopySupport import cookie_path
 from OFS.Moniker import Moniker
+from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
@@ -34,10 +35,14 @@ class CopyView(BaseCartView):
         response.setCookie('__cp', cp_data, path=path)
         request['__cp'] = cp_data
 
-        self.heading = _(u'Copied')
-        self.message = _(
+        msg = _(
             u"batch_copied_success",
             default=u"${num_elems} Files were copied to your cloud clipboard.",
             mapping={"num_elems": len(obj_list)}
+        )
+        api.portal.show_message(
+            message=msg,
+            request=request,
+            type="info",
         )
         return self.index()

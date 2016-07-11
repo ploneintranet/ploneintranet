@@ -4,22 +4,9 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-
-  <h1>${view/heading}</h1>
-
-  <form class="pat-inject" action="${context/absolute_url}#workspace-documents">
-    <div class="panel-body">
-      <article>
-        <p>${view/message}</p>
-      </article>
-    </div>
-
-    <div class="buttons panel-footer">
-      <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button type="submit" class="icon-ok-circle close-panel" i18n:translate="">
-        Ok
-      </button>
-    </div>
-
-  </form>
+  <body>
+    <aside id="global-statusmessage">
+      <tal:message tal:content="structure provider:plone.globalstatusmessage" />
+    </aside>
+  </body>
 </html>
