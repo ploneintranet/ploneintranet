@@ -115,6 +115,7 @@ I can copy the Minutes word document
 I can paste the Minutes word document
     Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Paste']
     I choose to paste the items in the cart
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait Until Page Contains  Item(s) pasted
 
 I can delete the Minutes word document
@@ -174,6 +175,7 @@ I see a message that files have been copied
     Wait Until Page Contains  Files were copied to your cloud clipboard
 
 I see a message that items have been pasted
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait Until Page Contains  Item(s) pasted
 
 I see a message that I cannot cut
