@@ -79,12 +79,12 @@ class TestSecretWorkspaceContentWorkflow(BaseTestCase):
     _fire_transition = None
     _expected_review_state = 'secret'
 
-    # These are the general permission that are almopst
+    # These are the general permission that are almost
     # common to every test case
     _base_permissions_by_userid = {
         'wsadmin': {VIEW, MODIFY, DELETE},
         'wsowner': {VIEW, MODIFY},
-        'wsmember': {VIEW},
+        'wsmember': {VIEW, MODIFY},
         'nonmember': set(),
         None: set(),  # anonymous
     }
@@ -207,6 +207,8 @@ class TestWorkspacePolicyConsumers(TestSecretWorkspaceContentWorkflow):
     _participant_policy = 'consumers'
     _test_specific_permissions_by_userid = {
         'owner': set(),
+        'wsowner': {VIEW},
+        'wsmember': {VIEW},
     }
 
 
@@ -214,9 +216,13 @@ class TestWorkspacePolicyProducers(TestWorkspacePolicyConsumers):
     """Modify permission is identical to Consumers
     """
     _participant_policy = 'producers'
+    _test_specific_permissions_by_userid = {
+        'wsowner': {VIEW, MODIFY},
+        'wsmember': {VIEW, MODIFY},
+    }
 
 
-class TestWorkspacePolicyPublishers(TestWorkspacePolicyConsumers):
+class TestWorkspacePolicyPublishers(TestWorkspacePolicyProducers):
     """Modify permission is identical to Consumers
     """
     _participant_policy = 'publishers'
