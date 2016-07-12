@@ -20,12 +20,15 @@ Zakelijk informeel: jij
 activity                            =
 activity centric                    = georganiseerd rond activiteiten
 app                                 =
-assignee                            =
+assignee                            = gevolmachtigde
 atributes                           = eigenschappen, attributen
 attach (document)                   = bijvoegen
 batch delete                        =
+cart                                = mandje
 case                                = dossier (vgl. Duits: Geschäft)
 case workspace                      = dossiergroep
+central calendar                    = globale kalender
+checked                             = aangevinkt / geselecteerd
 community (open)                    = 
 contacts                            = contacten
 container for workspaces            = map voor groepen
@@ -35,26 +38,46 @@ deadline                            = deadline
 department                          = afdeling
 division                            = divisie
 event                              *= Agenda-item
-facet                               =
+facet                               = 
+freeze, to (van cases)              = vergrendelen
 folder                             *= map
-initiator
+initiator                           = initiator
 library                             = bibliotheek
 mention (people)                    =
+metadata                            = metadata
 milestone                           = mijlpaal
+notes                               = notities  (alt. aantekeningen?)
 organiser                           = organisator
-produce                             =
+post                                = bericht
+roster                              = ledenlijst
+create                              = aanmaken
+receiver                            = ontvanger (alt. geaddresseerde)
 secret (workspace)                  = geheim, geheel afgeschermd?
 section                             = sectie
-self-managed                        = 
+self-managed                        = zelf-beheerd
+shares (of a document)              =
 tags                                = trefwoorden                    
 task                                = taak
 task centric                        = geoganiseerd rond taken
 un-tick (deselect?)                 = deselecteer
 user profile                        = gebruikersprofiel
 workspace                           = groep
-workspace folder                    = groepmap
+workspace folder                    = groepsmap
 
-3) Vermijd het gebruike van 'popi' taal:
+    - workspace policies...:
+produce                             = ....  (nu gebruikt: toevoegen)
+consume                             = ....  (nu gebruikt: alleen-lezen)
+
+Discussiepunten
+post                                =  bericht (microblog)
+message                             =  bericht (privébericht?)
+comment                             =  opmerking (berichten onderaan content)
+
+workspace alleen vertalen met groep gaat botsen met andere uitingen van 'groep'.
+
+
+
+3) Vermijd het gebruik van 'popi' taal:
 
 Dus niet: 
     msgid "Oh boy, oh boy, you are already a member"
@@ -65,3 +88,4 @@ Het lastige hiervan is wel dat de brontaal (Engels) al dergerlijke constructies 
 4) Woordvolgorde
 
 het significante woord zoveel mogelijk vooraan. Bijv. dus niet "Instellingen voor blabla", maar "blabla-instellingen".
+
