@@ -179,6 +179,12 @@ def _update_workspace_groupings(obj, event):
         storage.update_groupings(obj)
 
 
+def folder_added_to_workspace(obj, event):
+    user = api.user.get_current()
+    api.user.revoke_roles(user=user, obj=obj, roles=['Owner'])
+    obj.reindexObjectSecurity()
+
+
 def content_object_added_to_workspace(obj, event):
     _update_workspace_groupings(obj, event)
 
