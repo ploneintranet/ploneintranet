@@ -12,6 +12,7 @@
     <include package="collective.documentviewer"/>
     <include package="plone.app.contenttypes"/>
     <include package="ploneintranet.attachments"/>
+    <include package=".browser"/>
 
     <include file="handlers.zcml" />
 
