@@ -137,7 +137,7 @@ class NetworkGraph(Persistent, Explicit):
     # following API
 
     def follow(self, item_type, item_id, user_id=None):
-        """User <user_id> subscribes to <item_type> <item_id>"""
+        # User <user_id> subscribes to <item_type> <item_id>
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -152,7 +152,7 @@ class NetworkGraph(Persistent, Explicit):
         self._followers[item_type][item_id].insert(user_id)
 
     def unfollow(self, item_type, item_id, user_id=None):
-        """User <user_id> unsubscribes from <item_type> <item_id>"""
+        # User <user_id> unsubscribes from <item_type> <item_id>
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -169,7 +169,7 @@ class NetworkGraph(Persistent, Explicit):
             pass
 
     def get_following(self, item_type, user_id=None):
-        """List all <item_type> that <user_id> subscribes to"""
+        # List all <item_type> that <user_id> subscribes to
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -181,7 +181,7 @@ class NetworkGraph(Persistent, Explicit):
             return ()
 
     def get_followers(self, item_type, item_id):
-        """List all users that subscribe to <item_type> <item_id>"""
+        # List all users that subscribe to <item_type> <item_id>
         item_type = decode(item_type)
         assert(item_type in self.supported_follow_types)
         item_id = decode(item_id)
@@ -192,7 +192,7 @@ class NetworkGraph(Persistent, Explicit):
             return ()
 
     def is_followed(self, item_type, item_id, user_id=None):
-        """Does <user_id> follow <item_type> <item_id>?"""
+        # Does <user_id> follow <item_type> <item_id>?
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -210,7 +210,7 @@ class NetworkGraph(Persistent, Explicit):
     # like API
 
     def like(self, item_type, item_id, user_id=None):
-        """User <user_id> likes <item_type> <item_id>"""
+        # User <user_id> likes <item_type> <item_id>
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -225,7 +225,7 @@ class NetworkGraph(Persistent, Explicit):
         self._liked[item_type][item_id].insert(user_id)
 
     def unlike(self, item_type, item_id, user_id=None):
-        """User <user_id> unlikes <item_type> <item_id>"""
+        # User <user_id> unlikes <item_type> <item_id>
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -243,7 +243,7 @@ class NetworkGraph(Persistent, Explicit):
             pass
 
     def get_likes(self, item_type, user_id=None):
-        """List all <item_type> liked by <user_id>"""
+        # List all <item_type> liked by <user_id>
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -255,7 +255,7 @@ class NetworkGraph(Persistent, Explicit):
             return []
 
     def get_likers(self, item_type, item_id):
-        """List all userids liking <item_type> <item_id>"""
+        # List all userids liking <item_type> <item_id>
         item_type = decode(item_type)
         assert(item_type in self.supported_like_types)
         item_id = decode(item_id)
@@ -265,7 +265,7 @@ class NetworkGraph(Persistent, Explicit):
             return []
 
     def is_liked(self, item_type, item_id, user_id=None):
-        """Does <user_id> like <item_type> <item_id>?"""
+        # Does <user_id> like <item_type> <item_id>?
         if not user_id:
             user_id = api.user.get_current().id
         item_type = decode(item_type)
@@ -283,7 +283,7 @@ class NetworkGraph(Persistent, Explicit):
     # tags API
 
     def tag(self, item_type, item_id, user_id, *tags):
-        """User <user_id> adds tags <*tags> on <item_type> <item_id>"""
+        # User <user_id> adds tags <*tags> on <item_type> <item_id>
         item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
         user_id = decode(user_id)
@@ -327,7 +327,7 @@ class NetworkGraph(Persistent, Explicit):
             self._bytag[tag][item_type][item_id].insert(user_id)
 
     def untag(self, item_type, item_id, user_id, *tags):
-        """User <user_id> removes tags <*tags> from <item_type> <item_id>"""
+        # User <user_id> removes tags <*tags> from <item_type> <item_id>
         item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
         user_id = decode(user_id)
@@ -340,41 +340,39 @@ class NetworkGraph(Persistent, Explicit):
             self._bytag[tag][item_type][item_id].remove(user_id)
 
     def get_tagged(self, item_type=None, user_id=None, tag=None):
-        """
-        List <item_type> item_ids tagged as <tag> by <user_id>.
+        # List <item_type> item_ids tagged as <tag> by <user_id>.
+        #
+        # If all parameters are given:
+        #   returns [item_id, item_id]
+        #
+        # If one or more parameters are missing, the resulting
+        # data structure differs as follows:
+        #
+        # If item_type==None:
+        #   returns {item_type: [item_id..]}
+        #
+        # if userid==None:
+        #   returns {objectid: [user_id..]}
+        #
+        # If tag==None:
+        #   returns {tag: [item_id..]}
+        #
+        # If only item_type: # user_id==None and tag==None
+        #   returns {user_id: {tag: [item_id..]}}
+        #
+        # If only user_id:  # item_type==None and tag==None
+        #   returns {tag: {item_type: [item_id..]}}
+        #
+        # If only tag:  # item_type==None and user_id==None
+        #   returns {item_type: {item_id: [user_id..]}}
+        #
+        # If all parameters are None:  # dumps the full data structure
+        #   returns {user_id: {tag: {item_type: [item_id..]}}}
+        #
+        #
+        # See the test_tags test suite for specific examples of all of the
+        # possible return types.
 
-        If all parameters are given:
-          returns [item_id, item_id]
-
-        If one or more parameters are missing, the resulting
-        data structure differs as follows:
-
-        If item_type==None:
-          returns {item_type: [item_id..]}
-
-        if userid==None:
-          returns {objectid: [user_id..]}
-
-        If tag==None:
-          returns {tag: [item_id..]}
-
-        If only item_type: # user_id==None and tag==None
-          returns {user_id: {tag: [item_id..]}}
-
-        If only user_id:  # item_type==None and tag==None
-          returns {tag: {item_type: [item_id..]}}
-
-        If only tag:  # item_type==None and user_id==None
-          returns {item_type: {item_id: [user_id..]}}
-
-        If all parameters are None:  # dumps the full data structure
-          returns {user_id: {tag: {item_type: [item_id..]}}}
-
-
-        See the test_tags test suite for specific examples of all of the
-        possible return types.
-
-        """
         item_type = decode(item_type, True)
         assert(item_type is None or item_type in self.supported_tag_types)
         user_id = decode(user_id, True)
@@ -423,9 +421,8 @@ class NetworkGraph(Persistent, Explicit):
             return ()
 
     def unpack(self, btreeish):
-        """Helper method to convert BTrees and TreeSets to normal dict/list
-        structures. Supports recursive unpack.
-        """
+        # Helper method to convert BTrees and TreeSets to normal dict/list
+        # structures. Supports recursive unpack.
         if btreeish is None:
             return []
         try:
@@ -434,10 +431,8 @@ class NetworkGraph(Persistent, Explicit):
             return [k for k in btreeish]
 
     def get_taggers(self, item_type, item_id, tag=None):
-        """
-        List user_ids that tagged <item_type> <item_id> with <tag>.
-        If tag==None: returns {tag: (itemids..)} mapping
-        """
+        # List user_ids that tagged <item_type> <item_id> with <tag>.
+        # If tag==None: returns {tag: (itemids..)} mapping
         item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
         item_id = decode(item_id)
@@ -448,10 +443,8 @@ class NetworkGraph(Persistent, Explicit):
             return self._tagger[item_type][item_id]
 
     def get_tags(self, item_type, item_id, user_id=None):
-        """
-        List tags set on <item_type> <item_id> by <user_id>.
-        If user_id==None: return {tag: (userids..)} mapping
-        """
+        # List tags set on <item_type> <item_id> by <user_id>.
+        # If user_id==None: return {tag: (userids..)} mapping
         item_type = decode(item_type)
         assert(item_type in self.supported_tag_types)
         item_id = decode(item_id)
@@ -462,7 +455,7 @@ class NetworkGraph(Persistent, Explicit):
             return self._tagger[item_type][item_id]
 
     def is_tagged(self, item_type, item_id, user_id, tag):
-        """Did <user_id> apply tag <tag> on <item_type> <item_id>?"""
+        # Did <user_id> apply tag <tag> on <item_type> <item_id>?
         item_type = decode(item_type)
         item_id = decode(item_id)
         user_id = decode(user_id)
