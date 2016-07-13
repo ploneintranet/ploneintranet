@@ -212,17 +212,13 @@ class TestWorkspacePolicyConsumers(TestSecretWorkspaceContentWorkflow):
     }
 
 
-class TestWorkspacePolicyProducers(TestWorkspacePolicyConsumers):
+class TestWorkspacePolicyProducers(TestSecretWorkspaceContentWorkflow):
     """Modify permission is identical to Consumers
     """
     _participant_policy = 'producers'
-    _test_specific_permissions_by_userid = {
-        'wsowner': {VIEW, MODIFY},
-        'wsmember': {VIEW, MODIFY},
-    }
 
 
-class TestWorkspacePolicyPublishers(TestWorkspacePolicyProducers):
+class TestWorkspacePolicyPublishers(TestSecretWorkspaceContentWorkflow):
     """Modify permission is identical to Consumers
     """
     _participant_policy = 'publishers'
