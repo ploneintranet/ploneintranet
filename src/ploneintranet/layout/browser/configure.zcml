@@ -131,4 +131,16 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <plone:tile
+      name="grouped_search.tile"
+      title="Grouped Search"
+      description="Tile to list recently modified documents"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".grouped_search.GroupedSearchTile"
+      template="templates/grouped_search.pt"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
 </configure>
