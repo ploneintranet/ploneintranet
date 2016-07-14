@@ -2,7 +2,6 @@
 from AccessControl import Unauthorized
 from ZPublisher.HTTPRequest import FileUpload
 from ZPublisher.HTTPRequest import ZopeFieldStorage
-from ZPublisher.Iterators import IStreamIterator
 from io import BytesIO
 from plone import api
 from plone.namedfile import NamedBlobImage
@@ -164,7 +163,7 @@ class TestAvatarViews(TestUserProfileBase):
                                      self.profile1.username)
 
         data = avatars_view()
-        self.assertTrue(IStreamIterator.providedBy(data))
+        self.assertTrue(len(data) > 0)
 
         avatars_view.publishTraverse(self.request,
                                      self.profile2.username)
@@ -178,10 +177,10 @@ class TestAvatarViews(TestUserProfileBase):
         self.login(self.profile1.username)
         my_avatar = MyAvatar(self.profile1, self.request)
         data = my_avatar()
-        self.assertTrue(IStreamIterator.providedBy(data))
+        self.assertTrue(len(data) > 0)
 
         profile_data = my_avatar.avatar_profile()
-        self.assertTrue(IStreamIterator.providedBy(profile_data))
+        self.assertTrue(len(profile_data) > 0)
 
         avatar = MyAvatar(self.profile2, self.request)
 
