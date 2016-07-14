@@ -1,29 +1,28 @@
-import logging
-from zope.annotation.interfaces import IAnnotations
 from AccessControl.SecurityManagement import newSecurityManager
+from Acquisition import aq_base
 from collective.workspace.interfaces import IWorkspace
+from OFS.CopySupport import cookie_path
+from OFS.interfaces import IObjectWillBeRemovedEvent
 from plone import api
 from plone.api.exc import PloneApiError
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool \
-    import WorkflowPolicyConfig_id
-from zope.globalrequest import getRequest
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace import workspacefolder
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
-from ploneintranet.workspace.utils import get_storage
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from OFS.interfaces import IObjectWillBeRemovedEvent
+from ploneintranet.workspace.unrestricted import execute_as_manager
+from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
+from zExceptions import BadRequest
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
-from Acquisition import aq_base
-from OFS.CopySupport import cookie_path
-from zExceptions import BadRequest
+import logging
 
 log = logging.getLogger(__name__)
 
