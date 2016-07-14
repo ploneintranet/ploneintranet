@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_base
+from Acquisition import aq_chain
 from collective.workspace.interfaces import IWorkspace
 from OFS.CopySupport import cookie_path
 from OFS.interfaces import IObjectWillBeRemovedEvent
@@ -12,6 +14,7 @@ from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import get_storage
 from ploneintranet.workspace.utils import parent_workspace
@@ -179,9 +182,14 @@ def _update_workspace_groupings(obj, event):
 
 
 def folder_added_to_workspace(obj, event):
-    user = api.user.get_current()
-    api.user.revoke_roles(user=user, obj=obj, roles=['Owner'])
-    obj.reindexObjectSecurity()
+    # Iterare over parent of the object. Only remove the owner role
+    # in the context of a workspace
+    for item in aq_chain(obj)[1:]:
+        if IBaseWorkspaceFolder.providedBy(item):
+            user = api.user.get_current()
+            api.user.revoke_roles(user=user, obj=obj, roles=['Owner'])
+            obj.reindexObjectSecurity()
+            break
 
 
 def content_object_added_to_workspace(obj, event):
