@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet">
+
+  <browser:page
+        for="*"
+        name="generate-previews-for-contents"
+        class=".maintenance.GenerateSyncPreviewsView"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IPloneintranetDocconvClientLayer"
+        />
+
+  <browser:page
+        for="*"
+        name="generate-previews-for-contents-async"
+        class=".maintenance.GeneratePreviewsAsyncView"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IPloneintranetDocconvClientLayer"
+        />
+
+</configure>
