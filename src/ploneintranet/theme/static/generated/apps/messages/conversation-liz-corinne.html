@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Contacts | Plone Intranet</title>
+		<title>Corinne Bedow | Plone Intranet</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" href="/style/screen.css" type="text/css">
 		<link rel="stylesheet" href="/style/colours.css" type="text/css">
@@ -15,497 +15,505 @@
 				<link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
 		<![endif]-->
 	</head>
-	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing  generic application-contacts application- ">
-			<div id="content">
-	<div id="document-body">
-	<div id="document-content">
-		<div class="application-welcome-info">
-			<article class="pat-rich" id="boilerplate-contacts-introduction">
-				<a href="help/instruction.txt" class="pat-inject" data-pat-inject="target: #boilerplate-contacts-introduction; trigger: autoload; data-type: markdown">Thank you for using Contacts!</a>
-			</article>
-		</div>
-	</div>
-</div>
-<aside class="left sidebar">
-	<div id="sidebar-content">
+	<body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing  messages application- application-messages ">
+		<div id="content" class="state-on">
+	<div id="application-body" class="application-messages application-">
+		<div id="document-body">
+	<div id="document-content" class="chat">
+	<ul class="chat">
 		
+			<li class="item type-date ">		
+					
+				
+					<h3 class="time-stamp">
+						Now
+					</h3>
+				
+			</li>
+		
+		<li id="end-of-conversation" class="item type-terminal">
+			<p>
+				<a href="#end-of-conversation" class="pat-scroll" data-pat-scroll="trigger: auto">End of conversation</a>
+			</p>
+		</li>
+	</ul>
+</div>
+<form id="chat-bar" action="/apps/messages/" class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline"">
+	<input autofocus type="text" name="message" placeholder="Write a message" />
+</form>
 
-<div class="item-selector mode-follow" id="user-selector">
-    
-    
-    
-    
+</div>
+<aside class="sidebar left" id="sidebar">
+    <div id="sidebar-content">
+        
 
+<div class="item-selector mode-follow" id="selector">
     
-        <div class="button-bar functions" id="user-selector-functions">
-            <form action="./#user-selector-items" class="pat-inject pat-autosubmit">
-                <label class="pat-select bare">
-                    <select name="browse-mode">
-                        <option value="no-grouping">No grouping</option>
-                        <option value="group-by-division" selected>Group by division</option>
-                        <option value="group-by-user-group">Group by user group</option>
-                    </select>
+    
+        <div class="button-bar functions buttons-1" id="selector-functions">
+            <form class="search-box pat-inject pat-autosubmit" action="/apps/messages/#selector-items">
+                <label>
+                    <input name="" type="search" placeholder="Search" />
+                    <button type="submit">Search</button>
                 </label>
             </form>
+            <div class="quick-functions">
+                <a title="Start a new conversation" href="apps/messages/panel-new-chat.html#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+            </div>
         </div>
     
-
     
-        <form class="search-box pat-inject pat-autosubmit" action="/feedback/contacts-search-results-cor.html#user-selector-items">
-            <label>
-                <input name="" type="search" placeholder="Search" />
-                <button type="submit">Search</button>
-            </label>
-        </form>
     
 
-    <form class="search-result divisions  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-rename.html#content" id="user-selector-items">
-        <fieldset class="checklist pat-checklist divisions ">
+    
+
+    
+
+    <form class="search-result chats  pat-inject" data-pat-inject="target: body::after" action="/feedback/batch-delete-conversations.html#content" id="selector-items">
+        <fieldset class="checklist pat-checklist chats ">
 
             
 
             
 
             
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                        <label class="item group division has-description">
-                            <input name="" type="checkbox" />
-                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"  href="/synode" data-pat-inject="source: #user-selector; target: #user-selector">
-                                
-                                <strong class="title">Synode</strong>
-                                <br>
-                                <dfn class="byline">25 members, 6 groups</dfn>
-                            </a>
-                            
-                        </label>
-                    
-                
-                    
-                        <label class="item group division has-description">
-                            <input name="" type="checkbox" />
-                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"  href="/synodalrat" data-pat-inject="source: #user-selector; target: #user-selector">
-                                
-                                <strong class="title">Synodalrat</strong>
-                                <br>
-                                <dfn class="byline">25 members, 6 groups</dfn>
-                            </a>
-                            
-                        </label>
-                    
-                
-                    
-                
-                    
-                        <label class="item group division has-description">
-                            <input name="" type="checkbox" />
-                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"  href="/stadtverband" data-pat-inject="source: #user-selector; target: #user-selector">
-                                
-                                <strong class="title">Stadtverband</strong>
-                                <br>
-                                <dfn class="byline">25 members, 6 groups</dfn>
-                            </a>
-                            
-                        </label>
-                    
-                
-                    
-                
-                    
-                        <label class="item group division has-description">
-                            <input name="" type="checkbox" />
-                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"  href="/rkz" data-pat-inject="source: #user-selector; target: #user-selector">
-                                
-                                <strong class="title">RKZ</strong>
-                                <br>
-                                <dfn class="byline">25 members, 6 groups</dfn>
-                            </a>
-                            
-                        </label>
-                    
-                
-                    
-                        <label class="item group division has-description">
-                            <input name="" type="checkbox" />
-                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal"  href="/rekurskommission" data-pat-inject="source: #user-selector; target: #user-selector">
-                                
-                                <strong class="title">Rekurskommission</strong>
-                                <br>
-                                <dfn class="byline">25 members, 6 groups</dfn>
-                            </a>
-                            
-                        </label>
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
+
             
+
+                
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <label id="selector-item-25" class="item chat has-description  ">
+                            <input name="" type="radio" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="/chat-mario-minstreel#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="/media/avatar-mario-minstreel.jpg" alt="" class="avatar" />
+                                <strong class="title">Mario Minstreel</strong>
+                                <br>
+                                <dfn class="byline">Great! Lets meet tomorrow at 11:00.</dfn>
+                            </a>
+                        </label>
+                    
+                
+                    
+                        <label id="selector-item-26" class="item chat has-description unread ">
+                            <input name="" type="radio" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="/chat-guido-stevens#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="/media/avatar-guido-stevens.jpg" alt="" class="avatar" />
+                                <strong class="title">Guido Stevens</strong>
+                                <br>
+                                <dfn class="byline">Lunch tomorrow is a great idea! I can come right after my meeting with Mario.</dfn>
+                            </a>
+                        </label>
+                    
+                
+                    
+                        <label id="selector-item-27" class="item chat has-description  ">
+                            <input name="" type="radio" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="/chat-cornelis-kolbach#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="/media/avatar-cornelis-kolbach.jpg" alt="" class="avatar" />
+                                <strong class="title">Cornelis Kolbach</strong>
+                                <br>
+                                <dfn class="byline">Any time Liz. Cu later!</dfn>
+                            </a>
+                        </label>
+                    
+                
+                    
+                
+                    
+                        <label id="selector-item-28" class="item chat has-description  ">
+                            <input name="" type="radio" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="/chat-michael-mccorbin#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="/media/avatar-michael-mccorbin.jpg" alt="" class="avatar" />
+                                <strong class="title">Michael mcCorbin</strong>
+                                <br>
+                                <dfn class="byline">You're welcome Michael.</dfn>
+                            </a>
+                        </label>
+                    
+                
+                    
+                        <label id="selector-item-29" class="item chat has-description  ">
+                            <input name="" type="radio" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="/chat-charlot-holzer#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="/media/avatar-charlotte-holzer.jpg" alt="" class="avatar" />
+                                <strong class="title">Charlotte Holzer</strong>
+                                <br>
+                                <dfn class="byline">You too! I'll leave soon as well. See you tomorrow.</dfn>
+                            </a>
+                        </label>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
 
             
 
@@ -528,16 +536,13 @@
     
 </div>
 
-        <ul class="sidebar-extras">
-            <li class="item">
-                <a href="/apps/contacts/" class="icon-help-circle">Read the manual</a>
-            </li>
-        </ul>
-	</div>
+    </div>
 </aside>
 	</div>
+	
+</div>
 
-    <a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
+<a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 
 <header id="global-header">
 
@@ -548,7 +553,7 @@
 
     <nav class="breadcrumbs">
         
-            <a class="current" href="#">Contacts</a>
+            <a class="current" href="#"></a>
         
 
         

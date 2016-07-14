@@ -28,6 +28,8 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
         self.loadZCML(package=collective.documentviewer)
         import ploneintranet.docconv.client
         self.loadZCML(package=ploneintranet.docconv.client)
+        import ploneintranet.search
+        self.loadZCML(package=ploneintranet.search)
         z2.installProduct(app, 'ploneintranet.docconv.client')
 
     def setUpPloneSite(self, portal):
@@ -35,6 +37,7 @@ class PloneintranetDocconvClientLayer(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'ploneintranet.docconv.client:default')
+        applyProfile(portal, 'ploneintranet.search:default')
 
     def tearDownZope(self, app):
         """Tear down Zope."""

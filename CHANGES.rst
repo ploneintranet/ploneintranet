@@ -1,10 +1,15 @@
 Changelog
 =========
 
+1.2.0a0 (unreleased)
+--------------------
+
+- Mars release cycle
+
 1.1.0b5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Gaia branch
 
 
 1.1.0b4 (2016-07-06)
