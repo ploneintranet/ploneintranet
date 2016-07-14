@@ -93,16 +93,19 @@
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
                     <tal:r repeat="w workspaces">
-                      <div class="tile workspace four columns  workspace-open-market-committee"
-                           tal:attributes="class string:tile workspace four columns ${w/class}">
-                           <a href="/open-market-committee" class="link"
-                           tal:attributes="href w/url">
-                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                            <p class="description" tal:content="w/description" tal:condition="w/description">
-                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                            </p>
-                           </a>
-                      </div>
+                      <tal:archive_state define="is_archived w/is_archived;
+                                                 archived_class python:'state-archived' if is_archived else ''">
+                        <div class="tile workspace four columns  workspace-open-market-committee"
+                             tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}">
+                             <a href="/open-market-committee" class="link"
+                             tal:attributes="href w/url">
+                              <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                              <p class="description" tal:content="w/description" tal:condition="w/description">
+                                The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                              </p>
+                             </a>
+                        </div>
+                      </tal:archive_state>
                     </tal:r>
                   </div>
                 </section>
@@ -116,16 +119,19 @@
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
                     <tal:r repeat="w python:wbd['']">
-                      <div class="tile workspace four columns  workspace-open-market-committee"
-                           tal:attributes="class string:tile workspace four columns ${w/class}">
-                           <a href="/open-market-committee" class="link"
-                           tal:attributes="href w/url">
-                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                            <p class="description" tal:content="w/description" tal:condition="w/description">
-                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                            </p>
-                           </a>
-                      </div>
+                      <tal:archive_state define="is_archived w/is_archived;
+                                                 archived_class python:'state-archived' if is_archived else ''">
+                        <div class="tile workspace four columns  workspace-open-market-committee"
+                             tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}">
+                             <a href="/open-market-committee" class="link"
+                             tal:attributes="href w/url">
+                              <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
+                              <p class="description" tal:content="w/description" tal:condition="w/description">
+                                The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                              </p>
+                             </a>
+                        </div>
+                      </tal:archive_state>
                     </tal:r>
                   </div>
                 </section>
