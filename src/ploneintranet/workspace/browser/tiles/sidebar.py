@@ -345,9 +345,16 @@ class SidebarSettingsAdvanced(BaseTile):
         form = self.request.form
         if self.request.method == 'POST' and form:
             if self.can_manage_workspace():
+                if 'email' in form and form['email']:
+                    if '@' in form['email']:
+                        # Only use the name part as the domain is fixed.
+                        form['email'] = form['email'].split('@')[0]
+
                 modified, errors = dexterity_update(self.context)
-                if 'email' in form:
+
+                if 'email' in form and form['email']:
                     errors += store_name(self.context, form['email']).values()
+
                 if modified and not errors:
                     api.portal.show_message(
                         _("Attributes changed."),
