@@ -312,7 +312,7 @@ class TestPolicy(BaseTestCase):
         local_roles = api.user.get_roles(
             obj=folder,
         )
-        self.assertNotIn('Owner', local_roles)
+        self.assertIn('Owner', local_roles)
 
         self.login_as_portal_owner()
         workspace = api.content.create(
