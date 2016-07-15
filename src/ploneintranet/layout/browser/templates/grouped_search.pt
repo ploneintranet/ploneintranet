@@ -9,17 +9,14 @@
 
         <div id="search-result">
           <div class="directory col-1"
-               tal:define="
-                           results_grouped view/results_grouped;
+               tal:define="results_grouped view/results_grouped;
                            results_sorted_groups view/results_sorted_groups;
                            friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
                            "
                >
-            <tal:groups repeat="group results_sorted_groups">
+            <tal:groups repeat="group results_grouped">
               <div class="group"
-                   tal:define="
-                               group_items results_grouped/?group;
-                               "
+                   tal:define="group_items results_grouped/?group;"
                    tal:condition="group_items"
                    >
                 <h3 class="group-title">${group}</h3>

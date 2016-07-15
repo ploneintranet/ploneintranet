@@ -86,28 +86,32 @@ class GroupedSearchTile(Tile):
 
     @memoize
     def results_sorted_groups(self):
-        ''' Return the list of my documents grouped by letter
+        ''' Return the groups
         '''
-        if self.request.get('by_date'):
+        group_by = self.request.get('group-by', 'first-letter')
+        if group_by == 'first-letter':
+            groups = sorted(self.results_by_letter().keys())
+            if _('No title') in groups:
+                no_title = groups.pop(groups.index(_('No title')))
+                groups.append(no_title)
+                return groups
+        elif group_by == 'date':
             return [
                 _('Today'),
                 _('Last week'),
                 _('Last month'),
                 _('All time'),
             ]
-        groups = sorted(self.results_by_letter().keys())
-        if _('No title') in groups:
-            no_title = groups.pop(groups.index(_('No title')))
-            groups.append(no_title)
-        return groups
 
     @memoize
     def results_grouped(self):
-        ''' Return the list of my documents grouped
+        ''' Dispatch to the relevant method to group the results
         '''
-        if self.request.get('by_date'):
+        group_by = self.request.get('group-by', 'first-letter')
+        if group_by == 'first-letter':
+            return self.results_by_letter()
+        elif group_by == 'date':
             return self.results_by_date()
-        return self.results_by_letter()
 
     @forever.memoize
     def friendly_type_to_icon_class(self, type_name):
