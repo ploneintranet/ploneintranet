@@ -6,10 +6,13 @@ from collective.workspace.pas import purge_workspace_pas_cache
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
+from plone.dexterity.utils import iterSchemata
+from plone.rfc822.interfaces import IPrimaryField
 
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
+from zope.schema import getFieldsInOrder
 
 from collective.workspace.interfaces import IWorkspace
 from urllib2 import urlparse
@@ -225,3 +228,14 @@ def purge_and_refresh_security_manager():
     current_user_id = api.user.get_current().getId()
     current_user = acl_users.getUser(current_user_id)
     newSecurityManager(None, current_user)
+
+
+def get_primary_field(obj):
+    primary = None
+    for i in iterSchemata(obj):
+        fields = getFieldsInOrder(i)
+        for name, field in fields:
+            if IPrimaryField.providedBy(field):
+                primary = (name, field)
+                break
+    return primary

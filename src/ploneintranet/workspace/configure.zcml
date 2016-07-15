@@ -33,6 +33,7 @@
 
   <include file="upgrades.zcml" />
   <include file="indexers.zcml" />
+  <include file="mailrouters.zcml" />
 
   <subscriber
      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder

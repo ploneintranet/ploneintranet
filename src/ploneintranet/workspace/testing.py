@@ -20,6 +20,7 @@ import ploneintranet.network
 import ploneintranet.theme
 import ploneintranet.userprofile
 import ploneintranet.workspace
+import slc.mailrouter
 
 
 class PloneintranetworkspaceLayer(PloneSandboxLayer):
@@ -114,6 +115,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
             ploneintranet.docconv.client,
             context=configurationContext
         )
+
         import collective.indexing
         self.loadZCML(package=collective.indexing)
         z2.installProduct(app, 'collective.indexing')
@@ -121,6 +123,11 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         xmlconfig.file(
             'configure.zcml',
             ploneintranet.userprofile,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
+            slc.mailrouter,
             context=configurationContext
         )
 
@@ -147,6 +154,7 @@ class PloneintranetworkspaceLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.theme:default')
         applyProfile(portal, 'collective.externaleditor:default')
         applyProfile(portal, 'ploneintranet.userprofile:default')
+        applyProfile(portal, 'slc.mailrouter:default')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.acl_users.userFolderAddUser('admin', 'secret', ['Manager'], [])
 

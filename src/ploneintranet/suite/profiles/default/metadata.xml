@@ -20,5 +20,6 @@
     <dependency>profile-ploneintranet.messaging:default</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
+    <dependency>profile-slc.mailrouter:default</dependency>
   </dependencies>
 </metadata>
