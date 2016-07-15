@@ -1,4 +1,5 @@
 # Translators:
+# Fred van Dijk <f.van.dijk@zestsoftware.nl>, 2016
 # Coen van der Kamp <cvanderkamp@gmail.com>, 2015
 msgid ""
 msgstr ""
@@ -20,71 +21,71 @@ msgstr ""
 
 #: ../activitystream/browser/templates/post-menu.html:18
 msgid "${action/title}"
-msgstr ""
+msgstr "${action/title}"
 
 #: ../activitystream/browser/templates/content-share.html:23
 msgid "${action_verb} this item"
-msgstr ""
+msgstr "${action_verb} dit item"
 
 #: ../search/browser/templates/all_results.pt:108
 msgid "${facet/label}"
-msgstr ""
+msgstr "${facet/label}"
 
 #: ../search/browser/templates/file_results.pt:42
 msgid "${results} items matched your search."
-msgstr ""
+msgstr "${results} zoekresultaten gevonden."
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:28
-msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)...</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
-msgstr ""
+msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)&hellip;</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
+msgstr "<span class=\"text\"><em class=\"placeholder\">Stuur een bericht naar de ontvanger(s)&hellip;</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "A Workspace users can collaborate in"
-msgstr "Een werkruimte waar deelnemers kunnen samenwerken"
+msgstr "Een groep waar gebruikers kunnen samenwerken"
 
 #: ../search/interfaces.py:58
 msgid "A contact email address for this search result"
-msgstr ""
+msgstr "Een e-mailadres van de contactpersoon voor dit zoekresultaat"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
 msgid "A container for workspaces"
-msgstr "Een container voor werkruimtes"
+msgstr "Een container voor groepen"
 
 #: ../search/interfaces.py:95
 msgid "A dictionary of facets and available values"
-msgstr ""
+msgstr "Een opsomming van facetten en mogelijke waarden"
 
 #: ../search/interfaces.py:70
 msgid "A highlighted summary of this search result"
-msgstr ""
+msgstr "Een gemarkeerde samenvatting van dit zoekresultaat"
 
 #: ../microblog/interfaces.py:13
 msgid "A longint unique status id"
-msgstr "Een longint unieke status id"
+msgstr "Een unieke status-id (longint)"
 
 #: ../microblog/browser/configure.zcml:18
 msgid "A tile to add a new post"
-msgstr ""
+msgstr "Een tegel voor een nieuw bericht"
 
 #: ../layout/browser/configure.zcml:120
 msgid "A title for the news"
-msgstr ""
+msgstr "Een titel voor het nieuws"
 
 #: ../layout/browser/configure.zcml:109
 msgid "A title for the tasks"
-msgstr ""
+msgstr "Een titel voor de taken"
 
 #: ../todo/behaviors.py:52
 msgid "A user (or a group) assigned to this task"
-msgstr "Een gebruiker (of een groep) toegewezen aan deze taak"
+msgstr "Een gebruiker (of een groep) die is toegewezen aan deze taak"
 
 #: ../userprofile/content/userprofile.py:130
 msgid "A user with this username already exists"
-msgstr ""
+msgstr "Er bestaat al een gebruiker met deze gebruikersnaam"
 
 #: ../layout/browser/templates/dashboard.pt:18
 msgid "Activity centric view"
-msgstr ""
+msgstr "Activiteit-gebaseerde weergave"
 
 #: ../messaging/browser/messaging.py:26
 msgid "Add a comment"
@@ -92,11 +93,11 @@ msgstr "Reactie toevoegen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
 msgid "Add group"
-msgstr ""
+msgstr "Groep toevoegen"
 
 #: ../workspace/browser/templates/panel-add-group.pt:13
 msgid "Add groups"
-msgstr ""
+msgstr "Groep toevoegen"
 
 #: ../todo/portlets/latest.py:75
 msgid "Add latest news portlet"
@@ -105,27 +106,27 @@ msgstr "Laatste nieuws-portlet toevoegen"
 #: ../messaging/browser/send-message.pt:53
 #: ../messaging/browser/your-inbox.pt:138
 msgid "Add tags"
-msgstr ""
+msgstr "Tags toevoegen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:113
 msgid "Add user"
-msgstr ""
+msgstr "Gebruiker toevoegen"
 
 #: ../workspace/browser/templates/panel-add-user.pt:13
 msgid "Add users"
-msgstr ""
+msgstr "Gebruikers toevoegen"
 
 #: ../userprofile/content/configure.zcml:17
 msgid "Additional profile fields"
-msgstr ""
+msgstr "Extra velden voor het profiel"
 
 #: ../userprofile/content/userprofile.py:76
 msgid "Address"
-msgstr ""
+msgstr "Adres"
 
 #: ../workspace/behaviors/configure.zcml:11
 msgid "Adds Case specific Metadata"
-msgstr ""
+msgstr "Voegt dossier-specifieke metadata toe"
 
 #: ../workspace/policies.py:33
 msgid "Admin-Managed"
@@ -144,7 +145,7 @@ msgstr "Geavanceerde permissies"
 #: ../search/browser/templates/file_results.pt:26
 #: ../search/browser/templates/image_results.pt:25
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: ../workspace/browser/tiles/sidebar.py:457
 msgid "All Authors"
@@ -172,15 +173,15 @@ msgstr "Alle Type"
 
 #: ../activitystream/browser/templates/stream_tile.pt:14
 msgid "All activities"
-msgstr ""
+msgstr "Alle activiteiten"
 
 #: ../workspace/browser/tiles/events.py:52
 msgid "All day"
-msgstr ""
+msgstr "Gehele dag"
 
 #: ../workspace/browser/templates/content_macros.pt:114
 msgid "All day event"
-msgstr ""
+msgstr "Gehele dag"
 
 #: ../notifications/browser/notifications.pt:46
 msgid "All notifications"
@@ -188,52 +189,52 @@ msgstr "Alle notificaties"
 
 #: ../userprofile/browser/userprofile.py:217
 msgid "All time"
-msgstr ""
+msgstr "Altijd"
 
 #: ../library/browser/views.py:104
 msgid "All topics"
-msgstr ""
+msgstr "Alle onderwerpen"
 
 #: ../workspace/browser/workspacecontainer.py:113
 msgid "All workspace types"
-msgstr ""
+msgstr "Alle groeptypes"
 
 #: ../workspace/browser/workspacecontainer.py:71
 msgid "Alphabetical"
-msgstr ""
+msgstr "Alfabetisch"
 
 #: ../layout/browser/templates/app-not-available.pt:25
 msgid "Alright"
-msgstr ""
+msgstr "Oké"
 
 #: ../workspace/browser/templates/add_workspace.pt:62
 #: ../workspace/browser/templates/workspace-add.pt:92
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
-msgstr ""
+msgstr "Alle ingelogde gebruikers mogen lid worden van en deelnemen aan deze groep. Alles in deze groep is zichtbaar voor alle ingelogde gebruikers, ook al zijn ze geen lid van deze groep."
 
 #: ../layout/browser/templates/app-not-available.pt:12
 msgid "App not available"
-msgstr ""
+msgstr "App is niet beschikbaar"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
-msgstr ""
+msgstr "Apps"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
 msgid "Archive workspace"
-msgstr ""
+msgstr "Archiefgroep"
 
 #: ../workspace/browser/templates/case_manager.pt:51
 msgid "Archived"
-msgstr ""
+msgstr "Gearchiveerd"
 
 #: ../workspace/browser/templates/workspaces.pt:70
 msgid "Archived on"
-msgstr ""
+msgstr "Gearchiveerd op"
 
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:35
 msgid "Are you sure? (un-tick to exclude from deletion)"
-msgstr ""
+msgstr "Weet je het zeker? (selecteer items om deze te behouden)"
 
 #: ../todo/behaviors.py:51
 #: ../workspace/browser/templates/content_macros.pt:27
@@ -242,7 +243,7 @@ msgstr "Gevolmachtigde"
 
 #: ../async/configure.zcml:18
 msgid "Async task dispatch for PloneIntranet"
-msgstr ""
+msgstr "Async task dispatch voor PloneIntranet"
 
 #: ../messaging/browser/send-message.pt:41
 #: ../messaging/browser/your-inbox.pt:129
@@ -258,15 +259,15 @@ msgstr "Voeg een bestand toe (of maak een afbeelding)"
 
 #: ../workspace/basecontent/templates/event_view.pt:61
 msgid "Attach documents"
-msgstr ""
+msgstr "Document toevoegen"
 
 #: ../workspace/basecontent/templates/event_view.pt:61
 msgid "Attachments"
-msgstr ""
+msgstr "Bijlage"
 
 #: ../workspace/browser/tiles/sidebar.py:67
 msgid "Attributes changed."
-msgstr ""
+msgstr "Attributen gewijzigd."
 
 #: ../microblog/interfaces.py:16
 msgid "Author name (for display)"
@@ -274,11 +275,11 @@ msgstr "Auteursnaam (voor weergave)"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:195
 msgid "Author of this document"
-msgstr ""
+msgstr "Auteur van dit document"
 
 #: ../userprofile/browser/templates/user_import_form.pt:70
 msgid "Available fields/columns"
-msgstr ""
+msgstr "Beschikbare velden/kolommen"
 
 #: ../workspace/browser/tiles/sidebar.py:463
 msgid "Back"
@@ -286,47 +287,47 @@ msgstr "Vorige"
 
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:8
 msgid "Batch delete"
-msgstr ""
+msgstr "Verwijder selectie"
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:8
 msgid "Batch send"
-msgstr ""
+msgstr "Verstuur selectie"
 
 #: ../userprofile/content/userprofile.py:91
 msgid "Biography"
-msgstr ""
+msgstr "Biografie"
 
 msgid "CSV document"
-msgstr ""
+msgstr "CSV-bestand"
 
 #: ../workspace/browser/cart_actions/download.py:39
 msgid "Can't download, no items found."
-msgstr ""
+msgstr "Kan niet downloaden, geen items gevonden."
 
 #: ../messaging/browser/send-message.pt:63
 #: ../microblog/browser/templates/update-social.html:136
 #: ../workspace/basecontent/document.py:77
 msgid "Cancel"
-msgstr "Annuleren "
+msgstr "Annuleren"
 
 #: ../workspace/behaviors/configure.zcml:11
 msgid "Case Metadata"
-msgstr ""
+msgstr "Dossier metadata"
 
 msgid "Case Workspace"
-msgstr ""
+msgstr "Dossiergroep"
 
 #: ../workspace/browser/workspacecontainer.py:131
 msgid "Cases"
-msgstr ""
+msgstr "Dossiers"
 
 #: ../workspace/browser/templates/edit_folder.pt:7
 msgid "Change folder title and description"
-msgstr ""
+msgstr "Titel en omschrijving van de map wijzigen"
 
 #: ../layout/browser/templates/personal-menu.pt:31
 msgid "Change personal image"
-msgstr ""
+msgstr "Wijzig eigen foto"
 
 #: ../workspace/browser/templates/panel-change-role.pt:16
 #: ../workspace/browser/templates/panel-member-role-actions.pt:17
@@ -336,12 +337,12 @@ msgstr "Wijzig rol"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:45
 msgid "Change role of member"
-msgstr ""
+msgstr "Wijzig rol van groepslid"
 
 #: ../todo/browser/templates/todo_view.pt:58
 #: ../workspace/basecontent/templates/document_view.pt:58
 msgid "Change the workflow state"
-msgstr ""
+msgstr "De publicatiestatus wijzigen"
 
 #: ../todo/browser/todo_view.py:37
 msgid "Changes applied"
@@ -349,32 +350,32 @@ msgstr "Wijzigingen toegepast"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:385
 msgid "Close milestone"
-msgstr ""
+msgstr "Sluit mijlpaal"
 
 #: ../todo/browser/templates/todo_view.pt:76
 msgid "Closed"
-msgstr ""
+msgstr "Gesloten"
 
 #: ../workspace/browser/templates/content_macros.pt:188
 msgid "Confirmed"
-msgstr ""
+msgstr "Bevestigd"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:159
 msgid "Constraint not satisfied for {} at row {}.field"
-msgstr ""
+msgstr "Er word niet aan de voorwaarden voldaan bij {} op rij {}.field"
 
 #: ../workspace/policies.py:49
 msgid "Consume"
-msgstr "Consumeren"
+msgstr "Alleen-lezen"
 
 #: ../userprofile/browser/templates/userprofile.pt:59
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: ../userprofile/browser/tiles/templates/contacts_search.pt:10
 msgid "Contacts"
-msgstr ""
+msgstr "Contacten"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:99
 msgid "Copy"
@@ -388,11 +389,11 @@ msgstr "Aanmaken"
 
 #: ../library/browser/templates/library.html:60
 msgid "Create a new page or section"
-msgstr ""
+msgstr "Maak een nieuwe pagina of sectie"
 
 #: ../workspace/browser/templates/workspaces.pt:48
 msgid "Create a new workspace"
-msgstr ""
+msgstr "Nieuwe groep aanmaken"
 
 #: ../workspace/browser/templates/add_content.pt:8
 #: ../workspace/browser/tiles/templates/sidebar.pt:53
@@ -401,26 +402,26 @@ msgstr "Document aanmaken"
 
 #: ../workspace/browser/templates/add_event.pt:2
 msgid "Create event"
-msgstr ""
+msgstr "Evenement aanmaken"
 
 #: ../workspace/browser/templates/add_folder.pt:7
 #: ../workspace/browser/tiles/templates/sidebar.pt:220
 msgid "Create folder"
-msgstr "Folder aanmaken"
+msgstr "Map aanmaken"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:288
 msgid "Create new task"
-msgstr ""
+msgstr "Taak aanmaken"
 
 #: ../workspace/browser/templates/add_task.pt:2
 msgid "Create task"
-msgstr ""
+msgstr "Taak aanmaken"
 
 #: ../theme/browser/templates/workspaces.pt:25
 #: ../workspace/browser/templates/add_workspace.pt:11
 #: ../workspace/browser/templates/workspace-add.pt:11
 msgid "Create workspace"
-msgstr ""
+msgstr "groep aanmaken"
 
 #: ../microblog/interfaces.py:18
 msgid "Creation date"
@@ -432,36 +433,36 @@ msgstr "Knippen"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: ../workspace/browser/templates/content_macros.pt:133
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:199
 msgid "Date and time of the latest modification"
-msgstr ""
+msgstr "Datum en tijd van de laatste wijziging"
 
 #: ../search/browser/templates/all_results.pt:84
 msgid "Date range"
-msgstr ""
+msgstr "Periode"
 
 #: ../workspace/browser/templates/case_manager.pt:108
 msgid "Days running"
-msgstr ""
+msgstr "Aantal dagen"
 
 #: ../workspace/browser/templates/email_invitees_html.pt:1
 #: ../workspace/browser/templates/email_invitees_text.pt:1
 msgid "Dear Mr./Ms. ${invitee_name},"
-msgstr ""
+msgstr "Geachte heer/mevrouw ${invitee_name},"
 
 #: ../workspace/browser/templates/content_macros.pt:190
 msgid "Declined"
-msgstr ""
+msgstr "Afgewezen"
 
 #: ../userprofile/content/configure.zcml:17
 msgid "Default additional fields for UserProfile."
-msgstr ""
+msgstr "Standaard extra velden voor gebruikersprofiel."
 
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
@@ -471,33 +472,33 @@ msgstr "Verwijderen"
 
 #: ../layout/browser/templates/delete_confirmation.pt:25
 msgid "Delete ${contenttype}"
-msgstr ""
+msgstr "Verwijder ${contenttype}"
 
 #: ../activitystream/browser/templates/panel-delete-comment.html:10
 msgid "Delete comment"
-msgstr ""
+msgstr "Verwijder opmerking"
 
 #: ../activitystream/browser/templates/panel-delete-post.html:10
 msgid "Delete post"
-msgstr ""
+msgstr "Verwijder bericht"
 
 #: ../todo/browser/templates/todo_view.pt:36
 #: ../workspace/basecontent/templates/document_view.pt:42
 msgid "Delete this document"
-msgstr ""
+msgstr "Dit document verwijderen"
 
 #: ../workspace/basecontent/templates/event_view.pt:51
 msgid "Delete this event"
-msgstr ""
+msgstr "Verwijder dit evenement"
 
 #: ../userprofile/content/userprofile.py:64
 #: ../workspace/browser/templates/case_manager.pt:36
 msgid "Department"
-msgstr ""
+msgstr "Afdeling"
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Description"
-msgstr ""
+msgstr "Omschrijving"
 
 #: ../workspace/browser/templates/add_content.pt:29
 #: ../workspace/browser/templates/add_folder.pt:15
@@ -507,25 +508,25 @@ msgstr "Omschrijving van zoekresultaten (optioneel)"
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:37
 #: ../workspace/browser/tiles/templates/sidebar.pt:86
-msgid "Deslect all"
+msgid "Deselect all"
 msgstr "Deselecteer alles"
 
 #: ../search/browser/templates/all_results.pt:167
 msgid "Did you mean"
-msgstr ""
+msgstr "Bedoelt u"
 
 #: ../search/browser/templates/all_results.pt:148
 msgid "Display previews"
-msgstr ""
+msgstr "Toon voorvertoningen"
 
 #: ../workspace/browser/templates/add_workspace.pt:79
 #: ../workspace/browser/templates/workspace-add.pt:38
 msgid "Division"
-msgstr ""
+msgstr "Divisie"
 
 #: ../workspace/interfaces.py:94
 msgid "Divisions represent sections of the overall organisation and appear as groupings on the workspace overview."
-msgstr ""
+msgstr "Divisies zijn de eerste ondervedelingen van de gehele organisatie en worden gebruik als groeperingen in het groepen-overzicht."
 
 #: ../workspace/browser/templates/add_content.pt:27
 msgid "Document title"
@@ -533,7 +534,7 @@ msgstr "Documenttitel"
 
 #: ../search/browser/templates/all_results.pt:71
 msgid "Document types"
-msgstr ""
+msgstr "Documenttypes"
 
 #: ../layout/browser/configure.zcml:132
 #: ../layout/browser/templates/my_documents.pt:11
@@ -543,156 +544,156 @@ msgstr "Documenten"
 
 #: ../todo/browser/templates/todo_view.pt:81
 msgid "Done"
-msgstr ""
+msgstr "Gedaan"
 
 #: ../workspace/basecontent/templates/document_view.pt:145
 msgid "Download as"
-msgstr ""
+msgstr "Download als"
 
 #: ../activitystream/browser/templates/post.html:153
 msgid "Download this file"
-msgstr ""
+msgstr "Download dit bestand"
 
 #: ../activitystream/browser/templates/post.html:211
 msgid "Download this image"
-msgstr ""
+msgstr "Download deze afbeelding"
 
 #: ../todo/behaviors.py:63
 #: ../workspace/browser/templates/content_macros.pt:38
 msgid "Due date"
-msgstr ""
+msgstr "Vervaldatum"
 
 #: ../workspace/browser/templates/case_manager.pt:60
 msgid "Earliest creation date"
-msgstr ""
+msgstr "Eerste aanmaakdatum"
 
 #: ../workspace/browser/templates/case_manager.pt:67
 msgid "Earliest modification date"
-msgstr ""
+msgstr "Eerste wijzigingsdatum"
 
 #: ../workspace/browser/templates/edit_folder.pt:19
 msgid "Edit"
-msgstr ""
+msgstr "Bewerken"
 
 #: ../activitystream/browser/templates/panel-edit-comment.html:10
 msgid "Edit comment"
-msgstr ""
+msgstr "Bewerk opmerking"
 
 #: ../todo/portlets/latest.py:87
 msgid "Edit latest news portlet"
-msgstr "Wijzig laatste nieuws-portlet"
+msgstr "Wijzig \"laatste nieuws\"-portlet"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:141
 msgid "Edit name/description"
-msgstr ""
+msgstr "Bewerk naam/omschrijving"
 
 #: ../activitystream/browser/templates/panel-edit-post.html:10
 msgid "Edit post"
-msgstr ""
+msgstr "Bewerk bericht"
 
 #: ../userprofile/browser/templates/userprofile.pt:135
 msgid "Edit profile"
-msgstr ""
+msgstr "Pofiel bewerken"
 
 #: ../activitystream/browser/templates/comment.html:43
 #: ../activitystream/browser/templates/post.html:78
 msgid "Edited"
-msgstr ""
+msgstr "Bewerkt"
 
 #: ../userprofile/content/userprofile.py:45
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: ../workspace/browser/cart_actions/mail.py:104
 msgid "Email sent."
-msgstr ""
+msgstr "E-mail verstuurd."
 
 #: ../workspace/browser/event.py:126
 msgid "Emails sent successfully"
-msgstr ""
+msgstr "E-mails zijn verstuurd"
 
 #: ../themeswitcher/configure.zcml:41
 msgid "Enables on-the-fly theme switching"
-msgstr ""
+msgstr "Activeert dynamische thema-wisseling"
 
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Enter a description of the task"
-msgstr ""
+msgstr "Geef een omschrijving van de taak"
 
 #: ../workspace/browser/templates/content_macros.pt:94
 msgid "Enter a location"
-msgstr ""
+msgstr "Geef een locatie op"
 
 #: ../workspace/browser/event.py:116
 msgid "Error sending email"
-msgstr ""
+msgstr "Fout opgetreden bij het versturen van de E-mail"
 
 #: ../workspace/browser/cart_actions/paste.py:25
 msgid "Error while pasting items"
-msgstr ""
+msgstr "Fout bij het plaken van items"
 
 msgid "Event"
-msgstr ""
+msgstr "Evenement"
 
 #: ../workspace/browser/templates/content_macros.pt:81
 msgid "Event description"
-msgstr ""
+msgstr "Omschrijving evenement"
 
 #: ../workspace/browser/templates/add_event.pt:20
 msgid "Event title"
-msgstr ""
+msgstr "Titel evenement"
 
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:20
 msgid "Events"
 msgstr "Evenementen"
 
 msgid "Excel 2007 spreadsheet"
-msgstr ""
+msgstr "Excel 2007 spreadsheet"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
 #: ../workspace/browser/tiles/templates/sidebar.pt:50
 msgid "Expand sidebar"
-msgstr ""
+msgstr "Paneel uitklappen"
 
 #: ../layout/configure.zcml:37
 msgid "Extension profile for ploneintranet.layout."
-msgstr ""
+msgstr "Exten profile for ploenintranet.layout."
 
 #: ../userprofile/sync.py:80
 msgid "External property sync complete."
-msgstr ""
+msgstr "Synchronisatie externe attributen voltooid."
 
 msgid "File"
-msgstr ""
+msgstr "Bestand"
 
 #: ../workspace/behaviors/configure.zcml:29
 msgid "File field"
-msgstr ""
+msgstr "Bestandsveld"
 
 #: ../userprofile/browser/user_import.py:133
 msgid "File incorrectly formatted."
-msgstr ""
+msgstr "Bestand verkeerd geformatteerd"
 
 #: ../search/browser/templates/all_results.pt:33
 #: ../search/browser/templates/file_results.pt:32
 #: ../search/browser/templates/image_results.pt:31
 msgid "Files"
-msgstr ""
+msgstr "Bestanden"
 
 #: ../userprofile/content/userprofile.py:35
 msgid "First name"
-msgstr ""
+msgstr "Voornaam"
 
 msgid "Folder"
-msgstr ""
+msgstr "Map"
 
 #: ../workspace/browser/templates/add_folder.pt:14
 msgid "Folder name"
-msgstr "Foldernaam"
+msgstr "Mapnaam"
 
 #: ../network/browser/follows.py:40
 msgid "Follow"
-msgstr ""
+msgstr "Volgen"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:28
 msgid "Followers"
@@ -700,7 +701,7 @@ msgstr "Volgers"
 
 #: ../userprofile/browser/templates/userprofile.pt:97
 msgid "Followers ${num_followers}"
-msgstr ""
+msgstr "Volgers ${num_followers}"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:35
 #: ../network/browser/templates/miniauthor_provider.pt:34
@@ -710,41 +711,41 @@ msgstr "Volgt"
 
 #: ../userprofile/browser/templates/userprofile.pt:121
 msgid "Following ${num_following}"
-msgstr ""
+msgstr "Volgers ${num_following}"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:23
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
-msgstr ""
+msgstr "Dossiers worden beheerd in het Dossier-publicatieproces. Het is hier niet te in te stellen zoals bij groepen. Wijs de juiste rollen toe aan gebruikers en groepen in het 'Leden'-tabblad."
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:85
 msgid "Freeze case"
-msgstr ""
+msgstr "Vergrendel dossier"
 
 #: ../workspace/browser/templates/content_macros.pt:128
 #: ../workspace/browser/templates/email_invitees_html.pt:11
 #: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "From"
-msgstr ""
+msgstr "Formuier"
 
 #: ../workspace/browser/templates/case.pt:42
 msgid "Frozen"
-msgstr ""
+msgstr "Vergrendeld"
 
 #: ../workspace/browser/templates/case.pt:44
 msgid "Frozen on"
-msgstr ""
+msgstr "Vergrendeld op"
 
 #: ../userprofile/browser/templates/userprofile.pt:111
 msgid "Full list of followers"
-msgstr ""
+msgstr "Volledige lijst van volgers"
 
 #: ../userprofile/browser/templates/userprofile.pt:91
 msgid "Full list of people ${name_of_followee} follows."
-msgstr ""
+msgstr "Volledige lijst van mensen die ${name_of_followee} volgt."
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:25
 msgid "Functions"
-msgstr ""
+msgstr "Functies"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:509
 msgid "General"
@@ -752,15 +753,15 @@ msgstr "Algemeen"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:295
 msgid "General tasks"
-msgstr ""
+msgstr "Algemene taken"
 
 #: ../workspace/browser/templates/add_workspace.pt:29
 msgid "Generic workspace"
-msgstr ""
+msgstr "Generieke groep"
 
 #: ../workspace/browser/workspacecontainer.py:129
 msgid "Generic workspaces"
-msgstr ""
+msgstr "Generieke groepen"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:16
 #: ../workspace/browser/tiles/templates/sidebar.pt:32
@@ -769,27 +770,27 @@ msgstr "Groepeer op"
 
 #: ../workspace/browser/workspacecontainer.py:105
 msgid "Group by division"
-msgstr ""
+msgstr "Groepeer op divisie"
 
 #: ../library/browser/templates/library.html:47
 msgid "Group by section"
-msgstr ""
+msgstr "Groepeer op sectie"
 
 #: ../library/browser/templates/library.html:51
 msgid "Group by tag"
-msgstr ""
+msgstr "Groepeer op trefwoord"
 
 #: ../workspace/policies.py:77
 msgid "Guest"
-msgstr ""
+msgstr "Gast"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:92
 msgid "Guests"
-msgstr ""
+msgstr "Gasten"
 
 #: ../workspace/policies.py:78
 msgid "Guests are only used internally and cannot be assigned."
-msgstr ""
+msgstr "Gasten worden alleen intern gebruikt en kunnen niet toegekend worden"
 
 #: ../todo/vocabularies.py:9
 msgid "High"
@@ -803,19 +804,19 @@ msgstr "Het aantal weer te geven items."
 #: ../activitystream/browser/templates/panel-delete-post.html:31
 #: ../layout/browser/actions.py:58
 msgid "I am sure, delete now"
-msgstr ""
+msgstr "Ik weet het zeker, verwijder nu"
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:30
 msgid "I am sure, remove role now"
-msgstr ""
+msgstr "Ik weet het zeker, verwijder rol nu"
 
 #: ../workspace/browser/templates/panel-unfreeze-case.pt:25
 msgid "I am sure, unfreeze now"
-msgstr ""
+msgstr "Ik weet het zeker, ontgrendel nu"
 
 #: ../workspace/browser/forms.py:64
 msgid "If checked, users will be removed from workspace"
-msgstr "Als aangevinkt dan zullen gebruikers worden verwijderd uit de werkruimte"
+msgstr "Als aangevinkt dan zullen gebruikers worden verwijderd uit de groep"
 
 #: ../workspace/browser/templates/add_content.pt:23
 msgid "Image"
@@ -823,22 +824,22 @@ msgstr "Afbeelding"
 
 #: ../workspace/behaviors/configure.zcml:20
 msgid "Image field"
-msgstr ""
+msgstr "Afbeeldingsveld"
 
 #: ../userprofile/browser/templates/userprofile-edit.pt:14
 #: ../userprofile/browser/templates/userprofile.pt:28
 msgid "Image of {{ page.title }}"
-msgstr ""
+msgstr "Afbeelding van {{ page.title }}"
 
 #: ../search/browser/templates/all_results.pt:31
 #: ../search/browser/templates/file_results.pt:30
 #: ../search/browser/templates/image_results.pt:29
 msgid "Images"
-msgstr ""
+msgstr "Afbeeldingen"
 
 #: ../userprofile/browser/templates/user_import_form.pt:62
 msgid "Import users from file"
-msgstr ""
+msgstr "Importeer gebruikers vanuit bestand"
 
 #: ../messaging/browser/your-inbox.pt:22
 msgid "Inbox"
@@ -853,15 +854,15 @@ msgstr "Info"
 #: ../todo/behaviors.py:45
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Initiator"
-msgstr ""
+msgstr "Initiator"
 
 #: ../themeswitcher/configure.zcml:50
 msgid "Installs testthemeA for test purposes"
-msgstr ""
+msgstr "Installeert testthemeA voor testdoeleinden"
 
 #: ../userprofile/configure.zcml:49
 msgid "Installs the ploneintranet.userprofile package"
-msgstr ""
+msgstr "Installeert het ploneintranet.userprofile package"
 
 #: ../invitations/invitations.py:75
 msgid "Invitation sent to %s"
@@ -874,23 +875,23 @@ msgstr "Uitnodigingen"
 
 #: ../workspace/browser/templates/roster-edit.pt:169
 msgid "Invite users to this workspace (via email)"
-msgstr "Gebruikers (per email) uitnodigen voor deze werkruimte"
+msgstr "Gebruikers (per e-mail) uitnodigen voor deze groep"
 
 #: ../workspace/browser/templates/content_macros.pt:181
 msgid "Invitees"
-msgstr ""
+msgstr "Genodigden"
 
 #: ../workspace/browser/add_content.py:84
 msgid "Item created."
-msgstr ""
+msgstr "Item aangemaakt."
 
 #: ../workspace/browser/edit_content.py:32
 msgid "Item edited."
-msgstr ""
+msgstr "Item bewerkt"
 
 #: ../workspace/browser/cart_actions/paste.py:31
 msgid "Item(s) pasted"
-msgstr ""
+msgstr "Item(s) geplakt"
 
 #: ../workspace/browser/tiles/sidebar.py:702
 msgid "Items modified last month"
@@ -902,18 +903,18 @@ msgstr "Afgelopen week bewerkte items"
 
 #: ../workspace/browser/tiles/sidebar.py:690
 msgid "Items modified today"
-msgstr "Vandaag bewerkte items "
+msgstr "Vandaag bewerkte items"
 
 msgid "JPEG image"
-msgstr ""
+msgstr "JPEG afbeelding"
 
 #: ../userprofile/content/userprofile.py:60
 msgid "Job title"
-msgstr ""
+msgstr "Functie"
 
 #: ../workspace/browser/templates/joinviewlet.pt:3
 msgid "Join"
-msgstr ""
+msgstr "lid worden"
 
 #: ../workspace/browser/templates/joinviewlet.pt:9
 msgid "Join now"
@@ -929,23 +930,23 @@ msgstr "Afgelopen week"
 
 #: ../userprofile/browser/userprofile.py:215
 msgid "Last month"
-msgstr ""
+msgstr "Afgelopen maand"
 
 #: ../userprofile/content/userprofile.py:40
 msgid "Last name"
-msgstr ""
+msgstr "Afgelopen week"
 
 #: ../userprofile/browser/userprofile.py:213
 msgid "Last week"
-msgstr ""
+msgstr "Afgelopen week"
 
 #: ../workspace/browser/templates/case_manager.pt:62
 msgid "Latest creation date"
-msgstr ""
+msgstr "Recentste aanmaakdatum"
 
 #: ../workspace/browser/templates/case_manager.pt:69
 msgid "Latest modification date"
-msgstr ""
+msgstr "Recentste wijzigingsdatum"
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
@@ -957,67 +958,67 @@ msgstr "Plaats een reactie"
 
 #: ../library/profiles/default/actions.xml
 msgid "Library"
-msgstr ""
+msgstr "Bibliotheek"
 
 #: ../library/profiles/default/types/ploneintranet.library.app.xml
 msgid "Library App"
-msgstr ""
+msgstr "Bibliotheek-app"
 
 #: ../library/profiles/default/types/ploneintranet.library.folder.xml
 msgid "Library Folder"
-msgstr ""
+msgstr "Bibliotheekmap"
 
 #: ../library/profiles/default/types/ploneintranet.library.section.xml
 msgid "Library Section"
-msgstr ""
+msgstr "Bibliotheek-sectie"
 
 #: ../library/configure.zcml:19
 msgid "Library for PloneIntranet"
-msgstr ""
+msgstr "Bibliotheek voor PloneIntranet"
 
 #: ../network/browser/likes.py:51
 msgid "Like"
 msgstr "Vind ik leuk"
 
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: ../search/browser/templates/all_results.pt:289
 msgid "Loading more search results&hellip;"
-msgstr ""
+msgstr "Bezig met meer zoekresultaten laden&hellip;"
 
 #: ../workspace/browser/templates/content_macros.pt:94
 #: ../workspace/browser/templates/email_invitees_html.pt:12
 #: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
-msgstr ""
+msgstr "Locatie"
 
 #: ../workspace/browser/templates/add_workspace.pt:30
 #: ../workspace/browser/templates/workspace-add.pt:82
 msgid "Locked down, secret workspace"
-msgstr ""
+msgstr "Afgesloten, geheime groep"
 
 #: ../layout/browser/templates/personal-menu.pt:36
 msgid "Logout"
-msgstr ""
+msgstr "Uitloggen"
 
 #: ../todo/vocabularies.py:7
 msgid "Low"
 msgstr "Laag"
 
 msgid "Make open"
-msgstr ""
+msgstr "Maak open"
 
 # change security settings on a generic workspace
 msgid "Make private"
-msgstr ""
+msgstr "Maak privé"
 
 msgid "Make secret"
-msgstr ""
+msgstr "Maak geheim"
 
 #: ../todo/portlets/latest.pt:34
 msgid "Mark read"
-msgstr ""
+msgstr "Markeer als gelezen"
 
 #: ../todo/behaviors.py:21
 msgid "Mark the content as \"Must read\" for all users."
@@ -1025,15 +1026,15 @@ msgstr "Markeer inhoud als \"verplicht leesvoer\" voor alle gebruikers."
 
 #: ../workspace/browser/templates/roster-edit.pt:74
 msgid "Member"
-msgstr ""
+msgstr "Lid"
 
 #: ../workspace/browser/tiles/sidebar.py:229
 msgid "Member(s) added"
-msgstr ""
+msgstr "Lid/leden toegevoegd"
 
 #: ../workspace/browser/tiles/sidebar.py:234
 msgid "Member(s) removed"
-msgstr ""
+msgstr "Lid/leden verwijderd"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
 #: ../workspace/browser/tiles/templates/sidebar.pt:513
@@ -1042,12 +1043,12 @@ msgstr "Leden"
 
 #: ../workspace/behaviors/configure.zcml:46
 msgid "Membrane Group (Workspace)"
-msgstr ""
+msgstr "Membrane groep ('workspace')"
 
 #: ../messaging/browser/send-message.pt:48
 #: ../messaging/browser/your-inbox.pt:136
 msgid "Mention people"
-msgstr ""
+msgstr "Noem personen"
 
 #: ../workspace/browser/forms.py:119
 msgid "Message"
@@ -1055,28 +1056,28 @@ msgstr "Berichten"
 
 #: ../messaging/browser/notifications.pt:5
 msgid "Messages"
-msgstr ""
+msgstr "Berichten"
 
 #: ../todo/behaviors.py:79
 msgid "Milestone"
-msgstr ""
+msgstr "Mijlpaal"
 
 #: ../workspace/browser/templates/content_macros.pt:52
 msgid "Milestone this task belongs to"
-msgstr ""
+msgstr "De mijlpaal waar deze taak bijhoort"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:154
 msgid "Missing required field {} on row {}"
-msgstr ""
+msgstr "Het veld {} op rij {} is verplicht"
 
 #: ../userprofile/content/userprofile.py:72
 msgid "Mobile Number"
-msgstr ""
+msgstr "Mobiel nummer"
 
 #: ../layout/profiles/testing/types/ploneintranet.layout.mockfolder.xml
 msgid "MockFolder"
-msgstr ""
+msgstr "MockFolder"
 
 #: ../workspace/policies.py:70
 msgid "Moderate"
@@ -1084,17 +1085,17 @@ msgstr "Modereren"
 
 #: ../workspace/browser/templates/case_manager.pt:112
 msgid "Modifications past 7 days"
-msgstr ""
+msgstr "Wijzigingen in de laaste 7 dagen"
 
 #: ../userprofile/browser/templates/userprofile.pt:71
 msgid "More information about"
-msgstr ""
+msgstr "Meer informatie over"
 
 #: ../search/browser/templates/file_results.pt:60
 #: ../search/browser/templates/image_results.pt:58
 #: ../search/browser/templates/people_results.pt:103
 msgid "More results"
-msgstr ""
+msgstr "Meer resultaten"
 
 #: ../workspace/browser/forms.py:63
 msgid "Move"
@@ -1106,7 +1107,7 @@ msgstr "Verplicht leesvoer"
 
 #: ../layout/browser/templates/personal-menu.pt:16
 msgid "My profile"
-msgstr ""
+msgstr "Mijn profiel"
 
 #: ../layout/browser/configure.zcml:109
 msgid "My tile's description"
@@ -1114,11 +1115,11 @@ msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:147
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: ../workspace/browser/templates/content_macros.pt:102
 msgid "Name of organiser"
-msgstr ""
+msgstr "Naam van de organisator"
 
 #: ../messaging/browser/your-inbox.pt:18
 msgid "New Message"
@@ -1126,28 +1127,28 @@ msgstr "Nieuw bericht"
 
 #: ../workspace/browser/workspacecontainer.py:73
 msgid "Newest workspaces on top"
-msgstr ""
+msgstr "Nieuwste groepen bovenaan"
 
 #: ../todo/portlets/latest.pt:12
 msgid "News"
-msgstr ""
+msgstr "Nieuws"
 
 msgid "News Item"
-msgstr ""
+msgstr "Nieuwsbericht"
 
 #: ../layout/browser/configure.zcml:120
 msgid "News tile showing news on the dashboard"
-msgstr ""
+msgstr "Nieuwstegel toont nieuwsberichten op het dashboard"
 
 #: ../messaging/browser/send-message.pt:42
 #: ../messaging/browser/your-inbox.pt:130
 #: ../microblog/browser/templates/update-social.html:104
 msgid "No attachments selected."
-msgstr "Geen bijlage geselecteerd."
+msgstr "Geen bijlage(n) geselecteerd."
 
 #: ../workspace/browser/workspacecontainer.py:103
 msgid "No grouping"
-msgstr ""
+msgstr "Geen groepering"
 
 #: ../network/browser/likes.py:115
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
@@ -1155,7 +1156,7 @@ msgstr "Er is geen item id opgegeven in sub-pad. Gebruik .../@@toggle_like/12345
 
 #: ../workspace/browser/cart_actions/delete.py:39
 msgid "No items could be deleted"
-msgstr ""
+msgstr "Er konden geen items worden verwijderd"
 
 #: ../messaging/browser/your-inbox.pt:65
 msgid "No messages"
@@ -1167,11 +1168,11 @@ msgstr "Geen openstaande notificaties"
 
 #: ../workspace/basecontent/templates/document_view.pt:117
 msgid "No preview available"
-msgstr ""
+msgstr "Geen voorvertoning beschikbaar"
 
 #: ../workspace/browser/templates/case_manager.pt:88
 msgid "No results"
-msgstr ""
+msgstr "Geen resultaten"
 
 #: ../network/browser/templates/author.pt:20
 #: ../network/browser/templates/graph.pt:20
@@ -1180,11 +1181,11 @@ msgstr "Gebruiker ${userid} onbekend."
 
 #: ../layout/browser/templates/tasks-tile.pt:11
 msgid "No tasks available"
-msgstr ""
+msgstr "Geen taken beschikbaar"
 
 #: ../userprofile/browser/userprofile.py:232
 msgid "No title"
-msgstr ""
+msgstr "Geen titel"
 
 #: ../invitations/views.py:30
 msgid "No token id given in sub-path.Use .../@@accept-token/tokenid"
@@ -1194,7 +1195,7 @@ msgstr "Token-id ontbreekt in sub-pad. Gebruik .../@@accept-token/tokenid"
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:54
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: ../todo/vocabularies.py:8
 msgid "Normal"
@@ -1202,12 +1203,12 @@ msgstr "Normaal"
 
 #: ../workspace/browser/templates/content_macros.pt:78
 msgid "Notes"
-msgstr ""
+msgstr "Notities"
 
 #: ../network/browser/templates/author.pt:18
 #: ../network/browser/templates/graph.pt:18
 msgid "Nothing here"
-msgstr "Hier is niets"
+msgstr "Niets gevonden"
 
 #: ../notifications/browser/notifications.pt:12
 #: ../notifications/browser/notificationsviewlet.pt:4
@@ -1216,24 +1217,24 @@ msgstr "Notificaties"
 
 #: ../todo/portlets/latest.py:22
 msgid "Number of items to display"
-msgstr "Aantal te tonen items "
+msgstr "Aantal te tonen items"
 
 msgid "ODT document"
-msgstr ""
+msgstr "ODT-document"
 
 #: ../workspace/subscribers.py:137
-msgid "Oh boy, oh boy, you are already a member"
-msgstr "Hela, hola! Je bent al lid"
+msgid "You are already a member"
+msgstr "Je bent al lid"
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
 #: ../workspace/browser/templates/panel-add-user.pt:26
 #: ../workspace/browser/templates/panel-remove-user.pt:38
 msgid "Ok"
-msgstr ""
+msgstr "Akkoord"
 
 #: ../workspace/browser/tiles/sidebar.py:708
 msgid "Older"
-msgstr ""
+msgstr "Ouder"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:491
 msgid "Older events"
@@ -1241,11 +1242,11 @@ msgstr "Oudere evenementen"
 
 #: ../workspace/policies.py:34
 msgid "Only administrators can add workspace members."
-msgstr "Alleen beheerders kunnen gebruikers aan een werkruimte toevoegen."
+msgstr "Alleen beheerders kunnen gebruikers aan een groep toevoegen."
 
 #: ../activitystream/browser/templates/stream_tile.pt:16
 msgid "Only people and things I follow"
-msgstr ""
+msgstr "Alleen mensen en zaken die ik volg"
 
 #: ../todo/browser/templates/todo_view.pt:74
 #: ../workspace/policies.py:23
@@ -1255,38 +1256,38 @@ msgstr "Open"
 #: ../workspace/browser/templates/add_workspace.pt:36
 #: ../workspace/browser/templates/workspace-add.pt:84
 msgid "Open community"
-msgstr ""
+msgstr "Open groep"
 
 #: ../workspace/basecontent/templates/document_view.pt:39
 msgid "Open in External Editor"
-msgstr ""
+msgstr "Open in externe editor"
 
 #: ../search/browser/templates/all_results.pt:131
 msgid "Options"
-msgstr ""
+msgstr "Opties"
 
 #: ../workspace/browser/templates/content_macros.pt:101
 msgid "Organiser"
-msgstr ""
+msgstr "Organisator"
 
 #: ../activitystream/browser/templates/comment.html:55
 #: ../activitystream/browser/templates/post.html:90
 msgid "Original text:"
-msgstr ""
+msgstr "Oorspronkelijke tekst:"
 
 #: ../workspace/policies.py:43
 msgid "Outsiders can self-join becoming a workspace member."
-msgstr "Buitenstaanders kunnen zichzelf werkruimte-deelnemer maken."
+msgstr "Buitenstaanders kunnen zichzelf groepslid maken."
 
 msgid "PDF document"
-msgstr ""
+msgstr "PDF-document"
 
 #: ../docconv/client/templates/pdf_not_available.pt:5
 msgid "PDF not generated yet"
 msgstr "PDF is nog niet gegenereerd"
 
 msgid "Page"
-msgstr ""
+msgstr "Pagina"
 
 #: ../workspace/browser/cart_actions/templates/message.pt:15
 #: ../workspace/browser/tiles/templates/sidebar.pt:111
@@ -1295,123 +1296,123 @@ msgstr "Plakken"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:13
 msgid "Paste document(s)"
-msgstr ""
+msgstr "Plak document(en)"
 
 #: ../search/browser/templates/all_results.pt:29
 #: ../search/browser/templates/file_results.pt:28
 #: ../search/browser/templates/image_results.pt:27
 msgid "People"
-msgstr ""
+msgstr "Personen"
 
 msgid "Person"
-msgstr ""
+msgstr "Persoon"
 
 #: ../userprofile/content/userprofile.py:30
 msgid "Person title"
-msgstr ""
+msgstr "Functie"
 
 #: ../layout/browser/personal_tools.py:39
 msgid "Personal image updated. Keep browsing or reload the page to see the change."
-msgstr ""
+msgstr "persoonlijk foto bijgewerkt. Blader door of herlaad deze pagina om de wijziging te zien."
 
 #: ../layout/browser/templates/personal-menu.pt:22
 msgid "Personal settings"
-msgstr ""
+msgstr "Persoonlijke instellingen"
 
 #: ../userprofile/content/userprofile.py:49
 msgid "Photo"
-msgstr ""
+msgstr "Foto"
 
 #: ../workspace/browser/templates/workspace-add.pt:56
 msgid "Pick a ${fti_titles_by_type/?portal_type} Template"
-msgstr ""
+msgstr "Kies een ${fti_titles_by_type/?portal_type} Sjabloon"
 
 #: ../workspace/browser/templates/content_macros.pt:28
 msgid "Pick an assignee"
-msgstr ""
+msgstr "Kies een gevolmachtigde"
 
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Pick an initiator"
-msgstr ""
+msgstr "Kies een initiator"
 
 #: ../workspace/browser/templates/case_manager.pt:37
 msgid "Pick the responsible department"
-msgstr ""
+msgstr "Kies de verantwoordelijke afdeling"
 
 #: ../todo/browser/templates/todo_view.pt:75
 msgid "Planned"
-msgstr ""
+msgstr "Gepland"
 
 #: ../workspace/browser/add_workspace.py:164
 msgid "Please specify which Case Template to use"
-msgstr ""
+msgstr "Geen een sjabloon aan"
 
 #: ../async/configure.zcml:26
 msgid "Plone Intranet: -- [Async uninstall]"
-msgstr ""
+msgstr "Plone Intranet: -- [Async uninstall]"
 
 #: ../async/configure.zcml:18
 msgid "Plone Intranet: -- [Async]"
-msgstr ""
+msgstr "Plne Intranet: -- [Async]"
 
 #: ../layout/configure.zcml:46
 msgid "Plone Intranet: -- [Layout uninstall]"
-msgstr ""
+msgstr "Plone Intranet: -- [Layout uninstall]"
 
 #: ../layout/configure.zcml:37
 msgid "Plone Intranet: -- [Layout]"
-msgstr ""
+msgstr "Plone Intranet: -- [Layout]"
 
 #: ../library/configure.zcml:27
 msgid "Plone Intranet: -- [Library uninstall]"
-msgstr ""
+msgstr "Plone Intranet: -- [Library uninstall]"
 
 #: ../library/configure.zcml:19
 msgid "Plone Intranet: -- [Library]"
-msgstr ""
+msgstr "Plone Intranet: -- [Library]"
 
 #: ../themeswitcher/configure.zcml:50
 msgid "Plone Intranet: -- [Themeswitcher: Testing]"
-msgstr ""
+msgstr "Plone Intranet: -- [Themeswitcher: Testing]"
 
 #: ../themeswitcher/configure.zcml:41
 msgid "Plone Intranet: -- [Themeswitcher]"
-msgstr ""
+msgstr "Plone Intranet: -- [Themeswitcher]"
 
 #: ../userprofile/configure.zcml:68
 msgid "Plone Intranet: -- [User Profiles Testing]"
-msgstr ""
+msgstr "Plone Intranet: -- [User Profiles Testing]"
 
 #: ../userprofile/configure.zcml:59
 msgid "Plone Intranet: -- [User Profiles uninstall]"
-msgstr ""
+msgstr "Plone Intranet: -- [User Profiles uninstall]"
 
 #: ../userprofile/configure.zcml:49
 msgid "Plone Intranet: -- [User Profiles]"
-msgstr ""
+msgstr "Plone Intranet: -- [User Profiles]"
 
 #: ../workspace/configure.zcml:172
 msgid "Plone Intranet: -- [Workspace uninstall]"
-msgstr ""
+msgstr "Plone Intranet: -- [Workspace uninstall]"
 
 #: ../workspace/configure.zcml:163
 msgid "Plone Intranet: -- [Workspace]"
-msgstr ""
+msgstr "Plone Intranet: -- [Workspace]"
 
 #: ../workspace/behaviors/configure.zcml:36
 msgid "PloneIntranet Event Fields"
-msgstr ""
+msgstr "PloneIntranet veld voor evenementen"
 
 msgid "PowerPoint 2007 presentation"
-msgstr ""
+msgstr "PowerPoint 2007 presentatie"
 
 #: ../workspace/basecontent/templates/document_view.pt:116
 msgid "Preview being generated"
-msgstr ""
+msgstr "Voorvertoning wordt gegenereerd"
 
 #: ../userprofile/content/userprofile.py:85
 msgid "Primary location"
-msgstr ""
+msgstr "Hoofdlocatie"
 
 #: ../todo/behaviors.py:57
 msgid "Priority"
@@ -1419,72 +1420,72 @@ msgstr "Proriteit"
 
 #: ../workspace/policies.py:16
 msgid "Private"
-msgstr "Privaat"
+msgstr "Privé"
 
 #: ../workspace/policies.py:56
 msgid "Produce"
-msgstr "Procedure"
+msgstr "Toevoegen"
 
 #: ../userprofile/profiles/default/types/ploneintranet.userprofile.userprofile.xml
 msgid "Profile"
-msgstr ""
+msgstr "Profiel"
 
 #: ../workspace/policies.py:63
 msgid "Publish"
 msgstr "Publiseren"
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:22
-msgid "Recipients..."
-msgstr ""
+msgid "Recipients&hellip;"
+msgstr "Geadresseerden&hellip;"
 
 #: ../workspace/browser/templates/email_invitees_html.pt:20
 #: ../workspace/browser/templates/email_invitees_text.pt:19
 msgid "Regards"
-msgstr ""
+msgstr "Met vriendelijke groet"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove"
-msgstr ""
+msgstr "Verwijderen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove member or group"
-msgstr ""
+msgstr "Lid uit groep verwijderen"
 
 #: ../workspace/browser/templates/panel-remove-user.pt:16
 msgid "Remove members"
-msgstr ""
+msgstr "Leden verwijderen"
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:13
 msgid "Remove role"
-msgstr ""
+msgstr "Rol verwijderen"
 
 #: ../workspace/browser/templates/panel-member-role-actions.pt:14
 msgid "Remove special role"
-msgstr ""
+msgstr "Speciale rol verwijderen"
 
 #: ../todo/browser/templates/todo_view.pt:82
 msgid "Reopen"
-msgstr ""
+msgstr "Heropen"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:388
 msgid "Reopen milestone"
-msgstr ""
+msgstr "Heropen mijlpaal"
 
 #: ../search/browser/templates/all_results.pt:63
 msgid "Reset filters"
-msgstr ""
+msgstr "Wis filters"
 
 #: ../workspace/browser/templates/add_content.pt:17
 msgid "Rich text"
-msgstr "Text met opmaak"
+msgstr "Tekst met opmaak"
 
 #: ../workspace/browser/tiles/sidebar.py:241
 msgid "Role updated"
-msgstr ""
+msgstr "Rol bijgewerkt"
 
 #: ../workspace/browser/roster.py:38
 msgid "Roster updated."
-msgstr "Rooster geüpdatet"
+msgstr "Ledenlijst bijgewerkt"
 
 #: ../todo/browser/templates/todo_view.pt:88
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
@@ -1494,7 +1495,7 @@ msgstr "Opslaan"
 
 #: ../workspace/basecontent/templates/event_view.pt:68
 msgid "Save this document"
-msgstr ""
+msgstr "Dit document opslaan"
 
 #: ../microblog/browser/templates/panel_tags.pt:21
 #: ../microblog/browser/templates/panel_users.pt:29
@@ -1504,27 +1505,27 @@ msgstr "Zoeken"
 
 #: ../userprofile/browser/templates/userprofile.pt:219
 msgid "Search ${here/fullname} documents"
-msgstr ""
+msgstr "Zoek ${here/fullname} documenten"
 
 #: ../workspace/browser/templates/panel-add-group.pt:21
 msgid "Search existing groups"
-msgstr ""
+msgstr "Zoek bestaande groepen"
 
 #: ../workspace/browser/templates/panel-add-user.pt:21
 msgid "Search existing users"
-msgstr ""
+msgstr "Zoek bestaande gebruikers"
 
 #: ../workspace/browser/templates/roster-edit.pt:41
 msgid "Search for a user"
-msgstr ""
+msgstr "Zoek naar een gebruiker"
 
 #: ../workspace/browser/templates/case_manager.pt:24
 msgid "Search in title and description"
-msgstr ""
+msgstr "Zoek in titel en omschrijving"
 
 #: ../workspace/browser/templates/workspaces.pt:51
 msgid "Search workspaces"
-msgstr ""
+msgstr "Zoek groepen"
 
 #: ../workspace/policies.py:9
 msgid "Secret"
@@ -1547,24 +1548,20 @@ msgstr "Selecteer alles"
 
 #: ../workspace/browser/forms.py:58
 msgid "Select workspace"
-msgstr "Selecteer werkruimte"
+msgstr "Selecteer groep"
 
 #: ../workspace/policies.py:42
 msgid "Self-Managed"
 msgstr "Eigen beheer"
 
-#: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Self-managed, private teamspace"
-msgstr ""
-
 #: ../workspace/browser/templates/add_workspace.pt:33
 msgid "Self-managed, private workspace"
-msgstr ""
+msgstr "Zelf-beheer, private groep"
 
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:66
 msgid "Send"
-msgstr ""
+msgstr "Verzenden"
 
 #: ../invitations/invite_user.pt:37
 msgid "Send email invite to:"
@@ -1572,11 +1569,11 @@ msgstr "Stuur uitnodiging per email aan:"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:124
 msgid "Send selected document(s)"
-msgstr ""
+msgstr "Verstuur geselecteerde document(en)"
 
 #: ../workspace/browser/templates/content_macros.pt:39
 msgid "Set a deadline"
-msgstr ""
+msgstr "Geef een deadline op"
 
 #: ../todo/behaviors.py:15
 msgid "Settings"
@@ -1588,73 +1585,73 @@ msgstr "Delen"
 
 #: ../workspace/basecontent/templates/document_view.pt:54
 msgid "Share this document"
-msgstr ""
+msgstr "Deel dit document"
 
 #: ../workspace/browser/templates/case_manager.pt:53
 msgid "Show archived workspaces"
-msgstr ""
+msgstr "Toon gearchiveerde groepen"
 
 #: ../todo/browser/templates/todo_view.pt:49
 #: ../workspace/basecontent/templates/document_view.pt:55
 #: ../workspace/basecontent/templates/event_view.pt:67
 msgid "Show extra metadata fields"
-msgstr ""
+msgstr "Aanvullende metadata tonen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:25
 msgid "Show functions"
-msgstr ""
+msgstr "Toon functies"
 
 #: ../workspace/browser/templates/workspaces.pt:40
 msgid "Show or hide archived workspace"
-msgstr ""
+msgstr "Toon of verberg gearchiveerde groepen"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:32
 msgid "Some Context"
-msgstr ""
+msgstr "Een context"
 
 #: ../workspace/browser/cart_actions/mail.py:56
 msgid "Some items have been sent to you."
-msgstr ""
+msgstr "Er zijn een aantal items naar je verstuurd"
 
 #: ../search/browser/templates/all_results.pt:160
 msgid "Sort by date"
-msgstr ""
+msgstr "Gesorteerd op datum"
 
 #: ../search/browser/templates/all_results.pt:155
 msgid "Sort by relevancy"
-msgstr ""
+msgstr "Gesorteerd op relevantie"
 
 #: ../workspace/browser/templates/add_workspace.pt:44
 msgid "Special workspace"
-msgstr ""
+msgstr "Bijzondere groep"
 
 #: ../search/interfaces.py:92
 msgid "Spell corrected search string"
-msgstr ""
+msgstr "Gecorrigeerde zoekterm"
 
 #: ../workspace/basecontent/event.py:22
 msgid "Start date should be lower than end date"
-msgstr ""
+msgstr "Begindatum moet eerder zijn dan einddatum"
 
 #: ../workspace/browser/templates/case_manager.pt:44
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
-msgstr "Statusupdate door ${fullname}:"
+msgstr "Statusupdates door ${fullname}:"
 
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
-msgstr ""
+msgstr "Taakgeoriënteerde weergave"
 
 #: ../todo/utils.py:51
 msgid "Task state changed"
-msgstr ""
+msgstr "Taakstatus gewijzigd"
 
 #: ../workspace/browser/templates/add_task.pt:9
 msgid "Task title"
-msgstr ""
+msgstr "Taaktitel"
 
 #: ../layout/browser/templates/tasks-tile.pt:10
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
@@ -1663,7 +1660,7 @@ msgstr "Taken"
 
 #: ../workspace/browser/templates/case_manager.pt:104
 msgid "Tasks finished"
-msgstr ""
+msgstr "Taken afgerond"
 
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
@@ -1671,19 +1668,19 @@ msgstr "Beheerd door het team"
 
 #: ../userprofile/content/userprofile.py:68
 msgid "Telephone Number"
-msgstr ""
+msgstr "telefoonnummer"
 
 #: ../workspace/browser/templates/content_macros.pt:189
 msgid "Tentative"
-msgstr ""
+msgstr "Voorlopig"
 
 #: ../userprofile/configure.zcml:68
 msgid "Testing of the ploneintranet.userprofile package"
-msgstr ""
+msgstr "Testing of the ploneintranet.userprofile package"
 
 #: ../docconv/client/templates/pdf_not_available.pt:6
 msgid "The PDF version has not been generated yet, please try again later."
-msgstr ""
+msgstr "De PDF-versie is nog niet gegenereerd, probeer later nog eens."
 
 #: ../todo/interfaces.py:17
 msgid "The UID of the content that needs actioning"
@@ -1691,7 +1688,7 @@ msgstr "De UID van de inhoud die verwerkt moet worden"
 
 #: ../search/solr/interfaces.py:16
 msgid "The URL that will resolve to a SOLR core."
-msgstr ""
+msgstr "De URL naar een SORL-core."
 
 #: ../invitations/interfaces.py:26
 msgid "The UUID of this token"
@@ -1699,11 +1696,11 @@ msgstr "De UID van dit token"
 
 #: ../search/interfaces.py:77
 msgid "The absolute URL for a preview image representing search result"
-msgstr ""
+msgstr "De volledige URL naar een voorvertoning van het zoekresultaat"
 
 #: ../search/interfaces.py:84
 msgid "The absolute URL to the content for this search result based on the path and the host in the current request"
-msgstr ""
+msgstr "De volledige URLnaar de inhoud behorend bij dit zoekresultaat gebaseerd op het pad en de host in het huidige request."
 
 #: ../todo/interfaces.py:18
 msgid "The action to be taken on the content"
@@ -1712,11 +1709,11 @@ msgstr "De actie die toegepast moet worden op de inhoud"
 #: ../workspace/browser/templates/email_invitees_html.pt:14
 #: ../workspace/browser/templates/email_invitees_text.pt:13
 msgid "The agenda for this event can be found here:"
-msgstr ""
+msgstr "De agenda voor dit evenement vind je hier:"
 
 #: ../layout/browser/templates/app-not-available.pt:18
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
-msgstr ""
+msgstr "The app die je hebt gekozen is nog niet beschikbaar maar in ontwikkeling."
 
 #: ../todo/interfaces.py:20
 msgid "The datetime this ContentAction was completed"
@@ -1736,15 +1733,15 @@ msgstr "De datum en tijd dat dit token verloopt"
 
 #: ../search/interfaces.py:55
 msgid "The description of this search result"
-msgstr ""
+msgstr "De omschrijving van dit zoekresultaat"
 
 #: ../workspace/browser/cart_actions/mail.py:41
 msgid "The following items have been shared with you:"
-msgstr ""
+msgstr "De volgende items zijn met je gedeeld:"
 
 #: ../search/interfaces.py:67
 msgid "The friendly label for the type of search result"
-msgstr ""
+msgstr "De leesbare naam voor dit type zoekresultaat"
 
 #: ../invitations/events.py:9
 msgid "The id of the Token that was consumed"
@@ -1752,23 +1749,23 @@ msgstr "De id van de gebruikte token"
 
 #: ../invitations/interfaces.py:27
 msgid "The number of uses for this token before it expires"
-msgstr "Het aantal keer dat dit token gebruikt kan worden alvorens het verloopt"
+msgstr "Het aantal keer dat dit token gebruikt kan worden voordat het verloopt"
 
 #: ../search/interfaces.py:64
 msgid "The portal type of this search result"
-msgstr ""
+msgstr "Het portal type van dit zoekresultaat"
 
 #: ../search/interfaces.py:73
 msgid "The relative path to a preview imagerepresenting this search result"
-msgstr ""
+msgstr "Het relatieve pad naar een voorvertoning van dit zoekresultaat"
 
 #: ../search/interfaces.py:81
 msgid "The relative path to the content for this search result"
-msgstr ""
+msgstr "Het relatieve pad naar de inhoud van dit zoekresultaat"
 
 #: ../search/interfaces.py:52
 msgid "The title of this search result"
-msgstr ""
+msgstr "De titel van dit zoekresultaat"
 
 #: ../invitations/invitations.py:92
 msgid "The token has expired."
@@ -1776,11 +1773,11 @@ msgstr "De sleutel is verlopen"
 
 #: ../search/interfaces.py:98
 msgid "The total number of results generated from the query"
-msgstr ""
+msgstr "Het totaal aantal resultaten gegenereerd door deze zoekterm"
 
 #: ../todo/behaviors.py:46
 msgid "The user (or group) who requested this task"
-msgstr ""
+msgstr "De gebruikers (of groep) die deze taak heeft aangevraagd"
 
 #: ../todo/interfaces.py:16
 msgid "The userid this action is for"
@@ -1788,66 +1785,66 @@ msgstr "De userid waarvoor deze actie is"
 
 #: ../workspace/basecontent/baseviews.py:68
 msgid "The workflow state has been changed."
-msgstr ""
+msgstr "De publicatiestatus is gewijzigd"
 
 #: ../workspace/policies.py:24
 msgid "The workspace can be explored by outsiders. Outsiders can browse but not actively participate."
-msgstr "De werkruimte kan worden bekeken door buitenstaanders. Buitenstaanders kunnen rondkijken maar niet meedoen."
+msgstr "De groep kan worden bekeken door niet-leden. Buitenstaanders kunnen rondkijken maar niet meedoen."
 
 #: ../workspace/policies.py:10
 msgid "The workspace is hidden from outsiders. Only workspace members know it exists."
-msgstr "De werkruimte is verborgen voor buitenstaanders. Allen deelnemers aan deze werkruimte weten dat zij bestaat."
+msgstr "De groep is verborgen voor niet-leden. Allen deelnemers aan deze groep weten dat zij bestaat."
 
 #: ../workspace/policies.py:17
 msgid "The workspace is visible, but inaccessible to outsiders. Only workspace members can access the workspace."
-msgstr "De werkruimte is zichtbaar, maar niet toegankelijk voor buitenstaanders. Alleen deelnemers aan deze werkruimte krijgen toegang."
+msgstr "De groep is zichtbaar, maar niet toegankelijk voor niet-leden. Alleen deelnemers aan deze groep krijgen toegang."
 
 #: ../workspace/browser/templates/add_workspace.pt:56
 #: ../workspace/browser/templates/workspace-add.pt:86
 msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
-msgstr ""
+msgstr "De groep zal alleen toegankelijk zijn voor mensen die je uitnodigt. De groep zal niet zichtbaar zijn in het groepen-overzicht. Bestanden in deze groep moeten goedgekeurd worden voordat ze gedeeld worden met de groepsleden. Niets in deze groep zal zichtbaar zijn voor niet-leden."
 
 #: ../workspace/browser/templates/add_workspace.pt:59
 #: ../workspace/browser/templates/workspace-add.pt:89
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
-msgstr ""
+msgstr "Alleen leden krijgen toegang tot deze groep. Elk lid kan nieuwe leden toevoegen. Leden kunnen bijna alles. Niets in deze groep zal zichtbaar zijn voor niet-leden."
 
 #: ../activitystream/browser/templates/content-stream.html:19
 msgid "There are ${num_comments} comments on ${num_shares} shares"
-msgstr ""
+msgstr "Er zijn ${num_comments} opmerkingen op ${num_shares}  "
 
 #: ../workspace/browser/cart_actions/download.py:86
 msgid "There are no downloadable items in your cart."
-msgstr ""
+msgstr "Er zijn geen downloadbare items in je mandje"
 
 #: ../workspace/browser/tiles/sidebar.py:75
 msgid "There was a problem updating the content: %s."
-msgstr ""
+msgstr "Er ging iets mis tijdens het updaten van: %s."
 
 #: ../workspace/basecontent/baseviews.py:79
 msgid "There was a problem:"
-msgstr ""
+msgstr "Er is een probleem:"
 
 #: ../workspace/browser/add_content.py:92
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
-msgstr ""
+msgstr "Er ging iets mis: %s."
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:51
 msgid "This belongs to a division"
-msgstr ""
+msgstr "Dit hoort bij een divisie"
 
 #: ../activitystream/browser/templates/comment-deleted.html:9
 msgid "This comment has been succesfully deleted."
-msgstr ""
+msgstr "Deze opmerking is verwijderd."
 
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
-msgstr "Dit portlet geeft het laatste nieuws weer dat gelezen moet worden."
+msgstr "Dit portlet toon het laatste belangrijke nieuws."
 
 #: ../activitystream/browser/templates/post-deleted.html:9
 msgid "This post has been succesfully deleted."
-msgstr ""
+msgstr "Dit bericht is verwijderd."
 
 #: ../workspace/browser/forms.py:24
 msgid "This user doesn't have an email associated with their account."
@@ -1855,32 +1852,32 @@ msgstr "Deze gebruiker heeft geen e-mail gekoppeld aan zijn account."
 
 #: ../layout/browser/configure.zcml:132
 msgid "Tile to list recently modified documents"
-msgstr ""
+msgstr "Tegel die recente gewijzigde documenten toont"
 
 #: ../workspace/browser/templates/content_macros.pt:139
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 #: ../userprofile/content/userprofile.py:80
 msgid "Time Zone"
-msgstr ""
+msgstr "Tijdzone"
 
 #: ../userprofile/browser/templates/userprofile.pt:118
 msgid "Timeline"
-msgstr ""
+msgstr "Tijdlijn"
 
 #: ../workspace/browser/templates/content_macros.pt:167
 msgid "Timezone"
-msgstr ""
+msgstr "Tijdzone"
 
 #: ../workspace/browser/templates/email_invitees_html.pt:10
 #: ../workspace/browser/templates/email_invitees_text.pt:9
 msgid "Title:"
-msgstr ""
+msgstr "Titel:"
 
 #: ../messaging/browser/send-message.pt:24
 msgid "To:"
-msgstr ""
+msgstr "Aan:"
 
 #: ../userprofile/browser/userprofile.py:211
 #: ../workspace/browser/tiles/sidebar.py:689
@@ -1888,13 +1885,13 @@ msgid "Today"
 msgstr "Vandaag"
 
 msgid "Todo"
-msgstr ""
+msgstr "Te doen"
 
 #: ../todo/browser/templates/todo_view.pt:49
 #: ../workspace/basecontent/templates/document_view.pt:55
 #: ../workspace/basecontent/templates/event_view.pt:67
 msgid "Toggle extra metadata"
-msgstr ""
+msgstr "Extra metadata tonen/verbergen"
 
 #: ../invitations/views.py:46
 msgid "Token no longer valid"
@@ -1902,48 +1899,48 @@ msgstr "Token is niet langer geldig"
 
 #: ../workspace/browser/templates/roster-edit.pt:176
 msgid "Transfer members to another workspace."
-msgstr "Verplaats deelnemer naar een andere werkruimte."
+msgstr "Verplaats groepsleden naar een andere groep."
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:404
 msgid "Unassigned"
-msgstr ""
+msgstr "Niet toegekend"
 
 #: ../workspace/browser/templates/content_macros.pt:187
 msgid "Undecided"
-msgstr ""
+msgstr "Onbeslist"
 
 #: ../network/browser/follows.py:38
 msgid "Unfollow"
-msgstr ""
+msgstr "Niet meer volgen"
 
 #: ../workspace/browser/templates/case.pt:121
 msgid "Unfreeze"
-msgstr ""
+msgstr "Ontgrendelen"
 
 #: ../workspace/browser/templates/panel-unfreeze-case.pt:14
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:87
 msgid "Unfreeze case"
-msgstr ""
+msgstr "Ontgrendel Dossier"
 
 #: ../workspace/browser/templates/workspaces.pt:112
 msgid "Ungrouped"
-msgstr ""
+msgstr "ongegroepeerd"
 
 #: ../library/configure.zcml:27
 msgid "Uninstall Library for PloneIntranet"
-msgstr ""
+msgstr "Deïnstalleer bibliotheek voor PloneIntranet"
 
 #: ../async/configure.zcml:26
 msgid "Uninstalls ploneintranet.async"
-msgstr ""
+msgstr "Deïnstalleer ploneintranet.async"
 
 #: ../layout/browser/widgets.py:19
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: ../workspace/browser/tiles/sidebar.py:244
 msgid "Unknown function"
-msgstr ""
+msgstr "Onbekende functie"
 
 #: ../network/browser/likes.py:49
 msgid "Unlike"
@@ -1951,7 +1948,7 @@ msgstr "Vind ik niet meer leuk"
 
 #: ../workspace/browser/templates/content_macros.pt:148
 msgid "Until"
-msgstr ""
+msgstr "Tot"
 
 #: ../workspace/browser/tiles/templates/events.pt:10
 #: ../workspace/browser/tiles/templates/sidebar.pt:437
@@ -1960,11 +1957,11 @@ msgstr "Aanstaande evenementen"
 
 #: ../userprofile/browser/templates/userprofile.pt:42
 msgid "Update avatar"
-msgstr ""
+msgstr "Werk avatar bij"
 
 #: ../userprofile/browser/templates/user_import_form.pt:56
 msgid "Update details for existing users (matching on username)"
-msgstr ""
+msgstr "Wijzig gegevens voor bestaande gebruikers (toegepast op gebruikersnaam)"
 
 #: ../network/browser/templates/author.pt:27
 #: ../network/browser/templates/maxiauthor_provider.pt:21
@@ -1977,15 +1974,15 @@ msgstr "Bestand(en) toevoegen"
 
 #: ../workspace/behaviors/configure.zcml:46
 msgid "Use this content as a membrane group"
-msgstr ""
+msgstr "Gebruik deze inhoud als een membrane groep"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:198
 msgid "User not found"
-msgstr ""
+msgstr "Gebruiker niet gevonden"
 
 #: ../userprofile/browser/templates/user_import_form.pt:18
 msgid "User profile management"
-msgstr ""
+msgstr "Gebruikersprofielbeheer"
 
 #: ../microblog/interfaces.py:17
 msgid "Userid"
@@ -1993,158 +1990,158 @@ msgstr "Userid"
 
 #: ../userprofile/content/userprofile.py:26
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: ../activitystream/browser/templates/post.html:259
 msgid "View"
-msgstr ""
+msgstr "Bekijk"
 
 #: ../activitystream/browser/templates/post.html:302
 msgid "View this image"
-msgstr ""
+msgstr "Bekijk deze afbeelding"
 
 #: ../workspace/subscribers.py:144
 msgid "Welcome to our family, Stranger"
-msgstr "Van harte welkom"
+msgstr "Je bent nu lid van deze groep"
 
 #: ../workspace/browser/templates/confirmation-remove-special-role.pt:21
 msgid "When you remove the special role from this member, this member will inherit the default role for this workspace. Are you sure?"
-msgstr ""
+msgstr "Als je de speciale rol van deze gebruiker haalt, krijgt deze de standaard rechten voor deze groep. Weet je het zeker?"
 
 msgid "Word 2007 document"
-msgstr ""
+msgstr "Word 2007 document"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacefolder.xml
 msgid "Workspace"
-msgstr "Werkruimte"
+msgstr "Groep"
 
 #: ../workspace/browser/templates/roster-edit.pt:75
 msgid "Workspace Admin"
-msgstr ""
+msgstr "Groepsbeheerder"
 
 #: ../workspace/browser/roster.py:166
 msgid "Workspace Administrator"
-msgstr ""
+msgstr "Groepsbeheerder"
 
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
 msgid "Workspace Folder"
-msgstr "Werkruimtemap"
+msgstr "Groepsmap"
 
 #: ../workspace/browser/templates/add_workspace.pt:24
 #: ../workspace/browser/templates/workspace-add.pt:26
 msgid "Workspace description"
-msgstr ""
+msgstr "Groepsomschrijving"
 
 #: ../workspace/configure.zcml:163
 msgid "Workspace for PloneIntranet"
-msgstr ""
+msgstr "Groep voor PloneIntranet"
 
 #: ../workspace/browser/views.py:23
 msgid "Workspace join policy doesn't allow self join"
-msgstr "Werkplaatsbeleid staat jezelf toevoegen als deelnemer niet toe"
+msgstr "De instellingen van deze groep staan het niet toe dat je jezelf toevoegt als deelnemer"
 
 #: ../workspace/policies.py:38
 msgid "Workspace members can add outsiders as a workspace member."
-msgstr "Werkplaatsdeelnemers kunnen buitenstaanders toevoegen als deelnemer."
+msgstr "Groepsleden kunnen niet-leden toevoegen als deelnemer."
 
 #: ../workspace/policies.py:71
 msgid "Workspace members can do everything: read, add, publish and edit content."
-msgstr "Werkplaatsdeelnemers kunnen alles doen: lezen, toevoegen, publiceren en wijzigen van inhoud."
+msgstr "Groepsleden kunnen alles doen: lezen, toevoegen, publiceren en wijzigen van inhoud."
 
 #: ../workspace/policies.py:57
 msgid "Workspace members can read and add content. They can neither publish nor edit content."
-msgstr "Werkplaatsdeelnemers kunnen inhoud lezen en toevoegen. Ze kunnen niet publiceren nog inhoud wijzigen."
+msgstr "Groepsleden kunnen inhoud lezen en toevoegen. Ze kunnen niet publiceren of inhoud wijzigen."
 
 #: ../workspace/policies.py:50
 msgid "Workspace members can read content. They cannot add, publish or edit content."
-msgstr "Werkplaatsdeelnemers kunnen inhoud lezen. Ze kunnen geen inhoud toevoegen, publiceren of wijzigen."
+msgstr "Groepsleden kunnen inhoud lezen. Ze kunnen geen inhoud toevoegen, publiceren of wijzigen."
 
 #: ../workspace/policies.py:64
 msgid "Workspace members can read, add and publish content. They cannot edit other member's content."
-msgstr "Werkplaatsdeelnemers kunnen inhoud lezen en publiceren. Ze kunnen geen inhoud van andere deelnemers wijzigen."
+msgstr "Groepsleden kunnen inhoud lezen, aanmaken en publiceren. Ze kunnen geen inhoud van andere groepsleden wijzigen."
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:20
 msgid "Workspace policy"
-msgstr "Werkplaatsbeleid"
+msgstr "Groepsbeleid"
 
 #: ../workspace/browser/tiles/sidebar.py:297
 msgid "Workspace security policy changes saved"
-msgstr "Wijzigingen aan het werkplaatsbeleid zijn opgeslagen"
+msgstr "Wijzigingen aan het groepsbeleid zijn opgeslagen"
 
 #: ../workspace/browser/templates/add_workspace.pt:21
 #: ../workspace/browser/templates/workspace-add.pt:23
 msgid "Workspace title"
-msgstr ""
+msgstr "Titel van de groep"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Workspaces"
-msgstr "Werkplaatsen"
+msgstr "Groepen"
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:30
-msgid "Write a message to the recipient(s)..."
-msgstr ""
+msgid "Write a message to the recipient(s)&hellip;"
+msgstr "Schrijf een bericht aan de geadresseerde(n)&hellip;"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:164
 msgid "Wrong type for {} at row {}.field"
-msgstr ""
+msgstr "Verkeerd type voor {} op rij {}.field"
 
 #: ../workspace/browser/templates/case_manager.pt:60
 msgid "YYYY-MM-DD"
-msgstr ""
+msgstr "YYYY-MM-DD"
 
 #: ../workspace/browser/views.py:32
 msgid "You are a member of this workspace now"
-msgstr "Je bent nu lid van deze werkplaats"
+msgstr "Je bent nu lid van deze groep"
 
 #: ../workspace/browser/templates/panel-change-role.pt:33
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr ""
+msgstr "Je staat op het punt de rol van <strong>${num_users}</strong> groepsleden te wijzigen. Weet je het zeker? (deselecteer vinkjes om leden uit te sluiten van deze wijziging) "
 
 #: ../layout/browser/templates/delete_confirmation.pt:49
 msgid "You are about to delete this ${contenttype}. Are you sure?"
-msgstr ""
+msgstr "Je gaat een ${contenttype} verwijderen. Weet je het zeker?"
 
 #: ../activitystream/browser/templates/panel-delete-comment.html:24
 msgid "You are about to delete this comment. Are you sure?"
-msgstr ""
+msgstr "Je gaat deze opmerking verwijderen. Weet je het zeker?"
 
 #: ../activitystream/browser/templates/panel-delete-post.html:24
 msgid "You are about to delete this post. Are you sure?"
-msgstr ""
+msgstr "Je gaat dit bericht verwijderen. Weet je het zeker?"
 
 #: ../workspace/browser/templates/panel-unfreeze-case.pt:18
 msgid "You are about to unfreeze this case. After unfreezing a case, its members will able again to make changes."
-msgstr ""
+msgstr "Je gaat dit dossier ontgrendelen. Hierna kunnen groepsleden weer wijzigingen doen in het dossier."
 
 #: ../workspace/browser/templates/workspace-add.pt:95
 msgid "You can always change these settings later via the security control panel in the workspace."
-msgstr ""
+msgstr "Je kunt deze instellingen altijd wijzigen in het paneel \"beveilingsinstellingen\" in de groep."
 
 #: ../workspace/browser/templates/joinviewlet.pt:6
 msgid "You can become a member of this workspace"
-msgstr "Je kan deelnemer worden aan deze werkplaats"
+msgstr "Je kan lid worden van deze groep"
 
 #: ../workspace/browser/tiles/sidebar.py:212
 msgid "You do not have permission to change the workspace policy"
-msgstr "Je bent niet bevoegd het werkplaatsbeleid te wijzigen"
+msgstr "Je bent niet bevoegd om het groepsbeleid te wijzigen"
 
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:27
 msgid "You don't have permission to delete any of them."
-msgstr ""
+msgstr "Je bent niet bevoegd om deze items te verwijderen."
 
 #: ../workspace/browser/templates/add_workspace.pt:65
 msgid "You may at any time change these settings later via the security control panel in the workspace."
-msgstr ""
+msgstr "Je kunt deze instellingen altijd wijzigen in het paneel \"beveilingsinstellingen\" in de groep."
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:16
 msgid "You may send this message to one or more people. The recipient(s) will receive an e-mail with a link to the document(s). It's possible to enter names of known users or just their e-mail addresses."
-msgstr ""
+msgstr "Je kan dit bericht naar één of meerdere personen sturen. Deze ontvangen een E-mail met een link naar de documenten. Je kan namen van gebruikers opgeven of alleen hun e-mail-adres."
 
 #: ../workspace/browser/templates/email_invitees_html.pt:5
 #: ../workspace/browser/templates/email_invitees_text.pt:5
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
-msgstr ""
+msgstr "Je het deze mail ontvange van ${portal_title} omdat je bent uitgenodig voor het volgende evenement:"
 
 #: ../messaging/browser/your-inbox.pt:70
 msgid "Your Inbox"
@@ -2156,10 +2153,10 @@ msgstr "Je wijzigingen zijn opgeslagen."
 
 #: ../messaging/browser/send-message.pt:31
 msgid "Your message here!"
-msgstr "Jou bericht hier!"
+msgstr "Jouw bericht hier!"
 
 msgid "Zip archive"
-msgstr ""
+msgstr "Zip-archief"
 
 #. Default: "What are you doing?"
 #: ../microblog/browser/update_social.py:262
@@ -2170,12 +2167,12 @@ msgstr "Plaatsen"
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
 #: ../workspace/browser/templates/panel-remove-user.pt:26
 msgid "alert_remove_users_from_workspace"
-msgstr ""
+msgstr "Je hebt de volgende ${num_users} leden geselecteerd om uit de groep te verwijderen? Weet je het zeker? (De-selecteer om in de groep te laten)"
 
 #. Default: "App market"
 #: ../layout/adapters/app_tiles.py:164
 msgid "app-market"
-msgstr ""
+msgstr "App-markt"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:23
 #: ../workspace/browser/tiles/templates/sidebar.pt:39
@@ -2185,55 +2182,55 @@ msgstr "auteur"
 #. Default: "${num_elems} Files were copied to your cloud clipboard."
 #: ../workspace/browser/cart_actions/copy.py:38
 msgid "batch_copied_success"
-msgstr ""
+msgstr "${num_elems} bestanden zijn naar jouw cloud-klembord gekopieerd."
 
 #. Default: "The following items could not be cut: ${num_elems}"
 #: ../workspace/browser/cart_actions/cut.py:64
 msgid "batch_cut_failure"
-msgstr ""
+msgstr "De volgende items konden niet worden geknipt: ${num_elems}"
 
 #. Default: "${num_elems} Files were cut and moved to your cloud clipboard."
 #: ../workspace/browser/cart_actions/cut.py:52
 msgid "batch_cut_success"
-msgstr ""
+msgstr "${num_elems} bestanden zijn geknipt en verplaatst naar jouw cloud-klembord."
 
 #. Default: "The following items have been deleted: ${title_elems}"
 #: ../workspace/browser/cart_actions/delete.py:27
 msgid "batch_delete_success"
-msgstr ""
+msgstr "De volgende items zijn verwijderd: %{title_elems}"
 
 #. Default: "Close"
 #: ../layout/viewlets/globalstatusmessage.py:21
 msgid "button_close"
-msgstr ""
+msgstr "Sluiten"
 
 #. Default: "Post"
 #: ../messaging/browser/send-message.pt:58
 #: ../messaging/browser/your-inbox.pt:140
 #: ../microblog/browser/templates/update-social.html:130
 msgid "button_post"
-msgstr ""
+msgstr "Verstuur"
 
 #. Default: "Calendar"
 #: ../layout/adapters/app_tiles.py:133
 msgid "calendar"
-msgstr ""
+msgstr "Kalender"
 
 #. Default: "Case manager"
 #: ../layout/adapters/app_tiles.py:157
 msgid "case-manager"
-msgstr ""
+msgstr "Dossier-beheerder"
 
 msgid "cases"
-msgstr ""
+msgstr "dossiers"
 
 #. Default: "Contacts"
 #: ../layout/adapters/app_tiles.py:115
 msgid "contacts"
-msgstr ""
+msgstr "Contacten"
 
 msgid "created"
-msgstr ""
+msgstr "Aangemaakt"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:25
 #: ../workspace/browser/tiles/templates/sidebar.pt:41
@@ -2243,7 +2240,7 @@ msgstr "datum"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
 #: ../workspace/browser/add_content.py:154
 msgid "dates_hijacked"
-msgstr ""
+msgstr "De Starttijd moet vroeger zijn dan de eindtijd. De eindtijd is door het systeem aangepast naar: ${date}"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:21
 #: ../workspace/browser/tiles/templates/sidebar.pt:37
@@ -2253,9 +2250,9 @@ msgstr "docmenttype"
 #. Default: "Download"
 #: ../library/browser/templates/library.html:146
 msgid "download"
-msgstr ""
+msgstr "downloaden"
 
-#. Default: "Drop files here or click to browse..."
+#. Default: "Drop files here or click to browse&hellip;"
 #: ../workspace/browser/tiles/sidebar.py:381
 msgid "drop_files_here"
 msgstr "Sleep bestanden hierheen"
@@ -2263,17 +2260,17 @@ msgstr "Sleep bestanden hierheen"
 #. Default: "Expiration date must be after publishing date."
 #: ../network/behaviors/metadata.py:231
 msgid "error_expiration_must_be_after_effective_date"
-msgstr ""
+msgstr "Einddatum moet later zijn dan begindatum"
 
 #. Default: "Invalid effective or expires date"
 #: ../network/behaviors/metadata.py:194
 msgid "error_invalid_publication"
-msgstr ""
+msgstr "Ongeldige publicatie"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:24
 #: ../workspace/browser/tiles/templates/sidebar.pt:50
 msgid "expand/reduce sidebar"
-msgstr ""
+msgstr "vergroot/verklein zijpaneel"
 
 #. Default: "External visibility"
 #: ../workspace/browser/tiles/sidebar.py:265
@@ -2283,20 +2280,20 @@ msgstr "Extern zichtbaar"
 #: ../workspace/browser/tiles/templates/navigation.pt:27
 #: ../workspace/browser/tiles/templates/sidebar.pt:43
 msgid "first letter"
-msgstr "Eerste letter"
+msgstr "eerste letter"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:18
 #: ../workspace/browser/tiles/templates/sidebar.pt:34
 msgid "folder"
-msgstr "Map"
+msgstr "map"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:64
 #: ../network/browser/templates/miniauthor_provider.pt:30
 msgid "follow"
-msgstr "Volgen"
+msgstr "volgen"
 
 #: ../activitystream/browser/templates/content-share.html:23
-msgid "has_${context/action_verb}"
+msgid "${context/action_verb}"
 msgstr ""
 
 msgid "has_created"
@@ -2308,145 +2305,143 @@ msgstr ""
 #. Default: "Roster for ${folder}"
 #: ../workspace/browser/templates/roster-edit.pt:24
 msgid "heading_edit_roster"
-msgstr ""
+msgstr "ledenlijst voor ${folder}"
 
 #. Default: "Only these States are shown for filtering"
 #: ../workspace/profiles/default/registry.xml
 msgid "help_case_manager_states"
-msgstr ""
+msgstr "Alleen deze statussen worden getoond om te filteren"
 
 #. Default: "The names of people that have contributed to this item. Each contributor should be on a separate line."
 #: ../network/behaviors/metadata.py:273
 msgid "help_contributors"
-msgstr ""
+msgstr "De namen van de mensen die hebben bijgedragen aan dit item. Elke mede-auteur moet op een aparte regel staan."
 
 #. Default: "Copyright statement or other rights information on this item."
 #: ../network/behaviors/metadata.py:290
 msgid "help_copyrights"
-msgstr ""
+msgstr "Copyright-gegevens of andere rechthebbende(n)-informatie van dit item."
 
 #. Default: "Persons responsible for creating the content of this item. Please enter a list of user names, one per line. The principal creator should come first."
 #: ../network/behaviors/metadata.py:255
 msgid "help_creators"
-msgstr ""
+msgstr "Personen die verantwoordelijk zijn voor het maken van dit item. Geef een lijst op van gebruikersnamen. één per regel. De hoofdauteur moet bovenaan staan."
 
 #. Default: "This is the list of the tiles\n        the user will see on the\n        \"Activity centric view\" dashboard."
 #: ../layout/profiles/default/registry.xml
 msgid "help_dashboard_activity_tiles"
-msgstr ""
+msgstr "Dit is de lijst van tegels die de gebruiker zal zien op het op \"activiteit-georiënteerde\" dashboard."
 
 #. Default: "This is the name of the dashboard type that should be shown by default. Pick the values from\n        the dropdown on the dashboard."
 #: ../layout/profiles/default/registry.xml
 msgid "help_dashboard_default"
-msgstr ""
+msgstr "Dit is de naam van het dashboard-type dat standaard getoond moet worden. Kies de waarde uit de selectielijst op het dashboard."
 
 #. Default: "This is the list of the tiles\n        the user will see on the\n        \"Task centric view\" dashboard."
 #: ../layout/profiles/default/registry.xml
 msgid "help_dashboard_task_tiles"
-msgstr ""
+msgstr "Dit is de lijst van tegels die de gebruikers zal zien op het \"taak-georiënteerde\" dashboard."
 
 #. Default: "Used in item listings and search results."
 #: ../network/behaviors/metadata.py:84
 msgid "help_description"
-msgstr ""
+msgstr "Gebruikt in item-lijsten en zoekresultaten"
 
 #. Default: "If this date is in the future, the content will not show up in listings and searches until this date."
 #: ../network/behaviors/metadata.py:209
 msgid "help_effective_date"
-msgstr ""
+msgstr "Als deze datum in de toekomst ligt, wordt het item tot deze datum niet getoond in lijsten en zoekresultaten."
 
 #. Default: "When this date is reached, the content will nolonger be visible in listings and searches."
 #: ../network/behaviors/metadata.py:219
 msgid "help_expiration_date"
-msgstr ""
+msgstr "Als deze datum is bereikt, zal het item niet meer zichtbaar zijn in lijsten en zoekresultaten"
 
 #. Default: "When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used."
 #: ../workspace/profiles/default/registry.xml
 msgid "help_externaleditor_always_activated"
-msgstr ""
+msgstr "When true, the isActivatedInMemberProperty() and isActivatedInSiteProperty() methods of the EnabledView always return True. Otherwise the normal behaviour as implemented in collective.externaleditor is used."
 
 #. Default: "At the moment we are able to handle the values \"alphabet\" and \"newest\".\n        Planned is to allow sorting on \"active\"."
 #: ../workspace/profiles/default/registry.xml
 msgid "help_my_workspace_sorting"
-msgstr ""
+msgstr "At the moment we are able to handle the values \"alphabet\" and \"newest\".\n        Planned is to allow sorting on \"active\"."
 
 #. Default: "If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break."
 #: ../workspace/profiles/default/registry.xml
 msgid "help_sanitize_html"
-msgstr ""
+msgstr "If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break."
 
 #. Default: "Tags are commonly used for ad-hoc organization of content."
 #: ../network/behaviors/metadata.py:112
 msgid "help_tags"
-msgstr ""
+msgstr "Trefwoorden zijn nuttig voor het ad-hoc ordenden van inhoud."
 
 #. Default: "Workspace types which can be used for filtering on the workspaces view"
 #: ../workspace/profiles/default/registry.xml
 msgid "help_workspace_type_filters"
-msgstr ""
+msgstr "Groepstypes die gebruikt worden om op te filteren in de groepsweergave"
 
 #. Default: "If a portal_type is not here it will default to regular.\n        The values should be passed as \"{type}|{css class}\",\n        e.g. \"ploneintranet.workspace.case|type-case\""
 #: ../workspace/profiles/default/registry.xml
 msgid "help_workspace_types_css_mapping"
-msgstr ""
+msgstr "If a portal_type is not here it will default to regular.\n        The values should be passed as \"{type}|{css class}\",\n        e.g. \"ploneintranet.workspace.case|type-case\""
 
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
 #: ../search/browser/templates/all_results.pt:192
 #: ../workspace/browser/templates/case_manager.pt:96
 msgid "icon_archived"
-msgstr ""
+msgstr "Gearchiveerd"
 
 #. Default: "Image bank"
 #: ../layout/adapters/app_tiles.py:145
 msgid "image-bank"
-msgstr ""
+msgstr "Afbeeldingenbank"
 
 #. Default: "${num_not_deleteable} of the items cannot be deleted because you don't have permission."
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:29
 msgid "info_has_not_deleteable_items"
-msgstr ""
+msgstr "${num_not_deleteable} items konden niet worden verwijderd om dat je hiervoor onvoldoende rechten hebt."
 
 #. Default: "You've selected the following ${num_items} items to be deleted."
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:25
 msgid "info_items_selected"
-msgstr ""
+msgstr "Je hebt de volgende ${num_items} items geselecteerd om te verwijderen."
 
 #. Default: "Loading more posts"
 #: ../activitystream/browser/templates/stream_tile.pt:38
 msgid "info_loading_more_posts"
-msgstr ""
+msgstr "Bezig met berichten laden"
 
 #. Default: "This workspace was archived on ${archival_date}. Archived workspaces are hidden from the ${workspaces_page}, but can still be made visible by users by ticking 'Archived'."
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:78
 msgid "info_was_archived_on"
-msgstr ""
+msgstr "Deze groep is gearchiveerd op ${archival_date}. Gearchiveerde groepen worden standaard verborgen op de ${workspaces_page}, maar gebruikers kunnen deze alsnog zien door 'Gearchiveerd' aan te vinken"
 
 #. A unique token URL will be sent to the address."
-#. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
+#. Default: "Enter an email address below to invite someone to this site. A unique token URL will be sent to the address."
 #: ../invitations/invite_user.pt:22
-#, fuzzy
 msgid "invitation_admin_para_1"
-msgstr "Geef een e-mailadres op om iemand uit te nodigen voor de Plone-site. Een URL met een unieke code zal worden verzonden."
+msgstr "Geef een e-mailadres op om iemand uit te nodigen voor deze website. Deze persoon ontvangt vervolgens een URL met een unieke code."
 
 #. automatically created and the user will be logged in. Finally the token URL
 #. will be invalidated."
 #. Default: "When the unique token URL is accessed, a user account will be automatically created and the user will be logged in. Finally the token URL will be invalidated."
 #: ../invitations/invite_user.pt:28
-#, fuzzy
 msgid "invitation_admin_para_2"
-msgstr "Als de URL met unieke code wordt geopend, dan zal een gebruikersaccount automatisch worden aangemaakt en de gebruiker inloggen. Ook bij het in het vervolg openen zal de URL gebruiker inloggen."
+msgstr "Als de URL met unieke code wordt gebruikt, dan wordt de gebruiker aangemaakt en direct ingelogd. Hierna is de URL met unieke code niet meer bruikbaar."
 
 #. Default: "Invitations"
 #: ../workspace/browser/forms.py:132
 msgid "invititations"
-msgstr "uitnodigingen"
+msgstr "Uitnodigingen"
 
 #: ../search/browser/templates/all_results.pt:128
 #: ../search/browser/templates/image_results.pt:40
 #: ../search/browser/templates/people_results.pt:42
 msgid "items matched your search."
-msgstr ""
+msgstr "zoekresultaten."
 
 #. Default: "Join policy"
 #: ../workspace/browser/tiles/sidebar.py:264
@@ -2455,172 +2450,172 @@ msgstr "Toegangsbeleid"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:19
 msgid "label"
-msgstr ""
+msgstr "label"
 
 #. Default: "Archived"
 #: ../workspace/interfaces.py:79
 msgid "label_archived"
-msgstr ""
+msgstr "Gearchiveerd"
 
 #. Default: "Follow ${username}"
 #: ../network/browser/templates/toggle_follow.pt:20
 msgid "label_btn_follow_user"
-msgstr ""
+msgstr "Volg ${username}"
 
 #. Default: "Cancel"
 #: ../activitystream/browser/templates/panel-delete-comment.html:35
 #: ../activitystream/browser/templates/panel-delete-post.html:35
 #: ../activitystream/browser/templates/panel-edit-comment.html:43
 msgid "label_cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #. Default: "Case Manager Workflow States"
 #: ../workspace/profiles/default/registry.xml
 msgid "label_case_manager_states"
-msgstr ""
+msgstr "Dossierbeheer publicatiestatussen"
 
 #. Default: "Contributors"
 #: ../network/behaviors/metadata.py:272
 msgid "label_contributors"
-msgstr ""
+msgstr "Mede-auteurs"
 
 #. Default: "Rights"
 #: ../network/behaviors/metadata.py:289
 msgid "label_copyrights"
-msgstr ""
+msgstr "Copyright"
 
 #. Default: "Created after…"
 #: ../search/browser/templates/all_results.pt:86
 msgid "label_created_after"
-msgstr ""
+msgstr "Aangemaakt na&hellip;"
 
 #. Default: "Created before…"
 #: ../search/browser/templates/all_results.pt:95
 msgid "label_created_before"
-msgstr ""
+msgstr "Aangemaakt voor&hellip;"
 
 #. Default: "Creators"
 #: ../network/behaviors/metadata.py:254
 msgid "label_creators"
-msgstr ""
+msgstr "Auteurs"
 
 #. Default: "List of dashboard activity tiles"
 #: ../layout/profiles/default/registry.xml
 msgid "label_dashboard_activity_tiles"
-msgstr ""
+msgstr "Lijst van activiteit-geörienteerde tegels"
 
 #. Default: "Name of the default dashboard"
 #: ../layout/profiles/default/registry.xml
 msgid "label_dashboard_default"
-msgstr ""
+msgstr "Naam van het standaard dashboard"
 
 #. Default: "List of dashboard task tiles"
 #: ../layout/profiles/default/registry.xml
 msgid "label_dashboard_task_tiles"
-msgstr ""
+msgstr "Lijst van taak-georiënteerde tegels"
 
 #. Default: "Summary"
 #: ../network/behaviors/metadata.py:83
 msgid "label_description"
-msgstr ""
+msgstr "Samenvatting"
 
 #. Default: "Publishing Date"
 #: ../network/behaviors/metadata.py:208
 msgid "label_effective_date"
-msgstr ""
+msgstr "Publicatiedatum"
 
 #. Default: "Expiration Date"
 #: ../network/behaviors/metadata.py:218
 msgid "label_expiration_date"
-msgstr ""
+msgstr "Vervaldatum"
 
 #. Default: "External Editor always activated."
 #: ../workspace/profiles/default/registry.xml
 msgid "label_externaleditor_always_activated"
-msgstr ""
+msgstr "Externe editor altijd geactiveerd."
 
 #. Default: "Language"
 #: ../network/behaviors/metadata.py:180
 msgid "label_language"
-msgstr ""
+msgstr "Taal"
 
 #. Default: "My workspace sorting."
 #: ../workspace/profiles/default/registry.xml
 msgid "label_my_workspace_sorting"
-msgstr ""
+msgstr "Mijn groep-sorteervolgorde"
 
 #. Default: "Name"
 #: ../workspace/browser/templates/roster-edit.pt:73
 msgid "label_name"
-msgstr ""
+msgstr "Naam"
 
 #. Default: "News"
 #: ../layout/browser/templates/news-tile.pt:9
 msgid "label_news"
-msgstr ""
+msgstr "Nieuws"
 
 #. Default: "No events available"
 #: ../workspace/browser/tiles/templates/sidebar.pt:500
 msgid "label_no_events_available"
-msgstr ""
+msgstr "Geen evenementen beschikbaar"
 
 #. Default: "Sanitize HTML on saving."
 #: ../workspace/profiles/default/registry.xml
 msgid "label_sanitize_html"
-msgstr ""
+msgstr "Schoon HTML-code op bij opslaan."
 
 #. Default: "Save"
 #: ../activitystream/browser/templates/panel-edit-comment.html:39
 #: ../activitystream/browser/templates/panel-edit-post.html:30
 #: ../workspace/browser/templates/roster-edit.pt:152
 msgid "label_save"
-msgstr ""
+msgstr "Opslaan"
 
 #. Default: "Categorization"
 #: ../network/behaviors/metadata.py:106
 msgid "label_schema_categorization"
-msgstr ""
+msgstr "Categorisatie"
 
 #. Default: "Dates"
 #: ../network/behaviors/metadata.py:203
 msgid "label_schema_dates"
-msgstr ""
+msgstr "Datums"
 
 #. Default: "Ownership"
 #: ../network/behaviors/metadata.py:246
 msgid "label_schema_ownership"
-msgstr ""
+msgstr "Eigendom/auteurs"
 
 #. Default: "Search"
 #: ../microblog/browser/templates/panel_tags.pt:22
 msgid "label_search"
-msgstr ""
+msgstr "Zoeken"
 
 #. Default: "Search"
 #: ../search/browser/templates/plone.searchbox.pt:7
 msgid "label_search_button"
-msgstr ""
+msgstr "Zoeken"
 
 #. Default: "Search the entire intranet"
 #: ../search/browser/templates/all_results.pt:18
 #: ../search/browser/templates/file_results.pt:17
 #: ../search/browser/templates/image_results.pt:17
 msgid "label_search_entire_intranet"
-msgstr ""
+msgstr "Zoek in het hele intranet"
 
 #. Default: "Search through content…"
 #: ../search/browser/templates/plone.searchbox.pt:4
 msgid "label_search_placeholder"
-msgstr ""
+msgstr "Zoek in de inhoud&hellip;"
 
 #. Default: "Search users"
 #: ../workspace/browser/templates/roster-edit.pt:52
 msgid "label_search_users"
-msgstr ""
+msgstr "Zoek gebruikers"
 
 #: ../invitations/invite_user.pt:48
 msgid "label_send"
-msgstr ""
+msgstr "Verzenden"
 
 #. Default: "Send Message"
 #: ../messaging/browser/messaging.py:34
@@ -2630,81 +2625,81 @@ msgstr "Verzenden"
 #. Default: "Archived"
 #: ../workspace/browser/templates/workspaces.pt:45
 msgid "label_show_archived"
-msgstr ""
+msgstr "Gearchiveerd"
 
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
 msgid "label_tags"
-msgstr ""
+msgstr "Trefwoorden"
 
 #. Default: "Title"
 #: ../network/behaviors/metadata.py:78
 msgid "label_title"
-msgstr ""
+msgstr "Titel"
 
 #. Default: "Toggle navigation"
 #: ../layout/viewlets/sections.pt:14
 msgid "label_toggle_navigation"
-msgstr ""
+msgstr "Navigatie tonen/verbergen"
 
 #. Default: "Calendar visible in central calendar"
 #: ../workspace/interfaces.py:62
 msgid "label_workspace_calendar_visibility"
-msgstr ""
+msgstr "Kalender zichtbaar in globale kalender"
 
 #. Default: "Belongs to this Division"
 #: ../workspace/interfaces.py:69
 msgid "label_workspace_division"
-msgstr ""
+msgstr "Hoort bij deze divisie"
 
 #. Default: "E-mail address"
 #: ../workspace/interfaces.py:74
 msgid "label_workspace_email"
-msgstr ""
+msgstr "E-mailadres"
 
 #. Default: "Is this workspace representing a division?"
 #: ../workspace/interfaces.py:91
 msgid "label_workspace_is_division"
-msgstr ""
+msgstr "Vertegenwoordigt deze groep een divisie?"
 
 #. Default: "Workspace type filters"
 #: ../workspace/profiles/default/registry.xml
 msgid "label_workspace_type_filters"
-msgstr ""
+msgstr "Groepstype-filters"
 
 #. Default: "Maps workspace portal types to css classes"
 #: ../workspace/profiles/default/registry.xml
 msgid "label_workspace_types_css_mapping"
-msgstr ""
+msgstr "koppelt groepstypes aan css-klassen"
 
-#. Default: "Leave a comment..."
+#. Default: "Leave a comment&hellip;"
 #: ../activitystream/browser/statusupdate.py:30
 #: ../microblog/browser/update_social.py:257
 msgid "leave_a_comment"
-msgstr "Plaats een reactie"
+msgstr "Plaats een opmerking&hellip;"
 
 #. Default: "Messages"
 #: ../layout/adapters/app_tiles.py:121
 msgid "messages"
-msgstr ""
+msgstr "Berichten"
 
 #. Default: "More sharing options coming soon"
 #: ../workspace/basecontent/templates/document_view.pt:147
 msgid "more_sharing_soon"
-msgstr ""
+msgstr "Meer 'delen'-opties zijn in ontwikkeling"
 
 #. Default: "Library"
 msgid "my_docs_heading_library"
-msgstr ""
+msgstr "Bibliotheek"
 
 #. Default: "My Documents"
 msgid "my_docs_heading_workspaces"
-msgstr ""
+msgstr "Mijn documenten"
 
 #. Default: "News publisher"
 #: ../layout/adapters/app_tiles.py:151
 msgid "news"
-msgstr ""
+msgstr "Nieuws"
 
 #. Default: "No tasks created yet"
 #: ../workspace/browser/tiles/templates/sidebar.pt:297
@@ -2714,98 +2709,98 @@ msgstr "Geen taak gevonden"
 #. Default: "${num_deleteable} of the items can be deleted."
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:33
 msgid "num_items_can_be_deleted"
-msgstr ""
+msgstr "${num_deleteable} items kunnen worden verwijderd."
 
 #. Default: "${no_members} Members"
 #: ../workspace/workspacefolder.py:159
 msgid "number_of_members"
-msgstr ""
+msgstr "${no_members} leden"
 
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:267
 msgid "participant_policy_label"
-msgstr "Deelnemersbeleid"
+msgstr "Lidmaatschapsbeleid"
 
 #. Default: "Groups ${num_groups}"
 #: ../userprofile/browser/templates/userprofile.pt:124
 msgid "person-groups"
-msgstr ""
+msgstr "(Persoons)groepen ${num_groups}"
 
 #. Default: "Workspaces ${num_workspaces}"
 #: ../userprofile/browser/templates/userprofile.pt:123
 msgid "person-workspaces"
-msgstr ""
+msgstr "(Werk)groepen ${num_workspaces}"
 
 #: ../workspace/browser/tiles/workspaces.py:191
 msgid "posted"
-msgstr "Verzonden"
+msgstr "Verstuurd"
 
-#. Default: "Read more..."
+#. Default: "Read more&hellip;"
 #: ../layout/browser/templates/news-tile.pt:20
 #: ../library/browser/templates/library.html:143
 msgid "read-more"
-msgstr ""
+msgstr "Lees meer&hellip;"
 
 #. Default: "Current users"
 #: ../workspace/browser/templates/roster-edit.pt:65
 msgid "rostered-users"
-msgstr ""
+msgstr "Ledenlijst"
 
 #. Default: "All"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:36
 #: ../workspace/browser/tiles/templates/sidebar.pt:85
 msgid "select_all"
-msgstr "selecteer alles"
+msgstr "Alle"
 
 #. Default: "None"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:37
 #: ../workspace/browser/tiles/templates/sidebar.pt:86
 msgid "select_none"
-msgstr "deselecteer alles"
+msgstr "Geen"
 
 #. Default: "The participation policy of this workspace is ${policy_name}"
 #: ../workspace/browser/templates/sharingviewlet.pt:7
 msgid "sharing_policy_description"
-msgstr "Deelbeleid omschrijving"
+msgstr "Het lidmaatschapsbeleid van deze groep is ${policy_name}"
 
 #. Default: "Slide bank"
 #: ../layout/adapters/app_tiles.py:139
 msgid "slide-bank"
-msgstr ""
+msgstr "Presentatiebank"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:35
 msgid "tag"
-msgstr "tag"
+msgstr "trefwoord"
 
 #. Cases
 #: ../layout/browser/templates/dashboard.pt
 msgid "tile_ploneintranet.workspace.case"
-msgstr ""
+msgstr "Dossiers"
 
 #. Workspaces
 #: ../layout/browser/templates/dashboard.pt
 msgid "tile_ploneintranet.workspace.workspacefolder"
-msgstr ""
+msgstr "Groepen"
 
 #. Default: "Click to follow ${fullname}"
 #: ../network/browser/follows.py:45
 msgid "title_follow"
-msgstr ""
+msgstr "Klik om ${fullname} te volgen."
 
 #. Default: "You are now following ${fullname}. Click to unfollow."
 #: ../network/browser/follows.py:50
 msgid "title_unfollow"
-msgstr ""
+msgstr "Je volgt nu ${fullname}. Klik om te ontvolgen."
 
 #: ../workspace/browser/templates/email_invitees_html.pt:11
 #: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "to"
-msgstr ""
+msgstr "naar"
 
 #. Default: "Todo"
 #: ../layout/adapters/app_tiles.py:127
 msgid "todo"
-msgstr ""
+msgstr "te doen"
 
 #: ../network/browser/templates/maxiauthor_provider.pt:72
 #: ../network/browser/templates/miniauthor_provider.pt:38
@@ -2815,61 +2810,60 @@ msgstr "Ontvolg"
 #. Default: "${name} is a member of the following ${num_groups} groups."
 #: ../userprofile/browser/templates/userprofile.pt:276
 msgid "user_member_of_groups"
-msgstr ""
+msgstr "${name} is lid van de volgende ${num_groups} (persoons)groepen."
 
 #. Default: "${name} is a member of the following ${num_workspaces} workspaces."
 #: ../userprofile/browser/templates/userprofile.pt:255
 msgid "user_member_of_workspaces"
-msgstr ""
+msgstr "${name} is lid van de volgende ${num_groups} (werk)groepen."
 
 #. Default: "Workspace brief description"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:30
 msgid "workspace_brief_description"
-msgstr "Werkruimte korte omschrijving"
+msgstr "korte groepsomschrijving"
 
 #. Default: "Default role for this workspace (${role})"
 #: ../workspace/browser/roster.py:151
 msgid "workspace_default_role"
-msgstr ""
+msgstr "Standaardrl voor deze groep (${role})"
 
 #. Default: "Workspace e-mail address"
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:24
 msgid "workspace_email_address"
-msgstr "E-mailadres van deze werkruimte"
+msgstr "E-mailadres van deze groep"
 
 #. Default: "This represents a division"
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:37
 msgid "workspace_is_division"
-msgstr ""
+msgstr "Dit representeerd een divisie"
 
 #. Default: "Workspace landing page"
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:11
 msgid "workspace_landing_page"
-msgstr "Werkruimte-landingspagina"
+msgstr "landingspagina voor groep"
 
 #. Default: "Workspace settings"
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:13
 msgid "workspace_settings"
-msgstr "Werkruimte-instellingen"
+msgstr "Groepsinstellingen"
 
 #. Default: "Workspace title"
 #: ../workspace/browser/tiles/templates/sidebar-settings-general.pt:18
-#, fuzzy
 msgid "workspace_title"
-msgstr "Werkruimte-titel"
+msgstr "Groepstitel"
 
 msgid "workspacefolders"
-msgstr ""
+msgstr "groepsmappen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:78
 msgid "workspaces page"
-msgstr ""
+msgstr "groepspagina"
 
 #. Default: "row"
 #: ../userprofile/browser/user_import.py:149
 msgid "{} on row {}"
-msgstr ""
+msgstr "{} op rij {}"
 
 #: ../userprofile/browser/user_import.py:171
 msgid "{} user(s) {}."
-msgstr ""
+msgstr "{} gebruiker(s) {}."
