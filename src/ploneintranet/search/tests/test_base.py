@@ -309,6 +309,17 @@ class SearchTestsBase(ContentSetup):
             ],
         )
 
+    def test_query_filter_by_UID(self):
+        util = self._make_utility()
+        filters = {'UID': self.layer['portal']['lucid-dreaming'].UID()}
+        self.assertListEqual(
+            [u'Lucid Dreaming'],
+            [
+                x.getObject().title
+                for x in util.query('', filters=filters)
+            ]
+        )
+
     def test_query_facets_invalid(self):
         util = self._make_utility()
         self.assertRaises(LookupError,

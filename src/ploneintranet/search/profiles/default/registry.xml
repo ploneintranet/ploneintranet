@@ -17,6 +17,7 @@
       <element>is_division</element>
       <element>is_archived</element>
       <element>division</element>
+      <element>UID</element>
     </value>
   </record>
 
