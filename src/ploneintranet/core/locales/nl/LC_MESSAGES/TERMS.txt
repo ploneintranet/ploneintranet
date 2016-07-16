@@ -1,0 +1,91 @@
+Woordenlijst Quaive
+===================
+
+We proberen in Quaive in eerste instantie zoveel mogelijk bij deze termenlijst
+te blijven. Verschil is wel dat Plone standaard in 'u'-vorm staat. 
+
+Zie TERMS-plone.txt voor de plone woordenlijst. 
+----------------------------------------------------
+
+
+1) U of jij?
+
+Zakelijk informeel: jij
+
+2) woordenlijst
+
+* = ook in Plone
+
+(user profile) management           = ... beheer
+activity                            =
+activity centric                    = georganiseerd rond activiteiten
+app                                 =
+assignee                            = gevolmachtigde
+atributes                           = eigenschappen, attributen
+attach (document)                   = bijvoegen
+batch delete                        =
+cart                                = mandje
+case                                = dossier (vgl. Duits: Geschäft)
+case workspace                      = dossiergroep
+central calendar                    = globale kalender
+checked                             = aangevinkt / geselecteerd
+community (open)                    = 
+contacts                            = contacten
+container for workspaces            = map voor groepen
+content                            *= inhoud
+dashboard                           = dashboard
+deadline                            = deadline
+department                          = afdeling
+division                            = divisie
+event                              *= Agenda-item
+facet                               = 
+freeze, to (van cases)              = vergrendelen
+folder                             *= map
+initiator                           = initiator
+library                             = bibliotheek
+mention (people)                    =
+metadata                            = metadata
+milestone                           = mijlpaal
+notes                               = notities  (alt. aantekeningen?)
+organiser                           = organisator
+post                                = bericht
+roster                              = ledenlijst
+create                              = aanmaken
+receiver                            = ontvanger (alt. geaddresseerde)
+secret (workspace)                  = geheim, geheel afgeschermd?
+section                             = sectie
+self-managed                        = zelf-beheerd
+shares (of a document)              =
+tags                                = trefwoorden                    
+task                                = taak
+task centric                        = geoganiseerd rond taken
+un-tick (deselect?)                 = deselecteer
+user profile                        = gebruikersprofiel
+workspace                           = groep
+workspace folder                    = groepsmap
+
+    - workspace policies...:
+produce                             = ....  (nu gebruikt: toevoegen)
+consume                             = ....  (nu gebruikt: alleen-lezen)
+
+Discussiepunten
+post                                =  bericht (microblog)
+message                             =  bericht (privébericht?)
+comment                             =  opmerking (berichten onderaan content)
+
+workspace alleen vertalen met groep gaat botsen met andere uitingen van 'groep'.
+
+
+
+3) Vermijd het gebruik van 'popi' taal:
+
+Dus niet: 
+    msgid "Oh boy, oh boy, you are already a member"
+    msgstr "Hela, hola! Je bent al lid"
+
+Het lastige hiervan is wel dat de brontaal (Engels) al dergerlijke constructies bevat. 
+
+4) Woordvolgorde
+
+het significante woord zoveel mogelijk vooraan. Bijv. dus niet "Instellingen voor blabla", maar "blabla-instellingen".
+

@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 version = '1.2.0a1.dev0'
 
 long_description = (
-    open('README.rst').read()
-    + '\n' +
-    open('CHANGES.rst').read()
-    + '\n')
+    open('README.rst').read() +
+    '\n' +
+    open('CHANGES.rst').read() +
+    '\n')
 
 setup(name='ploneintranet',
       version=version,
@@ -74,6 +74,7 @@ setup(name='ploneintranet',
           'collective.monkeypatcher',
           'scorched',
           'htmllaundry',
+          'slc.mailrouter'
       ],
       extras_require={
           'test': [

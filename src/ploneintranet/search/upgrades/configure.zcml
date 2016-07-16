@@ -20,6 +20,13 @@
       handler=".to0003.update_registry_filter_fields"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:upgradeStep
+      title="Update registry configuration"
+      description="Setup registry records filter on UID"
+      source="*"
+      destination="0004"
+      handler=".to0004.update_registry_filter_fields"
+      profile="ploneintranet.search:default" />
 
   <!-- -*- extra stuff goes here -*- -->
 
