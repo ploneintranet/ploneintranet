@@ -5,7 +5,7 @@ from plone.memoize import forever
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.search.interfaces import ISiteSearch
-from quaive.app.taxonomy import _
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import getUtility
 
 import logging
