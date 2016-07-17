@@ -206,16 +206,16 @@
                             </form>
                          </div>
                     </div>
-                    <div id="person-documents">
-                      <form action="${request/getURL}"
+                    <div id="person-documents" tal:define="group_by python: request.get('group-by', 'first-letter')">
+                      <form action="${context/absolute_url}/@@grouped_search.tile"
                             class="pat-inject pat-autosubmit canvas-toolbar"
                             data-pat-inject="source: #search-result; target: #search-result;"
                             style="float:left;"
                           >
                         <label class="pat-select bare pat-inject">
-                          <select name="by_date">
-                            <option value="" i18n:translate="">Group by first letter</option>
-                            <option value="1" i18n:translate="" >Group by date</option>
+                          <select name="group-by">
+                            <option value="first-letter" i18n:translate="">Group by first letter</option>
+                            <option value="date" i18n:translate="" >Group by date</option>
                           </select>
                         </label>
                       </form>
@@ -232,35 +232,9 @@
                                value="${here/getId}"
                             />
                       </form>
-                      <div id="search-result">
-                        <div class="directory col-1"
-                             tal:define="
-                               my_documents_grouped view/my_documents_grouped;
-                               my_documents_sorted_groups view/my_documents_sorted_groups;
-                               friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
-                             "
-                          >
-                          <tal:groups repeat="group my_documents_sorted_groups">
-                            <div class="group"
-                                 tal:define="
-                                   group_items my_documents_grouped/?group;
-                                 "
-                                 tal:condition="group_items"
-                                >
-                              <h3 class="group-title">${group}</h3>
-                              <ul class="menu links">
-                                <li class="bookmark"
-                                  tal:repeat="item group_items"
-                                  title="${item/description|nothing}">
-                                  <a href="${item/url}"
-                                     class="${python: friendly_type_to_icon_class(item.friendly_type_name)}"
-                                    >${item/title}</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </tal:groups>
-                        </div>
-                      </div>
+
+                      <div data-tile="${context/absolute_url}/@@grouped_search.tile?group-by=${group_by}#person-documents"/>
+
                     </div>
                     <div id="person-workspaces" tal:condition="num_workspaces">
                         <article class="pat-rich">
