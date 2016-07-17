@@ -107,6 +107,13 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      for="*"
+      name="verify_password_reset_allowed"
+      class=".utils.VerifyPasswordResetAllowed"
+      permission="zope.Public"
+      />
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
