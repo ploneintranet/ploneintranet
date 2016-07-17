@@ -30,7 +30,7 @@ fetchrelease: ## Download and install the latest javascript bundle into the them
 	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz)
 	# fetch non-git-controlled required javascript resources
 	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
-	@curl $(BUNDLEDISTURL) -o $(DIAZO_DIR)/bundles/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
+	curl $(BUNDLEDISTURL) -o $(DIAZO_DIR)/bundles/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
 	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLEDISTNAME)-$(LATEST).tar.gz && rm $(BUNDLEDISTNAME)-$(LATEST).tar.gz
 	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).js; then rm $(BUNDLEPLONEID).js; fi
 	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).min.js; then rm $(BUNDLEPLONEID).min.js; fi
