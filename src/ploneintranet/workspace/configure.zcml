@@ -121,6 +121,12 @@
    />
 
   <subscriber
+     for=" plone.app.contenttypes.interfaces.IFolder
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.folder_added_to_workspace"
+     />
+
+  <subscriber
      for=" plone.dexterity.interfaces.IDexterityContent
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
      handler=".subscribers.content_object_added_to_workspace"

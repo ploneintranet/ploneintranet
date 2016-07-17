@@ -4,18 +4,9 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body tal:define="token context/@@authenticator/token;
-                    checkPermission nocall: context/portal_membership/checkPermission;
-                    has_clipboard_items context/cb_dataValid;
-                    can_paste python:checkPermission('Add portal content', context);
-                    is_disabled python:not (can_paste and has_clipboard_items)">
+  <body>
     <aside id="global-statusmessage">
       <tal:message tal:content="structure provider:plone.globalstatusmessage" />
     </aside>
-     <span id="paste"><button type="submit" class="float-before icon-paste no-label pat-inject" formaction="${context/absolute_url}/@@cart-paste?_authenticator=${token}#items" title="Paste"
-            data-pat-inject="source: #items; target: #items &amp;&amp; source: #global-statusmessage; target: #global-statusmessage"
-            i18n:translate="" i18n:attributes="title"
-            tal:attributes="disabled python:is_disabled and 'disabled'">Paste</button></span>
-
   </body>
 </html>

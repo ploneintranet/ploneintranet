@@ -10,13 +10,11 @@ class BaseCartView(BrowserView):
     @property
     def items(self):
         items = []
-        cart_items = self.request.form.get('shopping-cart')
-        if cart_items:
-            uids = cart_items.split(',')
-            for uid in uids:
-                obj = api.content.get(UID=uid)
-                if obj and obj.aq_parent == self.context:
-                    items.append(obj)
+        cart_items = self.request.form.get('items', [])
+        for uid in cart_items:
+            obj = api.content.get(UID=uid)
+            if obj:
+                items.append(obj)
         return items
 
     def confirm(self):
