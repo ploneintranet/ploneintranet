@@ -23,4 +23,14 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:upgradeStep
+    title="Reload registry to allow users to reset their password"
+    description="Disable 'ploneintranet.userprofile.enable_password_reset' if you do not want to allow this."
+    source="3"
+    destination="4"
+    handler=".upgrades.import_portal_registry"
+    sortkey="1"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>
