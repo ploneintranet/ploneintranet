@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="ploneintranet">
 
 <head>
     <metal:block fill-slot="top_slot"
@@ -195,6 +195,14 @@
 
                     </div>
 
+                    <p class="colofon">
+                      <a tal:define="mail_password_url python:mail_password_url+test(mail_password_url.find('?')==-1, '?', '&amp;')+ztu.make_query(userid=login_name)"
+                          tal:attributes="href mail_password_url; target target;"
+                          i18n:translate="">I forgot my password</a>
+                      |
+                      <a href="++theme++ploneintranet.theme/generated/info.html" i18n:translate="">About this environment</a>
+                    </p>
+
                 </div>
 
             </form>
@@ -227,60 +235,6 @@
 
             </form>
 
-        <tal:use_iframe condition="use_iframe">
-
-            <form action="#"
-                  method="get"
-                  id="login_form"
-                  name="login_form"
-                  class="iframe-wrapper"
-                  tal:define="params python:dict(next=request.URL1+'/logged_in', target='_parent', ajax_load=True, ajax_include_head=True, mail_password_url=mail_password, join_url=join);
-                              dummy python:came_from and params.update(dict(came_from=came_from));
-                              src external_login_url"
-                  tal:attributes="action src">
-
-                <div id="login-form">
-
-                    <iframe name="login-form-iframe"
-                        id="login-form-iframe"
-                        tal:attributes="src python:external_login_url+test(join_url.find('?')==-1, '?', '&amp;')+ztu.make_query(params);"
-                        >
-
-                        <input tal:replace="structure python:ztu.make_hidden_input(params)" />
-
-                        <div class="formControls">
-
-                            <input class="context"
-                                   type="submit"
-                                   name="submit"
-                                   value="Log in"
-                                   i18n:attributes="value label_log_in;"
-                                   />
-
-                        </div>
-
-                    </iframe>
-
-                </div>
-
-            </form>
-
-        </tal:use_iframe>
-
-            <div id="login-forgotten-password"
-                 tal:condition="python:mail_password_url and use_normal">
-                <strong i18n:translate="box_forgot_password_option">
-                    Forgot your password?
-                </strong>
-                <p class="discreet"
-                   i18n:translate="help_password_retrieval">
-                    If you have forgotten your password,
-                    <span i18n:name="click_here">
-                        <a tal:define="mail_password_url python:mail_password_url+test(mail_password_url.find('?')==-1, '?', '&amp;')+ztu.make_query(userid=login_name)"
-                            tal:attributes="href mail_password_url; target target;"
-                           i18n:translate="label_click_here_to_retrieve">we can send you a new one</a></span>.
-                </p>
-            </div>
 
             <div id="login-new-user"
                tal:condition="python:join_url and use_normal">
