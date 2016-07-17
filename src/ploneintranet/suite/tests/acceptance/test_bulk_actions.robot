@@ -78,7 +78,6 @@ A member can paste items where they are allowed to add content
       and I add an item to the cart  Terms and conditions
       and I choose to copy the items in the cart
       and I see a message that files have been copied
-      and I see that the paste button is disabled
       and I go to the Open Parliamentary Papers Guidance Workspace
       and I open the sidebar documents tile
       and I toggle the bulk action controls
@@ -183,6 +182,3 @@ I see a message that I cannot cut
 
 I see a message that an email has been sent
     Wait Until Page Contains  Email sent.
-
-I see that the paste button is disabled
-    Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Paste'][@disabled='disabled']

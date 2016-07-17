@@ -72,4 +72,4 @@ class CutView(BaseCartView):
                 type="info",
             )
 
-        self.request.response.redirect(self.context.absolute_url())
+        return self.index()

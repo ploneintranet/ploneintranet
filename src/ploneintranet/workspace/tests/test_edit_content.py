@@ -13,13 +13,26 @@ class TestEditContent(FunctionalBaseTestCase):
             'ploneintranet.workspace.workspacecontainer',
             'example-workspace-container'
         )
-        workspace_folder = api.content.create(
+        self.workspace_folder = api.content.create(
             workspaces,
             'ploneintranet.workspace.workspacefolder',
             'example-workspace'
         )
+        self.workspace_folder.participant_policy = 'producers'
+        api.user.create(username='user1', email='test@test.com')
+        api.user.create(username='user2', email='toast@test.com')
+        self.add_user_to_workspace(
+            'user1',
+            self.workspace_folder,
+        )
+        self.add_user_to_workspace(
+            'user2',
+            self.workspace_folder,
+        )
+        self.logout()
+        self.login('user1')
         self.folder = api.content.create(
-            workspace_folder,
+            self.workspace_folder,
             'Folder',
             'example-folder',
             title='Example folder',
@@ -51,3 +64,21 @@ class TestEditContent(FunctionalBaseTestCase):
         self.browser.getControl(name='form.buttons.edit').click()
         self.assertEqual(self.folder.Title(), 'Nice folder')
         self.assertEqual(self.folder.Description(), 'Nice description')
+
+    def test_no_owner_role_inheritance_on_content(self):
+        """
+        user1 has created the folder. If user2 creates content in this folder,
+        user1 must not have the Owner role via inheritance on it.
+        """
+        self.login('user2')
+        document = api.content.create(
+            self.folder,
+            'Document',
+            'example-document',
+            title='Example document',
+            description='Example description',
+        )
+        self.logout()
+        self.login('user1')
+        local_roles = api.user.get_roles(obj=document)
+        self.assertNotIn('Owner', local_roles)

@@ -592,7 +592,7 @@ I give the Consumer role to Allan
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Consumers
-    Click Button  css=.pat-modal button[type=submit]
+    Click Button  xpath=//div[@id='document-content']//div[contains(@class, 'panel-footer')]/button[@type='submit']
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Consume']
 
 I give the Producer role to Allan
@@ -603,7 +603,7 @@ I give the Producer role to Allan
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Producers
-    Click Button  css=.pat-modal button[type=submit]
+    Click Button  xpath=//div[@id='document-content']//div[contains(@class, 'panel-footer')]/button[@type='submit']
     Wait until page contains  Role updated
     Click button  Close
     Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Produce']
@@ -616,7 +616,7 @@ I give the Admin role to Allan
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
     Select From List  css=select[name=role]  Admins
-    Click Button  css=.pat-modal button[type=submit]
+    Click Button  xpath=//div[@id='document-content']//div[contains(@class, 'panel-footer')]/button[@type='submit']
     Wait until page contains  Role updated
     Click button  Close
     Page Should Contain Element  xpath=//input[@value='allan_neece']/../a[text()='Admin']
@@ -639,7 +639,7 @@ I can change Allan's role to Moderator
     Wait until page contains element  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Click Link  xpath=//*[contains(@class, 'tooltip-container')]//a[text()='Change role']
     Select From List  css=select[name=role]  Moderators
-    Click Button  css=.pat-modal button[type=submit]
+    Click Button  xpath=//div[@id='document-content']//div[contains(@class, 'panel-footer')]/button[@type='submit']
     Wait until page contains element  xpath=//input[@value='allan_neece']/../a[text()='Moderate']
 
 I can remove Allan from the workspace members
@@ -648,7 +648,7 @@ I can remove Allan from the workspace members
     Wait until element is visible    css=button[value='remove']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
-    Wait until element is visible  css=.pat-modal button[type=submit]
+    Wait until element is visible  xpath=//div[@id='document-content']//div[contains(@class, 'panel-footer')]/button[@type='submit']
     Click Button  Ok
     Wait until element is visible   css=div.pat-notification-panel.success
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..

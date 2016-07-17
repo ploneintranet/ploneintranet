@@ -32,4 +32,5 @@ class PasteView(BaseCartView):
                 request=self.request,
                 type="success",
             )
-        self.request.response.redirect(self.context.absolute_url())
+
+        return self.index()
