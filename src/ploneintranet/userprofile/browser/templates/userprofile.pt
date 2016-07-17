@@ -206,7 +206,7 @@
                             </form>
                          </div>
                     </div>
-                    <div id="person-documents">
+                    <div id="person-documents" tal:define="group_by python: request.get('group-by', 'first-letter')">
                       <form action="${context/absolute_url}/@@grouped_search.tile"
                             class="pat-inject pat-autosubmit canvas-toolbar"
                             data-pat-inject="source: #search-result; target: #search-result;"
@@ -233,7 +233,7 @@
                             />
                       </form>
 
-                      <div data-tile="${context/absolute_url}/@@grouped_search.tile"/>
+                      <div data-tile="${context/absolute_url}/@@grouped_search.tile?group-by=${group_by}#person-documents"/>
 
                     </div>
                     <div id="person-workspaces" tal:condition="num_workspaces">
