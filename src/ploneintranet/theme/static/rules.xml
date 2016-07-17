@@ -81,12 +81,22 @@
     <replace css:theme-children="figure.splash">
         <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
     </replace>
-    <replace css:theme=".colofon">
-  		<p class="colofon">
-  			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
-  		</p>
+    <replace css:theme="p.colofon" css:content="p.colofon" />
+  </rules>
 
-    </replace>
+  <!-- mail password form -->
+  <rules css:if-content="body.template-mail_password_form">
+    <theme href="generated/password-lost.html" />
+    <replace css:theme="#document-content" css:content="#document-content" />
+  </rules>
+
+  <!-- mail password form response -->
+  <rules css:if-content="body.template-mail_password_response">
+    <theme href="generated/feedback/password-reset-sent.html" />
+    <replace css:theme=".canvas-intro > h1" css:content="h1.documentFirstHeading" />
+    <replace css:theme-children=".canvas-intro > p" css:content-children="div.documentDescription" />
+    <!-- Plone inserts "portal_registration" into the breadcrumbs, which we don't want here -->
+    <drop css:theme="nav.breadcrumbs" />
   </rules>
 
   <rules css:if-content="body.portaltype-event,
