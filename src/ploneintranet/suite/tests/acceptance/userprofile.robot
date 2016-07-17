@@ -53,10 +53,10 @@ Alice can search her documents
     Given I am logged in as the user alice_lindstrom
      Then I can search in my documents for  Human
 
-Alice cannot open the password reset form
+Alice cannot force the password reset form
     Given I am logged in as the user alice_lindstrom
     When I open the password reset form
-    Then The page is not found
+    Then I cannot reset my password with an illegal request posing as  alice_lindstrom
 
 Allan can view Alice's profile
     Given I am logged in as the user allan_neece
