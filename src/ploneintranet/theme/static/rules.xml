@@ -84,19 +84,26 @@
     <replace css:theme="p.colofon" css:content="p.colofon" />
   </rules>
 
-  <!-- mail password form -->
-  <rules css:if-content="body.template-mail_password_form">
+  <!-- reset password forms -->
+  <rules css:if-content="body.template-mail_password_form, body.template-pwreset_form">
     <theme href="generated/password-lost.html" />
     <replace css:theme="#document-content" css:content="#document-content" />
   </rules>
 
-  <!-- mail password form response -->
-  <rules css:if-content="body.template-mail_password_response">
+  <!-- reset password form responses -->
+  <rules css:if-content="body.template-mail_password_response, body.template-pwreset_finish">
     <theme href="generated/feedback/password-reset-sent.html" />
     <replace css:theme=".canvas-intro > h1" css:content="h1.documentFirstHeading" />
     <replace css:theme-children=".canvas-intro > p" css:content-children="div.documentDescription" />
     <!-- Plone inserts "portal_registration" into the breadcrumbs, which we don't want here -->
     <drop css:theme="nav.breadcrumbs" />
+  </rules>
+
+  <!-- reset password error -->
+  <rules css:if-content="body.template-pwreset_invalid">
+    <theme href="generated/feedback/password-reset-sent.html" />
+    <replace css:theme=".canvas-intro > h1" css:content="h1.documentFirstHeading" />
+    <replace css:theme=".canvas-intro > p" css:content="div#content-core > p" />
   </rules>
 
   <rules css:if-content="body.portaltype-event,
