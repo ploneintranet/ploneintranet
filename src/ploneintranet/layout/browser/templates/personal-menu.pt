@@ -22,6 +22,9 @@
             <a class="icon-cog" href="${portal_url}/@@my-profile#person-info" i18n:translate="">Personal settings</a>
           </li>
       </tal:temporarily_disabled>
+      <li i18n:domain="plone">
+        <a class="icon-cog" href="${portal_url}/@@change-password" i18n:translate="label_change_password">Change password</a>
+      </li>
       <li class="change-avatar profile">
         <form action="${here/absolute_url}/personal-menu.html" id="change-personal-image"
               method="post"

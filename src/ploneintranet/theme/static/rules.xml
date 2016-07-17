@@ -85,7 +85,7 @@
   </rules>
 
   <!-- reset password forms -->
-  <rules css:if-content="body.template-mail_password_form, body.template-pwreset_form">
+  <rules css:if-content="body.template-mail_password_form, body.template-pwreset_form, body.template-change-password">
     <theme href="generated/password-lost.html" />
     <replace css:theme="#document-content" css:content="#document-content" />
   </rules>
