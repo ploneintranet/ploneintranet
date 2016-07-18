@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
   <version>0004</version>
+  <dependencies>
+    <dependency>profile-ploneintranet.docconv.client:default</dependency>
+  </dependencies>
 </metadata>
