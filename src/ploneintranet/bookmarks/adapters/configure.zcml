@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ploneintranet">
+
+  <adapter
+    factory=".app_tiles.BookmarkTile"
+    provides="ploneintranet.layout.interfaces.IAppTile"
+    for="*"
+    name="bookmarks"
+  />
+
+</configure>

@@ -1,0 +1,147 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+    <div id="content" class="state-on">
+      <div class="application- application-bookmarks">
+        <div id="application-body">
+          <div id="document-content">
+            <nav class="tabs pat-tabs">
+              <a href="#directory-all">All bookmarks</a>
+              <a href="#directory-apps">Apps</a>
+              <a href="#directory-workspaces">Workspaces</a>
+              <a href="#directory-documents">Documents</a>
+            </nav>
+            <div class="pat-stacks schwung">
+              <div id="directory-all">
+                <form class="canvas-toolbar pat-inject pat-autosubmit"
+                      action="${request/getURL}#directory-all">
+
+                  <label class="bare pat-select">
+                    <!--select name="group_by"
+                            tal:define="group_by request/group_by|nothing">
+                      <option value='letter'
+                              selected="${python:group_by=='letter' and 'selected' or None}"
+                              i18n:translate="">
+                        Group by first character
+                      </option>
+                      <option value='workspace'
+                              selected="${python:group_by=='workspace' and 'selected' or None}"
+                              i18n:translate="">
+                        Group by workspace
+                      </option>
+                      <option value='created'
+                              selected="${python:group_by=='created' and 'selected' or None}"
+                              i18n:translate="">
+                        Group by creation date
+                      </option>
+                      <option value='bookmarked'
+                              selected="${python:group_by=='bookmarked' and 'selected' or None}"
+                              i18n:translate="">
+                        Group by bookmarking date
+                      </option>
+                    </select-->
+                  </label>
+
+                  <input type="search"
+                         name="SearchableText"
+                         value="${request/SearchableText|nothing}"
+                         placeholder="Search bookmarks"/>
+                </form>
+
+                <div class="directory"
+                     tal:define="
+                         items_grouped view/my_bookmarks_grouped;
+                         sorted_groups view/my_bookmarks_sorted_groups;
+                         friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
+                       ">
+                  <div>
+                    <tal:groups repeat="group sorted_groups">
+                      <div class="group"
+                           tal:define="
+                             group_items items_grouped/?group;
+                           "
+                           tal:condition="group_items"
+                          >
+                        <h3 class="group-title">${group}</h3>
+                        <ul class="menu links">
+                          <li class="bookmark"
+                            tal:repeat="item group_items"
+                            title="${item/description|nothing}">
+                            <a href="${item/url}"
+                               class="${python: friendly_type_to_icon_class(getattr(item, 'friendly_type_name', ''))}"
+                              >${item/title}</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </tal:groups>
+                  </div>
+                </div>
+              </div>
+
+              <div id="directory-apps">
+                <div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                  <div class="grid-sizer"></div>
+                  <div tal:repeat="tile view/my_bookmarked_apps" class="tile app ${tile/cls} ${tile/disabled}">
+                    <a href="${tile/url}"
+                       class="link ${tile/modal}">
+                      <img class="icon"
+                           src="${tile/img}"
+                           alt="${tile/alt}"
+                        />
+                        <h3>${tile/title}</h3>
+                    </a>
+                    <tal:link tal:condition="tile/path" replace="structure python:view.apps_view.get_bookmark_link(tile)" />
+                  </div>
+                </div>
+              </div>
+
+              <div id="directory-workspaces">
+                <div class="row tiles workspaces pat-masonry"
+                     data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                  <div class="grid-sizer four columns"></div>
+                  <tal:repeat repeat="workspace view/my_bookmarked_workspaces">
+                    <div class="tile workspace type-${workspace/portal_type} four columns ${python:workspace.description and 'has-description' or ''} workspace-${workspace/getId}">
+                      <a href="${workspace/url}" class="link">
+                        <h3>${workspace/title}</h3>
+                        <p class="description">${workspace/description}</p>
+                      </a>
+                      <tal:link replace="structure workspace/@@bookmark-link-iconified" />
+                    </div>
+                  </tal:repeat>
+                </div>
+              </div>
+
+              <div id="directory-documents">
+                <div class="office results pat-masonry office-files document-previews"
+                     data-pat-masonry="column-width: .item; gutter: 0;">
+                  <tal:repeat repeat="item view/my_bookmarked_documents">
+                    <a href="${item/url}" class="item">
+                      <figure>
+                        <img src="${item/preview_image_url}"
+                             alt="${item/title}"
+                             title="${item/description}"
+                             tal:condition="item/preview_image_url"
+                          />
+                        <figcaption class="icon-word ${python:view.friendly_type_to_icon_class(item.portal_type)}">
+                          ${item/title}
+                        </figcaption>
+                      </figure>
+                    </a>
+                  </tal:repeat>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </metal:content>
+
+  </html>
