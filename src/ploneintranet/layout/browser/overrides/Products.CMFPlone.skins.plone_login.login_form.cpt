@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+      i18n:domain="plone">
 
 <head>
     <metal:block fill-slot="top_slot"
@@ -116,46 +116,23 @@
                     <input type="hidden" name="login_name" id="login_name" value="" />
                     <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
 
-                    <div class="field"
-                         tal:define="error python:errors.get(ac_name, None);"
-                         tal:attributes="class python:test(error, 'field error', 'field')">
 
-                        <label i18n:translate="label_login_name"
-                               tal:condition="not:use_email_as_login"
-                               tal:attributes="for ac_name">Login Name</label>
 
-                        <label i18n:translate="label_email"
-                               tal:condition="use_email_as_login"
-                               tal:attributes="for ac_name">E-mail</label>
+                    <label tal:condition="not:use_email_as_login">
+                      <input type="text" name="${ac_name}" id="${ac_name}" placeholder="Login Name"
+                        i18n:attributes="placeholder label_login_name">
+                    </label>
 
-                        <div tal:condition="error"
-                             tal:content="error">Validation error output</div>
+                    <label tal:condition="use_email_as_login">
+                      <input type="text" name="${ac_name}" id="${ac_name}" placeholder="E-mail"
+                        i18n:attributes="placeholder label_email">
+                    </label>
 
-                        <input type="text"
-                               size="15"
-                               tal:attributes="name ac_name;
-                                               id ac_name;
-                                               value login_name;"
-                               />
+                    <label>
+                      <input type="password" id="${ac_password}" name="${ac_password}" placeholder="Password"
+                        i18n:attributes="placeholder label_password">
+                    </label>
 
-                </div>
-
-                <div class="field"
-                         tal:define="error python:errors.get(ac_password, None);"
-                         tal:attributes="class python:test(error, 'field error', 'field')">
-
-                        <label i18n:translate="label_password"
-                               tal:attributes="for ac_password">Password</label>
-
-                        <div tal:condition="error"
-                             tal:content="error">Validation error output</div>
-
-                        <input type="password"
-                               size="15"
-                               tal:attributes="name ac_password;
-                                               id ac_password;"
-                               />
-                </div>
 
                     <div class="field" tal:condition="ac_persist">
 
@@ -199,7 +176,9 @@
 
                     </div>
 
-                    <p class="colofon" tal:define="enable_password_reset python:context.portal_registry['ploneintranet.userprofile.enable_password_reset'] if 'ploneintranet.userprofile.enable_password_reset' in context.portal_registry else False">
+                    <p class="colofon"
+                      tal:define="enable_password_reset python:context.portal_registry['ploneintranet.userprofile.enable_password_reset'] if 'ploneintranet.userprofile.enable_password_reset' in context.portal_registry else False"
+                      i18n:domain="ploneintranet">
                       <tal:forgot_password condition="enable_password_reset">
                         <a tal:define="mail_password_url python:mail_password_url+test(mail_password_url.find('?')==-1, '?', '&amp;')+ztu.make_query(userid=login_name)"
                             tal:attributes="href mail_password_url; target target;"

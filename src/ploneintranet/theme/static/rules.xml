@@ -78,6 +78,8 @@
     <theme href="generated/index.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
+    <replace css:theme="form fieldset.vertical input[type=text]" css:content="#login-form input[type=text]" />
+    <replace css:theme="form fieldset.vertical input[type=password]" css:content="#login-form input[type=password]" />
     <replace css:theme="figure.splash" css:content="figure.splash" />
     <replace css:theme="p.colofon" css:content="p.colofon" />
   </rules>
