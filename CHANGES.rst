@@ -1,7 +1,13 @@
 Changelog
 =========
 
-1.2.0a0 (unreleased)
+1.2.0a2 (unreleased)
+--------------------
+
+- Nothing changed yet.
+
+
+1.2.0a1 (2016-07-17)
 --------------------
 
 - Mars release cycle
