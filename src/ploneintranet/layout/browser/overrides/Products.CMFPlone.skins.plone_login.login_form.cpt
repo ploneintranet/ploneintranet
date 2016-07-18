@@ -49,6 +49,10 @@
                         target python:test(target in ('_parent', '_top', '_blank', '_self'), target, None);
                         ztu modules/ZTUtils;">
 
+            <figure class="splash">
+              <img src="${context/portal_url}/++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
+            </figure>
+
             <div class="portalMessage error pat-cookietrigger" style="display:none">
                 <strong i18n:translate="">
                     Error
