@@ -25,3 +25,4 @@ class VerifyPasswordResetAllowed(BrowserView):
             if not redirect_url:
                 redirect_url = self.context.absolute_url()
             self.request.response.redirect(redirect_url)
+        return True
