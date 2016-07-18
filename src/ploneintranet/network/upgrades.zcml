@@ -11,4 +11,13 @@
         handler=".upgrades.upgrade_to_0002"
         profile="ploneintranet.network:default" />
 
+    <genericsetup:upgradeStep
+        title="Prepare network graph for bookmarks"
+        description="Make the ploneintranet_network tool bookmarks aware"
+        source="*"
+        destination="0003"
+        handler=".upgrades.upgrade_to_0003"
+        profile="ploneintranet.network:default" />
+
+
 </configure>
