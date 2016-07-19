@@ -50,10 +50,4 @@
       template="cart_actions/templates/message.pt"
       name="cart-paste"/>
 
-  <browser:page
-      for="*"
-      class=".cart_actions.cart_dispatch.CartDispatchView"
-      permission="zope2.View"
-      name="cart-dispatch"/>
-
 </configure>
