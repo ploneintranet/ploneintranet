@@ -43,6 +43,7 @@
                     <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">
                       Share
                     </a-->
+                    <tal:bookmark replace="structure here/@@bookmark-link-iconified" />
                     <tal:history tal:condition="exists:here/@@app-audit-button">
                       <a tal:replace="structure here/@@app-audit-button" />
                     </tal:history>

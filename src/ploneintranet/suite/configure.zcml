@@ -12,10 +12,11 @@
 
   <include package="ploneintranet.activitystream"/>
   <include package="ploneintranet.async"/>
+  <include package="ploneintranet.bookmarks"/>
   <include package="ploneintranet.core"/>
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
-  <include package="ploneintranet.microblog" file="subscribers.zcml"/>  
+  <include package="ploneintranet.microblog" file="subscribers.zcml"/>
   <include package="ploneintranet.network"/>
   <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
@@ -97,6 +98,14 @@
       handler=".upgrades.barceloneta_workspace"
       profile="ploneintranet.suite:default" />
 
+  <genericsetup:upgradeStep
+      title="Install ploneintranet.bookmarks"
+      description=""
+      source="*"
+      destination="0009"
+      handler=".upgrades.to_0009"
+      profile="ploneintranet.suite:default"
+    />
 
   <!-- -*- extra stuff goes here -*- -->
 

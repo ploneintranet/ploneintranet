@@ -47,6 +47,7 @@
                        class="pat-modal icon-trash iconified"
                        i18n:translate=""
                       >Delete</a>
+                    <tal:bookmark replace="structure here/@@bookmark-link-iconified" />
                     <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                     <tal:history tal:condition="exists:here/@@app-audit-button">
                       <a tal:replace="structure here/@@app-audit-button" />
@@ -132,7 +133,7 @@
               #comments-document-comments document discussion goes here
               implementation is in ploneintranet.activitystream
             </div>
-            
+
           </div><!-- #document-body -->
           <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">
           </aside>
