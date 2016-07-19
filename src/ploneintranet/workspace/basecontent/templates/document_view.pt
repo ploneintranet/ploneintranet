@@ -47,7 +47,7 @@
                        class="pat-modal icon-trash iconified"
                        i18n:translate=""
                       >Delete</a>
-                    <tal:bookmark replace="structure here/@@bookmark-link-iconified" />
+                    <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
                     <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                     <tal:history tal:condition="exists:here/@@app-audit-button">
                       <a tal:replace="structure here/@@app-audit-button" />
