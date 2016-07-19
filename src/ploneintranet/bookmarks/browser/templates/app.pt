@@ -110,7 +110,7 @@
                      data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                   <div class="grid-sizer four columns"></div>
                   <tal:repeat repeat="workspace view/my_bookmarked_workspaces">
-                    <div class="tile workspace type-${workspace/portal_type} four columns ${python:workspace.description and 'has-description' or ''} workspace-${workspace/getId}">
+                    <div class="tile workspace type-${workspace/portal_type} four columns ${python:workspace.description and 'has-description' or ''} workspace-${workspace/getId} ${python:'state-archived' if workspace.is_archived else ''} ${python:'type-case' if workspace.portal_type == 'ploneintranet.workspace.case' else ''}">
                       <a href="${workspace/url}" class="link">
                         <h3>${workspace/title}</h3>
                         <p class="description">${workspace/description}</p>
