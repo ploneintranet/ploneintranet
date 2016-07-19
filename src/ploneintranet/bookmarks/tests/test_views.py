@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 '''Setup/installation tests for this package.'''
+from DateTime import DateTime
 from plone import api
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.testing import z2
@@ -25,11 +26,13 @@ class TestViews(FunctionalTestCase):
             type='Document',
             title='Bookmarkable page',
         )
-        api.content.create(
+        workspace = api.content.create(
             container=self.portal['workspaces'],
             type='ploneintranet.workspace.workspacefolder',
             title='Bookmarkable workspace',
         )
+        workspace.creation_date = DateTime('2016/01/01')
+        workspace.reindexObject(idxs=['created'])
 
     def login_as_portal_owner(self):
         """
@@ -183,8 +186,8 @@ class TestViews(FunctionalTestCase):
         )
 
         self.assertListEqual(
-            sorted([x.title for x in view.my_bookmarks()]),
-            ['Bookmarkable page', 'Bookmarkable workspace']
+            [x.title for x in view.my_bookmarks()],
+            ['Bookmarkable page', 'Bookmarkable workspace', u'bookmarks']
         )
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
@@ -197,6 +200,63 @@ class TestViews(FunctionalTestCase):
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarked_workspaces()]),
             ['Bookmarkable workspace'],
+        )
+
+        # And let's filter by date
+        view = api.content.get_view(
+            'app-bookmarks', self.portal, self.get_request({
+                'group_by': 'created'
+            })
+        )
+        self.assertListEqual(
+            view.my_bookmarks_sorted_groups(),
+            [u'Today', u'Last week', u'Last month', u'All time']
+        )
+        self.assertListEqual(
+            [x.title for x in view.my_bookmarks_grouped()[u'Today']],
+            ['Bookmarkable page'],
+        )
+        self.assertListEqual(
+            [x.title for x in view.my_bookmarks_grouped()[u'All time']],
+            ['Bookmarkable workspace', u'bookmarks']
+        )
+
+        # And let's filter by workspace
+        view = api.content.get_view(
+            'app-bookmarks', self.portal, self.get_request({
+                'group_by': 'workspace'
+            })
+        )
+        self.assertListEqual(
+            view.my_bookmarks_sorted_groups(),
+            [u'Bookmarkable workspace', u'Not in a workspace']
+        )
+        self.assertListEqual(
+            [
+                x.title
+                for x in view.my_bookmarks_grouped()[u'Bookmarkable workspace']
+            ],
+            ['Bookmarkable workspace']
+        )
+        self.assertListEqual(
+            [
+                x.title
+                for x in view.my_bookmarks_grouped()[u'Not in a workspace']
+            ],
+            ['Bookmarkable page', u'bookmarks'],
+        )
+
+        # Of course we can even apply filters together
+        # And let's filter by workspace
+        view = api.content.get_view(
+            'app-bookmarks', self.portal, self.get_request({
+                'SearchableText': 'bookmarkable',
+                'group_by': 'created'
+            })
+        )
+        self.assertListEqual(
+            [x.title for x in view.my_bookmarks_grouped()[u'All time']],
+            ['Bookmarkable workspace']
         )
 
     def test_app_bookmarks_search(self):

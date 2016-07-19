@@ -24,8 +24,7 @@
                 <form class="canvas-toolbar pat-inject pat-autosubmit"
                       action="${request/getURL}#directory-all">
 
-                  <label class="bare pat-select" tal:condition="nothing">
-                    BBB: disabled for the moment
+                  <label class="bare pat-select">
                     <select name="group_by"
                             tal:define="group_by request/group_by|nothing"
                         >
@@ -46,8 +45,9 @@
                       </option>
                       <option value='bookmarked'
                               selected="${python:group_by=='bookmarked' and 'selected' or None}"
+                              tal:condition="nothing"
                               i18n:translate="">
-                        Group by bookmarking date
+                        Group by bookmarking date (BBB: disabled for the moment, see https://github.com/quaive/ploneintranet.prototype/issues/283)
                       </option>
                     </select>
                   </label>

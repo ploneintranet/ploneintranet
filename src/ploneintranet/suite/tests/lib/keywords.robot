@@ -1512,4 +1512,19 @@ I can see the bookmarked documents
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Page should contain element  jquery=figcaption:contains('Budget Proposal')
 
+I can see bookmark grouped by workspace
+    Select From List  group_by  workspace
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    # I can see a ws
+    Page should contain element  xpath=//h3[contains(text(), 'Example Case')]/../ul/li/a[contains(text(), 'Example Case')]
+    # a document inside it
+    Page should contain element  xpath=//h3[contains(text(), 'Example Case')]/../ul/li/a[contains(text(), 'Draft proposal')]
+    # and somethign unrelated
+    Page should contain element  xpath=//h3[contains(text(), 'Not in a workspace')]/../ul/li/a[contains(text(), 'Bookmark')]
+
+I can see bookmark grouped by creation date
+    Select From List  group_by  created
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  xpath=//h3[contains(text(), 'All time')]/../ul/li/a[contains(text(), 'Bookmarks')]
+
 # *** END bookmark related keywords ***
