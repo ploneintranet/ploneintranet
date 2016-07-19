@@ -35,6 +35,8 @@ class View(BookmarkView):
         ''' Check if an object is bookmarked by uid
         '''
         uid = self.context.UID
+        if uid is None:
+            uid = self.context.context.UID
         if callable(uid):
             uid = uid()
         return self.ploneintranet_network.is_bookmarked('content', uid)
