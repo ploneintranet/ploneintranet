@@ -6,6 +6,7 @@ from Products.CMFPlone.utils import safe_unicode
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
+from zope.component import getMultiAdapter
 
 
 class CutView(BaseCartView):
@@ -71,5 +72,5 @@ class CutView(BaseCartView):
                 request=request,
                 type="info",
             )
-
-        return self.index()
+        return getMultiAdapter(
+            (self.context, self.request), name='sidebar.default')()

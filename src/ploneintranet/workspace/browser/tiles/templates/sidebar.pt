@@ -92,19 +92,19 @@
                       <button type="submit"
                               class="pat-inject icon-cut no-label"
                               title="Cut"
-                              formaction="${context/absolute_url}/cart-cut?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-cut?_authenticator=${token}#local-statusmessage"
                               i18n:translate=""
                               i18n:attributes="title">Cut</button>
                       <button type="submit"
                               class="pat-inject float-before icon-copy no-label"
                               title="Copy"
-                              formaction="${context/absolute_url}/cart-copy?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-copy?_authenticator=${token}#local-statusmessage"
                               i18n:translate=""
                               i18n:attributes="title">Copy</button>
                       <button type="submit"
                               class="pat-inject float-before icon-paste no-label"
                               title="Paste"
-                              formaction="${context/absolute_url}/cart-paste?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-paste?_authenticator=${token}#items"
                               i18n:translate=""
                               i18n:attributes="title">Paste</button></span>
 

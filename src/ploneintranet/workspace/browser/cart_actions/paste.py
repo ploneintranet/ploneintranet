@@ -3,6 +3,7 @@ from ZODB.POSException import ConflictError
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
+from zope.component import getMultiAdapter
 
 import re
 
@@ -32,5 +33,5 @@ class PasteView(BaseCartView):
                 request=self.request,
                 type="success",
             )
-
-        return self.index()
+        return getMultiAdapter(
+            (self.context, self.request), name='sidebar.default')()
