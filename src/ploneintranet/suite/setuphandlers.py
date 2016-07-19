@@ -102,6 +102,9 @@ def testing(context):
     discuss_older_docs(None, do_commit=False)
     commit()  # no-op when in test mode avoids breakage
 
+    log.info("Create some bookmarks")
+    create_bookmarks()
+    commit()
     log.info("done.")
 
 
@@ -816,3 +819,50 @@ def create_as(userid, *args, **kwargs):
             # we still need to know what happend
             raise
     return obj
+
+
+def create_bookmarks():
+    ''' Bookmark some applications
+    '''
+    pn = api.portal.get_tool('ploneintranet_network')
+    portal = api.portal.get()
+    workspaces = portal['workspaces']
+    pn.bookmark(
+        'content',
+        workspaces['example-case'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        workspaces['shareholder-information'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        workspaces['example-case']['draft-proposal'].UID(),
+        u'allan_neece'
+    )
+    manage_information = (
+        workspaces['open-market-committee']['manage-information']
+    )
+    pn.bookmark(
+        'content',
+        manage_information['minutes'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        manage_information['minutes-overview'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        manage_information['budget-proposal'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['library']['human-resources']['leave-policies'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark('apps', u'@@app-bookmarks', u'allan_neece')

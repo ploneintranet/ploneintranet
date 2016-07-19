@@ -1399,3 +1399,117 @@ I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
 
 # *** END search related keywords ***
+
+# *** bookmark related keywords ***
+
+I can bookmark the application
+    [arguments]  ${application}
+    I can click the Apps tab
+    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Apps tab
+    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Remove bookmark')]
+
+I can unbookmark the application
+    [arguments]  ${application}
+    I can click the Apps tab
+    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Remove bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Apps tab
+    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Bookmark')]
+
+I can bookmark the workspace
+    [arguments]  ${workspace}
+    I can click the Workspaces tab
+    Click element  xpath=//h3[contains(text(),'${workspace}')]/../../a[contains(text(), 'Bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Workspaces tab
+    Page should contain element  xpath=//h3[contains(text(), '${workspace}')]/../../a[contains(text(), 'Remove bookmark')]
+
+I can unbookmark the workspace
+    [arguments]  ${workspace}
+    I can click the Workspaces tab
+    Click element  xpath=//h3[contains(text(),'${workspace}')]/../../a[contains(text(), 'Remove bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Workspaces tab
+    Page should contain element  xpath=//h3[contains(text(), '${workspace}')]/../../a[contains(text(), 'Bookmark')]
+
+Bookmark the current context
+    Click Element  jquery=.quick-functions :contains('Bookmark')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Remove bookmark')
+
+Unbookmark the current context
+    Click Element  jquery=.quick-functions :contains('Remove bookmark')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Bookmark')
+
+I can bookmark the workspace document
+    [arguments]  ${document}
+    I open the sidebar documents tile
+    Click Element  xpath=//strong[contains(text(), 'Manage Information')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  xpath=//strong[contains(text(), '${document}')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Bookmark the current context
+
+I can unbookmark the workspace document
+    [arguments]  ${document}
+    I open the sidebar documents tile
+    Click Element  xpath=//strong[contains(text(), 'Manage Information')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  xpath=//strong[contains(text(), '${document}')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Unbookmark the current context
+
+I can bookmark the task
+    [arguments]  ${task}
+    I can go to the Example Case
+    I can go to the sidebar tasks tile of my case
+    Click link  ${task}
+    Bookmark the current context
+
+I can unbookmark the task
+    [arguments]  ${task}
+    I can go to the Example Case
+    I can go to the sidebar tasks tile of my case
+    Click link  ${task}
+    Unbookmark the current context
+
+I can go to the bookmark application
+    I can Click the Apps tab
+    Click Element  jquery=h3:contains(Bookmarks)
+    Wait until element is visible  jquery=.bookmark :contains(Example Case)
+
+I can filter bookmarked application
+    Input text  jquery=.application-bookmarks [name=SearchableText]  bookmark
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.bookmark :contains(Bookmark)
+    Page should not contain element  jquery=.bookmark :contains(Example Case)
+
+I can filter bookmarked content
+    Input text  jquery=.application-bookmarks [name=SearchableText]  example
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.bookmark :contains(Example Case)
+    Page should not contain element  jquery=.bookmark :contains(Bookmark)
+
+I can see the bookmarked applications
+    Click Element  jquery=[href=#directory-apps]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.tile.app-bookmarks
+
+I can see the bookmarked workspaces
+    Click Element  jquery=[href=#directory-workspaces]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.tile.workspace-example-case
+
+I can see the bookmarked documents
+    Click Element  jquery=[href=#directory-documents]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=figcaption:contains('Budget Proposal')
+
+# *** END bookmark related keywords ***
