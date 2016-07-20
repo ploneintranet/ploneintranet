@@ -19,6 +19,7 @@ class BaseGeneratePreviewsView(AbstractAsyncView):
     '''
 
     portal_types = SUPPORTED_CONTENTTYPES
+    ADDITIONAL_PARAMETERS = [{'name': 'regenerate', 'type': 'checkbox'}]
 
     _preview_storage_key = 'collective.documentviewer'
 

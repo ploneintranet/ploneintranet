@@ -12,6 +12,13 @@ class AbstractAsyncView(BrowserView):
     """
     template = ViewPageTemplateFile('templates/protected.pt')
 
+    # Additional parameters to be shown in the form, needs to be set by
+    # the concrete subclass.
+    # This must be a list of dict entries with keys `name` and `type`.
+    # Each entry will cause an input field with that type and name to
+    # be displayed in the form.
+    ADDITIONAL_PARAMETERS = []
+
     def authenticated(self):
         return self.request.get('_authenticator', False)
 
