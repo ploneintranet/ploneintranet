@@ -28,7 +28,7 @@
 	</nav>
 	<div class="pat-stacks schwung">
 		<div id="directory-all">
-			<form class="canvas-toolbar pat-inject pat-autosubmit" action="index.html#directory-all">
+			<form class="canvas-toolbar pat-inject pat-autosubmit" action="bookmarks.html#directory">
 
 				<label class="bare pat-select">
 					<select>
@@ -49,7 +49,7 @@
 
 				<input type="search" placeholder="Search bookmarks" />
 			</form>
-			<div class="directory">
+			<div class="directory" id="directory">
                 
                 
                     
@@ -5916,7 +5916,7 @@ Errors in parliamentary papers are rare but there are services available to help
             icon-file-word
          
     ">
-        Projection Material
+        Projection Material (Version as used in the presentation)
         <!-- <p class="description">
             
         </p> -->
@@ -9531,7 +9531,7 @@ Errors in parliamentary papers are rare but there are services available to help
 									
 										<img src="/media/projection-materials/projection-material-page1.png" alt="" title="Page 1" />
 										<figcaption class="icon-word">
-											Projection Material
+											Projection Material (Version as used in the presentation)
 										</figcaption>
 									
 								</figure>
@@ -9848,6 +9848,7 @@ Errors in parliamentary papers are rare but there are services available to help
 				.tiles .tile.workspace.type-case .link,
 				.workspace-type-case #workspace-name,
 				.workspace-type-case #workspace-header,
+				.workspace-type-case.case-mat,
 				.super-space-preview.workspace-type-case:before, 
 				.workspace-preview.workspace-type-case:before {
 					background-color: #B09045;
@@ -9856,6 +9857,7 @@ Errors in parliamentary papers are rare but there are services available to help
 				.tiles .tile.workspace.type-project .link,
 				.workspace-type-project #workspace-name,
 				.workspace-type-project #workspace-header,
+				.workspace-type-project.case-mat,
 				.super-space-preview.workspace-type-project:before, 
 				.workspace-preview.workspace-type-project:before {
 					background-color: #C34F4B;
@@ -9864,6 +9866,7 @@ Errors in parliamentary papers are rare but there are services available to help
 				.tiles .tile.workspace.type-steering-committee .link,
 				.workspace-type-steering-committee #workspace-name,
 				.workspace-type-steering-committee #workspace-header,
+				.workspace-type-steering-committee.case-mat,
 				.super-space-preview.workspace-type-steering-committee:before, 
 				.workspace-preview.workspace-type-steering-committee:before {
 					background-color: #7ABD90;

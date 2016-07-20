@@ -20,7 +20,7 @@
 	<div id="document-body">
 	<div id="document-content" class="chat">
 		<ul class="chat" id="chat">
-			<li class="item type-text self">		
+			<li class="item type-text self">
 				<a class="user">
 					<h4 class="user-name">
 						Liz Baker
@@ -31,17 +31,18 @@
 					Next time will be soon!
 				</p>
 			</li>
-			<li id="end-of-conversation" class="item type-terminal pat-scroll" data-pat-scroll="trigger: auto">
+			<li id="end-of-conversation" class="item type-terminal">
 				<p>
 					<a href="#end-of-conversation" class="pat-scroll" data-pat-scroll="trigger: auto">End of conversation</a>
 				</p>
 			</li>
 		</ul>
 	</div>
-	<form id="chat-bar" action="/apps/messages/" class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #end-of-conversation .content; target: #selector-item-1 .byline"">
+	<form id="chat-bar" action="/apps/messages/" class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #end-of-conversation .content; target: #selector-item-1 .byline">
 		<input autofocus type="text" name="message" placeholder="Write a message" />
 	</form>
 </div>
+
 	</div>
 
     <a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
@@ -114,6 +115,7 @@
 				.tiles .tile.workspace.type-case .link,
 				.workspace-type-case #workspace-name,
 				.workspace-type-case #workspace-header,
+				.workspace-type-case.case-mat,
 				.super-space-preview.workspace-type-case:before, 
 				.workspace-preview.workspace-type-case:before {
 					background-color: #B09045;
@@ -122,6 +124,7 @@
 				.tiles .tile.workspace.type-project .link,
 				.workspace-type-project #workspace-name,
 				.workspace-type-project #workspace-header,
+				.workspace-type-project.case-mat,
 				.super-space-preview.workspace-type-project:before, 
 				.workspace-preview.workspace-type-project:before {
 					background-color: #C34F4B;
@@ -130,6 +133,7 @@
 				.tiles .tile.workspace.type-steering-committee .link,
 				.workspace-type-steering-committee #workspace-name,
 				.workspace-type-steering-committee #workspace-header,
+				.workspace-type-steering-committee.case-mat,
 				.super-space-preview.workspace-type-steering-committee:before, 
 				.workspace-preview.workspace-type-steering-committee:before {
 					background-color: #7ABD90;
