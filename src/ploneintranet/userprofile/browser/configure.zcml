@@ -25,6 +25,60 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
+  <browser:page
+      name="userprofile-documents"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_documents.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-followers"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_followers.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-following"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_following.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-group"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_group.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-info"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_info.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-workspaces"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_workspaces.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
   <!-- This edit page is linked to the ploneintranet.theme layer,
        so that CMS editors get the default edit page -->
   <browser:page
