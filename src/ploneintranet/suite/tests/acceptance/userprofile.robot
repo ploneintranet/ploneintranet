@@ -41,16 +41,19 @@ Alice cannot view her personal preferences
 Alice can view her documents
     Given I am logged in as the user alice_lindstrom
     Then I can view the profile for user alice_lindstrom
-    Then Click Link  Documents
+     And I open the profile tab  Documents
     Then Click Link  Human Resources
 
 Alice can view her documents sorted by date
     Given I am logged in as the user alice_lindstrom
     Then I can view the profile for user alice_lindstrom
+    Then I open the profile tab  Documents
     Then I can see my documents grouped by  date
 
 Alice can search her documents
     Given I am logged in as the user alice_lindstrom
+     Then I can view the profile for user alice_lindstrom
+      And I open the profile tab  Documents
      Then I can search in my documents for  Human
 
 Alice cannot open the password reset form
@@ -114,17 +117,11 @@ I can follow the link to my profile
 
 I can see my documents grouped by
     [arguments]  ${VALUE}
-    # BBB: fix the Go To when this one is closed:
-    # - https://github.com/quaive/ploneintranet.prototype/issues/262
-    # we should use the select
-    Go To  ${PLONE_URL}/profiles/alice_lindstrom?group-by=${VALUE}#person-documents
+    Select from List  group-by  date
     Wait until element is visible  jquery=.group:last a:contains("Human Resources")
 
 I can search in my documents for
     [arguments]  ${VALUE}
-    I can open the personal tools menu
-    I can follow the link to my profile
-    Click Link  Documents
     Input Text  jquery=#person-documents [name=SearchableText]  ${VALUE}
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click Element  jquery=.preview img[alt~="${VALUE}"]
@@ -133,6 +130,11 @@ I can search in my documents for
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
 # I can follow the link to my personal settings
 #     Click Element  css=.tooltip-container .menu a.icon-cog
+
+I open the profile tab
+    [arguments]  ${title}
+    Click Element  jquery=nav a:contains('${title}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I can follow the link to logout
     Click Element  css=.tooltip-container .menu a.icon-exit
@@ -154,11 +156,11 @@ I can unfollow ${NAME}
     Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
 
 I can see ${NAME} in the list of users being followed
-    Click Element  css=nav.tabs a.link-following
+    I open the profile tab  Following
     Page should contain Element  jquery=#person-following a strong:contains("${NAME}")
 
 I cannot see ${NAME} in the list of users being followed
-    Click Element  css=nav.tabs a.link-following
+    I open the profile tab  Following
     Page should not contain Element  jquery=#person-following a strong:contains("${NAME}")
 
 I can change my name to ${NAME}
