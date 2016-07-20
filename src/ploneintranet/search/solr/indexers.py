@@ -32,7 +32,11 @@ class ContentAdder(object):
         self.solr = solr
 
     def add(self, data):
-        self.solr.add(data)
+        try:
+            self.solr.add(data)
+        except UnicodeDecodeError, msg:
+            logger.error('UnicodeDecodeError when indexing {0}: {1}'.format(
+                self.context.absolute_url(), msg))
 
 
 @implementer(IContentAdder)
