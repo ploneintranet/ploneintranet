@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.bookmarks.browser"
+    interface="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    remove="True"
+  />
+</layers>

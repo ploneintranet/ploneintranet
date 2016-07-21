@@ -124,6 +124,12 @@
     <replace css:content-children="#portal-column-content" css:theme="#content" />
   </rules>
 
+  <rules css:if-content="body.template-app-bookmarks">
+    <theme href="generated/apps/bookmarks/index.html" />
+    <!-- Main content rule: Put plone content into theme content -->
+    <replace css:content-children="#portal-column-content" css:theme="#content" />
+  </rules>
+
   <rules css:if-content="body.portaltype-todo">
       <theme href="generated/basisdaten/index.html" />
     <!-- Main content rule: Put plone content into theme content -->

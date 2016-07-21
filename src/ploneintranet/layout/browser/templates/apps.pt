@@ -20,6 +20,7 @@
               />
               <h3>${tile/title}</h3>
           </a>
+          <tal:link tal:condition="tile/path" replace="structure python:view.get_bookmark_link(tile)" />
       </div>
 
 
