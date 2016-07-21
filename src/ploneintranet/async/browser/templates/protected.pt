@@ -13,6 +13,11 @@
 
           <form>
             <span tal:replace="structure context/@@authenticator/authenticator"/>
+            <tal:additional repeat="entry view/ADDITIONAL_PARAMETERS">
+                <label>${entry/name}
+                    <input name="${entry/name}" type="${entry/type}" />
+                </label><br />
+            </tal:additional>
             <input type="submit" value="confirm action"/>
             </form>
 
