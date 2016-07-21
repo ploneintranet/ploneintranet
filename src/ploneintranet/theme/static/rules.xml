@@ -78,15 +78,32 @@
     <theme href="generated/index.html" />
     <copy attributes="method action" css:content="form#login_form" css:theme="form#login-panel" />
     <append css:theme="form fieldset.vertical" css:content="#login-form input[type='hidden']" />
-    <replace css:theme-children="figure.splash">
-        <img src="++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
-    </replace>
-    <replace css:theme=".colofon">
-  		<p class="colofon">
-  			<a href="++theme++ploneintranet.theme/generated/info.html">About this environment</a>
-  		</p>
+    <replace css:theme="form fieldset.vertical input[type=text]" css:content="#login-form input[type=text]" />
+    <replace css:theme="form fieldset.vertical input[type=password]" css:content="#login-form input[type=password]" />
+    <replace css:theme="figure.splash" css:content="figure.splash" />
+    <replace css:theme="p.colofon" css:content="p.colofon" />
+  </rules>
 
-    </replace>
+  <!-- reset password forms -->
+  <rules css:if-content="body.template-mail_password_form, body.template-pwreset_form, body.template-change-password">
+    <theme href="generated/password-lost.html" />
+    <replace css:theme="#document-content" css:content="#document-content" />
+  </rules>
+
+  <!-- reset password form responses -->
+  <rules css:if-content="body.template-mail_password_response, body.template-pwreset_finish">
+    <theme href="generated/feedback/password-reset-sent.html" />
+    <replace css:theme=".canvas-intro > h1" css:content="h1.documentFirstHeading" />
+    <replace css:theme-children=".canvas-intro > p" css:content-children="div.documentDescription" />
+    <!-- Plone inserts "portal_registration" into the breadcrumbs, which we don't want here -->
+    <drop css:theme="nav.breadcrumbs" />
+  </rules>
+
+  <!-- reset password error -->
+  <rules css:if-content="body.template-pwreset_invalid">
+    <theme href="generated/feedback/password-reset-sent.html" />
+    <replace css:theme=".canvas-intro > h1" css:content="h1.documentFirstHeading" />
+    <replace css:theme=".canvas-intro > p" css:content="div#content-core > p" />
   </rules>
 
   <rules css:if-content="body.portaltype-event,

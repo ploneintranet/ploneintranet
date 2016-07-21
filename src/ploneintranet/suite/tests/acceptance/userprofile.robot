@@ -56,10 +56,10 @@ Alice can search her documents
       And I open the profile tab  Documents
      Then I can search in my documents for  Human
 
-Alice cannot open the password reset form
+Alice cannot force the password reset form
     Given I am logged in as the user alice_lindstrom
     When I open the password reset form
-    Then The page is not found
+    Then I cannot reset my password with an illegal request posing as  alice_lindstrom
 
 Allan can view Alice's profile
     Given I am logged in as the user allan_neece
@@ -96,6 +96,13 @@ Dollie can change her avatar from the menu
     Given I am logged in as the user dollie_nocera
     And I can open the personal tools menu
     Then I can upload a new avatar from the menu
+
+Dollie can change her password
+    Given I am logged in as the user dollie_nocera
+    And I open the change passord form
+    Then I change my password to  new_password
+    And I can log in with the new password  dollie_nocera  new_password
+
 
 # This doesn't work because the input form element isn't visible
 # Dollie can change her avatar from her profile page
@@ -177,6 +184,29 @@ I cannot edit personal details
 I can upload a new avatar from the menu
     Choose File  xpath=(//input[@name='portrait'])[2]  ${UPLOADS}/new-profile.jpg
     Wait until page contains   Personal image updated
+
+I open the change passord form
+    I can open the personal tools menu
+    Click Element  css=.tooltip-container .menu a.icon-cog
+    Wait until page contains element  xpath=//h1[text()="Change password"]
+
+I change my password to
+    [arguments]  ${pwd}
+    input text  name=form.widgets.current_password  secret
+    input text  name=form.widgets.new_password  ${pwd}
+    input text  name=form.widgets.new_password_ctl  ${pwd}
+    Click button  Change password
+    Wait until page contains  Password changed
+    Click button  Close
+
+I can log in with the new password
+    [arguments]  ${userid}  ${pwd}
+    I can open the personal tools menu
+    I can follow the link to logout
+    Input text  name=__ac_name  ${userid}
+    Input text  name=__ac_password   ${pwd}
+    Click button  Login
+    Wait until page contains  Welcome! You are now logged in
 
 # This doesn't work because the input form element isn't visible
 # It is possible to click on the label to get the file dialog, but that doesn't work for
