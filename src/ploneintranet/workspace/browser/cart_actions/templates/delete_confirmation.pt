@@ -5,12 +5,15 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div id="content">
-      <div id="document-content" class="pat-modal">
+    <div id="items">
+      <div id="deleteconf" class="pat-modal">
         <h1 i18n:translate="">Batch delete</h1>
 
-        <form class="pat-inject wizard-box" method="POST" action="${context/absolute_url}/@@cart-delete"
-              data-pat-inject="source: #workspace-documents; target: #workspace-documents && source: #global-statusmessage; target: #global-statusmessage">
+        <form class="wizard-box" method="POST" action="${context/absolute_url}/@@cart-delete">
+              <aside id="global-statusmessage">
+                <tal:message tal:content="structure provider:plone.globalstatusmessage" />
+              </aside>
+
 
           <div class="panel-body"
                tal:define="items view/items_by_permission;
