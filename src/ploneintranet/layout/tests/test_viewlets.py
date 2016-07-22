@@ -100,6 +100,11 @@ class TestResources(FunctionalTestCase):
             {'production'},
         )
         viewlet.themeObj.__name__ = oldname
+        viewlet.themeObj = None
+        self.assertSetEqual(
+            {x.get('bundle') for x in viewlet.scripts()},
+            {'production'},
+        )
 
     def test_styles_viewlet(self):
         ''' Test the viewlet that returns the styles
@@ -137,3 +142,8 @@ class TestResources(FunctionalTestCase):
             {'diazo', 'production'},
         )
         viewlet.themeObj.__name__ = oldname
+        viewlet.themeObj = None
+        self.assertSetEqual(
+            {x.get('bundle') for x in viewlet.styles()},
+            {'diazo', 'production'},
+        )
