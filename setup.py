@@ -84,6 +84,7 @@ setup(name='ploneintranet',
               'fake-factory',
               'mock',
               'responses',
+              'quaive.resources.ploneintranet',
           ],
           'suite': [
               'requests',
@@ -139,6 +140,9 @@ setup(name='ploneintranet',
               'requests',
               'scorched',
           ],
+          'theme': [
+              'quaive.resources.ploneintranet',
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-
