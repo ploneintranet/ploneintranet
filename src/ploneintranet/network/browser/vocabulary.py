@@ -12,7 +12,11 @@ import inspect
 from plone.app.content.browser.vocabulary import VocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.browser.vocabulary import _parseJSON
-from plone.app.content.browser.vocabulary import _permissions as base_perms
+try:
+    from plone.app.content.browser.vocabulary import PERMISSIONS as base_perms
+except:
+    # BBB for plone.app.content 3.0.x (Plone 5.0.4)
+    from plone.app.content.browser.vocabulary import _permissions as base_perms
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
 
