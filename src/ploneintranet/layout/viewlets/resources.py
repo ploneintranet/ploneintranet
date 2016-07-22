@@ -25,8 +25,11 @@ class PIResourceViewMixin(object):
         otherwise we serve only the resources declared as enabled
         in the theme manifest.cfg.
         '''
-        default_theme = self.registry.forInterface(IThemeSettings).currentTheme
         current_theme_obj = self.themeObj
+        if current_theme_obj is None:
+            return resources
+
+        default_theme = self.registry.forInterface(IThemeSettings).currentTheme
         # not the current theme: trust the resource registry
         if current_theme_obj.__name__ != default_theme:
             return resources
