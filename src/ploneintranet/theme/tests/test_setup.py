@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from Products.CMFPlone.interfaces import IBundleRegistry
-from Products.CMFPlone.interfaces import IResourceRegistry
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from plone.registry.interfaces import IRegistry
 from ploneintranet.theme.interfaces import IThemeSpecific
 from ploneintranet.theme.testing import PLONEINTRANET_THEME_INTEGRATION_TESTING  # noqa
-from zope.component import getUtility
 import unittest2 as unittest
 
 
@@ -30,18 +26,6 @@ class TestSetup(unittest.TestCase):
         """Test that IThemeSpecific is registered."""
         self.assertIn(IThemeSpecific, registered_layers())
 
-    def test_theme_instaled(self):
-        from plone.app.theming.utils import getCurrentTheme
-        self.assertEqual('ploneintranet.theme', getCurrentTheme())
-
-    def test_resources(self):
-        resources = getUtility(IRegistry).collectionOfInterface(
-            IResourceRegistry, prefix="plone.resources")
-        self.assertIn('ploneintranet', resources)
-        bundles = getUtility(IRegistry).collectionOfInterface(
-            IBundleRegistry, prefix="plone.bundles")
-        self.assertIn('ploneintranet', bundles)
-
 
 class TestUninstall(unittest.TestCase):
     """Test that ploneintranet.theme is properly uninstalled."""
@@ -62,15 +46,3 @@ class TestUninstall(unittest.TestCase):
     def test_theme_browserlayer_removed(self):
         """Test that IThemeSpecific is unregistered."""
         self.assertNotIn(IThemeSpecific, registered_layers())
-
-    def test_theme_reset(self):
-        from plone.app.theming.utils import getCurrentTheme
-        self.assertEqual('barceloneta', getCurrentTheme())
-
-    def test_resources_removed(self):
-        resources = getUtility(IRegistry).collectionOfInterface(
-            IResourceRegistry, prefix="plone.resources")
-        self.assertNotIn('ploneintranet', resources)
-        bundles = getUtility(IRegistry).collectionOfInterface(
-            IBundleRegistry, prefix="plone.bundles")
-        self.assertNotIn('ploneintranet', bundles)

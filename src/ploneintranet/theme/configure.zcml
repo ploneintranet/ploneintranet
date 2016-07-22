@@ -32,12 +32,6 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-    <plone:static
-        directory="static"
-        type="theme"
-        name="ploneintranet.theme"
-        />
-
     <interface name="ploneintranet.theme"
         interface="ploneintranet.theme.interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
