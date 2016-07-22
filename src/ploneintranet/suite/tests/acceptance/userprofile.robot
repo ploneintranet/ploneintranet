@@ -178,7 +178,7 @@ I can change my name to ${NAME}
     Page should contain Element  xpath=//figcaption//a[contains(text(), "Mickey")]
 
 I cannot edit personal details
-    Click Element  link=Info
+    I open the profile tab  Info
     Page Should Contain Element  css=dt.icon-user
 
 I can upload a new avatar from the menu
