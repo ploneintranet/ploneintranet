@@ -42,6 +42,7 @@ release/
 /src/dexterity.membrane
 /src/Products.membrane
 /src/quaive.app.*
+/src/quaive.resources.*
 /src/slc.*
 src/sphinx.themes.plone/
 stamp-bower
