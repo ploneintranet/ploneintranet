@@ -42,12 +42,3 @@ Contents:
 
    license
 
-
-
-.. todo::
-
-    * include heroku deploy button by nejc under install/quickstart
-    * Add a design/concept section
-    * Collect current error messages and add them to the error refs doc
-    * Fill the FAQs. This is really important for people getting started at the moment.
-    * Have a native speaker check the english

@@ -6,6 +6,7 @@ Developer documentation
     :maxdepth: 2
 
     contributing
+    gitflow
     frontend/index
     forms
     api
