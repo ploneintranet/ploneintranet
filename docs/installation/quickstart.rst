@@ -113,13 +113,17 @@ You can run the buildout with `make buildout`, or instead manually::
   ./bin/pip install -r requirements.txt
   ./bin/buildout
 
+Before you run the full test suite, first verify that the docsplit dependencies are properly installed::
+
+  make test-docsplit
+
 To verify that everything was installed and set up correctly, please run the test suite (skipping the robot tests for speed)::
 
   make test-norobot
 
 This exercises the whole stack, including all dependencies like Solr, Redis, Celery and the document conversion stack. If all tests are green you're good to go.
 
-You can also run the full test suite with `make test`, but some of the robot tests are sensitive to timing issues and are known to fail now and then without any "real" reason.
+You can also run the full test suite with `make test`.
 
 See :doc:`../development/testing_of_pi` for more information on testing.
 

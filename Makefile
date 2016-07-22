@@ -1,4 +1,4 @@
-RELEASE_DIR	= release/prototype/_site
+_DIR	= release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
 BUNDLEPLONEID	= ploneintranet
@@ -187,6 +187,11 @@ allclean: all-clean
 
 ####################################################################
 # Testing
+
+test-docsplit:  ## Verify that docsplit dependencies are installed
+	@docsplit images -o /tmp testfiles/plone.pdf
+	@docsplit images -o /tmp testfiles/minutes.docx
+	@echo "Docsplit seems to be installed OK, no errors."
 
 # inspect robot traceback:
 # bin/robot-server ploneintranet.suite.testing.PLONEINTRANET_SUITE_ROBOT
