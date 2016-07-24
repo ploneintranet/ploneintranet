@@ -72,6 +72,7 @@ Merge the release changes
 Please submit a new pull request from the release branch into master.
 Do not delete the release branch, it will be re-used for subsequent releases.
 
+See :doc:`gitflow` for a full description of the Git workflow.
 
 Update the gaia deployment
 --------------------------

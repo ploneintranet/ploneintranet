@@ -55,6 +55,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 .. _GNU General Public License: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
+.. _dod:
+
 Definition of Done
 ==================
 
@@ -70,10 +72,12 @@ the following development and style guidelines must be adhered to:
  * All contributed code must have docstrings
  * All contributed APIs must have full `Sphinx style docstrings <https://pythonhosted.org/an_example_pypi_project/sphinx.html>`_
 
-   - Avoid committing code directly to master
+   - No commits directly on master - the master branch is protected
    - Pull requests must be reviewed by at least one other developer working on the project
    - Assign pull requests to another developer so they get notified, and chase them to review it.
      Stagnant pull requests become a lot harder to merge later.
 
  * Keep README and CHANGES up to date
  * Don't commit commented-out code. We have version control, if you want to add code back later.
+
+See :doc:`gitflow` for an overview of our Git workflow.
