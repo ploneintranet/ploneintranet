@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a2 (unreleased)
+1.2.0a2 (2016-07-24)
 --------------------
 
 * Merge pull request #498 from quaive/create_structure_heisenb [GitHub]
