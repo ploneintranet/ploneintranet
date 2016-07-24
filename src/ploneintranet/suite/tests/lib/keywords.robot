@@ -770,8 +770,10 @@ I can create a structure
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
     Click Button  css=#form-buttons-create
+    Wait until page does not contain element   xpath=//div[@id='document-body']/div[contains(@class, 'injecting')]
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='Document in subfolder']
+    Wait until page does not contain element   xpath=//div[@id='application-body']/div[contains(@class, 'injecting')]
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Go To  ${PLONE_URL}/workspaces/open-market-committee
