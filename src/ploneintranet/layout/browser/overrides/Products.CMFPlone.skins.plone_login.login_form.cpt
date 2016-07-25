@@ -176,16 +176,17 @@
 
                     </div>
 
-                    <p class="colofon"
-                      tal:define="enable_password_reset python:context.portal_registry['ploneintranet.userprofile.enable_password_reset'] if 'ploneintranet.userprofile.enable_password_reset' in context.portal_registry else False"
-                      i18n:domain="ploneintranet">
-                      <tal:forgot_password condition="enable_password_reset">
-                        <a tal:define="mail_password_url python:mail_password_url+test(mail_password_url.find('?')==-1, '?', '&amp;')+ztu.make_query(userid=login_name)"
-                            tal:attributes="href mail_password_url; target target;"
-                            i18n:translate="">I forgot my password</a>
-                        |
-                      </tal:forgot_password>
-                      <a href="++theme++ploneintranet.theme/generated/info.html" i18n:translate="">About this environment</a>
+                    <p class="colofon" tal:define="
+                            actions python:[action for action in here.portal_actions.listFilteredActionsFor(here).get('login_colophon', []) if action['visible'] and action['available']];
+                        "
+                    >
+                        <tal:actions repeat="action actions">
+                            <a href="${action/url}"
+                               title="${action/description}"
+                               target="${action/link_target}"
+                               >${action/title}</a>
+                            <tal:separator condition="not:repeat/action/end">|</tal:separator>
+                        </tal:actions>
                     </p>
 
                 </div>
