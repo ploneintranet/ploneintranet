@@ -50,13 +50,23 @@ class AddWorkspace(AddBase):
 
     def special_options(self):
         """All the template options for non-default workspace types.
-        TODO: plus a generic option for types without a template"""
+        Plus: an option for each type without a template"""
         options = []
+        # templates
         for (typ, templates) in self.templates_by_type().items():
             if typ == self.default_fti:
                 continue  # already in workspace_options
             options.extend(templates)
+        options.extend(self.special_templateless())
         return options
+
+    def special_templateless(self):
+        "addable but no template and not a default workspace"
+        alreadyhave = self.templates_by_type().keys()
+        alreadyhave.append(self.default_fti)
+        return [dict(id=typ, title=typ, portal_type=typ)
+                for typ in self._addable_types()
+                if typ not in alreadyhave]
 
     def all_templates(self):
         return self.workspace_templates() + self.special_options()
@@ -64,7 +74,8 @@ class AddWorkspace(AddBase):
     @property
     def all_templates_dict(self):
         return {template['id']: template
-                for template in self.all_templates()}
+                for template in self.all_templates()
+                if template not in self.special_templateless()}
 
     def _addable_types(self):
         return [fti.getId() for fti in self.context.allowedContentTypes()]
