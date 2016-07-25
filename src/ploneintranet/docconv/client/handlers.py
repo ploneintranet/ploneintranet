@@ -59,7 +59,6 @@ def generate_attachment_preview_images(obj):
 def content_added_in_workspace(obj, event):
     log.debug('content_added_in_workspace - calling generate_previews_async')
     generate_previews_async(obj)
-    # pi_api.previews.generate_previews(obj)
 
 
 def content_edited_in_workspace(obj, event):
@@ -68,7 +67,7 @@ def content_edited_in_workspace(obj, event):
     if obj.REQUEST.form.get('file') or\
        obj.REQUEST.form.get('form.widgets.IFileField.file') or\
        obj.REQUEST.get('method') == 'PUT':
-        pi_api.previews.generate_previews(obj)
+        generate_previews_async(obj)
 
 
 # def attachmentstoragable_added(obj, event):
