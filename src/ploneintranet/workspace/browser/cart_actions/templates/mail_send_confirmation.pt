@@ -5,8 +5,7 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div id="content">
-      <div id="items" class="pat-modal">
+      <div id="document-content" class="pat-modal">
         <h1 i18n:translate="">Batch send</h1>
 
         <form method="POST" action="cart-mail" class="pat-validation" data-pat-validation="disable-selector: #form-buttons-send"
@@ -72,6 +71,5 @@
 
         </form>
       </div>
-    </div>
   </body>
 </html>

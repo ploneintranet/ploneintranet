@@ -5,8 +5,7 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div id="items">
-      <div id="deleteconf" class="pat-modal">
+      <div id="document-content" class="pat-modal">
         <h1 i18n:translate="">Batch delete</h1>
 
         <form class="wizard-box" method="POST" action="${context/absolute_url}/@@cart-delete">
@@ -72,7 +71,6 @@
           </div>
         </form>
       </div>
-    </div>
 
   </body>
 </html>
