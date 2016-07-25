@@ -18,6 +18,7 @@ from celery import Celery
 
 from ploneintranet.async import celeryconfig
 from ploneintranet.async.core import dispatch
+from ploneintranet.async.core import DispatchError
 
 broker = os.environ.get('BROKER_URL', 'redis://localhost:6379/0')
 backend = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
@@ -68,21 +69,35 @@ def post(url, data={}, headers={}, cookies={}):
     dispatch(url, data, headers, cookies)
 
 
-@app.task
-def generate_and_add_preview(url, data={}, headers={}, cookies={}):
+@app.task(bind=True, acks_late=True, default_retry_delay=30, max_retries=3)
+def generate_and_add_preview(self, url, data={}, headers={}, cookies={}):
     """
     Make an HTTP request to the DocConv Plone instance to generate a preview
     for the given object URL and add it to the object.
 
     See utils.dispatch() for interface contract.
+
+    For info on acks_late and retries, see:
+    - http://docs.celeryproject.org/en/latest/faq.html#faq-acks-late-vs-retry
+    - http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying
     """
-    dispatch(url, data, headers, cookies)
+    try:
+        dispatch(url, data, headers, cookies)
+    except DispatchError as exc:
+        raise self.retry(exc=exc)
 
 
-@app.task
-def reindex_object(url, data={}, headers={}, cookies={}):
+@app.task(bind=True, acks_late=True, default_retry_delay=10, max_retries=3)
+def reindex_object(self, url, data={}, headers={}, cookies={}):
     """Reindex a content object.
 
     See utils.dispatch() for interface contract.
+
+    For info on acks_late and retries, see:
+    - http://docs.celeryproject.org/en/latest/faq.html#faq-acks-late-vs-retry
+    - http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying
     """
-    dispatch(url, data, headers, cookies)
+    try:
+        dispatch(url, data, headers, cookies)
+    except DispatchError as exc:
+        raise self.retry(exc=exc)
