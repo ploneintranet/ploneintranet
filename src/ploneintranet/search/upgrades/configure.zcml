@@ -28,6 +28,22 @@
       handler=".to0004.update_registry_filter_fields"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:upgradeStep
+      title="Remove the division UUID index from portal_catalog"
+      description=""
+      source="*"
+      destination="0005"
+      handler=".to0005.remove_division_index"
+      profile="ploneintranet.search:default" />
+
+  <genericsetup:upgradeStep
+      title="Remove the division column from portal_catalog"
+      description=""
+      source="*"
+      destination="0005"
+      handler=".to0005.remove_division_column"
+      profile="ploneintranet.search:default" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>
