@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content-core"
+      tal:define="
+        workspaces view/my_workspaces;
+        num_workspaces python: len(workspaces);
+      ">
+      <div id="document-content">
+        <div id="person-workspaces">
+          <article class="pat-rich">
+            <p i18n:translate="user_member_of_workspaces">
+              <span tal:replace="context/fullname"
+                    i18n:name="name" /> is a member of the following
+              <span tal:replace="num_workspaces"
+                    i18n:name="num_workspaces" /> workspaces.
+            </p>
+          </article>
+          <div id="workspaces"
+            class="row tiles workspaces pat-masonry"
+            data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+            <div class="grid-sizer four columns"></div>
+            <tal:workspaces repeat="workspace workspaces">
+              <div class="tile workspace four columns ${workspace/css_class}">
+                <a href="${workspace/url}"
+                   class="link">
+                  <h3>${workspace/title}</h3>
+                  <p class="description"
+                    tal:condition="workspace/description">
+                    ${workspace/description}
+                  </p>
+                </a>
+              </div>
+            </tal:workspaces>
+          </div>
+        </div>
+      </div>
+    </metal:content>
+  </body>
+
+</html>

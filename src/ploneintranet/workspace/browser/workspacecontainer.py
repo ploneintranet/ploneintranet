@@ -1,7 +1,7 @@
+# coding=utf-8
 from Acquisition import aq_inner
 from collections import defaultdict
 from email.Utils import formatdate
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
@@ -10,12 +10,30 @@ from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from time import time
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Interface
 from zope.publisher.browser import BrowserView
 from zope.schema.interfaces import IVocabularyFactory
-from zope.component import getUtility
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
+
+
+@implementer(Interface)
+class BookmarkableWSDict(object):
+
+    def __init__(self, ws_dict):
+        ''' Transforms a dict in to a traversable object
+        '''
+        self.ws_dict = ws_dict
+
+    def UID(self):
+        return self.ws_dict['uid']
+
+    def absolute_url(self):
+        return self.ws_dict['url']
 
 
 class Workspaces(BrowserView):
@@ -108,6 +126,17 @@ class Workspaces(BrowserView):
                    #  'content': 'Group by workspace type'}
                    ]
         return options
+
+    def get_bookmark_link(self, ws_dict):
+        ''' Get's the workspace bookmark icon from the dictionary
+        '''
+        obj = BookmarkableWSDict(ws_dict)
+        view = api.content.get_view(
+            'bookmark-link-iconified',
+            obj,
+            self.request
+        )
+        return view()
 
     def workspace_types(self):
         options = [{'value': '', 'content': _(u'All workspace types')}]

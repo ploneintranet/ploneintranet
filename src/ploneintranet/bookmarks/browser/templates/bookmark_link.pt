@@ -1,0 +1,12 @@
+<tal:link define="
+            link_options view/link_options;
+          "
+  >
+  <a href="${link_options/base_url}/${link_options/action}?${view/query_string}"
+     class="${view/base_css_class} ${link_options/css_class}"
+     data-pat-inject="source: #content; target: self::element"
+     title="${link_options/title}"
+     i18n:attributes="title"
+     i18n:translate=""
+     >${link_options/label}</a>
+</tal:link>

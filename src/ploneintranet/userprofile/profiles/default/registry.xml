@@ -83,6 +83,13 @@
     <value>False</value>
   </record>
 
+  <record name="ploneintranet.userprofile.enable_password_reset">
+    <field type="plone.registry.field.Bool">
+      <title>Allow users to reset their password</title>
+    </field>
+    <value>True</value>
+  </record>
+
   <record interface="Products.CMFPlone.interfaces.controlpanel.ISecuritySchema"
           name="plone.use_email_as_login">
     <value>False</value>

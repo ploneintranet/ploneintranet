@@ -1,287 +1,205 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      lang="en"
-      metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
 
-    <body class="view-secure">
-        <metal:content fill-slot="content"
-               tal:define="is_me view/is_me;
-                           following view/following;
-                           num_following python: len(following);
-                           followers view/followers;
-                           num_followers python: len(followers);
-                           groups view/my_groups;
-                           num_groups python: len(groups);
-                           workspaces view/my_workspaces;
-                           num_workspaces python: len(workspaces);
-                           absolute_url here/absolute_url;
-               ">
-            <aside class="four columns portlets sidebar">
-                <figure class="user-info-header">
-                    <span class="pat-gallery">
-                        <a href=""
-                           tal:attributes="href string:${absolute_url}/@@avatar_profile.jpg"
-                           class="pat-avatar pat-gallery user-info-avatar">
-                            <img
-                             tal:attributes="src string:${absolute_url}/@@avatar_profile.jpg"
-                             src="{{ page.image_url }}"
-                             alt="Image of {{ page.title }}"
-                             i18n:attributes="alt" />
-                        </a>
-                    </span>
-                    <form action="${absolute_url}/personal-menu.html" id="change-personal-image"
-                          method="post"
-                          enctype="multipart/form-data"
-                          data-pat-inject="source: .pat-notification::element; target: #global-header::after"
-                          class="pat-inject pat-autosubmit"
-                          tal:condition="is_me">
-                        <label class="edit icon-pencil iconified">
-                            <input type="file" name="portrait" accept="image/*;capture=camera"/> <button type="submit" i18n:translate="">Update avatar</button>
-                            <input type="hidden" name="submit" value="submit"/>
-                        </label>
-                    </form>
-                    <figcaption>
-                        <a href="" tal:attributes="href string:${absolute_url}; title string:Visit the profile of ${context/fullname}">
-                            <span tal:replace="context/fullname" />
-                        </a>
-                    </figcaption>
-                </figure>
+  <body class="view-secure">
+    <metal:content
+      fill-slot="content"
+      tal:define="
+        is_me view/is_me;
+        following view/following;
+        num_following python: len(following);
+        followers view/followers;
+        num_followers python: len(followers);
+        groups view/my_groups;
+        num_groups python: len(groups);
+        workspaces view/my_workspaces;
+        num_workspaces python: len(workspaces);
+        absolute_url here/absolute_url;
+      ">
+      <aside class="four columns portlets sidebar">
+        <figure class="user-info-header">
+          <span class="pat-gallery">
+            <a href="${absolute_url}/@@avatar_profile.jpg"
+               class="pat-avatar pat-gallery user-info-avatar"
+              >
+              <img src="${absolute_url}/@@avatar_profile.jpg"
+                   alt="Image of {{ page.title }}"
+                   i18n:attributes="alt"
+                  />
+            </a>
+          </span>
+          <form
+            action="${absolute_url}/personal-menu.html"
+            id="change-personal-image"
+            method="post"
+            enctype="multipart/form-data"
+            data-pat-inject="source: .pat-notification::element; target: #global-header::after"
+            class="pat-inject pat-autosubmit"
+            tal:condition="is_me">
+            <label class="edit icon-pencil iconified">
+              <input type="file" name="portrait" accept="image/*;capture=camera"/>
+              <button type="submit" i18n:translate="">Update avatar</button>
+              <input type="hidden" name="submit" value="submit"/>
+            </label>
+          </form>
+          <figcaption>
+            <a href="${absolute_url}"
+               title="Visit the profile of ${context/fullname}"
+              >
+              <span tal:replace="context/fullname"/>
+            </a>
+          </figcaption>
+        </figure>
 
-                <div tal:condition="not:view/is_me" class="portlet follow" id="portlet-follow">
-                    <form tal:replace="structure context/@@toggle_follow" />
-                </div>
+        <div tal:condition="not:is_me" class="portlet follow" id="portlet-follow">
+          <form tal:replace="structure context/@@toggle_follow"/>
+        </div>
 
-                <div class="portlet contact" id="portlet-contact">
-                    <h2 class="portlet-title">
-                        <a href="#person-info" i18n:translate="">Contact</a>
-                    </h2>
-                    <ul class="menu">
-                        <li class="mail">
-                            <a class="icon-mail" i18n:attributes="title" tal:attributes="title string:Mail ${context/fullname} via ${context/email}; href string:mailto:${context/email}" tal:content="context/email" />
-                        </li>
-                        <li class="phone" tal:condition="context/telephone|nothing">
-                            <a class="icon-phone" i18n:attributes="title" tal:attributes="title string:Call ${context/fullname} at ${context/telephone}; href string:tel:${context/telephone}"
-                            tal:content="context/telephone"></a>
-                        </li>
-                    </ul>
-                    <p class="portlet-footer">
-                        <a href="#person-info"><i18n:block i18n:translate="">More information about</i18n:block> <span tal:replace="context/fullname" />.</a>
-                    </p>
-                </div>
-                <div class="portlet following" id="portlet-following"
-                     tal:condition="following">
-                    <h2 class="portlet-title">
-                        <a href="#person-following" class="link-following"><span tal:omit-tag="" i18n:translate="">Following</span> <sup tal:content="num_following">8</sup></a>
-                    </h2>
-                    <nav class="user-cloud">
-                        <!-- Limit the following list of users to 21 users. -->
-                        <tal:user repeat="user python:following[:21]">
-                          <a href="${user/url}" class="pat-avatar">
-                            <img src="${user/avatar_url}" alt=""
-                                 title="${user/title}" />
-                          </a>
-                        </tal:user>
-                    </nav>
-                    <!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
-                    <p class="portlet-footer"
-                       tal:condition="python:num_following > 14">
-                        <a href="#person-following" i18n:translate="">Full list of people <b tal:replace="context/fullname" i18n:name="name_of_followee" /> follows.</a>
-                    </p>
-                </div>
-                <div class="portlet followers" id="portlet-followers"
-                     tal:condition="followers">
-                    <h2 class="portlet-title">
-                        <a href="#person-followers" i18n:translate="">Followers <sup i18n:name="num_followers" tal:content="num_followers">12</sup></a>
-                    </h2>
-                    <nav class="user-cloud">
-                        <!-- Limit the following list of users to 21 users. -->
-                        <tal:user repeat="user python:followers[:21]">
-                          <a href="${user/url}" class="pat-avatar">
-                            <img src="${user/avatar_url}" alt=""
-                                 title="${user/title}" />
-                          </a>
-                        </tal:user>
-                    </nav>
-                    <!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
-                    <p class="portlet-footer"
-                       tal:condition="python:num_followers > 14">
-                        <a href="#person-followers" i18n:translate="">Full list of followers</a>
-                    </p>
-                </div>
-            </aside>
+        <div class="portlet contact" id="portlet-contact">
+          <h2 class="portlet-title">
+            <a href="${absolute_url}/userprofile-info"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               i18n:translate="">Contact</a>
+          </h2>
+          <ul class="menu">
+            <li class="mail">
+              <a href="mailto:${context/email}"
+                 class="icon-mail"
+                 title="Mail ${context/fullname} via ${context/email}"
+                 i18n:attributes="title"
+                >${context/email}</a>
+            </li>
+            <li class="phone" tal:condition="context/telephone|nothing">
+              <a class="icon-phone"
+                 title="Call ${context/fullname} at ${context/telephone}"
+                  href="tel:${context/telephone}"
+                 i18n:attributes="title"
+                >${context/telephone}></a>
+            </li>
+          </ul>
+          <p class="portlet-footer">
+            <a href="${absolute_url}/userprofile-info"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               >
+              <i18n:block i18n:translate="">More information about</i18n:block>
+              <span tal:replace="context/fullname"/>.</a>
+          </p>
+        </div>
+        <div class="portlet following" id="portlet-following" tal:condition="following">
+          <h2 class="portlet-title">
+            <a href="${absolute_url}/userprofile-following"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               >
+              <span tal:omit-tag="" i18n:translate="">Following</span>
+              <sup tal:content="num_following">8</sup>
+            </a>
+          </h2>
+          <nav class="user-cloud">
+            <!-- Limit the following list of users to 21 users. -->
+            <tal:user repeat="user python:following[:21]">
+              <a href="${user/url}" class="pat-avatar">
+                <img src="${user/avatar_url}" alt="" title="${user/title}"/>
+              </a>
+            </tal:user>
+          </nav>
+          <!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
+          <p class="portlet-footer" tal:condition="python:num_following > 14">
+            <a href="${absolute_url}/userprofile-following"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               i18n:translate="">Full list of people
+              <b tal:replace="context/fullname" i18n:name="name_of_followee"/>
+              follows.</a>
+          </p>
+        </div>
+        <div class="portlet followers" id="portlet-followers" tal:condition="followers">
+          <h2 class="portlet-title">
+            <a href="${absolute_url}/userprofile-followers"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               i18n:translate="">Followers
+              <sup i18n:name="num_followers" tal:content="num_followers">12</sup>
+            </a>
+          </h2>
+          <nav class="user-cloud">
+            <!-- Limit the following list of users to 21 users. -->
+            <tal:user repeat="user python:followers[:21]">
+              <a href="${user/url}" class="pat-avatar">
+                <img src="${user/avatar_url}" alt="" title="${user/title}"/>
+              </a>
+            </tal:user>
+          </nav>
+          <!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
+          <p class="portlet-footer" tal:condition="python:num_followers > 14">
+            <a href="${absolute_url}/userprofile-followers"
+               class="pat-inject"
+               data-pat-inject="source: #document-content; target: #sheets"
+               i18n:translate="">Full list of followers</a>
+          </p>
+        </div>
+      </aside>
 
-            <div id="main">
-                <nav class="pat-tabs tabs">
-                    <a href="#person-timeline" class="current" i18n:translate="">Timeline</a>
-                    <a href="#person-info" i18n:translate="">Info</a>
-                    <a href="#person-followers" class="link-followers" i18n:translate="">Followers <sup tal:content="num_followers" i18n:name="num_followers">12</sup></a>
-                    <a href="#person-following" class="link-following" i18n:translate="">Following <sup tal:content="num_following" i18n:name="num_following">8</sup></a>
-                    <a href="#person-documents" class="link-documents" i18n:translate="">Documents</a>
-                    <a href="#person-workspaces" tal:condition="num_workspaces" class="link-workspaces" i18n:translate="person-workspaces">Workspaces <sup tal:content="num_workspaces" i18n:name="num_workspaces">XX</sup></a>
-                    <a href="#person-groups" tal:condition="num_groups" class="link-groups" i18n:translate="person-groups">Groups <sup tal:content="num_groups" i18n:name="num_groups">XX</sup></a>
-
-                </nav>
-                <div class="pat-stacks simple" data-pat-stacks="transition: css">
-                    <div class="activity-stream" id="person-timeline">
-                        <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
-                        <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${absolute_url}/@@activitystream.tile" ></div>
-                    </div>
-                    <article id="person-info">
-                        <tal:block condition="view/is_me">
-
-                            <a href="${absolute_url}/@@edit"
-                               class="pat-inject"
-                               i18n:translate=""
-                               data-pat-inject="source: #user-edit-form::element;
-                                    target: #person-info;
-                                    trigger: autoload">
-                            Edit profile
-                            </a>
-                        </tal:block>
-                        <tal:block condition="not:view/is_me">
-                            <dl class="pat-grid-list"
-                                tal:define="fields view/fields_for_display">
-                                <dt class="icon-user" i18n:translate="">
-                                    Name
-                                </dt>
-                                <dd>
-                                    <em class="title" tal:condition="context/person_title|nothing" tal:content="context/person_title" /> <span tal:replace="context/fullname" />
-                                </dd>
-                                <tal:field repeat="field fields">
-                                <dt class="${field/icon_class}" i18n:translate=""
-                                    tal:content="field/label" />
-                                <dd>
-                                    <span tal:replace="structure field/html" />
-                                </dd>
-                                </tal:field>
-                            </dl>
-                            <article class="pat-rich"
-                                 tal:condition="context/biography|nothing">
-                                <p tal:content="context/biography">
-                                    Some content goes here on Jeff
-                                </p>
-                            </article>
-                        </tal:block>
-                    </article>
-                    <div id="person-followers" tal:define="users followers">
-                        <div id="followers-list" class="item-selector mode-follow">
-                        <!-- In this prototype, one or more user groups might be displayed in the following list, but only individual users may be listed. -->
-                            <form id="followers-list-items" action=""
-                                  data-pat-inject="target: body::after"
-                                  class="search-result users pat-inject">
-                                <fieldset class="checklist pat-checklist users unchecked"
-                                      metal:define-macro="user-listing">
-                                    <label class="item user has-no-description unchecked" tal:repeat="user users">
-                                        <input type="checkbox" name="" />
-                                        <a class="follow pat-inject"
-                                           data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
-                                            <img class="avatar" alt=""
-                                                 src="${user/avatar_url}" />
-                                            <strong class="title" tal:content="user/title">Liz Baker</strong>
-                                        </a>
-                                    </label>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                    <div id="person-following" tal:define="users following">
-                        <div id="followees-list" class="item-selector mode-follow">
-                            <form id="followees-list-items" action=""
-                                  data-pat-inject="target: body::after"
-                                  class="search-result users pat-inject">
-                                <fieldset class="checklist pat-checklist users unchecked">
-                                    <label class="item user has-no-description unchecked" tal:repeat="user users">
-                                        <input type="checkbox" name="" />
-                                        <a class="follow pat-inject"
-                                           data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
-                                            <img class="avatar" alt=""
-                                                 src="${user/avatar_url}" />
-                                            <strong class="title" tal:content="user/title">Liz Baker</strong>
-                                        </a>
-                                    </label>
-                                </fieldset>
-                            </form>
-                         </div>
-                    </div>
-                    <div id="person-documents" tal:define="group_by python: request.get('group-by', 'first-letter')">
-                      <form action="${context/absolute_url}/@@grouped_search.tile"
-                            class="pat-inject pat-autosubmit canvas-toolbar"
-                            data-pat-inject="source: #search-result; target: #search-result;"
-                            style="float:left;"
-                          >
-                        <label class="pat-select bare pat-inject">
-                          <select name="group-by">
-                            <option value="first-letter" i18n:translate="">Group by first letter</option>
-                            <option value="date" i18n:translate="" >Group by date</option>
-                          </select>
-                        </label>
-                      </form>
-                      <form action="${absolute_url}/@@search#search-result"
-                            class="pat-inject pat-autosubmit canvas-toolbar"
-                            data-pat-inject="source: #search-result; target: #search-result;">
-                        <input type="search"
-                               name="SearchableText"
-                               size="38"
-                               placeholder="${view/user_search_placeholder}"
-                              >
-                        <input type="hidden"
-                               name="Creator"
-                               value="${here/getId}"
-                            />
-                      </form>
-
-                      <div data-tile="${context/absolute_url}/@@grouped_search.tile?group-by=${group_by}#person-documents"/>
-
-                    </div>
-                    <div id="person-workspaces" tal:condition="num_workspaces">
-                        <article class="pat-rich">
-                            <p i18n:translate="user_member_of_workspaces">
-                                <span tal:replace="context/fullname" i18n:name="name"/> is a member of the following <span tal:replace="num_workspaces" i18n:name="num_workspaces"/> workspaces.
-                            </p>
-                        </article>
-                        <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="workspaces">
-                            <div class="grid-sizer four columns"></div>
-                            <tal:workspaces repeat="workspace workspaces">
-                                <div class="tile workspace four columns ${workspace/css_class}">
-                                    <a href="${workspace/url}" class="link">
-                                        <h3>${workspace/title}</h3>
-                                        <p class="description" tal:condition="workspace/description">
-                                            ${workspace/description}
-                                        </p>
-                                    </a>
-                                </div>
-                            </tal:workspaces>
-                        </div>
-                    </div>
-
-                    <div id="person-groups" tal:condition="num_groups">
-                        <article class="pat-rich">
-                            <p i18n:translate="user_member_of_groups">
-                                <span tal:replace="context/fullname" i18n:name="name"/> is a member of the following <span tal:replace="num_groups" i18n:name="num_groups"/> groups.
-                            </p>
-                        </article>
-                        <ul class="group-table pat-equaliser">
-                            <li class="group" tal:repeat="group groups">
-                                <a href="${group/url}" class="two columns" >
-                                    <img src="${group/img}" class="group-badge" alt="Image of ${group/title}" />
-                                    <h4 class="title">
-                                        ${group/title}
-                                    </h4>
-                                    <p class="byline">
-                                        <tal:comment condition="nothing">
-                                            Not implemented yet:
-                                                35 Members
-                                        </tal:comment>
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </metal:content>
-    </body>
+      <div id="main">
+        <nav class="pat-tabs tabs">
+          <a href="${absolute_url}/userprofile-view"
+             class="pat-inject"
+             data-pat-inject="source: #sheets; target: #sheets"
+             i18n:translate="">Timeline</a>
+          <a href="${absolute_url}/userprofile-info"
+             class="pat-inject"
+             data-pat-inject="source: #document-content; target: #sheets"
+             i18n:translate="">Info</a>
+          <a href="${absolute_url}/userprofile-followers"
+             class="pat-inject"
+             data-pat-inject="source: #document-content; target: #sheets"
+             i18n:translate="">Followers
+            <sup tal:content="num_followers" i18n:name="num_followers">12</sup>
+          </a>
+          <a href="${absolute_url}/userprofile-following"
+             class="pat-inject link-following"
+             data-pat-inject="source: #document-content; target: #sheets"
+             i18n:translate="">Following
+            <sup tal:content="num_following" i18n:name="num_following">8</sup>
+          </a>
+          <a href="${absolute_url}/userprofile-documents"
+             class="pat-inject"
+             data-pat-inject="source: #document-content; target: #sheets"
+             i18n:translate=""
+            >Documents</a>
+          <a href="${absolute_url}/userprofile-workspaces"
+             class="pat-inject"
+             data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="num_workspaces"
+             i18n:translate="person-workspaces"
+            >Workspaces
+            <sup tal:content="num_workspaces" i18n:name="num_workspaces">XX</sup>
+          </a>
+          <a href="${absolute_url}/userprofile-group"
+             class="pat-inject"
+             data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="num_groups"
+             i18n:translate="person-groups"
+            >Groups
+            <sup tal:content="num_groups" i18n:name="num_groups">XX</sup>
+          </a>
+        </nav>
+        <div id="sheets">
+          <div class="activity-stream" id="person-timeline">
+            <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
+            <div id="activity-stream" data-tile="${absolute_url}/@@activitystream.tile"></div>
+          </div>
+        </div>
+      </div>
+    </metal:content>
+  </body>
 </html>

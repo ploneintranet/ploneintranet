@@ -3,8 +3,16 @@ from AccessControl.unauthorized import Unauthorized
 from plone import api
 from plone.memoize import instance
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from zope.interface import implementer
+from zope.interface import Interface
 
 
+class IBaseTile(Interface):
+    ''' Marker interface for Ploneintranet app tiles
+    '''
+
+
+@implementer(IBaseTile)
 class BaseTile(object):
     key = ''
     title = ''

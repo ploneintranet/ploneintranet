@@ -1,0 +1,78 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet">
+
+    <browser:page
+        name="app-bookmarks"
+        for="*"
+        permission="zope.Public"
+        class=".app.View"
+        template="templates/app.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark"
+        for="*"
+        permission="zope.Public"
+        class=".bookmark.View"
+        template="templates/bookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="unbookmark"
+        for="*"
+        permission="zope.Public"
+        class=".unbookmark.View"
+        template="templates/unbookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-app"
+        for="*"
+        permission="zope.Public"
+        class=".bookmark.AppView"
+        template="templates/bookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="unbookmark-app"
+        for="*"
+        permission="zope.Public"
+        class=".unbookmark.AppView"
+        template="templates/bookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-link"
+        for="*"
+        permission="zope.Public"
+        class=".bookmark_link.View"
+        template="templates/bookmark_link.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-link-iconified"
+        for="*"
+        permission="zope.Public"
+        class=".bookmark_link.ViewIconified"
+        template="templates/bookmark_link.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-link-iconified"
+        for="ploneintranet.layout.adapters.app_tiles.IBaseTile"
+        permission="zope.Public"
+        class=".bookmark_link.AppViewIconified"
+        template="templates/bookmark_link.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+</configure>

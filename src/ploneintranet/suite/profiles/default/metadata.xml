@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0008</version>
+  <version>0009</version>
   <dependencies>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-collective.externaleditor:default</dependency>
     <dependency>profile-ploneintranet.async:default</dependency>
+    <dependency>profile-ploneintranet.bookmarks:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>

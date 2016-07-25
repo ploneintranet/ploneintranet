@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>3</version>
+  <version>4</version>
   <dependencies>
     <dependency>profile-plone.app.referenceablebehavior:default</dependency>
     <dependency>profile-Products.membrane:default</dependency>

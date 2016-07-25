@@ -43,6 +43,18 @@ class UserProfileView(UserProfileViewForm):
 
     my_groups = my_workspaces = []
 
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    def disable_diazo(self):
+        ''' Disable diazo if this is an ajax call
+        '''
+        self.request.set('diazo.off', 'yes')
+
     def update(self):
         self._get_my_groups_and_workspaces()
 
@@ -166,6 +178,18 @@ class UserProfileView(UserProfileViewForm):
             mapping={"user_name": self.context.fullname}
         )
         return msg
+
+
+class UserProfileTabView(UserProfileView):
+    ''' Personalize the userprofile tab view class to not be transformed
+    by diazo if we have an ajax call
+    '''
+    def __call__(self):
+        ''' Set diazo.off if this is an ajax request
+        '''
+        if self.is_ajax():
+            self.disable_diazo()
+        return super(UserProfileTabView, self).__call__()
 
 
 class AuthorView(BaseAuthorView):
