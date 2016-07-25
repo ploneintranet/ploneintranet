@@ -61,12 +61,17 @@ class AddWorkspace(AddBase):
         return options
 
     def special_templateless(self):
-        "addable but no template and not a default workspace"
-        alreadyhave = self.templates_by_type().keys()
-        alreadyhave.append(self.default_fti)
+        """
+        Addable but no template and not a default workspace.
+        Uses unfiltered template list to ensure that only types that have
+        no template at all are added to the menu.
+        """
+        _blocked = [x.portal_type
+                    for x in self.templates_folder.objectValues()]
+        _blocked.append(self.default_fti)
         return [dict(id=typ, title=typ, portal_type=typ)
                 for typ in self._addable_types()
-                if typ not in alreadyhave]
+                if typ not in _blocked]
 
     def all_templates(self):
         return self.workspace_templates() + self.special_options()
@@ -115,13 +120,16 @@ class AddWorkspace(AddBase):
         """A {id: template} dict containing only the templates
         which are accessible for the current user.
         """
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        if not templates_folder:
+        if not self.templates_folder:
             return {}
         return {brain.getId: brain.getObject()
-                for brain in templates_folder.getFolderContents()
+                for brain in self.templates_folder.getFolderContents()
                 if brain.getId not in self.policies}
+
+    @property
+    def templates_folder(self):
+        portal = api.portal.get()
+        return portal.get(self.TEMPLATES_FOLDER)
 
     def divisions(self):
         divisions = getUtility(IVocabularyFactory, vocab)(self.context)
