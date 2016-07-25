@@ -154,7 +154,8 @@ I cannot see updates by
 
 I can follow the profile link for user
     [arguments]  ${user_fullname}
-    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
+    [Documentation]  We click on the second post item, because we know that Christian Stoney has 2 posts and the 1st post can be hidden by a stupid scroll issue after activating the network filter
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item'][2]//div[@class='post-header']//h4[text()='${user_fullname}']/..
 
 I can see updates tagged
     [arguments]  ${tag}
