@@ -156,7 +156,7 @@ gitlab-ci: bin/buildout
 	bin/buildout -c gitlab-ci.cfg
 
 bin/buildout: bin/python2.7
-	@bin/pip install -r requirements.txt
+	@bin/pip install -UIr requirements.txt
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
