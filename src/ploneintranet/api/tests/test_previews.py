@@ -100,9 +100,9 @@ class TestPreviews(FunctionalTestCase):
         previews = pi_api.previews.get(testfile)
         self.assertEqual(len(previews), 1)
 
-    def test_previews_disable_enable_requestfallback(self):
+    def test_events_disable_enable_requestfallback(self):
         # 1st run with previews disabled
-        pi_api.previews.events_disable()
+        pi_api.events.disable_previews()
         testfile = api.content.create(
             type='File',
             id='test-file-1',
@@ -112,7 +112,7 @@ class TestPreviews(FunctionalTestCase):
         previews = pi_api.previews.get(testfile)
         self.assertEqual(len(previews), 1)
         # 2nd run with previews enabled
-        pi_api.previews.events_enable()
+        pi_api.events.enable_previews()
         testfile = api.content.create(
             type='File',
             id='test-file-2',

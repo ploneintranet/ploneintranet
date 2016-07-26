@@ -5,7 +5,15 @@ from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.network.interfaces import INetworkTool
 from zope.component import queryUtility
+from zope.globalrequest import getRequest
+
 import statusupdate
+
+event_keys = (
+    'ploneintranet.microblog.content_created',
+    'ploneintranet.microblog.content_statechanged'
+)
+
 
 
 def get_microblog():
@@ -60,3 +68,28 @@ def get_microblog_context(
             return item
     else:
         return None
+
+def events_disable(request=None):
+    """Temporarily disable event-driven statusupdate creation for this request.
+
+    :param request: The request for which events are to be disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    for event_key in event_keys:
+        request[event_key] = False
+
+
+def events_enable(request=None):
+    """Re-enable event-driven statusupdate creation for this request.
+    This only makes sense if you explicitly disabled statusupdate creation,
+    since it is enabled by default.
+
+    :param request: The request for which events were disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    for event_key in event_keys:
+        request[event_key] = True
