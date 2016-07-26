@@ -19,6 +19,7 @@ import ploneintranet.microblog
 import ploneintranet.microblog.statuscontainer
 import ploneintranet.docconv.client
 import ploneintranet.theme
+import quaive.resources.ploneintranet
 
 
 class PloneintranetApiLayer(PloneSandboxLayer):
@@ -27,6 +28,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
                     PLONEINTRANET_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
+        self.loadZCML(package=quaive.resources.ploneintranet)
         self.loadZCML(package=ploneintranet.userprofile)
         self.loadZCML(package=ploneintranet.network)
         self.loadZCML(package=ploneintranet.microblog)

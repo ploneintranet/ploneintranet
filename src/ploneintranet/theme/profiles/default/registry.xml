@@ -1,33 +1,5 @@
 <registry>
 
-  <records prefix="plone.resources/ploneintranet"
-            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-      <value key="url"></value>
-      <value key="js">++theme++ploneintranet.theme/generated/bundles/ploneintranet.js</value>
-      <value key="css">
-        <element>++theme++ploneintranet.theme/generated/style/screen.css</element>
-      </value>
-      <value key="init"></value>
-      <value key="deps"></value>
-      <value key="export"></value>
-      <value key="conf"></value>
-  </records>
-
-  <records prefix="plone.bundles/ploneintranet"
-            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-    <value key="depends"></value>
-    <value key="jscompilation">++theme++ploneintranet.theme/generated/bundles/ploneintranet.min.js</value>
-    <value key="csscompilation">++theme++ploneintranet.theme/generated/style/screen.css</value>
-    <value key="last_compilation"></value>
-    <value key="expression">python:not request.HTTP_HOST.startswith('127.0.0.1')</value>
-    <value key="conditionalcomment"></value>
-    <value key="resources" purge="false">
-      <element>ploneintranet</element>
-    </value>
-    <value key="enabled">True</value>
-    <value key="compile">True</value>
-  </records>
-
   <record name="plone.generate_tabs" interface="plone.app.controlpanel.navigation.INavigationSchema">
     <value>False</value>
   </record>

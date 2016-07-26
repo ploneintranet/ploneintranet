@@ -3,5 +3,6 @@
   <version>0001</version>
   <dependencies>
     <dependency>profile-ploneintranet.suite:default</dependency>
+    <dependency>profile-quaive.resources.ploneintranet:default</dependency>
   </dependencies>
 </metadata>
