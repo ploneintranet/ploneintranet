@@ -5,7 +5,7 @@ from OFS.Moniker import Moniker
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from zope.component import getMultiAdapter
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class CopyView(BaseCartView):
@@ -46,5 +46,5 @@ class CopyView(BaseCartView):
             request=request,
             type="info",
         )
-        return getMultiAdapter(
-            (self.context, self.request), name='sidebar.default')()
+        msg = ViewPageTemplateFile('../templates/globalstatusmessage.pt')
+        return msg(self)

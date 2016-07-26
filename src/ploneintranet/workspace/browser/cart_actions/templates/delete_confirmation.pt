@@ -4,11 +4,12 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body>
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing  generic application-workspace application- ">
+    <div id="content" class="modal">
       <div id="document-content" class="pat-modal">
         <h1 i18n:translate="">Batch delete</h1>
 
-        <form class="wizard-box" method="POST" action="${context/absolute_url}/@@cart-delete">
+        <form class="wizard-box pat-inject" method="POST" action="${context/absolute_url}/@@cart-delete" data-pat-inject="">
               <aside id="global-statusmessage">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
@@ -71,6 +72,6 @@
           </div>
         </form>
       </div>
-
+    </div> 
   </body>
 </html>
