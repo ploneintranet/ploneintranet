@@ -185,9 +185,14 @@ I can upload a new avatar from the menu
     Choose File  xpath=(//input[@name='portrait'])[2]  ${UPLOADS}/new-profile.jpg
     Wait until page contains   Personal image updated
 
+# Ongoing Heisenbug. Workaround below
+# I open the change passord form
+#     I can open the personal tools menu
+#     Click Element  css=.tooltip-container .menu a.icon-cog
+#     Wait until page contains element  xpath=//h1[text()="Change password"]
+
 I open the change passord form
-    I can open the personal tools menu
-    Click Element  css=.tooltip-container .menu a.icon-cog
+    Go To  ${PLONE_URL}/@@change-password    
     Wait until page contains element  xpath=//h1[text()="Change password"]
 
 I change my password to
