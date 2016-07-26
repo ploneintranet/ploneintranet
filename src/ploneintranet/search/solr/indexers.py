@@ -2,6 +2,7 @@
 """Index Plone contnet in Solr."""
 import datetime
 import logging
+import threading
 from Acquisition import aq_inner, aq_parent
 from OFS.interfaces import IOrderedContainer
 from urllib import urlencode
@@ -69,26 +70,35 @@ class BinaryAdder(ContentAdder):
         :type data: collections.Mapping
         :returns:
         """
-        key = 'ploneintranet.search.indexers.SearchableText'
+        # limit async optimizations to per-thread avoids inconsistencies
+        key = 'ploneintranet.search.indexers.SearchableText:{}'.format(
+            threading.current_thread().ident)
         annotations = IAnnotations(self.context)
-        mutex = annotations.setdefault(key, False)
+        scheduled = annotations.setdefault(key, False)  # our mutex
+        maxdelay = datetime.timedelta(minutes=5)  # failsafe mutex expire
 
-        # async dispatch sets attributes
+        # final re-entry where an async dispatched job is handled sync
         if self.context.REQUEST.get('attributes') == 'SearchableText':
-            logger.info("Handle reindex of SearchableText")
-            # remove mutex
+            logger.info("Handle reindex of SearchableText <%s>",
+                        threading.current_thread().ident)
+            # remove mutex for current object on current thread
             annotations[key] = False
             data = self._add_handler(data)
+
+        # on repeat reindex(), do not dispatch multiple async jobs
+        # 'maxdelay' failsafe auto-expires the 'scheduled' mutex
+        elif scheduled and datetime.datetime.now() - scheduled < maxdelay:
+            logger.info(
+                "SearchableText reindex already in progress <%s>",
+                threading.current_thread().ident)
+
+        # initial entry point, dispatch async reindex for handling above
         else:
-            if mutex:
-                delta = datetime.datetime.now() - annotations[key]
-                if delta < datetime.timedelta(minutes=5):
-                    logger.info("SearchableText reindex already in progress")
-                    return
-            # set mutex to avoid multiple indexings scheduled
+            logger.info("Dispatch reindex of SearchableText async <%s>",
+                        threading.current_thread().ident)
+            # mutex limits open async index jobs to 1 per object per thread
             annotations[key] = datetime.datetime.now()
-            logger.info("Dispatch reindex of SearchableText async")
-            # Dispatch an async job to also reindex the blob
+            # Dispatch an async job to reindex the blob
             ReindexObject(self.context, self.context.REQUEST)(
                 data=dict(attributes=["SearchableText"]),
                 countdown=10)
