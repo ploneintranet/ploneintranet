@@ -2,6 +2,14 @@
 ''' Methods to generate and access preview images on content '''
 
 from ploneintranet.docconv.client import previews
+from zope.globalrequest import getRequest
+
+
+event_keys = (
+    'ploneintranet.previews.handle_file_creation'
+    'ploneintranet.previews.content_added_in_workspace'
+    'ploneintranet.previews.content_edited_in_workspace'
+)
 
 
 def get(obj, scale='normal'):
@@ -174,3 +182,29 @@ def generate_previews(obj, event=None):
     :rtype: None
     """
     previews.generate_previews(obj, event)
+
+
+def events_disable(request=None):
+    """Temporarily disable event-driven preview generation for this request.
+
+    :param request: The request for which events are to be disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    for event_key in event_keys:
+        request[event_key] = False
+
+
+def events_enable(request=None):
+    """Re-enable event-driven preview generation for this request.
+    This only makes sense if you explicitly disabled preview generation,
+    since it is enabled by default.
+
+    :param request: The request for which events were disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    for event_key in event_keys:
+        request[event_key] = True

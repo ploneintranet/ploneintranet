@@ -80,8 +80,7 @@ class TestPreviews(FunctionalTestCase):
 
     def test_previews_disable_enable(self):
         # 1st run with previews disabled
-        event_key = 'ploneintranet.previews.handle_file_creation'
-        self.request[event_key] = False
+        pi_api.previews.events_disable(self.request)
         testfile = api.content.create(
             type='File',
             id='test-file-1',
@@ -91,7 +90,29 @@ class TestPreviews(FunctionalTestCase):
         previews = pi_api.previews.get(testfile)
         self.assertEqual(len(previews), 1)
         # 2nd run with previews enabled
-        self.request[event_key] = True
+        pi_api.previews.events_enable(self.request)
+        testfile = api.content.create(
+            type='File',
+            id='test-file-2',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        previews = pi_api.previews.get(testfile)
+        self.assertEqual(len(previews), 1)
+
+    def test_previews_disable_enable_requestfallback(self):
+        # 1st run with previews disabled
+        pi_api.previews.events_disable()
+        testfile = api.content.create(
+            type='File',
+            id='test-file-1',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        previews = pi_api.previews.get(testfile)
+        self.assertEqual(len(previews), 1)
+        # 2nd run with previews enabled
+        pi_api.previews.events_enable()
         testfile = api.content.create(
             type='File',
             id='test-file-2',
