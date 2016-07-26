@@ -17,6 +17,7 @@ class TestPreviews(FunctionalTestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         self.testfolder = api.content.create(
             type='Folder',
             title=u"Testfolder",
@@ -76,3 +77,26 @@ class TestPreviews(FunctionalTestCase):
 
         thumbnail = pi_api.previews.get_thumbnail(self.testdoc)
         self.assertIsInstance(thumbnail, FilesystemFile)  # return default img
+
+    def test_previews_disable_enable(self):
+        # 1st run with previews disabled
+        event_key = 'ploneintranet.previews.handle_file_creation'
+        self.request[event_key] = False
+        testfile = api.content.create(
+            type='File',
+            id='test-file-1',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        previews = pi_api.previews.get(testfile)
+        self.assertEqual(len(previews), 1)
+        # 2nd run with previews enabled
+        self.request[event_key] = True
+        testfile = api.content.create(
+            type='File',
+            id='test-file-2',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        previews = pi_api.previews.get(testfile)
+        self.assertEqual(len(previews), 1)
