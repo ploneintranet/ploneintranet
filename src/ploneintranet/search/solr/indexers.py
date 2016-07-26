@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
+import datetime
 import logging
 from Acquisition import aq_inner, aq_parent
 from OFS.interfaces import IOrderedContainer
@@ -15,6 +16,7 @@ from zope.interface import implementer, Interface
 import lxml.etree as etree
 import requests
 from ploneintranet.async.tasks import ReindexObject
+from zope.annotation.interfaces import IAnnotations
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
 from .solr_search import prepare_data
@@ -67,12 +69,25 @@ class BinaryAdder(ContentAdder):
         :type data: collections.Mapping
         :returns:
         """
+        key = 'ploneintranet.search.indexers.SearchableText'
+        annotations = IAnnotations(self.context)
+        mutex = annotations.setdefault(key, False)
+
         # async dispatch sets attributes
         if self.context.REQUEST.get('attributes') == 'SearchableText':
-            logger.info("Indexing: Handle reindex of SearchableText")
+            logger.info("Handle reindex of SearchableText")
+            # remove mutex
+            annotations[key] = False
             data = self._add_handler(data)
         else:
-            logger.info("Indexing: Dispatch reindex of SearchableText async")
+            if mutex:
+                delta = datetime.datetime.now() - annotations[key]
+                if delta < datetime.timedelta(minutes=5):
+                    logger.info("SearchableText reindex already in progress")
+                    return
+            # set mutex to avoid multiple indexings scheduled
+            annotations[key] = datetime.datetime.now()
+            logger.info("Dispatch reindex of SearchableText async")
             # Dispatch an async job to also reindex the blob
             ReindexObject(self.context, self.context.REQUEST)(
                 data=dict(attributes=["SearchableText"]),
