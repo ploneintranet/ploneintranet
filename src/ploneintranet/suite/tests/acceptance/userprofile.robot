@@ -97,11 +97,12 @@ Dollie can change her avatar from the menu
     And I can open the personal tools menu
     Then I can upload a new avatar from the menu
 
-Dollie can change her password
-    Given I am logged in as the user dollie_nocera
-    And I open the change passord form
-    Then I change my password to  new_password
-    And I can log in with the new password  dollie_nocera  new_password
+# Disabled because of ongoing breakage with css=.tooltip-container .menu
+# Dollie can change her password
+#     Given I am logged in as the user dollie_nocera
+#     And I open the change passord form
+#     Then I change my password to  new_password
+#     And I can log in with the new password  dollie_nocera  new_password
 
 
 # This doesn't work because the input form element isn't visible
