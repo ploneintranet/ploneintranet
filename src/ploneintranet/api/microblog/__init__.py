@@ -77,6 +77,8 @@ def events_disable(request=None):
     """
     if not request:
         request = getRequest()
+    if not request:
+        return
     for event_key in event_keys:
         request[event_key] = False
 
@@ -91,5 +93,7 @@ def events_enable(request=None):
     """
     if not request:
         request = getRequest()
+    if not request:
+        return
     for event_key in event_keys:
         request[event_key] = True
