@@ -30,6 +30,9 @@ You should not use the Zope rescue user for anything else, than creating users a
 .. warning::
 
    You should not create users via the Plone control panel.
+   Also, directly creating user profiles in Barceloneta is invalid -
+   this will appear to work but it *will* trigger bugs,
+   like not being able to add such profiles as members to workspaces.
 
 Use an external data source (Active Directory / LDAP) to manage your users, see below.
 Or use the bulk upload facility to create user profiles, as documented below.
