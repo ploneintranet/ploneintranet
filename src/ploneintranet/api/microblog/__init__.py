@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # flake8: noqa
+import logging
 from plone.api.validation import required_parameters
 from ploneintranet.microblog.interfaces import IMicroblogContext
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -9,11 +10,12 @@ from zope.globalrequest import getRequest
 
 import statusupdate
 
+logger = logging.getLogger(__name__)
+
 event_keys = (
     'ploneintranet.microblog.content_created',
     'ploneintranet.microblog.content_statechanged'
 )
-
 
 
 def get_microblog():
@@ -78,6 +80,7 @@ def events_disable(request=None):
     if not request:
         request = getRequest()
     if not request:
+        logger.error("No request available, cannot toggle event handling.")
         return
     for event_key in event_keys:
         request[event_key] = False
@@ -94,6 +97,7 @@ def events_enable(request=None):
     if not request:
         request = getRequest()
     if not request:
+        logger.error("No request available, cannot toggle event handling.")
         return
     for event_key in event_keys:
         request[event_key] = True

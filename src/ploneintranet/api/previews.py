@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 ''' Methods to generate and access preview images on content '''
-
+import logging
 from ploneintranet.docconv.client import previews
 from zope.globalrequest import getRequest
 
+logger = logging.getLogger(__name__)
 
 event_keys = (
-    'ploneintranet.previews.handle_file_creation'
-    'ploneintranet.previews.content_added_in_workspace'
-    'ploneintranet.previews.content_edited_in_workspace'
+    'ploneintranet.previews.handle_file_creation',
+    'ploneintranet.previews.content_added_in_workspace',
+    'ploneintranet.previews.content_edited_in_workspace',
 )
 
 
@@ -193,6 +194,7 @@ def events_disable(request=None):
     if not request:
         request = getRequest()
     if not request:
+        logger.error("No request available, cannot toggle event handling.")
         return
     for event_key in event_keys:
         request[event_key] = False
@@ -209,6 +211,7 @@ def events_enable(request=None):
     if not request:
         request = getRequest()
     if not request:
+        logger.error("No request available, cannot toggle event handling.")
         return
     for event_key in event_keys:
         request[event_key] = True

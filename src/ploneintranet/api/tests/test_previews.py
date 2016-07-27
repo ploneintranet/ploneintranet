@@ -87,8 +87,7 @@ class TestPreviews(FunctionalTestCase):
             title=u"Test File",
             file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.testfolder)
-        previews = pi_api.previews.get(testfile)
-        self.assertEqual(len(previews), 1)
+        self.assertFalse(pi_api.previews.has_previews(testfile))
         # 2nd run with previews enabled
         pi_api.previews.events_enable(self.request)
         testfile = api.content.create(
@@ -97,8 +96,7 @@ class TestPreviews(FunctionalTestCase):
             title=u"Test File",
             file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.testfolder)
-        previews = pi_api.previews.get(testfile)
-        self.assertEqual(len(previews), 1)
+        self.assertTrue(pi_api.previews.has_previews(testfile))
 
     def test_events_disable_enable_requestfallback(self):
         # 1st run with previews disabled
@@ -109,8 +107,7 @@ class TestPreviews(FunctionalTestCase):
             title=u"Test File",
             file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.testfolder)
-        previews = pi_api.previews.get(testfile)
-        self.assertEqual(len(previews), 1)
+        self.assertFalse(pi_api.previews.has_previews(testfile))
         # 2nd run with previews enabled
         pi_api.events.enable_previews()
         testfile = api.content.create(
@@ -119,5 +116,4 @@ class TestPreviews(FunctionalTestCase):
             title=u"Test File",
             file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
             container=self.testfolder)
-        previews = pi_api.previews.get(testfile)
-        self.assertEqual(len(previews), 1)
+        self.assertTrue(pi_api.previews.has_previews(testfile))
