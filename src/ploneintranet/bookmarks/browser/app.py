@@ -107,25 +107,25 @@ class View(BookmarkView):
     def my_bookmarks(self):
         ''' Lookup all the bookmarks
         '''
-        search_util = getUtility(ISiteSearch)
-        uids = list(self.ploneintranet_network.get_bookmarks('content'))
-        if not uids:
-            return []
-        # First get the bookmarked documents
-        response = search_util.query(
-            self.request.get('SearchableText', ''),
-            filters={
-                'UID': uids,
-            },
-            step=9999,
-        )
-        # Then the apps
         query = self.request.get('SearchableText', '').lower()
-        apps = (
+        # First get the apps
+        bookmarks = [
             app for app in self.my_bookmarked_apps()
             if query in self.get_sortable_title(app)
-        )
-        bookmarks = tuple(response) + tuple(apps)
+        ]
+        # Then, if needed, look for the bookmarked uids
+        uids = list(self.ploneintranet_network.get_bookmarks('content'))
+        if uids:
+            search_util = getUtility(ISiteSearch)
+            bookmarks.extend(
+                search_util.query(
+                    query,
+                    filters={
+                        'UID': uids,
+                    },
+                    step=9999,
+                )
+            )
         return tuple(sorted(bookmarks, key=self.get_sortable_title))
 
     @memoize
