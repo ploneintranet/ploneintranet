@@ -10,10 +10,11 @@
 Continuous integration tests
 ============================
 
-There is a dedicated `jenkins instance <http://jenkins.ploneintranet.net>`_ which runs tests on pull requests as well as the major branches.
+There is a dedicated `jenkins instance <http://jenkins.quaive.net>`_ which runs tests on pull requests as well as the major branches.
 
-If you are interested how we configure our jenkins, have a look at its `documentation <http://github.com/ploneintranet/ploneintranet.jenkins>`_ on github:
-
+In addition we're running a Gitlab Continuous Integration service which provides us with a scalable, high-throughput CI setup.
+See the `blog post on our Gitlab-CI installation <http://cosent.nl/en/blog/plone-gitlab-continuous-integration>` for documentation
+on our setup.
 
 Testing locally
 ===============
