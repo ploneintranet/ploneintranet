@@ -17,30 +17,33 @@ Quaive is currently on branch 1.1.x, Community is on 1.0.x.
 These branches are needed so changes made during the release process
 are QA controlled via the normal pull request process.
 
+Since version 1.2.0a3,
+we depend on the pacakge `quaive.resources.ploneintranet`.
+
 Creating a release
 ==================
 
 This shows how to cut a private 1.1.x release from master::
-  
+
     user@host:~$ git checkout master
     user@host:~$ git pull
-    user@host:~$ git checkout release-1.1.x 
+    user@host:~$ git checkout release-1.1.x
     user@host:~$ git pull
     user@host:~$ git merge master
     user@host:~$ git tag --list
     user@host:~$ # select right tag for command below
     user@host:~$ git log --pretty='* %s [%cn]' 1.1.0a2.. > /tmp/changes
-    user@host:~$ sed -i '/- Nothing changed yet./ r /tmp/changes' CHANGES.rst 
-    user@host:~$ sed -i '/- Nothing changed yet./d' CHANGES.rst 
+    user@host:~$ sed -i '/- Nothing changed yet./ r /tmp/changes' CHANGES.rst
+    user@host:~$ sed -i '/- Nothing changed yet./d' CHANGES.rst
     user@host:~$ git commit -am 'Update changelog'
-    user@host:~$ bin/check-manifest 
+    user@host:~$ bin/check-manifest
     user@host:~$ # fix MANIFEST.in until check-manifest passes
     user@host:~$ git commit -am 'Update manifest'
     user@host:~$ bin/fullrelease
     INFO: Starting prerelease.
     Run pyroma on the package before tagging? (Y/n)? Y
     Do you want to run check-manifest? (Y/n)? Y
-    Enter version [1.1.0a3]: 
+    Enter version [1.1.0a3]:
     OK to commit this (Y/n)? Y
     INFO: Starting release.
     Tag needed to proceed, you can use the following command:
@@ -51,7 +54,7 @@ This shows how to cut a private 1.1.x release from master::
     Register and upload to quaive (Y/n)? Y
     Register and upload to cosent (Y/n)? n
     INFO: Starting postrelease.
-    Enter new development version ('.dev0' will be appended) [1.1.0a4]: 
+    Enter new development version ('.dev0' will be appended) [1.1.0a4]:
     OK to commit this (Y/n)? Y
     OK to push commits to the server? (Y/n)? Y
 
@@ -129,6 +132,27 @@ To your non-public project buildout.cfg::
 
 You can use the `gaia` egg based deployment as a template.
 
+Update `quaive.resources.ploneintranet`
+=======================================
+
+This process requires to clone separetely `quaive.resources.ploneintranet`
+and releasing it to `pypi.quaive.net`::
+
+  git clone git@github.com:quaive/quaive.resources.ploneintranet.git
+  cd quaive.resources.ploneintranet
+  make all
+  fullrelease
+
+Take note of the released egg version,
+and update the file `buildout.d/versions.cfg`
+in order to match it, e.g.::
+
+  [versions]
+  # Quaive packages
+  quaive.resources.ploneintranet = 1.2.0a1
+
+Make a pull request to `quaive/ploneintranet` with this changes.
+
 Managing users on pypi.quaive.net
 =================================
 
@@ -137,8 +161,8 @@ You can only add users if you have shell access::
     user@host$ ssh pypi@pypi.quaive.net
     pypi@cs02:~$ cd pypiserver/
     pypi@cs02:~/pypiserver$ htpasswd var/quaive/htpasswd.txt johndoe
-    New password: 
-    Re-type new password: 
+    New password:
+    Re-type new password:
     Adding password for user johndoe
 
 Ask Guido to add your users if you do not have ssh access.
