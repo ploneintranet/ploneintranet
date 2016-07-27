@@ -50,13 +50,28 @@ class AddWorkspace(AddBase):
 
     def special_options(self):
         """All the template options for non-default workspace types.
-        TODO: plus a generic option for types without a template"""
+        Plus: an option for each type without a template"""
         options = []
+        # templates
         for (typ, templates) in self.templates_by_type().items():
             if typ == self.default_fti:
                 continue  # already in workspace_options
             options.extend(templates)
+        options.extend(self.special_templateless())
         return options
+
+    def special_templateless(self):
+        """
+        Addable but no template and not a default workspace.
+        Uses unfiltered template list to ensure that only types that have
+        no template at all are added to the menu.
+        """
+        _blocked = [x.portal_type
+                    for x in self.templates_folder.objectValues()]
+        _blocked.append(self.default_fti)
+        return [dict(id=typ, title=typ, portal_type=typ)
+                for typ in self._addable_types()
+                if typ not in _blocked]
 
     def all_templates(self):
         return self.workspace_templates() + self.special_options()
@@ -64,7 +79,8 @@ class AddWorkspace(AddBase):
     @property
     def all_templates_dict(self):
         return {template['id']: template
-                for template in self.all_templates()}
+                for template in self.all_templates()
+                if template not in self.special_templateless()}
 
     def _addable_types(self):
         return [fti.getId() for fti in self.context.allowedContentTypes()]
@@ -104,13 +120,16 @@ class AddWorkspace(AddBase):
         """A {id: template} dict containing only the templates
         which are accessible for the current user.
         """
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        if not templates_folder:
+        if not self.templates_folder:
             return {}
         return {brain.getId: brain.getObject()
-                for brain in templates_folder.getFolderContents()
+                for brain in self.templates_folder.getFolderContents()
                 if brain.getId not in self.policies}
+
+    @property
+    def templates_folder(self):
+        portal = api.portal.get()
+        return portal.get(self.TEMPLATES_FOLDER)
 
     def divisions(self):
         divisions = getUtility(IVocabularyFactory, vocab)(self.context)
