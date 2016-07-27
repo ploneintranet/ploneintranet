@@ -72,8 +72,8 @@
               </label>
             </form>
 
-            <form class="pat-inject search-result docs" data-pat-inject="target: body::after" id="items">
-              <aside id="local-statusmessage" tal:condition="request/suppress_message|python:0">
+            <form class="pat-inject search-result docs" id="items" action="#" data-pat-inject="target: body::after">
+              <aside id="global-statusmessage" tal:condition="not:request/suppress_message|python:0">
                 <tal:message tal:content="structure provider:plone.globalstatusmessage" />
               </aside>
 
@@ -90,33 +90,33 @@
                   <div class="button-bar">
                     <span class="float-before button-cluster">
                       <button type="submit"
-                              class="pat-inject icon-cut no-label"
+                              class="icon-cut no-label"
                               title="Cut"
-                              formaction="${context/absolute_url}/cart-cut?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-cut?_authenticator=${token}"
                               i18n:translate=""
                               i18n:attributes="title">Cut</button>
                       <button type="submit"
-                              class="pat-inject float-before icon-copy no-label"
+                              class="float-before icon-copy no-label"
                               title="Copy"
-                              formaction="${context/absolute_url}/cart-copy?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-copy?_authenticator=${token}"
                               i18n:translate=""
                               i18n:attributes="title">Copy</button>
                       <button type="submit"
-                              class="pat-inject float-before icon-paste no-label"
+                              class="float-before icon-paste no-label"
                               title="Paste"
-                              formaction="${context/absolute_url}/cart-paste?_authenticator=${token}#global-statusmessage"
+                              formaction="${context/absolute_url}/cart-paste?_authenticator=${token}"
                               i18n:translate=""
                               i18n:attributes="title">Paste</button></span>
 
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
                     <button type="submit"
-                            class="pat-inject float-before icon-trash no-label"
+                            class="float-before icon-trash no-label"
                             title="Delete"
                             formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
                             i18n:translate="" i18n:attributes="title">Delete</button>
                     <span class="float-before button-cluster">
                       <button type="submit"
-                              class="pat-inject float-before no-label icon-mail"
+                              class="float-before no-label icon-mail"
                               i18n:attributes="title"
                               formaction="${context/absolute_url}/cart-mail-confirm?_authenticator=${token}#content"
                               title="Send selected document(s)">Send</button>

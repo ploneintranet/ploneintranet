@@ -1,0 +1,7 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <body>
+    <a href="" tal:attributes="href context/absolute_url" class="pat-inject" data-pat-inject="trigger: autoload-visible">Reload…</a>
+  </body>
+</html>
