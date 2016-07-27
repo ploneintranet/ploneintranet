@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0010</version>
+  <version>0011</version>
   <dependencies>
     <dependency>profile-Products.membrane:default</dependency>
     <dependency>profile-collective.workspace:default</dependency>

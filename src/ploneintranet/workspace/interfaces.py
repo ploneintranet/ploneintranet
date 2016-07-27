@@ -1,10 +1,12 @@
+# coding=utf-8
+from plone.app.contenttypes.interfaces import IFolder
+from plone.directives import form
+from plone.namedfile.interfaces import IImageScaleTraversable
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout import interfaces as ilayout
+from zope import schema
 from zope.interface import Attribute
 from zope.interface import Interface
-from plone.directives import form
-from ploneintranet.layout import interfaces as ilayout
-from plone.namedfile.interfaces import IImageScaleTraversable
-from zope import schema
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IPloneintranetWorkspaceLayer(Interface):
@@ -167,3 +169,8 @@ class IGroupingStorage(Interface):
     def get_groupings():
         """ Return groupings
         """
+
+
+class IMail(IFolder):
+    ''' Marker interface for the ploneintranet.workspace.mail content type
+    '''

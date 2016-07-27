@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+  >
+
+  <browser:page
+      name="copy-to-workspace"
+      for="*"
+      class=".copy.AttachmentView"
+      permission="zope2.View"
+      layer="...interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <browser:page
+      name="copy-attachments-to-workspace"
+      for="...mail.IMail"
+      class=".copy.MailAttachmentsView"
+      permission="zope2.View"
+      layer="...interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+
+</configure>

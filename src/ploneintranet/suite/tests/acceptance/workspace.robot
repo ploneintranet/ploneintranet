@@ -230,6 +230,12 @@ Non-Member can view published content in an open workspace
      Then I can see the document  Terms and conditions
       And I cannot see the document  Customer satisfaction survey
 
+Member can see an email
+    Given I'm logged in as a 'Site Administrator'
+    And I go to the Open Market Committee Workspace
+    And I open the sidebar documents tile
+    And I can inspect mail metadata
+
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
      Add workspace  Example Workspace
