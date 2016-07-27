@@ -20,6 +20,7 @@ def generate_previews_async(obj, event=None):
         log.info('Skipping documentconversion for %s (unsupported type)'
                  % obj.absolute_url(1))
         return
+
     # Need a commit to make sure the content is there
     if ASYNC_ENABLED:
         transaction.commit()
@@ -36,6 +37,12 @@ def handle_file_creation(obj, event=None, async=True):
     """ Need own subscriber as cdv insists on checking for its
         custom layout. Also we want our own async mechanism.
     """
+    event_key = 'ploneintranet.previews.handle_file_creation'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        log.debug("%s disabled", event_key)
+        return
+
     if async:
         log.debug('handle_file_creation - async mode')
         generate_previews_async(obj)
@@ -57,6 +64,12 @@ def generate_attachment_preview_images(obj):
 
 
 def content_added_in_workspace(obj, event):
+    event_key = 'ploneintranet.previews.content_added_in_workspace'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        log.debug("%s disabled", event_key)
+        return
+
     log.debug('content_added_in_workspace - calling generate_previews_async')
     generate_previews_async(obj)
 
@@ -67,6 +80,13 @@ def content_edited_in_workspace(obj, event):
     if obj.REQUEST.form.get('file') or\
        obj.REQUEST.form.get('form.widgets.IFileField.file') or\
        obj.REQUEST.get('method') == 'PUT':
+
+        event_key = 'ploneintranet.previews.content_edited_in_workspace'
+        enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+        if not enabled:
+            log.debug("%s disabled", event_key)
+            return
+
         generate_previews_async(obj)
 
 

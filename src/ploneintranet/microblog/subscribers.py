@@ -17,6 +17,12 @@ def content_created(obj, event):
         # We are not installed
         return
 
+    event_key = 'ploneintranet.microblog.content_created'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        logger.debug("%s disabled", event_key)
+        return
+
     whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
     try:
         if obj.portal_type not in whitelist:
@@ -42,6 +48,12 @@ def content_statechanged(obj, event):
     """Add a status update relating to state change events"""
     if not IPloneIntranetMicroblogLayer.providedBy(obj.REQUEST):
         # We are not installed
+        return
+
+    event_key = 'ploneintranet.microblog.content_statechanged'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        logger.debug("%s disabled", event_key)
         return
 
     if event.new_state.id not in ('published',):
