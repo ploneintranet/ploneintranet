@@ -30,8 +30,8 @@
   <include package=".basecontent" />
   <include package=".behaviors" />
   <include package=".browser" />
+  <include package=".upgrades" />
 
-  <include file="upgrades.zcml" />
   <include file="indexers.zcml" />
   <include file="mailrouters.zcml" />
 

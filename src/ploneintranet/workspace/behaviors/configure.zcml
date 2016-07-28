@@ -35,6 +35,15 @@
       for="plone.app.contenttypes.interfaces.IEvent"
       />
 
+  <plone:behavior
+      title="Mail"
+      description="Adds mail behavior"
+      provides=".mail.IMail"
+      factory=".mail.Mail"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      marker=".mail.IMail"
+      />
+
   <!-- behavior for turning a workspace into a membrane group -->
   <plone:behavior
       title="Membrane Group (Workspace)"
@@ -44,6 +53,7 @@
       factory=".group.MembraneWorkspaceGroup"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       />
+
   <adapter
     factory=".group.MembraneWorkspaceGroup"
     provides="Products.membrane.interfaces.IGroup"

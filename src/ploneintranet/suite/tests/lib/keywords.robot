@@ -1541,3 +1541,13 @@ I can see bookmark grouped by creation date
     Page should contain element  xpath=//h3[contains(text(), 'All time')]/../ul/li/a[contains(text(), 'Bookmarks')]
 
 # *** END bookmark related keywords ***
+
+# *** mail related keywords ***
+
+I can inspect mail metadata
+    Click Link  jquery=a:contains("Files for application 2837")
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Link  jquery=.meta-data-toggle
+    Element should be visible  jquery=a:contains('pilz@pilzen.de')
+
+# *** END mail related keywords ***

@@ -19,6 +19,7 @@ from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
+from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -118,6 +119,10 @@ class BaseTile(BrowserView):
         Cave. We don't use the plone.app.contenttypes per-type permissions.
         Our workflows don't map those, only cmf.AddPortalContent.
         """
+        if shasattr(self.context, 'disable_add_from_sidebar'):
+            if self.context.disable_add_from_sidebar:
+                return False
+
         return api.user.has_permission(
             "Add portal content",
             obj=self.context,

@@ -77,6 +77,15 @@
     permission="zope2.View"
     />
 
+  <browser:page
+    name="mail_view"
+    for="..interfaces.IMail"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/mail_view.pt"
+    class=".mail.MailView"
+    permission="zope2.View"
+    />
+
   <adapter factory=".widgets.CommaSeparatedConverter" />
   <adapter factory=".widgets.CommaSeparatedFieldWidget" />
 

@@ -332,6 +332,34 @@ def workspaces_spec(context):
                'type': 'Event',
                'start': now + timedelta(days=-7),
                'end': now + timedelta(days=-14)},
+              {'title': 'Files for application 2837',
+               'type': 'ploneintranet.workspace.mail',
+               'mail_from': u'pilz@pilzen.de',
+               'mail_to': (
+                   u'open-market-committee@ourintranet.com',
+                   u'cornelis@cornae.com',),
+               'mail_body': RichTextValue(
+                   u'''
+                    <p>Dear mister Kolbach,</p>
+                    <p>We’ll process your application with the shortest
+                     delay.</p>
+                    <p>Yours sincerely, <br>
+                    Alexander Pilz</p>
+
+                    <blockquote>
+                      <p>Dear Sir or Madam,</p>
+
+                      <p>Sed ut perspiciatis unde omnis iste natus error
+                      sit voluptatem accusantium doloremque laudantium,
+                      totam rem aperiam, eaque ipsa quae ab illo inventore
+                      veritatis et quasi architecto beatae vitae dicta sunt
+                      explicabo.</p>
+
+                      <p>Kind regards,<br>
+                    Cornelis G. A. Kolbach</p>
+                    </blockquote>
+                   '''
+               )}
               ],
          },
         {'title': 'Parliamentary papers guidance',

@@ -8,7 +8,7 @@
         description="To allow images and files to be replaced"
         source="*"
         destination="0003"
-        handler=".upgrades.import_portal_types"
+        handler=".base.import_portal_types"
         profile="ploneintranet.workspace:default" />
 
     <genericsetup:upgradeStep
@@ -16,7 +16,7 @@
         description="Empty tags were saved as (u'',) rather than ()"
         source="*"
         destination="0004"
-        handler=".upgrades.reset_empty_tags"
+        handler=".base.reset_empty_tags"
         profile="ploneintranet.workspace:default" />
 
     <genericsetup:upgradeStep
@@ -24,7 +24,7 @@
         description="We prefill the select with some review states which we know are useful"
         source="*"
         destination="0007"
-        handler=".upgrades.import_portal_registry"
+        handler=".base.import_portal_registry"
         profile="ploneintranet.workspace:default" />
 
     <genericsetup:upgradeStep
@@ -32,7 +32,7 @@
         description="Adds is_archived and archival_date"
         source="*"
         destination="0008"
-        handler=".upgrades.import_search_registry"
+        handler=".base.import_search_registry"
         profile="ploneintranet.workspace:default" />
 
     <genericsetup:upgradeStep
@@ -40,7 +40,7 @@
         description="Grant manage statusupdate to teamadmin"
         source="*"
         destination="0009"
-        handler=".upgrades.statusupdate_edit_delete"
+        handler=".base.statusupdate_edit_delete"
         profile="ploneintranet.workspace:default" />
 
     <genericsetup:upgradeStep
@@ -48,7 +48,25 @@
         description="In order to assign the folder_in_workspace_workflow"
         source="*"
         destination="0010"
-        handler=".upgrades.update_workflows"
+        handler=".base.update_workflows"
+        profile="ploneintranet.workspace:default"
+      />
+
+    <genericsetup:registerProfile
+        name="to_0011"
+        title="Upgrade profile that includes the ploneintranet.workspace.mail content type"
+        description=""
+        directory="profiles/to_0011"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Import the ploneintranet.workspace.mail content type"
+        description=""
+        source="*"
+        destination="0011"
+        handler=".to_0011.add_mail_type"
         profile="ploneintranet.workspace:default"
       />
 
