@@ -3,7 +3,6 @@ from ZODB.POSException import ConflictError
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 import re
 
@@ -33,5 +32,4 @@ class PasteView(BaseCartView):
                 request=self.request,
                 type="success",
             )
-        msg = ViewPageTemplateFile('templates/reload-helper.pt')
-        return msg(self)
+        return self.index()
