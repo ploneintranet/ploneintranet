@@ -23,7 +23,7 @@ def test_suite():
                 layered(
                     robotsuite.RobotTestSuite(
                         testfilepath,
-                        noncritical=['fixme']),
+                        noncritical=['fixme', 'noncritical', 'heisenbug']),
                     layer=PLONEINTRANET_SUITE_ROBOT),
             ])
     return suite

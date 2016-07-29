@@ -18,7 +18,6 @@ Test Teardown  Close all browsers
 
 # The case that a user created outside our local membrane context should be
 # able to create a workspace is not supported. Deactivating this test.
-
 # Manager can create a workspace
 #     Given I'm logged in as a 'Manager'
 #      Then I can create a new workspace    My new workspace
@@ -158,8 +157,10 @@ Member can create and edit a folder
 Create image
     Given I am in a workspace as a workspace member
      Then I can create a new image
-
+     
+# https://github.com/quaive/ploneintranet/issues/521
 Create structure
+    [Tags]  heisenbug
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
