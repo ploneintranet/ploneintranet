@@ -20,7 +20,7 @@ Alice can view her own profile
     And I can follow the link to my profile
     And I can see details for Alice Lindström
 
-# This is disabled at the moment, see:
+# This is intentionally disabled because the feature is not wanted, see
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
 # Alice can view her own personal settings
 #     Given I am logged in as the user alice_lindstrom
@@ -98,19 +98,21 @@ Dollie can change her avatar from the menu
     Then I can upload a new avatar from the menu
 
 # https://github.com/quaive/ploneintranet/issues/520
-# Disabled because of ongoing breakage with css=.tooltip-container .menu
-# Dollie can change her password
-#     Given I am logged in as the user dollie_nocera
-#     And I open the change passord form
-#     Then I change my password to  new_password
-#     And I can log in with the new password  dollie_nocera  new_password
+# ongoing breakage with css=.tooltip-container .menu
+Dollie can change her password
+    [Tags]  heisenbug
+    Given I am logged in as the user dollie_nocera
+    And I open the change passord form
+    Then I change my password to  new_password
+    And I can log in with the new password  dollie_nocera  new_password
 
 # https://github.com/quaive/ploneintranet/issues/522
 # This doesn't work because the input form element isn't visible
-# Dollie can change her avatar from her profile page
-#     Given I am logged in as the user dollie_nocera
-#     And I can view the profile for user dollie_nocera
-#     Then I can upload a new avatar from my profile
+Dollie can change her avatar from her profile page
+    [Tags]  fixme
+    Given I am logged in as the user dollie_nocera
+    And I can view the profile for user dollie_nocera
+    Then I can upload a new avatar from my profile
 
 *** Keywords ***
 
@@ -210,10 +212,12 @@ I can log in with the new password
     Click button  Login
     Wait until page contains  Welcome! You are now logged in
 
+# https://github.com/quaive/ploneintranet/issues/522
 # This doesn't work because the input form element isn't visible
 # It is possible to click on the label to get the file dialog, but that doesn't work for
 # the Choose File keyword
-# I can upload a new avatar from my profile
-#     Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
-#     Submit form  css=#change-personal-image
-#     Wait until page contains   Personal image updated
+I can upload a new avatar from my profile
+    [Tags]  fixme
+    Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
+    Submit form  css=#change-personal-image
+    Wait until page contains   Personal image updated
