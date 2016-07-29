@@ -158,8 +158,10 @@ Member can create and edit a folder
 Create image
     Given I am in a workspace as a workspace member
      Then I can create a new image
-
+     
+# https://github.com/quaive/ploneintranet/issues/521
 Create structure
+    [tags] fixme
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
