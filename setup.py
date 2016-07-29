@@ -75,7 +75,8 @@ setup(name='ploneintranet',
           'collective.monkeypatcher',
           'scorched',
           'htmllaundry',
-          'slc.mailrouter'
+          'slc.mailrouter',
+          'quaive.resources.ploneintranet'
       ],
       extras_require={
           'test': [
