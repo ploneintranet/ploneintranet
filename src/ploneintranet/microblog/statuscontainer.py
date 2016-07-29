@@ -378,7 +378,7 @@ class BaseStatusContainer(Persistent, Explicit):
 
         uuid_blacklist = self._blacklist_microblogcontext_uuids()
         if not uuid_blacklist:
-            return self._status_mapping.keys()
+            return tuple(self._status_mapping.keys())
         else:
             # for each uid, expand uid into set of statusids
             blacklisted_treesets = (self._uuid_mapping.get(uuid)
