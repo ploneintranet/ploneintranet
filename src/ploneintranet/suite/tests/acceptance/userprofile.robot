@@ -217,7 +217,6 @@ I can log in with the new password
 # It is possible to click on the label to get the file dialog, but that doesn't work for
 # the Choose File keyword
 I can upload a new avatar from my profile
-    [Tags]  fixme
     Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
     Submit form  css=#change-personal-image
     Wait until page contains   Personal image updated
