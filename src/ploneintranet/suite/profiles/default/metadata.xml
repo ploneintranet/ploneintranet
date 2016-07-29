@@ -3,6 +3,7 @@
   <version>0009</version>
   <dependencies>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
+    <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-collective.externaleditor:default</dependency>
     <dependency>profile-ploneintranet.async:default</dependency>
     <dependency>profile-ploneintranet.bookmarks:default</dependency>
