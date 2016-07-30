@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a3 (unreleased)
+1.2.0a3 (2016-07-30)
 --------------------
 
 * Merge pull request #525 from quaive/fix-displayed-types [GitHub]
