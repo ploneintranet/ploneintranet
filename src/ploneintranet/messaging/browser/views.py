@@ -7,22 +7,8 @@ from zope.publisher.interfaces import IPublishTraverse
 logger = logging.getLogger(__name__)
 
 
-class AppMessagingIndex(BrowserView):
-    """
-    'Home' view for the messaging app, with the chatlist in the sidebar.
-    """
-    # /prototype/_site/apps/messages/index.html
-
-
-class AppMessagingList(BrowserView):
-    """
-    Helper view, renders the chatlist used in the sidebar.
-    """
-    # extracted from ~/prototype/_site/apps/messages/index.html
-
-
 @implementer(IPublishTraverse)
-class AppMessagingChat(BrowserView):
+class AppMessagingView(BrowserView):
     """
     Render a single conversation, with the chatlist in the sidebar.
     Uses traversal: @@app-messaging-chat/userid to extract the userid.
@@ -41,7 +27,7 @@ class AppMessagingChat(BrowserView):
         return self
 
 
-class AppMessagingNewChat(AppMessagingChat):
+class AppMessagingNewChat(BrowserView):
     """
     Panel helper to create a new conversation.
     """
