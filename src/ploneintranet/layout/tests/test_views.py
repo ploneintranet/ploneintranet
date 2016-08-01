@@ -112,22 +112,25 @@ class TestViews(IntegrationTestCase):
 
     def test_apps_view(self):
         ''' Check the @@apps view
+
+        This is tricky, because apps may register tiles outside of
+        this package ploneintranet.layout, but this package should NOT
+        have any outside dependencies (to avoid dependency loops).
         '''
         view = self.get_view('apps.html')
-        self.assertListEqual(
-            [tile.sorting_key for tile in view.tiles()],
-            [
-                (10, u'contacts'),
-                (20, u'messages'),
-                (30, u'todo'),
-                (40, u'calendar'),
-                (50, u'slide-bank'),
-                (60, u'image-bank'),
-                (70, u'news'),
-                (80, u'case-manager'),
-                (90, u'app-market'),
-            ]
-        )
+        found = [tile.sorting_key[1] for tile in view.tiles()]
+        configured = [u'contacts',
+                      u'messages',
+                      u'todo',
+                      u'calendar',
+                      u'slide-bank',
+                      u'image-bank',
+                      u'news',
+                      u'case-manager',
+                      u'app-market']
+        # there may be more e.g. bookmarks but out of test scope here
+        for id in configured:
+            self.assertIn(id, found)
 
     def get_app_tile(self, path=''):
         ''' Return a fresh app tile with the given path
