@@ -64,7 +64,7 @@ not read yet
     >>> dave_conversation.username
     'Bob'
 
-Messages are returned in an iterable that yields its itmes, not in a
+Messages are returned in an iterable that yields its items, not in a
 real list. So we iterate over the messages to get the content
 
     >>> def print_messages(dave_conversation):
@@ -144,28 +144,3 @@ Even then Bob still has the conversation with Dave in his inbox:
    created: 2013-01-02 00:00:00
    new: True
 
-Build status
-------------
-
-Unit tests
-~~~~~~~~~~
-
-Robot tests for Plone Social and Plone Intranet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Copyright (c) Plone Foundation
-------------------------------
-
-This package is Copyright (c) Plone Foundation.
-
-Any contribution to this package implies consent and intent to irrevocably transfer all 
-copyrights on the code you contribute, to the `Plone Foundation`_, 
-under the condition that the code remains under a `OSI-approved license`_.
-
-To contribute, you need to have signed a Plone Foundation `contributor agreement`_.
-If you're `listed on Github`_ as a member of the Plone organization, you already signed.
-
-.. _Plone Foundation: https://plone.org/foundation
-.. _OSI-approved license: http://opensource.org/licenses
-.. _contributor agreement: https://plone.org/foundation/contributors-agreement
-.. _listed on Github: https://github.com/orgs/plone/people
