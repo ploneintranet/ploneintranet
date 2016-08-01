@@ -10,4 +10,49 @@
        This should be a custom permission instead of Zope2.View.
   -->
 
+  <browser:page
+      name="app-messaging"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingIndex"
+      template="templates/index.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="zope2.View"
+      />
+  
+  <browser:page
+      name="app-messaging-list"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingList"
+      template="templates/chatlist.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="app-messaging-chat"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingChat"
+      template="templates/chat.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="app-messaging-newchat"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingNewChat"
+      template="templates/panel-new-chat.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="app-messaging-newmessage"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingNewMessage"
+      template="templates/feedback.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="zope2.View"
+      />
+  
 </configure>
