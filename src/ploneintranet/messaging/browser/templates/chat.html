@@ -10,7 +10,8 @@
   </head>
   <body class="stand-alone sidebar-normal gh-collapsed focus-listing  messages application- application-messages ">
     <div id="main">
-      <div id="app-space" class="state-on">
+      <metal:content fill-slot="content">
+      <div id="content" class="state-on">
 	<div id="application-body" class="application-messages application- sidebar-left-open sidebar-right-closed">
 	  <div id="document-body">
 	    <div id="document-content" class="chat">
@@ -142,6 +143,7 @@
         </div>
 
       </div><!-- /app-space -->
+      </metal:content>
 
       <a href="/feedback/osh.html#osh-hamburger" id="osh-target-hamburger" class="onscreen-help pat-tooltip" data-pat-tooltip="trigger: click; source: ajax; class: rich info;">Help</a>
 
@@ -186,6 +188,6 @@
 			
 				<a href="/dashboard.html#global-navigation" id="mobile-menu" class="pat-tooltip stand-alone suite-logo" data-pat-switch="#app-space application-*" data-pat-tooltip="source: ajax">Plone Intranet</a>
 			
-		</div>
+		</div><!-- /main -->
 	</body>
 </html>
