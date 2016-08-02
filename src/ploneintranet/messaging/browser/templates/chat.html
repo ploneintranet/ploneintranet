@@ -15,7 +15,19 @@
       <div id="content" class="state-on">
 	<div id="application-body" class="application-messages application- sidebar-left-open sidebar-right-closed">
 	  <div id="document-body">
-	    <div id="document-content" class="chat">
+
+	    <div id="document-content" tal:condition="not:view/userid|nothing">
+	      <div class="application-welcome-info">
+		<article class="pat-rich" id="boilerplate-library-introduction">
+                  <p>
+                    <strong>Thank you for using Messages!</strong>
+                    Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.
+                  </p>
+		</article>
+	      </div>
+            </div>
+            
+	    <div id="document-content" class="chat" tal:condition="view/userid|nothing">
 
 	      <ul class="chat">
 
