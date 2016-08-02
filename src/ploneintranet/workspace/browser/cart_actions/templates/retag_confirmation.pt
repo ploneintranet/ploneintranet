@@ -20,7 +20,8 @@
                           not_modifiable python:items[1];
                           len_not_modifiable python:len(not_modifiable);
                           has_not_modifiable python:len_not_modifiable > 0;
-                          none_modifiable python:has_not_modifiable and not(has_modifiable); ">
+                          none_modifiable python:has_not_modifiable and not(has_modifiable);
+                          workspace nocall:view/workspace;">
 
           <div class="panel-body">
 

@@ -17,6 +17,7 @@ from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
 
 from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 
 
 logger = getLogger(__name__)
@@ -58,7 +59,8 @@ class PersonalizedVocabularyView(VocabularyView):
         authorized = None
         sm = getSecurityManager()
         if (factory_name not in _permissions or
-                not INavigationRoot.providedBy(context)):
+            not (INavigationRoot.providedBy(context) or
+                 IWorkspaceFolder.providedBy(context))):
             # Check field specific permission
             if field_name:
                 permission_checker = queryAdapter(context,
