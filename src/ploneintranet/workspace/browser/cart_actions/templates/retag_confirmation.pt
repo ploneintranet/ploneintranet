@@ -27,7 +27,7 @@
 
             <fieldset>
 	          <label>
-		        <input class="pat-autosuggest" placeholder="Enter a label" name="subjects" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects" i18n:attributes="placeholder"/>
+		        <input class="pat-autosuggest" placeholder="Enter a label" name="subjects" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${workspace/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects" i18n:attributes="placeholder"/>
 	          </label>
             </fieldset>
             <article>
