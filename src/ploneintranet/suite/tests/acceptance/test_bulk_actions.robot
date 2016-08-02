@@ -96,6 +96,36 @@ A member can send items by email
       and I send the items
      then I see a message that an email has been sent
 
+A content editor can bulk rename an item
+    Given I am logged in as the user christian_stoney
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to rename the items in the cart  Terms and conditions  Terms and conditions 1
+      and I see a message that some items have been renamed
+      and I add an item to the cart  Terms and conditions 1
+      and I choose to rename the items in the cart  Terms and conditions 1  Terms and conditions
+     then I see a message that some items have been renamed
+
+A viewer cannot bulk retag an item
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to retag the items in the cart  bulk_tag
+     then I see a message that no items have been tagged
+
+A content editor can bulk retag an item
+    Given I am logged in as the user christian_stoney
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to retag the items in the cart  bulk_tag
+     then I see a message that some items have been tagged
+
 
 *** Keywords ***
 
@@ -156,6 +186,18 @@ I choose to send items to alice_lindstrom
 I choose to include a message
     Input Text  xpath=//textarea[@name='message']  You're gonna ♥ this
 
+I choose to retag the items in the cart
+    [arguments]  ${tag}
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Re-tag']
+    Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  ${tag},
+    Click button  Tag
+
+I choose to rename the items in the cart
+    [arguments]  ${old_title}  ${title}
+    Click Element  xpath=//div[@class='batch-functions']//button[text()='Rename']
+    Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
+    Click button  form-buttons-send
+
 I send the items
     Click button  xpath=//button[@id='form-buttons-send']
 
@@ -182,3 +224,15 @@ I see a message that I cannot cut
 
 I see a message that an email has been sent
     Wait Until Page Contains  Email sent.
+
+I see a message that no items have been tagged
+    Wait Until Page Contains  No items could be (re)tagged
+
+I see a message that some items have been tagged
+    Wait Until Page Contains  The following items have been (re)tagged
+
+I see a message that no items have been renamed
+    Wait Until Page Contains  No items could be renamed
+
+I see a message that some items have been renamed
+    Wait Until Page Contains  The following items have been renamed
