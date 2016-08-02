@@ -12,7 +12,7 @@
         <form method="POST" 
               action="cart-retag" 
               class="wizard-box pat-inject"
-              data-pat-inject="source: #global-statusmessage; target: #global-statusmessage && source: #items; target: #items && source: #document-body; target: #document-body"
+              data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items &amp;&amp; source: #document-body; target: #document-body"
               tal:define="items view/items_by_permission;
                           modifiable python:items[0];
                           len_modifiable python:len(modifiable);

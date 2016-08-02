@@ -9,7 +9,7 @@
       <div id="document-content" class="pat-modal">
         <h1 i18n:translate="">Batch delete</h1>
 
-        <form class="wizard-box pat-inject" method="POST" action="${context/absolute_url}/@@cart-delete" data-pat-inject="source: #global-statusmessage; target: #global-statusmessage && source: #items; target: #items;">
+        <form class="wizard-box pat-inject" method="POST" action="${context/absolute_url}/@@cart-delete" data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items;">
           <aside id="global-statusmessage">
             <tal:message tal:content="structure provider:plone.globalstatusmessage" />
           </aside>
