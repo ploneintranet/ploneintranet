@@ -173,9 +173,11 @@ Those passwords are not actually secret, they're just the word "secret" without 
 
 .. note::
 
-   If you end up with an empty site, you probably installed Plone Intranet Suite via the Plone Add-ons configuration screen.
+   If you end up with an empty and/or unthemed site, you probably installed Plone Intranet Suite via the Plone Add-ons configuration screen.
 
-If you want an empty site, you can install Plone Intranet Suite via the Quickinstaller. Please read the section on :doc:`../development/components/userprofiles.rst`
+If you want an empty site, you can install ``Plone Intranet: Suite`` via the Quickinstaller. In that case you will also have to install ``Plone Intranet:  Theme`` - we ship with a default theme but it's not automatically installed.
+
+Please read the section on :doc:`../development/components/userprofiles.rst`
 to learn how you can manage users.
 
 

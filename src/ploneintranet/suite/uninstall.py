@@ -36,6 +36,7 @@ def uninstall_dependencies(portal):
     for dependency in dependencies:
         dependency = str(dependency.split('profile-')[-1].split(':')[0])
         if dependency.startswith('ploneintranet.') or \
+           dependency.startswith('quaive.') or \
            dependency in ADDITIONAL_DEPENDENCIES:
             try:
                 qi.uninstallProducts([dependency])

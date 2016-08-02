@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0009</version>
+  <version>0011</version>
+  <!-- load :full if you want the theme also -->
   <dependencies>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-plone.app.contenttypes:default</dependency>
