@@ -114,6 +114,18 @@
                             title="Delete"
                             formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
                             i18n:translate="" i18n:attributes="title">Delete</button>
+
+                    <button type="submit"
+                            class="float-before icon-rename no-label"
+                            title="Rename"
+                            formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
+                            i18n:translate="" i18n:attributes="title">Rename</button>
+                    <button type="submit"
+                            class="float-before icon-tags no-label"
+                            title="Re-tag"
+                            formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
+                            i18n:translate="" i18n:attributes="title">Re-tag</button>
+
                     <span class="float-before button-cluster">
                       <button type="submit"
                               class="float-before no-label icon-mail"

@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing  generic application-workspace application- ">
+    <div id="content" class="modal">
+      <div id="document-content" class="pat-modal">
+        <h1 i18n:translate="">Batch (re)tagging</h1>
+
+        <form method="POST" 
+              action="cart-retag" 
+              class="wizard-box pat-inject"
+              data-pat-inject="source: #global-statusmessage; target: #global-statusmessage && source: #items; target: #items && source: #document-body; target: #document-body"
+              tal:define="items view/items_by_permission;
+                          modifiable python:items[0];
+                          len_modifiable python:len(modifiable);
+                          has_modifiable python:len_modifiable > 0;
+                          not_modifiable python:items[1];
+                          len_not_modifiable python:len(not_modifiable);
+                          has_not_modifiable python:len_not_modifiable > 0;
+                          none_modifiable python:has_not_modifiable and not(has_modifiable); ">
+
+          <div class="panel-body">
+
+            <fieldset>
+	          <label>
+		        <input class="pat-autosuggest" placeholder="Enter a label" name="subjects" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects" i18n:attributes="placeholder"/>
+	          </label>
+            </fieldset>
+            <article>
+	          <p i18n:translate="info_items_selected_for_retagging">
+		        The following <strong i18n:name="num_items">${len_modifiable}</strong> items will be (re)tagged (un-tick to exclude from this action)
+	          </p>
+              <tal:none_modifiable condition="none_modifiable" i18n:translate="">You don't have permission to (re)tag any of them.
+              </tal:none_modifiable>
+
+              <tal:not_modifiable condition="python:has_not_modifiable and not none_modifiable" i18n:translate="info_has_not_modifiable_items"><strong i18n:name="num_not_modifiable">${len_not_modifiable}</strong> of the items cannot be (re)tagged because you don't have permission.
+              </tal:not_modifiable>
+              <tal:modifiable condition="has_modifiable">
+                <tal:not_modifiable condition="has_not_modifiable" i18n:translate="num_items_can_be_deleted">
+                  <strong i18n:name="num_modifiable">${len_modifiable}</strong> of the items can be (re)tagged.
+                </tal:not_modifiable>
+                <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from (re)tagging)</tal:ays>
+              </tal:modifiable>
+
+            </article>
+
+            <fieldset class="pat-checklist">
+              <tal:modifiable repeat="item modifiable">
+                <label>
+                  <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
+                </label>
+                <br />
+              </tal:modifiable>
+              <tal:unmodifiable repeat="item not_modifiable">
+                <label>
+                  <input type="checkbox" name="uids:list" value="${item/UID}" disabled="disabled"/> ${item/Title}
+                </label>
+                <br />
+              </tal:unmodifiable>
+
+            </fieldset>
+          </div>
+          <div class="buttons panel-footer">
+            <button i18n:translate="" id="form-buttons-send" type="submit" class="close-panel icon-ok-circle"> Tag </button>
+            <button i18n:translate="" type="button" class="close-panel icon-cancel-circle"> Cancel </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

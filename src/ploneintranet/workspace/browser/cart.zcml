@@ -29,6 +29,22 @@
     <browser:page name="cart-mail-confirm" attribute="confirm"/>
   </browser:pages>
 
+  <browser:pages
+      for="*"
+      permission="zope2.View"
+      class=".cart_actions.rename.RenameView">
+    <browser:page name="cart-rename" attribute="rename"/>
+    <browser:page name="cart-rename-confirm" attribute="confirm"/>
+  </browser:pages>
+
+  <browser:pages
+      for="*"
+      permission="zope2.View"
+      class=".cart_actions.retag.RetagView">
+    <browser:page name="cart-retag" attribute="retag"/>
+    <browser:page name="cart-retag-confirm" attribute="confirm"/>
+  </browser:pages>
+
   <browser:page
       for="*"
       permission="zope2.View"
