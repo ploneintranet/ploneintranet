@@ -33,10 +33,22 @@
   <include package="ploneintranet.workspace"/>
 
   <genericsetup:registerProfile
-      name="default"
+      name="full"
       title="Plone Intranet:  Suite"
-      directory="profiles/default"
+      directory="profiles/full"
       description="Installs the full suite of Plone Intranet packages"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.suite.setuphandlers.default"
+      />
+
+  <!-- This is :default for historical reasons.
+       The actual default installer is :full, which provides a themed site.
+  -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- [Suite base]"
+      directory="profiles/default"
+      description="Unthemed installer for the suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler="ploneintranet.suite.setuphandlers.default"
       />

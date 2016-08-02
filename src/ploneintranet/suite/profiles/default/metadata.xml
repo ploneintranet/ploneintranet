@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0010</version>
+  <version>0011</version>
+  <!-- load :full if you want the theme also -->
   <dependencies>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-plone.app.contenttypes:default</dependency>
@@ -23,6 +24,5 @@
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
     <dependency>profile-slc.mailrouter:default</dependency>
-    <dependency>profile-quaive.resources.ploneintranet:default</dependency>
   </dependencies>
 </metadata>
