@@ -1,8 +1,9 @@
-<a id="site-logo"
-   title="Home"
-   class="logo"
-   accesskey="1"
-   tal:attributes="href view/navigation_root_url;
-                   title view/navigation_root_title"
-   i18n:domain="plone"
-   i18n:attributes="title"><span tal:replace="view/logo_title | string:Intranet"></span></a>
+<span id="site-logo">
+
+    <a class="integrated suite-logo pat-switch"
+        data-pat-switch="#app-space state-on state-off">${view/logo_title | string:Intranet}</a>
+
+    <a class="stand-alone suite-logo"
+       href="${view/logo_url}">${view/logo_title | string:Intranet}</a>
+
+</span>
