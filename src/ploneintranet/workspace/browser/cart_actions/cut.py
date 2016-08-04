@@ -6,7 +6,6 @@ from Products.CMFPlone.utils import safe_unicode
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class CutView(BaseCartView):
@@ -72,5 +71,4 @@ class CutView(BaseCartView):
                 request=request,
                 type="info",
             )
-        msg = ViewPageTemplateFile('../templates/globalstatusmessage.pt')
-        return msg(self)
+        return self.index()
