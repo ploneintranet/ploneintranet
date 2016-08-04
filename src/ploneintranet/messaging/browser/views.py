@@ -5,9 +5,11 @@ import urllib
 from AccessControl import Unauthorized
 from plone import api
 from ploneintranet import api as pi_api
+from plone.memoize.view import memoize
 from plone.protect.utils import safeWrite
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
+from unidecode import unidecode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
@@ -46,21 +48,24 @@ class AppMessagingView(BrowserView):
 
     def update(self):
         if self.userid:
-            conversation = pi_api.messaging.get_conversation(self.userid)
-            if conversation.new_messages_count > 0:
-                conversation.mark_read()
-                # this is a valid write-on-read
-                safeWrite(conversation, self.request)
-                # the write propagates to all children messages
-                for message in conversation.get_messages():
-                    safeWrite(message, self.request)
-                # the write also propagates to parent inbox
-                safeWrite(conversation.__parent__, self.request)
+            self.mark_read(self.userid)
+
+    def mark_read(self, userid):
+        conversation = pi_api.messaging.get_conversation(userid)
+        if conversation.new_messages_count > 0:
+            conversation.mark_read()
+            # this is a valid write-on-read
+            safeWrite(conversation, self.request)
+            # the write propagates to all children messages
+            for message in conversation.get_messages():
+                safeWrite(message, self.request)
+            # the write also propagates to parent inbox
+            safeWrite(conversation.__parent__, self.request)
 
     def conversations(self):
         inbox = pi_api.messaging.get_inbox()
         _conversations = []
-        for userid in inbox.keys():
+        for userid in self._filter(inbox.keys()):
             conversation = inbox[userid]
             if userid == self.userid:
                 status = 'current'
@@ -82,7 +87,7 @@ class AppMessagingView(BrowserView):
                     avatar_url=self._avatar_url(userid)
                 )
             )
-        return _conversations
+        return sorted(_conversations, key=lambda x: x['fullname'])
 
     def messages(self):
         conversation = pi_api.messaging.get_conversation(self.userid)
@@ -109,8 +114,13 @@ class AppMessagingView(BrowserView):
             ))
         return _messages
 
+    @property
+    def url(self):
+        return self.request['ACTUAL_URL']
+
+    @memoize
     def _fullname(self, userid):
-        return userid
+        return api.user.get(userid).getProperty('fullname')
 
     def _chat_url(self, userid):
         portal_url = api.portal.get().absolute_url()
@@ -125,6 +135,38 @@ class AppMessagingView(BrowserView):
     def _format_created(self, created):
         """Format the stored UTC datetime into local time."""
         return self.context.toLocalizedTime(created, long_format=1)
+
+    def _filter(self, userids):
+        """Apply a unicode aware fuzzy filter.
+
+        Based on the work in ploneintranet.network.vocabularies
+        """
+
+        def safe_encode(term):
+            if isinstance(term, unicode):
+                # no need to use portal encoding for transitional encoding from
+                # unicode to ascii. utf-8 should be fine.
+                term = term.encode('utf-8')
+            if term is not None:
+                return term.lower()
+            return term
+
+        search = self.request.get('search', None)
+        if not search or len(search) <= 1:
+            return userids
+
+        q_decode = unidecode(safe_unicode(search)).lower()
+        q_encode = safe_encode(search)
+        matches = set()
+        for userid in userids:
+            fullname = self._fullname(userid)
+            if q_encode in safe_encode(userid) or \
+               q_encode in safe_encode(fullname):
+                matches.add(userid)
+            elif q_decode and (q_decode in unidecode(userid).lower() or
+                               q_decode in unidecode(fullname).lower()):
+                matches.add(userid)
+        return list(matches)
 
 
 class AppMessagingNewChat(BrowserView):
