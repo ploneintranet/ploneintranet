@@ -4,7 +4,7 @@ Changelog
 1.2.0a4 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Updated dutch translations [Jean-Paul Ladage]
 
 
 1.2.0a3 (2016-07-30)
