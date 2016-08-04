@@ -23,6 +23,9 @@ def send_message(recipient, text, userid=None, when=None):
 
     :param when: timestamp of the message. Defaults to datetime.now().
     :type when: datetime
+
+    :returns: Sent message
+    :rtype: ploneintranet.messaging.interfaces.IMessage
     """
     inboxes = get_inboxes()
     inboxes.send_message(_default(userid), recipient, text, when)

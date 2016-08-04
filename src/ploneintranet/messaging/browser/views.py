@@ -103,7 +103,7 @@ class AppMessagingView(BrowserView):
                     timestamp=self._format_created(msg.created)
                 ))
             _last = msg.created
-            status = msg.sender == self.userid and 'self' or ''
+            status = msg.recipient == self.userid and 'self' or ''
             _messages.append(dict(
                 type='text',
                 status=status,
@@ -117,6 +117,10 @@ class AppMessagingView(BrowserView):
     @property
     def url(self):
         return self.request['ACTUAL_URL']
+
+    @property
+    def portal_url(self):
+        return api.portal.get().absolute_url()
 
     @memoize
     def _fullname(self, userid):
@@ -196,11 +200,31 @@ class AppMessagingNewMessage(BrowserView):
 
     # ~/prototype/_site/apps/messages/feedback-liz-guido.html
 
-    def update(self):
-        pass
+    def __init__(self, context, request):
+        super(AppMessagingNewMessage, self).__init__(context, request)
+        self.userid = None
 
     def __call__(self):
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to use messaging.")
         self.update()
         return self.index()
+
+    def update(self):
+        self.userid = recipient = self.request.get('recipient')
+        self.text = text = self.request.get('message')
+        if recipient and text:
+            pi_api.messaging.send_message(recipient, text)
+
+    @property
+    def portal_url(self):
+        return api.portal.get().absolute_url()
+
+    @property
+    def fullname(self):
+        return api.user.get_current().getProperty('fullname')
+
+    @property
+    def avatar_url(self):
+        return pi_api.userprofile.avatar_url(
+            api.user.get_current().id)

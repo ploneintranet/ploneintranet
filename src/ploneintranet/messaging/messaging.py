@@ -114,9 +114,7 @@ class Conversation(BTreeDictBase):
         key = self.generate_key(message)
         message.uid = key
         self[key] = message
-        # the perspective here is awkward: self.username is the other user
-        if message.sender == self.username:
-            self.last = message
+        self.last = message
         return key
 
     def __setitem__(self, key, message):

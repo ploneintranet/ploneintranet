@@ -130,10 +130,10 @@ the conversation.
    created: 2013-01-02 00:00:00+00:00
    new: True
 
-The last accessor ignores Dave's own messages and still shows Bob's message:
+Now Dave's own message shows up as 'last'
 
    >>> dave_conversation.last.text
-   'Hi Dave'
+   'Thanks Bob'
 
 Now Dave does not want to keep the conversation with Bob and deletes it:
 

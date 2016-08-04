@@ -60,7 +60,9 @@
 
             </div><!-- /document-content -->
             
-            <form id="chat-bar" action="/apps/messages/feedback-liz-guido.html" class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
+            <form id="chat-bar" method="post" action="${view/portal_url}/@@app-messaging-new-message"
+                  class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
+              <input type="hidden" name="recipient" value="${view/userid}">
 	      <input autofocus type="text" name="message" placeholder="Write a message" />
             </form>
 

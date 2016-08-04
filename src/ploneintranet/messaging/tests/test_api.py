@@ -264,14 +264,14 @@ class TestConversation(ApiTestCase):
         self.assertEqual(list(conversation.get_messages())[0].new, True)
         self.assertEqual(conversation.new_messages_count, 1)
 
-    def test_conversation_send_message_does_not_set_last(self):
+    def test_conversation_send_message_set_last(self):
         from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('inbox_user', 'other_user', 'test', now())
         conversation.add_message(message)
-        self.assertEqual(conversation.last, None)
+        self.assertEqual(conversation.last, message)
 
-    def test_conversation_receive_message_sets_last(self):
+    def test_conversation_receive_message_set_last(self):
         from ploneintranet.messaging.messaging import Message
         conversation = self._create_conversation('inbox_user', 'other_user')
         message = Message('other_user', 'inbox_user', 'test', now())
