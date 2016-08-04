@@ -45,8 +45,8 @@
 		    </h4>
 		    <img src="${item/avatar_url}" class="avatar pat-avatar" alt="" />
 		  </a>
-		  <p class="content" tal:condition="item/message|nothing">
-                    ${item/message}
+		  <p class="content" tal:condition="item/text|nothing">
+                    ${item/text}
                   </p>
 		</li>
 

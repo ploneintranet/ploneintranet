@@ -98,7 +98,7 @@ class AppMessagingView(BrowserView):
                 type='text',
                 status=status,
                 userid=msg.sender,
-                message=msg.text,
+                text=msg.text,
                 fullname=self._fullname(msg.sender),
                 avatar_url=self._avatar_url(msg.sender)
             ))
