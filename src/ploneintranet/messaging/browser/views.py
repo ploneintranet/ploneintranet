@@ -1,12 +1,10 @@
 # coding=utf-8
 from datetime import timedelta
 import logging
-import pytz
 import urllib
 from AccessControl import Unauthorized
 from plone import api
 from ploneintranet import api as pi_api
-from plone.app.event.base import default_timezone
 from plone.protect.utils import safeWrite
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
@@ -125,13 +123,8 @@ class AppMessagingView(BrowserView):
         return pi_api.userprofile.avatar_url(userid)
 
     def _format_created(self, created):
-        """Format the stored UTC datetime into local time.
-
-        Shamelessly ripped from quaive.app.audit, thanks @ale-rt!
-        """
-        tz = pytz.timezone(default_timezone())
-        _created = pytz.utc.localize(created).astimezone(tz)
-        return self.context.toLocalizedTime(_created, long_format=1)
+        """Format the stored UTC datetime into local time."""
+        return self.context.toLocalizedTime(created, long_format=1)
 
 
 class AppMessagingNewChat(BrowserView):
