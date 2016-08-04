@@ -79,14 +79,14 @@ real list. So we iterate over the messages to get the content
     sender: Bob
     recipient: Dave
     text: Hi Dave
-    created: 2013-01-01 00:00:00
+    created: 2013-01-01 00:00:00+00:00
     new: True
 
     >>> print_messages(inboxes[bob][dave])
     sender: Bob
     recipient: Dave
     text: Hi Dave
-    created: 2013-01-01 00:00:00
+    created: 2013-01-01 00:00:00+00:00
     new: True
 
 Now let Dave read his mail and answer Bob. His message will show up in
@@ -97,7 +97,7 @@ the conversation.
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: False
 
 In Bob's inbox the message is still unread.
@@ -106,7 +106,7 @@ In Bob's inbox the message is still unread.
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: True
 
    >>> inboxes.send_message(dave, bob, 'Thanks Bob',
@@ -115,12 +115,12 @@ In Bob's inbox the message is still unread.
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: False
    sender: Dave
    recipient: Bob
    text: Thanks Bob
-   created: 2013-01-02 00:00:00
+   created: 2013-01-02 00:00:00+00:00
    new: True
 
 
@@ -136,11 +136,11 @@ Even then Bob still has the conversation with Dave in his inbox:
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: True
    sender: Dave
    recipient: Bob
    text: Thanks Bob
-   created: 2013-01-02 00:00:00
+   created: 2013-01-02 00:00:00+00:00
    new: True
 

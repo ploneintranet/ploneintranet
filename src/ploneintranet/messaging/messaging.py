@@ -13,7 +13,11 @@ from ploneintranet.messaging.interfaces import IMessagingLocator
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
+import logging
+import pytz
 import time
+
+logger = logging.getLogger(__name__)
 
 
 class BTreeDictBase(Persistent):
@@ -89,7 +93,13 @@ class Conversation(BTreeDictBase):
         self.created = created
 
     def to_long(self, dt):
-        """Turns a `datetime` object into a long."""
+        """Turns a `datetime` object into a long.
+
+        Since this is used as BTree key it must be sequential,
+        hence we force UTC.
+        """
+        if dt.tzinfo != pytz.utc:
+            raise ValueError("datetime storage values MUST be UTC")
         return long(time.mktime(dt.timetuple()) * 1000000 + dt.microsecond)
 
     def generate_key(self, message):
@@ -245,9 +255,17 @@ class Inboxes(BTreeDictBase):
             raise ValueError('User is not allowed to send a Message to '
                              'the Recipient')
 
+        # force UTC datetimes always
+        # - needed for sequential BTree storage keying
+        # - is assumed in browser rendering timezone conversion
         if created is None:
-            # FIXME: or utcnow?
-            created = datetime.now()
+            created = datetime.now(pytz.utc)
+        elif not created.tzinfo or created.tzinfo.utcoffset(created) is None:
+            # naive datetime, just BOFH it to UTC. Should happen only in tests
+            logger.warn("Naive datetime not allowed. Forcing to UTC.")
+            created = created.replace(tzinfo=pytz.utc)
+        elif created.tzinfo != pytz.utc:
+            created = created.astimezone(pytz.utc)
 
         for pair in ((sender_inbox, recipient, False),
                      (recipient_inbox, sender, True)):

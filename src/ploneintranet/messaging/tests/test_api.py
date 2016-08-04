@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from functools import partial
 from ploneintranet.messaging.testing import IntegrationTestCase
 from zope.interface.verify import verifyClass
+import pytz
 
-now = datetime.now
+now = partial(datetime.now, pytz.utc)
 
 
 class ApiTestCase(IntegrationTestCase):
