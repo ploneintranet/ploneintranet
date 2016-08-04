@@ -20,6 +20,14 @@
         />
 
     <browser:viewlet
+        name="plone.logo"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".common.LogoViewlet"
+        permission="zope2.View"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+    <browser:viewlet
         name="plone.personal_bar"
         manager="plone.app.layout.viewlets.interfaces.IToolbar"
         class=".personalbar.PersonalBarViewlet"
