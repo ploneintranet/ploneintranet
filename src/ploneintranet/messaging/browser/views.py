@@ -1,8 +1,10 @@
 # coding=utf-8
+from datetime import timedelta
 import logging
 import urllib
 from plone import api
 from ploneintranet import api as pi_api
+from plone.protect.utils import safeWrite
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from zope.interface import implementer
@@ -35,25 +37,70 @@ class AppMessagingView(BrowserView):
         # return self so the publisher calls this view
         return self
 
+    def __call__(self):
+        self.update()
+        return self.index()
+
+    def update(self):
+        if self.userid:
+            conversation = pi_api.messaging.get_conversation(self.userid)
+            if conversation.new_messages_count > 0:
+                conversation.mark_read()
+                # this is a valid write-on-read
+                safeWrite(conversation, self.request)
+                # the write propagates to all children messages
+                for message in conversation.get_messages():
+                    safeWrite(message, self.request)
+                # the write also propagates to parent inbox
+                safeWrite(conversation.__parent__, self.request)
+
     def conversations(self):
-        fake = [
-            dict(userid='allan_neece',
-                 status='unread',
-                 byline='Foo the bar'),
-            dict(userid='alice_lindstrom',
-                 status='',
-                 byline='Nix the nought'),
-            dict(userid='guy_hackey',
-                 status='',
-                 byline='...')
-        ]
-        for x in fake:
-            if x['userid'] == self.userid:
-                x['status'] = 'current'
-            x['fullname'] = self._fullname(x['userid'])
-            x['chat_url'] = self._chat_url(x['userid'])
-            x['avatar_url'] = self._avatar_url(x['userid'])
-        return fake
+        inbox = pi_api.messaging.get_inbox()
+        _conversations = []
+        for userid in inbox.keys():
+            conversation = inbox[userid]
+            if userid == self.userid:
+                status = 'current'
+            elif conversation.new_messages_count > 0:
+                status = 'unread'
+            else:
+                status = ''
+            _conversations.append(
+                dict(
+                    userid=userid,
+                    status=status,
+                    byline='...',
+                    fullname=self._fullname(userid),
+                    chat_url=self._chat_url(userid),
+                    avatar_url=self._avatar_url(userid)
+                )
+            )
+        return _conversations
+
+    def messages(self):
+        conversation = pi_api.messaging.get_conversation(self.userid)
+        _messages = []
+        _last = None
+        _maxdiff = timedelta(minutes=15)
+        for msg in conversation.get_messages():
+            # add time header if more than 15m since previous msg
+            if not _last or msg.created > _last + _maxdiff:
+                _messages.append(dict(
+                    type='date',
+                    status='',
+                    timestamp=self._format_created(msg.created)
+                ))
+            _last = msg.created
+            status = msg.sender == self.userid and 'self' or ''
+            _messages.append(dict(
+                type='text',
+                status=status,
+                userid=msg.sender,
+                message=msg.text,
+                fullname=self._fullname(msg.sender),
+                avatar_url=self._avatar_url(msg.sender)
+            ))
+        return _messages
 
     def _fullname(self, userid):
         return userid
@@ -68,36 +115,9 @@ class AppMessagingView(BrowserView):
     def _avatar_url(self, userid):
         return pi_api.userprofile.avatar_url(userid)
 
-    def messages(self):
-        fake = [
-            dict(type='date',
-                 status='',
-                 timestamp='20 June 2016, 14:32'),
-            dict(type='text',
-                 status='self',
-                 userid='guido_stevens',
-                 message='Whatever. Wherever.'),
-            dict(type='text',
-                 status='',
-                 userid='alice_lindstrom',
-                 message='Seriously? Today?'),
-            dict(type='date',
-                 status='',
-                 timestamp='21 June 2016, 11:23'),
-            dict(type='text',
-                 status='self',
-                 userid='guido_stevens',
-                 message='Ping?'),
-            dict(type='text',
-                 status='',
-                 userid='alice_lindstrom',
-                 message='Pong!'),
-        ]
-        for x in fake:
-            if x['type'] == 'text':
-                x['fullname'] = self._fullname(x['userid'])
-                x['avatar_url'] = self._avatar_url(x['userid'])
-        return fake
+    def _format_created(self, created):
+        # FIXME add timezone support
+        return self.context.toLocalizedTime(created, long_format=1)
 
 
 class AppMessagingNewChat(BrowserView):
