@@ -3,6 +3,7 @@ from datetime import timedelta
 import logging
 import pytz
 import urllib
+from AccessControl import Unauthorized
 from plone import api
 from ploneintranet import api as pi_api
 from plone.app.event.base import default_timezone
@@ -40,6 +41,8 @@ class AppMessagingView(BrowserView):
         return self
 
     def __call__(self):
+        if api.user.is_anonymous():
+            raise Unauthorized("You must be logged in to use messaging.")
         self.update()
         return self.index()
 
@@ -142,6 +145,8 @@ class AppMessagingNewChat(BrowserView):
         pass
 
     def __call__(self):
+        if api.user.is_anonymous():
+            raise Unauthorized("You must be logged in to use messaging.")
         if False:
             self.update()
             return self.request.response.redirect('FIXME CHAT URL')
@@ -160,5 +165,7 @@ class AppMessagingNewMessage(BrowserView):
         pass
 
     def __call__(self):
+        if api.user.is_anonymous():
+            raise Unauthorized("You must be logged in to use messaging.")
         self.update()
         return self.index()

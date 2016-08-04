@@ -3,20 +3,13 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet">
 
-  <!-- this is secure but in a yukkie way
-
-       The backend checks for api.user.get_current() which is great
-       but the view permissions should be configured right also.
-       This should be a custom permission instead of Zope2.View.
-  -->
-
   <browser:page
       name="app-messaging"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".views.AppMessagingView"
       template="templates/chat.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"
-      permission="zope2.View"
+      permission="ploneintranet.messaging.usemessaging"
       />
   
   <browser:page
@@ -25,7 +18,7 @@
       class=".views.AppMessagingNewChat"
       template="templates/panel-new-chat.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"
-      permission="zope2.View"
+      permission="ploneintranet.messaging.usemessaging"
       />
 
   <browser:page
@@ -34,7 +27,7 @@
       class=".views.AppMessagingNewMessage"
       template="templates/new-message.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"
-      permission="zope2.View"
+      permission="ploneintranet.messaging.usemessaging"
       />
   
 </configure>
