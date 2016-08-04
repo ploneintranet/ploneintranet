@@ -79,8 +79,9 @@ def content_removed(obj, event):
     tool = api.portal.get_tool('ploneintranet_microblog')
     if tool.content_keys(obj) or tool.context_keys(obj):
         # obj can be already detached from parent. reconstruct url
-        logger.info("Archiving statusupdates referencing uuid {} -> {}/{}",
-                    IUUID(obj), event.oldParent.absolute_url(), obj.id)
+        logger.info(
+            "Archiving statusupdates referencing uuid {0} -> {1}/{2}".format(
+                IUUID(obj), event.oldParent.absolute_url(), obj.id))
     for id in tool.content_keys(obj):
         tool.delete(id, restricted=False)
     for id in tool.context_keys(obj):
