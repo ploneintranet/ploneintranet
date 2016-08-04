@@ -9,8 +9,8 @@
       <div id="document-content" class="pat-modal">
         <h1 i18n:translate="">Batch (re)tagging</h1>
 
-        <form method="POST" 
-              action="cart-retag" 
+        <form method="POST"
+              action="cart-retag"
               class="wizard-box pat-inject"
               data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items &amp;&amp; source: #document-body; target: #document-body"
               tal:define="items view/items_by_permission;
@@ -31,21 +31,22 @@
 	          </label>
             </fieldset>
             <article>
-	          <p i18n:translate="info_items_selected_for_retagging">
-		        The following <strong i18n:name="num_items">${len_modifiable}</strong> items will be (re)tagged (un-tick to exclude from this action)
-	          </p>
+	          <p>
+               <tal:selected i18n:translate="info_items_selected_for_retagging">
+                The following <strong i18n:name="num_items">${len_modifiable}</strong> items will be (re)tagged (un-tick to exclude from this action).
+               </tal:selected>
+
               <tal:none_modifiable condition="none_modifiable" i18n:translate="">You don't have permission to (re)tag any of them.
               </tal:none_modifiable>
 
               <tal:not_modifiable condition="python:has_not_modifiable and not none_modifiable" i18n:translate="info_has_not_modifiable_items"><strong i18n:name="num_not_modifiable">${len_not_modifiable}</strong> of the items cannot be (re)tagged because you don't have permission.
               </tal:not_modifiable>
               <tal:modifiable condition="has_modifiable">
-                <tal:not_modifiable condition="has_not_modifiable" i18n:translate="num_items_can_be_deleted">
+                <tal:not_modifiable condition="has_not_modifiable" i18n:translate="num_items_can_be_retagged">
                   <strong i18n:name="num_modifiable">${len_modifiable}</strong> of the items can be (re)tagged.
                 </tal:not_modifiable>
-                <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from (re)tagging)</tal:ays>
               </tal:modifiable>
-
+            </p>
             </article>
 
             <fieldset class="pat-checklist">
