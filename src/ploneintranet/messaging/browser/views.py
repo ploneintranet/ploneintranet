@@ -67,11 +67,15 @@ class AppMessagingView(BrowserView):
                 status = 'unread'
             else:
                 status = ''
+            if conversation.last:
+                byline = conversation.last.text
+            else:
+                byline = '...'
             _conversations.append(
                 dict(
                     userid=userid,
                     status=status,
-                    byline='...',
+                    byline=byline,
                     fullname=self._fullname(userid),
                     chat_url=self._chat_url(userid),
                     avatar_url=self._avatar_url(userid)

@@ -86,10 +86,11 @@ class Conversation(BTreeDictBase):
     username = None
     new_messages_count = 0
     created = None
+    last = None  # last msg from other to inbox owner
 
     def __init__(self, username, created):
         self.data = LOBTree()
-        self.username = username
+        self.username = username  # not inbox owner but other user
         self.created = created
 
     def to_long(self, dt):
@@ -113,6 +114,9 @@ class Conversation(BTreeDictBase):
         key = self.generate_key(message)
         message.uid = key
         self[key] = message
+        # the perspective here is awkward: self.username is the other user
+        if message.sender == self.username:
+            self.last = message
         return key
 
     def __setitem__(self, key, message):

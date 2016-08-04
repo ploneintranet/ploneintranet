@@ -89,8 +89,12 @@ real list. So we iterate over the messages to get the content
     created: 2013-01-01 00:00:00+00:00
     new: True
 
-Now let Dave read his mail and answer Bob. His message will show up in
-the conversation.
+The last message received by Dave is directly accessible on the conversation.
+
+   >>> dave_conversation.last.text
+   'Hi Dave'
+    
+Now let Dave read his mail.
 
    >>> dave_conversation.mark_read()
    >>> print_messages(dave_conversation)
@@ -109,6 +113,9 @@ In Bob's inbox the message is still unread.
    created: 2013-01-01 00:00:00+00:00
    new: True
 
+Dave now answers Bob. His message will show up in
+the conversation.
+
    >>> inboxes.send_message(dave, bob, 'Thanks Bob',
    ...                      created=datetime(2013, 1, 2))
    >>> print_messages(dave_conversation)
@@ -123,6 +130,10 @@ In Bob's inbox the message is still unread.
    created: 2013-01-02 00:00:00+00:00
    new: True
 
+The last accessor ignores Dave's own messages and still shows Bob's message:
+
+   >>> dave_conversation.last.text
+   'Hi Dave'
 
 Now Dave does not want to keep the conversation with Bob and deletes it:
 
