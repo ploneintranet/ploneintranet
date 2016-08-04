@@ -105,6 +105,11 @@ def testing(context):
     log.info("Create some bookmarks")
     create_bookmarks()
     commit()
+
+    log.info("Create direct messages")
+    create_messages()
+    commit()
+
     log.info("done.")
 
 
@@ -894,3 +899,49 @@ def create_bookmarks():
         u'allan_neece'
     )
     pn.bookmark('apps', u'@@app-bookmarks', u'allan_neece')
+
+
+def create_messages():
+    """Generate some message traffic for testing ploneintranet.messaging.
+    """
+    inboxes = pi_api.messaging.get_inboxes()
+    stamp = datetime(2016, 7, 1, 9, 23)
+    for me in ('allan_neece', 'christian_stoney'):
+        phrases = iter(PHRASES)
+        for other in ('alice_lindstrom', 'guy_hackey', 'dollie_nocera'):
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            stamp += timedelta(minutes=1)
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=20)
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            stamp += timedelta(days=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            if other != 'guy_hackey':
+                inboxes[me][other].mark_read()
+
+
+PHRASES = [
+    "Go and live with her, then! See if I care.",
+    "Somehow we need to persuade him to part with a million dollars.",
+    "Don't be scared. I just need you to come with me for a minute.",
+    "I'm telling you - the guy was a complete stranger.",
+    "This isn't just about you. It's about what's best for all of us.",
+    "There's something I need to get off my chest.",
+    "Don't upset your father, not now.",
+    "I've been checking you out.",
+    "You had time to call the police. Why didn't you?",
+    "You're paying a small price compared with what she's going through.",
+    "Why did you scream like that?",
+    "What a thing to say - and on my birthday!",
+    "I want to turn back the clock to before...",
+    "Find some proof that she's betrayed you.",
+    "You don't want to live in a society like this!",
+    "Give me one good reason why I should wear a dress.",
+    "What do you remember about your mother?",
+    "I just want a nice, easy life. What's wrong with that?",
+    "I'm ready to try again, if you are?",
+]
