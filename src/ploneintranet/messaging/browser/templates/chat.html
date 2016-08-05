@@ -119,9 +119,28 @@
 
             </div><!-- /sidebar-content -->
           </aside><!-- /sidebar -->
-	</div><!-- /application-body -->
+
+<!-- to be removed when quaive.resources.ploneintranet contains these fixes:
+https://github.com/quaive/ploneintranet.prototype/commit/e09fa9e300d3fd84fdaae139a885d42fa09f5913
+https://github.com/quaive/ploneintranet.prototype/commit/aae8f9960e45589f9883bb1bc61ee1c8a62f2757
+-->
+<style type="text/css">
+.item-selector .functions .search-box label input[type="search"][disabled] {
+  color: gray;
+  opacity: 0.5;
+}
+aside.sidebar.left .quick-functions a {
+  width: 1.4em;
+  font-size: 1.45em;
+}
+</style>
+
+
+        </div><!-- /application-body -->
         
       </div><!-- /app-space -->
+
+
       </metal:content>
 
     </div><!-- /main -->
