@@ -25,6 +25,15 @@
                     Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.
                   </p>
 		</article>
+                <article class="pat-rich">
+		  <p>
+		    <a title="Start a new conversation"
+                       i18n:attributes="title"
+                       i18n:translate=""
+                       href="${view/portal_url}/@@app-messaging-new-chat#document-content"
+                       class="button pat-button new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+		  </p>
+		</article>
 	      </div>
             </div>
             
@@ -60,7 +69,8 @@
 
             </div><!-- /document-content -->
             
-            <form id="chat-bar" method="post" action="${view/portal_url}/@@app-messaging-new-message"
+            <form tal:condition="view/userid|nothing"
+                  id="chat-bar" method="post" action="${view/portal_url}/@@app-messaging-new-message"
                   class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
               <input type="hidden" name="recipient" value="${view/userid}">
 	      <input autofocus type="text" name="message" placeholder="Write a message" />
@@ -75,7 +85,7 @@
                 <div class="button-bar functions buttons-1" id="selector-functions">
                   <form class="search-box pat-inject pat-autosubmit" action="${view/url}#selector-items">
                     <label>
-                      <input name="search" type="search" placeholder="Search" />
+                      <input name="search" type="search" placeholder="Search" ${view/search_disabled} />
                       <button type="submit">Search</button>
                     </label>
                   </form>

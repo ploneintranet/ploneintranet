@@ -201,6 +201,16 @@ class AppMessagingView(BrowserView):
                 matches.add(userid)
         return list(matches)
 
+    def search_disabled(self):
+        try:
+            enabled = len(pi_api.messaging.get_inbox().keys()) > 8
+        except KeyError:
+            enabled = False
+        if enabled:
+            return ''
+        else:
+            return 'disabled'
+
 
 class AppMessagingNewChat(BrowserView):
     """
