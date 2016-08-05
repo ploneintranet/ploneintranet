@@ -83,14 +83,16 @@ class Message(Persistent):
 @implementer(IConversation)
 class Conversation(BTreeDictBase):
 
-    username = None
+    username = None  # other user
     new_messages_count = 0
     created = None
     last = None  # last msg from other to inbox owner
 
-    def __init__(self, username, created):
+    def __init__(self, username, created=None):
         self.data = LOBTree()
         self.username = username  # not inbox owner but other user
+        if created is None:
+            created = datetime.now(pytz.utc)
         self.created = created
 
     def to_long(self, dt):
@@ -170,7 +172,7 @@ class Conversation(BTreeDictBase):
 @implementer(IInbox)
 class Inbox(BTreeDictBase):
 
-    username = None
+    username = None  # owner of inbox
     new_messages_count = 0
 
     def __init__(self, username):

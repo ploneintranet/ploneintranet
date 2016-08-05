@@ -3,6 +3,7 @@ import logging
 from AccessControl import Unauthorized
 
 from plone import api
+from ploneintranet.messaging.messaging import Conversation
 from ploneintranet.messaging.interfaces import IMessagingLocator
 from zope.component import getUtility
 
@@ -56,6 +57,24 @@ def get_inbox(userid=None):
     return inboxes[_default(userid)]
 
 
+def create_inbox(userid=None):
+    """
+    Create the inbox for the specified user.
+
+    :param userid: Inbox owner. Defaults to current user.
+    :type userid: string
+
+    :returns: Inbox with conversations.
+    :rtype: ploneintranet.messaging.interfaces.IInbox
+    """
+    inboxes = get_inboxes()
+    _userid = _default(userid)
+    if _userid in inboxes.keys():
+        raise ValueError("Inbox for %s already exists", userid)
+    else:
+        return inboxes.add_inbox(_userid)
+
+
 def get_conversation(other_id, userid=None):
     """
     Get the conversation between two users.
@@ -69,8 +88,34 @@ def get_conversation(other_id, userid=None):
     :returns: Conversation with messages.
     :rtyp: ploneintranet.messaging.interfaces.IConversation
     """
-    inbox = get_inbox(userid)
+    _userid = _default(userid)
+    inbox = get_inbox(_userid)
     return inbox[other_id]
+
+
+def create_conversation(other_id, userid=None):
+    """
+    Creates an empty conversation if it does not exist in the user's
+    inbox. This will NOT create the parallel
+    conversation in the other user's inbox. Generally that will
+    be auto-created when sending the first message.
+
+    :param other_id: Userid of somebody else.
+    :type other_id: string
+
+    :param userid: Inbox owner. Defaults to current user.
+    :type userid: string
+
+    :returns: Conversation with messages.
+    :rtyp: ploneintranet.messaging.interfaces.IConversation
+    """
+    _userid = _default(userid)
+    inbox = get_inbox(_userid)
+    if other_id in inbox.keys():
+        raise ValueError("Conversation with %s already exists for %s",
+                         other_id, _userid)
+    else:
+        return inbox.add_conversation(Conversation(other_id))
 
 
 def get_messages(other_id, userid=None):

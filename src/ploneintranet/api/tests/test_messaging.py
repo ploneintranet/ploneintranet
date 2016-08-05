@@ -40,17 +40,33 @@ class TestMessagingApi(IntegrationTestCase):
         inboxes = messaging.get_inboxes()
         self.assertTrue(interfaces.IInboxes.providedBy(inboxes))
 
-    def test_get_inbox(self):
+    def test_get_inbox_after_message(self):
         self.login('johndoe')
         messaging.send_message('maryjane', 'Hi Mary')
         inbox = messaging.get_inbox()
         self.assertTrue(interfaces.IInbox.providedBy(inbox))
+        self.assertTrue(inbox.username, 'johndoe')
 
-    def test_get_conversation(self):
+    def create_inbox(self):
+        self.login('johndoe')
+        inbox = messaging.create_inbox()
+        self.assertTrue(interfaces.IInbox.providedBy(inbox))
+        self.assertTrue(inbox.username, 'johndoe')
+
+    def test_get_conversation_after_message(self):
         self.login('johndoe')
         messaging.send_message('maryjane', 'Hi Mary')
         conversation = messaging.get_conversation('maryjane')
         self.assertTrue(interfaces.IConversation.providedBy(conversation))
+        self.assertTrue(conversation.username, 'maryjane')
+
+    def test_create_conversation(self):
+        self.login('johndoe')
+        # inbox is not autocreated
+        messaging.create_inbox()
+        conversation = messaging.create_conversation('maryjane')
+        self.assertTrue(interfaces.IConversation.providedBy(conversation))
+        self.assertTrue(conversation.username, 'maryjane')
 
     def test_get_messages(self):
         self.login('johndoe')

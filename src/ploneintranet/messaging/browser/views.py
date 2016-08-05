@@ -28,6 +28,7 @@ class AppMessagingView(BrowserView):
     def __init__(self, context, request):
         super(AppMessagingView, self).__init__(context, request)
         self.userid = None
+        self.inbox = None
 
     def publishTraverse(self, request, name):
         userid = urllib.unquote(name)
@@ -49,6 +50,10 @@ class AppMessagingView(BrowserView):
     def update(self):
         if self.userid:
             self.mark_read(self.userid)
+        new_userid = self.request.get('new_userid', None)
+        if new_userid:
+            self.create_conversation(new_userid)
+            self.userid = new_userid  # render the new (empty) chat panel
 
     def mark_read(self, userid):
         conversation = pi_api.messaging.get_conversation(userid)
@@ -62,8 +67,32 @@ class AppMessagingView(BrowserView):
             # the write also propagates to parent inbox
             safeWrite(conversation.__parent__, self.request)
 
+    def create_conversation(self, new_userid):
+        if not api.user.get(new_userid):
+            raise ValueError("Invalid userid: %s", new_userid)
+
+        # maybe this user does not even have an inbox yet
+        try:
+            inbox = pi_api.messaging.get_inbox()
+        except KeyError:
+            inbox = pi_api.messaging.create_inbox()
+            safeWrite(inbox, self.request)
+            safeWrite(inbox.__parent__, self.request)
+
+        # don't error out when selecting an existing conversation
+        if new_userid not in inbox.keys():
+            conversation = pi_api.messaging.create_conversation(new_userid)
+            safeWrite(conversation, self.request)
+            safeWrite(inbox, self.request)
+            logger.info("%s started new conversation with %s",
+                        api.user.get_current().id, new_userid)
+
     def conversations(self):
-        inbox = pi_api.messaging.get_inbox()
+        try:
+            inbox = pi_api.messaging.get_inbox()
+        except KeyError:
+            return []
+
         _conversations = []
         for userid in self._filter(inbox.keys()):
             conversation = inbox[userid]
@@ -180,17 +209,9 @@ class AppMessagingNewChat(BrowserView):
 
     # /prototype/_site/apps/messages/panel-new-chat.html
 
-    def update(self):
-        pass
-
-    def __call__(self):
-        if api.user.is_anonymous():
-            raise Unauthorized("You must be logged in to use messaging.")
-        if False:
-            self.update()
-            return self.request.response.redirect('FIXME CHAT URL')
-        else:
-            return self.index()
+    @property
+    def portal_url(self):
+        return api.portal.get().absolute_url()
 
 
 class AppMessagingNewMessage(BrowserView):
