@@ -164,6 +164,7 @@ I add an item to the cart
 
 I choose to delete the items in the cart
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Delete']
+    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch delete"]
 
 I choose to cut the items in the cart
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
@@ -189,12 +190,14 @@ I choose to include a message
 I choose to retag the items in the cart
     [arguments]  ${tag}
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Re-tag']
+    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch (re)tagging"]
     Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  ${tag},
     Click button  Tag
 
 I choose to rename the items in the cart
     [arguments]  ${old_title}  ${title}
     Click Element  xpath=//div[@class='batch-functions']//button[text()='Rename']
+    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch rename"]
     Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
     Click button  form-buttons-send
 
@@ -207,6 +210,7 @@ I confirm to delete the items
 
 I save the document
     Click button  Save
+    Wait until page contains  Your changes have been saved
 
 I see a message that items have been deleted
     [arguments]  ${title}
