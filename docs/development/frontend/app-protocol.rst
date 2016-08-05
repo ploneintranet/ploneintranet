@@ -113,15 +113,88 @@ See ``ploneintranet.layout.tests.utils.MockFolder`` for an example implementatio
 
 .. code:: python
 
-   class MockFolder(AbstractAppContainer, Folder):
-       """A mock folder that inherits the app registration hook
-       from AbstractAppContainer."""
-       implements(IMockFolder)
+    from plone.app.contenttypes.content import Folder
+    from ploneintranet.layout.app import AbstractAppContainer
+    from ploneintranet.layout.interfaces import IAppContainer
+    from ploneintranet.layout.tests.utils import IMockLayer
+    from zope.interface import implements
 
-       app_name = 'mock'
-       app_layers = (IMockLayer, )
+    class IMockFolder(IAppContainer):
+        """Marker interface for an app container"""
+
+    class MockFolder(AbstractAppContainer, Folder):
+        """A mock folder that inherits the app registration hook
+        from AbstractAppContainer."""
+        implements(IMockFolder)
+
+        app_name = 'mock'
+        app_layers = (IMockLayer, )
+
+Obviously you should use your actual browser layer for the app instead of ``IMockLayer``.
 
 For content types that are available in multiple apps, you can now
 register app-specific views by binding those views to your custom app layer.
 See ``ploneintranet.workspace.basecontent`` for a number of views on generic content types, registered specifically for workspace-contained content only.
 
+
+Marking content or views as within an App
+=========================================
+
+Some parts of the site render conceptually within the Apps section.
+Some ``IAppContainer`` objects, like workspaces and the library, conceptually
+render outside the Apps section.
+
+app content
+-----------
+
+Content containers that should "reside" within the apps section can be marked
+as ``IAppManager``. So you would apply ``IAppManager`` in addition to ``IAppContainer`` if your container conceptually resides within the app listing *and* wants to switch specific browser layers.
+
+.. code:: python
+
+    from ploneintranet.layout.interfaces import IAppContainer
+    from ploneintranet.layout.interfaces import IAppManager
+    from ploneintranet.layout.tests.utils import IMockLayer
+    from zope.interface import implements
+
+    class IFooAppManager(IAppManager, IAppContainer):
+        """Marker interface for FooApp implementation"
+
+    class FooAppFolder(AbstractAppFolder, Folder):
+        """A view that is part of an app."""
+        implements(IFooAppManager)
+        app_name = 'app-foo'
+        app_layers = (IMockLayer, )
+
+Obviously you should use your actual browser layer for the app instead of ``IMockLayer``.
+
+This ``FooAppFolder`` is now both an ``IAppContainer`` switching browser layers on and off, and an ``IAppManager`` signaling UI containment within the apps section.
+
+app views
+---------
+
+Some apps do not have a special context at all, but consist only of views that render on the ``INavigationRoot``.
+
+However, in the UI we want to be able to style such views differently and be able to set e.g. CSS classes on the body element, to indicate that we're looking at an app, and at which app.
+
+To mark your view as an App view, make sure it implements
+``ploneintranet.layout.interfaces.IAppView``. This involves marking the interface
+on your view, and providing the ``app_name`` attribute.
+
+Example:
+
+.. code:: python
+
+
+    from ploneintranet.layout.interfaces import IAppView
+    from zope.interface import implements
+
+    class BarApp(BrowserView):
+        """A view that is part of an app but renders on the siteroot"""
+        implements(IAppView)
+        app_name = 'app-bar'
+
+
+The logo viewlet override checks for both the ``IAppContainer`` (on the context) and ``IAppView`` (on the view) to determine how it handles breadcrumbs handling.
+
+FIXME: we should also set the bodyclass, where can that be done?
