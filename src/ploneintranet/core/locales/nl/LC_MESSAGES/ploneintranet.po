@@ -87,7 +87,7 @@ msgstr "Een titel voor de taken"
 
 #: ../todo/behaviors.py:52
 msgid "A user (or a group) assigned to this task"
-msgstr "Een gebruiker (of een groep) die is toegewezen aan deze taak"
+msgstr "Een gebruiker (of een groep) die verantwoordelijk is voor deze taak"
 
 #: ../userprofile/content/userprofile.py:130
 msgid "A user with this username already exists"
@@ -263,7 +263,7 @@ msgstr "Weet je het zeker? (selecteer items om deze te behouden)"
 #: ../todo/behaviors.py:51
 #: ../workspace/browser/templates/content_macros.pt:27
 msgid "Assignee"
-msgstr "Gevolmachtigde"
+msgstr "Verantwoordelijke"
 
 #: ../async/configure.zcml:18
 msgid "Async task dispatch for PloneIntranet"
@@ -1454,7 +1454,7 @@ msgstr "Kies een ${fti_titles_by_type/?portal_type} Sjabloon"
 
 #: ../workspace/browser/templates/content_macros.pt:28
 msgid "Pick an assignee"
-msgstr "Kies een gevolmachtigde"
+msgstr "Kies een verantwoordelijke"
 
 #: ../workspace/browser/templates/content_macros.pt:20
 msgid "Pick an initiator"
