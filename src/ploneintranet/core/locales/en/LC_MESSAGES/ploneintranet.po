@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-02 19:23+0000\n"
+"POT-Creation-Date: 2016-08-05 11:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,7 +150,7 @@ msgid "Admin-Managed"
 msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:519
+#: ../workspace/browser/tiles/templates/sidebar.pt:531
 msgid "Advanced"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 msgid "Archived on"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:41
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:40
 msgid "Are you sure? (un-tick to exclude from deletion)"
 msgstr ""
 
@@ -293,7 +293,7 @@ msgstr ""
 msgid "Author name (for display)"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:191
+#: ../workspace/browser/tiles/templates/sidebar.pt:203
 msgid "Author of this document"
 msgstr ""
 
@@ -309,8 +309,16 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:10
+msgid "Batch (re)tagging"
+msgstr ""
+
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:10
 msgid "Batch delete"
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:10
+msgid "Batch rename"
 msgstr ""
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:10
@@ -384,7 +392,7 @@ msgstr ""
 msgid "Changes applied"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:381
+#: ../workspace/browser/tiles/templates/sidebar.pt:393
 msgid "Close milestone"
 msgstr ""
 
@@ -449,11 +457,11 @@ msgid "Create event"
 msgstr ""
 
 #: ../workspace/browser/templates/add_folder.pt:7
-#: ../workspace/browser/tiles/templates/sidebar.pt:216
+#: ../workspace/browser/tiles/templates/sidebar.pt:228
 msgid "Create folder"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:284
+#: ../workspace/browser/tiles/templates/sidebar.pt:296
 msgid "Create new task"
 msgstr ""
 
@@ -483,7 +491,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:195
+#: ../workspace/browser/tiles/templates/sidebar.pt:207
 msgid "Date and time of the latest modification"
 msgstr ""
 
@@ -633,7 +641,7 @@ msgstr ""
 msgid "Edit latest news portlet"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:137
+#: ../workspace/browser/tiles/templates/sidebar.pt:149
 msgid "Edit name/description"
 msgstr ""
 
@@ -670,6 +678,10 @@ msgstr ""
 msgid "Enter a description of the task"
 msgstr ""
 
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:30
+msgid "Enter a label"
+msgstr ""
+
 #: ../workspace/browser/templates/content_macros.pt:94
 msgid "Enter a location"
 msgstr ""
@@ -678,7 +690,7 @@ msgstr ""
 msgid "Error sending email"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/paste.py:26
+#: ../workspace/browser/cart_actions/paste.py:25
 msgid "Error while pasting items"
 msgstr ""
 
@@ -801,11 +813,11 @@ msgstr ""
 msgid "Functions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:505
+#: ../workspace/browser/tiles/templates/sidebar.pt:517
 msgid "General"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:291
+#: ../workspace/browser/tiles/templates/sidebar.pt:303
 msgid "General tasks"
 msgstr ""
 
@@ -976,7 +988,7 @@ msgstr ""
 msgid "Item edited."
 msgstr ""
 
-#: ../workspace/browser/cart_actions/paste.py:32
+#: ../workspace/browser/cart_actions/paste.py:31
 msgid "Item(s) pasted"
 msgstr ""
 
@@ -1136,7 +1148,7 @@ msgid "Member(s) removed"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:509
+#: ../workspace/browser/tiles/templates/sidebar.pt:521
 msgid "Members"
 msgstr ""
 
@@ -1253,8 +1265,16 @@ msgstr ""
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr ""
 
+#: ../workspace/browser/cart_actions/retag.py:63
+msgid "No items could be (re)tagged"
+msgstr ""
+
 #: ../workspace/browser/cart_actions/delete.py:39
 msgid "No items could be deleted"
+msgstr ""
+
+#: ../workspace/browser/cart_actions/rename.py:60
+msgid "No items could be renamed"
 msgstr ""
 
 #: ../messaging/browser/your-inbox.pt:65
@@ -1340,7 +1360,7 @@ msgstr ""
 msgid "Older"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:487
+#: ../workspace/browser/tiles/templates/sidebar.pt:499
 msgid "Older events"
 msgstr ""
 
@@ -1545,6 +1565,10 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:123
+msgid "Re-tag"
+msgstr ""
+
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:27
 msgid "Recipients..."
 msgstr ""
@@ -1582,11 +1606,16 @@ msgstr ""
 msgid "Remove this item from your bookmarks"
 msgstr ""
 
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:45
+#: ../workspace/browser/tiles/templates/sidebar.pt:118
+msgid "Rename"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:83
 msgid "Reopen"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:384
+#: ../workspace/browser/tiles/templates/sidebar.pt:396
 msgid "Reopen milestone"
 msgstr ""
 
@@ -1651,7 +1680,7 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:514
+#: ../workspace/browser/tiles/templates/sidebar.pt:526
 msgid "Security"
 msgstr ""
 
@@ -1691,7 +1720,7 @@ msgstr ""
 msgid "Send email invite to:"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:118
+#: ../workspace/browser/tiles/templates/sidebar.pt:130
 msgid "Send selected document(s)"
 msgstr ""
 
@@ -1763,6 +1792,10 @@ msgstr ""
 
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:69
+msgid "Tag"
 msgstr ""
 
 #: ../layout/browser/templates/dashboard.pt:21
@@ -2034,7 +2067,7 @@ msgstr ""
 msgid "Transfer members to another workspace."
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:400
+#: ../workspace/browser/tiles/templates/sidebar.pt:412
 msgid "Unassigned"
 msgstr ""
 
@@ -2084,7 +2117,7 @@ msgid "Until"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:433
+#: ../workspace/browser/tiles/templates/sidebar.pt:445
 msgid "Upcoming events"
 msgstr ""
 
@@ -2105,7 +2138,7 @@ msgstr ""
 msgid "Upgrade profile to include login form colophon actions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:239
+#: ../workspace/browser/tiles/templates/sidebar.pt:251
 msgid "Upload file(s)"
 msgstr ""
 
@@ -2113,7 +2146,7 @@ msgstr ""
 msgid "Use this content as a membrane group"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:194
+#: ../workspace/browser/tiles/templates/sidebar.pt:206
 msgid "User not found"
 msgstr ""
 
@@ -2267,7 +2300,11 @@ msgstr ""
 msgid "You do not have permission to change the workspace policy"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:33
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:39
+msgid "You don't have permission to (re)tag any of them."
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:32
 msgid "You don't have permission to delete any of them."
 msgstr ""
 
@@ -2321,23 +2358,33 @@ msgid "author"
 msgstr ""
 
 #. Default: "${num_elems} Files were copied to your cloud clipboard."
-#: ../workspace/browser/cart_actions/copy.py:39
+#: ../workspace/browser/cart_actions/copy.py:38
 msgid "batch_copied_success"
 msgstr ""
 
 #. Default: "The following items could not be cut: ${num_elems}"
-#: ../workspace/browser/cart_actions/cut.py:65
+#: ../workspace/browser/cart_actions/cut.py:64
 msgid "batch_cut_failure"
 msgstr ""
 
 #. Default: "${num_elems} Files were cut and moved to your cloud clipboard."
-#: ../workspace/browser/cart_actions/cut.py:53
+#: ../workspace/browser/cart_actions/cut.py:52
 msgid "batch_cut_success"
 msgstr ""
 
 #. Default: "The following items have been deleted: ${title_elems}"
 #: ../workspace/browser/cart_actions/delete.py:27
 msgid "batch_delete_success"
+msgstr ""
+
+#. Default: "The following items have been renamed: ${title_elems}"
+#: ../workspace/browser/cart_actions/rename.py:48
+msgid "batch_rename_success"
+msgstr ""
+
+#. Default: "The following items have been (re)tagged: ${title_elems}"
+#: ../workspace/browser/cart_actions/retag.py:51
+msgid "batch_retag_success"
 msgstr ""
 
 #. Default: "BCC"
@@ -2582,13 +2629,23 @@ msgid "image-bank"
 msgstr ""
 
 #. Default: "${num_not_deleteable} of the items cannot be deleted because you don't have permission."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:35
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:34
 msgid "info_has_not_deleteable_items"
 msgstr ""
 
+#. Default: "${num_not_modifiable} of the items cannot be (re)tagged because you don't have permission."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:42
+msgid "info_has_not_modifiable_items"
+msgstr ""
+
 #. Default: "You've selected the following ${num_items} items to be deleted."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:31
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:30
 msgid "info_items_selected"
+msgstr ""
+
+#. Default: "The following ${num_items} items will be (re)tagged (un-tick to exclude from this action)."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:36
+msgid "info_items_selected_for_retagging"
 msgstr ""
 
 #. Default: "Loading more posts"
@@ -2734,7 +2791,7 @@ msgid "label_news"
 msgstr ""
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:496
+#: ../workspace/browser/tiles/templates/sidebar.pt:508
 msgid "label_no_events_available"
 msgstr ""
 
@@ -2881,13 +2938,18 @@ msgid "news"
 msgstr ""
 
 #. Default: "No tasks created yet"
-#: ../workspace/browser/tiles/templates/sidebar.pt:293
+#: ../workspace/browser/tiles/templates/sidebar.pt:305
 msgid "no-task-found"
 msgstr ""
 
 #. Default: "${num_deleteable} of the items can be deleted."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:39
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:38
 msgid "num_items_can_be_deleted"
+msgstr ""
+
+#. Default: "${num_modifiable} of the items can be (re)tagged."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:46
+msgid "num_items_can_be_retagged"
 msgstr ""
 
 #. Default: "${no_members} Members"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-08-02 19:23+0000\n"
+"POT-Creation-Date: 2016-08-05 11:33+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Jean-Paul Ladage ,j.ladage@zestsoftware.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -30,7 +30,7 @@ msgstr "${action_verb} dit item"
 
 #: ../activitystream/browser/templates/content-share.html:23
 msgid "${context/action_verb}"
-msgstr ""
+msgstr "${context/action_verb}"
 
 #: ../search/browser/templates/all_results.pt:108
 msgid "${facet/label}"
@@ -96,7 +96,7 @@ msgstr "Er bestaat al een gebruiker met deze gebruikersnaam"
 #: ../layout/profiles/default/actions.xml
 #: ../layout/upgrades/profiles/to_0002/actions.xml
 msgid "About this environment"
-msgstr ""
+msgstr "Over deze omgeving"
 
 #: ../layout/browser/templates/dashboard.pt:18
 msgid "Activity centric view"
@@ -125,7 +125,7 @@ msgstr "Tags toevoegen"
 
 #: ../bookmarks/browser/bookmark_link.py:57
 msgid "Add this item to your bookmarks"
-msgstr "Toevoegen aan je bookmarks"
+msgstr "Toevoegen aan je favorieten"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:113
 msgid "Add user"
@@ -156,7 +156,7 @@ msgid "Admin-Managed"
 msgstr "Beheerd door beheerder"
 
 #: ../workspace/browser/templates/roster-edit.pt:167
-#: ../workspace/browser/tiles/templates/sidebar.pt:519
+#: ../workspace/browser/tiles/templates/sidebar.pt:531
 msgid "Advanced"
 msgstr "Geavanceerd"
 
@@ -256,7 +256,7 @@ msgstr "Gearchiveerd"
 msgid "Archived on"
 msgstr "Gearchiveerd op"
 
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:41
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:40
 msgid "Are you sure? (un-tick to exclude from deletion)"
 msgstr "Weet je het zeker? (selecteer items om deze te behouden)"
 
@@ -299,7 +299,7 @@ msgstr "Attributen gewijzigd."
 msgid "Author name (for display)"
 msgstr "Auteursnaam (voor weergave)"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:191
+#: ../workspace/browser/tiles/templates/sidebar.pt:203
 msgid "Author of this document"
 msgstr "Auteur van dit document"
 
@@ -309,15 +309,23 @@ msgstr "Beschikbare velden/kolommen"
 
 #: ../workspace/basecontent/templates/mail_view.pt:105
 msgid "BCC"
-msgstr ""
+msgstr "BCC"
 
 #: ../workspace/browser/tiles/sidebar.py:475
 msgid "Back"
 msgstr "Vorige"
 
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:10
+msgid "Batch (re)tagging"
+msgstr "Geselecteerde items taggen"
+
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:10
 msgid "Batch delete"
-msgstr "Verwijder selectie"
+msgstr "Sselecteerde items verwijderen"
+
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:10
+msgid "Batch rename"
+msgstr "Geselecteerde items hernoemen"
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:10
 msgid "Batch send"
@@ -329,7 +337,7 @@ msgstr "Biografie"
 
 #: ../bookmarks/browser/bookmark_link.py:61
 msgid "Bookmark"
-msgstr ""
+msgstr "Voeg toe aan Favorieten"
 
 #: ../workspace/basecontent/templates/mail_view.pt:99
 msgid "CC"
@@ -340,11 +348,11 @@ msgstr "CSV-bestand"
 
 #: ../userprofile/browser/templates/userprofile.pt:81
 msgid "Call ${context/fullname} at ${context/telephone}"
-msgstr ""
+msgstr "Bel ${context/fullname} op ${context/telephone}"
 
 #: ../workspace/browser/cart_actions/download.py:39
 msgid "Can't download, no items found."
-msgstr "Kan niet downloaden, geen items gevonden."
+msgstr "Downloaden mislukt, geen items gevonden."
 
 #: ../messaging/browser/send-message.pt:63
 #: ../microblog/browser/templates/update-social.html:136
@@ -357,7 +365,7 @@ msgid "Case Metadata"
 msgstr "Dossier metadata"
 
 msgid "Case Workspace"
-msgstr "Dossiergroep"
+msgstr "Dossier"
 
 #: ../workspace/browser/workspacecontainer.py:160
 msgid "Cases"
@@ -390,7 +398,7 @@ msgstr "De publicatiestatus wijzigen"
 msgid "Changes applied"
 msgstr "Wijzigingen toegepast"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:381
+#: ../workspace/browser/tiles/templates/sidebar.pt:393
 msgid "Close milestone"
 msgstr "Sluit mijlpaal"
 
@@ -425,11 +433,11 @@ msgstr "Kopiëren"
 
 #: ../workspace/basecontent/templates/mail_view.pt:201
 msgid "Copy all attachments as individual files to this workspace."
-msgstr ""
+msgstr "Kopieer alle bijlagen als afzonderelijke bestanden naar deze groep"
 
 #: ../workspace/basecontent/templates/mail_view.pt:172
 msgid "Copy file to workspace"
-msgstr ""
+msgstr "Kopieer bestand naar groep"
 
 #: ../workspace/browser/templates/add_content.pt:35
 #: ../workspace/browser/templates/add_folder.pt:20
@@ -455,11 +463,11 @@ msgid "Create event"
 msgstr "Evenement aanmaken"
 
 #: ../workspace/browser/templates/add_folder.pt:7
-#: ../workspace/browser/tiles/templates/sidebar.pt:216
+#: ../workspace/browser/tiles/templates/sidebar.pt:228
 msgid "Create folder"
 msgstr "Map aanmaken"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:284
+#: ../workspace/browser/tiles/templates/sidebar.pt:296
 msgid "Create new task"
 msgstr "Taak aanmaken"
 
@@ -489,7 +497,7 @@ msgstr "Dashboard"
 msgid "Date"
 msgstr "Datum"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:195
+#: ../workspace/browser/tiles/templates/sidebar.pt:207
 msgid "Date and time of the latest modification"
 msgstr "Datum en tijd van de laatste wijziging"
 
@@ -561,7 +569,7 @@ msgstr "Omschrijving van zoekresultaten (optioneel)"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:37
 #: ../workspace/browser/tiles/templates/sidebar.pt:86
 msgid "Deslect all"
-msgstr ""
+msgstr "Alles deselecteren"
 
 #: ../search/browser/templates/all_results.pt:167
 msgid "Did you mean"
@@ -639,7 +647,7 @@ msgstr "Bewerk opmerking"
 msgid "Edit latest news portlet"
 msgstr "Wijzig \"laatste nieuws\"-portlet"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:137
+#: ../workspace/browser/tiles/templates/sidebar.pt:149
 msgid "Edit name/description"
 msgstr "Bewerk naam/omschrijving"
 
@@ -676,6 +684,10 @@ msgstr "Activeert dynamische thema-wisseling"
 msgid "Enter a description of the task"
 msgstr "Geef een omschrijving van de taak"
 
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:30
+msgid "Enter a label"
+msgstr "Voeg een tag toe."
+
 #: ../workspace/browser/templates/content_macros.pt:94
 msgid "Enter a location"
 msgstr "Geef een locatie op"
@@ -684,7 +696,7 @@ msgstr "Geef een locatie op"
 msgid "Error sending email"
 msgstr "Fout opgetreden bij het versturen van de E-mail"
 
-#: ../workspace/browser/cart_actions/paste.py:26
+#: ../workspace/browser/cart_actions/paste.py:25
 msgid "Error while pasting items"
 msgstr "Fout bij het plaken van items"
 
@@ -713,7 +725,7 @@ msgstr "Paneel uitklappen"
 
 #: ../bookmarks/configure.zcml:25
 msgid "Extension profile for ploneintranet.bookmarks."
-msgstr ""
+msgstr "Extentie profiel voor ploneintranet.bookmarks."
 
 #: ../layout/configure.zcml:37
 msgid "Extension profile for ploneintranet.layout."
@@ -785,7 +797,7 @@ msgstr "Vergrendel dossier"
 #: ../workspace/browser/templates/content_macros.pt:128
 #: ../workspace/browser/templates/email_invitees_html.pt:11
 msgid "From"
-msgstr "Formuier"
+msgstr "Van"
 
 #: ../workspace/browser/templates/case.pt:42
 msgid "Frozen"
@@ -807,11 +819,11 @@ msgstr "Volledige lijst van mensen die ${name_of_followee} volgt."
 msgid "Functions"
 msgstr "Functies"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:505
+#: ../workspace/browser/tiles/templates/sidebar.pt:517
 msgid "General"
 msgstr "Algemeen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:291
+#: ../workspace/browser/tiles/templates/sidebar.pt:303
 msgid "General tasks"
 msgstr "Algemene taken"
 
@@ -834,7 +846,7 @@ msgstr ""
 
 #: ../bookmarks/browser/templates/app.pt:40
 msgid "Group by creation date"
-msgstr ""
+msgstr "Groepeer op aanmaakdatum"
 
 #: ../userprofile/browser/templates/userprofile_documents.pt:14
 msgid "Group by date"
@@ -862,11 +874,11 @@ msgstr "Groepeer op trefwoord"
 
 #: ../bookmarks/browser/templates/app.pt:35
 msgid "Group by workspace"
-msgstr ""
+msgstr "Groepeer op groep"
 
 #: ../layout/browser/configure.zcml:161
 msgid "Grouped Search"
-msgstr ""
+msgstr "Zoeken in groepen"
 
 #: ../workspace/policies.py:77
 msgid "Guest"
@@ -982,7 +994,7 @@ msgstr "Item aangemaakt."
 msgid "Item edited."
 msgstr "Item bewerkt"
 
-#: ../workspace/browser/cart_actions/paste.py:32
+#: ../workspace/browser/cart_actions/paste.py:31
 msgid "Item(s) pasted"
 msgstr "Item(s) geplakt"
 
@@ -1080,7 +1092,7 @@ msgstr "Link"
 
 #: ../search/browser/templates/all_results.pt:289
 msgid "Loading more search results&hellip;"
-msgstr ""
+msgstr "Bezig met laden van meer resultaten&hellip;"
 
 #: ../workspace/browser/templates/content_macros.pt:94
 #: ../workspace/browser/templates/email_invitees_html.pt:12
@@ -1105,11 +1117,11 @@ msgstr "Laag"
 #: ../workspace/profiles/default/types/ploneintranet.workspace.mail.xml
 #: ../workspace/upgrades/profiles/to_0011/types/ploneintranet.workspace.mail.xml
 msgid "Mail"
-msgstr ""
+msgstr "E-mail"
 
 #: ../userprofile/browser/templates/userprofile.pt:74
 msgid "Mail ${context/fullname} via ${context/email}"
-msgstr ""
+msgstr "Stuur een e-mail naar ${context/fullname} via ${contetx/email}"
 
 msgid "Make open"
 msgstr "Maak open"
@@ -1142,7 +1154,7 @@ msgid "Member(s) removed"
 msgstr "Lid/leden verwijderd"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:20
-#: ../workspace/browser/tiles/templates/sidebar.pt:509
+#: ../workspace/browser/tiles/templates/sidebar.pt:521
 msgid "Members"
 msgstr "Leden"
 
@@ -1216,7 +1228,7 @@ msgstr "Mijn profiel"
 
 #: ../layout/browser/configure.zcml:126
 msgid "My tile's description"
-msgstr ""
+msgstr "Omschrijving van mijn tegel"
 
 #: ../userprofile/browser/templates/userprofile_info.pt:19
 msgid "Name"
@@ -1259,9 +1271,17 @@ msgstr "Geen groepering"
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr "Er is geen item id opgegeven in sub-pad. Gebruik .../@@toggle_like/123456"
 
+#: ../workspace/browser/cart_actions/retag.py:63
+msgid "No items could be (re)tagged"
+msgstr "Er konden geen items ge(re)tagged worden"
+
 #: ../workspace/browser/cart_actions/delete.py:39
 msgid "No items could be deleted"
 msgstr "Er konden geen items worden verwijderd"
+
+#: ../workspace/browser/cart_actions/rename.py:60
+msgid "No items could be renamed"
+msgstr "Er konden geen items hernoemd worden"
 
 #: ../messaging/browser/your-inbox.pt:65
 msgid "No messages"
@@ -1334,7 +1354,7 @@ msgstr "ODT-document"
 
 #: ../workspace/subscribers.py:139
 msgid "Oh boy, oh boy, you are already a member"
-msgstr ""
+msgstr "Je bent al lid van deze groep"
 
 #: ../workspace/browser/templates/panel-add-group.pt:27
 #: ../workspace/browser/templates/panel-add-user.pt:26
@@ -1346,7 +1366,7 @@ msgstr "Akkoord"
 msgid "Older"
 msgstr "Eerder"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:487
+#: ../workspace/browser/tiles/templates/sidebar.pt:499
 msgid "Older events"
 msgstr "Eerdere evenementen"
 
@@ -1551,6 +1571,10 @@ msgstr "Profiel"
 msgid "Publish"
 msgstr "..."
 
+#: ../workspace/browser/tiles/templates/sidebar.pt:123
+msgid "Re-tag"
+msgstr "Opnieuw taggen"
+
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:27
 msgid "Recipients..."
 msgstr "Aan..."
@@ -1566,7 +1590,7 @@ msgstr "Verwijderen"
 
 #: ../bookmarks/browser/bookmark_link.py:82
 msgid "Remove bookmark"
-msgstr "Verwijder bookmark"
+msgstr "Verwijder uit favorieten"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:54
 msgid "Remove member or group"
@@ -1586,13 +1610,18 @@ msgstr "Speciale rol verwijderen"
 
 #: ../bookmarks/browser/bookmark_link.py:51
 msgid "Remove this item from your bookmarks"
-msgstr "Verwijder dit item van je bookmarks"
+msgstr "Verwijder dit item van je favorieten"
+
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:45
+#: ../workspace/browser/tiles/templates/sidebar.pt:118
+msgid "Rename"
+msgstr "Hernoemen"
 
 #: ../todo/browser/templates/todo_view.pt:83
 msgid "Reopen"
 msgstr "Heropen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:384
+#: ../workspace/browser/tiles/templates/sidebar.pt:396
 msgid "Reopen milestone"
 msgstr "Heropen mijlpaal"
 
@@ -1657,7 +1686,7 @@ msgstr "Zoek naar groepen"
 msgid "Secret"
 msgstr "Verborgen"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:514
+#: ../workspace/browser/tiles/templates/sidebar.pt:526
 msgid "Security"
 msgstr "Beveiliging"
 
@@ -1697,7 +1726,7 @@ msgstr "Verzenden"
 msgid "Send email invite to:"
 msgstr "Stuur uitnodiging per email aan:"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:118
+#: ../workspace/browser/tiles/templates/sidebar.pt:130
 msgid "Send selected document(s)"
 msgstr "Verstuur geselecteerde document(en)"
 
@@ -1770,6 +1799,10 @@ msgstr "Status"
 #: ../network/browser/templates/author.pt:29
 msgid "Status updates by ${fullname}:"
 msgstr "Statusupdates door ${fullname}:"
+
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:69
+msgid "Tag"
+msgstr "Tag"
 
 #: ../layout/browser/templates/dashboard.pt:21
 msgid "Task centric view"
@@ -1966,11 +1999,11 @@ msgstr "Deze opmerking is verwijderd."
 
 #: ../bookmarks/browser/templates/bookmark.pt:16
 msgid "This item has been added to your bookmarks."
-msgstr "Dit is toegevoegd aan je bookmarks."
+msgstr "Dit is toegevoegd aan je favorieten."
 
 #: ../bookmarks/browser/templates/unbookmark.pt:16
 msgid "This item has been removed from your bookmarks."
-msgstr "Dit is verwijderd van je bookmarks."
+msgstr "Dit is verwijderd uit je favorieten."
 
 #: ../todo/portlets/latest.py:76
 msgid "This portlet displays the latest news that must be read."
@@ -2040,7 +2073,7 @@ msgstr "Token is niet langer geldig"
 msgid "Transfer members to another workspace."
 msgstr "Verplaats groepsleden naar een andere groep."
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:400
+#: ../workspace/browser/tiles/templates/sidebar.pt:412
 msgid "Unassigned"
 msgstr "Niet toegekend"
 
@@ -2090,7 +2123,7 @@ msgid "Until"
 msgstr "Tot"
 
 #: ../workspace/browser/tiles/templates/events.pt:10
-#: ../workspace/browser/tiles/templates/sidebar.pt:433
+#: ../workspace/browser/tiles/templates/sidebar.pt:445
 msgid "Upcoming events"
 msgstr "Aanstaande evenementen"
 
@@ -2111,7 +2144,7 @@ msgstr "Updates"
 msgid "Upgrade profile to include login form colophon actions"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:239
+#: ../workspace/browser/tiles/templates/sidebar.pt:251
 msgid "Upload file(s)"
 msgstr "Bestand(en) toevoegen"
 
@@ -2119,7 +2152,7 @@ msgstr "Bestand(en) toevoegen"
 msgid "Use this content as a membrane group"
 msgstr "Gebruik deze inhoud als een membrane groep"
 
-#: ../workspace/browser/tiles/templates/sidebar.pt:194
+#: ../workspace/browser/tiles/templates/sidebar.pt:206
 msgid "User not found"
 msgstr "Gebruiker niet gevonden"
 
@@ -2267,13 +2300,17 @@ msgstr "Je kan lid worden van deze groep"
 
 #: ../bookmarks/browser/templates/bookmark.pt:17
 msgid "You can find your bookmarks in the"
-msgstr "Je kunt je bookmarks vinden in de"
+msgstr "Je kunt je favorieten vinden in de"
 
 #: ../workspace/browser/tiles/sidebar.py:218
 msgid "You do not have permission to change the workspace policy"
 msgstr "Je bent niet bevoegd om het groepsbeleid te wijzigen"
 
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:33
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:39
+msgid "You don't have permission to (re)tag any of them."
+msgstr "Je hebt onvoldoende rechten om deze items te (her)taggen."
+
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:32
 msgid "You don't have permission to delete any of them."
 msgstr "Je bent niet bevoegd om deze items te verwijderen."
 
@@ -2327,17 +2364,17 @@ msgid "author"
 msgstr "auteur"
 
 #. Default: "${num_elems} Files were copied to your cloud clipboard."
-#: ../workspace/browser/cart_actions/copy.py:39
+#: ../workspace/browser/cart_actions/copy.py:38
 msgid "batch_copied_success"
 msgstr "${num_elems} bestanden zijn naar jouw cloud-klembord gekopieerd."
 
 #. Default: "The following items could not be cut: ${num_elems}"
-#: ../workspace/browser/cart_actions/cut.py:65
+#: ../workspace/browser/cart_actions/cut.py:64
 msgid "batch_cut_failure"
 msgstr "De volgende items konden niet worden geknipt: ${num_elems}"
 
 #. Default: "${num_elems} Files were cut and moved to your cloud clipboard."
-#: ../workspace/browser/cart_actions/cut.py:53
+#: ../workspace/browser/cart_actions/cut.py:52
 msgid "batch_cut_success"
 msgstr "${num_elems} bestanden zijn geknipt en verplaatst naar jouw cloud-klembord."
 
@@ -2346,10 +2383,20 @@ msgstr "${num_elems} bestanden zijn geknipt en verplaatst naar jouw cloud-klembo
 msgid "batch_delete_success"
 msgstr "De volgende items zijn verwijderd: %{title_elems}"
 
+#. Default: "The following items have been renamed: ${title_elems}"
+#: ../workspace/browser/cart_actions/rename.py:48
+msgid "batch_rename_success"
+msgstr "De volgende items zijn hernoemd: ${title_elems}"
+
+#. Default: "The following items have been (re)tagged: ${title_elems}"
+#: ../workspace/browser/cart_actions/retag.py:51
+msgid "batch_retag_success"
+msgstr "De volgende items zijn getagged: $(title_elems)
+
 #. Default: "BCC"
 #: ../workspace/behaviors/mail.py:43
 msgid "bcc"
-msgstr ""
+msgstr "BCC"
 
 #. Default: "Body"
 #: ../workspace/behaviors/mail.py:51
@@ -2359,12 +2406,12 @@ msgstr "Bericht"
 #. Default: "Bookmarks"
 #: ../bookmarks/adapters/app_tiles.py:8
 msgid "bookmarks"
-msgstr ""
+msgstr "Favorieten"
 
 #: ../bookmarks/browser/templates/bookmark.pt:18
 #: ../bookmarks/browser/templates/unbookmark.pt:17
 msgid "bookmarks app"
-msgstr "Bookmarks app"
+msgstr "Favorieten app"
 
 #. Default: "Close"
 #: ../layout/viewlets/globalstatusmessage.py:21
@@ -2394,7 +2441,7 @@ msgstr "dossiers"
 #. Default: "CC"
 #: ../workspace/behaviors/mail.py:35
 msgid "cc"
-msgstr ""
+msgstr "CC"
 
 #. Default: "Contacts"
 #: ../layout/adapters/app_tiles.py:123
@@ -2593,14 +2640,24 @@ msgid "image-bank"
 msgstr "Afbeeldingen"
 
 #. Default: "${num_not_deleteable} of the items cannot be deleted because you don't have permission."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:35
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:34
 msgid "info_has_not_deleteable_items"
 msgstr "${num_not_deleteable} items konden niet worden verwijderd om dat je hiervoor onvoldoende rechten hebt."
 
+#. Default: "${num_not_modifiable} of the items cannot be (re)tagged because you don't have permission."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:42
+msgid "info_has_not_modifiable_items"
+msgstr "${num_not_modifiable} items konden niet getagged worden omdat je onvoldoende rechten hebt."
+
 #. Default: "You've selected the following ${num_items} items to be deleted."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:31
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:30
 msgid "info_items_selected"
 msgstr "Je hebt de volgende ${num_items} items geselecteerd om te verwijderen."
+
+#. Default: "The following ${num_items} items will be (re)tagged (un-tick to exclude from this action)."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:36
+msgid "info_items_selected_for_retagging"
+msgstr "De volgende ${num_items} items zullen getagged worden (schakel vinkje uit om uit te sluiten)."
 
 #. Default: "Loading more posts"
 #: ../activitystream/browser/templates/stream_tile.pt:38
@@ -2748,7 +2805,7 @@ msgid "label_news"
 msgstr "Nieuws"
 
 #. Default: "No events available"
-#: ../workspace/browser/tiles/templates/sidebar.pt:496
+#: ../workspace/browser/tiles/templates/sidebar.pt:508
 msgid "label_no_events_available"
 msgstr "Geen evenementen beschikbaar"
 
@@ -2895,14 +2952,19 @@ msgid "news"
 msgstr "Nieuws"
 
 #. Default: "No tasks created yet"
-#: ../workspace/browser/tiles/templates/sidebar.pt:293
+#: ../workspace/browser/tiles/templates/sidebar.pt:305
 msgid "no-task-found"
 msgstr "Geen taak gevonden"
 
 #. Default: "${num_deleteable} of the items can be deleted."
-#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:39
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:38
 msgid "num_items_can_be_deleted"
 msgstr "${num_deleteable} items kunnen worden verwijderd."
+
+#. Default: "${num_modifiable} of the items can be (re)tagged."
+#: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:46
+msgid "num_items_can_be_retagged"
+msgstr "${num_modifiable} item kunnen getagged worden."
 
 #. Default: "${no_members} Members"
 #: ../workspace/workspacefolder.py:159
