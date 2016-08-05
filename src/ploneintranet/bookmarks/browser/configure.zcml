@@ -44,7 +44,7 @@
         for="*"
         permission="zope.Public"
         class=".unbookmark.AppView"
-        template="templates/bookmark.pt"
+        template="templates/unbookmark.pt"
         layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
     />
 
