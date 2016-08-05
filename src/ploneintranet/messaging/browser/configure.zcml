@@ -29,5 +29,15 @@
       layer=".interfaces.IPloneIntranetMessagingLayer"
       permission="ploneintranet.messaging.usemessaging"
       />
+
+  <browser:viewlet
+      name="ploneintranet.messaging.messages"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".viewlets.MessagesViewlet"
+      permission="ploneintranet.messaging.usemessaging"
+      template="templates/messagingviewlet.pt"
+      layer=".interfaces.IPloneintranetMessagingLayer"
+      />
+
   
 </configure>
