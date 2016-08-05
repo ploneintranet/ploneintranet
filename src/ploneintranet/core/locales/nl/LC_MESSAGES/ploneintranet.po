@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-08-05 11:33+0000\n"
+"POT-Creation-Date: 2016-08-05 12:03+0000\n"
 "PO-Revision-Date: 2015-05-22 10:00+0000\n"
 "Last-Translator: Jean-Paul Ladage ,j.ladage@zestsoftware.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/plone-intranet/language/nl/)\n"
@@ -2391,7 +2391,7 @@ msgstr "De volgende items zijn hernoemd: ${title_elems}"
 #. Default: "The following items have been (re)tagged: ${title_elems}"
 #: ../workspace/browser/cart_actions/retag.py:51
 msgid "batch_retag_success"
-msgstr "De volgende items zijn getagged: $(title_elems)
+msgstr "De volgende items zijn getagged: $(title_elems)"
 
 #. Default: "BCC"
 #: ../workspace/behaviors/mail.py:43
@@ -2696,7 +2696,7 @@ msgstr "zoekresultaten."
 #. Default: "Join policy"
 #: ../workspace/browser/tiles/sidebar.py:270
 msgid "join_policy_label"
-msgstr "Toegangsbeleid"
+msgstr "Registratiebeleid"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:19
 msgid "label"
@@ -2954,7 +2954,7 @@ msgstr "Nieuws"
 #. Default: "No tasks created yet"
 #: ../workspace/browser/tiles/templates/sidebar.pt:305
 msgid "no-task-found"
-msgstr "Geen taak gevonden"
+msgstr "Geen taken gevonden"
 
 #. Default: "${num_deleteable} of the items can be deleted."
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:38
@@ -2974,7 +2974,7 @@ msgstr "${no_members} leden"
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:273
 msgid "participant_policy_label"
-msgstr "Lidmaatschapsbeleid"
+msgstr "Deelnameniveau"
 
 #. Default: "Groups ${num_groups}"
 #: ../userprofile/browser/templates/userprofile.pt:193
@@ -2988,7 +2988,7 @@ msgstr "Groepen ${num_workspaces}"
 
 #: ../workspace/browser/tiles/workspaces.py:191
 msgid "posted"
-msgstr "Verzonden"
+msgstr "Geplaatst"
 
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:20
