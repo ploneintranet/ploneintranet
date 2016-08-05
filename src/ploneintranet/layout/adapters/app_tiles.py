@@ -3,6 +3,7 @@ from AccessControl.unauthorized import Unauthorized
 from plone import api
 from plone.memoize import instance
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet import api as pi_api
 from zope.interface import implementer
 from zope.interface import Interface
 
@@ -128,6 +129,24 @@ class MessagesTile(BaseTile):
     key = 'messages'
     title = _('messages', 'Messages')
     position = 20
+    path = '@@app-messaging'
+
+    def cls(self):
+        if self.counter:
+            return 'app-messages has-counter'
+        else:
+            return 'app-messages'
+
+    @property
+    def counter(self):
+        try:
+            return pi_api.messaging.get_inbox().new_messages_count
+        except KeyError:
+            return 0
+
+    @property
+    def digits(self):
+        return len(str(self.counter))
 
 
 class TodoTile(BaseTile):
