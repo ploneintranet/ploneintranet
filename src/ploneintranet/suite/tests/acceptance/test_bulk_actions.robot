@@ -210,7 +210,7 @@ I confirm to delete the items
 
 I save the document
     Click button  Save
-    Wait until page contains  Your changes have been saved
+    Wait until page does not contain element  xpath=//div[@id='application-body' and contains(@class, 'injecting-content')]
 
 I see a message that items have been deleted
     [arguments]  ${title}
