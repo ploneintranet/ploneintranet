@@ -22,6 +22,7 @@
       name="contacts_results"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       permission="zope2.View"
+      class=".contacts_results.ContactsResults"
       template="templates/contacts_results.pt"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />

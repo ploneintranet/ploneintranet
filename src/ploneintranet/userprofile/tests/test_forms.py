@@ -47,14 +47,26 @@ class TestUserProfileEditForm(BaseTestCase):
                     fieldname, fields,
                     '{0} missing from edit form'.format(fieldname)
                 )
+            else:
+                self.assertNotIn(
+                    fieldname, fields,
+                    '{0} in edit form'.format(fieldname)
+                )
 
-        # And any additional fields
+        # And any additional fields except recent_contacts
         for fieldname in schema.getFieldNames(IUserProfileAdditional):
-            self.assertIn(
-                'IUserProfileAdditional.{0}'.format(fieldname),
-                fields,
-                '{0} missing from edit form'.format(fieldname)
-            )
+            if fieldname != 'recent_contacts':
+                self.assertIn(
+                    'IUserProfileAdditional.{0}'.format(fieldname),
+                    fields,
+                    '{0} missing from edit form'.format(fieldname)
+                )
+            else:
+                self.assertNotIn(
+                    'IUserProfileAdditional.{0}'.format(fieldname),
+                    fields,
+                    '{0} in edit form'.format(fieldname)
+                )
 
     def test_hidden_fields(self):
         api.portal.set_registry_record(

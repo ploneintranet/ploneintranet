@@ -16,6 +16,7 @@
 	        </label>
 		  </fieldset>
         </form>
+        <a hidden class="pat-inject" data-pat-inject="trigger: autoload-visible" href="${context/portal_url}/@@contacts_results#contact-search-items">Show initial results</a>
 	    <div id="contact-search-items"/>
 	  </div>
     </div>
