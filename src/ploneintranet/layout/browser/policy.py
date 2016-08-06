@@ -1,10 +1,11 @@
+# coding=utf-8
 from logging import getLogger
-from plone.app.layout.globals.layout import LayoutPolicy as PloneLayoutPolicy
 from plone.app.layout.globals.interfaces import ILayoutPolicy
-from zope.interface import implements
-from zope.component import getMultiAdapter
-
+from plone.app.layout.globals.layout import LayoutPolicy as PloneLayoutPolicy
 from ploneintranet.layout.interfaces import IAppContainer
+from ploneintranet.layout.interfaces import IAppView
+from zope.component import getMultiAdapter
+from zope.interface import implements
 
 log = getLogger(__name__)
 
@@ -27,7 +28,15 @@ class LayoutPolicy(PloneLayoutPolicy):
             obj = getattr(navroot, contentPath[0], None)
             if IAppContainer.providedBy(obj):
                 try:
-                    return base + ' app app-' + obj.app_name.replace(".", "-")
+                    base += ' app app-' + obj.app_name.replace(".", "-")
                 except AttributeError:
                     log.error("%s fails to provide app_name", repr(obj))
-        return base + ' app-None'
+                    base += 'app app-None'
+        if IAppView.providedBy(view):
+            try:
+                base += ' in-app app-' + view.app_name.replace(".", "-")
+            except AttributeError:
+                log.error("View %s fails to provide app_name", view.__name__)
+                base += ' in-app app-None'
+
+        return base

@@ -163,7 +163,7 @@ as ``IAppManager``. So you would apply ``IAppManager`` in addition to ``IAppCont
     class FooAppFolder(AbstractAppFolder, Folder):
         """A view that is part of an app."""
         implements(IFooAppManager)
-        app_name = 'app-foo'
+        app_name = 'foo'
         app_layers = (IMockLayer, )
 
 Obviously you should use your actual browser layer for the app instead of ``IMockLayer``.
@@ -192,9 +192,7 @@ Example:
     class BarApp(BrowserView):
         """A view that is part of an app but renders on the siteroot"""
         implements(IAppView)
-        app_name = 'app-bar'
+        app_name = 'bar'
 
 
 The logo viewlet override checks for both the ``IAppContainer`` (on the context) and ``IAppView`` (on the view) to determine how it handles breadcrumbs handling.
-
-FIXME: we should also set the bodyclass, where can that be done?
