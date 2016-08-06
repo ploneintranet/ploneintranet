@@ -7,14 +7,19 @@ from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet.bookmarks.browser.base import BookmarkView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 from zope.i18nmessageid.message import Message
+from zope.interface import implements
 
 
 class View(BookmarkView):
     ''' The view for this app
     '''
+    implements(IAppView)
+    app_name = 'bookmarks'
+
     document_types = [
         'Document', 'File', 'Image'
     ]
