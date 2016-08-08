@@ -1,7 +1,22 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
+
+    <include package="plone.tiles" file="meta.zcml" />
+
+    <plone:tile
+        name="bookmarks.tile"
+        title="Bookmarks tile"
+        description="Provides bookmarks as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
 
     <browser:page
         name="app-bookmarks"

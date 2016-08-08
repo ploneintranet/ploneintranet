@@ -23,6 +23,7 @@ ploneintranet.layout.dashboard_activity_tiles
     **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
 
     **default**: ./@@contacts_search.tile,
+                 ./@@bookmarks.tile?id_suffix=-dashboard
                  ./@@news.tile,
                  ./@@my_documents.tile
 
@@ -31,7 +32,7 @@ ploneintranet.layout.dashboard_task_tiles
 
     tilte: List of dashboard activity tiles
 
-    **description**: This is the list of the tiles the user will see on the "Activity centric view" dashboard.
+    **description**: This is the list of the tiles the user will see on the "Task centric view" dashboard.
 
     **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
 

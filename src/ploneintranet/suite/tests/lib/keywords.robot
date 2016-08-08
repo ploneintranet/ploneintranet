@@ -1540,6 +1540,23 @@ I can see bookmark grouped by creation date
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Page should contain element  xpath=//h3[contains(text(), 'All time')]/../ul/li/a[contains(text(), 'Bookmarks')]
 
+I can see the bookmarks tile in the dashboard
+    I open the Dashboard
+    I can see in the bookmark tile that the last bookmark is  Shareholder information
+
+I can query the bookmarks tile for
+    [arguments]  ${query}
+    Input Text  jquery=#portlet-bookmarks-dashboard [name=SearchableText]  ${query}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see in the bookmark tile that the last bookmark is
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard li:last a  ${text}
+
+I can see in the bookmark tile that we have no bookmarks matching
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard .pat-message  No bookmarks were found matching ${text}
+
 # *** END bookmark related keywords ***
 
 # *** mail related keywords ***

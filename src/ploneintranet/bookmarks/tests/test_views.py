@@ -301,3 +301,42 @@ class TestViews(FunctionalTestCase):
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
             [u'bookmarks']
         )
+
+    def test_bookmarks_tile(self):
+        ''' The bookmarks tile displays and filters the bookmarks
+        '''
+        tile = api.content.get_view(
+            'bookmarks.tile',
+            self.portal,
+            self.get_request()
+        )
+        # we hav a tile that displays the bookmarks using the app-bookmarks
+        self.assertTupleEqual(tile.app_bookmarks.my_bookmarks(), ())
+
+        # We bookmark some contents and the application
+        pn = api.portal.get_tool('ploneintranet_network')
+        ws = self.portal['workspaces']['bookmarkable-workspace']
+        page = self.portal['bookmarkable-page']
+        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
+        pn.bookmark('content', ws.UID())
+        pn.bookmark('content', page.UID())
+        pn.bookmark('apps', app.path)
+
+        # Let's cleanup the request to invalidate the cache
+        tile.request = self.get_request()
+        self.assertEqual(len(tile.app_bookmarks.my_bookmarks()), 3)
+
+        # if we specify an id_suffix the tile will use it while rendering
+        # to avoid collisions with other similar portlets.
+        tile = api.content.get_view(
+            'bookmarks.tile',
+            self.portal,
+            self.get_request({
+                'id_suffix': 'zzz',
+            })
+        )
+        page = tile()
+        self.assertIn('id="portlet-bookmarkszzz"', page)
+        self.assertIn('id="bookmarks-search-itemszzz"', page)
+        self.assertIn('#bookmarks-search-itemszzz"', page)
+        self.assertIn('id="portlet-bookmarks-bookmarks-listzzz"', page)
