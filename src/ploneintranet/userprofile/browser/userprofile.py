@@ -53,7 +53,7 @@ class UserProfileView(UserProfileViewForm):
     def disable_diazo(self):
         ''' Disable diazo if this is an ajax call
         '''
-        self.request.set('diazo.off', 'yes')
+        self.request.response.setHeader('X-Theme-Disabled', '1')
 
     def update(self):
         self._get_my_groups_and_workspaces()
