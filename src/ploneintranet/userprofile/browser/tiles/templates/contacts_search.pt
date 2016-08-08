@@ -16,8 +16,7 @@
 	        </label>
 		  </fieldset>
         </form>
-        <a hidden class="pat-inject" data-pat-inject="trigger: autoload-visible" href="${context/portal_url}/@@contacts_results#contact-search-items">Show initial results</a>
-	    <div id="contact-search-items"/>
+	    <div id="contact-search-items" tal:define="view nocall:here/contacts_results" metal:use-macro="here/contacts_results/macros/contact-search-items" />
 	  </div>
     </div>
   </body>
