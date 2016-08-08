@@ -169,15 +169,15 @@ class UserProfileView(UserProfileViewForm):
         return details
 
     def _update_recent_contacts(self):
-        current_user_profile = pi_api.userprofile.get_current()
-        if current_user_profile.username == self.context.username:
+        my_profile = pi_api.userprofile.get_current()
+        if my_profile.username == self.context.username:
             return
-        if current_user_profile.recent_contacts is None:
-            current_user_profile.recent_contacts = []
-        if self.context.username in current_user_profile.recent_contacts:
-            current_user_profile.recent_contacts.remove(self.context.username)
-        current_user_profile.recent_contacts.insert(0, self.context.username)
-        current_user_profile.recent_contacts = current_user_profile.recent_contacts[:20]
+        if my_profile.recent_contacts is None:
+            my_profile.recent_contacts = []
+        if self.context.username in my_profile.recent_contacts:
+            my_profile.recent_contacts.remove(self.context.username)
+        my_profile.recent_contacts.insert(0, self.context.username)
+        my_profile.recent_contacts = my_profile.recent_contacts[:20]
 
     def fields_for_display(self):
         return get_fields_for_template(self)

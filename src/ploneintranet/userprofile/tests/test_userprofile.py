@@ -136,7 +136,8 @@ class TestUserProfileView(TestUserProfileBase):
             self.profile1.username, self.profile1.recent_contacts or [])
 
     def test_recent_contacts_length_limited(self):
-        self.profile1.recent_contacts = ['user{0}'.format(n) for n in range(20)]
+        self.profile1.recent_contacts = [
+            'user{0}'.format(n) for n in range(20)]
         self.login(self.profile1.username)
         profile_view = UserProfileView(self.profile2, self.request)
         profile_view._update_recent_contacts()
@@ -154,7 +155,8 @@ class TestContactsResults(TestUserProfileBase):
         self.assertEqual(recent[0], self.profile2)
 
     def test_invalid_users_dropped(self):
-        self.profile1.recent_contacts = ['deleted_user', self.profile2.username]
+        self.profile1.recent_contacts = [
+            'deleted_user', self.profile2.username]
         self.login(self.profile1.username)
         contacts_results = ContactsResults(self.portal, self.request)
         recent = contacts_results.recent_contacts()
