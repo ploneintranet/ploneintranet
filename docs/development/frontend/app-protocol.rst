@@ -137,41 +137,30 @@ register app-specific views by binding those views to your custom app layer.
 See ``ploneintranet.workspace.basecontent`` for a number of views on generic content types, registered specifically for workspace-contained content only.
 
 
-Marking content or views as within an App
-=========================================
+Body class marking for app content and views
+============================================
 
 Some parts of the site render conceptually within the Apps section.
 Some ``IAppContainer`` objects, like workspaces and the library, conceptually
 render outside the Apps section.
 
-app content
------------
+Note that both workspaces and the library are not proper apps in terms of the prototype, but
+we still need to mark them in order to be able to switch Diazo rules on and off.
 
-Content containers that should "reside" within the apps section can be marked
-as ``IAppManager``. So you would apply ``IAppManager`` in addition to ``IAppContainer`` if your container conceptually resides within the app listing *and* wants to switch specific browser layers.
+content: in-app app-foo
+-----------------------
 
-.. code:: python
+Content containers that implement ``IAppContainer`` result in the marking of the respective app
+as a css class on the body of the view response.
 
-    from ploneintranet.layout.interfaces import IAppContainer
-    from ploneintranet.layout.interfaces import IAppManager
-    from ploneintranet.layout.tests.utils import IMockLayer
-    from zope.interface import implements
+``ploneintranet.layout.browser.policy`` detects the traversal of an ``IAppContainer`` and sets "in-app app-foo". This can be used to switch Diazo transforms on.
 
-    class IFooAppManager(IAppManager, IAppContainer):
-        """Marker interface for FooApp implementation"
+Currently this is used do apply different Diazo templates to "app-workspace" content, than to
+"app-library" content.
 
-    class FooAppFolder(AbstractAppFolder, Folder):
-        """A view that is part of an app."""
-        implements(IFooAppManager)
-        app_name = 'foo'
-        app_layers = (IMockLayer, )
 
-Obviously you should use your actual browser layer for the app instead of ``IMockLayer``.
-
-This ``FooAppFolder`` is now both an ``IAppContainer`` switching browser layers on and off, and an ``IAppManager`` signaling UI containment within the apps section.
-
-app views
----------
+view: view-app app-bar
+----------------------
 
 Some apps do not have a special context at all, but consist only of views that render on the ``INavigationRoot``.
 
@@ -194,5 +183,7 @@ Example:
         implements(IAppView)
         app_name = 'bar'
 
+
+``ploneintranet.layout.browser.policy`` detects that an ``IAppView`` is active and sets body classes "view-app app-bar". This can be used to switch Diazo templating.
 
 The logo viewlet override checks for both the ``IAppContainer`` (on the context) and ``IAppView`` (on the view) to determine how it handles breadcrumbs handling.
