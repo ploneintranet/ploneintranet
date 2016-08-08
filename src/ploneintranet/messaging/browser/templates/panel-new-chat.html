@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet"
+      >
+  <head>
+    <title>Messages: new conversation</title>
+  </head>
+  <body class="stand-alone sidebar-normal gh-collapsed focus-listing  generic application-messages application- ">
+    <div id="main">
+
+      <metal:content fill-slot="content">
+        <div id="content" class="modal">
+	  <div id="document-content" class="pat-modal ">
+            <h1>
+              New conversation
+            </h1>
+            
+            <form method="post" action="${view/portal_url}/@@app-messaging#application-body"
+                  class="wizard-box pat-inject " data-pat-inject="source: #application-body; target: #application-body">
+              
+              <div class="panel-body">
+                <fieldset class="vertical">
+                  <label>
+                    <input autofocus type="text"  name="new_userid"
+                           i18n:attributes="placeholder"
+                           placeholder="Person you like to chat with"
+                           class="pat-autosuggest users"
+                           data-pat-autosuggest="allow-new-words: false; max-selection-size: 1; ajax-data-type:json; ajax-url: ${view/portal_url}/allusers.json">
+                  </label>
+                </fieldset>
+              </div>
+              
+              <div class="buttons panel-footer">
+                <button type="submit" class="close-panel icon-ok-circle">
+                  Start conversation
+                </button>
+                <button type="button" class="close-panel icon-cancel-circle">
+                  Cancel
+                </button>
+              </div>
+              
+            </form>
+            
+          </div>
+        </div>
+      </metal:content>
+      
+    </div>
+  </body>
+</html>

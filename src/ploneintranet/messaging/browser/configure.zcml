@@ -3,82 +3,41 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet">
 
-  <!-- this is secure but in a yukkie way
-
-       The backend checks for api.user.get_current() which is great
-       but the view permissions should be configured right also.
-       This should be a custom permission instead of Zope2.View.
-  -->
-
   <browser:page
-      for="*"
-      name="messaging-send"
-      class=".messaging.MessageForm"
-      template="send-message.pt"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
+      name="app-messaging"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingView"
+      template="templates/chat.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="ploneintranet.messaging.usemessaging"
+      />
+  
+  <browser:page
+      name="app-messaging-new-chat"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingNewChat"
+      template="templates/panel-new-chat.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="ploneintranet.messaging.usemessaging"
       />
 
   <browser:page
-      for="*"
-      name="messaging-messages"
-      class=".messaging.MessagingView"
-      attribute="messages"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:page
-      for="*"
-      name="delete-message"
-      class=".messaging.MessagingView"
-      attribute="delete_message"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:page
-      for="*"
-      name="messaging-conversations"
-      class=".messaging.MessagingView"
-      attribute="conversations"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:page
-      for="*"
-      name="social-inbox"
-      class=".messaging.YourMessagesView"
-      template="your-inbox.pt"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-    <browser:page
-      for="*"
-      name="delete-conversation"
-      class=".messaging.MessagingView"
-      attribute="delete_conversation"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
-      />
-
-  <browser:page
-      for="*"
-      name="your-messages"
-      class=".messaging.YourMessagesView"
-      template="your-messages.pt"
-      permission="zope2.View"
-      layer=".interfaces.IPloneintranetMessagingLayer"
+      name="app-messaging-new-message"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".views.AppMessagingNewMessage"
+      template="templates/new-message.html"
+      layer=".interfaces.IPloneIntranetMessagingLayer"
+      permission="ploneintranet.messaging.usemessaging"
       />
 
   <browser:viewlet
-      name="ploneintranet.messaging.notifications"
+      name="ploneintranet.messaging.messages"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-      class=".viewlets.NotificationsViewlet"
-      permission="zope2.View"
+      class=".viewlets.MessagesViewlet"
+      permission="ploneintranet.messaging.usemessaging"
+      template="templates/messagingviewlet.pt"
       layer=".interfaces.IPloneintranetMessagingLayer"
       />
 
+  
 </configure>

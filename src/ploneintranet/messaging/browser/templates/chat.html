@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet"
+      >
+  <head>
+    <title>Messages</title>
+  </head>
+  <body class="stand-alone sidebar-normal gh-collapsed focus-listing  messages application- application-messages ">
+    <div id="main">
+
+      <metal:content fill-slot="content">
+      <div id="content" class="state-on">
+	<div id="application-body" class="application-messages application- sidebar-left-open sidebar-right-closed">
+	  <div id="document-body">
+
+	    <div id="document-content"
+                 tal:condition="not:view/userid|nothing">
+	      <div class="application-welcome-info">
+		<article class="pat-rich" id="boilerplate-library-introduction">
+                  <p>
+                    <strong>Thank you for using Messages!</strong>
+                    Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.
+                  </p>
+		</article>
+                <article class="pat-rich">
+		  <p>
+		    <a title="Start a new conversation"
+                       i18n:attributes="title"
+                       i18n:translate=""
+                       href="${view/portal_url}/@@app-messaging-new-chat#document-content"
+                       class="button pat-button new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+		  </p>
+		</article>
+	      </div>
+            </div>
+            
+	    <div id="document-content" class="chat"
+                 tal:condition="view/userid|nothing">
+
+	      <ul class="chat">
+
+		<li tal:repeat="item view/messages"
+                    class="item type-${item/type} ${item/status}">
+		  <h3 class="time-stamp" tal:condition="item/timestamp|nothing">
+		    ${item/timestamp}
+		  </h3>
+
+		  <a class="user" tal:condition="item/userid|nothing">
+		    <h4 class="user-name">
+                      ${item/fullname}
+		    </h4>
+		    <img src="${item/avatar_url}" class="avatar pat-avatar" alt="" />
+		  </a>
+		  <p class="content" tal:condition="item/text|nothing">
+                    ${item/text}
+                  </p>
+		</li>
+
+		<li id="end-of-conversation" class="item type-terminal">
+		  <p>
+		    <a href="#end-of-conversation" class="pat-scroll" data-pat-scroll="trigger: auto">End of conversation</a>
+		  </p>
+		</li>
+
+	      </ul>
+
+            </div><!-- /document-content -->
+            
+            <form tal:condition="view/userid|nothing"
+                  id="chat-bar" method="post" action="${view/portal_url}/@@app-messaging-new-message"
+                  class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
+              <input type="hidden" name="recipient" value="${view/userid}">
+	      <input autofocus type="text" name="message" placeholder="Write a message" />
+            </form>
+
+          </div><!-- /document-body -->
+          
+          <aside class="sidebar left" id="sidebar">
+            <div id="sidebar-content">
+              <div class="item-selector mode-follow" id="selector">
+
+                <div class="button-bar functions buttons-1" id="selector-functions">
+                  <form class="search-box pat-inject pat-autosubmit" action="${view/url}#selector-items">
+                    <label>
+                      <input name="search" type="search" placeholder="Search" ${view/search_disabled} />
+                      <button type="submit">Search</button>
+                    </label>
+                  </form>
+                  <div class="quick-functions">
+                    <a title="Start a new conversation" href="${view/portal_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+                  </div>
+                </div><!-- /button-bar -->
+    
+                <form class="search-result chats pat-inject"
+                      data-pat-inject="target: body::after"
+                      action="/feedback/batch-delete-conversations.html#content"
+                      id="selector-items">
+                  <fieldset class="checklist pat-checklist chats ">
+
+                    <label tal:repeat="conversation view/conversations"
+                           id="selector-item-${conversation/userid}"
+                           class="item chat has-description ${conversation/status}">
+                            <input name="userid" type="radio" value="${conversation/userid}" />
+                            <a class="follow pat-inject pat-switch" data-pat-switch="body focus-* focus-document && body sidebar-large sidebar-normal" href="${conversation/chat_url}#end-of-conversation" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record">
+                                <img src="${conversation/avatar_url}" alt="${conversation/fullname}" class="avatar" />
+                                <strong class="title">${conversation/fullname}</strong>
+                                <br>
+                                <dfn class="byline">${conversation/byline}</dfn>
+                            </a>
+                        </label>
+
+                  </fieldset>
+                </form>
+
+              </div><!-- /#selector -->
+
+            </div><!-- /sidebar-content -->
+          </aside><!-- /sidebar -->
+
+<!-- to be removed when quaive.resources.ploneintranet contains these fixes:
+https://github.com/quaive/ploneintranet.prototype/commit/e09fa9e300d3fd84fdaae139a885d42fa09f5913
+https://github.com/quaive/ploneintranet.prototype/commit/aae8f9960e45589f9883bb1bc61ee1c8a62f2757
+-->
+<style type="text/css">
+.item-selector .functions .search-box label input[type="search"][disabled] {
+  color: gray;
+  opacity: 0.5;
+}
+aside.sidebar.left .quick-functions a {
+  width: 1.4em;
+  font-size: 1.45em;
+}
+</style>
+
+
+        </div><!-- /application-body -->
+        
+      </div><!-- /app-space -->
+
+
+      </metal:content>
+
+    </div><!-- /main -->
+  </body>
+</html>

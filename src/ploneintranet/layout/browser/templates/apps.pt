@@ -18,7 +18,9 @@
                  src="${tile/img}"
                  alt="${tile/alt}"
               />
-              <h3>${tile/title}</h3>
+            <h3>${tile/title}</h3>
+            <sup tal:condition="tile/counter|nothing"
+                 class="counter digit-${tile/digits}">${tile/counter}</sup>
           </a>
           <tal:link tal:condition="tile/path" replace="structure python:view.get_bookmark_link(tile)" />
       </div>

@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet"
+      >
+  <head>
+    <title>New message</title>
+  </head>
+  <body class="stand-alone sidebar-normal gh-collapsed focus-listing  generic application- application- ">
+    <div id="main">
+
+      <metal:content fill-slot="content">
+	<div id="content">
+	  <div id="document-body">
+	    <div id="document-content" class="chat">
+	      <ul class="chat" id="chat">
+		<li class="item type-text self">
+		  <a class="user">
+		    <h4 class="user-name">
+		      ${view/fullname}
+		    </h4>
+		    <img src="${view/avatar_url}" class="avatar pat-avatar" alt="" />
+		  </a>
+		  <p class="content" id="new-content">
+		    ${view/text}
+		  </p>
+		</li>
+		<li id="end-of-conversation" class="item type-terminal">
+		  <p>
+		    <a href="#end-of-conversation" class="pat-scroll" data-pat-scroll="trigger: auto">End of conversation</a>
+		  </p>
+		</li>
+	      </ul>
+	    </div>
+
+            <form id="chat-bar" method="post" action="${view/portal_url}/@@app-messaging-new-message"
+                  class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
+              <input type="hidden" name="recipient" value="${view/userid}">
+	      <input autofocus type="text" name="message" placeholder="Write a message" />
+            </form>
+
+          </div>
+
+	</div><!-- /content -->
+      </metal:content>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<rolemap>
+  <permissions>
+    <permission
+        name="Plone Intranet: Use Messaging"
+        acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Member" />
+    </permission>
+  </permissions>
+</rolemap>
