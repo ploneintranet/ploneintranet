@@ -50,18 +50,20 @@ class IAppManager(Interface):
     icon = Attribute("Icon")
 
 
+class IAppView(Interface):
+    """
+    View interface to mark a view as being placed within the Apps section.
+    I.e. event app views on the siteroot that don't have an IAppManager
+    context can be rendered 'within' the Apps section.
+    """
+    app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
+
+
 class IAppTile(Interface):
     """
     Tile interface to indicate a tile as listable on
     the dashboard.
+
+    Concrete tiles as found in ./adapters/ are found by an adapter
+    query to this interface will be listed in the apps overview.
     """
-    # Nothing implemented yet
-    # - coordinate with Cornelis
-    # - bring existing tiles in line
-
-
-# -- test fixture installed by profiles/testing --
-
-
-class IMockLayer(IAppLayer):
-    pass

@@ -113,15 +113,77 @@ See ``ploneintranet.layout.tests.utils.MockFolder`` for an example implementatio
 
 .. code:: python
 
-   class MockFolder(AbstractAppContainer, Folder):
-       """A mock folder that inherits the app registration hook
-       from AbstractAppContainer."""
-       implements(IMockFolder)
+    from plone.app.contenttypes.content import Folder
+    from ploneintranet.layout.app import AbstractAppContainer
+    from ploneintranet.layout.interfaces import IAppContainer
+    from ploneintranet.layout.tests.utils import IMockLayer
+    from zope.interface import implements
 
-       app_name = 'mock'
-       app_layers = (IMockLayer, )
+    class IMockFolder(IAppContainer):
+        """Marker interface for an app container"""
+
+    class MockFolder(AbstractAppContainer, Folder):
+        """A mock folder that inherits the app registration hook
+        from AbstractAppContainer."""
+        implements(IMockFolder)
+
+        app_name = 'mock'
+        app_layers = (IMockLayer, )
+
+Obviously you should use your actual browser layer for the app instead of ``IMockLayer``.
 
 For content types that are available in multiple apps, you can now
 register app-specific views by binding those views to your custom app layer.
 See ``ploneintranet.workspace.basecontent`` for a number of views on generic content types, registered specifically for workspace-contained content only.
 
+
+Body class marking for app content and views
+============================================
+
+Some parts of the site render conceptually within the Apps section.
+Some ``IAppContainer`` objects, like workspaces and the library, conceptually
+render outside the Apps section.
+
+Note that both workspaces and the library are not proper apps in terms of the prototype, but
+we still need to mark them in order to be able to switch Diazo rules on and off.
+
+content: in-app app-foo
+-----------------------
+
+Content containers that implement ``IAppContainer`` result in the marking of the respective app
+as a css class on the body of the view response.
+
+``ploneintranet.layout.browser.policy`` detects the traversal of an ``IAppContainer`` and sets "in-app app-foo". This can be used to switch Diazo transforms on.
+
+Currently this is used do apply different Diazo templates to "app-workspace" content, than to
+"app-library" content.
+
+
+view: view-app app-bar
+----------------------
+
+Some apps do not have a special context at all, but consist only of views that render on the ``INavigationRoot``.
+
+However, in the UI we want to be able to style such views differently and be able to set e.g. CSS classes on the body element, to indicate that we're looking at an app, and at which app.
+
+To mark your view as an App view, make sure it implements
+``ploneintranet.layout.interfaces.IAppView``. This involves marking the interface
+on your view, and providing the ``app_name`` attribute.
+
+Example:
+
+.. code:: python
+
+
+    from ploneintranet.layout.interfaces import IAppView
+    from zope.interface import implements
+
+    class BarApp(BrowserView):
+        """A view that is part of an app but renders on the siteroot"""
+        implements(IAppView)
+        app_name = 'bar'
+
+
+``ploneintranet.layout.browser.policy`` detects that an ``IAppView`` is active and sets body classes "view-app app-bar". This can be used to switch Diazo templating.
+
+The logo viewlet override checks for both the ``IAppContainer`` (on the context) and ``IAppView`` (on the view) to determine how it handles breadcrumbs handling.
