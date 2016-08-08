@@ -7,6 +7,7 @@ Component Packages
 
     userprofiles
     microblogstream
+    messaging
     notifications
     workspace
     search
