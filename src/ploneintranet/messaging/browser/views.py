@@ -5,6 +5,7 @@ import urllib
 from AccessControl import Unauthorized
 from plone import api
 from ploneintranet import api as pi_api
+from ploneintranet.layout.interfaces import IAppView
 from plone.memoize.view import memoize
 from plone.protect.utils import safeWrite
 from Products.CMFPlone.utils import safe_unicode
@@ -16,7 +17,7 @@ from zope.publisher.interfaces import IPublishTraverse
 logger = logging.getLogger(__name__)
 
 
-@implementer(IPublishTraverse)
+@implementer(IPublishTraverse, IAppView)
 class AppMessagingView(BrowserView):
     """
     Render a single conversation, with the chatlist in the sidebar.
@@ -212,6 +213,7 @@ class AppMessagingView(BrowserView):
             return 'disabled'
 
 
+@implementer(IAppView)
 class AppMessagingNewChat(BrowserView):
     """
     Panel helper to create a new conversation.
@@ -224,6 +226,7 @@ class AppMessagingNewChat(BrowserView):
         return api.portal.get().absolute_url()
 
 
+@implementer(IAppView)
 class AppMessagingNewMessage(BrowserView):
     """
     Injection helper to add a message to a conversation.
