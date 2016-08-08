@@ -1,8 +1,8 @@
-from Products.Five import BrowserView
+from plone.tiles import Tile
 from ploneintranet import api as pi_api
 
 
-class ContactsResults(BrowserView):
+class ContactsSearch(Tile):
 
     def recent_contacts(self):
         profile = pi_api.userprofile.get_current()

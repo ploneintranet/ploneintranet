@@ -8,7 +8,7 @@
     <div class="contacts portlet span-1" id="portlet-contacts">
       <div class="content">
 	    <h2 class="portlet-title" i18n:translate="">Contacts</h2>
-        <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_results#contact-search-items">
+        <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_search.tile#contact-search-items">
 		  <fieldset class="vertical">
 	        <label>
 	          <input name="SearchableText" type="search" placeholder="Search" i18n:attributes="placeholder"/>
@@ -16,7 +16,31 @@
 	        </label>
 		  </fieldset>
         </form>
-	    <div id="contact-search-items" tal:define="view nocall:here/contacts_results" metal:use-macro="here/contacts_results/macros/contact-search-items" />
+        <div id="contact-search-items" tal:define="search_response context/@@search_people/search_people" metal:define-macro="contact-search-items">
+            <nav class="user-cloud pat-auto-scale" tal:condition="not:request/SearchableText|nothing">
+                <a href="${user/absolute_url}" data-initials="${python:user.first_name[:1] + user.last_name[:2]}" title="${user/title}" class="pat-avatar" tal:repeat="user view/recent_contacts">
+                                <img src="${user/absolute_url}/@@avatar_profile.jpg" alt="" />
+                        </a>
+            </nav>
+            <div class="item-selector mode-follow"
+                    tal:condition="request/SearchableText|nothing">
+                <form class="search-result users">
+                <fieldset class="checklist pat-checklist">
+                    <tal:result repeat="result search_response">
+                    <label class="item user">
+                        <input name="" type="checkbox" />
+                        <a href="${result/url}" class="follow">
+                        <img src="${result/preview_image_path}" alt="" class="avatar" />
+                        <strong class="title">${result/title}</strong>
+                        <br/>
+                        <dfn class="byline" tal:content="python: True and result.contact_telephone or '&nbsp;'"/>
+                        </a>
+                    </label>
+                    </tal:result>
+                </fieldset>
+                </form>
+            </div>
+        </div>
 	  </div>
     </div>
   </body>
