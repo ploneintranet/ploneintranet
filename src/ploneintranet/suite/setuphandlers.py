@@ -922,7 +922,15 @@ def create_messages():
             inboxes.send_message(other, me, phrases.next(), stamp)
             if other != 'guy_hackey':
                 inboxes[me][other].mark_read()
-
+    # another round to create a searchable inbox
+    phrases = iter(PHRASES)
+    me = 'guido_stevens'
+    for other in ('francois_gast', 'esmeralda_claassen', 'jamie_jacko',
+                  'fernando_poulter', 'jesse_shaik', 'jorge_primavera',
+                  'alice_lindstrom', 'lance_stockstill', 'neil_wichmann'):
+        inboxes.send_message(me, other, phrases.next(), stamp)
+        stamp += timedelta(minutes=2)
+        inboxes.send_message(other, me, phrases.next(), stamp)
 
 PHRASES = [
     "Go and live with her, then! See if I care.",
