@@ -26,6 +26,8 @@ class AppMessagingView(BrowserView):
 
     # ~/prototype/_site/chat-guido-stevens.html
 
+    app_name = 'messaging'
+
     def __init__(self, context, request):
         super(AppMessagingView, self).__init__(context, request)
         self.userid = None
