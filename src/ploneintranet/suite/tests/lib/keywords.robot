@@ -1410,6 +1410,7 @@ I can sort search results by ${FIELD}
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 # *** END search related keywords ***
 
