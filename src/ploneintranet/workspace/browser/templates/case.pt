@@ -26,14 +26,37 @@
                tal:attributes="href workspace_url"
                tal:content="workspace/Title">{{ page.workspace_name }}</a>
           </h1>
-          <div class="ws-baggage-handling-regulations dark-theme"
-               id="application-body">
+          <div class="ws-baggage-handling-regulations" id="project-body">
             <div id="document-body">
+              <!-- XXX complete integration -->
+              <div id="workspace-header" class="pat-bumper  sticky-supported bumped" style="position: relative; top: 7px;">        
+                  <div class="content">
+                      <h1 class="title" id="top" tal:content="here/Title">
+                          Open Market Committee
+                      </h1>
+                      <form class="pat-inject buttons">
+                          <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
+
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #follow-workspace" id="follow-workspace">
+                              <button type="submit" class="icon-follow-empty" formaction="/feedback/follow-workspace.html" title="Click to follow Open Market Committee">Follow</button>
+                          </fieldset>
+-->
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">   
+                              
+                                  <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button> 
+                              
+                          </fieldset>
+-->                                </form>
+
+                      <h2 class="byline" tal:define="members here/existing_users">
+                          <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
+                      </h2>
+                  </div>
+              </div>
               <div class="workspace-header"
                    tal:define="freeze_view nocall:workspace/freeze-view;
                                is_frozen freeze_view/is_frozen;">
                 <article class="rich">
-                  <h1>${context/title}</h1>
                   <p class="description"
                      tal:content="context/description" />
                 </article>

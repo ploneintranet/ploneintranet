@@ -665,7 +665,7 @@ I can remove Allan from the workspace members
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
-    Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
+    Page Should Contain Element  xpath=//a[@id='breadcrumbs-1' and text()='Open Market Committee']
 
 I can enter the Manage Information Folder
     Click Link  link=Documents

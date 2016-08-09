@@ -119,9 +119,6 @@
             </div>
 
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .member-list-toggle-select" id="member-list-more-menu">
-              <!-- <h3 class="trigger member-list-toggle-select">
-                   Functions…
-                   </h3> -->
               <ul class="menu">
                 <li>
                   <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
