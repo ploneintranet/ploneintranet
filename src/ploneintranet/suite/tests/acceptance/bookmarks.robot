@@ -82,6 +82,14 @@ User can see bookmarked documents
      Then I can go to the bookmark application
      Then I can see the bookmarked documents
 
+User can use the bookmarks tile
+    Given I am logged in as the user allan_neece
+     Then I can see the bookmarks tile in the dashboard
+     Then I can query the bookmarks tile for  minutes
+      And I can see in the bookmark tile that the last bookmark is  Minutes Overview
+     Then I can query the bookmarks tile for  walrus
+      And I can see in the bookmark tile that we have no bookmarks matching  walrus
+
 *** Keywords ***
 
 # See lib/keywords.robot in the section "case related keywords"

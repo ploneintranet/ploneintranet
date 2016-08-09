@@ -28,4 +28,13 @@
         handler=".to0002.include_login_colophon_actions"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:upgradeStep
+        title="Add the bookmarks tile to the dashboard"
+        description=""
+        source="*"
+        destination="0003"
+        handler=".to0003.add_the_dashboard_tile"
+        profile="ploneintranet.layout:default"
+        />
+
 </configure>

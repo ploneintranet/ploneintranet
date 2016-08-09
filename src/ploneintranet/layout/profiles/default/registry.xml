@@ -13,6 +13,7 @@
     </field>
     <value purge="false">
       <element>./@@contacts_search.tile</element>
+      <element>./@@bookmarks.tile?id_suffix=-dashboard</element>
       <element>./@@news.tile</element>
       <element>./@@my_documents.tile</element>
     </value>
