@@ -29,7 +29,7 @@ class Apps(BrowserView):
         return tiles
 
     def get_bookmark_link(self, app):
-        ''' Get's the app bookmark icon
+        ''' Gets the app bookmark icon
         '''
         view = api.content.get_view(
             'bookmark-link-iconified',

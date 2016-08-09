@@ -1,24 +1,39 @@
 # coding=utf-8
-from datetime import timedelta
-import logging
-import urllib
 from AccessControl import Unauthorized
+from datetime import timedelta
 from plone import api
-from ploneintranet import api as pi_api
-from ploneintranet.layout.interfaces import IAppView
 from plone.memoize.view import memoize
 from plone.protect.utils import safeWrite
+from ploneintranet import api as pi_api
+from ploneintranet.layout.app import apps_container_id
+from ploneintranet.layout.interfaces import IAppView
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from unidecode import unidecode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+import logging
+import urllib
+
 
 logger = logging.getLogger(__name__)
 
 
+class _AppMessagingMixin(object):
+
+    @property
+    def portal_url(self):
+        return api.portal.get().absolute_url()
+
+    @property
+    def apps_container_url(self):
+        portal = api.portal.get()
+        apps_container = getattr(portal, apps_container_id)
+        return apps_container.absolute_url()
+
+
 @implementer(IPublishTraverse, IAppView)
-class AppMessagingView(BrowserView):
+class AppMessagingView(BrowserView, _AppMessagingMixin):
     """
     Render a single conversation, with the chatlist in the sidebar.
     Uses traversal: @@app-messaging-chat/userid to extract the userid.
@@ -150,18 +165,13 @@ class AppMessagingView(BrowserView):
     def url(self):
         return self.request['ACTUAL_URL']
 
-    @property
-    def portal_url(self):
-        return api.portal.get().absolute_url()
-
     @memoize
     def _fullname(self, userid):
         return api.user.get(userid).getProperty('fullname')
 
     def _chat_url(self, userid):
-        portal_url = api.portal.get().absolute_url()
-        return '{}/@@app-messaging/{}'.format(
-            portal_url,
+        return '{0}/@@app-messaging/{1}'.format(
+            self.apps_container_url,
             urllib.quote(safe_unicode(userid))
         )
 
@@ -216,20 +226,16 @@ class AppMessagingView(BrowserView):
 
 
 @implementer(IAppView)
-class AppMessagingNewChat(BrowserView):
+class AppMessagingNewChat(BrowserView, _AppMessagingMixin):
     """
     Panel helper to create a new conversation.
     """
 
     # /prototype/_site/apps/messages/panel-new-chat.html
 
-    @property
-    def portal_url(self):
-        return api.portal.get().absolute_url()
-
 
 @implementer(IAppView)
-class AppMessagingNewMessage(BrowserView):
+class AppMessagingNewMessage(BrowserView, _AppMessagingMixin):
     """
     Injection helper to add a message to a conversation.
     """
@@ -251,10 +257,6 @@ class AppMessagingNewMessage(BrowserView):
         self.text = text = self.request.get('message')
         if recipient and text:
             pi_api.messaging.send_message(recipient, text)
-
-    @property
-    def portal_url(self):
-        return api.portal.get().absolute_url()
 
     @property
     def fullname(self):

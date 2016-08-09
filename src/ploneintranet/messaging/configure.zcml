@@ -11,8 +11,9 @@
       id="ploneintranet.messaging.usemessaging"
       title="Plone Intranet: Use Messaging"
       />
-  
+
   <include package=".browser" />
+  <include package=".upgrades" />
 
   <genericsetup:registerProfile
       name="default"

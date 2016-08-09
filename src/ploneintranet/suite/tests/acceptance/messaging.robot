@@ -88,7 +88,7 @@ I click the messaging app
     Click Link  css=div.app-messages a.link
 
 I open the messaging app
-    Go To  ${PLONE_URL}/@@app-messaging
+    Go To  ${PLONE_URL}/apps/@@app-messaging
 
 I can see a conversation with
     [arguments]  ${userid}

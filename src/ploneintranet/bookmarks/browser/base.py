@@ -1,6 +1,7 @@
 # coding=utf-8
 from plone import api
 from plone.memoize.view import memoize
+from ploneintranet.layout.app import apps_container_id
 from Products.Five import BrowserView
 from zExceptions import NotFound
 
@@ -29,6 +30,13 @@ class BookmarkView(BrowserView):
         ''' The Bookmarked objects storage
         '''
         return self.ploneintranet_network._bookmarked
+
+    @property
+    @memoize
+    def apps_container_url(self):
+        portal = api.portal.get()
+        apps_container = getattr(portal, apps_container_id)
+        return apps_container.absolute_url()
 
 
 class BookmarkActionView(BookmarkView):

@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet">
+
+    <genericsetup:upgradeStep
+        title="Update rolemap to grant permissions for the messaging App"
+        description=""
+        source="0001"
+        destination="0002"
+        handler=".to0002.update_rolemap"
+        profile="ploneintranet.messaging:default" />
+
+    <genericsetup:registerProfile
+        name="to_0002"
+        title="Upgrade profile for making the messsaging App work"
+        description=""
+        directory="profiles/to_0002"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+</configure>

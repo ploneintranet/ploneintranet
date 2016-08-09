@@ -6,6 +6,7 @@ from ploneintranet import api as pi_api
 from ploneintranet.layout.adapters.app_tiles import BaseTile
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
+from ploneintranet.layout.utils import in_app
 from zope.interface import alsoProvides
 
 
@@ -136,7 +137,7 @@ class TestViews(IntegrationTestCase):
     def get_app_tile(self, path=''):
         ''' Return a fresh app tile with the given path
         '''
-        tile = BaseTile(self.portal)
+        tile = BaseTile(self.portal.apps)
         tile.path = path
         return tile
 
@@ -148,10 +149,10 @@ class TestViews(IntegrationTestCase):
         self.assertTrue(tile.not_found)
 
         # if we set a path, we have to find it event if we are anonymous
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         self.assertFalse(tile.not_found)
 
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertFalse(tile.not_found)
 
@@ -166,10 +167,10 @@ class TestViews(IntegrationTestCase):
 
         # If we set an existing path, we will have a different response
         # according to our roles in context
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         self.assertFalse(tile.unauthorized)
 
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertTrue(tile.unauthorized)
 
@@ -184,13 +185,14 @@ class TestViews(IntegrationTestCase):
         )
 
         # Otherwise the tile knows how to transform the path in to a url
-        tile = self.get_app_tile('dashboard.html')
-        self.assertEqual(tile.url, 'http://nohost/plone/dashboard.html')
+        tile = self.get_app_tile('app-testing')
+        self.assertEqual(tile.url, 'http://nohost/plone/apps/app-testing')
 
         # The tile should be disabled if the path is not allowed
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         with api.env.adopt_roles({'Anonymous'}):
-            self.assertEqual(tile.url, 'http://nohost/plone/dashboard.html')
+            self.assertEqual(
+                tile.url, 'http://nohost/plone/apps/app-testing')
 
     def test_app_basetile_modal(self):
         ''' Check the modal property of the app tile adapter
@@ -201,11 +203,11 @@ class TestViews(IntegrationTestCase):
         self.assertEqual(tile.modal, 'pat-modal')
 
         # Otherwise we will open the tile
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         self.assertEqual(tile.modal, '')
 
         # Even if we are unauthorized
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertEqual(tile.modal, '')
 
@@ -217,11 +219,11 @@ class TestViews(IntegrationTestCase):
         self.assertEqual(tile.disabled, 'disabled')
 
         # The tile should be enabled because the path is allowed
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         self.assertEqual(tile.disabled, '')
 
         # The tile should be disabled if the path is not allowed
-        tile = self.get_app_tile('dashboard.html')
+        tile = self.get_app_tile('app-testing')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertEqual(tile.disabled, 'disabled')
 
@@ -282,3 +284,19 @@ class TestViews(IntegrationTestCase):
             view = self.get_view('dashboard.html')
             self.assertEqual(view.default_dashboard(), 'task')
             self.assertEqual(user.dashboard_default, 'task')
+
+    def test_in_app_dashboard(self):
+        view = self.get_view('dashboard.html')
+        self.assertFalse(in_app(view))
+
+    def test_in_app_apptile(self):
+        tile = self.get_app_tile('app-testing')
+        self.assertTrue(in_app(tile))
+
+    def test_in_app_dashboard_context(self):
+        view = self.get_view('dashboard.html')
+        self.assertFalse(in_app(view.context))
+
+    def test_in_app_apptile_context(self):
+        tile = self.get_app_tile('app-testing')
+        self.assertTrue(in_app(tile.context))

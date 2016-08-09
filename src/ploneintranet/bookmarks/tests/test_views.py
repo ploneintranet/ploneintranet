@@ -6,6 +6,7 @@ from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.testing import z2
 from ploneintranet.bookmarks.browser.interfaces import IPloneintranetBookmarksLayer  # noqa
 from ploneintranet.bookmarks.testing import FunctionalTestCase
+from ploneintranet.layout.app import apps_container_id
 from ploneintranet.layout.interfaces import IAppTile
 from zope.component import getAdapter
 from zope.interface import alsoProvides
@@ -19,6 +20,7 @@ class TestViews(FunctionalTestCase):
     def setUp(self):
         '''Custom shared utility setup for tests.'''
         self.portal = self.layer['portal']
+        self.apps_container = getattr(self.portal, apps_container_id)
         self.request = self.layer['request']
         self.login_as_portal_owner()
         api.content.create(
@@ -148,7 +150,7 @@ class TestViews(FunctionalTestCase):
         ''' Test app_bookmarks
         '''
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request()
+            'app-bookmarks', self.apps_container, self.get_request()
         )
 
         self.assertListEqual(
@@ -182,7 +184,7 @@ class TestViews(FunctionalTestCase):
 
         # And the view starts to get crowded
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request()
+            'app-bookmarks', self.apps_container, self.get_request()
         )
 
         self.assertListEqual(
@@ -204,7 +206,7 @@ class TestViews(FunctionalTestCase):
 
         # And let's filter by date
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'group_by': 'created'
             })
         )
@@ -223,7 +225,7 @@ class TestViews(FunctionalTestCase):
 
         # And let's filter by workspace
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'group_by': 'workspace'
             })
         )
@@ -249,7 +251,7 @@ class TestViews(FunctionalTestCase):
         # Of course we can even apply filters together
         # And let's filter by workspace
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'SearchableText': 'bookmarkable',
                 'group_by': 'created'
             })
@@ -273,7 +275,7 @@ class TestViews(FunctionalTestCase):
 
         # With no search parameter everything is return
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'SearchableText': '',
             })
         )
@@ -283,7 +285,7 @@ class TestViews(FunctionalTestCase):
         )
         # but we can filter contents
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'SearchableText': 'workSpace',
             })
         )
@@ -293,7 +295,7 @@ class TestViews(FunctionalTestCase):
         )
         # or the application
         view = api.content.get_view(
-            'app-bookmarks', self.portal, self.get_request({
+            'app-bookmarks', self.apps_container, self.get_request({
                 'SearchableText': 'bookMarks',
             })
         )

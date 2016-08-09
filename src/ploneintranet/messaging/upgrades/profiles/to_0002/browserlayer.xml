@@ -1,0 +1,6 @@
+<layers>
+  <layer
+    name="ploneintranet.messaging.browser"
+    interface="ploneintranet.messaging.browser.interfaces.IPloneIntranetMessagingLayer"
+  />
+</layers>

@@ -1,5 +1,27 @@
-from ZPublisher.BeforeTraverse import registerBeforeTraverse
+# coding=utf-8
+from plone.dexterity.content import Container
+from plone.directives import form
+from plone.namedfile.interfaces import IImageScaleTraversable
+from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.layout.layers import enable_app_layer
+from zope.interface import implementer
+from ZPublisher.BeforeTraverse import registerBeforeTraverse
+
+
+apps_container_id = 'apps'
+
+
+class IAppsContainer(form.Schema, IImageScaleTraversable):
+    """
+    Marker interface for AppsContainer
+    """
+
+
+@implementer(IAppsContainer, IAttachmentStoragable)
+class AppsContainer(Container):
+    """
+    A folder to contain Apps.
+    """
 
 
 class AbstractAppContainer(object):

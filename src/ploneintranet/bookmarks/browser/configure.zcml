@@ -20,7 +20,7 @@
 
     <browser:page
         name="app-bookmarks"
-        for="*"
+        for="ploneintranet.layout.app.IAppsContainer"
         permission="zope.Public"
         class=".app.View"
         template="templates/app.pt"

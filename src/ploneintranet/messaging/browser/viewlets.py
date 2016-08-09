@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.layout.viewlets import common as base
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
+from ploneintranet.layout.app import apps_container_id
 
 
 class MessagesViewlet(base.ViewletBase):
@@ -18,3 +20,9 @@ class MessagesViewlet(base.ViewletBase):
 
     def digits(self):
         return len(str(self.unread()))
+
+    @property
+    def apps_container_url(self):
+        portal = api.portal.get()
+        apps_container = getattr(portal, apps_container_id)
+        return apps_container.absolute_url()

@@ -47,9 +47,18 @@
       name="apps.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.Apps"
-      permission="zope.Public"
+      permission="ploneintranet.viewsite"
       template="templates/apps.pt"
   />
+
+  <browser:page
+      name="apps.html"
+      for="ploneintranet.layout.app.IAppsContainer"
+      class=".apps.Apps"
+      permission="ploneintranet.viewsite"
+      template="templates/apps.pt"
+      />
+
 
   <browser:page
       name="app-not-available.html"

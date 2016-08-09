@@ -1,11 +1,13 @@
-from Products.Five import BrowserView
+# coding=utf-8
 from plone.app.contenttypes.content import Folder
-from zope.interface import implements
-
 from ploneintranet.layout.app import AbstractAppContainer
-from ploneintranet.layout.interfaces import IAppLayer
 from ploneintranet.layout.interfaces import IAppContainer
+from ploneintranet.layout.interfaces import IAppLayer
+from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.layout.layers import get_layers
+from Products.Five import BrowserView
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 
 
 class IMockLayer(IAppLayer):
@@ -27,6 +29,12 @@ class MockFolder(AbstractAppContainer, Folder):
     # def __init__(self, *args, **kwargs):
     #     super(MockFolder, self).__init__(*args, **kwargs)
     #     self.register_app_hook()
+
+
+class AppTestingView(BrowserView):
+    """ A mock View that represents an App in the Apps space """
+    implements(IPublishTraverse, IAppView)
+    app_name = 'testing'
 
 
 class LayersView(BrowserView):
