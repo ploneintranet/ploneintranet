@@ -14,7 +14,7 @@ I am logged in as the user ${userid}
     Go To  ${PLONE_URL}/login
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password  secret
-    Click button  Login
+    Click Element  css=#login-panel button[type=submit]
 
 # add content keyword that supports
 # both dexterity and archetypes
