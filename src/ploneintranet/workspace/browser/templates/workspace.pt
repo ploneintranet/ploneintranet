@@ -15,27 +15,56 @@
                        tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url();
                                    is_archived workspace/archival_date;
                                    archived_class python:'workspace-state-archived' if is_archived else ''">
-        <div  id="content" class="application page-type-workspace workspace-type-workspace ${archived_class}">
+        <div class="application" id="app-space">
+            <div id="application-body" class="application-workspace project page-type-workspace workspace-type-workspace ${archived_class} sidebar-left-closed">
 
 
-            <h1 id="workspace-name">
-                <!-- Next link is to lead to landing state of current workspace! -->
-                <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
-            </h1>
+                <h1 id="workspace-name">
+                    <!-- Next link is to lead to landing state of current workspace! -->
+                    <a href="{{page.url}}" tal:attributes="href workspace_url" tal:content="workspace/Title">{{ page.workspace_name }}</a>
+                </h1>
 
-            <div class="ws-baggage-handling-regulations dark-theme" id="application-body">
+                <div class="ws-baggage-handling-regulations" id="project-body">
 
-                <div id="document-body">
-                    <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
-                    <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
-                    <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
+                    <div id="document-body">
+                        <!-- XXX complete integration -->
+                        <div id="workspace-header" class="pat-bumper  sticky-supported bumped" style="position: relative; top: 7px;">        
+                            <div class="content">
+                                <h1 class="title" id="top" tal:content="here/Title">
+                                    Open Market Committee
+                                </h1>
+                                <form class="pat-inject buttons">
+                                    <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
+
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #follow-workspace" id="follow-workspace">
+                                        <button type="submit" class="icon-follow-empty" formaction="/feedback/follow-workspace.html" title="Click to follow Open Market Committee">Follow</button>
+                                    </fieldset>
+ -->
+                                    <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">   
+                                        
+                                            <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button> 
+                                        
+                                    </fieldset>
+                                </form>
+
+                                <h2 class="byline">
+                                    189 Members | 223 Followers
+                                </h2>
+                            </div>
+                        </div>
+
+
+                        <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
+                        <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
+                        <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
+                    </div>
+
+                    <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
+                    </aside>
+
                 </div>
-
-                <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
-                </aside>
-
+                <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
             </div>
-            <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
         </div>
         </metal:content>
     </body>
