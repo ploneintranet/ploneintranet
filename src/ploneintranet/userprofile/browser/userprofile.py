@@ -57,6 +57,7 @@ class UserProfileView(UserProfileViewForm):
 
     def update(self):
         self._get_my_groups_and_workspaces()
+        self._update_recent_contacts()
 
     def is_me(self):
         """Does this user profile belong to the current user"""
@@ -166,6 +167,17 @@ class UserProfileView(UserProfileViewForm):
                 'avatar_url': pi_api.userprofile.avatar_url(userid),
             })
         return details
+
+    def _update_recent_contacts(self):
+        my_profile = pi_api.userprofile.get_current()
+        if my_profile.username == self.context.username:
+            return
+        if my_profile.recent_contacts is None:
+            my_profile.recent_contacts = []
+        if self.context.username in my_profile.recent_contacts:
+            my_profile.recent_contacts.remove(self.context.username)
+        my_profile.recent_contacts.insert(0, self.context.username)
+        my_profile.recent_contacts = my_profile.recent_contacts[:20]
 
     def fields_for_display(self):
         return get_fields_for_template(self)
