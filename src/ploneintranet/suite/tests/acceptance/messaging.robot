@@ -46,7 +46,7 @@ Allan can send a new message to Alice
       And I can see the byline  ${MESSAGE3}
       And I open the conversation with  allan_neece
      Then I can see a message  ${MESSAGE3}
-          
+
 Dollie can start a new conversation with Esmeralda
     Given I am logged in as the user dollie_nocera
      When I open the messaging app
@@ -79,7 +79,7 @@ I click the message counter
 
 I go to the apps section
     Go To  ${PLONE_URL}/apps.html
-    
+
 The messaging app indicates unread messages
     [arguments]  ${count}
     Element Should Be Visible  xpath=//div[contains(@class, "app-messages")]//sup[contains(text(), '${count}')]
@@ -108,7 +108,7 @@ I can not see an unread conversation
 I can see the byline
     [arguments]  ${text}
     Page Should Contain Element  xpath=//dfn[@class='byline'][contains(text(), "${text}")]
-    
+
 I open the conversation with
     [arguments]  ${userid}
     Click Element  css=label#selector-item-${userid}
@@ -123,11 +123,12 @@ I can send a new message
     Click Element  css=#chat-bar input[name='message']
     Input Text  css=#chat-bar input[name='message']  ${text}\n
     Wait Until Page Does Not Contain  css=#chat-bar.injecting
-    
+
 I can start a new conversation with
     [arguments]  ${userid}
     Click Link  css=div.quick-functions a.new-chat
     Input Text  css=#pat-modal div.users input.focus  ${userid}
+    Wait Until Page Contains Element  xpath=//div[@class='select2-result-label'][contains(text(), ${userid})]
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), ${userid})]
     Click Element  css=button.close-panel[type='submit']
 
