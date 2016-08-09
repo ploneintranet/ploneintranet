@@ -6,7 +6,7 @@ from ZPublisher.Iterators import IStreamIterator
 from io import BytesIO
 from plone import api
 from plone.namedfile import NamedBlobImage
-from ploneintranet.userprofile.browser.tiles.contacts_results import ContactsResults  # noqa
+from ploneintranet.userprofile.browser.tiles.contacts_search import ContactsSearch  # noqa
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import AvatarsView
 from ploneintranet.userprofile.browser.userprofile import MyAvatar
@@ -150,7 +150,7 @@ class TestContactsResults(TestUserProfileBase):
     def test_resolve_profile(self):
         self.profile1.recent_contacts = [self.profile2.username]
         self.login(self.profile1.username)
-        contacts_results = ContactsResults(self.portal, self.request)
+        contacts_results = ContactsSearch(self.portal, self.request)
         recent = contacts_results.recent_contacts()
         self.assertEqual(recent[0], self.profile2)
 
@@ -158,7 +158,7 @@ class TestContactsResults(TestUserProfileBase):
         self.profile1.recent_contacts = [
             'deleted_user', self.profile2.username]
         self.login(self.profile1.username)
-        contacts_results = ContactsResults(self.portal, self.request)
+        contacts_results = ContactsSearch(self.portal, self.request)
         recent = contacts_results.recent_contacts()
         self.assertEqual(len(recent), 1)
         self.assertEqual(recent[0], self.profile2)
@@ -168,7 +168,7 @@ class TestContactsResults(TestUserProfileBase):
         # use this shortcut only to avoid creating 10 user profiles.
         self.profile1.recent_contacts = [self.profile2.username] * 11
         self.login(self.profile1.username)
-        contacts_results = ContactsResults(self.portal, self.request)
+        contacts_results = ContactsSearch(self.portal, self.request)
         recent = contacts_results.recent_contacts()
         self.assertEqual(len(recent), 10)
 
