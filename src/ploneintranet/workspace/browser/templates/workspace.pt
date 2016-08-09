@@ -40,15 +40,15 @@
                                         <button type="submit" class="icon-follow-empty" formaction="/feedback/follow-workspace.html" title="Click to follow Open Market Committee">Follow</button>
                                     </fieldset>
  -->
-                                    <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">   
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">   
                                         
                                             <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button> 
                                         
                                     </fieldset>
-                                </form>
+ -->                                </form>
 
-                                <h2 class="byline">
-                                    189 Members | 223 Followers
+                                <h2 class="byline" tal:define="members here/existing_users">
+                                    <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
                                 </h2>
                             </div>
                         </div>
