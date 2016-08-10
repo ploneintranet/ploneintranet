@@ -1421,6 +1421,7 @@ I can bookmark the application
     I can click the Apps tab
     Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
     I can click the Apps tab
     Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Remove bookmark')]
 
@@ -1429,6 +1430,7 @@ I can unbookmark the application
     I can click the Apps tab
     Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Remove bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
     I can click the Apps tab
     Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Bookmark')]
 
