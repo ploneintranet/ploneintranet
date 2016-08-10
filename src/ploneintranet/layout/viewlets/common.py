@@ -1,10 +1,11 @@
 # coding=utf-8
 from plone.app.layout.viewlets import common
 from plone.registry.interfaces import IRegistry
+from ploneintranet.layout.utils import in_app
+from ploneintranet.workspace.utils import in_workspace
 from Products.CMFPlone.interfaces import ISiteSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
-from ploneintranet.workspace.utils import in_workspace
 
 
 class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
@@ -32,5 +33,7 @@ class LogoViewlet(common.LogoViewlet):
         super(LogoViewlet, self).update()
         if in_workspace(self.context):
             self.logo_url = "{0}/workspaces".format(self.navigation_root_url)
+        elif in_app(self.context):
+            self.logo_url = "{0}/apps".format(self.navigation_root_url)
         else:
             self.logo_url = self.navigation_root_url
