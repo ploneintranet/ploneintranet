@@ -19,14 +19,14 @@
               type workspace/ws_type | string:workspace;
               is_archived workspace/archival_date;
               archived_class python:'workspace-state-archived' if is_archived else ''"
-           tal:attributes="class string:application-workspace page-type-${type} workspace-type-${type} ${archived_class} sidebar-left-closed">
+           tal:attributes="class string:application-workspace project page-type-${type} workspace-type-${type} ${archived_class} sidebar-left-closed">
 
           <h1 id="workspace-name">
               <!-- Next link is to lead to landing state of current workspace -->
               <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
 
-          <div class="${workspace_id} dark-theme" id="application-body">
+          <div class="${workspace_id} dark-theme" id="project-body">
 
               <div id="document-body" tal:define="formid here/UID;">
                   <form class="document pat-inject pat-validation"
