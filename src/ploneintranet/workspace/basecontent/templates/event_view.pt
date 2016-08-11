@@ -26,7 +26,7 @@
               <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
 
-          <div class="${workspace_id} dark-theme" id="project-body">
+          <div class="${workspace_id}" id="project-body">
 
               <div id="document-body" tal:define="formid here/UID;">
                   <form class="document pat-inject pat-validation"
