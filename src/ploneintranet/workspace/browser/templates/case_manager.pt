@@ -32,14 +32,6 @@
                       <!--    <option>All cases that I have access to</option> -->
                       <!--   </select> -->
                       <!-- </label> -->
-                      <label tal:define="departments python:view.get_field_indexes('department')"
-                             tal:condition="departments"><tal:block i18n:translate="">Department</tal:block> <select name="department">
-                          <option value="" i18n:translate="">Pick the responsible department</option>
-                          <tal:r tal:repeat="department departments">
-                            <option value="${department}" selected="${python: request.get('department') == department and 'selected' or None}">${department}</option>
-                          </tal:r>
-                        </select>
-                      </label>
 
                       <label><tal:block i18n:translate="">Status</tal:block> <select name="status" class="focus">
                           <option value="" i18n:translate="">All</option>
