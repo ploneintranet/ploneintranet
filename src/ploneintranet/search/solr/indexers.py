@@ -18,12 +18,14 @@ import lxml.etree as etree
 import requests
 from ploneintranet.async.tasks import ReindexObject
 from zope.annotation.interfaces import IAnnotations
+from zope.globalrequest import getRequest
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
 from .solr_search import prepare_data
 
 
 logger = logging.getLogger(__name__)
+solr_indexing_enabled_key = 'ploneintranet.search.solr.index'
 
 
 @implementer(IContentAdder)
@@ -328,7 +330,14 @@ class ContentIndexer(object):
     def index(self, obj, attributes=None):
         """Index the object.
 
+        Can be temporarily disabled via solr_indexing_disable(request)
         """
+        switch_key = solr_indexing_enabled_key
+        enabled = obj.REQUEST.get(switch_key, True)  # default is enabled
+        if not enabled:
+            logger.debug("%s disabled", switch_key)
+            return
+
         data = self._get_data(obj, attributes=attributes)
         if data is not None:
             portal_type = data.get('portal_type', 'default')
@@ -385,3 +394,33 @@ def getObjPositionInParent(obj):
         except ValueError:
             return 0
     return 0
+
+
+def solr_indexing_disable(request=None):
+    """Temporarily disable solr indexing for this request.
+
+    :param request: The request for which solr indexing is to be disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle solr indexing.")
+        return
+    request[solr_indexing_enabled_key] = False
+
+
+def solr_indexing_enable(request=None):
+    """Re-enable solr indexing for this request.
+    This only makes sense if you explicitly disabled solr indexing,
+    since it is enabled by default.
+
+    :param request: The request for which solr indexing is to be re-enabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle solr indexing.")
+        return
+    request[solr_indexing_enabled_key] = True
