@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 from collections import defaultdict
 from datetime import datetime
 from plone import api
 from plone.memoize.view import memoize
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.schema.interfaces import IVocabularyFactory
-from zope.component import getUtility
-
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.browser.add_content import AddBase
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.utils import purge_and_refresh_security_manager
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
@@ -176,7 +177,7 @@ class AddWorkspace(AddBase):
             return super(AddWorkspace, self).get_new_object()
 
     def create_from_template(self):
-        ''' Create an ocject with the given template
+        ''' Create an object with the given template
         '''
         template = self.get_template()
         if not template:
@@ -187,6 +188,9 @@ class AddWorkspace(AddBase):
             )
             return
 
+        # Create neither previews for copied contents nor status updates
+        pi_api.previews.events_disable(self.request)
+        pi_api.microblog.events_disable(self.request)
         new = api.content.copy(
             source=template,
             target=self.context,
