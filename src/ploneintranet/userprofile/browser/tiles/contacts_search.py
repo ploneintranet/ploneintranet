@@ -12,3 +12,8 @@ class ContactsSearch(Tile):
             recent = [p for p in recent if p][:10]
             return recent
         return []
+
+    def initials_for(self, user):
+        first_name = user.first_name or ""
+        last_name = user.last_name or ""
+        return first_name[:1] + last_name[:2]
