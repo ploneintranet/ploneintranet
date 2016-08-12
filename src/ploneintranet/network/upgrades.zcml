@@ -19,5 +19,13 @@
         handler=".upgrades.upgrade_to_0003"
         profile="ploneintranet.network:default" />
 
+    <genericsetup:upgradeStep
+        title="Add timestamps to bookmarks"
+        description="Set a fake datetime on untimed bookmarks"
+        source="0003"
+        destination="0004"
+        handler=".upgrades.upgrade_to_0004"
+        profile="ploneintranet.network:default" />
+
 
 </configure>

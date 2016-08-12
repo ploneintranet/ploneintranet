@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest2 as unittest
+from datetime import datetime
 from ploneintranet.network.graph import NetworkGraph
 from ploneintranet.network.testing import IntegrationTestCase
 
@@ -242,3 +243,27 @@ class TestBookmarkingDefaults(IntegrationTestCase):
         self.assertIn('app/path', g.get_bookmarks('apps'))
         g.unbookmark('apps', 'app/path')
         self.assertFalse(g.is_bookmarking('apps', 'app/path'))
+
+
+class TestBookmarkTimestamps(IntegrationTestCase):
+    """Check datetime storage of bookmarking actions"""
+
+    def test_bookmark_sets_timestamp(self):
+        g = NetworkGraph()
+        g.bookmark('content', 'fake_uuid')
+        self.assertTrue(isinstance(g.bookmarked_on('fake_uuid'), datetime))
+
+    def test_unbookmark_removes_timestamp(self):
+        g = NetworkGraph()
+        g.bookmark('content', 'fake_uuid')
+        g.unbookmark('content', 'fake_uuid')
+        with self.assertRaises(KeyError):
+            g.bookmarked_on('fake_uuid')
+
+    def test_get_bookmarks_by_date(self):
+        g = NetworkGraph()
+        g.bookmark('content', 'fake_uuid_1')
+        g.bookmark('content', 'fake_uuid_2')
+        bookmarks = g.get_bookmarks_by_date('content')
+        self.assertEquals(bookmarks[0].id, 'fake_uuid_1')
+        self.assertTrue(bookmarks[1].datetime >= bookmarks[0].datetime)

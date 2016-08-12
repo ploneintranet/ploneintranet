@@ -14,9 +14,11 @@
 .installed.cfg
 .mozilla/
 .mr.developer.cfg
+.npm/
 .plone.versioncheck.cache
 .plone.versioncheck.tracked.json
 .pypirc
+.qws/
 .ssh/
 .Python
 .DS_Store
@@ -35,6 +37,7 @@ local/
 node_modules/
 .pki/
 parts/
+Patterns/
 /prototype
 /share/python-wheels
 release/
@@ -47,6 +50,7 @@ release/
 src/sphinx.themes.plone/
 stamp-bower
 stamp-npm
+tmp/
 uuid.txt
 var/
 vendor/

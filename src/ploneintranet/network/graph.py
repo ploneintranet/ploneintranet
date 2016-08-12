@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from Acquisition import Explicit
 from BTrees import OOBTree
+from collections import namedtuple
+from datetime import datetime
 from interfaces import INetworkGraph
 from persistent import Persistent
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from zope.interface import implements
 
+import pytz
 import logging
 
 logger = logging.getLogger('ploneintranet.network')
@@ -73,6 +76,8 @@ class NetworkGraph(Persistent, Explicit):
         _bookmarks["apps"][userid] = (app_path, app_path, ...)
         _bookmarked["apps"][app_path] = (userid, userid, ...)
 
+        _bookmarked_on[userid][item_id] = datetime  # UTC
+
         FOLLOW: users can follow eachother, or content etc.
         ---------------------------------------------------
 
@@ -126,6 +131,7 @@ class NetworkGraph(Persistent, Explicit):
         # bookmarks
         self._bookmarks = OOBTree.OOBTree()
         self._bookmarked = OOBTree.OOBTree()
+        self._bookmarked_on = OOBTree.OOBTree()
         for item_type in self.supported_bookmark_types:
             self._bookmarks[item_type] = OOBTree.OOBTree()
             self._bookmarked[item_type] = OOBTree.OOBTree()
@@ -156,16 +162,16 @@ class NetworkGraph(Persistent, Explicit):
     # needed in suite/setuphandlers
     clear = __init__
 
-    def _safe_insert(self, storage, key, value):
+    def _set_insert(self, storage, key, value):
         ''' Given a btreeish storage be sure storage[key]
-        is something we can insert value in to
+        is a OOTreeSet we can insert value in to
         '''
         # if key is in storage the following instruction will have no effect
         storage.insert(key, OOBTree.OOTreeSet())
         storage[key].insert(value)
 
-    def _safe_remove(self, storage, key):
-        ''' Remove from storage key if found
+    def _set_remove(self, storage, key):
+        ''' Remove from OOTreeSet key if found
         '''
         key in storage and storage.remove(key)
 
@@ -195,8 +201,13 @@ class NetworkGraph(Persistent, Explicit):
         item_type = self._bookmark_type_validator(item_type)
         item_id = decode(item_id)
 
-        self._safe_insert(self._bookmarks[item_type], user_id, item_id)
-        self._safe_insert(self._bookmarked[item_type], item_id, user_id)
+        self._set_insert(self._bookmarks[item_type], user_id, item_id)
+        self._set_insert(self._bookmarked[item_type], item_id, user_id)
+
+        # _set_insert is not valid since we need a OOBTree
+        self._bookmarked_on.insert(user_id, OOBTree.OOBTree())
+        # _set_remove is not valid on a OOBTree
+        self._bookmarked_on[user_id][item_id] = datetime.now(pytz.utc)
 
     def unbookmark(self, item_type, item_id, user_id=None):
         # User <user_id> unbookmarks <item_type> <item_id>
@@ -204,8 +215,10 @@ class NetworkGraph(Persistent, Explicit):
         user_id = self._bookmark_user_validator(user_id)
         item_type = self._bookmark_type_validator(item_type)
         item_id = decode(item_id)
-        self._safe_remove(self._bookmarks[item_type][user_id], item_id)
-        self._safe_remove(self._bookmarked[item_type][item_id], user_id)
+        self._set_remove(self._bookmarks[item_type][user_id], item_id)
+        self._set_remove(self._bookmarked[item_type][item_id], user_id)
+
+        self._bookmarked_on[user_id].pop(item_id)
 
     def get_bookmarks(self, item_type, user_id=None):
         # List all <item_type> bookmarked by <user_id>
@@ -221,7 +234,7 @@ class NetworkGraph(Persistent, Explicit):
         return self._bookmarked[item_type].get(item_id, [])
 
     def is_bookmarked(self, item_type, item_id, user_id=None):
-        # Does <user_id> like <item_type> <item_id>?
+        # Has <user_id> bookmarked <item_type> <item_id>?
 
         user_id = self._bookmark_user_validator(user_id)
         item_type = self._bookmark_type_validator(item_type)
@@ -229,6 +242,20 @@ class NetworkGraph(Persistent, Explicit):
         return user_id in self.get_bookmarkers(item_type, item_id)
 
     is_bookmarking = is_bookmarked
+
+    def bookmarked_on(self, item_id, user_id=None):
+        # At which datetime (UTC) did <user_id> bookmark <item_id>?
+        user_id = self._bookmark_user_validator(user_id)
+        item_id = decode(item_id)
+        return self._bookmarked_on[user_id][item_id]
+
+    def get_bookmarks_by_date(self, item_type, user_id=None):
+        # add bookmarking date to get_bookmarks
+        # returns [ (bookmark.id, bookmark.datetime), ... ]
+        Bookmark = namedtuple('Bookmark', 'id, datetime')
+        bookmarks = [Bookmark(id, self.bookmarked_on(id, user_id))
+                     for id in self.get_bookmarks(item_type, user_id)]
+        return sorted(bookmarks, key=lambda x: x.datetime)
 
     # following API
 
