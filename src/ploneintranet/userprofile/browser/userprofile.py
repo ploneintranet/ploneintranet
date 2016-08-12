@@ -170,7 +170,7 @@ class UserProfileView(UserProfileViewForm):
 
     def _update_recent_contacts(self):
         my_profile = pi_api.userprofile.get_current()
-        if my_profile.username == self.context.username:
+        if not my_profile or my_profile.username == self.context.username:
             return
         if my_profile.recent_contacts is None:
             my_profile.recent_contacts = []

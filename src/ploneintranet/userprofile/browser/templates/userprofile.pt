@@ -82,7 +82,7 @@
                  title="Call ${context/fullname} at ${context/telephone}"
                   href="tel:${context/telephone}"
                  i18n:attributes="title"
-                >${context/telephone}></a>
+                >${context/telephone}</a>
             </li>
           </ul>
           <p class="portlet-footer">
