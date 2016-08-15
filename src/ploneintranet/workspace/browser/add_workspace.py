@@ -188,9 +188,11 @@ class AddWorkspace(AddBase):
             )
             return
 
-        # Create neither previews for copied contents nor status updates
+        # Create neither previews for copied contents nor status updates.
+        # Also, do not reindex copied content at this moment.
         pi_api.previews.events_disable(self.request)
         pi_api.microblog.events_disable(self.request)
+        pi_api.events.disable_solr_indexing(self.request)
         new = api.content.copy(
             source=template,
             target=self.context,
@@ -198,6 +200,12 @@ class AddWorkspace(AddBase):
             safe_id=False,
         )
         new.creation_date = datetime.now()
+        # Now that the new workspace has been created, re-index it (async)
+        # using the solr-maintenance convenience method.
+        pi_api.events.enable_solr_indexing(self.request)
+        solr_maintenance = api.content.get_view(
+            'solr-maintenance', new, self.request)
+        solr_maintenance.reindex(no_log=True)
         return new
 
     def get_template(self):
