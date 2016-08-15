@@ -127,7 +127,7 @@
     <metal:webstats_js define-slot="webstats_js">
       <metal:block define-macro="webstats_js">
         <div id="webstats_js">
-          <tal:webstat_js condition="not:ajax_load" replace="here/webstats_js|nothing" />
+          <tal:webstat_js condition="not:ajax_load" replace="structure here/webstats_js|nothing" />
         </div>
       </metal:block>
     </metal:webstats_js>
