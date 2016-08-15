@@ -1,5 +1,6 @@
 # coding=utf-8
 from AccessControl import Unauthorized
+from datetime import datetime
 from datetime import timedelta
 from plone import api
 from plone.memoize.view import memoize
@@ -13,13 +14,19 @@ from unidecode import unidecode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 import logging
+import pytz
 import urllib
 
 
 logger = logging.getLogger(__name__)
 
+# switch recurrent polling on/off
+AUTOREFRESH = True
+
 
 class _AppMessagingMixin(object):
+
+    app_name = 'messaging'
 
     @property
     def portal_url(self):
@@ -41,12 +48,13 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     # ~/prototype/_site/chat-guido-stevens.html
 
-    app_name = 'messaging'
+    autorefresh = AUTOREFRESH
 
     def __init__(self, context, request):
         super(AppMessagingView, self).__init__(context, request)
         self.userid = None
         self.inbox = None
+        self.only_new = False
 
     def publishTraverse(self, request, name):
         userid = urllib.unquote(name)
@@ -62,16 +70,25 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
     def __call__(self):
         if api.user.is_anonymous():
             raise Unauthorized("You must be logged in to use messaging.")
+        self.only_new = self.request.get('only_new', False)
         self.update()
-        return self.index()
+        html = self.index()
+        self.post_process()
+        return html
 
     def update(self):
-        if self.userid:
+        # mark read on initial full load, not on incremental update
+        if self.userid and not self.only_new:
             self.mark_read(self.userid)
         new_userid = self.request.get('new_userid', None)
         if new_userid:
             self.create_conversation(new_userid)
             self.userid = new_userid  # render the new (empty) chat panel
+
+    def post_process(self):
+        # execute mark_read *after* updated page has rendered
+        if self.userid and self.only_new:
+            self.mark_read(self.userid)
 
     def mark_read(self, userid):
         conversation = pi_api.messaging.get_conversation(userid)
@@ -142,6 +159,9 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
         _last = None
         _maxdiff = timedelta(minutes=15)
         for msg in conversation.get_messages():
+            if self.only_new and not msg.new:
+                _last = msg.created
+                continue
             # add time header if more than 15m since previous msg
             if not _last or msg.created > _last + _maxdiff:
                 _messages.append(dict(
@@ -164,6 +184,25 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
     @property
     def url(self):
         return self.request['ACTUAL_URL']
+
+    @property
+    def chat_url(self):
+        return '{}/@@app-messaging/{}'.format(
+            self.apps_container_url, self.userid)
+
+    @property
+    def delay(self):
+        conversation = pi_api.messaging.get_conversation(self.userid)
+        # new empty conversation?
+        if not conversation.last:
+            return 4000
+        age = datetime.now(pytz.utc) - conversation.last.created
+        if age < timedelta(seconds=60):
+            return 4000
+        elif age < timedelta(minutes=5):
+            return 8000
+        else:
+            return 16000
 
     @memoize
     def _fullname(self, userid):
@@ -266,3 +305,7 @@ class AppMessagingNewMessage(BrowserView, _AppMessagingMixin):
     def avatar_url(self):
         return pi_api.userprofile.avatar_url(
             api.user.get_current().id)
+
+    def chat_url(self):
+        return '{}/@@app-messaging/{}'.format(
+            self.apps_container_url, self.userid)
