@@ -122,22 +122,6 @@
                               i18n:attributes="title">Paste</button></span>
 
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button type="submit"
-                            class="float-before icon-trash no-label"
-                            title="Delete"
-                            formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Delete</button>
-
-                    <button type="submit"
-                            class="float-before icon-rename no-label"
-                            title="Rename"
-                            formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Rename</button>
-                    <button type="submit"
-                            class="float-before icon-tags no-label"
-                            title="Re-tag"
-                            formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Re-tag</button>
 
                     <span class="float-before button-cluster">
                       <button type="submit"
@@ -153,6 +137,47 @@
                       <!--         data-pat-depends="condition: false; action: enable" -->
                       <!--         title="Post selected document(s) on a timeline">Share</button> -->
                     </span>
+                    <div class="pat-collapsible context-menu open" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
+                        <strong class="label collapsible-open" i18n:translate="">More…</strong>
+                        <div class="panel-content" style="display: block;">
+                          <ul class="menu">
+                            <li>
+                                <button disabled class="icon-archive" type="submit" name="batch-function" value="archive">Archive (coming soon)</button>
+                            </li>
+                            <li>
+                                <button disabled class="icon-subscribe disabled" type="submit" name="batch-function" value="subscribe">Subscribe (coming soon)</button>
+                            </li>
+                            <li>
+                                <button disabled class="icon-download" type="submit" name="batch-function" value="download">Download (coming soon)</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-rename"
+                                        title="Rename"
+                                        formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
+                                        i18n:translate="" 
+                                        i18n:attributes="title">Rename</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-tags"
+                                        title="Re-tag"
+                                        formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
+                                        i18n:translate=""
+                                        i18n:attributes="title">Re-tag</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-trash"
+                                        title="Delete"
+                                        formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
+                                        i18n:translate="" 
+                                        i18n:attributes="title">Delete</button>
+
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
                   </div>
                 </div>
 
