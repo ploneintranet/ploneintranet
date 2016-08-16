@@ -115,7 +115,10 @@
                                 <li>
                                     <a class="icon-workspace pat-modal"
                                        href="${ws/absolute_url}/panel-related-workspaces#document-content"
-                                       data-pat-inject="source: #document-content">Set related workspaces</a>
+                                       data-pat-inject="source: #document-content" 
+                                       i18n:translate="" 
+                                       i18n:attributes="title" 
+                                       title="Set related workspaces">Set related workspaces</a>
 
                                 </li>
                                 <!-- <li>
@@ -128,7 +131,12 @@
                                     <a class="pat-modal" href="/feedback/panel-related-workspaces.html">Tracking log</a>
                                 </li> -->
                                 <li>
-                                    <a class="icon-trash pat-modal" href="/feedback/panel-related-workspaces.html">Delete workspace</a>
+                                    <a class="icon-trash pat-modal" 
+                                       title="Delete workspace" 
+                                       href="${ws/absolute_url}/delete_confirmation#content" 
+                                       i18n:attributes="title" 
+                                       i18n:translate="" 
+                                       data-pat-inject="source: #content">Delete workspace</a>
                                 </li>
                             </ul>
                         </div>

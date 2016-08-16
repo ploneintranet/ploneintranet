@@ -4,15 +4,11 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:use-macro="context/main_template/macros/master"
       i18n:domain="plone">
-
-  <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
 
   <body>
 
-    <metal:main fill-slot="main"
-                tal:define="
+    <div id="content" tal:define="context_state context/@@plone_context_state;
                     useSelf python:context_state.is_structural_folder() and not context_state.is_default_page();
                     folder_warning python:useSelf and context.portal_type != 'Topic';
                     number_of_objects_to_delete python:folder_warning and view.items_to_delete;
@@ -24,6 +20,13 @@
             i18n:domain="ploneintranet">
           Delete <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/portal_type"></tal:block>
         </h1>
+        <h1 class="documentFirstHeading"
+            i18n:translate=""
+            tal:condition="folder_warning"
+            i18n:domain="ploneintranet">
+          Delete <tal:block i18n:name="contenttype" i18n:translate="" tal:content="context/Title"></tal:block>
+        </h1>
+
         <form action="${view/action}" method="post" enctype="${view/enctype}"
             class="wizard-box ${python:request.get('pat-inject') and 'pat-inject' or ''}"
             data-pat-inject="${python:request.get('pat-inject') or None}"
@@ -47,13 +50,6 @@
 
                 <p tal:condition="not:folder_warning" i18n:translate="" i18n:domain="ploneintranet">
                   You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="" i18n:domain="plone" tal:content="context/portal_type"></tal:block>. Are you sure?
-                </p>
-
-                <p tal:condition="folder_warning">
-                  <tal:block i18n:translate="">You are about to delete this folder. Are you sure?</tal:block>
-                  <span i18n:translate="" tal:condition="python:number_of_objects_to_delete>1">
-                    (This will delete a total of <tal:block i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</tal:block> items.)
-                  </span>
                 </p>
 
                 <ul>
@@ -119,7 +115,7 @@
         </form>
       </div>
 
-    </metal:main>
+    </div>
   </body>
 
 </html>
