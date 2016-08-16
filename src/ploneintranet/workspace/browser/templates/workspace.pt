@@ -53,6 +53,13 @@
                             </div>
                         </div>
 
+                        <div id="workspace-messages">
+                            <p class="message notice">
+                                <span i18n:translate="" tal:omit-tag="">If you use this workspace, you might also be interested in</span>
+                                <tal:r repeat="rw workspace/get_related_workspaces">
+                                    <a class="icon-workspace" href="${rw/URL}">${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">, </tal:separator></tal:r>.
+                            </p>
+                        </div>
 
                         <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
                         <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>

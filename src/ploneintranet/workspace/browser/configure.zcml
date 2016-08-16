@@ -285,6 +285,15 @@
       />
 
     <browser:page
+      name="panel-related-workspaces"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      class=".workspace.RelatedWorkspacesPicker"
+      template="templates/panel-related-workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
       name="confirmation-remove-special-role"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       permission="collective.workspace.ManageRoster"
@@ -321,6 +330,14 @@
         name="allusers-and-groups.json"
         for="plone.app.layout.navigation.interfaces.INavigationRoot"
         class=".workspace.AllUsersAndGroupsJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
+        name="workspaces.json"
+        for="*"
+        class=".workspace.WorkspacesJSONView"
         permission="zope2.View"
         layer="..interfaces.IPloneintranetWorkspaceLayer"
         />

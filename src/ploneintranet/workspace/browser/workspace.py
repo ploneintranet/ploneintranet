@@ -218,3 +218,48 @@ class AllUsersAndGroupsJSONView(BrowserView):
                 'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)
+
+
+class RelatedWorkspacesPicker(BrowserView):
+    """
+    Provides a picker to select related workspaces
+    """
+
+    def get_related_workspaces(self):
+        return self.context.get_related_workspaces()
+
+
+def format_workspaces_json(workspaces):
+    """
+    Format a list of workspaces as JSON for use with pat-autosuggest
+
+    :param list users: A list of brains
+    :rtype string: JSON {"ws_id1": "ws_title1", ...}
+    """
+    formatted_ws = []
+    for ws in workspaces:
+        title = safe_unicode(ws.Title)
+        uid = ws.UID
+        formatted_ws.append({
+            'id': uid,
+            'text': title,
+        })
+    return dumps(formatted_ws)
+
+
+class WorkspacesJSONView(BrowserView):
+    """
+    Return a filtered list of workspaces for pat-autosuggest.
+    Any workspace can be found.
+    """
+    def __call__(self):
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
+        query = {'SearchableText': u'{0}*'.format(q),
+                 'object_provides':
+                 'collective.workspace.interfaces.IHasWorkspace'}
+
+        catalog = api.portal.get_tool('portal_catalog')
+        ws = catalog(query)
+        return format_workspaces_json(ws)

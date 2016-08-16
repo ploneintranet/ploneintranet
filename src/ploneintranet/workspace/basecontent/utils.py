@@ -1,4 +1,6 @@
 from Products.CMFPlone.utils import safe_unicode
+from types import ListType
+from types import TupleType
 from plone import api
 from collections import defaultdict
 from plone.app.textfield.interfaces import IRichTextValue
@@ -97,7 +99,10 @@ def dexterity_update(obj, request=None):
                             name, obj.absolute_url()))
                     raw = sanitized
 
-            value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
+            if type(raw) in (ListType, TupleType):
+                value = raw
+            else:
+                value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
 
             try:
                 field.validate(value)

@@ -354,7 +354,6 @@ class SidebarSettingsAdvanced(BaseTile):
                     if '@' in form['email']:
                         # Only use the name part as the domain is fixed.
                         form['email'] = form['email'].split('@')[0]
-
                 modified, errors = dexterity_update(self.context)
 
                 if 'email' in form and form['email']:
