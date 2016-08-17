@@ -265,7 +265,8 @@ def _update_todos_state(obj):
     """
     pc = api.portal.get_tool('portal_catalog')
     current_path = '/'.join(obj.getPhysicalPath())
-    brains = pc(path=current_path, portal_type='todo')
+    brains = pc.unrestrictedSearchResults(
+        path=current_path, portal_type='todo')
     for brain in brains:
         todo = brain.getObject()
         _update_todo_state(todo)
