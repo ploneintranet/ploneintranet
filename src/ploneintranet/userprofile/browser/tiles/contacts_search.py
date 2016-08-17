@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
 
