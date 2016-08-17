@@ -167,6 +167,9 @@ class AllUsersSync(BrowserView):
         without a local membrane profile"""
         to_sync = external_userids - local_userids
         plugin_id = self.canonical_plugin_id
+        logger.info('Found {0} users in {1} in total'.format(
+            len(external_userids), plugin_id,
+        ))
         logger.info('Found {0} users in {1} with no membrane profile'.format(
             len(to_sync), plugin_id,
         ))
