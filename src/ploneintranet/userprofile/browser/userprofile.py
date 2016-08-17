@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import shorten
@@ -172,6 +173,7 @@ class UserProfileView(UserProfileViewForm):
         my_profile = pi_api.userprofile.get_current()
         if not my_profile or my_profile.username == self.context.username:
             return
+        safeWrite(my_profile, self.request)
         if my_profile.recent_contacts is None:
             my_profile.recent_contacts = []
         if self.context.username in my_profile.recent_contacts:
