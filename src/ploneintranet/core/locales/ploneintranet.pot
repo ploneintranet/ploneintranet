@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-05 11:33+0000\n"
+"POT-Creation-Date: 2016-08-18 17:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,6 +49,11 @@ msgstr ""
 msgid "A contact email address for this search result"
 msgstr ""
 
+#: ../layout/profiles/default/types/ploneintranet.layout.appscontainer.xml
+#: ../layout/upgrades/profiles/to_0004/types/ploneintranet.layout.appscontainer.xml
+msgid "A container for Apps"
+msgstr ""
+
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
 msgid "A container for workspaces"
 msgstr ""
@@ -74,11 +79,11 @@ msgstr ""
 msgid "A tile to add a new post"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:137
+#: ../layout/browser/configure.zcml:146
 msgid "A title for the news"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:126
+#: ../layout/browser/configure.zcml:135
 msgid "A title for the tasks"
 msgstr ""
 
@@ -86,7 +91,7 @@ msgstr ""
 msgid "A user (or a group) assigned to this task"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:130
+#: ../userprofile/content/userprofile.py:135
 msgid "A user with this username already exists"
 msgstr ""
 
@@ -99,10 +104,6 @@ msgstr ""
 msgid "Activity centric view"
 msgstr ""
 
-#: ../messaging/browser/messaging.py:26
-msgid "Add a comment"
-msgstr ""
-
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:116
 msgid "Add group"
 msgstr ""
@@ -113,11 +114,6 @@ msgstr ""
 
 #: ../todo/portlets/latest.py:75
 msgid "Add latest news portlet"
-msgstr ""
-
-#: ../messaging/browser/send-message.pt:53
-#: ../messaging/browser/your-inbox.pt:138
-msgid "Add tags"
 msgstr ""
 
 #: ../bookmarks/browser/bookmark_link.py:57
@@ -136,7 +132,7 @@ msgstr ""
 msgid "Additional profile fields"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:76
+#: ../userprofile/content/userprofile.py:81
 msgid "Address"
 msgstr ""
 
@@ -195,6 +191,10 @@ msgstr ""
 msgid "All activities"
 msgstr ""
 
+#: ../bookmarks/browser/templates/app.pt:16
+msgid "All bookmarks"
+msgstr ""
+
 #: ../workspace/browser/tiles/events.py:52
 msgid "All day"
 msgstr ""
@@ -207,7 +207,7 @@ msgstr ""
 msgid "All notifications"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:156
+#: ../bookmarks/browser/app.py:161
 #: ../layout/browser/grouped_search.py:68
 msgid "All time"
 msgstr ""
@@ -237,15 +237,21 @@ msgstr ""
 msgid "App not available"
 msgstr ""
 
+#: ../bookmarks/browser/templates/app.pt:17
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
+msgstr ""
+
+#: ../layout/profiles/default/types/ploneintranet.layout.appscontainer.xml
+#: ../layout/upgrades/profiles/to_0004/types/ploneintranet.layout.appscontainer.xml
+msgid "Apps Container"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:69
 msgid "Archive workspace"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:51
+#: ../workspace/browser/templates/case_manager.pt:43
 msgid "Archived"
 msgstr ""
 
@@ -266,14 +272,10 @@ msgstr ""
 msgid "Async task dispatch for PloneIntranet"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:41
-#: ../messaging/browser/your-inbox.pt:129
 #: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:41
-#: ../messaging/browser/your-inbox.pt:129
 #: ../microblog/browser/templates/update-social.html:103
 msgid "Attach a file (or create a picture)"
 msgstr ""
@@ -328,12 +330,20 @@ msgstr ""
 msgid "Batch send"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:91
+#: ../userprofile/content/userprofile.py:96
 msgid "Biography"
 msgstr ""
 
 #: ../bookmarks/browser/bookmark_link.py:61
 msgid "Bookmark"
+msgstr ""
+
+#: ../bookmarks/browser/templates/bookmarks.tile.pt:16
+msgid "Bookmarks"
+msgstr ""
+
+#: ../bookmarks/browser/configure.zcml:19
+msgid "Bookmarks tile"
 msgstr ""
 
 #: ../workspace/basecontent/templates/mail_view.pt:99
@@ -351,9 +361,9 @@ msgstr ""
 msgid "Can't download, no items found."
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:63
 #: ../microblog/browser/templates/update-social.html:136
 #: ../workspace/basecontent/document.py:77
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:68
 msgid "Cancel"
 msgstr ""
 
@@ -502,7 +512,7 @@ msgstr ""
 msgid "Date range"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:108
+#: ../workspace/browser/templates/case_manager.pt:100
 msgid "Days running"
 msgstr ""
 
@@ -547,8 +557,7 @@ msgstr ""
 msgid "Delete this event"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:64
-#: ../workspace/browser/templates/case_manager.pt:36
+#: ../userprofile/content/userprofile.py:69
 msgid "Department"
 msgstr ""
 
@@ -593,9 +602,9 @@ msgstr ""
 msgid "Document types"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:149
+#: ../bookmarks/browser/templates/app.pt:19
+#: ../layout/browser/configure.zcml:158
 #: ../layout/browser/templates/my_documents.pt:11
-#: ../userprofile/browser/templates/userprofile.pt:174
 msgid "Documents"
 msgstr ""
 
@@ -624,11 +633,11 @@ msgstr ""
 msgid "Due date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:60
+#: ../workspace/browser/templates/case_manager.pt:52
 msgid "Earliest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:67
+#: ../workspace/browser/templates/case_manager.pt:59
 msgid "Earliest modification date"
 msgstr ""
 
@@ -873,7 +882,7 @@ msgstr ""
 msgid "Group by workspace"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:161
+#: ../layout/browser/configure.zcml:170
 msgid "Grouped Search"
 msgstr ""
 
@@ -943,10 +952,6 @@ msgstr ""
 msgid "Import users from file"
 msgstr ""
 
-#: ../messaging/browser/your-inbox.pt:22
-msgid "Inbox"
-msgstr ""
-
 #: ../userprofile/browser/templates/userprofile.pt:158
 #: ../workspace/browser/templates/sharingviewlet.pt:4
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:44
@@ -1010,7 +1015,7 @@ msgstr ""
 msgid "JPEG image"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:60
+#: ../userprofile/content/userprofile.py:65
 msgid "Job title"
 msgstr ""
 
@@ -1022,6 +1027,10 @@ msgstr ""
 msgid "Join now"
 msgstr ""
 
+#: ../userprofile/content/userprofile.py:54
+msgid "Last Contacts"
+msgstr ""
+
 #: ../workspace/browser/tiles/sidebar.py:713
 msgid "Last Month"
 msgstr ""
@@ -1030,7 +1039,7 @@ msgstr ""
 msgid "Last Week"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:154
+#: ../bookmarks/browser/app.py:159
 #: ../layout/browser/grouped_search.py:66
 msgid "Last month"
 msgstr ""
@@ -1039,25 +1048,21 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:152
+#: ../bookmarks/browser/app.py:157
 #: ../layout/browser/grouped_search.py:64
 msgid "Last week"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:62
+#: ../workspace/browser/templates/case_manager.pt:54
 msgid "Latest creation date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:69
+#: ../workspace/browser/templates/case_manager.pt:61
 msgid "Latest modification date"
 msgstr ""
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
-msgstr ""
-
-#: ../messaging/browser/your-inbox.pt:121
-msgid "Leave a comment"
 msgstr ""
 
 #: ../library/profiles/default/actions.xml
@@ -1159,16 +1164,11 @@ msgstr ""
 msgid "Membrane Group (Workspace)"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:48
-#: ../messaging/browser/your-inbox.pt:136
-msgid "Mention people"
-msgstr ""
-
 #: ../workspace/browser/forms.py:119
 msgid "Message"
 msgstr ""
 
-#: ../messaging/browser/notifications.pt:5
+#: ../messaging/browser/templates/messagingviewlet.pt:2
 msgid "Messages"
 msgstr ""
 
@@ -1185,7 +1185,7 @@ msgstr ""
 msgid "Missing required field {} on row {}"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:72
+#: ../userprofile/content/userprofile.py:77
 msgid "Mobile Number"
 msgstr ""
 
@@ -1197,7 +1197,7 @@ msgstr ""
 msgid "Moderate"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:112
+#: ../workspace/browser/templates/case_manager.pt:104
 msgid "Modifications past 7 days"
 msgstr ""
 
@@ -1223,7 +1223,7 @@ msgstr ""
 msgid "My profile"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:126
+#: ../layout/browser/configure.zcml:135
 msgid "My tile's description"
 msgstr ""
 
@@ -1235,8 +1235,8 @@ msgstr ""
 msgid "Name of organiser"
 msgstr ""
 
-#: ../messaging/browser/your-inbox.pt:18
-msgid "New Message"
+#: ../messaging/browser/templates/chat.html:30
+msgid "New conversation"
 msgstr ""
 
 #: ../workspace/browser/workspacecontainer.py:91
@@ -1250,14 +1250,16 @@ msgstr ""
 msgid "News Item"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:137
+#: ../layout/browser/configure.zcml:146
 msgid "News tile showing news on the dashboard"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:42
-#: ../messaging/browser/your-inbox.pt:130
 #: ../microblog/browser/templates/update-social.html:104
 msgid "No attachments selected."
+msgstr ""
+
+#: ../bookmarks/browser/templates/bookmarks.tile.pt:46
+msgid "No bookmarks were found matching ${SearchableText}"
 msgstr ""
 
 #: ../workspace/browser/workspacecontainer.py:121
@@ -1280,10 +1282,6 @@ msgstr ""
 msgid "No items could be renamed"
 msgstr ""
 
-#: ../messaging/browser/your-inbox.pt:65
-msgid "No messages"
-msgstr ""
-
 #: ../notifications/browser/notifications.pt:43
 msgid "No pending notifications"
 msgstr ""
@@ -1292,7 +1290,7 @@ msgstr ""
 msgid "No preview available"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:88
+#: ../workspace/browser/templates/case_manager.pt:80
 msgid "No results"
 msgstr ""
 
@@ -1305,7 +1303,7 @@ msgstr ""
 msgid "No tasks available"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:50
+#: ../bookmarks/browser/app.py:55
 #: ../layout/browser/grouped_search.py:83
 msgid "No title"
 msgstr ""
@@ -1324,7 +1322,7 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:187
+#: ../bookmarks/browser/app.py:192
 msgid "Not in a workspace"
 msgstr ""
 
@@ -1433,6 +1431,10 @@ msgstr ""
 msgid "Person title"
 msgstr ""
 
+#: ../messaging/browser/templates/panel-new-chat.html:27
+msgid "Person you like to chat with"
+msgstr ""
+
 #: ../layout/browser/personal_tools.py:39
 msgid "Personal image updated. Keep browsing or reload the page to see the change."
 msgstr ""
@@ -1457,15 +1459,11 @@ msgstr ""
 msgid "Pick an initiator"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:37
-msgid "Pick the responsible department"
-msgstr ""
-
 #: ../todo/browser/templates/todo_view.pt:76
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_workspace.py:184
+#: ../workspace/browser/add_workspace.py:188
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -1544,7 +1542,7 @@ msgstr ""
 msgid "Preview being generated"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:85
+#: ../userprofile/content/userprofile.py:90
 msgid "Primary location"
 msgstr ""
 
@@ -1562,6 +1560,10 @@ msgstr ""
 
 #: ../userprofile/profiles/default/types/ploneintranet.userprofile.userprofile.xml
 msgid "Profile"
+msgstr ""
+
+#: ../bookmarks/browser/configure.zcml:19
+msgid "Provides bookmarks as a tile"
 msgstr ""
 
 #: ../workspace/policies.py:63
@@ -1659,6 +1661,11 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+#: ../bookmarks/browser/templates/app.pt:54
+#: ../bookmarks/browser/templates/bookmarks.tile.pt:25
+msgid "Search bookmarks"
+msgstr ""
+
 #: ../workspace/browser/templates/panel-add-group.pt:21
 msgid "Search existing groups"
 msgstr ""
@@ -1743,7 +1750,7 @@ msgstr ""
 msgid "Share this document"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:53
+#: ../workspace/browser/templates/case_manager.pt:45
 msgid "Show archived workspaces"
 msgstr ""
 
@@ -1785,11 +1792,15 @@ msgstr ""
 msgid "Spell corrected search string"
 msgstr ""
 
+#: ../messaging/browser/templates/chat.html:30
+msgid "Start a new conversation"
+msgstr ""
+
 #: ../workspace/basecontent/event.py:21
 msgid "Start date should be lower than end date"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:44
+#: ../workspace/browser/templates/case_manager.pt:36
 msgid "Status"
 msgstr ""
 
@@ -1818,7 +1829,7 @@ msgstr ""
 msgid "Tasks"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:104
+#: ../workspace/browser/templates/case_manager.pt:96
 msgid "Tasks finished"
 msgstr ""
 
@@ -1826,7 +1837,7 @@ msgstr ""
 msgid "Team-Managed"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:68
+#: ../userprofile/content/userprofile.py:73
 msgid "Telephone Number"
 msgstr ""
 
@@ -2014,7 +2025,7 @@ msgstr ""
 msgid "This user doesn't have an email associated with their account."
 msgstr ""
 
-#: ../layout/browser/configure.zcml:149
+#: ../layout/browser/configure.zcml:158
 msgid "Tile to list recently modified documents"
 msgstr ""
 
@@ -2022,7 +2033,7 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: ../userprofile/content/userprofile.py:80
+#: ../userprofile/content/userprofile.py:85
 msgid "Time Zone"
 msgstr ""
 
@@ -2043,11 +2054,7 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: ../messaging/browser/send-message.pt:24
-msgid "To:"
-msgstr ""
-
-#: ../bookmarks/browser/app.py:150
+#: ../bookmarks/browser/app.py:155
 #: ../layout/browser/grouped_search.py:62
 #: ../workspace/browser/tiles/sidebar.py:701
 msgid "Today"
@@ -2137,8 +2144,16 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
+#: ../messaging/upgrades/configure.zcml:21
+msgid "Upgrade profile for making the messsaging App work"
+msgstr ""
+
 #: ../layout/upgrades/configure.zcml:21
 msgid "Upgrade profile to include login form colophon actions"
+msgstr ""
+
+#: ../layout/upgrades/configure.zcml:47
+msgid "Upgrade profile to include the Apps container type"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:251
@@ -2246,6 +2261,7 @@ msgstr ""
 msgid "Workspace title"
 msgstr ""
 
+#: ../bookmarks/browser/templates/app.pt:18
 #: ../layout/profiles/default/actions.xml
 msgid "Workspaces"
 msgstr ""
@@ -2259,7 +2275,7 @@ msgstr ""
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
-#: ../workspace/browser/templates/case_manager.pt:60
+#: ../workspace/browser/templates/case_manager.pt:52
 msgid "YYYY-MM-DD"
 msgstr ""
 
@@ -2296,6 +2312,7 @@ msgid "You can become a member of this workspace"
 msgstr ""
 
 #: ../bookmarks/browser/templates/bookmark.pt:17
+#: ../bookmarks/browser/templates/unbookmark.pt:17
 msgid "You can find your bookmarks in the"
 msgstr ""
 
@@ -2324,16 +2341,8 @@ msgstr ""
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
-#: ../messaging/browser/your-inbox.pt:70
-msgid "Your Inbox"
-msgstr ""
-
 #: ../workspace/basecontent/baseviews.py:78
 msgid "Your changes have been saved."
-msgstr ""
-
-#: ../messaging/browser/send-message.pt:31
-msgid "Your message here!"
 msgstr ""
 
 msgid "Zip archive"
@@ -2351,7 +2360,7 @@ msgid "alert_remove_users_from_workspace"
 msgstr ""
 
 #. Default: "App market"
-#: ../layout/adapters/app_tiles.py:172
+#: ../layout/adapters/app_tiles.py:193
 msgid "app-market"
 msgstr ""
 
@@ -2406,7 +2415,7 @@ msgid "bookmarks"
 msgstr ""
 
 #: ../bookmarks/browser/templates/bookmark.pt:18
-#: ../bookmarks/browser/templates/unbookmark.pt:17
+#: ../bookmarks/browser/templates/unbookmark.pt:18
 msgid "bookmarks app"
 msgstr ""
 
@@ -2416,19 +2425,17 @@ msgid "button_close"
 msgstr ""
 
 #. Default: "Post"
-#: ../messaging/browser/send-message.pt:58
-#: ../messaging/browser/your-inbox.pt:140
 #: ../microblog/browser/templates/update-social.html:130
 msgid "button_post"
 msgstr ""
 
 #. Default: "Calendar"
-#: ../layout/adapters/app_tiles.py:141
+#: ../layout/adapters/app_tiles.py:162
 msgid "calendar"
 msgstr ""
 
 #. Default: "Case manager"
-#: ../layout/adapters/app_tiles.py:165
+#: ../layout/adapters/app_tiles.py:186
 msgid "case-manager"
 msgstr ""
 
@@ -2441,7 +2448,7 @@ msgid "cc"
 msgstr ""
 
 #. Default: "Contacts"
-#: ../layout/adapters/app_tiles.py:123
+#: ../layout/adapters/app_tiles.py:126
 msgid "contacts"
 msgstr ""
 
@@ -2486,6 +2493,12 @@ msgstr ""
 #. Default: "Drop files here or click to browse..."
 #: ../workspace/browser/tiles/sidebar.py:393
 msgid "drop_files_here"
+msgstr ""
+
+#. Default: "to"
+#: ../workspace/browser/templates/email_invitees_html.pt:11
+#: ../workspace/browser/templates/email_invitees_text.pt:10
+msgid "email_to"
 msgstr ""
 
 #. Default: "Expiration date must be after publishing date."
@@ -2622,12 +2635,12 @@ msgstr ""
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
 #: ../search/browser/templates/all_results.pt:192
-#: ../workspace/browser/templates/case_manager.pt:96
+#: ../workspace/browser/templates/case_manager.pt:88
 msgid "icon_archived"
 msgstr ""
 
 #. Default: "Image bank"
-#: ../layout/adapters/app_tiles.py:153
+#: ../layout/adapters/app_tiles.py:174
 msgid "image-bank"
 msgstr ""
 
@@ -2856,11 +2869,6 @@ msgstr ""
 msgid "label_send"
 msgstr ""
 
-#. Default: "Send Message"
-#: ../messaging/browser/messaging.py:34
-msgid "label_sendmessage"
-msgstr ""
-
 #. Default: "Archived"
 #: ../workspace/browser/templates/workspaces.pt:45
 msgid "label_show_archived"
@@ -2918,7 +2926,7 @@ msgid "leave_a_comment"
 msgstr ""
 
 #. Default: "Messages"
-#: ../layout/adapters/app_tiles.py:129
+#: ../layout/adapters/app_tiles.py:132
 msgid "messages"
 msgstr ""
 
@@ -2936,7 +2944,7 @@ msgid "my_docs_heading_workspaces"
 msgstr ""
 
 #. Default: "News publisher"
-#: ../layout/adapters/app_tiles.py:159
+#: ../layout/adapters/app_tiles.py:180
 msgid "news"
 msgstr ""
 
@@ -3008,7 +3016,7 @@ msgid "sharing_policy_description"
 msgstr ""
 
 #. Default: "Slide bank"
-#: ../layout/adapters/app_tiles.py:147
+#: ../layout/adapters/app_tiles.py:168
 msgid "slide-bank"
 msgstr ""
 
@@ -3036,14 +3044,13 @@ msgstr ""
 msgid "title_unfollow"
 msgstr ""
 
+#. Default: "To"
 #: ../workspace/behaviors/mail.py:27
-#: ../workspace/browser/templates/email_invitees_html.pt:11
-#: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "to"
 msgstr ""
 
 #. Default: "Todo"
-#: ../layout/adapters/app_tiles.py:135
+#: ../layout/adapters/app_tiles.py:156
 msgid "todo"
 msgstr ""
 
@@ -3063,7 +3070,7 @@ msgid "user_member_of_workspaces"
 msgstr ""
 
 #. Default: "Search ${user_name}'s documents"
-#: ../userprofile/browser/userprofile.py:175
+#: ../userprofile/browser/userprofile.py:189
 msgid "user_search_placeholder"
 msgstr ""
 
