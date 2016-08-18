@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a4 (unreleased)
+1.2.0a4 (2016-08-18)
 --------------------
 
 * Updated dutch translations [Jean-Paul Ladage]
