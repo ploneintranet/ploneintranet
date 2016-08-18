@@ -122,7 +122,7 @@ class GroupedSearchTile(Tile):
         '''
         view = api.content.get_view(
             'search',
-            self.context,
+            api.portal.get(),
             self.request,
         )
         search_class = view.get_facet_type_class(type_name)
