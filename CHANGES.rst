@@ -4,7 +4,8 @@ Changelog
 1.2.0a5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Update markup for changed pat-delay API [ci skip] (#575) [Guido A.J. Stevens]
+* Since also the taxonomy app view is now called on the apps folder, its (#579) [Wolfgang Thomas]
 
 
 1.2.0a4 (2016-08-18)
