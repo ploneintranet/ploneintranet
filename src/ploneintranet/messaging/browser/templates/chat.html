@@ -63,7 +63,7 @@
 		  <p>
 		    <a href="#end-of-conversation" class="pat-scroll" data-pat-scroll="trigger: auto">End of conversation</a>
                     <a tal:condition="view/autorefresh"
-                       href="${view/chat_url}?only_new=1" class="pat-inject discrete-injection" data-pat-inject="trigger: autoload; delay: ${view/delay}; source: #chat; target: #end-of-conversation::element"></a>
+                       href="${view/chat_url}?only_new=1" class="pat-inject discrete-injection" data-pat-inject="trigger: autoload-delayed; delay: ${view/delay}; source: #chat; target: #end-of-conversation::element"></a>
 		  </p>
 		</li>
 
