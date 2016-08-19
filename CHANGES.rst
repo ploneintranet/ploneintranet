@@ -4,7 +4,8 @@ Changelog
 1.2.0a7 (unreleased)
 --------------------
 
-- Nothing changed yet.
+* Merge branch 'master' into release-1.2.x [Guido A.J. Stevens]
+* Bundle resource messy tryfix (#588) [Alexander Pilz]
 
 
 1.2.0a6 (2016-08-19)
