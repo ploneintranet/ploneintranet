@@ -50,15 +50,15 @@ class View(BookmarkView):
                 'action': '@@unbookmark',
                 'title': _('Remove this item from your bookmarks'),
                 'css_class': 'icon-bookmark active ',
+                'label': _('Remove bookmark'),
             }
         else:
             options = {
                 'action': '@@bookmark',
                 'title': _('Add this item to your bookmarks'),
                 'css_class': 'icon-bookmark-empty',
+                'label': _('Bookmark'),
             }
-
-        options['label'] = _('Bookmark')
 
         try:
             options['base_url'] = self.context.absolute_url()

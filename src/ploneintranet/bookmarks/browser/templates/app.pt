@@ -13,10 +13,10 @@
       <div id="application-body" class="application- application-bookmarks">
         <div id="document-content">
           <nav class="tabs pat-tabs">
-            <a href="#directory-all">All bookmarks</a>
-            <a href="#directory-apps">Apps</a>
-            <a href="#directory-workspaces">Workspaces</a>
-            <a href="#directory-documents">Documents</a>
+            <a href="#directory-all" i18n:translate="">All bookmarks</a>
+            <a href="#directory-apps" i18n:translate="">Apps</a>
+            <a href="#directory-workspaces" i18n:translate="">Workspaces</a>
+            <a href="#directory-documents" i18n:translate="">Documents</a>
           </nav>
           <div class="pat-stacks schwung">
             <div id="directory-all">
@@ -54,6 +54,7 @@
                 <input type="search"
                        name="SearchableText"
                        value="${request/SearchableText|nothing}"
+                       i18n:attributes="placeholder"
                        placeholder="Search bookmarks"/>
               </form>
 

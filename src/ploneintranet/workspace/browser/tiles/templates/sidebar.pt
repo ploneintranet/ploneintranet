@@ -223,13 +223,26 @@ Supported types include (class names):
 
             <tal:can_add condition="view/can_add">
               <div class="button-bar create-buttons">
-                <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="button create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-                   i18n:translate="" tal:condition="view/can_add">Create document</a>
-                <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="button create-folder pat-modal icon-folder" data-pat-modal="class: large"
-                   i18n:translate="" tal:condition="view/can_add">Create folder</a>
+                <a href="${context/absolute_url}/@@add_content"
+                   class="button create-document pat-modal icon-doc-text"
+                   data-pat-modal="class: large"
+                   i18n:translate=""
+                  >Create document</a>
+                <a href="${context/absolute_url}/@@add_folder"
+                   class="button create-folder pat-modal icon-folder"
+                   data-pat-modal="class: large"
+                   i18n:translate=""
+                  >Create folder</a>
               </div>
-              <form action="workspaceFileUpload" method="POST" class="pat-inject" data-pat-inject="#items" enctype="multipart/form-data" tal:attributes="action string:${context/absolute_url}/workspaceFileUpload">
-                <fieldset class="pat-upload" data-pat-upload="label: ${view/drop_files_label}; trigger: auto;" tal:attributes="data-pat-upload string:label: ${view/drop_files_label};; trigger: auto;">
+              <form action="${context/absolute_url}/workspaceFileUpload"
+                    method="POST"
+                    class="pat-inject"
+                    data-pat-inject="#items"
+                    enctype="multipart/form-data"
+                  >
+                <fieldset class="pat-upload"
+                          data-pat-upload="label: ${view/drop_files_label}; trigger: auto;"
+                        >
                   <label class="accessibility-options">
                     <input type="file" name="file" multiple="multiple"/> Upload files
                   </label>
@@ -241,14 +254,17 @@ Supported types include (class names):
             <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
               <ul class="menu">
                 <tal:can_add condition="view/can_add">
-                  <li tal:condition="view/can_add">
+                  <li>
                     <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                   </li>
-                  <li tal:condition="view/can_add">
+                  <li>
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                   </li>
-                  <li tal:condition="view/can_add">
-                    <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                  <li>
+                    <label class="icon-upload-cloud">
+                      <input multiple="multiple" type="file"/>
+                      <span tal:omit-tag="" i18n:translate="">Upload file(s)</span>
+                    </label>
                   </li>
                 </tal:can_add>
                 <!-- This is commented until the functionality will be completed -->
