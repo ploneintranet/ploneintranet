@@ -4,8 +4,8 @@ Changelog
 1.2.0a6 (unreleased)
 --------------------
 
-- Nothing changed yet.
-
+* Revert "Update markup for changed pat-delay API [ci skip] (#575)" [Guido A.J. Stevens]
+  This should not be released yet. It needs to wait for the new JS API.
 
 1.2.0a5 (2016-08-19)
 --------------------
