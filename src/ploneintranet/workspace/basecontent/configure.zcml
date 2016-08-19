@@ -78,6 +78,15 @@
     />
 
   <browser:page
+    name="link_redirect_view"
+    for="plone.app.contenttypes.interfaces.ILink"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
     name="mail_view"
     for="..interfaces.IMail"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"

@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <h1>${view/form_title}</h1>
+  <form action="${request/URL}"
+        method="POST"
+        class="wizard-box pat-inject pat-validation"
+        data-pat-inject="source: #workspace-documents; target: #workspace-documents"
+        data-pat-validation="disable-selector:#form-buttons-create"
+    >
+    <div class="panel-body">
+      <fieldset class="vertical">
+        <input name="title"
+               type="text"
+               maxlength="70"
+               placeholder="${view/form_input_title_placeholder}"
+               required="required"
+               autofocus
+              />
+        <textarea name="description"
+                  rows="6"
+                  placeholder="Description for search results (Optional)"
+                  i18n:attributes="placeholder"
+                ></textarea>
+
+        <tal:extra_fields replace="structure view/extra_fields|nothing" />
+
+        <input name="portal_type"
+          type="hidden"
+          value="${view/form_portal_type}"
+          />
+        <span tal:replace="structure context/@@authenticator/authenticator"/>
+      </fieldset>
+    </div>
+    <div class="buttons panel-footer">
+      <button id="form-buttons-create"
+              class="icon-ok-circle focus close-panel"
+              name="form.buttons.create"
+              type="submit"
+              value="Create"
+              i18n:translate=""
+              >
+          Create
+      </button>
+      <button name="form.buttons.cancel"
+              type="button"
+              id="form-buttons-cancel"
+              class="icon-cancel-circle close-panel validate-ignore"
+              value="Cancel"
+              i18n:translate=""
+              >
+        Cancel
+      </button>
+    </div>
+  </form>
+</html>
