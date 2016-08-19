@@ -1,7 +1,26 @@
 Changelog
 =========
 
-1.2.0a4 (unreleased)
+1.2.0a7 (unreleased)
+--------------------
+
+- Nothing changed yet.
+
+
+1.2.0a6 (2016-08-19)
+--------------------
+
+* Revert "Update markup for changed pat-delay API [ci skip] (#575)" [Guido A.J. Stevens]
+  This should not be released yet. It needs to wait for the new JS API.
+
+1.2.0a5 (2016-08-19)
+--------------------
+
+* Update markup for changed pat-delay API [ci skip] (#575) [Guido A.J. Stevens]
+* Since also the taxonomy app view is now called on the apps folder, its (#579) [Wolfgang Thomas]
+
+
+1.2.0a4 (2016-08-18)
 --------------------
 
 * Updated dutch translations [Jean-Paul Ladage]
