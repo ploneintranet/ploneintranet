@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a5 (unreleased)
+1.2.0a5 (2016-08-19)
 --------------------
 
 * Update markup for changed pat-delay API [ci skip] (#575) [Guido A.J. Stevens]
