@@ -7,9 +7,7 @@
       i18n:domain="ploneintranet">
 
   <body class="view-secure">
-    <metal:content fill-slot="content">
-
-    <div class="container" tal:define="ploneview here/@@plone">
+    <metal:content fill-slot="content" tal:define="ploneview here/@@plone">
         <form  class="canvas-toolbar pat-inject pat-autosubmit"
                action="${here/absolute_url}/workspaces.html"
                data-pat-inject="source: #workspaces; target: #workspaces"
@@ -123,8 +121,6 @@
             <!-- Not implemented yet -->
 
         </tal:group_by_workspace_type>
-
-      </div>
 
     </metal:content>
   </body>
