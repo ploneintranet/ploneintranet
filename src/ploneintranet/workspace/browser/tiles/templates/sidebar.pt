@@ -18,7 +18,7 @@
       <div id="sidebar-content" class="pat-stacks" tal:define="iinfo context/@@plone_interface_info; ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token">
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
-            <div class="button-bar functions" id="selector-functions">
+            <div class="button-bar functions pat-bumper sticky-supported" id="selector-functions">
               <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                 <a href="/open-market-committee"
@@ -79,7 +79,7 @@
 
               <fieldset class="checklist pat-checklist docs ">
 
-                <div class="batch-functions">
+                <div class="batch-functions pat-bumper sticky-supported" data-pat-bumper="margin: 35; side: top">
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
