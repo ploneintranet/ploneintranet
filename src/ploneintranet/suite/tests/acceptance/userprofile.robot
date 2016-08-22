@@ -135,7 +135,8 @@ I can search in my documents for
     [arguments]  ${VALUE}
     Input Text  jquery=#person-documents [name=SearchableText]  ${VALUE}
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Click Element  jquery=.preview img[alt~="${VALUE}"]
+    # Click Element  jquery=.preview img[alt~="${VALUE}"]
+    Click Element  jquery=#result-listing a:contains("${VALUE}")
 
 # This is disabled at the moment, see:
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
