@@ -163,7 +163,9 @@ I add an item to the cart
     Click Element  xpath=//strong[text()="${title}"]//ancestor::label/input
 
 I choose to delete the items in the cart
-    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Delete']
+    # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  css=div.panel-content button.icon-trash
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch delete"]
 
 I choose to cut the items in the cart
