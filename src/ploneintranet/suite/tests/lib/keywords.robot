@@ -521,7 +521,7 @@ I can see upcoming events
     Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
 
 Older events are hidden
-    Element should not be visible  jquery=div#older-events a
+    Element should be visible  jquery=div#older-events a
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
