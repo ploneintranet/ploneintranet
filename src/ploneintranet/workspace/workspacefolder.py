@@ -263,7 +263,8 @@ class WorkspaceFolder(Container):
             return ''
 
     def get_related_workspaces(self):
-        if not hasattr(self, 'related_workspaces'):
+        if not hasattr(self, 'related_workspaces') or \
+           not self.related_workspaces:
             return None
         rw = []
         for uid in self.related_workspaces:
