@@ -21,6 +21,26 @@ def is_single_day(event):
         return False
 
 
+def format_event_date_for_title(event):
+    """
+    We need to show only the starting time, or in case of an all day event
+    'All day' in the time tag. Not the date.
+
+    In case of a multi day event, we can show "2015-08-30 - 2015-08-31"
+    """
+    # whole_day isn't a metadata field (yet)
+    event_obj = event.getObject()
+    if is_single_day(event) and event_obj.whole_day:
+        return _(u'All day')
+    elif is_single_day(event):
+        return event.start.strftime('%H:%M')
+    else:  # multi day event
+        return '{} - {}'.format(
+            event.start.strftime('%Y-%m-%d'),
+            event.end.strftime('%Y-%m-%d'),
+        )
+
+
 class EventsTile(Tile):
 
     def upcoming_events(self):
@@ -40,23 +60,7 @@ class EventsTile(Tile):
         return upcoming_events[:5]
 
     def format_event_date(self, event):
-        """
-        We need to show only the starting time, or in case of an all day event
-        'All day' in the time tag. Not the date.
-
-        In case of a multi day event, we can show "2015-08-30 - 2015-08-31"
-        """
-        # whole_day isn't a metadata field (yet)
-        event_obj = event.getObject()
-        if is_single_day(event) and event_obj.whole_day:
-            return _(u'All day')
-        elif is_single_day(event):
-            return event.start.strftime('%H:%M')
-        else:  # multi day event
-            return '{} - {}'.format(
-                event.start.strftime('%Y-%m-%d'),
-                event.end.strftime('%Y-%m-%d'),
-            )
+        return format_event_date_for_title(event)
 
     def month_name(self, date):
         """

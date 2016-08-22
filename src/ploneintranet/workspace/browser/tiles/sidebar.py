@@ -8,6 +8,7 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
+from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -1029,3 +1030,6 @@ class Sidebar(BaseTile):
             sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def format_event_date(self, event):
+        return format_event_date_for_title(event)

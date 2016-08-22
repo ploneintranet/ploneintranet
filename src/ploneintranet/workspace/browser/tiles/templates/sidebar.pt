@@ -142,7 +142,7 @@
                                         class="icon-rename"
                                         title="Rename"
                                         formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
-                                        i18n:translate="" 
+                                        i18n:translate=""
                                         i18n:attributes="title">Rename</button>
                             </li>
                             <li>
@@ -158,7 +158,7 @@
                                         class="icon-trash"
                                         title="Delete"
                                         formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
-                                        i18n:translate="" 
+                                        i18n:translate=""
                                         i18n:attributes="title">Delete</button>
 
                             </li>
@@ -482,12 +482,7 @@ Supported types include (class names):
                            data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="href string:${event/getURL}#document-body">
                         <h4 class="title">
-                          <time
-                                class="start pat-display-time"
-                                data-pat-display-time="from-now: true"
-                                datetime="${event/start}"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> -
-                          <tal:title replace="event/Title"/>
+                          ${python:view.format_event_date(event)} — ${event/Title}
                         </h4>
                       <p class="byline" tal:define="location event/location" tal:condition="location">
                         <tal:location replace="location" />
@@ -524,7 +519,7 @@ Supported types include (class names):
               </ul>
             </div>
 
-            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
+            <div id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="event-list">
