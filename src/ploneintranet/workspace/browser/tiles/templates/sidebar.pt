@@ -247,18 +247,6 @@ Supported types include (class names):
             </form>
 
             <tal:can_add condition="view/can_add">
-              <div class="button-bar create-buttons">
-                <a href="${context/absolute_url}/@@add_content"
-                   class="button create-document pat-modal icon-doc-text"
-                   data-pat-modal="class: large"
-                   i18n:translate=""
-                  >Create document</a>
-                <a href="${context/absolute_url}/@@add_folder"
-                   class="button create-folder pat-modal icon-folder"
-                   data-pat-modal="class: large"
-                   i18n:translate=""
-                  >Create folder</a>
-              </div>
               <form action="${context/absolute_url}/workspaceFileUpload"
                     method="POST"
                     class="pat-inject"
