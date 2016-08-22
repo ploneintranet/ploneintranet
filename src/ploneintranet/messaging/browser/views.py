@@ -255,7 +255,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     def search_disabled(self):
         try:
-            enabled = len(pi_api.messaging.get_inbox().keys()) > 8
+            enabled = len(pi_api.messaging.get_inbox().keys()) > 0
         except KeyError:
             enabled = False
         if enabled:
