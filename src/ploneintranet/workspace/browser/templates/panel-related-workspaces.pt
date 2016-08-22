@@ -23,7 +23,7 @@
             <div class="panel-body">
 
                 <input type="text" name="related_workspaces:list" class="large pat-autosuggest" i18n:attributes="placeholder" placeholder="Search workspaces"
-                  data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${context/portal_url}/workspaces.json"/>
+                  data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${workspace_url}/workspaces.json"/>
 
                 <tal:c condition="related_ws">
                     <article>

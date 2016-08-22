@@ -1,14 +1,16 @@
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
+# coding=utf-8
 from collective.workspace.interfaces import IWorkspace
+from json import dumps
 from plone import api
-from plone.memoize.view import memoize
-from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-import ploneintranet.api as pi_api
+from plone.memoize.view import memoize
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
-from json import dumps
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from zope.interface import implements
+import ploneintranet.api as pi_api
 
 
 class BaseWorkspaceView(BrowserView):
@@ -229,17 +231,20 @@ class RelatedWorkspacesPicker(BrowserView):
         return self.context.get_related_workspaces()
 
 
-def format_workspaces_json(workspaces):
+def format_workspaces_json(workspaces, skip=[]):
     """
     Format a list of workspaces as JSON for use with pat-autosuggest
 
-    :param list users: A list of brains
+    :param list workspaces: A list of brains
+    :param lis skip: A list of UIDs to skip
     :rtype string: JSON {"ws_id1": "ws_title1", ...}
     """
     formatted_ws = []
     for ws in workspaces:
-        title = safe_unicode(ws.Title)
         uid = ws.UID
+        if uid in skip:
+            continue
+        title = safe_unicode(ws.Title)
         formatted_ws.append({
             'id': uid,
             'text': title,
@@ -261,5 +266,8 @@ class WorkspacesJSONView(BrowserView):
                  'collective.workspace.interfaces.IHasWorkspace'}
 
         catalog = api.portal.get_tool('portal_catalog')
-        ws = catalog(query)
-        return format_workspaces_json(ws)
+        workspaces = catalog(query)
+        if IBaseWorkspaceFolder.providedBy(self.context):
+            skip = getattr(self.context, 'related_workspaces', [])
+            skip.append(self.context.UID())
+        return format_workspaces_json(workspaces, skip)
