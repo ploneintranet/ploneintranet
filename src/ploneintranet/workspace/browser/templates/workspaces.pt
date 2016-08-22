@@ -26,14 +26,14 @@
             <label class="bare pat-select">
               <select name="grouping">
                 <tal:r repeat="o view/grouping_options">
-                    <option tal:attributes="value o/value; selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                    <option value="${o/value}" tal:attributes="selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
                 </tal:r>
               </select>
             </label>
             <label class="bare pat-select">
                 <select name="workspace_type">
                   <tal:r repeat="o view/workspace_types">
-                    <option tal:attributes="value o/value; selected python:request.get('workspace_type')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
+                    <option value="${o/value}" tal:attributes="selected python:request.get('workspace_type')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
                   </tal:r>
                 </select>
             </label>
@@ -59,10 +59,10 @@
                 <metal:define define-macro="workspace_tile">
                   <tal:archive_state define="is_archived w/is_archived;
                                              archived_class python:'state-archived' if is_archived else ''">
-                    <div tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
+                    <div class="tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
 
-                      <a href="/open-market-committee" class="link"
-                         tal:attributes="href w/url">
+                      <a href="${w/url}#app-space" class="link pat-inject pat-switch"
+                         data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record">
                         <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee ${not:is_archived}</h3>
                         <p class="description" tal:content="w/description" tal:condition="w/description">
                           The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
