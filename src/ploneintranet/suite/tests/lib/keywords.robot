@@ -1342,11 +1342,11 @@ I see that the workspace is not frozen
 # *** search related keywords ***
 
 I can see the site search button
-    Page Should Contain Element  css=#global-header input.search
+    Page Should Contain Element  css=#global-nav-search input.search
 
 I can search in the site header for ${SEARCH_STRING}
-    Input text  css=#global-header input.search  ${SEARCH_STRING}
-    Submit Form  css=#global-header form#global-nav-search
+    Input text  css=#global-nav-search input.search  ${SEARCH_STRING}
+    Submit Form  css=form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
     Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")

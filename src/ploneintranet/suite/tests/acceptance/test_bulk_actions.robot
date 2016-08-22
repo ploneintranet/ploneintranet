@@ -191,6 +191,7 @@ I choose to include a message
 
 I choose to retag the items in the cart
     [arguments]  ${tag}
+    Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Re-tag']
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch (re)tagging"]
     Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  ${tag},
@@ -198,6 +199,7 @@ I choose to retag the items in the cart
 
 I choose to rename the items in the cart
     [arguments]  ${old_title}  ${title}
+    Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Rename']
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch rename"]
     Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
