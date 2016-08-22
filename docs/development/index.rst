@@ -7,6 +7,7 @@ Developer documentation
 
     contributing
     gitflow
+    extending
     frontend/index
     forms
     api
