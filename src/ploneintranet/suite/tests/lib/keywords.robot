@@ -2,7 +2,7 @@
 
 Prepare test browser
     Open test browser
-    Set window size  1024  900
+    Set window size  1280  1024
 
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
