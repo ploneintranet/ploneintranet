@@ -26,7 +26,6 @@
                tal:attributes="href workspace_url"
                tal:content="workspace/Title">{{ page.workspace_name }}</a>
           </h1>
-          <div class="ws-baggage-handling-regulations" id="project-body">
             <div id="document-body">
               <!-- XXX complete integration -->
               <div id="workspace-header" class="pat-bumper  sticky-supported bumped" style="position: relative; top: 7px;">        
@@ -158,7 +157,6 @@
                    id="sidebar"
                    data-tile="plone/new-workspace/@@sidebar.default"
                    tal:attributes="data-tile string:${workspace_url}/@@sidebar.default"></aside>
-          </div>
           <nav class="navigation workspace-tabs"
                id="workspace-tabs"
                data-tile="./@@workspace.tabs.tile"
