@@ -38,16 +38,19 @@
               </p>
 
               <tal:block condition="not:view/is_locked">
-                <p tal:condition="folder_warning">
-                  <span i18n:translate="alert_really_delete_folder">
+                <tal:c condition="folder_warning">
+                <p>
+                  <span i18n:translate="alert_really_delete_folder" tal:omit-tag="">
                     Do you really want to delete this folder and all its contents?
                   </span>
-                  <span i18n:translate="alert_deleting_x_number_of_items" tal:condition="python:number_of_objects_to_delete>1">
-                    (This will delete a total of
-                    <span i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</span> items.)
+                </p>
+                <p class="pat-message warning">
+                  <span i18n:translate="alert_deleting_x_number_of_items" tal:condition="python:number_of_objects_to_delete>1" tal:omit-tag="">
+                    This will delete a total of
+                    <strong i18n:name="number_of_items_to_delete" tal:content="python:number_of_objects_to_delete">22</strong> items.
                   </span>
                 </p>
-
+                </tal:c>
                 <p tal:condition="not:folder_warning" i18n:translate="" i18n:domain="ploneintranet">
                   You are about to delete this <tal:block i18n:name="contenttype" i18n:translate="" i18n:domain="plone" tal:content="context/portal_type"></tal:block>. Are you sure?
                 </p>
