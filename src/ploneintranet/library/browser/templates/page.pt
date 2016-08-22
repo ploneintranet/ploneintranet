@@ -82,7 +82,7 @@
             </h3>
             <ul class="menu group-by-page">
               <li tal:repeat="child view/siblings"
-                      tal:attributes="class child/follow">
+                  class="${child/follow} ${python:'current' if context.absolute_url()==child['absolute_url'] else ''}">
                 <a href="#"
                         tal:attributes="href child/absolute_url"
                         tal:content="child/title">
