@@ -1116,14 +1116,14 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-footer']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-footer']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
