@@ -68,7 +68,6 @@
                                   <tal:history tal:condition="exists:here/@@app-audit-button">
                                     <a tal:replace="structure here/@@app-audit-button" />
                                   </tal:history>
-                                  <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                                   <button id="save-event" type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
 
                               </div>
