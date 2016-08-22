@@ -12,8 +12,10 @@
       <div class="grid-sizer"></div>
 
       <div tal:repeat="tile view/tiles" class="tile app ${tile/cls} ${tile/disabled}">
-          <a href="${tile/url}"
-             class="link ${tile/modal}">
+          <a href="${tile/url}#app-space"
+             class="link pat-inject pat-switch"
+             data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record">
+
             <img class="icon"
                  src="${tile/img}"
                  alt="${tile/alt}"
