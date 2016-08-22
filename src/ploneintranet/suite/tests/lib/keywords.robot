@@ -724,6 +724,7 @@ I cannot create a new document
 
 I can create a new folder
     Click link  Documents
+    Click link  Functions
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
