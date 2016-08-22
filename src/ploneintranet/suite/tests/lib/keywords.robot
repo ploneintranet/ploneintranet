@@ -609,7 +609,7 @@ I give the Consumer role to Allan
 I give the Producer role to Allan
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -622,7 +622,7 @@ I give the Producer role to Allan
 I give the Admin role to Allan
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
