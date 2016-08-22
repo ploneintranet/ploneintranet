@@ -209,7 +209,7 @@ I can log in with the new password
     I can follow the link to logout
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password   ${pwd}
-    Click button  Login
+    Click button  Log in
     Wait until page contains  Welcome! You are now logged in
 
 # https://github.com/quaive/ploneintranet/issues/522

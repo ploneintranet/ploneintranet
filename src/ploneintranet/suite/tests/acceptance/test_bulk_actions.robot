@@ -148,7 +148,6 @@ I can paste the Minutes word document
     Wait Until Page Contains  Item(s) pasted
 
 I can delete the Minutes word document
-    Debug
     Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
     I choose to delete the items in the cart
     I confirm to delete the items
