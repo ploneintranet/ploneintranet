@@ -83,10 +83,10 @@ class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
         default=None,
     )
     related_workspaces = schema.List(
-        value_type=schema.TextLine(title=_(u'label_workspace_uid',
-                                           u'UID of a workspace'),
-                                   required=False,
-                                   default=u''),
+        value_type=schema.ASCIILine(
+            title=_(u'label_workspace_uid', u'UID of a workspace'),
+            required=False,
+            default=''),
         title=_(u'label_related_workspaces', u'Related workspaces'),
         required=False,
         default=[]

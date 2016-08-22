@@ -7,6 +7,7 @@
 
   <body tal:define="ws here;
                     workspace_url context/absolute_url;
+                    related_ws view/get_related_workspaces;
                     ">
       <div id="content">
         <div id="document-content" class="pat-modal">
@@ -14,17 +15,17 @@
               Select related workspaces
           </h1>
 
-          <form class="pat-inject wizard-box" 
-                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content" 
+          <form class="pat-inject wizard-box"
+                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
                 method="post"
                 tal:attributes="action string:${workspace_url}/sidebar.settings.advanced">
 
             <div class="panel-body">
-            
+
                 <input type="text" name="related_workspaces:list" class="large pat-autosuggest" i18n:attributes="placeholder" placeholder="Search workspaces"
                   data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${context/portal_url}/workspaces.json"/>
 
-                <tal:c condition="view/get_related_workspaces">
+                <tal:c condition="related_ws">
                     <article>
                       <p>
                          <tal:selected i18n:translate="info_items_selected_as_related_workspace">
@@ -34,7 +35,7 @@
                     </article>
 
                     <fieldset class="pat-checklist">
-                      <tal:modifiable repeat="item view/get_related_workspaces">
+                      <tal:modifiable repeat="item related_ws">
                         <label>
                           <input type="checkbox" name="related_workspaces:list" value="${item/UID}" checked="checked"/> ${item/Title}
                         </label>

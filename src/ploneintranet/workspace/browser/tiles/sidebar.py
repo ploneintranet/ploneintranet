@@ -355,6 +355,17 @@ class SidebarSettingsAdvanced(BaseTile):
                     if '@' in form['email']:
                         # Only use the name part as the domain is fixed.
                         form['email'] = form['email'].split('@')[0]
+                if 'related_workspaces' in form and form['related_workspaces']:
+                    # We defined this as a list of TextLine values.
+                    # Therefore, the value from the form must be passed
+                    # as a string with one value per line.
+                    value = form['related_workspaces']
+                    # First, if this is a list, flatten to a comma-separated
+                    # string
+                    value = ','.join([x for x in value if x])
+                    # Now, replace all commas with a new-line character
+                    value = value.replace(',', '\n')
+                    form['related_workspaces'] = value
                 modified, errors = dexterity_update(self.context)
 
                 if 'email' in form and form['email']:
