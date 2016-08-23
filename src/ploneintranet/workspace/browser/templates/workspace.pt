@@ -15,7 +15,7 @@
                        tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url();
                                    is_archived workspace/archival_date;
                                    archived_class python:'workspace-state-archived' if is_archived else ''">
-        <div  id="content" class="application page-type-workspace workspace-type-workspace ${archived_class}">
+        <div  id="content" class="application page-type-workspace workspace-type-${workspace/ws_type} ${archived_class}">
 
 
             <h1 id="workspace-name">
