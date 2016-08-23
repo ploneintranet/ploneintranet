@@ -5,9 +5,8 @@ from plone import api
 logger = getLogger()
 
 
-def post_default(context):
-    ''' Actions needed after importing
-    the ploneintranet.bookmarks:default profile
+def create_bookmark_app():
+    ''' Create the bookmark application
     '''
     portal = api.portal.get()
     apps = portal.apps
@@ -28,3 +27,10 @@ def post_default(context):
         api.content.transition(app, to_state='published')
     except:
         logger.exception('Cannot publish the app: %r', app)
+
+
+def post_default(context):
+    ''' Actions needed after importing
+    the ploneintranet.bookmarks:default profile
+    '''
+    create_bookmark_app()

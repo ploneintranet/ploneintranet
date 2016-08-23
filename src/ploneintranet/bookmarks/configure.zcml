@@ -13,6 +13,7 @@
     <includeDependencies package="." />
 
     <include package=".browser" />
+    <include package=".upgrades" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
