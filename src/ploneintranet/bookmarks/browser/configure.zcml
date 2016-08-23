@@ -91,4 +91,14 @@
         layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
     />
 
+    <browser:page
+        name="bookmark-button"
+        for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+        permission="zope2.View"
+        class=".bookmark_button.BookmarkProfileView"
+        template="templates/bookmark_button.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+
 </configure>

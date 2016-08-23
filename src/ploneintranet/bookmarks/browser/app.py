@@ -26,6 +26,9 @@ class View(BookmarkView):
     document_types = [
         'Document', 'File', 'Image'
     ]
+    people_types = [
+        'ploneintranet.userprofile.userprofile',
+    ]
 
     @property
     def workspace_types(self):
@@ -102,6 +105,12 @@ class View(BookmarkView):
         ''' Get all the bookmarked apps
         '''
         return self.my_bookmarks_of_type(self.app_types)
+
+    @memoize
+    def my_bookmarked_people(self):
+        ''' Get all the bookmarked apps
+        '''
+        return self.my_bookmarks_of_type(self.people_types)
 
     @memoize
     def my_bookmarks(self):
@@ -217,8 +226,11 @@ class View(BookmarkView):
             self.request,
         )
         search_class = view.get_facet_type_class(type_name)
-        return search_class.replace('type-', 'icon-file-', 1).replace(
-            'icon-file-rich', 'icon-doc-text'
+        return (
+            search_class.replace('type-', 'icon-file-', 1)
+            .replace('icon-file-rich', 'icon-doc-text')
+            .replace('icon-file-people', 'icon-user')
+            .replace('icon-file-workspace', 'icon-workspace')
         )
 
     @property
