@@ -91,17 +91,9 @@
             <div id="directory-apps">
               <div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                 <div class="grid-sizer"></div>
-                <div tal:repeat="tile view/my_bookmarked_apps" class="tile app ${tile/cls} ${tile/disabled}">
-                  <a href="${tile/url}"
-                     class="link ${tile/modal}">
-                    <img class="icon"
-                         src="${tile/img}"
-                         alt="${tile/alt}"
-                      />
-                      <h3>${tile/title}</h3>
-                  </a>
-                  <tal:link tal:condition="tile/path" replace="structure python:view.apps_view.get_bookmark_link(tile)" />
-                </div>
+                <tal:apps tal:repeat="app view/my_bookmarked_apps">
+                  <tal:app define="app app/getObject" replace="structure app/@@app-tile" />
+                </tal:apps>
               </div>
             </div>
 

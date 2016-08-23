@@ -13,7 +13,7 @@
              bookmarks app_bookmarks/my_bookmarks;
            ">
         <h2 class="portlet-title">
-          <a href="${view/apps_container_url}/@@app-bookmarks"
+          <a href="${view/app_url}"
             i18n:translate=""
              >Bookmarks</a>
         </h2>
