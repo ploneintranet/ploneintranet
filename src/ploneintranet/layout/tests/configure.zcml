@@ -14,13 +14,6 @@
       permission="zope2.View"
       />
 
-  <browser:page
-      name="app-testing"
-      for="ploneintranet.layout.app.IAppsContainer"
-      class=".utils.AppTestingView"
-      permission="ploneintranet.viewsite"
-      />
-
    <genericsetup:registerProfile
         name="testing"
         title="Plone Intranet: -- [Layout: Testing]"

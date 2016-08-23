@@ -54,4 +54,21 @@
         handler=".to0004.add_apps_container"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:registerProfile
+        name="to_0005"
+        title="Upgrade profile to include the App type"
+        description=""
+        directory="profiles/to_0005"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add the Apps"
+        description=""
+        source="0004"
+        destination="0005"
+        handler=".to0005.add_apps"
+        profile="ploneintranet.layout:default" />
+
 </configure>

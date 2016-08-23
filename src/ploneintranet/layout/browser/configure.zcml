@@ -59,6 +59,23 @@
       template="templates/apps.pt"
       />
 
+  <browser:page
+      name="view"
+      for="ploneintranet.layout.app.IApp"
+      class=".apps.AppView"
+      template="templates/app.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      permission="zope2.View"
+  />
+
+  <browser:page
+      name="app-tile"
+      for="ploneintranet.layout.app.IApp"
+      class=".apps.BaseAppView"
+      template="templates/app-tile.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      permission="zope.Public"
+  />
 
   <browser:page
       name="app-not-available.html"

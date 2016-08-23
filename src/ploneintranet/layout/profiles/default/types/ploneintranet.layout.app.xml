@@ -1,26 +1,24 @@
 <?xml version="1.0"?>
-<object name="ploneintranet.layout.appscontainer"
+<object name="ploneintranet.layout.app"
    meta_type="Dexterity FTI"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
    i18n:domain="ploneintranet">
 
   <!-- Basic metadata -->
-  <property name="title" i18n:translate="">Apps Container</property>
+  <property name="title" i18n:translate="">App</property>
   <property name="description"
-    i18n:translate="">A container for Apps</property>
-  <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
-  <property name="factory">ploneintranet.layout.appscontainer</property>
+    i18n:translate="">A Plone Intranet application</property>
+  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
+  <property name="factory">ploneintranet.layout.app</property>
   <property name="global_allow">False</property>
   <!-- filter_content_types will need to be set to False once we have the apps content type -->
   <property name="filter_content_types">True</property>
-  <property name="allowed_content_types">
-    <element value="ploneintranet.layout.app" />
-  </property>
+  <property name="allowed_content_types"></property>
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">ploneintranet.layout.app.IAppsContainer</property>
-  <property name="klass">ploneintranet.layout.app.AppsContainer</property>
+  <property name="schema">ploneintranet.layout.app.IApp</property>
+  <property name="klass">ploneintranet.layout.app.App</property>
 
   <property name="behaviors">
      <element value="plone.app.content.interfaces.INameFromTitle" />
@@ -29,8 +27,8 @@
 
   <!-- View information -->
   <property name="link_target"></property>
-  <property name="immediate_view">apps.html</property>
-  <property name="default_view">apps.html</property>
+  <property name="immediate_view">view</property>
+  <property name="default_view">view</property>
   <property name="view_methods">
    <element value="view"/>
   </property>

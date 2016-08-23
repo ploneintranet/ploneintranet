@@ -3,7 +3,6 @@ from json import loads
 from mock import patch
 from plone import api
 from ploneintranet import api as pi_api
-from ploneintranet.layout.adapters.app_tiles import BaseTile
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.utils import in_app
@@ -27,7 +26,27 @@ class TestViews(IntegrationTestCase):
             type='Folder',
             title='Test contextless folder'
         )
+        self.create_apps()
         alsoProvides(self.request, IPloneintranetLayoutLayer)
+
+    def create_apps(self):
+        ''' We create addition apps for testing purposes
+        '''
+        for app in [
+            {'title': 'Empty app', 'app_path': ''},
+            {'title': 'Private app', 'app_path': 'test_rendering'},
+            {'title': 'Public app', 'app_path': 'test_rendering'},
+        ]:
+            api.content.create(
+                self.portal.apps,
+                type='ploneintranet.layout.app',
+                title=app['title'],
+                app=app['app_path'],
+            )
+        api.content.transition(
+            self.portal.apps['public-app'],
+            to_state='published'
+        )
 
     def get_view(self, name, obj=None, **params):
         ''' Retutn a view with a fresh request on the context of obj
@@ -120,39 +139,44 @@ class TestViews(IntegrationTestCase):
         have any outside dependencies (to avoid dependency loops).
         '''
         view = self.get_view('apps.html')
-        found = [tile.sorting_key[1] for tile in view.tiles()]
-        configured = [u'contacts',
-                      u'messages',
-                      u'todo',
-                      u'calendar',
-                      u'slide-bank',
-                      u'image-bank',
-                      u'news',
-                      u'case-manager',
-                      u'app-market']
+        found = {tile.getId() for tile in view.tiles()}
+        configured = {
+            'contacts',
+            'messages',
+            'todo',
+            'calendar',
+            'slide-bank',
+            'image-bank',
+            'news',
+            'case-manager',
+            'app-market'
+        }
+        # We want all the configured app to be really there
         # there may be more e.g. bookmarks but out of test scope here
-        for id in configured:
-            self.assertIn(id, found)
+        self.assertSetEqual(configured.difference(found), set([]))
 
-    def get_app_tile(self, path=''):
-        ''' Return a fresh app tile with the given path
+    def get_app_tile(self, app_id):
+        ''' Return the app tile view for the given app_id
         '''
-        tile = BaseTile(self.portal.apps)
-        tile.path = path
-        return tile
+        app = self.portal.apps[app_id]
+        return api.content.get_view(
+            'app-tile',
+            app,
+            self.request.clone()
+        )
 
     def test_app_basetile_not_found(self):
         ''' Check the not_found property of the app tile adapter
         '''
         # The path is empty, so we have nothing to look for
-        tile = self.get_app_tile()
+        tile = self.get_app_tile('empty-app')
         self.assertTrue(tile.not_found)
 
-        # if we set a path, we have to find it event if we are anonymous
-        tile = self.get_app_tile('app-testing')
+        # if we set a path, we have to find it even if we are anonymous
+        tile = self.get_app_tile('private-app')
         self.assertFalse(tile.not_found)
 
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertFalse(tile.not_found)
 
@@ -161,53 +185,33 @@ class TestViews(IntegrationTestCase):
         '''
         # If we have not set a path, we cannot traverse to anything,
         # so we cannot say if it is authorized or not
-        tile = self.get_app_tile()
+        tile = self.get_app_tile('empty-app')
         with self.assertRaises(AttributeError):
             tile.unauthorized
 
         # If we set an existing path, we will have a different response
         # according to our roles in context
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         self.assertFalse(tile.unauthorized)
 
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertTrue(tile.unauthorized)
-
-    def test_app_basetile_url(self):
-        ''' Check the url property of the app tile adapter
-        '''
-        # If we do not set a path the tile url defaults to app-not-available
-        tile = self.get_app_tile()
-        self.assertEqual(
-            tile.url,
-            'http://nohost/plone/app-not-available.html#document-content'
-        )
-
-        # Otherwise the tile knows how to transform the path in to a url
-        tile = self.get_app_tile('app-testing')
-        self.assertEqual(tile.url, 'http://nohost/plone/apps/app-testing')
-
-        # The tile should be disabled if the path is not allowed
-        tile = self.get_app_tile('app-testing')
-        with api.env.adopt_roles({'Anonymous'}):
-            self.assertEqual(
-                tile.url, 'http://nohost/plone/apps/app-testing')
 
     def test_app_basetile_modal(self):
         ''' Check the modal property of the app tile adapter
         '''
         # With an empty path, when clicking on a tile,
         # we will get an alert in a modal
-        tile = self.get_app_tile()
+        tile = self.get_app_tile('empty-app')
         self.assertEqual(tile.modal, 'pat-modal')
 
         # Otherwise we will open the tile
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         self.assertEqual(tile.modal, '')
 
         # Even if we are unauthorized
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertEqual(tile.modal, '')
 
@@ -215,15 +219,15 @@ class TestViews(IntegrationTestCase):
         ''' Check the disabled property of the app tile adapter
         '''
         # The tile should be disabled if path is not set (default)
-        tile = self.get_app_tile()
+        tile = self.get_app_tile('empty-app')
         self.assertEqual(tile.disabled, 'disabled')
 
         # The tile should be enabled because the path is allowed
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         self.assertEqual(tile.disabled, '')
 
         # The tile should be disabled if the path is not allowed
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertEqual(tile.disabled, 'disabled')
 
@@ -290,7 +294,7 @@ class TestViews(IntegrationTestCase):
         self.assertFalse(in_app(view))
 
     def test_in_app_apptile(self):
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('empty-app')
         self.assertTrue(in_app(tile))
 
     def test_in_app_dashboard_context(self):
@@ -298,5 +302,5 @@ class TestViews(IntegrationTestCase):
         self.assertFalse(in_app(view.context))
 
     def test_in_app_apptile_context(self):
-        tile = self.get_app_tile('app-testing')
+        tile = self.get_app_tile('empty-app')
         self.assertTrue(in_app(tile.context))
