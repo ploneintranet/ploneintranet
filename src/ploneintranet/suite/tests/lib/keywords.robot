@@ -1538,7 +1538,7 @@ I can see bookmark grouped by workspace
 I can see bookmark grouped by creation date
     Select From List  group_by  created
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Page should contain element  xpath=//h3[contains(text(), 'All time')]/../ul/li/a[contains(text(), 'Bookmarks')]
+    Page should contain element  xpath=//h3[contains(text(), 'Last week')]/../ul/li/a[contains(text(), 'Draft proposal')]
 
 I can see the bookmarks tile in the dashboard
     I open the Dashboard
