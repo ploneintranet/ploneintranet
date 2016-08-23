@@ -21,8 +21,7 @@ class Base(object):
     def g_add(self, message):
         def outer_add(tool, message):
             def inner_add(user):
-                queue = tool.get_user_queue(user.getUserId())
-                queue.append(message.clone())
+                tool.append_to_user_queue(user.getUserId(), message.clone())
             return inner_add
         return self._for_each_user(outer_add(self.tool, message))
 
@@ -37,15 +36,15 @@ class Base(object):
     def g_cleanup(self):
         def outer_cleanup(tool):
             def inner_cleanup(user):
-                ids_to_remove = []
                 queue = tool.get_user_queue(user.getUserId())
-                for i in range(len(queue)):
-                    if queue[i].obj['read']:
-                        ids_to_remove.append(i)
+                if not queue:
+                    return
 
-                ids_to_remove.reverse()
-                for id_ in ids_to_remove:
-                    queue.pop(id_)
+                queue = tool._users[user.getUserId()]
+                for key in reversed(queue.keys()):
+                    if queue[key].obj['read']:
+                        queue.pop(key)
+
             return inner_cleanup
         return self._for_each_user(outer_cleanup(self.tool))
 
