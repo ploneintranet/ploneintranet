@@ -1,10 +1,201 @@
 Changelog
 =========
 
-1.1.0b5 (unreleased)
+1.2.0a8 (unreleased)
 --------------------
 
 - Nothing changed yet.
+
+
+1.2.0a7 (2016-08-19)
+--------------------
+
+* Merge branch 'master' into release-1.2.x [Guido A.J. Stevens]
+* Bundle resource messy tryfix (#588) [Alexander Pilz]
+
+
+1.2.0a6 (2016-08-19)
+--------------------
+
+* Revert "Update markup for changed pat-delay API [ci skip] (#575)" [Guido A.J. Stevens]
+  This should not be released yet. It needs to wait for the new JS API.
+
+1.2.0a5 (2016-08-19)
+--------------------
+
+* Update markup for changed pat-delay API [ci skip] (#575) [Guido A.J. Stevens]
+* Since also the taxonomy app view is now called on the apps folder, its (#579) [Wolfgang Thomas]
+
+
+1.2.0a4 (2016-08-18)
+--------------------
+
+* Updated dutch translations [Jean-Paul Ladage]
+
+
+1.2.0a3 (2016-07-30)
+--------------------
+
+* Merge pull request #525 from quaive/fix-displayed-types [GitHub]
+* Merge pull request #524 from quaive/structure_noncritical [GitHub]
+* Merge pull request #527 from quaive/todo-sorting [GitHub]
+* Merge pull request #526 from quaive/depend-on-pac [GitHub]
+* Mark Heisenbug #529 noncritical [Guido A.J. Stevens]
+* Test todo sorting by due date and position [Cillian de Róiste]
+* Sort Todos by due date first then position [Cillian de Róiste]
+* Cannot tag a keyword [Guido A.J. Stevens]
+* Fix the way we set the displayed types [Alessandro Pisa]
+* Depend on p.a.contenttypes [Cillian de Róiste]
+* Tag instead of disable some failing tests, document test ticket refs [Guido A.J. Stevens]
+* Try to actually fix the bug: dont' rely on pat-notification, use injection marker instead refs #521 [Guido A.J. Stevens]
+* Robot two spaces [Guido A.J. Stevens]
+* mark Create structure noncritical refs #521 [Guido A.J. Stevens]
+* Document ticket ids on disabled tests src/ploneintranet/suite/tests/acceptance/userprofile.robot [Guido A.J. Stevens]
+* Merge pull request #519 from quaive/mail-content-type [GitHub]
+* Initial work for a mail content type [Alessandro Pisa]
+* Merge pull request #511 from quaive/events_disable [GitHub]
+* Merge pull request #518 from quaive/testing_docs_master [GitHub]
+* Update testing docs [ci skip] <- note the irony :-) [Guido A.J. Stevens]
+* Merge pull request #514 from quaive/document-quaive-resources-ploneintranet [GitHub]
+* Merge pull request #510 from quaive/workspace_generalize [GitHub]
+* Document how to update the theme [Alessandro Pisa]
+* Fix sources.cfg [Alessandro Pisa]
+* Merge pull request #512 from quaive/fix-bookmarks-app [GitHub]
+* Make preview disabling actually work (without commas, tuple degraded to string...) [Guido A.J. Stevens]
+* Oops forgot to remove moved test [Guido A.J. Stevens]
+* In the absence of a proper request, don't break but silently do nothing. We need this to test quaive.transmogrifier sections without proper request. [Guido A.J. Stevens]
+* Move microblog disabler one level up, and provide secondary API route via ploneintranet.api.events [Guido A.J. Stevens]
+* Provide ploneintranet.api accessors to disable/enable previews and microblog auto-creation. [Guido A.J. Stevens]
+* Provide a way to temporarily disable preview generation [Guido A.J. Stevens]
+* Provide a way to temporarily disable content update creation. [Guido A.J. Stevens]
+* Use latest resources [Alessandro Pisa]
+* Document that creating userprofiles in Barceloneta does not actually work. [Alessandro Pisa]
+* Show only fallback workspace add for types that have no template at all [Alessandro Pisa]
+* Support adding extra workspace types without templates [Alessandro Pisa]
+* Fix bookmarks overview [Alessandro Pisa]
+* Merge pull request #504 from quaive/cart-paste-injection [GitHub]
+* Merge pull request #509 from quaive/508_optimize_searchabletext [GitHub]
+* Merge pull request #495 from quaive/kill-pi-theme [GitHub]
+* Merge pull request #507 from quaive/disable_dollie_test [GitHub]
+* Optimize async reindex only within thread, not across threads. This avoids subtle race conditions, at the cost of 1 extra reindex. This results in reducing the number of reindexes per upload from 4 to 2 instead of 1. [Guido A.J. Stevens]
+* Try to optimize SearchableText reindexing [Guido A.J. Stevens]
+* Completely disable test that keeps breaking on 'css=.tooltip-container .menu' [Guido A.J. Stevens]
+* Work around recurring robot Heisenbug on "Dollie can change her password" [Guido A.J. Stevens]
+* Completely disable test that keeps breaking on 'css=.tooltip-container .menu' [Guido A.J. Stevens]
+* Updated resources package [Alessandro Pisa]
+* Fix wrong copy paste [Alessandro Pisa]
+* pin quaive.app.audit [Alessandro Pisa]
+* pin quaive.app.taxonomy [Alessandro Pisa]
+* Use quaive eggs for jenkins [Alessandro Pisa]
+* Use our quaive pypi [Alessandro Pisa]
+* Some tests need to load quaive.app.resources zcml [Alessandro Pisa]
+* Removed the static folder in theme [Alessandro Pisa]
+* Buildout: add theme package and remove fetchrelease [Alessandro Pisa]
+* Merge pull request #503 from quaive/actions-in-login-colophon [GitHub]
+* Work around recurring robot Heisenbug on "Dollie can change her password" [Guido A.J. Stevens]
+* Merge pull request #506 from quaive/async_onedit [GitHub]
+* Merge pull request #476 from quaive/make-diazo [GitHub]
+* Merge pull request #502 from quaive/489_async_retry [GitHub]
+* Merge pull request #501 from quaive/fix-jenkins-bootstrap-script [GitHub]
+* Login form is portal_actions/login_colophon aware [Alessandro Pisa]
+* Fix bulkactions the way intended in proto [Alexander Pilz]
+* fix robot heisenbug (a weird scrolling issue), that only appears in robot tests, so we fix it by sticking to the facts we know about this robot test scenario [Wolfgang Thomas]
+* Merge pull request #477 from quaive/remove-division-index [GitHub]
+* new bundle that fixes data-pat-inject in combination with formactions [Alexander Pilz]
+* Merge branch 'master' into make-diazo [Alexander Pilz]
+* fix markup to work with patternslib inject fix in https://github.com/Patternslib/Patterns/pull/448 [Alexander Pilz]
+* Switch on-edit preview generation to async mode, just like on-create [Guido A.J. Stevens]
+* apply bootstrapping fix also on Makefile [Guido A.J. Stevens]
+* Make async tasks more robust: - acks_late is safe to use because our tasks are idempotent, this protects against Celery worker crashes - retry tasks 3 times on genuine errors, excluding UnAuthorized [Guido A.J. Stevens]
+* Force reinstall [Alessandro Pisa]
+* Created an upgrade step to clean up the catalog [Alessandro Pisa]
+* Remove division index and column from catalog [Alessandro Pisa]
+* Merge pull request #500 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a3 [Alexander Pilz]
+* proof of concept for cut, copy and paste. for the 2 actions that require a modal, there are 2 scenarios: - delete: attemps to open the modal. You can even briefly see it. Then a white overlay overs   everything. Probably because this modal is injected in #items in the sidebar - mail: the complete form is injected into #items in the sidebar. Works fine, but probably   not something that cornelis will approve of. Also, the "Cancel" case would need to be handled   separately, since we cannot simple close the modal In both cases (delete and mail), there is a hard reload of the page after a successful action [Wolfgang Thomas]
+* Update theme with make diazo [Alessandro Pisa]
+* Bulk: WIP Attempt to inject #items for Paste [Cillian de Róiste]
+* Cleanup: remove obsolete cart_dispatch view [Cillian de Róiste]
+
+
+1.2.0a2 (2016-07-24)
+--------------------
+
+* Merge pull request #498 from quaive/create_structure_heisenb [GitHub]
+* Merge pull request #497 from quaive/447_gitflow_master [GitHub]
+* Attempt to fix robot heisenbug [Wolfgang Thomas]
+* Merge pull request #492 from quaive/buildout_sources [GitHub]
+* Document git workflow fixes #447 [Guido A.J. Stevens]
+* Merge pull request #491 from quaive/490-fix-no-current-theme [GitHub]
+* Up dependencies for quaive.app.* [Guido A.J. Stevens]
+* Factor out quaive.app.* into separate sources.cfg and quaive-eggs.cfg mixins. Also remove the membrane stuff that was auto-checked out still even after closing #415. [Guido A.J. Stevens]
+* Fix the viewlet when no current theme is set up [Alessandro Pisa]
+* Merge pull request #484 from quaive/ignore-resources [GitHub]
+* Merge pull request #486 from quaive/heisenbug-dollie-cannot-change-guy [GitHub]
+* Fixes heisenbug #485 [Wolfgang Thomas]
+* Ignore src/quaive.resources [Alessandro Pisa]
+* Merge pull request #474 from quaive/app-bookmarks [GitHub]
+* Merge pull request #470 from quaive/reset-password [GitHub]
+* Merge pull request #483 from quaive/filter-resource-as-manifest-dictates [GitHub]
+* Improve static resource filtering [Alessandro Pisa]
+* Merge pull request #482 from quaive/preview-mainteinance-views-2 [GitHub]
+* Merge pull request #480 from quaive/indexer-robustness [GitHub]
+* Merge pull request #481 from quaive/remove-unused-template [GitHub]
+* Continues #449. Make it actually possible to pass a param that triggers certain behaviour in the code [Wolfgang Thomas]
+* Merge pull request #479 from quaive/478-split-userprofile-view [GitHub]
+* removed unused template [Alessandro Pisa]
+* Add robot test for change password happy flow [Wolfgang Thomas]
+* Add authenticator to change password form [Wolfgang Thomas]
+* Login-form: We might as well also copy over the fields for login-name and password from the customised template, so that the placeholders can be translated [Wolfgang Thomas]
+* In the upgrade step, don't reload the whole registry, just add the missing entry [Wolfgang Thomas]
+* return True if resetting password is allowed [Wolfgang Thomas]
+* since we're already customizing the login_form, we might also define the splash logo there instead of glueing it in via the diazo rules.xml. This is also a step for better customization, since we can then replace the hard-coded path to the logo with a lookup to some logo storage based on configuration [Wolfgang Thomas]
+* Add test that proves thath the change-password form is disabled if the respective setting in the registry is false [Wolfgang Thomas]
+* Also make sure the change-password form (for logged in users) can't be used if the option for resetting passwords is not enabled [Wolfgang Thomas]
+* Only show the link for reseting password if this is globally enabled. Additionally, prevent those forms being used directly in that case. [Wolfgang Thomas]
+* add utility browser view that can be used to prevent showing certain forms if resetting passwords by users is not allowed [Wolfgang Thomas]
+* Add registry entry to globally allow or disallow self-resetting of passwords [Wolfgang Thomas]
+* Also enable password reset for logged-in users [Wolfgang Thomas]
+* Update robot tests: the pwreset_form can now be viewed. But unless a valid token was passed in, resetting the password will not work. [Wolfgang Thomas]
+* Hook up remaining forms to that we can reset password [Wolfgang Thomas]
+* adapt pwreset_form to make markup useful for quaive [Wolfgang Thomas]
+* We now want to enable PW resetting. Copied over vanilla form for better diff [Wolfgang Thomas]
+* Hook up mail password form and feedback [Wolfgang Thomas]
+* adapt markup of mail_password_form to be useful for use in quaive [Wolfgang Thomas]
+* simplify login_form to make it useful for quaive [Wolfgang Thomas]
+* Copied over vanilla templates login_form and mail_password_form [Wolfgang Thomas]
+* Make adding content solr more resilient against weird edge-cases [Wolfgang Thomas]
+* Split the user profile view into multiple tabs [Alessandro Pisa]
+* templating and diazo rule for bookmarks [Alessandro Pisa]
+* Fix some workspace classes [Alessandro Pisa]
+* The select for grouping the bookmarks is back [Alessandro Pisa]
+* Merge pull request #475 from quaive/fix_friendly_type_name_indexer [GitHub]
+* Merge pull request #472 from quaive/flower [GitHub]
+* it can happen that no entry is found in the mimeytyes_registry for certain content types (like 'application/vnd.ms-outlook'). Don't fail in that case [Wolfgang Thomas]
+* Make the dependency on pi.bookmark softer [Alessandro Pisa]
+* Robot test coverage for bookmarks [Alessandro Pisa]
+* Fix bookmark link options [Alessandro Pisa]
+* Disabling filter selection on the bookmark app [Alessandro Pisa]
+* Bookmark integration in Ploneintranet [Alessandro Pisa]
+* Add config for flower celery monitoring [Alexander Pilz]
+* Added the package ploneintranet.bookmarks [Alessandro Pisa]
+* Added a marker interface for bookmark tiles [Alessandro Pisa]
+* pi.workspace depends on Products.membrane: make this explicit [Alessandro Pisa]
+* Updated gitignore [Alessandro Pisa]
+* Bookmark integration for ploneintranet.network [Alessandro Pisa]
+* Merge pull request #469 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a2 [Alexander Pilz]
+
+
+1.2.0a1 (2016-07-17)
+--------------------
+
+- Mars release cycle
+
+1.1.0b5 (unreleased)
+--------------------
+
+- Gaia branch
 
 
 1.1.0b4 (2016-07-06)

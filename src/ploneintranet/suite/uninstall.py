@@ -12,6 +12,7 @@ log = logging.getLogger(__name__)
 ADDITIONAL_DEPENDENCIES = [
     'collective.workspace',
     'collective.documentviewer',
+    'slc.mailrouter'
 ]
 
 
@@ -34,7 +35,9 @@ def uninstall_dependencies(portal):
     dependencies.extend(ADDITIONAL_DEPENDENCIES)
     for dependency in dependencies:
         dependency = str(dependency.split('profile-')[-1].split(':')[0])
-        if dependency.startswith('ploneintranet.'):
+        if dependency.startswith('ploneintranet.') or \
+           dependency.startswith('quaive.') or \
+           dependency in ADDITIONAL_DEPENDENCIES:
             try:
                 qi.uninstallProducts([dependency])
                 log.info('Uninstalled dependency "%s"' % dependency)

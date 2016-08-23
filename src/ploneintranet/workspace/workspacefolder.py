@@ -94,7 +94,7 @@ class WorkspaceFolder(Container):
         brains = catalog(
             path=current_path,
             portal_type=ptype,
-            sort_on='getObjPositionInParent',
+            sort_on=['due', 'getObjPositionInParent'],
         )
         for brain in brains:
             obj = brain.getObject()

@@ -1,0 +1,5 @@
+<a href="${view/apps_container_url}/@@app-messaging" id="messages-link" class="discrete-injection icon iconified icon-chat">
+  <span tal:omit-tag="" i18n:translate="" i18n:domain="ploneintranet">Messages</span> <sup id="online-count" class="counter digit-${view/digits}"
+        tal:condition="view/unread">${view/unread}</sup>
+     </a>
+

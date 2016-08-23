@@ -32,5 +32,4 @@ class PasteView(BaseCartView):
                 request=self.request,
                 type="success",
             )
-
         return self.index()

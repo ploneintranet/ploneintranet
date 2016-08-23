@@ -12,10 +12,11 @@
 
   <include package="ploneintranet.activitystream"/>
   <include package="ploneintranet.async"/>
+  <include package="ploneintranet.bookmarks"/>
   <include package="ploneintranet.core"/>
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>
-  <include package="ploneintranet.microblog" file="subscribers.zcml"/>  
+  <include package="ploneintranet.microblog" file="subscribers.zcml"/>
   <include package="ploneintranet.network"/>
   <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
@@ -32,10 +33,22 @@
   <include package="ploneintranet.workspace"/>
 
   <genericsetup:registerProfile
-      name="default"
+      name="full"
       title="Plone Intranet:  Suite"
-      directory="profiles/default"
+      directory="profiles/full"
       description="Installs the full suite of Plone Intranet packages"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.suite.setuphandlers.default"
+      />
+
+  <!-- This is :default for historical reasons.
+       The actual default installer is :full, which provides a themed site.
+  -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- [Suite base]"
+      directory="profiles/default"
+      description="Unthemed installer for the suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler="ploneintranet.suite.setuphandlers.default"
       />
@@ -97,6 +110,14 @@
       handler=".upgrades.barceloneta_workspace"
       profile="ploneintranet.suite:default" />
 
+  <genericsetup:upgradeStep
+      title="Install ploneintranet.bookmarks"
+      description=""
+      source="*"
+      destination="0009"
+      handler=".upgrades.to_0009"
+      profile="ploneintranet.suite:default"
+    />
 
   <!-- -*- extra stuff goes here -*- -->
 

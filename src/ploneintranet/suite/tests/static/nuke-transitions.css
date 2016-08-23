@@ -15,3 +15,11 @@ body * :before {
     animation: none !important;
     transition: none !important;
 }
+/*
+ * Needed to fix issues found in 
+ * https://github.com/quaive/ploneintranet/pull/584
+ */
+.tiles,
+#dashboard .portlet {
+  opacity:1;
+}

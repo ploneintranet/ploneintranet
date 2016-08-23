@@ -1,0 +1,67 @@
+<html>
+  <body>
+    <div id="portlet-bookmarks${python:view.data.get('id_suffix', '')}"
+         class="library portlet span-1"
+         i18n:domain="ploneintranet"
+        >
+      <div class="content"
+           tal:define="
+             id_suffix python:view.data.get('id_suffix', '');
+             portal_url here/portal_url;
+             app_bookmarks nocall:view/app_bookmarks;
+             friendly_type_to_icon_class nocall:app_bookmarks/friendly_type_to_icon_class;
+             bookmarks app_bookmarks/my_bookmarks;
+           ">
+        <h2 class="portlet-title">
+          <a href="${view/apps_container_url}/@@app-bookmarks"
+            i18n:translate=""
+             >Bookmarks</a>
+        </h2>
+        <form class="search-box pat-inject pat-autosubmit"
+              action="${portal_url}/@@${view/__name__}#bookmarks-search-items${id_suffix}"
+            >
+          <fieldset class="vertical">
+            <label>
+              <input name="SearchableText"
+                     type="search"
+                     placeholder="Search bookmarks"
+                     value="${request/SearchableText|nothing}"
+                     i18n:attributes="placeholder"
+                    />
+              <input type="hidden" value="${id_suffix}" name="id_suffix" />
+              <button hidden type="submit">Find bookmarks</button>
+            </label>
+          </fieldset>
+        </form>
+        <div id="bookmarks-search-items${id_suffix}">
+          <nav class="pat-tabs tabs" tal:condition="nothing">
+            <!-- The tabs repopulate the bookmarks list below. The feedback needs to contain a `<ul class="menu links" id="portlet-bookmarks-bookmarks-list${id_suffix}">` filtered on the criterium written on the tab. 'Recommended' is a centrally administered list of links. -->
+            <!--a href="/dashboard.html#portlet-bookmarks-bookmarks-list" class="pat-inject current">Recent</a-->
+            <!--a href="/feedback/portlet-bookmarks-most-visited.html#portlet-bookmarks-bookmarks-list" class="pat-inject">Most visited</a-->
+            <!--a href="/feedback/portlet-bookmarks-recommended.html#portlet-bookmarks-bookmarks-list" class="pat-inject">Recommended</a-->
+          </nav>
+          <p class="pat-message notice"
+             tal:condition="not:bookmarks"
+             i18n:translate=""
+             >No bookmarks were found matching <strong i18n:name="SearchableText">${request/SearchableText|nothing}</strong></p>
+          <ul class="menu links"
+              id="portlet-bookmarks-bookmarks-list${id_suffix}"
+              tal:condition="bookmarks"
+              >
+            <tal:bookmarks repeat="bookmark bookmarks">
+              <li class="bookmark"
+                  title="${bookmark/description|bookmark/title|nothing}"
+                >
+                 <a href="${bookmark/url}"
+                    class="${python: friendly_type_to_icon_class(getattr(bookmark, 'friendly_type_name', ''))}"
+                    >
+                    ${bookmark/title}
+                 </a>
+              </li>
+            </tal:bookmarks>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

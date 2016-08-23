@@ -1,8 +1,34 @@
 before_script:
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  # this is passwordless key of a user you configured for that:
+  # * add the user to the (Github) repository
+  # * add the pubkey to the (Github) user account
+  # * add the private key as SSH_PRIVATE_KEY in https://gitlab.com/quaive/ploneintranet/variables
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+  # For Docker builds disable host key checking. Be aware that by adding that
+  # you are suspectible to man-in-the-middle attacks.
+  # WARNING: Use this only with the Docker executor, if you use it with shell
+  # you will overwrite your user's SSH config.
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerinit ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+  # make the environment UTF-8 configured or robot tests break
   - export LC_CTYPE=en_US.UTF-8
   - export LC_ALL=en_US.UTF-8
   - export LANG=en_US.UTF-8
+
+  # buildout
   - make gitlab-ci
+
+  # start redis and framebuffer
   - /etc/init.d/redis-server start
   - Xvfb :99 1>/dev/null 2>&1 &
 

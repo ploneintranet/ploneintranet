@@ -1,16 +1,13 @@
 # coding=utf-8
 from AccessControl import Unauthorized
-from collections import defaultdict
-from datetime import date
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.memoize import forever
 from plone.memoize.view import memoize
+from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import shorten
 from ploneintranet.network.interfaces import INetworkTool
-from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 from ploneintranet.workspace.browser.tiles.workspaces import escape_id_to_class
@@ -45,25 +42,23 @@ class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
     """View for user profile."""
 
-    # List of types excluded when loading the documents tab of the profile
-    _types_not_to_search_for = {
-        'Folder',
-        'Plone Site',
-        'TempFolder',
-        'ploneintranet.library.app',
-        'ploneintranet.library.folder'
-        'ploneintranet.library.section',
-        'ploneintranet.userprofile.userprofile',
-        'ploneintranet.userprofile.userprofilecontainer',
-        'ploneintranet.workspace.workspacecontainer',
-        'ploneintranet.workspace.workspacefolder',
-        'todo',
-    }
-
     my_groups = my_workspaces = []
+
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    def disable_diazo(self):
+        ''' Disable diazo if this is an ajax call
+        '''
+        self.request.response.setHeader('X-Theme-Disabled', '1')
 
     def update(self):
         self._get_my_groups_and_workspaces()
+        self._update_recent_contacts()
 
     def is_me(self):
         """Does this user profile belong to the current user"""
@@ -174,106 +169,20 @@ class UserProfileView(UserProfileViewForm):
             })
         return details
 
+    def _update_recent_contacts(self):
+        my_profile = pi_api.userprofile.get_current()
+        if not my_profile or my_profile.username == self.context.username:
+            return
+        safeWrite(my_profile, self.request)
+        if my_profile.recent_contacts is None:
+            my_profile.recent_contacts = []
+        if self.context.username in my_profile.recent_contacts:
+            my_profile.recent_contacts.remove(self.context.username)
+        my_profile.recent_contacts.insert(0, self.context.username)
+        my_profile.recent_contacts = my_profile.recent_contacts[:20]
+
     def fields_for_display(self):
         return get_fields_for_template(self)
-
-    @memoize
-    def my_documents(self):
-        ''' Return the list of my documents
-        '''
-        search_util = getUtility(ISiteSearch)
-        pt = plone_api.portal.get_tool('portal_types')
-        types = [
-            t for t in pt.keys() if t not in self._types_not_to_search_for
-        ]
-        response = search_util.query(
-            filters={
-                'Creator': self.context.getId(),
-                'portal_type': types,
-            },
-            step=9999,
-        )
-        return response
-
-    @memoize
-    def my_documents_by_date(self):
-        ''' Return the list of my documents grouped by date
-        '''
-        docs = defaultdict(list)
-        today = date.today()
-
-        for result in self.my_documents():
-            if hasattr(result.modified, 'date'):
-                day_past = (today - result.modified.date()).days
-            else:
-                day_past = 100
-            if day_past < 1:
-                docs[_('Today')].append(result)
-            elif day_past < 7:
-                docs[_('Last week')].append(result)
-            elif day_past < 30:
-                docs[_('Last month')].append(result)
-            else:
-                docs[_('All time')].append(result)
-        return docs
-
-    @memoize
-    def my_documents_by_letter(self):
-        ''' Return the list of my documents grouped by letter
-        '''
-        docs = defaultdict(list)
-        for result in self.my_documents():
-            stripped_title = result.title.strip()
-            if stripped_title:
-                key = stripped_title[0].upper()
-                if isinstance(key, unicode):
-                    key = key.encode('utf8')
-            else:
-                _('No title')
-            docs[key].append(result)
-        return docs
-
-    @memoize
-    def my_documents_sorted_groups(self):
-        ''' Return the list of my documents grouped by letter
-        '''
-        if self.request.get('by_date'):
-            return [
-                _('Today'),
-                _('Last week'),
-                _('Last month'),
-                _('All time'),
-            ]
-        groups = sorted(self.my_documents_by_letter().keys())
-        if _('No title') in groups:
-            no_title = groups.pop(groups.index(_('No title')))
-            groups.append(no_title)
-        return groups
-
-    @memoize
-    def my_documents_grouped(self):
-        ''' Return the list of my documents grouped
-        '''
-        if self.request.get('by_date'):
-            return self.my_documents_by_date()
-        return self.my_documents_by_letter()
-
-    @forever.memoize
-    def friendly_type_to_icon_class(self, type_name):
-        ''' Convert the friendly_type_name of the search results
-        into an css class
-
-        For the time being reuse the search one
-        '''
-        view = plone_api.content.get_view(
-            'search',
-            self.context,
-            self.request,
-        )
-        search_class = view.get_facet_type_class(type_name)
-        return search_class.replace('type-', 'icon-file-', 1).replace(
-            'icon-file-rich', 'icon-doc-text'
-        )
 
     @memoize
     def user_search_placeholder(self):
@@ -283,6 +192,18 @@ class UserProfileView(UserProfileViewForm):
             mapping={"user_name": self.context.fullname}
         )
         return msg
+
+
+class UserProfileTabView(UserProfileView):
+    ''' Personalize the userprofile tab view class to not be transformed
+    by diazo if we have an ajax call
+    '''
+    def __call__(self):
+        ''' Set diazo.off if this is an ajax request
+        '''
+        if self.is_ajax():
+            self.disable_diazo()
+        return super(UserProfileTabView, self).__call__()
 
 
 class AuthorView(BaseAuthorView):

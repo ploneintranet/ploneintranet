@@ -19,9 +19,11 @@ from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
+from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from slc.mailrouter.utils import store_name
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -117,6 +119,10 @@ class BaseTile(BrowserView):
         Cave. We don't use the plone.app.contenttypes per-type permissions.
         Our workflows don't map those, only cmf.AddPortalContent.
         """
+        if shasattr(self.context, 'disable_add_from_sidebar'):
+            if self.context.disable_add_from_sidebar:
+                return False
+
         return api.user.has_permission(
             "Add portal content",
             obj=self.context,
@@ -342,17 +348,23 @@ class SidebarSettingsAdvanced(BaseTile):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
-        ws = self.workspace()
         if self.request.method == 'POST' and form:
             if self.can_manage_workspace():
+                if 'email' in form and form['email']:
+                    if '@' in form['email']:
+                        # Only use the name part as the domain is fixed.
+                        form['email'] = form['email'].split('@')[0]
+
                 modified, errors = dexterity_update(self.context)
+
+                if 'email' in form and form['email']:
+                    errors += store_name(self.context, form['email']).values()
 
                 if modified and not errors:
                     api.portal.show_message(
                         _("Attributes changed."),
                         request=self.request,
                         type="success")
-                    ws.reindexObject()
                     notify(ObjectModifiedEvent(self.context))
 
                 if errors:

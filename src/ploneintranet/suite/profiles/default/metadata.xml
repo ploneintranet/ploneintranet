@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0008</version>
+  <version>0011</version>
+  <!-- load :full if you want the theme also -->
   <dependencies>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
+    <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-collective.externaleditor:default</dependency>
     <dependency>profile-ploneintranet.async:default</dependency>
+    <dependency>profile-ploneintranet.bookmarks:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>
@@ -20,5 +23,6 @@
     <dependency>profile-ploneintranet.messaging:default</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
+    <dependency>profile-slc.mailrouter:default</dependency>
   </dependencies>
 </metadata>

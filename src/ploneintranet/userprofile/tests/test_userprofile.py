@@ -5,6 +5,7 @@ from ZPublisher.HTTPRequest import ZopeFieldStorage
 from io import BytesIO
 from plone import api
 from plone.namedfile import NamedBlobImage
+from ploneintranet.userprofile.browser.tiles.contacts_search import ContactsSearch  # noqa
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import AvatarsView
 from ploneintranet.userprofile.browser.userprofile import MyAvatar
@@ -104,6 +105,71 @@ class TestUserProfileView(TestUserProfileBase):
         self.assertEqual(
             details[1]['title'], self.profile2.fullname,
         )
+
+    def test_recent_contacts_not_duplicated(self):
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        self.assertIn(self.profile2.username,
+                      self.profile1.recent_contacts or [])
+
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertEqual(
+            recent.count(self.profile2.username), 1,
+            "Recent contact entry duplicated")
+
+    def test_recent_contacts_most_recent_first(self):
+        self.profile1.recent_contacts = ['some_user']
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertEqual(recent[0], self.profile2.username)
+
+    def test_recent_contacts_self_excluded(self):
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile1, self.request)
+        profile_view._update_recent_contacts()
+        self.assertNotIn(
+            self.profile1.username, self.profile1.recent_contacts or [])
+
+    def test_recent_contacts_length_limited(self):
+        self.profile1.recent_contacts = [
+            'user{0}'.format(n) for n in range(20)]
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertLessEqual(len(recent), 20)
+
+
+class TestContactsResults(TestUserProfileBase):
+
+    def test_resolve_profile(self):
+        self.profile1.recent_contacts = [self.profile2.username]
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(recent[0], self.profile2)
+
+    def test_invalid_users_dropped(self):
+        self.profile1.recent_contacts = [
+            'deleted_user', self.profile2.username]
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(len(recent), 1)
+        self.assertEqual(recent[0], self.profile2)
+
+    def test_length_limited(self):
+        # In practice a user will not be in recent_contacts multiple times. We
+        # use this shortcut only to avoid creating 10 user profiles.
+        self.profile1.recent_contacts = [self.profile2.username] * 11
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(len(recent), 10)
 
 
 class TestAuthorView(TestUserProfileBase):

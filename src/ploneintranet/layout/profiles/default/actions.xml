@@ -48,5 +48,27 @@
       <property name="visible">True</property>
     </object>
   </object>
-
+  <object name="login_colophon" meta_type="CMF Action Category">
+    <property name="title">Actions for the login form colophon</property>
+    <object name="password_recovery" meta_type="CMF Action" i18n:domain="ploneintranet">
+      <property name="title" i18n:translate="">I forgot my password</property>
+      <property name="description" i18n:translate=""></property>
+      <property name="url_expr">python:globals_view.navigationRootUrl() + '/mail_password_form?userid=' + request.form.get('__ac_name', '')</property>
+      <property name="link_target"></property>
+      <property name="icon_expr"></property>
+      <property name="available_expr">context/portal_registry/ploneintranet.userprofile.enable_password_reset|nothing</property>
+      <property name="permissions"/>
+      <property name="visible">True</property>
+    </object>
+    <object name="about_this" meta_type="CMF Action" i18n:domain="ploneintranet">
+      <property name="title" i18n:translate="">About this environment</property>
+      <property name="description" i18n:translate=""></property>
+      <property name="url_expr">string:${globals_view/navigationRootUrl}/++theme++ploneintranet.theme/generated/info.html</property>
+      <property name="link_target"></property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions"/>
+      <property name="visible">False</property>
+    </object>
+  </object>
 </object>

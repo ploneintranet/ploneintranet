@@ -1,20 +1,20 @@
-import logging
-import time
-from datetime import datetime
-
+# coding=utf-8
+from .content.userprofile import IUserProfile
 from Acquisition import aq_base
-from Products.Five import BrowserView
+from datetime import datetime
 from plone import api
-from zope.component import adapter
-from zope.interface import implementer
-from zope.interface import Interface
-from zope.interface import alsoProvides
 from plone.protect.interfaces import IDisableCSRFProtection
-
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from .content.userprofile import IUserProfile
+from Products.Five import BrowserView
+from transaction import commit
+from zope.component import adapter
+from zope.interface import alsoProvides
+from zope.interface import implementer
+from zope.interface import Interface
 
+import logging
+import time
 
 NO_VALUE = object()
 PROP_SHEET_MAP_KEY = 'ploneintranet.userprofile.property_sheet_mapping'
@@ -89,6 +89,9 @@ def sync_many(profiles_container, users):
         for (count, user) in enumerate(users, start=1):
             profile_manager = IUserProfileManager(user)
             profile_manager.sync()
+            if count and not count % 100:
+                logger.info('Synced %s profiles. Committing.', count + 1)
+                commit()
         duration = time.time() - start
         logger.info('Updated {} in {:0.2f} seconds'.format(count, duration))
     else:
@@ -164,15 +167,29 @@ class AllUsersSync(BrowserView):
         without a local membrane profile"""
         to_sync = external_userids - local_userids
         plugin_id = self.canonical_plugin_id
+        logger.info('Found {0} users in {1} in total'.format(
+            len(external_userids), plugin_id,
+        ))
         logger.info('Found {0} users in {1} with no membrane profile'.format(
             len(to_sync), plugin_id,
         ))
+        counter = 0
         for userid in to_sync:
             logger.info(
                 'Creating profile for new user '
                 'found in plugin {0}: {1}'.format(plugin_id, userid)
             )
-            yield pi_api.userprofile.create(username=userid, approve=True)
+            try:
+                obj = pi_api.userprofile.create(username=userid, approve=True)
+            except:
+                logger.exception('Error creating: %r', userid)
+                obj = None
+            if obj:
+                counter += 1
+                if counter % 100 == 0:
+                    logger.info('Created %s profiles. Committing.', counter)
+                    commit()
+                yield obj
 
     def _disable_user_profiles(self, local_userids, external_userids):
         """Disable user profiles for any that are missing

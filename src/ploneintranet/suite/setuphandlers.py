@@ -102,6 +102,14 @@ def testing(context):
     discuss_older_docs(None, do_commit=False)
     commit()  # no-op when in test mode avoids breakage
 
+    log.info("Create some bookmarks")
+    create_bookmarks()
+    commit()
+
+    log.info("Create direct messages")
+    create_messages()
+    commit()
+
     log.info("done.")
 
 
@@ -329,6 +337,34 @@ def workspaces_spec(context):
                'type': 'Event',
                'start': now + timedelta(days=-7),
                'end': now + timedelta(days=-14)},
+              {'title': 'Files for application 2837',
+               'type': 'ploneintranet.workspace.mail',
+               'mail_from': u'pilz@pilzen.de',
+               'mail_to': (
+                   u'open-market-committee@ourintranet.com',
+                   u'cornelis@cornae.com',),
+               'mail_body': RichTextValue(
+                   u'''
+                    <p>Dear mister Kolbach,</p>
+                    <p>We’ll process your application with the shortest
+                     delay.</p>
+                    <p>Yours sincerely, <br>
+                    Alexander Pilz</p>
+
+                    <blockquote>
+                      <p>Dear Sir or Madam,</p>
+
+                      <p>Sed ut perspiciatis unde omnis iste natus error
+                      sit voluptatem accusantium doloremque laudantium,
+                      totam rem aperiam, eaque ipsa quae ab illo inventore
+                      veritatis et quasi architecto beatae vitae dicta sunt
+                      explicabo.</p>
+
+                      <p>Kind regards,<br>
+                    Cornelis G. A. Kolbach</p>
+                    </blockquote>
+                   '''
+               )}
               ],
          },
         {'title': 'Parliamentary papers guidance',
@@ -816,3 +852,104 @@ def create_as(userid, *args, **kwargs):
             # we still need to know what happend
             raise
     return obj
+
+
+def create_bookmarks():
+    ''' Bookmark some applications
+    '''
+    pn = api.portal.get_tool('ploneintranet_network')
+    portal = api.portal.get()
+    workspaces = portal['workspaces']
+    pn.bookmark(
+        'content',
+        workspaces['example-case'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        workspaces['shareholder-information'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        workspaces['example-case']['draft-proposal'].UID(),
+        u'allan_neece'
+    )
+    manage_information = (
+        workspaces['open-market-committee']['manage-information']
+    )
+    pn.bookmark(
+        'content',
+        manage_information['minutes'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        manage_information['minutes-overview'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        manage_information['budget-proposal'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['library']['human-resources']['leave-policies'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark('apps', u'@@app-bookmarks', u'allan_neece')
+
+
+def create_messages():
+    """Generate some message traffic for testing ploneintranet.messaging.
+    """
+    inboxes = pi_api.messaging.get_inboxes()
+    stamp = datetime(2016, 7, 1, 9, 23)
+    for me in ('allan_neece', 'christian_stoney'):
+        phrases = iter(PHRASES)
+        for other in ('alice_lindstrom', 'guy_hackey', 'dollie_nocera'):
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            stamp += timedelta(minutes=1)
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=20)
+            inboxes.send_message(me, other, phrases.next(), stamp)
+            stamp += timedelta(minutes=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            stamp += timedelta(days=2)
+            inboxes.send_message(other, me, phrases.next(), stamp)
+            if other != 'guy_hackey':
+                inboxes[me][other].mark_read()
+    # another round to create a searchable inbox
+    phrases = iter(PHRASES)
+    me = 'guido_stevens'
+    for other in ('francois_gast', 'esmeralda_claassen', 'jamie_jacko',
+                  'fernando_poulter', 'jesse_shaik', 'jorge_primavera',
+                  'alice_lindstrom', 'lance_stockstill', 'neil_wichmann'):
+        inboxes.send_message(me, other, phrases.next(), stamp)
+        stamp += timedelta(minutes=2)
+        inboxes.send_message(other, me, phrases.next(), stamp)
+
+PHRASES = [
+    "Go and live with her, then! See if I care.",
+    "Somehow we need to persuade him to part with a million dollars.",
+    "Don't be scared. I just need you to come with me for a minute.",
+    "I'm telling you - the guy was a complete stranger.",
+    "This isn't just about you. It's about what's best for all of us.",
+    "There's something I need to get off my chest.",
+    "Don't upset your father, not now.",
+    "I've been checking you out.",
+    "You had time to call the police. Why didn't you?",
+    "You're paying a small price compared with what she's going through.",
+    "Why did you scream like that?",
+    "What a thing to say - and on my birthday!",
+    "I want to turn back the clock to before...",
+    "Find some proof that she's betrayed you.",
+    "You don't want to live in a society like this!",
+    "Give me one good reason why I should wear a dress.",
+    "What do you remember about your mother?",
+    "I just want a nice, easy life. What's wrong with that?",
+    "I'm ready to try again, if you are?",
+]

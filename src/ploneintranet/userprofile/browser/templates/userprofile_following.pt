@@ -1,0 +1,32 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content-core">
+        <div id="document-content">
+          <div id="person-following" tal:define="users view/following">
+            <div id="followees-list" class="item-selector mode-follow">
+              <form id="followees-list-items" action="" data-pat-inject="target: body::after" class="search-result users pat-inject">
+                <fieldset class="checklist pat-checklist users unchecked">
+                  <label class="item user has-no-description unchecked" tal:repeat="user users">
+                    <input type="checkbox" name=""/>
+                    <a class="follow pat-inject" data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
+                      <img class="avatar" alt="" src="${user/avatar_url}"/>
+                      <strong class="title" tal:content="user/title">Liz Baker</strong>
+                    </a>
+                  </label>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </metal:content>
+    </body>
+  </html>

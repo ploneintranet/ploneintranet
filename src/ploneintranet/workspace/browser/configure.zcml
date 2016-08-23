@@ -9,6 +9,7 @@
 
   <include package="collective.workspace" />
   <include package="ploneintranet.layout" file="permissions.zcml" />
+  <include package=".mails" />
   <include package=".tiles" />
   <include file="cart.zcml" />
 
@@ -32,7 +33,7 @@
 
   <browser:page
       name="add_workspace"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"      
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
       class=".add_workspace.AddWorkspace"
       template="templates/add_workspace.pt"
       permission="cmf.AddPortalContent"

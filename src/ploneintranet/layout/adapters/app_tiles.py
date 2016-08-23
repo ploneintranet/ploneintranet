@@ -2,9 +2,19 @@
 from AccessControl.unauthorized import Unauthorized
 from plone import api
 from plone.memoize import instance
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.app import apps_container_id
+from zope.interface import implementer
+from zope.interface import Interface
 
 
+class IBaseTile(Interface):
+    ''' Marker interface for Ploneintranet app tiles
+    '''
+
+
+@implementer(IBaseTile)
 class BaseTile(object):
     key = ''
     title = ''
@@ -20,6 +30,10 @@ class BaseTile(object):
         ''' Add the context to this tile
         '''
         self.context = context
+        self.portal = api.portal.get()
+        self.portal_url = self.portal.absolute_url()
+        self.apps_container = getattr(self.portal, apps_container_id)
+        self.apps_container_url = self.apps_container.absolute_url()
 
     @property
     @instance.memoize
@@ -28,7 +42,7 @@ class BaseTile(object):
             # this will be the same error that restrictedTraverse will raise
             raise AttributeError('Path not found')
         try:
-            self.context.restrictedTraverse(self.path)
+            self.apps_container.restrictedTraverse(self.path)
         except Unauthorized:
             return True
         return False
@@ -40,7 +54,7 @@ class BaseTile(object):
         '''
         if not self.path:
             return True
-        target = self.context.unrestrictedTraverse(self.path, None)
+        target = self.apps_container.unrestrictedTraverse(self.path, None)
         if target is None:
             return True
         return False
@@ -83,28 +97,25 @@ class BaseTile(object):
     def alt(self):
         ''' Return the alt text for the image
         '''
-        portal_url = api.portal.get().absolute_url()
-        return self._alt_template.format(portal_url, self.title)
+        return self._alt_template.format(self.portal_url, self.title)
 
     @property
     def img(self):
         ''' Return the img src generated from the template
         '''
-        portal_url = api.portal.get().absolute_url()
-        return self._image_template.format(portal_url, self.key)
+        return self._image_template.format(self.portal_url, self.key)
 
     @property
     def url(self):
         ''' Return the url generated from the path
         '''
-        portal_url = api.portal.get().absolute_url()
         if self.not_found:
             url = self._url_not_available_template.format(
-                portal_url
+                self.portal_url
             )
         else:
             url = '{0}/{1}'.format(
-                portal_url,
+                self.apps_container_url,
                 self.path,
             )
         return url
@@ -120,6 +131,24 @@ class MessagesTile(BaseTile):
     key = 'messages'
     title = _('messages', 'Messages')
     position = 20
+    path = '@@app-messaging'
+
+    def cls(self):
+        if self.counter:
+            return 'app-messages has-counter'
+        else:
+            return 'app-messages'
+
+    @property
+    def counter(self):
+        try:
+            return pi_api.messaging.get_inbox().new_messages_count
+        except KeyError:
+            return 0
+
+    @property
+    def digits(self):
+        return len(str(self.counter))
 
 
 class TodoTile(BaseTile):
@@ -156,7 +185,7 @@ class CaseManagerTile(BaseTile):
     key = 'case-manager'
     title = _('case-manager', u'Case manager',)
     position = 80
-    path = 'workspaces/@@case-manager'
+    path = '@@case-manager'
 
 
 class AppMarketTile(BaseTile):

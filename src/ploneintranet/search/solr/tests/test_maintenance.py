@@ -16,7 +16,7 @@ class TestMaintenanceView(testing.FunctionalTestCase):
                                name="solr-maintenance")
         self.view = view.__of__(self.portal)
 
-        def monkey_mklog(*args):
+        def monkey_mklog(*args, **kwargs):
             def log(msg, timestamp=True):
                 pass
             return log

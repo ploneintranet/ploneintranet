@@ -11,7 +11,7 @@ mkdir -p buildout-cache/downloads || exit 1
 # problem where the shebang is > 127 characters long.
 virtualenv --relocatable .
 . bin/activate
-./bin/pip install -r requirements.txt || exit 1
+./bin/pip install -UIr requirements.txt || exit 1
 virtualenv --relocatable .
 ./bin/buildout -N -t 10 -c $BUILDOUT_CONFIG || exit 1
 virtualenv --relocatable .

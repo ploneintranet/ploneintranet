@@ -1,4 +1,5 @@
 # coding=utf-8
+from plone import api
 from ploneintranet.layout.interfaces import IAppTile
 from zope.component import getAdapters
 from zope.publisher.browser import BrowserView
@@ -26,3 +27,13 @@ class Apps(BrowserView):
         ]
         tiles.sort(key=lambda x: x.sorting_key)
         return tiles
+
+    def get_bookmark_link(self, app):
+        ''' Gets the app bookmark icon
+        '''
+        view = api.content.get_view(
+            'bookmark-link-iconified',
+            app,
+            self.request
+        )
+        return view()

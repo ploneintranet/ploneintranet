@@ -282,6 +282,7 @@ class TestContentStatusUpdate(unittest.TestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
 
@@ -360,3 +361,33 @@ class TestContentStatusUpdate(unittest.TestCase):
         found = [x for x in self.container.values()]
         su1 = found[0]
         self.assertEqual('published', su1.action_verb)
+
+    def test_content_context_subscriber_disable_enable(self):
+        # 1st run events disabled
+        self.request['ploneintranet.microblog.content_created'] = False
+        self.request['ploneintranet.microblog.content_statechanged'] = False
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        self.assertEqual(0, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(0, len(found))
+        # 2nd run with event enabled
+        self.request['ploneintranet.microblog.content_created'] = True
+        self.request['ploneintranet.microblog.content_statechanged'] = True
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        # auto-created by event listener
+        self.assertEqual(1, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(2, len(found))
+        su = found[0]
+        self.assertEqual(None, su.microblog_context)
+        self.assertEqual(doc, su.content_context)

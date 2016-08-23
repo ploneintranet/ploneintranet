@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
-version = '1.1.0b5.dev0'
+version = '1.2.0a8.dev0'
 
 long_description = (
-    open('README.rst').read()
-    + '\n' +
-    open('CHANGES.rst').read()
-    + '\n')
+    open('README.rst').read() +
+    '\n' +
+    open('CHANGES.rst').read() +
+    '\n')
 
 setup(name='ploneintranet',
       version=version,
@@ -65,6 +65,7 @@ setup(name='ploneintranet',
           'fake-factory',
           'Celery[redis]',
           'redis',
+          'flower',
           'pathlib',
           'collective.externaleditor >= 1.0.2',
           'tablib',
@@ -74,6 +75,8 @@ setup(name='ploneintranet',
           'collective.monkeypatcher',
           'scorched',
           'htmllaundry',
+          'slc.mailrouter',
+          'quaive.resources.ploneintranet'
       ],
       extras_require={
           'test': [
@@ -82,6 +85,7 @@ setup(name='ploneintranet',
               'fake-factory',
               'mock',
               'responses',
+              'quaive.resources.ploneintranet',
           ],
           'suite': [
               'requests',
@@ -137,6 +141,9 @@ setup(name='ploneintranet',
               'requests',
               'scorched',
           ],
+          'theme': [
+              'quaive.resources.ploneintranet',
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-

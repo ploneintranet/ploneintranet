@@ -41,11 +41,17 @@ class TestUserProfileEditForm(BaseTestCase):
         fields = form.fields.keys()
 
         # By default should include all core fields apart from portrait
+        # and recent_contacts
         for fieldname in schema.getFieldNames(IUserProfile):
-            if fieldname != 'portrait':
+            if fieldname not in ('portrait', 'recent_contacts'):
                 self.assertIn(
                     fieldname, fields,
                     '{0} missing from edit form'.format(fieldname)
+                )
+            else:
+                self.assertNotIn(
+                    fieldname, fields,
+                    '{0} in edit form'.format(fieldname)
                 )
 
         # And any additional fields

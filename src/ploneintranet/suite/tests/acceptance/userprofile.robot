@@ -20,7 +20,7 @@ Alice can view her own profile
     And I can follow the link to my profile
     And I can see details for Alice Lindström
 
-# This is disabled at the moment, see:
+# This is intentionally disabled because the feature is not wanted, see
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
 # Alice can view her own personal settings
 #     Given I am logged in as the user alice_lindstrom
@@ -41,22 +41,25 @@ Alice cannot view her personal preferences
 Alice can view her documents
     Given I am logged in as the user alice_lindstrom
     Then I can view the profile for user alice_lindstrom
-    Then Click Link  Documents
+     And I open the profile tab  Documents
     Then Click Link  Human Resources
 
 Alice can view her documents sorted by date
     Given I am logged in as the user alice_lindstrom
     Then I can view the profile for user alice_lindstrom
-    Then I can see my documents grouped  by_date
+    Then I open the profile tab  Documents
+    Then I can see my documents grouped by  date
 
 Alice can search her documents
     Given I am logged in as the user alice_lindstrom
+     Then I can view the profile for user alice_lindstrom
+      And I open the profile tab  Documents
      Then I can search in my documents for  Human
 
-Alice cannot open the password reset form
+Alice cannot force the password reset form
     Given I am logged in as the user alice_lindstrom
     When I open the password reset form
-    Then The page is not found
+    Then I cannot reset my password with an illegal request posing as  alice_lindstrom
 
 Allan can view Alice's profile
     Given I am logged in as the user allan_neece
@@ -94,11 +97,22 @@ Dollie can change her avatar from the menu
     And I can open the personal tools menu
     Then I can upload a new avatar from the menu
 
+# https://github.com/quaive/ploneintranet/issues/520
+# ongoing breakage with css=.tooltip-container .menu
+Dollie can change her password
+    [Tags]  heisenbug
+    Given I am logged in as the user dollie_nocera
+    And I open the change passord form
+    Then I change my password to  new_password
+    And I can log in with the new password  dollie_nocera  new_password
+
+# https://github.com/quaive/ploneintranet/issues/522
 # This doesn't work because the input form element isn't visible
-# Dollie can change her avatar from her profile page
-#     Given I am logged in as the user dollie_nocera
-#     And I can view the profile for user dollie_nocera
-#     Then I can upload a new avatar from my profile
+Dollie can change her avatar from her profile page
+    [Tags]  fixme
+    Given I am logged in as the user dollie_nocera
+    And I can view the profile for user dollie_nocera
+    Then I can upload a new avatar from my profile
 
 *** Keywords ***
 
@@ -112,19 +126,13 @@ I open the personal preferences page
 I can follow the link to my profile
     Click Element  css=.tooltip-container .menu a.icon-user
 
-I can see my documents grouped
+I can see my documents grouped by
     [arguments]  ${VALUE}
-    # BBB: fix the Go To when this one is closed:
-    # - https://github.com/quaive/ploneintranet.prototype/issues/262
-    # we should use the select
-    Go To  ${PLONE_URL}/profiles/alice_lindstrom?${VALUE}=1#person-documents
+    Select from List  group-by  date
     Wait until element is visible  jquery=.group:last a:contains("Human Resources")
 
 I can search in my documents for
     [arguments]  ${VALUE}
-    I can open the personal tools menu
-    I can follow the link to my profile
-    Click Link  Documents
     Input Text  jquery=#person-documents [name=SearchableText]  ${VALUE}
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click Element  jquery=.preview img[alt~="${VALUE}"]
@@ -133,6 +141,11 @@ I can search in my documents for
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
 # I can follow the link to my personal settings
 #     Click Element  css=.tooltip-container .menu a.icon-cog
+
+I open the profile tab
+    [arguments]  ${title}
+    Click Element  jquery=nav a:contains('${title}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I can follow the link to logout
     Click Element  css=.tooltip-container .menu a.icon-exit
@@ -154,11 +167,11 @@ I can unfollow ${NAME}
     Wait Until Page Contains Element  css=button[title="Click to follow ${NAME}"]
 
 I can see ${NAME} in the list of users being followed
-    Click Element  css=nav.tabs a.link-following
+    I open the profile tab  Following
     Page should contain Element  jquery=#person-following a strong:contains("${NAME}")
 
 I cannot see ${NAME} in the list of users being followed
-    Click Element  css=nav.tabs a.link-following
+    I open the profile tab  Following
     Page should not contain Element  jquery=#person-following a strong:contains("${NAME}")
 
 I can change my name to ${NAME}
@@ -169,17 +182,41 @@ I can change my name to ${NAME}
     Page should contain Element  xpath=//figcaption//a[contains(text(), "Mickey")]
 
 I cannot edit personal details
-    Click Element  link=Info
+    I open the profile tab  Info
     Page Should Contain Element  css=dt.icon-user
 
 I can upload a new avatar from the menu
     Choose File  xpath=(//input[@name='portrait'])[2]  ${UPLOADS}/new-profile.jpg
     Wait until page contains   Personal image updated
 
+I open the change passord form
+    I can open the personal tools menu
+    Click Element  css=.tooltip-container .menu a.icon-cog
+    Wait until page contains element  xpath=//h1[text()="Change password"]
+
+I change my password to
+    [arguments]  ${pwd}
+    input text  name=form.widgets.current_password  secret
+    input text  name=form.widgets.new_password  ${pwd}
+    input text  name=form.widgets.new_password_ctl  ${pwd}
+    Click button  Change password
+    Wait until page contains  Password changed
+    Click button  Close
+
+I can log in with the new password
+    [arguments]  ${userid}  ${pwd}
+    I can open the personal tools menu
+    I can follow the link to logout
+    Input text  name=__ac_name  ${userid}
+    Input text  name=__ac_password   ${pwd}
+    Click button  Login
+    Wait until page contains  Welcome! You are now logged in
+
+# https://github.com/quaive/ploneintranet/issues/522
 # This doesn't work because the input form element isn't visible
 # It is possible to click on the label to get the file dialog, but that doesn't work for
 # the Choose File keyword
-# I can upload a new avatar from my profile
-#     Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
-#     Submit form  css=#change-personal-image
-#     Wait until page contains   Personal image updated
+I can upload a new avatar from my profile
+    Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
+    Submit form  css=#change-personal-image
+    Wait until page contains   Personal image updated

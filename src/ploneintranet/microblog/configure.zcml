@@ -17,7 +17,10 @@
   <include file="profiles.zcml" />
 
   <!-- included from suite only - to avoid test pollution
+       
        <include file="subscribers.zcml" />
+
+       also activated on PLONEINTRANET_MICROBLOG_CONTENTUPDATES_TESTING
   -->
 
 

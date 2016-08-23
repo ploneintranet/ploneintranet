@@ -49,6 +49,11 @@ class IUserProfile(form.Schema):
         title=_(u"Photo"),
         required=False
     )
+    form.omitted('recent_contacts')
+    recent_contacts = schema.List(
+        title=_("Last Contacts"),
+        required=False
+    )
 
 
 class IUserProfileAdditional(form.Schema):

@@ -56,23 +56,25 @@
             <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" tal:define="wrkspc view/workspaces">
               <div class="grid-sizer four columns"></div>
               <tal:rep repeat="w wrkspc">
-                <tal:archive_state define="is_archived w/is_archived;
-                                           archived_class python:'state-archived' if is_archived else ''">
-                  <div tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
+                <metal:define define-macro="workspace_tile">
+                  <tal:archive_state define="is_archived w/is_archived;
+                                             archived_class python:'state-archived' if is_archived else ''">
+                    <div tal:attributes="class string:tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
 
-                    <a href="/open-market-committee" class="link"
-                       tal:attributes="href w/url">
-                      <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee ${not:is_archived}</h3>
-                      <p class="description" tal:content="w/description" tal:condition="w/description">
-                        The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                      <a href="/open-market-committee" class="link"
+                         tal:attributes="href w/url">
+                        <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee ${not:is_archived}</h3>
+                        <p class="description" tal:content="w/description" tal:condition="w/description">
+                          The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
+                        </p>
+                        <p class="workspace-state" tal:condition="is_archived">
+                      <time class="icon-archive archived"><tal:archived_on i18n:translate="">Archived on</tal:archived_on> ${python:context.toLocalizedTime(w['archival_date'], long_format=0)}</time>
                       </p>
-                      <p class="workspace-state" tal:condition="is_archived">
-	        	        <time class="icon-archive archived"><tal:archived_on i18n:translate="">Archived on</tal:archived_on> ${python:context.toLocalizedTime(w['archival_date'], long_format=0)}</time>
-	                  </p>
-
-                    </a>
-                  </div>
-                </tal:archive_state>
+                      </a>
+                      <tal:bookmark replace="structure python:view.get_bookmark_link(w)" />
+                    </div>
+                  </tal:archive_state>
+                </metal:define>
               </tal:rep>
             </div>
           </span>
@@ -93,16 +95,7 @@
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
                     <tal:r repeat="w workspaces">
-                      <div class="tile workspace four columns  workspace-open-market-committee"
-                           tal:attributes="class string:tile workspace four columns ${w/class}">
-                           <a href="/open-market-committee" class="link"
-                           tal:attributes="href w/url">
-                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                            <p class="description" tal:content="w/description" tal:condition="w/description">
-                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                            </p>
-                           </a>
-                      </div>
+                      <metal:macro use-macro="view/macros/workspace_tile" />
                     </tal:r>
                   </div>
                 </section>
@@ -116,16 +109,7 @@
                   <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                     <div class="grid-sizer four columns"></div>
                     <tal:r repeat="w python:wbd['']">
-                      <div class="tile workspace four columns  workspace-open-market-committee"
-                           tal:attributes="class string:tile workspace four columns ${w/class}">
-                           <a href="/open-market-committee" class="link"
-                           tal:attributes="href w/url">
-                            <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee</h3>
-                            <p class="description" tal:content="w/description" tal:condition="w/description">
-                              The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.
-                            </p>
-                           </a>
-                      </div>
+                      <metal:macro use-macro="view/macros/workspace_tile" />
                     </tal:r>
                   </div>
                 </section>

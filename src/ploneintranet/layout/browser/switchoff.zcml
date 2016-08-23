@@ -38,7 +38,6 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer">
     <browser:page name="register" />
     <browser:page name="new-user" />
-    <browser:page name="change-password" />
     <browser:page name="personal-preferences" />
     <browser:page name="user-preferences" />
     <browser:page name="personal-information" />

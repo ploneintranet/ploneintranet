@@ -47,9 +47,18 @@
       name="apps.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.Apps"
-      permission="zope.Public"
+      permission="ploneintranet.viewsite"
       template="templates/apps.pt"
   />
+
+  <browser:page
+      name="apps.html"
+      for="ploneintranet.layout.app.IAppsContainer"
+      class=".apps.Apps"
+      permission="ploneintranet.viewsite"
+      template="templates/apps.pt"
+      />
+
 
   <browser:page
       name="app-not-available.html"
@@ -97,6 +106,23 @@
       layer="..interfaces.IPloneintranetLayoutLayer"
       />
 
+  <!-- override change password form -->
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="change-password"
+      class=".passwordpanel.PloneIntranetPasswordPanel"
+      permission="cmf.SetOwnPassword"
+      template="templates/change-password.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="verify_password_reset_allowed"
+      class=".utils.VerifyPasswordResetAllowed"
+      permission="zope.Public"
+      />
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
@@ -128,6 +154,18 @@
       class=".dashboard.MyDocumentsTile"
       template="templates/my_documents.pt"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <plone:tile
+      name="grouped_search.tile"
+      title="Grouped Search"
+      description="Tile to list recently modified documents"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".grouped_search.GroupedSearchTile"
+      template="templates/grouped_search.pt"
+      for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 

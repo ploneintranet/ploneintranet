@@ -1,8 +1,8 @@
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.layout.viewlets.common import (
-    PersonalBarViewlet as BasePersonalBarViewlet
-)
+from plone import api
+from plone.api.exc import InvalidParameterError
+from plone.app.layout.viewlets.common import PersonalBarViewlet as BasePersonalBarViewlet  # noqa
 from ploneintranet import api as pi_api
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class PersonalBarViewlet(BasePersonalBarViewlet):
@@ -17,3 +17,8 @@ class PersonalBarViewlet(BasePersonalBarViewlet):
             member = self.portal_state.member()
             userid = member.getId()
             self.avatar_url = pi_api.userprofile.avatar_url(username=userid)
+            try:
+                self.enable_password_reset = api.portal.get_registry_record(
+                    'ploneintranet.userprofile.enable_password_reset')
+            except InvalidParameterError:
+                self.enable_password_reset = False

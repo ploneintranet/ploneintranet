@@ -6,6 +6,8 @@ from zope.interface.verify import verifyObject
 
 from ploneintranet.search.tests import test_base
 from ploneintranet.search.interfaces import ISearchResponse
+from ploneintranet.search.solr.indexers import (solr_indexing_disable,
+                                                solr_indexing_enable)
 from ploneintranet.search.solr import testing
 
 
@@ -28,7 +30,9 @@ class TestConnectionConfig(unittest.TestCase):
 
 class TestSolrSearch(test_base.SearchTestsBase,
                      testing.FunctionalTestCase):
-    """Integration tests for SiteSearch utility.
+    """Tests for SiteSearch utility.
+
+    Must be functional because some of the (inherited) tests do commit()
 
     The actual tests are defined in test_base.
     """
@@ -92,6 +96,68 @@ class TestSolrSearch(test_base.SearchTestsBase,
 
         response = util.query(u'JaJa')
         self.assertEqual(response.total_results, 0)
+
+
+class TestSolrDisableEnable(test_base.ContentSetup,
+                            testing.FunctionalTestCase):
+
+    def setUp(self):
+        # skip auto-creation of content, do not run ContentSetup.setUp
+        testing.FunctionalTestCase.setUp(self)
+        self.container = self.layer['portal']
+        self.request = self.layer['request']
+
+    def _make_utility(self, *args, **kw):
+        from ploneintranet.search.solr.solr_search import SiteSearch
+        return SiteSearch()
+
+    def _teardown_content(self):
+        from plone import api
+        with api.env.adopt_roles(roles=['Manager']):
+            for doc in (self.doc1, self.doc2, self.doc3,
+                        self.doc4, self.doc5, self.doc6):
+                self._delete_content(doc)
+            transaction.commit()
+
+    def test_solr_index_disable_enable(self):
+        util = self._make_utility()
+
+        # 1st run, indexing disabled
+        solr_indexing_disable(self.request)
+        self._setup_content(self.container)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 0)
+
+        # teardown and verify
+        self._teardown_content()
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 0)
+
+        # 2nd run, indexing re-enabled
+        solr_indexing_enable(self.request)
+        self._setup_content(self.container)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 3)
+
+    def test_solr_index_disable_enable_defaultrequest(self):
+        util = self._make_utility()
+
+        # 1st run, indexing disabled
+        solr_indexing_disable()
+        self._setup_content(self.container)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 0)
+
+        # teardown and verify
+        self._teardown_content()
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 0)
+
+        # 2nd run, indexing re-enabled
+        solr_indexing_enable()
+        self._setup_content(self.container)
+        response = self._query(util, 'doc')
+        self.assertEqual(response.total_results, 3)
 
 
 class TestSolrPermissions(test_base.PermissionTestsBase,

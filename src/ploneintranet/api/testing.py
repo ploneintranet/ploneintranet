@@ -19,6 +19,8 @@ import ploneintranet.microblog
 import ploneintranet.microblog.statuscontainer
 import ploneintranet.docconv.client
 import ploneintranet.theme
+import quaive.resources.ploneintranet
+import ploneintranet.messaging
 
 
 class PloneintranetApiLayer(PloneSandboxLayer):
@@ -27,11 +29,13 @@ class PloneintranetApiLayer(PloneSandboxLayer):
                     PLONEINTRANET_FIXTURE, )
 
     def setUpZope(self, app, configurationContext):
+        self.loadZCML(package=quaive.resources.ploneintranet)
         self.loadZCML(package=ploneintranet.userprofile)
         self.loadZCML(package=ploneintranet.network)
         self.loadZCML(package=ploneintranet.microblog)
         self.loadZCML(package=ploneintranet.docconv.client)
         self.loadZCML(package=ploneintranet.theme)
+        self.loadZCML(package=ploneintranet.messaging)
         z2.installProduct(app, 'Products.membrane')
 
     def setUpPloneSite(self, portal):
@@ -40,6 +44,7 @@ class PloneintranetApiLayer(PloneSandboxLayer):
         applyProfile(portal, 'ploneintranet.microblog:default')
         applyProfile(portal, 'ploneintranet.docconv.client:default')
         applyProfile(portal, 'ploneintranet.theme:default')
+        applyProfile(portal, 'ploneintranet.messaging:default')
         setRoles(portal, TEST_USER_ID, ['Manager'])
 
     def tearDownZope(self, app):

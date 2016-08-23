@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .utils import dexterity_update
 from Acquisition import aq_inner
-# from DateTime import DateTime
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.event.base import default_timezone
@@ -12,6 +11,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
+from urllib import urlencode
 from zope import component
 from zope.component import getUtility
 from zope.event import notify
@@ -24,6 +24,8 @@ from zope.schema.interfaces import IVocabularyFactory
 @implementer(IBlocksTransformEnabled)
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
+
+    sidebar_target = ''
 
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
@@ -199,6 +201,48 @@ class ContentView(BrowserView):
         if name:
             return name.capitalize()
         return "unknown"
+
+    def delete_url(self):
+        ''' Prepare a url to the delete form triggering:
+         - pat-modal
+         - pat-inject
+        '''
+        options = {
+            'pat-modal': 'true',
+            'pat-inject': ' && '.join([
+                'source:#document-body; target:#document-body',
+                'source:#workspace-events; target:#workspace-events',
+                'target:#global-statusmessage; source:#global-statusmessage',
+            ])
+        }
+        return "%s/delete_confirmation?%s#content" % (
+            self.context.absolute_url(),
+            urlencode(options)
+        )
+
+    @property
+    def form_id(self):
+        ''' The id to be used in the main form
+        '''
+        return self.context.UID()
+
+    def form_pat_inject_options(self):
+        ''' Return the data-path-inject options we want to use
+        '''
+        template = ' && '.join([
+            'source: #{form_id}; target: #{form_id};',
+            'source: #{sidebar_target}; target: #{sidebar_target};'
+            'source: #global-statusmessage; target: #global-statusmessage;'
+        ])
+        return template.format(
+            form_id=self.form_id,
+            sidebar_target=self.sidebar_target,
+        )
+
+    def get_preview_urls(self, obj):
+        ''' Expose the homonymous pi_api method to get the list of preview_urls
+        '''
+        return pi_api.previews.get_preview_urls(obj)
 
 
 class HelperView(BrowserView):

@@ -1,26 +1,28 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.app.layout.viewlets.common import ViewletBase
-from ploneintranet.messaging.interfaces import IMessagingLocator
-from zope.component import getUtility
+from plone.app.layout.viewlets import common as base
+from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
+from ploneintranet.layout.app import apps_container_id
 
 
-class NotificationsViewlet(ViewletBase):
+class MessagesViewlet(base.ViewletBase):
+    """Display unread messages counter in topbar
+    """
 
-    index = ViewPageTemplateFile('notifications.pt')
+    @memoize
+    def unread(self):
+        try:
+            return pi_api.messaging.get_inbox().new_messages_count
+        except KeyError:
+            # not even an inbox
+            return 0
 
-    def number_of_messages(self):
-        # return number of messages
-        user = api.user.get_current()
-        if not user:
-            return None
+    def digits(self):
+        return len(str(self.unread()))
 
-        locator = getUtility(IMessagingLocator)
-        inboxes = locator.get_inboxes()
-
-        if user.id not in inboxes:
-            return None
-
-        messages = inboxes[user.id]
-        return messages.new_messages_count
+    @property
+    def apps_container_url(self):
+        portal = api.portal.get()
+        apps_container = getattr(portal, apps_container_id)
+        return apps_container.absolute_url()

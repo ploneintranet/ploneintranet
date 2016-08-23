@@ -1,17 +1,21 @@
+# -*- coding: utf-8 -*-
 from collections import defaultdict
 from datetime import datetime
 from plone import api
+from plone.api.exc import InvalidParameterError
 from plone.memoize.view import memoize
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.schema.interfaces import IVocabularyFactory
-from zope.component import getUtility
-
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.browser.add_content import AddBase
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.utils import purge_and_refresh_security_manager
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
+from logging import getLogger
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
+log = getLogger(__name__)
 
 
 class AddWorkspace(AddBase):
@@ -50,13 +54,28 @@ class AddWorkspace(AddBase):
 
     def special_options(self):
         """All the template options for non-default workspace types.
-        TODO: plus a generic option for types without a template"""
+        Plus: an option for each type without a template"""
         options = []
+        # templates
         for (typ, templates) in self.templates_by_type().items():
             if typ == self.default_fti:
                 continue  # already in workspace_options
             options.extend(templates)
+        options.extend(self.special_templateless())
         return options
+
+    def special_templateless(self):
+        """
+        Addable but no template and not a default workspace.
+        Uses unfiltered template list to ensure that only types that have
+        no template at all are added to the menu.
+        """
+        _blocked = [x.portal_type
+                    for x in self.templates_folder.objectValues()]
+        _blocked.append(self.default_fti)
+        return [dict(id=typ, title=typ, portal_type=typ)
+                for typ in self._addable_types()
+                if typ not in _blocked]
 
     def all_templates(self):
         return self.workspace_templates() + self.special_options()
@@ -64,7 +83,8 @@ class AddWorkspace(AddBase):
     @property
     def all_templates_dict(self):
         return {template['id']: template
-                for template in self.all_templates()}
+                for template in self.all_templates()
+                if template not in self.special_templateless()}
 
     def _addable_types(self):
         return [fti.getId() for fti in self.context.allowedContentTypes()]
@@ -104,13 +124,16 @@ class AddWorkspace(AddBase):
         """A {id: template} dict containing only the templates
         which are accessible for the current user.
         """
-        portal = api.portal.get()
-        templates_folder = portal.get(self.TEMPLATES_FOLDER)
-        if not templates_folder:
+        if not self.templates_folder:
             return {}
         return {brain.getId: brain.getObject()
-                for brain in templates_folder.getFolderContents()
+                for brain in self.templates_folder.getFolderContents()
                 if brain.getId not in self.policies}
+
+    @property
+    def templates_folder(self):
+        portal = api.portal.get()
+        return portal.get(self.TEMPLATES_FOLDER)
 
     def divisions(self):
         divisions = getUtility(IVocabularyFactory, vocab)(self.context)
@@ -157,7 +180,7 @@ class AddWorkspace(AddBase):
             return super(AddWorkspace, self).get_new_object()
 
     def create_from_template(self):
-        ''' Create an ocject with the given template
+        ''' Create an object with the given template
         '''
         template = self.get_template()
         if not template:
@@ -168,6 +191,11 @@ class AddWorkspace(AddBase):
             )
             return
 
+        # Create neither previews for copied contents nor status updates.
+        # Also, do not reindex copied content at this moment.
+        pi_api.previews.events_disable(self.request)
+        pi_api.microblog.events_disable(self.request)
+        pi_api.events.disable_solr_indexing(self.request)
         new = api.content.copy(
             source=template,
             target=self.context,
@@ -175,6 +203,16 @@ class AddWorkspace(AddBase):
             safe_id=False,
         )
         new.creation_date = datetime.now()
+        # Now that the new workspace has been created, re-index it (async)
+        # using the solr-maintenance convenience method.
+        pi_api.events.enable_solr_indexing(self.request)
+        try:
+            solr_maintenance = api.content.get_view(
+                'solr-maintenance', new, self.request)
+        except InvalidParameterError:
+            log.warning('solr-maintenance view not available.')
+        else:
+            solr_maintenance.reindex(no_log=True)
         return new
 
     def get_template(self):

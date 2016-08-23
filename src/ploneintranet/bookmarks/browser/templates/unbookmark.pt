@@ -1,0 +1,26 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+    <div id="content">
+      <p class="pat-notification"
+         data-pat-notification="class: warning; type: banner"
+         >
+        <tal:label i18n:translate="">This item has been removed from your bookmarks.</tal:label>
+        <tal:label i18n:translate="">You can find your bookmarks in the</tal:label>
+        <a href="${view/apps_container_url}/@@app-bookmarks" i18n:translate="">bookmarks app</a>.
+      </p>
+      <tal:link condition="not:view/iconified" replace="structure view/bookmark_context/@@bookmark-link" />
+      <tal:link condition="view/iconified" replace="structure view/bookmark_context/@@bookmark-link-iconified" />
+    </div>
+
+  </metal:content>
+
+  </html>
