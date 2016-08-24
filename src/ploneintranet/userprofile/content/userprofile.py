@@ -121,6 +121,10 @@ class UserProfile(Container):
         ]
         return u' '.join([name for name in names if name])
 
+    @property
+    def initials(self):
+        return self.first_name[:1].upper() + self.last_name[:2].capitalize()
+
 
 class UsernameValidator(validator.SimpleFieldValidator):
 

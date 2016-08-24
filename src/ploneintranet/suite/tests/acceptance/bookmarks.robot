@@ -31,6 +31,14 @@ User can unbookmark a workspace
     Given I am logged in as the user allan_neece
      Then I can unbookmark the workspace  Shareholder information
 
+User can bookmark another user
+    Given I am logged in as the user allan_neece
+     Then I can bookmark the user  Dollie Nocera
+
+User can unbookmark another user
+    Given I am logged in as the user allan_neece
+     Then I can unbookmark the user  Alice Lindström
+
 User can bookmark a workspace document
     Given I am in a workspace as a workspace member
      Then I can bookmark the workspace document  Public bodies reform
@@ -71,6 +79,11 @@ User can see bookmarked applications
     Given I am logged in as the user allan_neece
      Then I can go to the bookmark application
      Then I can see the bookmarked applications
+
+User can see bookmarked people
+    Given I am logged in as the user allan_neece
+     Then I can go to the bookmark application
+     Then I can see the bookmarked people
 
 User can see bookmarked workspaces
     Given I am logged in as the user allan_neece

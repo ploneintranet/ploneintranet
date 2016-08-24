@@ -1533,6 +1533,26 @@ I can unbookmark the task
     Click link  ${task}
     Unbookmark the current context
 
+I can go to the profile of
+    [arguments]  ${fullname}
+    I open the Dashboard
+    Input Text  jquery=#portlet-contacts [name=SearchableText]  ${fullname}
+    Wait Until Page Contains Element  jquery=#portlet-contacts .follow .title:contains(${fullname})
+    Click Element  jquery=#portlet-contacts .follow .title:contains(${fullname})
+    Wait Until Page Contains Element  jquery=#person-timeline figcaption :contains(${fullname})
+
+I can bookmark the user
+    [arguments]  ${fullname}
+    I can go to the profile of  ${fullname}
+    Click Element  css=.icon-bookmark-empty
+    Wait Until Page Contains Element  css=.icon-bookmark.active
+
+I can unbookmark the user
+    [arguments]  ${fullname}
+    I can go to the profile of  ${fullname}
+    Click Element  css=.icon-bookmark.active
+    Wait Until Page Contains Element  css=.icon-bookmark-empty
+
 I can go to the bookmark application
     I can Click the Apps tab
     Click Element  jquery=h3:contains(Bookmarks)
@@ -1560,6 +1580,11 @@ I can see the bookmarked workspaces
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Page should contain element  css=.tile.workspace-example-case
 
+I can see the bookmarked people
+    Click Element  jquery=[href=#directory-people]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.user-cards .user-card
+
 I can see the bookmarked documents
     Click Element  jquery=[href=#directory-documents]
     Wait Until Page Does Not Contain Element  css=.injecting-content
@@ -1582,7 +1607,7 @@ I can see bookmark grouped by creation date
 
 I can see the bookmarks tile in the dashboard
     I open the Dashboard
-    I can see in the bookmark tile that the last bookmark is  Shareholder information
+    I can see in the bookmark tile that the last bookmark is  Silvio De Paoli
 
 I can query the bookmarks tile for
     [arguments]  ${query}

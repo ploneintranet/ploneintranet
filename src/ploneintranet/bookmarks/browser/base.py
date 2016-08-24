@@ -58,7 +58,16 @@ class BookmarkActionView(BookmarkView):
     def iconified(self):
         ''' Check the request to serve the bookmark link iconifioed
         '''
+        if self.buttonified:
+            return False
         return bool(self.request.get('iconified'))
+
+    @property
+    @memoize
+    def buttonified(self):
+        ''' Check the request to serve the bookmark link iconifioed
+        '''
+        return bool(self.request.get('buttonified'))
 
     def disable_diazo(self):
         ''' Disable diazo if this is an ajax call

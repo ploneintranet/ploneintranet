@@ -35,12 +35,30 @@ class TestViews(FunctionalTestCase):
         )
         workspace.creation_date = DateTime('2016/01/01')
         workspace.reindexObject(idxs=['created'])
+        api.content.create(
+            type='ploneintranet.userprofile.userprofile',
+            container=self.portal.profiles,
+            title='Bookmarkable One',
+            first_name='Bookmarkable',
+            last_name='One',
+        )
 
     def login_as_portal_owner(self):
         """
         helper method to login as site admin
         """
         z2.login(self.layer['app']['acl_users'], SITE_OWNER_NAME)
+
+    def bookmark_contents(self):
+        app = self.bookmark_app
+        page = self.portal['bookmarkable-page']
+        person = self.portal.profiles['bookmarkable-one']
+        ws = self.portal['workspaces']['bookmarkable-workspace']
+        pn = api.portal.get_tool('ploneintranet_network')
+        pn.bookmark('content', app.UID())
+        pn.bookmark('content', page.UID())
+        pn.bookmark('content', person.UID())
+        pn.bookmark('content', ws.UID())
 
     def get_request(self, params={}):
         ''' Prepare a fresh request
@@ -115,6 +133,27 @@ class TestViews(FunctionalTestCase):
         view()
         self.assertFalse(pn.is_bookmarked('content', page.UID()))
 
+    def test_bookmark_people(self):
+        pn = api.portal.get_tool('ploneintranet_network')
+        person = self.portal.profiles['bookmarkable-one']
+        self.assertFalse(pn.is_bookmarked('content', person.UID()))
+        view = api.content.get_view(
+            'bookmark', person, self.get_request()
+        )
+        view()
+        self.assertTrue(pn.is_bookmarked('content', person.UID()))
+
+    def test_unbookmark_people(self):
+        pn = api.portal.get_tool('ploneintranet_network')
+        person = self.portal.profiles['bookmarkable-one']
+        pn.bookmark('content', person.UID())
+        self.assertTrue(pn.is_bookmarked('content', person.UID()))
+        view = api.content.get_view(
+            'unbookmark', person, self.get_request()
+        )
+        view()
+        self.assertFalse(pn.is_bookmarked('content', person.UID()))
+
     def test_app_bookmarks(self):
         ''' Test app_bookmarks
         '''
@@ -135,6 +174,10 @@ class TestViews(FunctionalTestCase):
             []
         )
         self.assertListEqual(
+            [x for x in view.my_bookmarked_people()],
+            [],
+        )
+        self.assertListEqual(
             [x for x in view.my_bookmarked_workspaces()],
             [],
         )
@@ -144,12 +187,7 @@ class TestViews(FunctionalTestCase):
         )
 
         # Then we bookmark some contents and the application
-        ws = self.portal['workspaces']['bookmarkable-workspace']
-        page = self.portal['bookmarkable-page']
-        app = self.bookmark_app
-        view.ploneintranet_network.bookmark('content', ws.UID())
-        view.ploneintranet_network.bookmark('content', page.UID())
-        view.ploneintranet_network.bookmark('content', app.UID())
+        self.bookmark_contents()
 
         # And the view starts to get crowded
         view = api.content.get_view(
@@ -158,7 +196,12 @@ class TestViews(FunctionalTestCase):
 
         self.assertListEqual(
             [x.title for x in view.my_bookmarks()],
-            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+                'Bookmarkable workspace',
+                'Bookmarks',
+            ],
         )
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
@@ -166,7 +209,12 @@ class TestViews(FunctionalTestCase):
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
-            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+                'Bookmarkable workspace',
+                'Bookmarks',
+            ],
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarked_workspaces()]),
@@ -185,11 +233,15 @@ class TestViews(FunctionalTestCase):
         )
         self.assertListEqual(
             [x.title for x in view.my_bookmarks_grouped()[u'Today']],
-            ['Bookmarkable page', 'Bookmarks'],
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+                'Bookmarks',
+            ],
         )
         self.assertListEqual(
             [x.title for x in view.my_bookmarks_grouped()[u'All time']],
-            ['Bookmarkable workspace']
+            ['Bookmarkable workspace'],
         )
 
         # And let's filter by workspace
@@ -214,7 +266,11 @@ class TestViews(FunctionalTestCase):
                 x.title
                 for x in view.my_bookmarks_grouped()[u'Not in a workspace']
             ],
-            ['Bookmarkable page', 'Bookmarks'],
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+                'Bookmarks',
+            ],
         )
 
         # Of course we can even apply filters together
@@ -234,13 +290,7 @@ class TestViews(FunctionalTestCase):
         ''' Test app_bookmarks
         '''
         # We bookmark some contents and the application
-        pn = api.portal.get_tool('ploneintranet_network')
-        ws = self.portal['workspaces']['bookmarkable-workspace']
-        page = self.portal['bookmarkable-page']
-        app = self.bookmark_app
-        pn.bookmark('content', ws.UID())
-        pn.bookmark('content', page.UID())
-        pn.bookmark('content', app.UID())
+        self.bookmark_contents()
 
         # With no search parameter everything is return
         view = api.content.get_view(
@@ -250,7 +300,12 @@ class TestViews(FunctionalTestCase):
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
-            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+                'Bookmarkable workspace',
+                'Bookmarks',
+            ]
         )
         # but we can filter contents
         view = api.content.get_view(
