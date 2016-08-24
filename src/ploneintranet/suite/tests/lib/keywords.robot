@@ -716,6 +716,43 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
+I can create a new link
+    [arguments]  ${title}
+    Click link  Documents
+    Click link  Functions
+    Click link  Create link
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
+    Input Text  css=.panel-content input[name=title]  text=${title}
+    Input Text  css=.panel-content input[name=remoteUrl]  text=http://quaive.com/
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
+
+I can edit the new link
+    [arguments]  ${title}
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Input Text  remoteUrl  http://quaive.net#
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button   Save
+    Wait Until Element Is Visible  css=div.pat-notification-panel.success
+    Wait Until Page Contains  Your changes have been saved.
+
+I can publish the new link
+    [arguments]  ${title}
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+    Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
+
+I can see the new link
+    [arguments]  ${title}
+    Click link  Documents
+    Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait Until Page Contains Element  jquery=#document-title:contains('${title}')
+    Page Should Contain Element  jquery=#document-content article a:contains('http')
+
 I cannot create a new document
     Click link  Documents
     Wait until page contains  Expand sidebar
@@ -915,6 +952,9 @@ I can edit the document
 I cannot edit the document
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
+I cannot edit the link
+    Click link  Documents
 
 I can see the document
     [arguments]  ${title}

@@ -125,6 +125,18 @@
                     <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
                   </figure>
                 </article>
+
+                <article tal:condition="python: context.portal_type == 'Link'">
+                  <input tal:condition="not:read_only"
+                         name="remoteUrl"
+                         type="text"
+                         required="required"
+                         value="${context/remoteUrl}"
+                    />
+                  <a tal:condition="read_only"
+                     href="${context/remoteUrl}"
+                    >${context/remoteUrl}</a>
+                </article>
               </div><!-- #document-content -->
               <input type="hidden" name="form.submitted" value="1" />
             </form>

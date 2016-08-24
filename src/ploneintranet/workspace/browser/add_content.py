@@ -117,6 +117,30 @@ class AddFolder(AddBase):
     template = ViewPageTemplateFile('templates/add_folder.pt')
 
 
+class AddLink(AddBase):
+    ''' The add link view
+    '''
+    template = ViewPageTemplateFile('templates/add_form.pt')
+
+    form_title = _('Create link')
+    form_portal_type = 'Link'
+    form_input_title_placeholder = _('Link name')
+
+    def extra_fields(self):
+        ''' BBB: this should be done in a cleaner way...
+        '''
+        return '''
+            <input name="remoteUrl"
+                   type="url"
+                   placeholder="http(s)://..."
+                   value="{remoteUrl}"
+                   required="required"
+              />
+        '''.format(
+            remoteUrl=self.request.form.get('remoteUrl', '')
+        )
+
+
 class AddTask(AddBase):
 
     template = ViewPageTemplateFile('templates/add_task.pt')
