@@ -115,116 +115,6 @@ class TestBookmarkContent(unittest.TestCase):
         )
 
 
-class TestBookmarkApps(unittest.TestCase):
-
-    def setUp(self):
-        self.userid = 'testperson'
-        self.app_path = 'app/path'
-        self.container = NetworkGraph()
-
-    def _bookmark_app(self):
-        self.container.bookmark("apps", self.app_path, self.userid)
-
-    def test_bookmark_app(self):
-        self._bookmark_app()
-
-        items = self.container.get_bookmarks("apps", self.userid)
-        self.assertListEqual(list(items), [self.app_path])
-
-        users = self.container.get_bookmarkers("apps", self.app_path)
-        self.assertListEqual(sorted(list(users)), [self.userid])
-
-    def test_bookmark_app_utf8(self):
-        userid = u'M♥rÿ@test.org'
-        self.container.bookmark("apps", self.app_path, userid, )
-        items = self.container.get_bookmarks("apps", userid)
-        self.assertListEqual(sorted(list(items)), [self.app_path])
-        users = self.container.get_bookmarkers("apps", self.app_path)
-        self.assertListEqual(sorted(list(users)), [userid])
-
-    def test_utf8_args(self):
-        """BTree keys MUST be of type unicode. Check that the implementation
-        enforces this."""
-        g = NetworkGraph()
-        with self.assertRaises(AttributeError):
-            g.bookmark('apps', 1, '2')
-        with self.assertRaises(AttributeError):
-            g.bookmark('apps', '1', 2)
-        with self.assertRaises(AttributeError):
-            g.unbookmark('apps', 1, '2')
-        with self.assertRaises(AttributeError):
-            g.unbookmark('apps', '1', 2)
-        with self.assertRaises(AttributeError):
-            g.get_bookmarks('apps', 1)
-        with self.assertRaises(AttributeError):
-            g.get_bookmarkers('apps', 1)
-        with self.assertRaises(AttributeError):
-            g.is_bookmarked('apps', 1, 2)
-
-    def test_app_bookmarked_by_two_users(self):
-        self._bookmark_app()
-        self.container.bookmark("apps", self.app_path, 'cyclon@test.org')
-
-        items = self.container.get_bookmarks("apps", self.userid)
-        self.assertListEqual(sorted(list(items)), [self.app_path])
-        items = self.container.get_bookmarks("apps", 'cyclon@test.org')
-        self.assertListEqual(sorted(list(items)), [self.app_path])
-
-        users = self.container.get_bookmarkers("apps", self.app_path)
-        self.assertListEqual(
-            sorted(list(users)),
-            ['cyclon@test.org', self.userid]
-        )
-
-    def test_unbookmark_app(self):
-        self._bookmark_app()
-        self.container.unbookmark("apps", self.app_path, self.userid)
-
-        items = self.container.get_bookmarks("apps", self.userid)
-        self.assertListEqual(sorted(list(items)), [])
-
-        users = self.container.get_bookmarkers("apps", self.app_path)
-        self.assertListEqual(sorted(list(users)), [])
-
-    def test_get_app_bookmarks(self):
-        self._bookmark_app()
-        self.assertEqual(
-            sorted(list(self.container.get_bookmarks("apps", self.userid))),
-            [self.app_path]
-        )
-
-    def test_get_app_bookmarks_empty(self):
-        self.assertListEqual(
-            self.container.get_bookmarks("apps", self.userid),
-            []
-        )
-
-    def test_is_app_bookmarked(self):
-        self.assertFalse(
-            self.container.is_bookmarked(
-                "apps", self.app_path, self.userid
-            )
-        )
-        self._bookmark_app()
-        self.assertTrue(
-            self.container.is_bookmarked(
-                "apps", self.app_path, self.userid
-            )
-        )
-
-    def test_get_app_bookmarkers(self):
-        self._bookmark_app()
-        self.assertIn(
-            self.userid,
-            self.container.get_bookmarkers("apps", self.app_path)
-        )
-
-    def test_get_app_bookmarkers_empty(self):
-        self.assertEqual(
-            self.container.get_bookmarkers("apps", self.app_path), []
-        )
-
-
 class TestBookmarkingDefaults(IntegrationTestCase):
     """Check fallbacks to currently logged in user."""
 
@@ -235,14 +125,6 @@ class TestBookmarkingDefaults(IntegrationTestCase):
         self.assertIn('fake uuid', g.get_bookmarks('content'))
         g.unbookmark('content', 'fake uuid')
         self.assertFalse(g.is_bookmarking('content', 'fake uuid'))
-
-    def test_user_bookmark_unbookmark_app(self):
-        g = NetworkGraph()
-        g.bookmark('apps', 'app/path')
-        self.assertTrue(g.is_bookmarking('apps', 'app/path'))
-        self.assertIn('app/path', g.get_bookmarks('apps'))
-        g.unbookmark('apps', 'app/path')
-        self.assertFalse(g.is_bookmarking('apps', 'app/path'))
 
 
 class TestBookmarkTimestamps(IntegrationTestCase):

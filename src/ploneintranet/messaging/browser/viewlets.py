@@ -2,6 +2,7 @@
 from plone import api
 from plone.app.layout.viewlets import common as base
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
 from ploneintranet.layout.app import apps_container_id
 
@@ -22,7 +23,8 @@ class MessagesViewlet(base.ViewletBase):
         return len(str(self.unread()))
 
     @property
-    def apps_container_url(self):
+    @memoize_contextless
+    def app_url(self):
         portal = api.portal.get()
         apps_container = getattr(portal, apps_container_id)
-        return apps_container.absolute_url()
+        return apps_container.messages.absolute_url()

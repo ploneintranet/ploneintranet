@@ -11,15 +11,18 @@ from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 from zope.i18nmessageid.message import Message
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IAppView)
 class View(BookmarkView):
     ''' The view for this app
     '''
-    implements(IAppView)
     app_name = 'bookmarks'
 
+    app_types = [
+        'ploneintranet.layout.app',
+    ]
     document_types = [
         'Document', 'File', 'Image'
     ]
@@ -64,73 +67,47 @@ class View(BookmarkView):
         '''
         return sorted(bookmarks, key=self.get_sortable_title)
 
-    @memoize
-    def my_bookmarked_workspaces(self):
-        ''' Get all the bookmarked workspaces
+    def my_bookmarks_of_type(self, portal_types=[]):
+        ''' Get all the bookmarked content of the following portal_types
         '''
+        query = self.request.get('SearchableText', '').lower()
         search_util = getUtility(ISiteSearch)
         uids = list(self.ploneintranet_network.get_bookmarks('content'))
         if not uids:
             return []
         response = search_util.query(
+            query,
             filters={
                 'UID': uids,
-                'portal_type': self.workspace_types,
+                'portal_type': portal_types,
             },
             step=9999,
         )
         return tuple(response)
+
+    @memoize
+    def my_bookmarked_workspaces(self):
+        ''' Get all the bookmarked workspaces
+        '''
+        return self.my_bookmarks_of_type(self.workspace_types)
 
     @memoize
     def my_bookmarked_documents(self):
         ''' Get all the bookmarked documents
         '''
-        search_util = getUtility(ISiteSearch)
-        uids = list(self.ploneintranet_network.get_bookmarks('content'))
-        if not uids:
-            return []
-        response = search_util.query(
-            filters={
-                'UID': uids,
-                'portal_type': self.document_types,
-            },
-            step=9999,
-        )
-        return tuple(response)
+        return self.my_bookmarks_of_type(self.document_types)
 
     @memoize
     def my_bookmarked_apps(self):
         ''' Get all the bookmarked apps
         '''
-        ng = self.ploneintranet_network
-        return tuple(
-            tile for tile in self.apps_view.tiles()
-            if tile.path and ng.is_bookmarked('apps', tile.path)
-        )
+        return self.my_bookmarks_of_type(self.app_types)
 
     @memoize
     def my_bookmarks(self):
         ''' Lookup all the bookmarks
         '''
-        query = self.request.get('SearchableText', '').lower()
-        # First get the apps
-        bookmarks = [
-            app for app in self.my_bookmarked_apps()
-            if query in self.get_sortable_title(app)
-        ]
-        # Then, if needed, look for the bookmarked uids
-        uids = list(self.ploneintranet_network.get_bookmarks('content'))
-        if uids:
-            search_util = getUtility(ISiteSearch)
-            bookmarks.extend(
-                search_util.query(
-                    query,
-                    filters={
-                        'UID': uids,
-                    },
-                    step=9999,
-                )
-            )
+        bookmarks = self.my_bookmarks_of_type()
         return tuple(sorted(bookmarks, key=self.get_sortable_title))
 
     @memoize

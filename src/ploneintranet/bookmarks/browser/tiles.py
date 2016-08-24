@@ -9,14 +9,14 @@ class BookmarksTile(Tile):
     '''Bookmarks as a tile'''
 
     @property
-    def apps_container(self):
+    def app(self):
         portal = api.portal.get()
-        return getattr(portal, apps_container_id)
+        return getattr(portal, apps_container_id).bookmarks
 
     @property
     @memoize_contextless
-    def apps_container_url(self):
-        return self.apps_container.absolute_url()
+    def app_url(self):
+        return self.app.absolute_url()
 
     @property
     @memoize_contextless
@@ -25,6 +25,6 @@ class BookmarksTile(Tile):
         '''
         return api.content.get_view(
             'app-bookmarks',
-            self.apps_container,
+            self.app,
             self.request,
         )

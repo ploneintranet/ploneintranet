@@ -7,8 +7,6 @@ from plone.testing import z2
 from ploneintranet.bookmarks.browser.interfaces import IPloneintranetBookmarksLayer  # noqa
 from ploneintranet.bookmarks.testing import FunctionalTestCase
 from ploneintranet.layout.app import apps_container_id
-from ploneintranet.layout.interfaces import IAppTile
-from zope.component import getAdapter
 from zope.interface import alsoProvides
 
 PROJECTNAME = 'ploneintranet.bookmarks'
@@ -20,7 +18,9 @@ class TestViews(FunctionalTestCase):
     def setUp(self):
         '''Custom shared utility setup for tests.'''
         self.portal = self.layer['portal']
-        self.apps_container = getattr(self.portal, apps_container_id)
+        self.bookmark_app = self.portal.restrictedTraverse(
+            '%s/bookmarks' % apps_container_id
+        )
         self.request = self.layer['request']
         self.login_as_portal_owner()
         api.content.create(
@@ -70,7 +70,7 @@ class TestViews(FunctionalTestCase):
     def test_bookmark_link_iconified_view_on_app(self):
         ''' Test the bookmark link view on an app
         '''
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
+        app = self.bookmark_app
         output = api.content.get_view(
             'bookmark-link-iconified', app, self.get_request()
         )()
@@ -80,7 +80,7 @@ class TestViews(FunctionalTestCase):
             output
         )
         pn = api.portal.get_tool('ploneintranet_network')
-        pn.bookmark('apps', app.path)
+        pn.bookmark('content', app.UID())
         output = api.content.get_view(
             'bookmark-link-iconified', app, self.get_request()
         )()
@@ -115,42 +115,11 @@ class TestViews(FunctionalTestCase):
         view()
         self.assertFalse(pn.is_bookmarked('content', page.UID()))
 
-    def test_bookmark_app(self):
-        ''' Test we can bookmark an app by calling a view
-        '''
-        pn = api.portal.get_tool('ploneintranet_network')
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
-        self.assertFalse(pn.is_bookmarked('apps', app.path))
-        view = api.content.get_view(
-            'bookmark-app', self.portal, self.get_request({
-                'app': app.path,
-                'iconified': True,
-            })
-        )
-        view()
-        self.assertTrue(pn.is_bookmarked('apps', app.path))
-
-    def test_unbookmark_app(self):
-        ''' Test we can unbookmark an object by calling a view
-        '''
-        pn = api.portal.get_tool('ploneintranet_network')
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
-        pn.bookmark('apps', app.path)
-        self.assertTrue(pn.is_bookmarked('apps', app.path))
-        view = api.content.get_view(
-            'unbookmark-app', self.portal, self.get_request({
-                'app': app.path,
-                'iconified': True,
-            })
-        )
-        view()
-        self.assertFalse(pn.is_bookmarked('apps', app.path))
-
     def test_app_bookmarks(self):
         ''' Test app_bookmarks
         '''
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request()
+            'app-bookmarks', self.bookmark_app, self.get_request()
         )
 
         self.assertListEqual(
@@ -177,19 +146,19 @@ class TestViews(FunctionalTestCase):
         # Then we bookmark some contents and the application
         ws = self.portal['workspaces']['bookmarkable-workspace']
         page = self.portal['bookmarkable-page']
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
+        app = self.bookmark_app
         view.ploneintranet_network.bookmark('content', ws.UID())
         view.ploneintranet_network.bookmark('content', page.UID())
-        view.ploneintranet_network.bookmark('apps', app.path)
+        view.ploneintranet_network.bookmark('content', app.UID())
 
         # And the view starts to get crowded
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request()
+            'app-bookmarks', self.bookmark_app, self.get_request()
         )
 
         self.assertListEqual(
             [x.title for x in view.my_bookmarks()],
-            ['Bookmarkable page', 'Bookmarkable workspace', u'bookmarks']
+            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
         )
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
@@ -197,7 +166,7 @@ class TestViews(FunctionalTestCase):
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
-            ['Bookmarkable page', 'Bookmarkable workspace', u'bookmarks']
+            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarked_workspaces()]),
@@ -206,7 +175,7 @@ class TestViews(FunctionalTestCase):
 
         # And let's filter by date
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'group_by': 'created'
             })
         )
@@ -216,16 +185,16 @@ class TestViews(FunctionalTestCase):
         )
         self.assertListEqual(
             [x.title for x in view.my_bookmarks_grouped()[u'Today']],
-            ['Bookmarkable page'],
+            ['Bookmarkable page', 'Bookmarks'],
         )
         self.assertListEqual(
             [x.title for x in view.my_bookmarks_grouped()[u'All time']],
-            ['Bookmarkable workspace', u'bookmarks']
+            ['Bookmarkable workspace']
         )
 
         # And let's filter by workspace
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'group_by': 'workspace'
             })
         )
@@ -245,13 +214,13 @@ class TestViews(FunctionalTestCase):
                 x.title
                 for x in view.my_bookmarks_grouped()[u'Not in a workspace']
             ],
-            ['Bookmarkable page', u'bookmarks'],
+            ['Bookmarkable page', 'Bookmarks'],
         )
 
         # Of course we can even apply filters together
         # And let's filter by workspace
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'SearchableText': 'bookmarkable',
                 'group_by': 'created'
             })
@@ -268,24 +237,24 @@ class TestViews(FunctionalTestCase):
         pn = api.portal.get_tool('ploneintranet_network')
         ws = self.portal['workspaces']['bookmarkable-workspace']
         page = self.portal['bookmarkable-page']
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
+        app = self.bookmark_app
         pn.bookmark('content', ws.UID())
         pn.bookmark('content', page.UID())
-        pn.bookmark('apps', app.path)
+        pn.bookmark('content', app.UID())
 
         # With no search parameter everything is return
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'SearchableText': '',
             })
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
-            ['Bookmarkable page', 'Bookmarkable workspace', u'bookmarks']
+            ['Bookmarkable page', 'Bookmarkable workspace', 'Bookmarks']
         )
         # but we can filter contents
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'SearchableText': 'workSpace',
             })
         )
@@ -295,13 +264,13 @@ class TestViews(FunctionalTestCase):
         )
         # or the application
         view = api.content.get_view(
-            'app-bookmarks', self.apps_container, self.get_request({
+            'app-bookmarks', self.bookmark_app, self.get_request({
                 'SearchableText': 'bookMarks',
             })
         )
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
-            [u'bookmarks']
+            ['Bookmarks']
         )
 
     def test_bookmarks_tile(self):
@@ -319,10 +288,10 @@ class TestViews(FunctionalTestCase):
         pn = api.portal.get_tool('ploneintranet_network')
         ws = self.portal['workspaces']['bookmarkable-workspace']
         page = self.portal['bookmarkable-page']
-        app = getAdapter(self.portal, interface=IAppTile, name='bookmarks')
+        app = self.bookmark_app
         pn.bookmark('content', ws.UID())
         pn.bookmark('content', page.UID())
-        pn.bookmark('apps', app.path)
+        pn.bookmark('content', app.UID())
 
         # Let's cleanup the request to invalidate the cache
         tile.request = self.get_request()

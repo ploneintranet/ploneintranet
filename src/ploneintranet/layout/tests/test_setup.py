@@ -40,6 +40,29 @@ class TestSetup(IntegrationTestCase):
         self.assertEqual('Dashboard', actions.portal_tabs['dashboard'].title)
         self.assertEqual(False, actions.portal_tabs['index_html'].visible)
 
+    def test_apps_created(self):
+        ''' The setuphandlers creates and publishes some apps
+        '''
+        self.assertListEqual(
+            self.portal.apps.keys(),
+            [
+                'contacts',
+                'messages',
+                'todo',
+                'calendar',
+                'slide-bank',
+                'image-bank',
+                'news',
+                'case-manager',
+                'app-market',
+            ]
+        )
+        for app in self.portal.apps.listFolderContents():
+            self.assertEqual(
+                api.content.get_state(app),
+                'published',
+            )
+
 
 class TestUninstall(IntegrationTestCase):
 

@@ -1,0 +1,13 @@
+<div class="tile app app-${here/getId} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
+    <a href="${here/absolute_url}#document-content"
+       class="link ${view/modal}">
+      <img class="icon"
+           src="${here/portal_url}/++theme++ploneintranet.theme/generated/apps/${here/getId}/icon.svg"
+           alt="${here/title}"
+        />
+      <h3>${here/title}</h3>
+      <sup tal:condition="view/counter|nothing"
+           class="counter digit-${view/digits}">${view/counter}</sup>
+    </a>
+    <tal:link tal:condition="here/app" replace="structure here/bookmark-link-iconified" />
+</div>

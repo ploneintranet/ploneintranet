@@ -27,5 +27,12 @@
         handler=".upgrades.upgrade_to_0004"
         profile="ploneintranet.network:default" />
 
+    <genericsetup:upgradeStep
+        title="Apps are now objects"
+        description="Apps are now objects: a migration is needed in the ploneintranet_network tool"
+        source="0004"
+        destination="0005"
+        handler=".upgrades.upgrade_to_0005"
+        profile="ploneintranet.network:default" />
 
 </configure>

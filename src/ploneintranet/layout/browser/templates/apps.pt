@@ -7,27 +7,12 @@
             i18n:domain="ploneintranet">
   <body class="sidebar-left-open focus-listing  home application-home ">
     <metal:content fill-slot="content">
-
-		<div class="row tiles apps pat-masonry" id="apps-listing" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
-      <div class="grid-sizer"></div>
-
-      <div tal:repeat="tile view/tiles" class="tile app ${tile/cls} ${tile/disabled}">
-          <a href="${tile/url}"
-             class="link ${tile/modal}">
-            <img class="icon"
-                 src="${tile/img}"
-                 alt="${tile/alt}"
-              />
-            <h3>${tile/title}</h3>
-            <sup tal:condition="tile/counter|nothing"
-                 class="counter digit-${tile/digits}">${tile/counter}</sup>
-          </a>
-          <tal:link tal:condition="tile/path" replace="structure python:view.get_bookmark_link(tile)" />
+      <div class="row tiles apps pat-masonry" id="apps-listing" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+        <div class="grid-sizer"></div>
+        <tal:tiles tal:repeat="tile view/tiles">
+          <tal:tile replace="structure tile/app-tile" />
+        </tal:tiles>
       </div>
-
-
-        </div>
-
     </metal:content>
 </body>
 </html>

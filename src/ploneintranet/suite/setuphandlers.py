@@ -898,7 +898,11 @@ def create_bookmarks():
         portal['library']['human-resources']['leave-policies'].UID(),
         u'allan_neece'
     )
-    pn.bookmark('apps', u'@@app-bookmarks', u'allan_neece')
+    pn.bookmark(
+        'content',
+        portal['apps']['bookmarks'].UID(),
+        u'allan_neece'
+    )
 
 
 def create_messages():

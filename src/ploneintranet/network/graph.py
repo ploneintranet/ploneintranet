@@ -58,7 +58,7 @@ class NetworkGraph(Persistent, Explicit):
     # These statics define the data storage schema "item_type" axes.
     # If you change them you need to carefully migrate the data storage
     # for existing users
-    supported_bookmark_types = (u"content", u"apps")
+    supported_bookmark_types = (u"content",)
     supported_follow_types = (u"user", u"content", u"tag")
     supported_like_types = (u"content", u"update")
     supported_tag_types = (u"user", u"content")
@@ -67,14 +67,11 @@ class NetworkGraph(Persistent, Explicit):
         """
         Set up storage for personalized data structures.
 
-        BOOKMARK: users can bookmark content or apps.
+        BOOKMARK: users can bookmark content.
         ---------------------------------------------------
 
         _bookmarks["content"][userid] = (uuid, uuid, ...)
         _bookmarked["content"][uuid] = (userid, userid, ...)
-
-        _bookmarks["apps"][userid] = (app_path, app_path, ...)
-        _bookmarked["apps"][app_path] = (userid, userid, ...)
 
         _bookmarked_on[userid][item_id] = datetime  # UTC
 

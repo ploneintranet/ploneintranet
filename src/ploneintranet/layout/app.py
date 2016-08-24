@@ -1,10 +1,13 @@
 # coding=utf-8
 from plone.dexterity.content import Container
+from plone.dexterity.content import Item
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.layers import enable_app_layer
 from zope.interface import implementer
+from zope.schema import ASCIILine
 from ZPublisher.BeforeTraverse import registerBeforeTraverse
 
 
@@ -17,11 +20,32 @@ class IAppsContainer(form.Schema, IImageScaleTraversable):
     """
 
 
+class IApp(form.Schema):
+    """
+    Marker interface for an App
+    """
+    app = ASCIILine(
+        title=_('app_label', u'App'),
+        description=_(
+            'app_description',
+            u'The path to the App you want to add (e.g. @@case-manager)',
+        ),
+        default='',
+        required=False,
+    )
+
+
 @implementer(IAppsContainer, IAttachmentStoragable)
 class AppsContainer(Container):
     """
     A folder to contain Apps.
     """
+
+
+@implementer(IApp)
+class App(Item):
+    ''' An App
+    '''
 
 
 class AbstractAppContainer(object):
