@@ -12,8 +12,8 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
-    <include package=".adapters" />
     <include package=".browser" />
+    <include package=".upgrades" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
@@ -22,6 +22,7 @@
         directory="profiles/default"
         description="Extension profile for ploneintranet.bookmarks."
         provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler=".setuphandlers.post_default"
         />
 
     <genericsetup:registerProfile

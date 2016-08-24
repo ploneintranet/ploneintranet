@@ -126,6 +126,14 @@
       />
 
   <browser:page
+      name="add_link"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddLink"
+      permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="edit_folder"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".edit_content.EditFolder"
@@ -156,7 +164,7 @@
 
   <browser:page
       name="case-manager"
-      for="*"
+      for="ploneintranet.layout.app.IApp"
       class=".case_manager.CaseManagerView"
       permission="zope2.View"
       template="templates/case_manager.pt"

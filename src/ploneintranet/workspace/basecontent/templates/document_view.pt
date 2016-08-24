@@ -127,14 +127,21 @@
                       <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
                     </figure>
                   </article>
-                </div><!-- #document-content -->
-                <input type="hidden" name="form.submitted" value="1" />
-              </form>
 
-              <div tal:replace="structure context/@@content-stream.html">
-                #comments-document-comments document discussion goes here
-                implementation is in ploneintranet.activitystream
-              </div>
+                <article tal:condition="python: context.portal_type == 'Link'">
+                  <input tal:condition="not:read_only"
+                         name="remoteUrl"
+                         type="text"
+                         required="required"
+                         value="${context/remoteUrl}"
+                    />
+                  <a tal:condition="read_only"
+                     href="${context/remoteUrl}"
+                    >${context/remoteUrl}</a>
+                </article>
+              </div><!-- #document-content -->
+              <input type="hidden" name="form.submitted" value="1" />
+            </form>
 
             </div><!-- #document-body -->
             <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:define="container context/@@plone_context_state/folder" tal:attributes="data-tile string:${container/absolute_url}/@@sidebar.default">

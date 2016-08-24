@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+    <genericsetup:upgradeStep
+        title="Add the bookmark app"
+        description=""
+        source="*"
+        destination="0002"
+        handler=".to0002.add_bookmark_app"
+        profile="ploneintranet.bookmark:default"
+      />
+
+</configure>

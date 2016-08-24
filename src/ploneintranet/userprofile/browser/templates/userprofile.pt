@@ -60,6 +60,7 @@
 
         <div tal:condition="not:is_me" class="portlet follow" id="portlet-follow">
           <form tal:replace="structure context/@@toggle_follow"/>
+          <form tal:replace="structure context/@@bookmark-button"/>
         </div>
 
         <div class="portlet contact" id="portlet-contact">
@@ -94,6 +95,7 @@
               <span tal:replace="context/fullname"/>.</a>
           </p>
         </div>
+
         <div class="portlet following" id="portlet-following" tal:condition="following">
           <h2 class="portlet-title">
             <a href="${absolute_url}/userprofile-following"

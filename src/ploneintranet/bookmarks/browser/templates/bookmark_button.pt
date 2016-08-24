@@ -1,0 +1,18 @@
+<tal:link define="
+            button_options view/button_options;
+          "
+  >
+  <form action="${here/absolute_url}/${button_options/action}"
+        class="pat-inject"
+        data-pat-inject="source: #content; target: self"
+        >
+    <fieldset class="button-bar centred">
+      <button class="pat-button ${button_options/css_class}"
+              title="${button_options/title}"
+              tal:content="structure button_options/label"
+            >Bookmark/Unbookmark</button>
+      <input tal:replace="structure context/@@authenticator/authenticator" />
+      <input type="hidden" name="buttonified" value="1" />
+    </fieldset>
+  </form>
+</tal:link>

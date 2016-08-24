@@ -57,13 +57,3 @@ class IAppView(Interface):
     context can be rendered 'within' the Apps section.
     """
     app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
-
-
-class IAppTile(Interface):
-    """
-    Tile interface to indicate a tile as listable on
-    the dashboard.
-
-    Concrete tiles as found in ./adapters/ are found by an adapter
-    query to this interface will be listed in the apps overview.
-    """

@@ -274,6 +274,13 @@ Supported types include (class names):
                     <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                   </li>
                   <li>
+                    <a href="${context/absolute_url}/@@add_link"
+                       class="icon-link create-document pat-modal"
+                       data-pat-modal="class: large"
+                       i18n:translate=""
+                      >Create link</a>
+                  </li>
+                  <li>
                     <label class="icon-upload-cloud">
                       <input multiple="multiple" type="file"/>
                       <span tal:omit-tag="" i18n:translate="">Upload file(s)</span>

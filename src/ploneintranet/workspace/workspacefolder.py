@@ -49,7 +49,10 @@ class WorkspaceFolder(Container):
         returns a string for use in a css selector in the templates
         describing this content type
         Override in custom workspace types, if you want to make use of
-        it for custom styling
+        it for custom styling.
+
+        Keep in sync with registry record
+        ploneintranet.workspace.workspace_types_css_mapping
         """
         return "workspace"
 
