@@ -716,6 +716,7 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
+# https://github.com/quaive/ploneintranet/issues/609
 I can create a new link
     [arguments]  ${title}
     Click link  Documents
