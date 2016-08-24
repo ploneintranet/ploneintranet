@@ -149,6 +149,33 @@ class View(BookmarkView):
         return items
 
     @memoize
+    def my_bookmarks_by_bookmarked(self):
+        ''' Get all the bookmarked objects grouped by bookmark date
+        '''
+        items = defaultdict(list)
+        today = date.today()
+        pn = self.ploneintranet_network
+        userid = api.user.get_current().id
+        for bookmark in self.my_bookmarks():
+            bookmarked_on = pn.bookmarked_on(bookmark.UID, userid)
+            print bookmark.title, bookmarked_on
+            if hasattr(bookmarked_on, 'date'):
+                day_past = (today - bookmarked_on.date()).days
+            else:
+                # happens, e.g., for apps
+                day_past = 100
+            if day_past < 1:
+                period = _('Today')
+            elif day_past < 7:
+                period = _('Last week')
+            elif day_past < 30:
+                period = _('Last month')
+            else:
+                period = _('All time')
+            items[period].append(bookmark)
+        return items
+
+    @memoize
     def my_bookmarks_by_letter(self):
         ''' Get all the bookmarked objects grouped by first letter
         '''
@@ -190,6 +217,8 @@ class View(BookmarkView):
             return self.my_bookmarks_by_workspace()
         elif group_by == 'created':
             return self.my_bookmarks_by_created()
+        elif group_by == 'bookmarked':
+            return self.my_bookmarks_by_bookmarked()
         return self.my_bookmarks_by_letter()
 
     @memoize
@@ -197,7 +226,7 @@ class View(BookmarkView):
         ''' The groups of my partition sorted
         '''
         group_by = self.request.get('group_by', '')
-        if group_by == 'created':
+        if group_by in ('bookmarked', 'created'):
             return [
                 _('Today'),
                 _('Last week'),
