@@ -20,5 +20,4 @@ def status_update_handler(obj, event):
     message = IMessageFactory(obj)()
     tool = api.portal.get_tool('ploneintranet_notifications')
     for userid in obj.mentions.keys():
-        queue = tool.get_user_queue(userid)
-        queue.append(message.clone())
+        tool.append_to_user_queue(userid, message.clone())
