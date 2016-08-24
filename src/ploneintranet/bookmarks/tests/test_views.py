@@ -59,6 +59,11 @@ class TestViews(FunctionalTestCase):
         pn.bookmark('content', page.UID())
         pn.bookmark('content', person.UID())
         pn.bookmark('content', ws.UID())
+        bookmarked_on = pn._bookmarked_on[u'admin']
+        # ws will result bookmarked two days ago
+        bookmarked_on[ws.UID()] = (DateTime() - 2).asdatetime()
+        # app will result bookmarked 100 days ago
+        bookmarked_on[app.UID()] = (DateTime() - 100).asdatetime()
 
     def get_request(self, params={}):
         ''' Prepare a fresh request
@@ -67,6 +72,15 @@ class TestViews(FunctionalTestCase):
         request.form.update(params)
         alsoProvides(request, IPloneintranetBookmarksLayer)
         return request
+
+    def get_app_bookmarks(self, params={}):
+        ''' Get the app-bookmarks view called with params
+        '''
+        return api.content.get_view(
+            'app-bookmarks',
+            self.bookmark_app,
+            self.get_request(params),
+        )
 
     def test_bookmark_link_view_on_content(self):
         ''' Test the bookmark link view on a content
@@ -157,9 +171,7 @@ class TestViews(FunctionalTestCase):
     def test_app_bookmarks(self):
         ''' Test app_bookmarks
         '''
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request()
-        )
+        view = self.get_app_bookmarks()
 
         self.assertListEqual(
             [x.title for x in view.my_bookmarks()],
@@ -190,9 +202,7 @@ class TestViews(FunctionalTestCase):
         self.bookmark_contents()
 
         # And the view starts to get crowded
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request()
-        )
+        view = self.get_app_bookmarks()
 
         self.assertListEqual(
             [x.title for x in view.my_bookmarks()],
@@ -203,6 +213,10 @@ class TestViews(FunctionalTestCase):
                 'Bookmarks',
             ],
         )
+
+    def test_app_bookmarks_grouped_by_letter(self):
+        self.bookmark_contents()
+        view = self.get_app_bookmarks()
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
             ['B']
@@ -221,12 +235,12 @@ class TestViews(FunctionalTestCase):
             ['Bookmarkable workspace'],
         )
 
+    def test_app_bookmarks_grouped_by_date(self):
+        self.bookmark_contents()
         # And let's filter by date
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'group_by': 'created'
-            })
-        )
+        view = self.get_app_bookmarks({
+            'group_by': 'created',
+        })
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
             [u'Today', u'Last week', u'Last month', u'All time']
@@ -244,12 +258,12 @@ class TestViews(FunctionalTestCase):
             ['Bookmarkable workspace'],
         )
 
+    def test_app_bookmarks_grouped_by_workspace(self):
+        self.bookmark_contents()
         # And let's filter by workspace
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'group_by': 'workspace'
-            })
-        )
+        view = self.get_app_bookmarks({
+            'group_by': 'workspace',
+        })
         self.assertListEqual(
             view.my_bookmarks_sorted_groups(),
             [u'Bookmarkable workspace', u'Not in a workspace']
@@ -273,17 +287,34 @@ class TestViews(FunctionalTestCase):
             ],
         )
 
-        # Of course we can even apply filters together
-        # And let's filter by workspace
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'SearchableText': 'bookmarkable',
-                'group_by': 'created'
-            })
+    def test_app_bookmarks_grouped_by_bookmarked(self):
+        self.bookmark_contents()
+        view = self.get_app_bookmarks({
+            'group_by': 'bookmarked',
+        })
+        self.assertListEqual(
+            view.my_bookmarks_sorted_groups(),
+            [u'Today', u'Last week', u'Last month', u'All time']
+        )
+        bookmarks_grouped = view.my_bookmarks_grouped()
+        self.assertListEqual(
+            [x.title for x in bookmarks_grouped[u'Today']],
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+            ],
         )
         self.assertListEqual(
-            [x.title for x in view.my_bookmarks_grouped()[u'All time']],
-            ['Bookmarkable workspace']
+            [x.title for x in bookmarks_grouped[u'Last week']],
+            [
+                'Bookmarkable workspace',
+            ],
+        )
+        self.assertListEqual(
+            [x.title for x in bookmarks_grouped[u'All time']],
+            [
+                'Bookmarks',
+            ],
         )
 
     def test_app_bookmarks_search(self):
@@ -292,12 +323,10 @@ class TestViews(FunctionalTestCase):
         # We bookmark some contents and the application
         self.bookmark_contents()
 
-        # With no search parameter everything is return
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'SearchableText': '',
-            })
-        )
+        # With no search parameter everything is returned
+        view = self.get_app_bookmarks({
+            'SearchableText': '',
+        })
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
             [
@@ -308,24 +337,67 @@ class TestViews(FunctionalTestCase):
             ]
         )
         # but we can filter contents
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'SearchableText': 'workSpace',
-            })
-        )
+        view = self.get_app_bookmarks({
+            'SearchableText': 'workSpace',
+        })
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
             ['Bookmarkable workspace']
         )
         # or the application
-        view = api.content.get_view(
-            'app-bookmarks', self.bookmark_app, self.get_request({
-                'SearchableText': 'bookMarks',
-            })
-        )
+        view = self.get_app_bookmarks({
+            'SearchableText': 'bookMarks',
+        })
         self.assertListEqual(
             sorted([x.title for x in view.my_bookmarks_grouped()['B']]),
             ['Bookmarks']
+        )
+
+    def test_app_bookmarks_grouped_by_bookmarked_and_filtered(self):
+        ''' We search and filter bookmarks
+        '''
+        self.bookmark_contents()
+        view = self.get_app_bookmarks({
+            'SearchableText': 'page',
+            'group_by': 'bookmarked',
+        })
+        self.assertListEqual(
+            [x.title for x in view.my_bookmarks_grouped()[u'Today']],
+            [
+                'Bookmarkable page',
+            ]
+        )
+
+    def test_app_bookmarks_grouped_by_created_and_filtered(self):
+        ''' We search and filter bookmarks
+        '''
+        self.bookmark_contents()
+        view = self.get_app_bookmarks({
+            'SearchableText': 'bookmarkable',
+            'group_by': 'created'
+        })
+        self.assertListEqual(
+            [x.title for x in view.my_bookmarks_grouped()[u'All time']],
+            ['Bookmarkable workspace']
+        )
+
+    def test_app_bookmarks_grouped_by_workspace_and_filtered(self):
+        ''' We search and filter bookmarks
+        '''
+        self.bookmark_contents()
+        view = self.get_app_bookmarks({
+            'SearchableText': 'bookmarkable',
+            'group_by': 'workspace'
+        })
+        self.assertListEqual(
+            [
+                x.title
+                for x in view.my_bookmarks_grouped()[u'Not in a workspace']
+            ],
+            [
+                'Bookmarkable One',
+                'Bookmarkable page',
+            ]
         )
 
     def test_bookmarks_tile(self):

@@ -45,9 +45,8 @@
                     </option>
                     <option value='bookmarked'
                             selected="${python:group_by=='bookmarked' and 'selected' or None}"
-                            tal:condition="nothing"
                             i18n:translate="">
-                      Group by bookmarking date (BBB: disabled for the moment, see https://github.com/quaive/ploneintranet.prototype/issues/283)
+                      Group by bookmarking date
                     </option>
                   </select>
                 </label>
