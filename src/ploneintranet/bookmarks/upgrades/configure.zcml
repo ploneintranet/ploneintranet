@@ -9,7 +9,7 @@
         source="*"
         destination="0002"
         handler=".to0002.add_bookmark_app"
-        profile="ploneintranet.bookmark:default"
+        profile="ploneintranet.bookmarks:default"
       />
 
 </configure>
