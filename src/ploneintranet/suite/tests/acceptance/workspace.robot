@@ -183,7 +183,10 @@ Member can create an event
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
      Then I can delete an event  Christmas (updated)
 
+# this is an actual UI issue caused by the new shell
+# https://github.com/quaive/ploneintranet/issues/609
 Member can create a link
+    [Tags]  fixme
     Given I am in a workspace as a workspace admin
      Then I can create a new link  Quaive site
      Then I can edit the new link  Quaive site

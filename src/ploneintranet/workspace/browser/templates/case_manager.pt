@@ -5,131 +5,136 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master">
 
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open focus-listing application-case-manager">
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-closed focus-listing application-case-manager">
 
     <metal:content fill-slot="content" i18n:domain="ploneintranet">
-        <div id="content" class="state-on">
-          <div id="application-body" class="application- application-case-manager">
-            <div id="document-content" class="cases-overview">
-              <div class="row">
+        <div id="app-space" class="state-on">
+          <div id="application-body" class="application-case-manager sidebar-left-closed sidebar-right-open">
+            <div id="document-body">
+              <div id="document-content" tal:define="cases view/cases">
 
-                <aside class="four columns pat-bumper case-filters"
-                       tal:condition="not:view/is_ajax"
-                      >
-                  <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
-                        tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
-                    <fieldset class="vertical">
-                      <label>
-                        <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
-                        <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder" value="${request/SearchableText|nothing}"/>
-                      </label>
-                      <!-- To be defined -->
-                      <!-- <label> -->
-                      <!--   Role filter -->
-                      <!--   <select> -->
-                      <!--    <option>Only cases that I manage</option> -->
-                      <!--    <option>All cases that I'm involved with</option> -->
-                      <!--    <option>All cases that I have access to</option> -->
-                      <!--   </select> -->
-                      <!-- </label> -->
+                    <tal:nocases condition="python:not view.is_ajax and not cases" >
+                      <!-- FIXME: needs to be designed -->
+                      <p i18n:translate="">No results</p>
+                    </tal:nocases>
 
-                      <label><tal:block i18n:translate="">Status</tal:block> <select name="status" class="focus">
-                          <option value="" i18n:translate="">All</option>
-                          <option tal:repeat="status python:view.get_states()" tal:attributes="value status" selected="${python: request.get('status') == status and 'selected' or None}" i18n:translate="" tal:content="status">Open</option>
-                        </select>
-                      </label>
-
-                      <fieldset class="group">
-                        <legend i18n:translate="">Archived</legend>
-                        <label class="pat-checklist">
-                          <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
-                        </label>
-                      </fieldset>
-
-                      <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
-
-                      <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created" value="${request/earliest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created" value="${request/latest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                      </fieldset>
-
-                      <fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified" value="${request/earliest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified" value="${request/latest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                      </fieldset>
-
-                      <!--fieldset class="group row date-range">
-                        <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due" value="${request/earliest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                        <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due" value="${request/latest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
-                        </label>
-                      </fieldset-->
-                    </fieldset>
-                  </form>
-                </aside>
-
-                <div id="case-mats" class="eight columns"
-                     tal:define="cases view/cases">
-
-                  <tal:nocases condition="python:not view.is_ajax and not cases" >
-                    <!-- FIXME: needs to be designed -->
-                    <p i18n:translate="">No results</p>
-                  </tal:nocases>
-
-                  <tal:cases repeat="case cases">
-                    <tal:is_archived define="archived_class python:'state-archived' if case.get('is_archived') else '';">
-                      <div class="case-mat ${archived_class}">
-                        <article class="summary row">
-                          <h2 class="case-title twelve columns">
-                            <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="icon_archived">Archived</strong></tal:archived></a>
-                          </h2>
-                          <p class="description four columns">
-                            ${case/description}
-                          </p>
-                          <div class="eight columns stats">
-                            <p class="stat">
-                              <strong class="value">${case/percent_complete}</strong>
-                              <em class="name" i18n:translate="">Tasks finished</em>
+                    <tal:cases repeat="case cases">
+                      <tal:is_archived define="archived_class python:'state-archived' if case.get('is_archived') else '';">
+                        <div class="case-mat ${archived_class} workspace-type">
+                          <article class="summary row">
+                            <h2 class="case-title twelve columns">
+                              <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="icon_archived">Archived</strong></tal:archived></a>
+                            </h2>
+                            <p class="description four columns">
+                              ${case/description}
                             </p>
-                            <p class="stat">
-                              <strong class="value">${case/days_running}</strong>
-                              <em class="name" i18n:translate="">Days running</em>
-                            </p>
-                            <p class="stat">
-                              <strong class="value">${case/recent_modifications}</strong>
-                              <em class="name" i18n:translate="">Modifications past 7 days</em>
-                            </p>
-                          </div>
-                        </article>
-                        <tal:timeline define="workspace_url case/url;
-                                              mm_seq case/mm_seq;
-                                              transition_icons case/view/transition_icons;
-                                              existing_users_by_id case/existing_users_by_id;
-                                              tasks case/tasks;
-                                              case_view nocall:case/view;
-                                              target string:case;
-                                              workspace nocall:case;
-                                              ">
-                          <metal:timeline use-macro="case_view/macros/timeline" />
-                        </tal:timeline>
-                      </div>
-                    </tal:is_archived>
-                  </tal:cases>
+                            <div class="eight columns stats">
+                              <p class="stat">
+                                <strong class="value">${case/percent_complete}</strong>
+                                <em class="name" i18n:translate="">Tasks finished</em>
+                              </p>
+                              <p class="stat">
+                                <strong class="value">${case/days_running}</strong>
+                                <em class="name" i18n:translate="">Days running</em>
+                              </p>
+                              <p class="stat">
+                                <strong class="value">${case/recent_modifications}</strong>
+                                <em class="name" i18n:translate="">Modifications past 7 days</em>
+                              </p>
+                            </div>
+                          </article>
+                          <tal:timeline define="workspace_url case/url;
+                                                mm_seq case/mm_seq;
+                                                transition_icons case/view/transition_icons;
+                                                existing_users_by_id case/existing_users_by_id;
+                                                tasks case/tasks;
+                                                case_view nocall:case/view;
+                                                target string:case;
+                                                workspace nocall:case;
+                                                ">
+                            <metal:timeline use-macro="case_view/macros/timeline" />
+                          </tal:timeline>
+                        </div>
+                      </tal:is_archived>
+                    </tal:cases>
 
-                  <div id="load-more" tal:condition="view/next_batch_url">
-                    <!-- FIXME: needs to be designed -->
-                    <a href="${view/next_batch_url}"
-                       class="infinite-scrolling-trigger pat-inject"
-                       data-pat-inject="trigger: autoload-visible; source: #case-mats; target: #load-more::element"
-                       >Next</a>
-                  </div>
+                    <div id="load-more" tal:condition="view/next_batch_url">
+                      <!-- FIXME: needs to be designed -->
+                      <a href="${view/next_batch_url}"
+                         class="infinite-scrolling-trigger pat-inject"
+                         data-pat-inject="trigger: autoload-visible; source: #case-mats; target: #load-more::element"
+                         >Next</a>
+                    </div>
                 </div>
               </div>
-            </div>
+
+              <aside class="sidebar right"
+                     tal:condition="not:view/is_ajax"
+                    >
+                <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
+                      tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
+                  <fieldset class="vertical">
+                    <label>
+                      <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
+                      <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder" value="${request/SearchableText|nothing}"/>
+                    </label>
+                    <!-- To be defined -->
+                    <!-- <label> -->
+                    <!--   Role filter -->
+                    <!--   <select> -->
+                    <!--    <option>Only cases that I manage</option> -->
+                    <!--    <option>All cases that I'm involved with</option> -->
+                    <!--    <option>All cases that I have access to</option> -->
+                    <!--   </select> -->
+                    <!-- </label> -->
+                    <label tal:define="departments python:view.get_field_indexes('department')"
+                           tal:condition="departments"><tal:block i18n:translate="">Department</tal:block> <select name="department">
+                        <option value="" i18n:translate="">Pick the responsible department</option>
+                        <tal:r tal:repeat="department departments">
+                          <option value="${department}" selected="${python: request.get('department') == department and 'selected' or None}">${department}</option>
+                        </tal:r>
+                      </select>
+                    </label>
+
+                    <label><tal:block i18n:translate="">Status</tal:block> <select name="status" class="focus">
+                        <option value="" i18n:translate="">All</option>
+                        <option tal:repeat="status python:view.get_states()" tal:attributes="value status" selected="${python: request.get('status') == status and 'selected' or None}" i18n:translate="" tal:content="status">Open</option>
+                      </select>
+                    </label>
+
+                    <fieldset class="group">
+                      <legend i18n:translate="">Archived</legend>
+                      <label class="pat-checklist">
+                        <input type="checkbox" name="archived" /> <tal:show_archived i18n:translate="">Show archived workspaces</tal:show_archived>
+                      </label>
+                    </fieldset>
+
+                    <!-- For all date ranges applies, that if no end date is filled in, the end date is today. If no earliest date is filled in, then it will search infinitely far back into the past. -->
+
+                    <fieldset class="group row date-range">
+                      <label class="six columns"><tal:block i18n:translate="">Earliest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_created" value="${request/earliest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                      <label class="six columns"><tal:block i18n:translate="">Latest creation date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_created" value="${request/latest_created|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                    </fieldset>
+
+                    <fieldset class="group row date-range">
+                      <label class="six columns"><tal:block i18n:translate="">Earliest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_modified" value="${request/earliest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                      <label class="six columns"><tal:block i18n:translate="">Latest modification date</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_modified" value="${request/latest_modified|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                    </fieldset>
+
+                    <!--fieldset class="group row date-range">
+                      <label class="six columns"><tal:block i18n:translate="">Earliest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="earliest_due" value="${request/earliest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                      <label class="six columns"><tal:block i18n:translate="">Latest deadline</tal:block> <input i18n:attributes="placeholder" placeholder="YYYY-MM-DD" class="pat-date-picker" type="date" size="8" name="latest_due" value="${request/latest_due|nothing}" data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"/>
+                      </label>
+                    </fieldset-->
+                  </fieldset>
+                </form>
+              </aside>
+
           </div>
         </div>
     </metal:content>

@@ -18,128 +18,150 @@
                                target nothing;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">
-      <div id="content"
-           class="application page-type-${ws_type} workspace-type-${ws_type} ${archived_class}">
-        <h1 id="workspace-name">
-          <!-- Next link is to lead to landing state of current workspace -->
-          <a href="{{page.url}}"
-             tal:attributes="href workspace_url"
-             tal:content="workspace/Title">{{ page.workspace_name }}</a>
-        </h1>
-        <div class="ws-baggage-handling-regulations dark-theme"
-             id="application-body">
-          <div id="document-body">
-            <div class="workspace-header"
-                 tal:define="freeze_view nocall:workspace/freeze-view;
-                             is_frozen freeze_view/is_frozen;">
-              <article class="rich">
-                <h1>${context/title}</h1>
-                <p class="description"
-                   tal:content="context/description" />
-              </article>
-              <div class="timeline-container ${python:'state-frozen' if is_frozen else '' }">
-                <section class="explanation" tal:condition="is_frozen">
-                  <h3 class="header" i18n:translate="">Frozen</h3>
-                  <p class="reason">
-                    <strong class="state" i18n:translate="">Frozen on</strong>
-                    •
-                    <time class="date">${freeze_view/frozen_date}</time>
-                  </p>
-                </section>
+      <div id="app-space">
+        <div id="application-body" class="application-${ws_type} project page-type-${ws_type} workspace-type-${ws_type} ${archived_class} sidebar-left-closed">
+          <h1 id="workspace-name">
+            <!-- Next link is to lead to landing state of current workspace -->
+            <a href="{{page.url}}"
+               tal:attributes="href workspace_url"
+               tal:content="workspace/Title">{{ page.workspace_name }}</a>
+          </h1>
+            <div id="document-body">
+              <!-- XXX complete integration -->
+              <div id="workspace-header" class="pat-bumper  sticky-supported bumped" style="position: relative; top: 7px;">        
+                  <div class="content">
+                      <h1 class="title" id="top" tal:content="here/Title">
+                          Open Market Committee
+                      </h1>
+                      <form class="pat-inject buttons">
+                          <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
 
-                <ul id="timeline"
-                    class="timeline pat-equaliser"
-                    metal:define-macro="timeline"
-                    tal:define="task_number python:0; milestones python:mm_seq.keys();
-                                view python: 'view' in workspace and workspace['view'] or view">
-                  <tal:milestone repeat="milestone_id milestones">
-                    <li class="section actioned state-${python:view.milestone_state(milestone_id)}"
-                        tal:define="milestone_title python:mm_seq[milestone_id]['title']"
-                        tal:attributes="title milestone_title">
-                      <tal:state_index define="global task_number python:task_number + repeat['milestone_id'].index">
-                        <h3 class="section-label"
-                            tal:content="milestone_title"
-                            i18n:translate="" />
-                        <ul>
-                          <li class="step-background"
-                              tal:condition="python:milestone_id in (milestones[0], milestones[-1]) and tasks[milestone_id] == []"
-                              tal:attributes="id python:'item-{0}'.format(task_number + 1);">
-                            <p class="step-label icon" />
-                          </li>
-                          <tal:tasks repeat="task python:tasks[milestone_id]">
-                            <tal:task_number define="global task_number python:task_number + 1">
-                              <li class="step-background"
-                                  tal:attributes="id string:item-${task_number};
-                                                  class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
-                                <p class="step-label icon icon-help-circled">
-                                  <span class="link">
-                                    <a class="label-text"
-                                       tal:attributes="href string:${task/url}#workspace-tickets;
-                                                       title task/title;
-                                                       target target;"
-                                       tal:content="task/title" />
-                                    <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
-                                      <a tal:replace="structure task/obj/@@app-audit-mm-button" />
-                                    </tal:history>
-                                  </span>
-                                </p>
-                                <p class="step-assignee"
-                                   tal:define="due_date task/due;
-                                               assignee task/assignee;
-                                               assignee_id assignee/getId|nothing"
-                                   tal:condition="assignee">
-                                  <a href=""
-                                     class="pat-avatar "
-                                     id="">
-                                    <img src="${portal_url}/@@avatars/${assignee_id}"
-                                         alt="${python:assignee.getProperty('fullname') or assignee_id}"
-                                         title="${assignee/Description}" />
-                                  </a>
-                                  <time class="date"
-                                        tal:condition="due_date"
-                                        tal:attributes="datetime due_date"
-                                        tal:content="python:due_date.strftime('%d %b')">2 Jan</time>
-                                </p>
-                              </li>
-                            </tal:task_number>
-                          </tal:tasks>
-                        </ul>
-                        <p class="action icon"
-                           tal:condition="not:repeat/milestone_id/end"
-                           tal:define="milestone python:mm_seq[milestone_id]"
-                           tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
-                          <a class="link"
-                             tal:content="milestone/transition_title"
-                             i18n:translate="" />
-                        </p>
-                      </tal:state_index>
-                    </li>
-                  </tal:milestone>
-                </ul>
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #follow-workspace" id="follow-workspace">
+                              <button type="submit" class="icon-follow-empty" formaction="/feedback/follow-workspace.html" title="Click to follow Open Market Committee">Follow</button>
+                          </fieldset>
+-->
+<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">   
+                              
+                                  <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button> 
+                              
+                          </fieldset>
+-->                                </form>
 
-                <p class="controls" tal:condition="is_frozen">
-                  <a class="pat-button pat-modal" href="${workspace_url}/@@panel-unfreeze-case#document-content"
-                     i18n:translate="">Unfreeze</a>
-                </p>
+                      <h2 class="byline" tal:define="members here/existing_users">
+                          <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
+                      </h2>
+                  </div>
               </div>
+              <div class="workspace-header"
+                   tal:define="freeze_view nocall:workspace/freeze-view;
+                               is_frozen freeze_view/is_frozen;">
+                <article class="rich">
+                  <p class="description"
+                     tal:content="context/description" />
+                </article>
+                <div class="timeline-container ${python:'state-frozen' if is_frozen else '' }">
+                  <section class="explanation" tal:condition="is_frozen">
+                    <h3 class="header" i18n:translate="">Frozen</h3>
+                    <p class="reason">
+                      <strong class="state" i18n:translate="">Frozen on</strong>
+                      •
+                      <time class="date">${freeze_view/frozen_date}</time>
+                    </p>
+                  </section>
+
+                  <ul id="timeline"
+                      class="timeline pat-equaliser"
+                      metal:define-macro="timeline"
+                      tal:define="task_number python:0; milestones python:mm_seq.keys();
+                                  view python: 'view' in workspace and workspace['view'] or view">
+                    <tal:milestone repeat="milestone_id milestones">
+                      <li class="section actioned state-${python:view.milestone_state(milestone_id)}"
+                          tal:define="milestone_title python:mm_seq[milestone_id]['title']"
+                          tal:attributes="title milestone_title">
+                        <tal:state_index define="global task_number python:task_number + repeat['milestone_id'].index">
+                          <h3 class="section-label"
+                              tal:content="milestone_title"
+                              i18n:translate="" />
+                          <ul>
+                            <li class="step-background"
+                                tal:condition="python:milestone_id in (milestones[0], milestones[-1]) and tasks[milestone_id] == []"
+                                tal:attributes="id python:'item-{0}'.format(task_number + 1);">
+                              <p class="step-label icon" />
+                            </li>
+                            <tal:tasks repeat="task python:tasks[milestone_id]">
+                              <tal:task_number define="global task_number python:task_number + 1">
+                                <li class="step-background"
+                                    tal:attributes="id string:item-${task_number};
+                                                    class python:'{0} {1}'.format(attrs['class'], 'state-closed' if task['checked'] else 'state-open')">
+                                  <p class="step-label icon icon-help-circled">
+                                    <span class="link">
+                                      <a class="label-text"
+                                         tal:attributes="href string:${task/url}#workspace-tickets;
+                                                         title task/title;
+                                                         target target;"
+                                         tal:content="task/title" />
+                                      <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
+                                        <a tal:replace="structure task/obj/@@app-audit-mm-button" />
+                                      </tal:history>
+                                    </span>
+                                  </p>
+                                  <p class="step-assignee"
+                                     tal:define="due_date task/due;
+                                                 assignee task/assignee;
+                                                 assignee_id assignee/getId|nothing"
+                                     tal:condition="assignee">
+                                    <a href=""
+                                       class="pat-avatar "
+                                       id="">
+                                      <img src="${portal_url}/@@avatars/${assignee_id}"
+                                           alt="${python:assignee.getProperty('fullname') or assignee_id}"
+                                           title="${assignee/Description}" />
+                                    </a>
+                                    <time class="date"
+                                          tal:condition="due_date"
+                                          tal:attributes="datetime due_date"
+                                          tal:content="python:due_date.strftime('%d %b')">2 Jan</time>
+                                  </p>
+                                </li>
+                              </tal:task_number>
+                            </tal:tasks>
+                          </ul>
+                          <p class="action icon"
+                             tal:condition="not:repeat/milestone_id/end"
+                             tal:define="milestone python:mm_seq[milestone_id]"
+                             tal:attributes="class python:'{0} {1}'.format(attrs['class'], transition_icons.get(milestone['transition_id']))">
+                            <a class="link"
+                               tal:content="milestone/transition_title"
+                               i18n:translate="" />
+                          </p>
+                        </tal:state_index>
+                      </li>
+                    </tal:milestone>
+                  </ul>
+
+                  <p class="controls" tal:condition="is_frozen">
+                    <a class="pat-button pat-modal" href="${workspace_url}/@@panel-unfreeze-case#document-content"
+                       i18n:translate="">Unfreeze</a>
+                  </p>
+                </div>
+              </div>
+              <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
+              <form id="new-post-box"
+                    data-tile="./@@newpostbox.tile"
+                    tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
+              <div id="activity-stream"
+                   data-tile="./@@activitystream.tile"
+                   tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile"></div>
             </div>
-            <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
-            <form id="new-post-box"
-                  data-tile="./@@newpostbox.tile"
-                  tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
-            <div id="activity-stream"
-                 data-tile="./@@activitystream.tile"
-                 tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile"></div>
-          </div>
-          <aside class="sidebar left tagging-off"
-                 id="sidebar"
-                 data-tile="plone/new-workspace/@@sidebar.default"
-                 tal:attributes="data-tile string:${workspace_url}/@@sidebar.default"></aside>
+            <aside class="sidebar left tagging-off"
+                   id="sidebar"
+                   data-tile="plone/new-workspace/@@sidebar.default"
+                   tal:attributes="data-tile string:${workspace_url}/@@sidebar.default"></aside>
+          <nav class="navigation workspace-tabs"
+               id="workspace-tabs"
+               data-tile="./@@workspace.tabs.tile"
+               tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
         </div>
-        <nav class="navigation workspace-tabs"
-             id="workspace-tabs"
-             data-tile="./@@workspace.tabs.tile"
-             tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
       </div>
     </metal:content>
   </body>

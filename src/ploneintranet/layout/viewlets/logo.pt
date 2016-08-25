@@ -1,0 +1,9 @@
+<span id="site-logo">
+
+    <a class="integrated suite-logo pat-switch"
+        data-pat-switch="#app-space state-on state-off">${view/logo_title | string:Intranet}</a>
+
+    <a class="stand-alone suite-logo"
+       href="${view/logo_url}">${view/logo_title | string:Intranet}</a>
+
+</span>

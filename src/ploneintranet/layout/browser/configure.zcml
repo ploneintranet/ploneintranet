@@ -9,6 +9,10 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot directory="overrides"
+                layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer" />
+
   <include package=".prototype" />
   <include file="switchoff.zcml" />
 

@@ -265,6 +265,23 @@ class WorkspaceFolder(Container):
         else:
             return ''
 
+    def get_related_workspaces(self):
+        if not hasattr(self, 'related_workspaces') or \
+           not self.related_workspaces:
+            return None
+        rw = []
+        for uid in self.related_workspaces:
+            ws = api.content.get(UID=uid)
+            if not ws:
+                continue
+            rw.append(
+                {'UID': uid,
+                 'URL': ws.absolute_url(),
+                 'Title': ws.Title()
+                 }
+            )
+        return rw
+
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):
     """

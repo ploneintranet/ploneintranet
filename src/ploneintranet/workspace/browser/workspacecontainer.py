@@ -259,7 +259,7 @@ class AddView(BrowserView):
 
 class WorkspaceTabsTile(Tile):
 
-    index = ViewPageTemplateFile("templates/workspace-tabs-tile.pt")
+    index = ViewPageTemplateFile("tiles/templates/workspace-tabs-tile.pt")
 
     def render(self):
         return self.index()

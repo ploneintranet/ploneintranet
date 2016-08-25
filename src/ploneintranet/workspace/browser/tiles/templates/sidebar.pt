@@ -18,7 +18,7 @@
       <div id="sidebar-content" class="pat-stacks" tal:define="iinfo context/@@plone_interface_info; ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token">
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
-            <div class="button-bar functions" id="selector-functions">
+            <div class="button-bar functions pat-bumper sticky-supported" id="selector-functions">
               <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
                 <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
                 <a href="/open-market-committee"
@@ -47,7 +47,7 @@
               </div>
 
               <div class="quick-functions">
-                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+                <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
                 <a class="selector-toggle-select more-menu-trigger"
                    tal:condition="python:view.can_add() or view.can_edit()">Functions</a>
                 <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
@@ -79,7 +79,7 @@
 
               <fieldset class="checklist pat-checklist docs ">
 
-                <div class="batch-functions">
+                <div class="batch-functions pat-bumper sticky-supported" data-pat-bumper="margin: 35; side: top">
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
@@ -109,22 +109,6 @@
                               i18n:attributes="title">Paste</button></span>
 
                     <!-- <button type="submit" name="batch-function" value="move" class="float-before icon-move" title="Move">Move</button> -->
-                    <button type="submit"
-                            class="float-before icon-trash no-label"
-                            title="Delete"
-                            formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Delete</button>
-
-                    <button type="submit"
-                            class="float-before icon-rename no-label"
-                            title="Rename"
-                            formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Rename</button>
-                    <button type="submit"
-                            class="float-before icon-tags no-label"
-                            title="Re-tag"
-                            formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
-                            i18n:translate="" i18n:attributes="title">Re-tag</button>
 
                     <span class="float-before button-cluster">
                       <button type="submit"
@@ -140,9 +124,49 @@
                       <!--         data-pat-depends="condition: false; action: enable" -->
                       <!--         title="Post selected document(s) on a timeline">Share</button> -->
                     </span>
+                    <div class="pat-collapsible context-menu open" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
+                        <strong class="label collapsible-open" i18n:translate="">More&hellip;</strong>
+                        <div class="panel-content" style="display: block;">
+                          <ul class="menu">
+                            <li>
+                                <button disabled class="icon-archive" type="submit" name="batch-function" value="archive">Archive (coming soon)</button>
+                            </li>
+                            <li>
+                                <button disabled class="icon-subscribe disabled" type="submit" name="batch-function" value="subscribe">Subscribe (coming soon)</button>
+                            </li>
+                            <li>
+                                <button disabled class="icon-download" type="submit" name="batch-function" value="download">Download (coming soon)</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-rename"
+                                        title="Rename"
+                                        formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
+                                        i18n:translate=""
+                                        i18n:attributes="title">Rename</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-tags"
+                                        title="Re-tag"
+                                        formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
+                                        i18n:translate=""
+                                        i18n:attributes="title">Re-tag</button>
+                            </li>
+                            <li>
+                                <button type="submit"
+                                        class="icon-trash"
+                                        title="Delete"
+                                        formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
+                                        i18n:translate=""
+                                        i18n:attributes="title">Delete</button>
+
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
                   </div>
                 </div>
-
                 <div class="folder-intro">
                   <h4 class="folder-title">
                     <tal:block content="context/Title" />
@@ -156,6 +180,7 @@
                      tal:content="context/Description|nothing">
                   </p>
                 </div>
+
 
                 <!-- Each document has a class name on the label element that indicates the document type.
 
@@ -222,18 +247,6 @@ Supported types include (class names):
             </form>
 
             <tal:can_add condition="view/can_add">
-              <div class="button-bar create-buttons">
-                <a href="${context/absolute_url}/@@add_content"
-                   class="button create-document pat-modal icon-doc-text"
-                   data-pat-modal="class: large"
-                   i18n:translate=""
-                  >Create document</a>
-                <a href="${context/absolute_url}/@@add_folder"
-                   class="button create-folder pat-modal icon-folder"
-                   data-pat-modal="class: large"
-                   i18n:translate=""
-                  >Create folder</a>
-              </div>
               <form action="${context/absolute_url}/workspaceFileUpload"
                     method="POST"
                     class="pat-inject"
@@ -315,7 +328,7 @@ Supported types include (class names):
         <div id="workspace-tickets" tal:define="tasks context/tasks">
           <div class="button-bar functions" id="tasks-functions">
             <div class="quick-functions">
-              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
               <a title="Create new task"
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
                  i18n:attributes="title"
@@ -458,7 +471,7 @@ Supported types include (class names):
         <div id="workspace-events" tal:define="events view/events; ws view/workspace">
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
-              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+              <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
               <a tal:condition="view/can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event">Create event</a>
             </div>
           </div>
@@ -476,12 +489,7 @@ Supported types include (class names):
                            data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
                            tal:attributes="href string:${event/getURL}#document-body">
                         <h4 class="title">
-                          <time
-                                class="start pat-display-time"
-                                data-pat-display-time="from-now: true"
-                                datetime="${event/start}"
-                                tal:content="python:toLocalizedtime(event.start, long_format=1)">2014-12-15 14:00 GMT+2</time> -
-                          <tal:title replace="event/Title"/>
+                          ${python:view.format_event_date(event)} — ${event/Title}
                         </h4>
                       <p class="byline" tal:define="location event/location" tal:condition="location">
                         <tal:location replace="location" />
@@ -518,7 +526,7 @@ Supported types include (class names):
               </ul>
             </div>
 
-            <div class="pat-collapsible closed" data-pat-collapsible="store: local" id="older-events" tal:condition="events/older">
+            <div id="older-events" tal:condition="events/older">
               <h3 i18n:translate="">Older events</h3>
 
               <ul class="event-list">

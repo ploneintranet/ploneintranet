@@ -2,7 +2,7 @@
 
 Prepare test browser
     Open test browser
-    Set window size  1024  900
+    Set window size  1280  1024
 
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
@@ -14,7 +14,7 @@ I am logged in as the user ${userid}
     Go To  ${PLONE_URL}/login
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password  secret
-    Click button  Login
+    Click Element  css=#login-panel button[type=submit]
 
 # add content keyword that supports
 # both dexterity and archetypes
@@ -521,7 +521,7 @@ I can see upcoming events
     Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
 
 Older events are hidden
-    Element should not be visible  jquery=div#older-events a
+    Element should be visible  jquery=div#older-events a
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -609,7 +609,7 @@ I give the Consumer role to Allan
 I give the Producer role to Allan
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -622,7 +622,7 @@ I give the Producer role to Allan
 I give the Admin role to Allan
     I can open the workspace member settings tab
     Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -665,7 +665,7 @@ I can remove Allan from the workspace members
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
-    Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
+    Page Should Contain Element  xpath=//a[@id='breadcrumbs-1' and text()='Open Market Committee']
 
 I can enter the Manage Information Folder
     Click Link  link=Documents
@@ -716,6 +716,7 @@ I can create a new document
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
+# https://github.com/quaive/ploneintranet/issues/609
 I can create a new link
     [arguments]  ${title}
     Click link  Documents
@@ -761,6 +762,7 @@ I cannot create a new document
 
 I can create a new folder
     Click link  Documents
+    Click link  Functions
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
@@ -1156,14 +1158,14 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
@@ -1381,11 +1383,11 @@ I see that the workspace is not frozen
 # *** search related keywords ***
 
 I can see the site search button
-    Page Should Contain Element  css=#global-header input.search
+    Page Should Contain Element  css=#global-nav-search input.search
 
 I can search in the site header for ${SEARCH_STRING}
-    Input text  css=#global-header input.search  ${SEARCH_STRING}
-    Submit Form  css=#global-header form#global-nav-search
+    Input text  css=#global-nav-search input.search  ${SEARCH_STRING}
+    Submit Form  css=form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
     Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
@@ -1450,6 +1452,7 @@ I can sort search results by ${FIELD}
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 # *** END search related keywords ***
 
@@ -1460,6 +1463,7 @@ I can bookmark the application
     I can click the Apps tab
     Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
     I can click the Apps tab
     Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Remove bookmark')]
 
@@ -1468,6 +1472,7 @@ I can unbookmark the application
     I can click the Apps tab
     Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Remove bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
     I can click the Apps tab
     Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Bookmark')]
 

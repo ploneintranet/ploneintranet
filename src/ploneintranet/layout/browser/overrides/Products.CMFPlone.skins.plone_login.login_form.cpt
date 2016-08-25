@@ -34,6 +34,7 @@
                         use_email_as_login python:context.portal_registry['plone.use_email_as_login'];
                         external_login_url python:context.portal_registry['plone.external_login_url'];
                         external_login_iframe python:context.portal_registry['plone.external_login_iframe'];
+                        disclaimer python: context.portal_registry['ploneintranet.layout.login_disclaimer'] if 'ploneintranet.layout.login_disclaimer' in context.portal_registry else None;
                         mail_password python:test(checkPermission('Mail forgotten password', context), portal_url + '/mail_password_form', '');
                         mail_password_url request/mail_password_url|nothing;
                         mail_password_url python:test(mail_password_url and isURLInPortal(mail_password_url), mail_password_url, mail_password);
@@ -165,16 +166,20 @@
 
                     </div>
 
-                    <div class="formControls">
-
-                        <input class="context"
-                               type="submit"
-                               name="submit"
-                               value="Log in"
-                               i18n:attributes="value label_log_in;"
-                               />
-
+                    <div id="section-disclaimer">
+                      <section class="disclaimer" tal:condition="disclaimer">
+                        <h4 class="title" i18n:domain="ploneintranet" i18n:translate="label_login_disclaimer">
+                          Disclaimer
+                        </h4>
+                        <p tal:content="structure disclaimer">
+                          Thank you for visiting the Plone Intranet website ("Plone Intranet"). By accessing Plone Intranet, you agree to be bound by our <a href="">Terms of Use</a>.
+                        </p>
+                      </section>
                     </div>
+
+                    <p class="button-bar">
+                      <button type="submit" name="submit" id="submit-button" i18n:translate="label_log_in">Log in</button>
+                    </p>
 
                     <p class="colofon" tal:define="
                             actions python:[action for action in here.portal_actions.listFilteredActionsFor(here).get('login_colophon', []) if action['visible'] and action['available']];

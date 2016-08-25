@@ -8,6 +8,7 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
+from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -354,7 +355,17 @@ class SidebarSettingsAdvanced(BaseTile):
                     if '@' in form['email']:
                         # Only use the name part as the domain is fixed.
                         form['email'] = form['email'].split('@')[0]
-
+                if 'related_workspaces' in form and form['related_workspaces']:
+                    # We defined this as a list of TextLine values.
+                    # Therefore, the value from the form must be passed
+                    # as a string with one value per line.
+                    value = form['related_workspaces']
+                    # First, if this is a list, flatten to a comma-separated
+                    # string
+                    value = ','.join([x for x in value if x])
+                    # Now, replace all commas with a new-line character
+                    value = value.replace(',', '\n')
+                    form['related_workspaces'] = value
                 modified, errors = dexterity_update(self.context)
 
                 if 'email' in form and form['email']:
@@ -1030,3 +1041,6 @@ class Sidebar(BaseTile):
             sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def format_event_date(self, event):
+        return format_event_date_for_title(event)

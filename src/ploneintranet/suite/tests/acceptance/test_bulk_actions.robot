@@ -135,7 +135,7 @@ I toggle the bulk action controls
     Sleep  2
     Wait Until Element is Visible  xpath=//div[@id='selector-functions']//a[text()='Select']
     Click link  xpath=//div[@id='selector-functions']//a[text()='Select']
-    Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Copy']
+    Wait Until Element is Visible  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Copy']
 
 I can copy the Minutes word document
     I add an item to the cart  Minutes
@@ -143,7 +143,7 @@ I can copy the Minutes word document
     Wait Until Page Contains  1 Files were copied to your cloud clipboard.
 
 I can paste the Minutes word document
-    Wait Until Element is Visible  xpath=//div[@class='batch-functions']//button[text()='Paste']
+    Wait Until Element is Visible  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Paste']
     I choose to paste the items in the cart
     Wait Until Page Contains  Item(s) pasted
 
@@ -163,20 +163,22 @@ I add an item to the cart
     Click Element  xpath=//strong[text()="${title}"]//ancestor::label/input
 
 I choose to delete the items in the cart
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Delete']
+    # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  css=div.panel-content button.icon-trash
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch delete"]
 
 I choose to cut the items in the cart
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Cut']
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Cut']
 
 I choose to copy the items in the cart
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Copy']
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Copy']
 
 I choose to paste the items in the cart
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Paste']
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Paste']
 
 I choose to send the items in the cart
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Send']
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Send']
 
 I choose to send items to alice_lindstrom
     Wait Until Page Contains Element  xpath=//input[@placeholder='Recipients...']
@@ -189,14 +191,16 @@ I choose to include a message
 
 I choose to retag the items in the cart
     [arguments]  ${tag}
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Re-tag']
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Re-tag']
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch (re)tagging"]
     Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  ${tag},
     Click button  Tag
 
 I choose to rename the items in the cart
     [arguments]  ${old_title}  ${title}
-    Click Element  xpath=//div[@class='batch-functions']//button[text()='Rename']
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Rename']
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch rename"]
     Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
     Click button  form-buttons-send

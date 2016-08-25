@@ -49,4 +49,14 @@
     </field>
     <value purge="false">activity</value>
   </record>
+  <record name="ploneintranet.layout.login_disclaimer">
+    <field type="plone.registry.field.Text">
+      <title>Text for "Disclaimer" on login form</title>
+      <description>
+        The text you enter here will be shown on the login form under the heading "Disclaimer". You can use HTML formatting to add links. Leave blank if you do not want a disclaimer.
+      </description>
+      <required>False</required>
+    </field>
+    <value purge="false"></value>
+  </record>
 </registry>

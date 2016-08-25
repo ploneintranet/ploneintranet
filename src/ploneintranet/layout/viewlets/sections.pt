@@ -22,16 +22,22 @@
         <ul class="plone-nav plone-navbar-nav"
             id="portal-globalnav"
             tal:define="selected_tab python:view.selected_portal_tab">
+            <li>
+              <a class="title">${view/logo_title | string:Intranet}</a>
+            </li>
             <tal:tabs tal:repeat="tab portal_tabs">
               <li tal:define="tid tab/id"
                   tal:attributes="id string:portaltab-${tid}">
-                  <a href=""
-                     tal:content="tab/name"
-                     tal:attributes="href tab/url;
-                                     title tab/description|nothing;
-                                     target tab/link_target|nothing;
-                                     class python:selected_tab==tid and 'current' or nothing">
-                    Tab Name
+                  <a tal:define="current python:selected_tab==tid;
+                                 dashboard python:tid=='dashboard'"
+                    href="${tab/url}#portal-content"
+                    title="${tab/description|nothing}"
+                    target="${tab/link_target|nothing}"
+                    class="tab pat-inject pat-switch ${python:'pat-toggle' if dashboard else ''} ${python:'current' if current else ''}"
+                    data-pat-switch="#app-space state-on state-off"
+                    data-pat-inject="history: record"
+                    data-pat-toggle="${python:'selector: #global-header; value: mobile-menu-on' if dashboard else ''}">
+                    ${tab/name}
                   </a>
               </li>
             </tal:tabs>

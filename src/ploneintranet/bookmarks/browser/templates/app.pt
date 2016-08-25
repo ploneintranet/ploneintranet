@@ -9,8 +9,8 @@
   i18n:domain="ploneintranet">
 
   <metal:content fill-slot="content">
-    <div id="content" class="state-on">
-      <div id="application-body" class="application- application-bookmarks">
+    <div id="app-space" class="state-on">
+      <div id="application-body" class="application- application-bookmarks sidebar-left-open sidebar-right-closed">
         <div id="document-content">
           <nav class="tabs pat-tabs">
             <a href="#directory-all" i18n:translate="">All bookmarks</a>
@@ -167,7 +167,7 @@
                            title="${item/description}"
                            tal:condition="item/preview_image_url"
                         />
-                      <figcaption class="icon-word ${python:view.friendly_type_to_icon_class(item.portal_type)}">
+                      <figcaption class="icon-document ${python:view.friendly_type_to_icon_class(item.portal_type)}">
                         ${item/title}
                       </figcaption>
                     </figure>

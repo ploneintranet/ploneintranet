@@ -130,6 +130,9 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
         if not SOLR_ENABLED:
             return
 
+        import z3c.jbot
+        self.loadZCML(package=z3c.jbot)
+
         import ploneintranet.search.solr
         self.loadZCML(package=ploneintranet.search.solr)
         self.loadZCML(package=ploneintranet.search.solr,
@@ -156,6 +159,11 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         super(PloneIntranetSearchSolrTestContentLayer, self).setUpZope(
             app, configuration_context,
         )
+
+        import ploneintranet.theme
+        self.loadZCML(package=ploneintranet.theme)
+        import ploneintranet.layout
+        self.loadZCML(package=ploneintranet.layout)
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
 
