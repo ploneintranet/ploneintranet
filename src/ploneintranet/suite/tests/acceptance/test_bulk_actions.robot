@@ -42,7 +42,9 @@ Content Editors can copy and paste content
     when I toggle the bulk action controls
     then I can paste the Minutes word document
 
+# https://github.com/quaive/ploneintranet/issues/617
 A member can only bulk delete the items they are allowed to delete
+    [Tags]  fixme
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
       and I open the sidebar documents tile
@@ -96,7 +98,9 @@ A member can send items by email
       and I send the items
      then I see a message that an email has been sent
 
+# https://github.com/quaive/ploneintranet/issues/617
 A content editor can bulk rename an item
+    [Tags]  Heisenbug
     Given I am logged in as the user christian_stoney
       and I go to the Service Announcements Workspace
       and I open the sidebar documents tile
