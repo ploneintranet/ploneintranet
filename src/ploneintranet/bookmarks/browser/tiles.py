@@ -28,3 +28,13 @@ class BookmarksTile(Tile):
             self.app,
             self.request,
         )
+
+    @memoize_contextless
+    def get_bookmarks(self):
+        ''' Return the bookarms accoring to the requested sort_by
+        '''
+        sort_by = self.request.get('sort_by', 'recent')
+        if sort_by == 'popularity':
+            return self.app_bookmarks.most_popular_bookmarks()
+        else:
+            return self.app_bookmarks.my_recent_bookmarks()

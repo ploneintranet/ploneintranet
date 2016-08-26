@@ -1610,14 +1610,22 @@ I can see bookmark grouped by creation date
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Page should contain element  xpath=//h3[contains(text(), 'Last week')]/../ul/li/a[contains(text(), 'Draft proposal')]
 
-I can see the bookmarks tile in the dashboard
-    I open the Dashboard
-    I can see in the bookmark tile that the last bookmark is  Silvio De Paoli
+I can see the bookmarks tile
+    Wait Until Page Contains Element  jquery=.portlet .portlet-title :contains(Bookmarks)
 
 I can query the bookmarks tile for
     [arguments]  ${query}
     Input Text  jquery=#portlet-bookmarks-dashboard [name=SearchableText]  ${query}
     Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I click the portlet tab
+    [arguments]  ${title}
+    Click Element  jquery=.portlet .tabs :contains(${title})
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see in the bookmark tile that the first bookmark is
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard li:first a  ${text}
 
 I can see in the bookmark tile that the last bookmark is
     [arguments]  ${text}

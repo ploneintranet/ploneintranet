@@ -120,6 +120,53 @@ class View(BookmarkView):
         return tuple(sorted(bookmarks, key=self.get_sortable_title))
 
     @memoize
+    def my_recent_bookmarks(self, limit=10):
+        ''' Lookup my recent bookmarks
+        '''
+        userid = api.user.get_current().id
+        dates = self.ploneintranet_network._bookmarked_on.get(userid, {})
+
+        bookmarks = self.my_bookmarks_of_type()
+        bookmarks = sorted(
+            self.my_bookmarks_of_type(),
+            key=lambda bookmark: dates.get(bookmark.UID),
+        )
+        return tuple(bookmarks[:limit])
+
+    @memoize
+    def most_popular_bookmarks(self, limit=10):
+        ''' Lookup my recent bookmarks
+        '''
+        content = self.ploneintranet_network._bookmarked["content"]
+        sorted_uids = sorted(
+            content,
+            key=lambda uid: len(content[uid])
+        )
+        # We slice this list taking a lot of margin
+        # with respect to the requested limit
+        # In fact, not all the content is visibility to the authenticated user
+        # Hopefully the most bookmarked are also the most public ones
+        sorted_uids = sorted_uids[-limit * 5:]
+        if not sorted_uids:
+            return ()
+
+        search_util = getUtility(ISiteSearch)
+        response = search_util.query(
+            filters={
+                'UID': sorted_uids,
+            },
+            step=limit * 5,
+        )
+
+        # Sort the response results by their
+        # reversed position in the sorted_uids list
+        response = sorted(
+            response,
+            key=lambda result: - sorted_uids.index(result.UID)
+        )
+        return tuple(response[:limit])
+
+    @memoize
     def my_bookmarks_by_created(self):
         ''' Get all the bookmarked objects grouped by creation date
         '''

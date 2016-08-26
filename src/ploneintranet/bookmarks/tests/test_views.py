@@ -49,7 +49,7 @@ class TestViews(FunctionalTestCase):
         """
         z2.login(self.layer['app']['acl_users'], SITE_OWNER_NAME)
 
-    def bookmark_contents(self):
+    def bookmark_contents(self, fiddle_dates=False, boost=False):
         app = self.bookmark_app
         page = self.portal['bookmarkable-page']
         person = self.portal.profiles['bookmarkable-one']
@@ -59,11 +59,20 @@ class TestViews(FunctionalTestCase):
         pn.bookmark('content', page.UID())
         pn.bookmark('content', person.UID())
         pn.bookmark('content', ws.UID())
-        bookmarked_on = pn._bookmarked_on[u'admin']
-        # ws will result bookmarked two days ago
-        bookmarked_on[ws.UID()] = (DateTime() - 2).asdatetime()
-        # app will result bookmarked 100 days ago
-        bookmarked_on[app.UID()] = (DateTime() - 100).asdatetime()
+
+        # We may want to play with the bookmark dates for grouping/sorting
+        if fiddle_dates:
+            bookmarked_on = pn._bookmarked_on[u'admin']
+            # ws will result bookmarked two days ago
+            bookmarked_on[ws.UID()] = (DateTime() - 2).asdatetime()
+            # app will result bookmarked 100 days ago
+            bookmarked_on[app.UID()] = (DateTime() - 100).asdatetime()
+
+        # We may want to play with the bookmark frequency for sorting
+        if boost:
+            [pn.bookmark('content', app.UID(), str(idx)) for idx in range(2)]
+            [pn.bookmark('content', page.UID(), str(idx)) for idx in range(3)]
+            [pn.bookmark('content', ws.UID(), str(idx)) for idx in range(1)]
 
     def get_request(self, params={}):
         ''' Prepare a fresh request
@@ -288,7 +297,7 @@ class TestViews(FunctionalTestCase):
         )
 
     def test_app_bookmarks_grouped_by_bookmarked(self):
-        self.bookmark_contents()
+        self.bookmark_contents(fiddle_dates=True)
         view = self.get_app_bookmarks({
             'group_by': 'bookmarked',
         })
@@ -356,7 +365,7 @@ class TestViews(FunctionalTestCase):
     def test_app_bookmarks_grouped_by_bookmarked_and_filtered(self):
         ''' We search and filter bookmarks
         '''
-        self.bookmark_contents()
+        self.bookmark_contents(fiddle_dates=True)
         view = self.get_app_bookmarks({
             'SearchableText': 'page',
             'group_by': 'bookmarked',
@@ -400,41 +409,132 @@ class TestViews(FunctionalTestCase):
             ]
         )
 
+    def test_my_recent_bookmarks(self):
+        '''
+        '''
+        view = self.get_app_bookmarks()
+        self.assertListEqual(
+            [x.title for x in view.my_recent_bookmarks()],
+            [],
+        )
+        self.bookmark_contents(fiddle_dates=True)
+        view = self.get_app_bookmarks()
+        self.assertListEqual(
+            [x.title for x in view.my_recent_bookmarks()],
+            [
+                'Bookmarks',
+                'Bookmarkable workspace',
+                'Bookmarkable page',
+                u'Bookmarkable One'
+            ],
+        )
+        # We can even limit the results
+        self.assertListEqual(
+            [x.title for x in view.my_recent_bookmarks(2)],
+            [
+                'Bookmarks',
+                'Bookmarkable workspace',
+            ],
+        )
+
+    def test_most_popular_bookmarks(self):
+        view = self.get_app_bookmarks()
+        self.assertListEqual(
+            [x.title for x in view.most_popular_bookmarks()],
+            [],
+        )
+        self.bookmark_contents(boost=True)
+        view = self.get_app_bookmarks()
+        self.assertListEqual(
+            [x.title for x in view.most_popular_bookmarks()],
+            [
+                'Bookmarkable page',
+                'Bookmarks',
+                'Bookmarkable workspace',
+                u'Bookmarkable One',
+            ],
+        )
+        # We can even limit the results
+        self.assertListEqual(
+            [x.title for x in view.most_popular_bookmarks(2)],
+            [
+                'Bookmarkable page',
+                'Bookmarks',
+            ],
+        )
+
+    def get_bookmarks_tile(self, params={}):
+        ''' Returns the bookmarks.tile in the context of the portal
+        with the given request parameters
+        '''
+        return api.content.get_view(
+            'bookmarks.tile',
+            self.portal,
+            self.get_request(params)
+        )
+
     def test_bookmarks_tile(self):
         ''' The bookmarks tile displays and filters the bookmarks
         '''
-        tile = api.content.get_view(
-            'bookmarks.tile',
-            self.portal,
-            self.get_request()
-        )
-        # we hav a tile that displays the bookmarks using the app-bookmarks
-        self.assertTupleEqual(tile.app_bookmarks.my_bookmarks(), ())
+        # we have a tile that displays the bookmarks using the app-bookmarks
+        tile = self.get_bookmarks_tile()
 
-        # We bookmark some contents and the application
-        pn = api.portal.get_tool('ploneintranet_network')
-        ws = self.portal['workspaces']['bookmarkable-workspace']
-        page = self.portal['bookmarkable-page']
-        app = self.bookmark_app
-        pn.bookmark('content', ws.UID())
-        pn.bookmark('content', page.UID())
-        pn.bookmark('content', app.UID())
+        # For the moment nothing is bookmarked
+        self.assertTupleEqual(tile.get_bookmarks(), ())
 
         # Let's cleanup the request to invalidate the cache
+        # and create some bookmarks
         tile.request = self.get_request()
-        self.assertEqual(len(tile.app_bookmarks.my_bookmarks()), 3)
+        self.bookmark_contents()
+        self.assertEqual(len(tile.get_bookmarks()), 4)
 
-        # if we specify an id_suffix the tile will use it while rendering
-        # to avoid collisions with other similar portlets.
-        tile = api.content.get_view(
-            'bookmarks.tile',
-            self.portal,
-            self.get_request({
-                'id_suffix': 'zzz',
-            })
-        )
+    def test_bookmarks_tile_suffix(self):
+        ''' The bookmarks tile can be used multiple times in a page:
+        id must be unique
+        '''
+        tile = self.get_bookmarks_tile({
+            'id_suffix': 'zzz',
+        })
         page = tile()
         self.assertIn('id="portlet-bookmarkszzz"', page)
         self.assertIn('id="bookmarks-search-itemszzz"', page)
         self.assertIn('#bookmarks-search-itemszzz"', page)
         self.assertIn('id="portlet-bookmarks-bookmarks-listzzz"', page)
+
+    def test_bookmarks_tile_sort_by(self):
+        ''' The bookmark tile should return the bookmarks according
+        to the sort_by parameter in the request
+        '''
+        self.bookmark_contents(fiddle_dates=True, boost=True)
+        tile = self.get_bookmarks_tile()
+        # By default it returns the most recent ones
+        self.assertListEqual(
+            [x.title for x in tile.get_bookmarks()],
+            [
+                'Bookmarks',
+                'Bookmarkable workspace',
+                'Bookmarkable page',
+                u'Bookmarkable One'
+            ],
+        )
+        tile = self.get_bookmarks_tile({'sort_by': 'recent'})
+        self.assertListEqual(
+            [x.title for x in tile.get_bookmarks()],
+            [
+                'Bookmarks',
+                'Bookmarkable workspace',
+                'Bookmarkable page',
+                u'Bookmarkable One'
+            ],
+        )
+        # But we can sort by popularity and see the order changing
+        tile = self.get_bookmarks_tile({'sort_by': 'popularity'})
+        self.assertListEqual(
+            [x.title for x in tile.get_bookmarks()],
+            [
+                'Bookmarkable page',
+                'Bookmarks',
+                'Bookmarkable workspace',
+                u'Bookmarkable One',
+            ],
+        )

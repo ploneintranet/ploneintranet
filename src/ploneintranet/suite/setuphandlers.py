@@ -923,6 +923,11 @@ def create_bookmarks():
         portal['profiles']['silvio_depaoli'].UID(),
         u'allan_neece'
     )
+    pn.bookmark(
+        'content',
+        portal['apps']['bookmarks'].UID(),
+        u'fernando_poulter'
+    )
 
 
 def create_messages():
