@@ -35,6 +35,17 @@ class IApp(form.Schema):
         required=False,
     )
 
+    css_class = ASCIILine(
+        title=_('app_class_label', 'App CSS class'),
+        description=_(
+            'app_class_description',
+            u"Define which CSS class the app should have. If it is the same "
+            u"as the app's id, then you can leave this blank"
+        ),
+        default='',
+        required=False,
+    )
+
     app_parameters = Text(
         title=_('app_parameters_label', u'App parameters'),
         description=_(
@@ -60,6 +71,9 @@ class AppsContainer(Container):
 class App(Item):
     ''' An App
     '''
+
+    def get_class(self):
+        return self.css_class or self.getId()
 
 
 class AbstractAppContainer(object):

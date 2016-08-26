@@ -1,8 +1,8 @@
-<div class="tile app app-${here/getId} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
+<div class="tile app app-${here/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
     <a href="${here/absolute_url}#document-content"
        class="link ${view/modal}">
       <img class="icon"
-           src="${here/portal_url}/++theme++ploneintranet.theme/generated/apps/${here/getId}/icon.svg"
+           src="${here/portal_url}/++theme++ploneintranet.theme/generated/apps/${here/get_class}/icon.svg"
            alt="${here/title}"
         />
       <h3>${here/title}</h3>
