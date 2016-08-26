@@ -56,6 +56,13 @@ def content_statechanged(obj, event):
         logger.debug("%s disabled", event_key)
         return
 
+    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
+    try:
+        if obj.portal_type not in whitelist:
+            return
+    except AttributeError:
+        return
+
     if event.new_state.id not in ('published',):
         return
     action_verb = event.new_state.id
