@@ -27,7 +27,7 @@ def configureFrontPage(context):
                                 type='string')
 
 
-def create_apps_container():
+def create_apps_container(with_apps=True):
     portal = api.portal.get()
 
     if apps_container_id not in portal:
@@ -37,7 +37,9 @@ def create_apps_container():
             title='Apps'
         )
         api.content.transition(apps_container, 'publish')
-    create_apps()
+
+    if with_apps:
+        create_apps()
 
 
 def create_apps():
