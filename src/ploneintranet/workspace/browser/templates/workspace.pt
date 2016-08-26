@@ -26,11 +26,16 @@
 
                 <div id="document-body">
                     <!-- XXX complete integration -->
-                    <div id="workspace-header" class="pat-bumper  sticky-supported bumped" style="position: relative; top: 7px;">
+                    <div id="workspace-header" class="pat-bumper ${python:context.hero_image and 'has-hero' or ''}">
+                        <img class="hero-image" src="${context/absolute_url}/@@images/hero_image" tal:condition="context/hero_image | nothing">
                         <div class="content">
                             <h1 class="title" id="top" tal:content="here/Title">
                                 Open Market Committee
                             </h1>
+
+                            <h2 class="byline" tal:define="members here/existing_users">
+                                <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
+                            </h2>
                             <form class="pat-inject buttons">
                                 <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
 
@@ -44,10 +49,6 @@
 
                                 </fieldset>
 -->                                </form>
-
-                            <h2 class="byline" tal:define="members here/existing_users">
-                                <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
-                            </h2>
                         </div>
                     </div>
 
@@ -62,6 +63,9 @@
                     <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
                     <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
                     <div id="activity-stream" data-tile="./@@activitystream.tile" tal:attributes="data-tile string:${workspace_url}/@@activitystream.tile" ></div>
+                    <p id="scroll-to-workspace-top" hidden="">
+                        <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
+                    </p>
                 </div>
 
                 <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
