@@ -6,12 +6,18 @@ from ploneintranet import api as pi_api
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.utils import in_app
+from Products.Five import BrowserView
 from zope.interface import alsoProvides
 
 
 class FakeCurrentUser(object):
     ''' This mocks a membrane user ofr out tests
     '''
+
+
+class AppWithParametersView(BrowserView):
+    def __call__(self):
+        return self.request.form
 
 
 class TestViews(IntegrationTestCase):
@@ -34,14 +40,20 @@ class TestViews(IntegrationTestCase):
         '''
         for app in [
             {'title': 'Empty app', 'app_path': ''},
-            {'title': 'Private app', 'app_path': 'test_rendering'},
-            {'title': 'Public app', 'app_path': 'test_rendering'},
+            {'title': 'Private app', 'app_path': 'robots.txt'},
+            {'title': 'Public app', 'app_path': 'robots.txt'},
+            {
+                'title': 'App with parameters',
+                'app_path': '@@app-with-parameters',
+                'app_parameters': '{"foo": "bar"}'
+            },
         ]:
             api.content.create(
                 self.portal.apps,
                 type='ploneintranet.layout.app',
                 title=app['title'],
                 app=app['app_path'],
+                app_parameters=app.get('app_parameters', u''),
             )
         api.content.transition(
             self.portal.apps['public-app'],
@@ -154,6 +166,14 @@ class TestViews(IntegrationTestCase):
         # We want all the configured app to be really there
         # there may be more e.g. bookmarks but out of test scope here
         self.assertSetEqual(configured.difference(found), set([]))
+
+    def test_app_view(self):
+        app = self.portal.apps['private-app']
+        self.assertTrue(app().startswith('Sitemap'))
+
+        # This is a testing app with parameters that return the parameters
+        app = self.portal.apps['app-with-parameters']
+        self.assertDictEqual(app(), {u'foo': u'bar'})
 
     def get_app_tile(self, app_id):
         ''' Return the app tile view for the given app_id

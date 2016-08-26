@@ -8,6 +8,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.layers import enable_app_layer
 from zope.interface import implementer
 from zope.schema import ASCIILine
+from zope.schema import Text
 from ZPublisher.BeforeTraverse import registerBeforeTraverse
 
 
@@ -31,6 +32,19 @@ class IApp(form.Schema):
             u'The path to the App you want to add (e.g. @@case-manager)',
         ),
         default='',
+        required=False,
+    )
+
+    app_parameters = Text(
+        title=_('app_parameters_label', u'App parameters'),
+        description=_(
+            'app_parameters_description',
+            (
+                u'Add some request parameters in a json format, e.g.: '
+                u'{"query": "News"} '
+            ),
+        ),
+        default=u'',
         required=False,
     )
 

@@ -14,6 +14,13 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="app-with-parameters"
+      for="ploneintranet.layout.app.IApp"
+      class=".test_views.AppWithParametersView"
+      permission="zope2.View"
+      />
+
    <genericsetup:registerProfile
         name="testing"
         title="Plone Intranet: -- [Layout: Testing]"

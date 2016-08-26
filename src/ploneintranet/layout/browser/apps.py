@@ -1,8 +1,13 @@
 # coding=utf-8
 from AccessControl.unauthorized import Unauthorized
+from json import loads
+from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
 from zope.publisher.browser import BrowserView
+
+
+logger = getLogger(__name__)
 
 
 class AppNotAvailable(BrowserView):
@@ -31,8 +36,20 @@ class BaseAppView(BrowserView):
     @property
     @memoize
     def app_view(self):
-        ''' Try to get the view for the app
+        ''' Try to get the view for the app.
+
+        Update the request form with the app parameters if needed
         '''
+        params = {}
+        if self.context.app_parameters:
+            try:
+                params = loads(self.context.app_parameters)
+            except ValueError:
+                logger.exception(
+                    'The app parameters %r are cannot be decoded to JSON.',
+                    self.context.app_parameters
+                )
+        self.request.form.update(params)
         return api.content.get_view(
             self.context.app.lstrip('@@'),
             self.context,
