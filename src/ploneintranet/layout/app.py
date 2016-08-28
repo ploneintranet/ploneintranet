@@ -6,6 +6,7 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.layers import enable_app_layer
+from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from zope.interface import implementer
 from zope.schema import ASCIILine
 from zope.schema import Text
@@ -60,7 +61,7 @@ class IApp(form.Schema):
     )
 
 
-@implementer(IAppsContainer, IAttachmentStoragable)
+@implementer(IAppsContainer, IAttachmentStoragable, IHideFromBreadcrumbs)
 class AppsContainer(Container):
     """
     A folder to contain Apps.
