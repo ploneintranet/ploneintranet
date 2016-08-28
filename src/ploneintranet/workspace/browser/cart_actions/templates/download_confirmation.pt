@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed focus-listing  generic application-workspace application- ">
+    <div id="content" class="modal">
+      <div id="document-content" class="pat-modal">
+        <h1 i18n:translate="">Batch download</h1>
+
+        <form method="POST" 
+              action="cart-download" 
+              class="wizard-box">
+
+          <div class="panel-body">
+
+            <fieldset class="vertical rename"
+                      tal:define="items view/downloadable_items;
+                                  downloadable_items python:items[0];
+                                  not_downloadable_items python:items[1];">
+
+              <tal:downloadable_items repeat="item downloadable_items">
+		        ${item/title} ${item/getObjSize}
+                <input type="hidden" name="items:list" value="${item/UID}"/>
+              </tal:downloadable_items>
+
+            </fieldset>
+          </div>
+
+          <div class="buttons panel-footer">
+            <button i18n:translate="" id="form-buttons-send" type="submit" class="icon-ok-circle"> Download </button>
+            <button i18n:translate="" type="button" class="close-panel icon-cancel-circle"> Cancel </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

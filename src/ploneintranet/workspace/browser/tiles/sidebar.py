@@ -4,6 +4,7 @@ from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
+from ...utils import archives_shown
 from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
@@ -19,6 +20,7 @@ from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
+from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.utils import safe_unicode
@@ -34,7 +36,6 @@ from zope.publisher.browser import BrowserView
 from zope.schema import getFieldNames
 from zope.schema.interfaces import IVocabularyFactory
 import logging
-
 
 log = logging.getLogger(__name__)
 
@@ -366,6 +367,7 @@ class SidebarSettingsAdvanced(BaseTile):
                     # Now, replace all commas with a new-line character
                     value = value.replace(',', '\n')
                     form['related_workspaces'] = value
+
                 modified, errors = dexterity_update(self.context)
 
                 if 'email' in form and form['email']:
@@ -414,7 +416,8 @@ class Sidebar(BaseTile):
             ws = self.workspace()
             self.set_grouping_cookie()
             # wft = api.portal.get_tool("portal_workflow")
-            section = self.request.form.get('section', None)
+            section = self.request.form.get('section', self.section)
+            set_show_extra_cookie(self.request, section)
             do_reindex = False
 
             # Do the workflow transitions based on what tasks the user checked
@@ -584,6 +587,8 @@ class Sidebar(BaseTile):
         allowed_types = [i for i in api.portal.get_tool('portal_types')
                          if i not in BLACKLISTED_TYPES]
         query['portal_type'] = allowed_types
+        if not self.archives_shown():
+            query['outdated'] = False
 
         #
         # 1. Retrieve the items
@@ -705,7 +710,14 @@ class Sidebar(BaseTile):
                              if i not in BLACKLISTED_TYPES]
             query['portal_type'] = allowed_types
             query['sort_on'] = 'sortable_title'
-            return self._extract_attrs(self.context.getFolderContents(query))
+            query['path'] = {
+                'query': '/'.join(self.context.getPhysicalPath()),
+                'depth': 1,
+            }
+            if not self.archives_shown():
+                query['outdated'] = False
+            pc = api.portal.get_tool('portal_catalog')
+            return self._extract_attrs(pc.searchResults(query))
 
         elif grouping == 'date':
             # Group by Date, this is a manual list
@@ -742,7 +754,7 @@ class Sidebar(BaseTile):
         # respective grouping headers. Fetch them for the selected grouping.
         headers = storage.get_order_for(
             grouping,
-            include_archived='archived_tags' in self.show_extra,
+            include_archived=self.archives_shown(),
             alphabetical=True
         )
 
@@ -844,8 +856,8 @@ class Sidebar(BaseTile):
         #     username = api.user.get_current().getId()
         #     criteria['Creator'] = username
 
-        # if not self.archives_shown():
-        #     criteria['outdated'] = False
+        if not self.archives_shown():
+            criteria['outdated'] = False
 
         def values_in_grouping(name, value):
             gs = IGroupingStorage(workspace)
@@ -987,11 +999,11 @@ class Sidebar(BaseTile):
             self.section, api.user.get_current().getId())
         return self.request.get(cookie_name, '').split('|')
 
-    # def archives_shown(self):
-    #     """
-    #     Tell if we should show archived items or not
-    #     """
-    #     return utils.archives_shown(self.context, self.request, self.section)
+    def archives_shown(self):
+        """
+        Tell if we should show archived items or not
+        """
+        return archives_shown(self.context, self.request, self.section)
 
     # def urlquote(self, value):
     #     """

@@ -70,4 +70,13 @@
         profile="ploneintranet.workspace:default"
       />
 
+    <genericsetup:upgradeStep
+        title="Configure the portal for extra bulk actions"
+        description=""
+        source="*"
+        destination="0012"
+        handler=".bulk_actions.bulk_actions_configuration"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>

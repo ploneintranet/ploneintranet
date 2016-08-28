@@ -124,46 +124,52 @@
                       <!--         data-pat-depends="condition: false; action: enable" -->
                       <!--         title="Post selected document(s) on a timeline">Share</button> -->
                     </span>
-                    <div class="pat-collapsible context-menu open" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
-                        <strong class="label collapsible-open" i18n:translate="">More&hellip;</strong>
-                        <div class="panel-content" style="display: block;">
-                          <ul class="menu">
-                            <li>
-                                <button disabled class="icon-archive" type="submit" name="batch-function" value="archive">Archive (coming soon)</button>
-                            </li>
-                            <li>
-                                <button disabled class="icon-subscribe disabled" type="submit" name="batch-function" value="subscribe">Subscribe (coming soon)</button>
-                            </li>
-                            <li>
-                                <button disabled class="icon-download" type="submit" name="batch-function" value="download">Download (coming soon)</button>
-                            </li>
-                            <li>
-                                <button type="submit"
-                                        class="icon-rename"
-                                        title="Rename"
-                                        formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
-                                        i18n:translate=""
-                                        i18n:attributes="title">Rename</button>
-                            </li>
-                            <li>
-                                <button type="submit"
-                                        class="icon-tags"
-                                        title="Re-tag"
-                                        formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
-                                        i18n:translate=""
-                                        i18n:attributes="title">Re-tag</button>
-                            </li>
-                            <li>
-                                <button type="submit"
-                                        class="icon-trash"
-                                        title="Delete"
-                                        formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
-                                        i18n:translate=""
-                                        i18n:attributes="title">Delete</button>
-
-                            </li>
-                          </ul>
-                        </div>
+                    <div class="pat-collapsible context-menu closed" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
+                      <strong class="label">More…</strong>
+                      <ul class="menu">
+                        <li>
+                          <button type="submit"
+                                  class="icon-archive"
+                                  title="Archive"
+                                  formaction="${context/absolute_url}/cart-archive?_authenticator=${token}"
+                                  i18n:translate="" i18n:attributes="title">Archive</button>
+                        </li>
+                        <li>
+                          <button type="submit"
+                                  class="icon-subscribe"
+                                  title="Subscribe"
+                                  formaction="${context/absolute_url}/cart-subscribe?_authenticator=${token}"
+                                  i18n:translate="" i18n:attributes="title">Subscribe</button>
+                        </li>
+                        <li>
+                          <button type="submit"
+                                  class="icon-download"
+                                  title="Download"
+                                  formaction="${context/absolute_url}/cart-download-confirm?_authenticator=${token}"
+                                  i18n:translate="" i18n:attributes="title">Download</button>
+                        </li>
+                        <li>
+                          <button type="submit"
+                                  class="icon-trash"
+                                  title="Delete"
+                                  formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
+                                  i18n:translate="" i18n:attributes="title">Delete</button>
+                        </li>
+                        <li>
+                          <button type="submit"
+                                  class="icon-tags"
+                                  title="Re-tag"
+                                  formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
+                                  i18n:translate="" i18n:attributes="title">Re-tag</button>
+                        </li>
+                        <li>
+                          <button type="submit"
+                                  class="icon-rename"
+                                  title="Rename"
+                                  formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
+                                  i18n:translate="" i18n:attributes="title">Rename</button>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -264,37 +270,38 @@ Supported types include (class names):
               </form>
             </tal:can_add>
 
-            <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
-              <ul class="menu">
-                <tal:can_add condition="view/can_add">
+            <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.default#workspace-documents" method="post"
+                  tal:define="show_extra view/show_extra">
+              <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
+                <ul class="menu">
+                  <tal:can_add condition="view/can_add">
+                    <li>
+                      <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
+                    </li>
+                    <li>
+                      <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                    </li>
+                    <li>
+                      <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                    </li>
+                    <li>
+                      <a href="${context/absolute_url}/@@add_link" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
+                    </li>
+                  </tal:can_add>
                   <li>
-                    <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
-                  </li>
-                  <li>
-                    <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
-                  </li>
-                  <li>
-                    <a href="${context/absolute_url}/@@add_link"
-                       class="icon-link create-document pat-modal"
-                       data-pat-modal="class: large"
-                       i18n:translate=""
-                      >Create link</a>
-                  </li>
-                  <li>
-                    <label class="icon-upload-cloud">
-                      <input multiple="multiple" type="file"/>
-                      <span tal:omit-tag="" i18n:translate="">Upload file(s)</span>
+                    <label class="pat-checklist">
+                      <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra">Show archived documents</input>
+                      <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
                     </label>
                   </li>
-                </tal:can_add>
-                <!-- This is commented until the functionality will be completed -->
-                <!--li>
-                    <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                    </li-->
-              </ul>
-            </div>
-
-
+                  <!-- This is commented until the functionality will be completed -->
+                  <!--li>
+                      <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                      </li-->
+                </ul>
+              </div>
+            </form>
+              
             <div hidden="hidden" id="selector-create-menu">
               <ul class="menu">
                 <li>

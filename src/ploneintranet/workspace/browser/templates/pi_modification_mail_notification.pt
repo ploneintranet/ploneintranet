@@ -1,0 +1,26 @@
+<metal:define 
+    tal:define="portal_state context/@@plone_portal_state;
+                portal python: portal_state.portal();
+                portal_title portal/title;
+                charset portal/portal_properties/site_properties/default_charset | string:utf-8;
+                lt string:&lt;;gt string:&gt;;
+                dummy python:request.RESPONSE.setHeader('Content-Type','text/html;; charset=%s' % charset);
+                mail_settings view/mail_settings;
+">From: <span tal:replace="mail_settings/email_from_name"/> <span tal:replace="structure lt"/><span tal:replace="mail_settings/email_from_address"/><span tal:replace="structure gt"/>
+Subject: [Notification from <span tal:replace="portal_title"/>] Item has been edited: "<span tal:replace="here/Title"/>"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+
+    Hello,
+
+  Item "<span tal:replace="here/Title"/>" has been edited.
+  The Change note was: <span tal:replace="options/changenote|nothing" />.
+
+  <span tal:replace="string:${here/absolute_url}/view"/>
+
+    Regards,
+
+-- 
+<span tal:replace="portal_title"/>
+</metal:define>

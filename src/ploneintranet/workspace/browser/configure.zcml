@@ -384,4 +384,13 @@
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
+    <browser:page
+      for="*"
+      name="pi_modification_mail_notification"
+      class=".mail_notification.MailNotificationView"
+      template="templates/pi_modification_mail_notification.pt"
+      permission="zope2.View"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
 </configure>

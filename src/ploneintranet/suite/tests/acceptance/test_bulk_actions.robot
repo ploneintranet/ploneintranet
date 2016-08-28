@@ -130,6 +130,39 @@ A content editor can bulk retag an item
       and I choose to retag the items in the cart  bulk_tag
      then I see a message that some items have been tagged
 
+A content editor can bulk archive an item
+    Given I am logged in as the user christian_stoney
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I can create a new document  Archivable doc
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Archivable doc
+      and I choose to archive the items in the cart
+     then I see a message that items have been archived
+      and I open the sidebar documents tile
+     then I don't see an archived item  Archivable doc
+      and I show archived items
+     then I do see an archived item  Archivable doc
+
+A member can subscribe to changes of a document
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to subscribe the items in the cart
+     then I see a message that I am subscribed
+
+A member can bulk download a document
+    Given I am logged in as the user guy_hackey
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I choose to download the items in the cart
+     then I can download items
+
 
 *** Keywords ***
 
@@ -209,6 +242,18 @@ I choose to rename the items in the cart
     Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
     Click button  form-buttons-send
 
+I choose to archive the items in the cart
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Archive']
+
+I choose to subscribe the items in the cart
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Subscribe']
+
+I choose to download the items in the cart
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Download']
+
 I send the items
     Click button  xpath=//button[@id='form-buttons-send']
 
@@ -219,6 +264,18 @@ I confirm to delete the items
 I save the document
     Click button  Save
     Wait until page does not contain element  xpath=//div[@id='application-body' and contains(@class, 'injecting-content')]
+
+I show archived items
+    Click link  Functions
+    Select checkbox  xpath=//input[@name='show_archived_documents']
+
+I don't see an archived item
+    [arguments]  ${title}
+    Wait until page does not contain element  xpath=//strong[@class='title'][text()='${title}']
+
+I do see an archived item
+    [arguments]  ${title}
+    Wait until page contains element  xpath=//strong[@class='title'][text()='${title}']
 
 I see a message that items have been deleted
     [arguments]  ${title}
@@ -248,3 +305,12 @@ I see a message that no items have been renamed
 
 I see a message that some items have been renamed
     Wait Until Page Contains  The following items have been renamed
+
+I see a message that items have been archived
+    Wait Until Page Contains  The following items have been archived
+
+I see a message that I am subscribed
+    Wait Until Page Contains  You have been subscribed to this item
+
+I can download items
+    Wait Until Page Contains  Batch download

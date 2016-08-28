@@ -45,6 +45,16 @@
     <browser:page name="cart-retag-confirm" attribute="confirm"/>
   </browser:pages>
 
+
+
+  <browser:pages
+      for="*"
+      permission="zope2.View"
+      class=".cart_actions.download.DownloadView">
+    <browser:page name="cart-download" attribute="download"/>
+    <browser:page name="cart-download-confirm" attribute="confirm"/>
+  </browser:pages>
+
   <browser:page
       for="*"
       permission="zope2.View"
@@ -65,5 +75,19 @@
       permission="cmf.AddPortalContent"
       template="cart_actions/templates/reload-helper.pt"
       name="cart-paste"/>
+
+  <browser:page
+      for="*"
+      class=".cart_actions.archive.ArchiveView"
+      permission="zope2.View"
+      template="cart_actions/templates/reload-helper.pt"
+      name="cart-archive"/>
+
+  <browser:page
+      for="*"
+      class=".cart_actions.subscribe.SubscribeView"
+      permission="zope2.View"
+      template="templates/globalstatusmessage.pt"
+      name="cart-subscribe"/>
 
 </configure>
