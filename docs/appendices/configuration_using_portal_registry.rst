@@ -56,6 +56,18 @@ ploneintranet.layout.dashboard_default
     **default**: activity
 
 
+ploneintranet.layout.login_spash
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    tilte: Splash image for the login form
+
+    **description**: This is the path, relative to the portal url, used to customize the login_form splash image
+
+    **type**: plone.registry.field.TextLine
+
+    **default**: ++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg
+
+
 ploneintranet.search
 --------------------
 
