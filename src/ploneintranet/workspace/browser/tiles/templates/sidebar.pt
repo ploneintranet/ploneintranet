@@ -48,8 +48,43 @@
 
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-                <a class="selector-toggle-select more-menu-trigger"
-                   tal:condition="python:view.can_add() or view.can_edit()">Functions</a>
+                
+                <div class="pat-collapsible context-menu align-right open" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
+                  <strong class="label iconfified more-menu-trigger collapsible-open">More…</strong>
+                  <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.default#workspace-documents" method="post"
+                                    tal:define="show_extra view/show_extra">
+                      <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
+                        <ul class="menu">
+                          <tal:can_add condition="view/can_add">
+                            <li>
+                              <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
+                            </li>
+                            <li>
+                              <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                            </li>
+                            <li>
+                              <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
+                            </li>
+                            <li>
+                              <a href="${context/absolute_url}/@@add_link" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
+                            </li>
+                          </tal:can_add>
+                          <li>
+                            <label class="pat-checklist">
+                              <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra">Show archived documents</input>
+                              <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
+                            </label>
+                          </li>
+                          <!-- This is commented until the functionality will be completed -->
+                          <!--li>
+                              <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
+                              </li-->
+                        </ul>
+                      </div>
+                    </form>
+                </div>
+<!--                 <a class="selector-toggle-select more-menu-trigger"
+                   tal:condition="python:view.can_add() or view.can_edit()">Functions</a> -->
                 <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
@@ -270,37 +305,6 @@ Supported types include (class names):
               </form>
             </tal:can_add>
 
-            <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.default#workspace-documents" method="post"
-                  tal:define="show_extra view/show_extra">
-              <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .selector-toggle-select" id="selector-more-menu">
-                <ul class="menu">
-                  <tal:can_add condition="view/can_add">
-                    <li>
-                      <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
-                    </li>
-                    <li>
-                      <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
-                    </li>
-                    <li>
-                      <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
-                    </li>
-                    <li>
-                      <a href="${context/absolute_url}/@@add_link" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
-                    </li>
-                  </tal:can_add>
-                  <li>
-                    <label class="pat-checklist">
-                      <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra">Show archived documents</input>
-                      <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
-                    </label>
-                  </li>
-                  <!-- This is commented until the functionality will be completed -->
-                  <!--li>
-                      <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
-                      </li-->
-                </ul>
-              </div>
-            </form>
               
             <div hidden="hidden" id="selector-create-menu">
               <ul class="menu">
