@@ -134,7 +134,7 @@
                                   formaction="${context/absolute_url}/cart-archive?_authenticator=${token}"
                                   i18n:translate="" i18n:attributes="title">Archive</button>
                         </li>
-                        <li>
+                        <li tal:condition="view/can_subscribe">
                           <button type="submit"
                                   class="icon-subscribe"
                                   title="Subscribe"
@@ -301,7 +301,7 @@ Supported types include (class names):
                 </ul>
               </div>
             </form>
-              
+
             <div hidden="hidden" id="selector-create-menu">
               <ul class="menu">
                 <li>

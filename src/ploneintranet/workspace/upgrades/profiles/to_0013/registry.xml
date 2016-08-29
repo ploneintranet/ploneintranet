@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.allow_bulk_subscribe">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <title>Allow subscribe in workspace bulk action</title>
+      <description>If checked, the user can subscribe to the selected objects</description>
+      <required>False</required>
+    </field>
+    <value purge="false">True</value>
+  </record>
+</registry>

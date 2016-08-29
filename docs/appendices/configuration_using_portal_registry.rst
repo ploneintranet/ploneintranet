@@ -233,6 +233,18 @@ ploneintranet.userprofile.locations
 ploneintranet.workpace
 ----------------------
 
+ploneintranet.workspace.allow_bulk_subscribe
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**title**: Allow the subscribe bulk action
+
+**description**: If set to True, the user can subscribe to the selected objects
+
+**type**: plone.registry.field.Bool
+
+**default**: True
+
+
 ploneintranet.workspace.case_manager.states
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

@@ -20,6 +20,7 @@ from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
@@ -150,6 +151,13 @@ class BaseTile(BrowserView):
         return api.user.has_permission(
             "Delete objects",
             obj=obj,
+        )
+
+    def can_subscribe(self):
+        ''' Check if we see the subscribe feature in the bulk actions
+        '''
+        return get_record_from_registry(
+            'ploneintranet.workspace.allow_bulk_subscribe', True
         )
 
     def month_name(self, date):

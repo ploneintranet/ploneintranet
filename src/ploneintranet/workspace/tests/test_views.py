@@ -195,3 +195,34 @@ class TestFileUploadView(BaseViewTest):
             mock_call.return_value = '{"type": "dummy"}'
             self.assertEqual(self.view(), None)
             self.assertEqual(self.request.response.getStatus(), 302)
+
+
+class TestWorkspaceSidebar(BaseViewTest):
+    def setUp(self):
+        super(TestWorkspaceSidebar, self).setUp()
+
+    def test_subscribe_button_configurable(self):
+        ''' There is a registry record
+        (ploneintranet.workspace.allow_bulk_subscribe)
+        that can be used to hide the subscribe button from the sidebar
+        bulk actions
+        '''
+        view = api.content.get_view(
+            'sidebar.default',
+            self.workspace,
+            self.request
+        )
+        # By default the button is enabled
+        self.assertIn(u'Subscribe</button>', view())
+
+        # But we can hide it
+        api.portal.set_registry_record(
+            'ploneintranet.workspace.allow_bulk_subscribe',
+            False,
+        )
+        self.assertNotIn(u'Subscribe</button>', view())
+
+        # The button is there even if the record is not there for some reason
+        pr = api.portal.get_tool('portal_registry')
+        pr.records.__delitem__('ploneintranet.workspace.allow_bulk_subscribe')
+        self.assertIn(u'Subscribe</button>', view())
