@@ -324,3 +324,46 @@ class TestViews(IntegrationTestCase):
     def test_in_app_apptile_context(self):
         tile = self.get_app_tile('empty-app')
         self.assertTrue(in_app(tile.context))
+
+    def test_login_splash(self):
+        ''' Test that the ploneintranet.layout.login_splash actually changes
+        the image on the login_form page
+        '''
+        DEFAULT_IMAGE_PATH = (
+            u'++theme++ploneintranet.theme/'
+            u'generated/media/logos/plone-intranet-square-dp.svg'
+        )
+        DEFAULT_IMAGE_TAG = (
+            u'<img src="http://nohost/plone/%s" />' % DEFAULT_IMAGE_PATH
+        )
+        # There is a registry record that sets the path to an inmage
+        self.assertEqual(
+            api.portal.get_registry_record(
+                'ploneintranet.layout.login_splash'
+            ),
+            DEFAULT_IMAGE_PATH
+        )
+        # If we render the login form we will find the relative img tag in it
+        self.assertIn(
+            DEFAULT_IMAGE_TAG,
+            self.portal.login_form()
+        )
+
+        # We can change the registry and the login form will be updated
+        api.portal.set_registry_record(
+            'ploneintranet.layout.login_splash',
+            u'cest-ne-pas-a-splash.svg'
+        )
+        self.assertIn(
+            u'<img src="http://nohost/plone/cest-ne-pas-a-splash.svg" />',
+            self.portal.login_form()
+        )
+
+        # If, for some reason, there is no record in the registry do not break
+        # and return the dafault
+        pr = api.portal.get_tool('portal_registry')
+        pr.records.__delitem__('ploneintranet.layout.login_splash')
+        self.assertIn(
+            DEFAULT_IMAGE_TAG,
+            self.portal.login_form()
+        )

@@ -45,19 +45,24 @@ class EventsTile(Tile):
 
     def upcoming_events(self):
         """
-        Return the events in this workspace
-        to be shown in the events section of the sidebar
+        Return upcoming events, potentially filtered by invitation status
+        and/or search term
         """
         catalog = api.portal.get_tool('portal_catalog')
         now = localized_now()
 
-        upcoming_events = catalog.searchResults(
+        query = dict(
             object_provides=IEvent.__identifier__,
             end={'query': now, 'range': 'min'},
             sort_on='start',
             sort_order='ascending',
         )
-        return upcoming_events[:5]
+        if self.data.get('SearchableText', ''):
+            query['SearchableText'] = self.data['SearchableText'] + '*'
+        elif self.data.get('my_events', True):
+            query['invitees'] = [api.user.get_current().getId()]
+        upcoming_events = catalog.searchResults(**query)
+        return upcoming_events
 
     def format_event_date(self, event):
         return format_event_date_for_title(event)

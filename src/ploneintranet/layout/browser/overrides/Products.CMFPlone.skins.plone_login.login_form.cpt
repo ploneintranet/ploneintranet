@@ -35,6 +35,7 @@
                         external_login_url python:context.portal_registry['plone.external_login_url'];
                         external_login_iframe python:context.portal_registry['plone.external_login_iframe'];
                         disclaimer python: context.portal_registry['ploneintranet.layout.login_disclaimer'] if 'ploneintranet.layout.login_disclaimer' in context.portal_registry else None;
+                        login_splash python: context.portal_registry['ploneintranet.layout.login_splash'] if 'ploneintranet.layout.login_splash' in context.portal_registry else '++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg';
                         mail_password python:test(checkPermission('Mail forgotten password', context), portal_url + '/mail_password_form', '');
                         mail_password_url request/mail_password_url|nothing;
                         mail_password_url python:test(mail_password_url and isURLInPortal(mail_password_url), mail_password_url, mail_password);
@@ -51,7 +52,7 @@
                         ztu modules/ZTUtils;">
 
             <figure class="splash">
-              <img src="${context/portal_url}/++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg" />
+              <img src="${context/portal_url}/${login_splash}" />
             </figure>
 
             <div class="portalMessage error pat-cookietrigger" style="display:none">

@@ -2,6 +2,7 @@
 from .case import ICase
 from datetime import datetime
 from plone.app.contenttypes.interfaces import IDocument
+from plone.app.contenttypes.interfaces import IEvent
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
 from plone.app.contenttypes.interfaces import ILink
@@ -111,3 +112,9 @@ def division(object, **kw):
     Since this index is a UUIDIndex it needs to return either a UID or None
     """
     return getattr(object, 'division', None) or None
+
+
+@indexer(IEvent)
+def invitees(obj):
+    """Indexes the invitees as a list"""
+    return obj.invitees.split(',')
