@@ -79,4 +79,13 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:upgradeStep
+        title="Reread catalog config"
+        description="Activates the new invitees index and populates it (Cave: reindexes all events!)"
+        source="*"
+        destination="0013"
+        handler=".base.import_catalog"
+        profile="ploneintranet.workspace:default"
+      />
+
 </configure>
