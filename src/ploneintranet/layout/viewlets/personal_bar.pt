@@ -3,9 +3,10 @@
   <tal:block condition="not: view/anonymous">
     <a class="pat-avatar pat-tooltip"
        data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: content;"
+       data-initials="${view/initials}"
        href="#portal-personaltools-menu"
        id="user-avatar">
-      <img src="${view/avatar_url}" title="${view/user_name}" />
+       <img src="${view/avatar_url}" title="${view/user_name}" class="${view/img_class}"/>
     </a>
     <div id="portal-personaltools-menu"
          tal:condition="python:view.user_actions and not view.anonymous"

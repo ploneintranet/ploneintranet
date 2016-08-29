@@ -123,7 +123,9 @@ class UserProfile(Container):
 
     @property
     def initials(self):
-        return self.first_name[:1].upper() + self.last_name[:2].capitalize()
+        first_name = self.first_name or ""
+        last_name = self.last_name or ""
+        return first_name[:1].upper() + last_name[:2].capitalize()
 
 
 class UsernameValidator(validator.SimpleFieldValidator):

@@ -10,20 +10,14 @@
      i18n:domain="ploneintranet"
      id="${context/thread_id}-comment-${context/id}">
      <div class="comment-header">
-       <tal:avatar define="avatar view/avatar">
-         <a href="${avatar/url}">
-           <img src="${avatar/img}"
-                alt="${avatar/fullname}"
-                class="pat-avatar"
-                id="${avatar/id}"
-                >
-           <h4 class="name">${avatar/fullname}</h4>
+         <a href="${view/portal_url}/author/${here/userid}">
+           <img tal:replace="structure view/avatar">
+           <h4 class="name">${view/fullname}</h4>
+           <time class="date pat-display-time"
+                 data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
+                 datetime="${context/date/ISO}"
+                 >${context/date/ISO}</time>
          </a>
-         <time class="date pat-display-time"
-               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
-               datetime="${context/date/ISO}"
-               >${context/date/ISO}</time>
-       </tal:avatar>
        <tal:comment condition="nothing">
          <!-- post-menu.html == comment-menu.html -->
        </tal:comment>

@@ -282,3 +282,61 @@ def avatar_url(username=None):
         portal.absolute_url(),
         username,
     )
+
+
+def avatar_tag(username=None, link_to=None):
+    """Get the tag that renders the user avatar wrapped in a link
+
+    :param username: Username for which to get the avatar url
+    :type username: string
+    :returns: HTML for the avatar tag
+    :rtype: string
+    """
+    profile = get(username=username)
+    if not profile:
+        return ''
+
+    target_url = ''
+    profile_url = profile.absolute_url()
+    link_class = ['pat-avatar', 'avatar']
+    outer_tag = 'a'
+    if link_to == 'image':
+        if profile.portrait:
+            target_url = profile_url + '/@@avatar_profile.jpg'
+            link_class.extend(['pat-gallery', 'user-info-avatar'])
+        else:
+            target_url = ''
+            link_class.append('user-info-avatar')
+    elif link_to == 'profile':
+        target_url = profile_url
+    elif link_to is None:
+        outer_tag = 'span'
+
+    img_class = []
+    if not profile.portrait:
+        img_class.append('default-user')
+    if target_url:
+        target_url = 'href="' + target_url + '"'
+
+    avatar_data = {
+        'outer_tag': outer_tag,
+        'fullname': profile.fullname,
+        'profile_url': profile_url,
+        'target_url': target_url,
+        'initials': profile.initials,
+        'title': profile.title,
+        'link_class': ' '.join(link_class),
+        'img_class': ' '.join(img_class),
+    }
+
+    tag = u"""    <{outer_tag} {target_url}
+        class="{link_class}"
+        data-initials="{initials}"
+        title="{title}"
+        >
+        <img src="{profile_url}/@@avatar_profile.jpg"
+            alt="Image of {fullname}"
+            class="{img_class}"
+            i18n:attributes="alt">
+    </{outer_tag}>""".format(**avatar_data)
+    return tag

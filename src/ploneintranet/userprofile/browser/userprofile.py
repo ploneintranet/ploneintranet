@@ -193,6 +193,12 @@ class UserProfileView(UserProfileViewForm):
         )
         return msg
 
+    def get_avatar_tag(self):
+        return pi_api.userprofile.avatar_tag(
+            username=self.context.username,
+            link_to='image',
+        )
+
 
 class UserProfileTabView(UserProfileView):
     ''' Personalize the userprofile tab view class to not be transformed

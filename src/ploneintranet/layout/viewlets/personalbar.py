@@ -17,6 +17,13 @@ class PersonalBarViewlet(BasePersonalBarViewlet):
             member = self.portal_state.member()
             userid = member.getId()
             self.avatar_url = pi_api.userprofile.avatar_url(username=userid)
+            profile = pi_api.userprofile.get_current()
+            if profile is not None:
+                self.initials = profile.initials
+                self.img_class = not profile.portrait and 'default-user' or ''
+            else:
+                self.initials = ''
+                self.img_class = 'default-user'
             try:
                 self.enable_password_reset = api.portal.get_registry_record(
                     'ploneintranet.userprofile.enable_password_reset')

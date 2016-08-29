@@ -18,9 +18,7 @@
         </form>
         <div id="contact-search-items" tal:define="search_response context/@@search_people/search_people" metal:define-macro="contact-search-items">
             <nav class="user-cloud pat-auto-scale" tal:condition="not:request/SearchableText|nothing">
-                <a href="${user/absolute_url}" data-initials="${python:view.initials_for(user)}" title="${user/title}" class="pat-avatar" tal:repeat="user view/recent_contacts">
-                                <img src="${user/absolute_url}/@@avatar_profile.jpg" alt="" />
-                        </a>
+                <a tal:repeat="user view/recent_contacts" tal:replace="structure python:view.get_avatar_by_userid(user.username)" />
             </nav>
             <div class="item-selector mode-follow"
                     tal:condition="request/SearchableText|nothing">

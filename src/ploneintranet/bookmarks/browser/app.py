@@ -5,6 +5,7 @@ from DateTime import DateTime
 from plone import api
 from plone.memoize import forever
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.bookmarks.browser.base import BookmarkView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
@@ -318,4 +319,11 @@ class View(BookmarkView):
             'apps.html',
             api.portal.get(),
             self.request,
+        )
+
+    def get_avatar_by_userid(self, userid):
+        ''' Provide HTML tag to display the avatar
+        '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
         )

@@ -14,7 +14,8 @@ class ContactsSearch(Tile):
             return recent
         return []
 
-    def initials_for(self, user):
-        first_name = user.first_name or ""
-        last_name = user.last_name or ""
-        return first_name[:1] + last_name[:2]
+    def get_avatar_by_userid(self, userid):
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
+            link_to='profile',
+        )

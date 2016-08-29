@@ -18,6 +18,7 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
@@ -254,6 +255,13 @@ class SidebarSettingsMembers(BaseTile):
 
         api.portal.show_message(msg, self.request, msg_type)
         notify(WorkspaceRosterChangedEvent(self.context))
+
+    def get_avatar_by_userid(self, userid):
+        ''' Provide HTML tag to display the avatar
+        '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
+        )
 
     def __call__(self):
         if self.request.method == 'POST':

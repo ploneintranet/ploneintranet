@@ -118,16 +118,7 @@
                 <tal:repeat repeat="person view/my_bookmarked_people">
                   <div class="item" tal:define="person person/getObject">
                     <div href="" class="user-card">
-                      <a href="${person/absolute_url}"
-                         data-initials="${person/initials}"
-                         title="${person/fullname}"
-                         class="pat-avatar"
-                        >
-                        <img src="${here/portal_url}/@@avatars/${person/getId}"
-                             alt="User image"
-                             i18n:attributes="alt"
-                            />
-                      </a>
+                      <img tal:replace="structure python:view.get_avatar_by_userid(person.username)">
                       <a href="${person/absolute_url}">
                         <h4 class="name">${person/fullname}</h4>
                         <p class="byline">${person/job_title}</p>

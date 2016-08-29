@@ -25,15 +25,8 @@
       ">
       <aside class="four columns portlets sidebar">
         <figure class="user-info-header">
-          <span class="pat-gallery">
-            <a href="${absolute_url}/@@avatar_profile.jpg"
-               class="pat-avatar pat-gallery user-info-avatar"
-              >
-              <img src="${absolute_url}/@@avatar_profile.jpg"
-                   alt="Image of {{ page.title }}"
-                   i18n:attributes="alt"
-                  />
-            </a>
+          <span class="pat-gallery" tal:omit-tag="not:here/portrait">
+            <a tal:replace="structure view/get_avatar_tag" />
           </span>
           <form
             action="${absolute_url}/personal-menu.html"

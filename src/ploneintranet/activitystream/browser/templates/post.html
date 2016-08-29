@@ -13,16 +13,10 @@
      class="post item"
      tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
   <div class="post-header">
-    <tal:avatar define="avatar view/avatar">
-      <a href="${avatar/url}">
-        <img src="${avatar/img}"
-             alt="${avatar/fullname}"
-             class="pat-avatar"
-             id="${avatar/id}"
-             >
-        <h4 class="name">${avatar/fullname}</h4>
-      </a>
-    </tal:avatar>
+    <a href="${view/portal_url}/author/${here/userid}">
+        <img tal:replace="structure view/avatar">
+        <h4 class="name">${view/fullname}</h4>
+    </a>
     <p class="byline">
       <em class="action" i18n:translate=""
           tal:content="context/action_verb">posted</em>
