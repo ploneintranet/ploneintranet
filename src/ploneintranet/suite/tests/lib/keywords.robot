@@ -582,8 +582,8 @@ I can invite Alice to join the workspace
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
-    Wait Until Page Contains Element  link=Functions
-    Click Link  link=Functions
+    Wait Until Page Contains Element  css=#more-menu
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Wait until page does not contain element   xpath=//div[@id='member-list-more-menu']/div[contains(@class, 'panel-content in-progress')]
     Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
@@ -702,14 +702,14 @@ I can see that the workspace is archived
 
 I see the option to create a document
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
 
 I can create a new document
     [arguments]  ${title}
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
@@ -720,7 +720,7 @@ I can create a new document
 I can create a new link
     [arguments]  ${title}
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create link
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
@@ -758,11 +758,11 @@ I cannot create a new document
     Click link  Documents
     Wait until page contains  Expand sidebar
     Page Should Not Contain   Create document
-    Page Should Not Contain Link  Functions
+    Page Should Not Contain Element  css=#more-menu
 
 I can create a new folder
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
@@ -786,7 +786,7 @@ I can edit the new folder
 
 I can create a new image
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Image
