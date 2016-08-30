@@ -72,6 +72,7 @@ setup(name='ploneintranet',
           'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
+          'Products.PloneHotfix20160830',
       ],
       extras_require={
           'test': [
