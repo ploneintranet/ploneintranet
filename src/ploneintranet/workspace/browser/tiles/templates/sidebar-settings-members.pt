@@ -16,13 +16,28 @@
 
           <div class="item-selector mode-follow" id="member-list">
 
-            <div class="button-bar functions" id="member-list-functions">
+            <div class="button-bar functions pat-bumper sticky-supported" id="member-list-functions">
               <h3 id="member-list-context-title" class="context-title" i18n:translate="">
                 Members
               </h3>
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-                <a title="Show functions" class="member-list-toggle-select more-menu-trigger" i18n:attributes="title" i18n:translate="" tal:condition="view/can_manage_roster">Functions</a>
+
+                <div class="pat-collapsible context-menu align-right closed" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
+                   <strong class="label iconfified more-menu-trigger collapsible-open">More…</strong>
+                    <div class="panel-content" >
+                      <ul class="menu">
+                        <li>
+                          <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
+                            i18n:translate="">Add user</a>
+                        </li>
+                        <li>
+                          <a class="pat-toggle icon-ok member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow"
+                            i18n:translate="">Select</a>
+                        </li>
+                      </ul>
+                    </div>
+                </div>
                 <a class="pat-toggle toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow" i18n:translate="" tal:condition="view/can_manage_roster">Select</a>
               </div>
             </div>
@@ -30,7 +45,7 @@
             <form class="search-result users pat-inject" data-pat-inject="target: body::after" action="/panel-change-role#content" id="member-list-items" method="POST">
               <fieldset class="checklist pat-checklist users " id="existing_users">
 
-                <div class="batch-functions" tal:condition="view/can_manage_roster">
+                <div class="batch-functions pat-bumper sticky-supported" data-pat-bumper="margin: 35; side: top" tal:condition="view/can_manage_roster">
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
@@ -118,18 +133,7 @@
                 i18n:translate="">Add group</a>
             </div>
 
-            <div class="pat-collapsible more-menu closed" data-pat-collapsible="trigger: .member-list-toggle-select" id="member-list-more-menu">
-              <ul class="menu">
-                <li>
-                  <a class="icon-user-add add-user pat-modal" data-pat-modal="class: medium" tal:attributes="href string:${ws/absolute_url}/panel-add-user#document-content"
-                    i18n:translate="">Add user</a>
-                </li>
-                <li>
-                  <a class="pat-toggle icon-ok member-list-toggle-select" data-pat-toggle="selector: #member-list; value: mode-select mode-follow"
-                    i18n:translate="">Select</a>
-                </li>
-              </ul>
-            </div>
+            
           </div>
         </div>
       </div>
