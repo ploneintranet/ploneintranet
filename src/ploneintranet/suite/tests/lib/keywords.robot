@@ -737,6 +737,7 @@ I can edit the new link
     Click button   Save
     Wait Until Element Is Visible  css=div.pat-notification-panel.success
     Wait Until Page Contains  Your changes have been saved.
+    Click button  Close
 
 I can publish the new link
     [arguments]  ${title}

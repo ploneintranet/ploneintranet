@@ -8,7 +8,7 @@
   <form action="${request/URL}"
         method="POST"
         class="wizard-box pat-inject pat-validation"
-        data-pat-inject="source: #workspace-documents; target: #workspace-documents"
+        data-pat-inject="${view/pat_inject}"
         data-pat-validation="disable-selector:#form-buttons-create"
     >
     <div class="panel-body">

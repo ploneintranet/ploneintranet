@@ -186,7 +186,6 @@ Member can create an event
 # this is an actual UI issue caused by the new shell
 # https://github.com/quaive/ploneintranet/issues/609
 Member can create a link
-    [Tags]  fixme
     Given I am in a workspace as a workspace admin
      Then I can create a new link  Quaive site
      Then I can edit the new link  Quaive site

@@ -19,6 +19,10 @@ class AddBase(BrowserView):
     '''
     template = ViewPageTemplateFile('templates/add_content.pt')
     can_edit = True
+    pat_inject = ' && '.join((
+        'source: #document-body; target: #document-body',
+        'source: #workspace-documents; target: #workspace-documents',
+    ))
 
     def redirect(self, url):
         """
