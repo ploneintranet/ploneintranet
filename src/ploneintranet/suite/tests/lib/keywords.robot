@@ -1528,6 +1528,7 @@ I can bookmark the task
     I can go to the Example Case
     I can go to the sidebar tasks tile of my case
     Click link  ${task}
+    Wait Until Page Contains Element   css=#workflow-menu
     Bookmark the current context
 
 I can unbookmark the task
