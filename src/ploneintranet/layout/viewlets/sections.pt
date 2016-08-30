@@ -33,7 +33,7 @@
                     href="${tab/url}#portal-content"
                     title="${tab/description|nothing}"
                     target="${tab/link_target|nothing}"
-                    class="tab pat-inject pat-switch ${python:'pat-toggle' if dashboard else ''} ${python:'current' if current else ''}"
+                    class="section-${tid} tab pat-inject pat-switch close-panel ${python:'pat-toggle' if dashboard else ''} ${python:'current' if current else ''}"
                     data-pat-switch="#app-space state-on state-off"
                     data-pat-inject="history: record"
                     data-pat-toggle="${python:'selector: #global-header; value: mobile-menu-on' if dashboard else ''}">

@@ -22,9 +22,9 @@
     <a class="todos pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; #application-body focus-* focus-sidebar" href="#workspace-tickets" title="Tasks"
         i18n:translate="" i18n:attributes="title">Tasks</a>
 </nav>
-<p id="toggle-sidebar">
+<!--p id="toggle-sidebar">
     <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar">Open sidebar</span>
     <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document">Close sidebar</span>
-</p>
+</p-->
 </body>
 </html>
