@@ -598,7 +598,7 @@ I can invite Alice to the workspace
 
 I give the Consumer role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -608,7 +608,7 @@ I give the Consumer role to Allan
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
@@ -621,7 +621,7 @@ I give the Producer role to Allan
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
@@ -655,7 +655,7 @@ I can change Allan's role to Moderator
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Wait until element is visible    css=button[value='remove']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
