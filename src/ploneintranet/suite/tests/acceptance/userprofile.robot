@@ -150,6 +150,7 @@ I open the profile tab
 
 I can follow the link to logout
     Click Element  css=.tooltip-container .menu a.icon-exit
+    Wait until page contains element  css=#login-panel #submit-button
 
 I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
