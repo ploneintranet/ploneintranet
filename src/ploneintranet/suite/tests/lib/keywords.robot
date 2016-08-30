@@ -582,8 +582,8 @@ I can invite Alice to join the workspace
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
-    Wait Until Page Contains Element  css=#more-menu
-    Execute Javascript  jquery=$('#more-menu .panel-content').show()
+    Wait Until Page Contains Element  css=#member-list-more-menu
+    Execute Javascript  jquery=$('#member-list-more-menu .panel-content').show()
     Wait until page does not contain element   xpath=//div[@id='member-list-more-menu']/div[contains(@class, 'panel-content in-progress')]
     Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
