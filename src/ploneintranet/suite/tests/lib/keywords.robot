@@ -757,8 +757,7 @@ I can see the new link
 I cannot create a new document
     Click link  Documents
     Wait until page contains  Expand sidebar
-    Page Should Not Contain   Create document
-    Page Should Not Contain Element  css=#more-menu
+    Page Should Not Contain Element  css=#more-menu a.create-document
 
 I can create a new folder
     Click link  Documents
