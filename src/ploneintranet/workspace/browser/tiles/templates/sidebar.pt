@@ -160,7 +160,7 @@
                       <!--         title="Post selected document(s) on a timeline">Share</button> -->
                     </span>
                     <div class="pat-collapsible context-menu closed" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
-                      <strong class="label">More…</strong>
+                      <strong class="pat-button label">More…</strong>
                       <ul class="menu">
                         <li>
                           <button type="submit"
