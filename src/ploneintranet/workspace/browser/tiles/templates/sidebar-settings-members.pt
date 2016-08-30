@@ -24,7 +24,7 @@
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
 
                 <div class="pat-collapsible context-menu align-right closed" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
-                   <strong class="label iconfified more-menu-trigger collapsible-open">More…</strong>
+                   <strong class="label iconfified more-menu-trigger collapsible-closed">More…</strong>
                     <div class="panel-content" >
                       <ul class="menu">
                         <li>
