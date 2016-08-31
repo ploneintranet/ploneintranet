@@ -50,7 +50,7 @@
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
                 
                 <div class="pat-collapsible context-menu align-right closed" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
-                  <strong class="label iconfified more-menu-trigger collapsible-closed" i18n:translate="">More…</strong>
+                  <strong class="label iconfified more-menu-trigger collapsible-closed" i18n:translate="">More...</strong>
                   <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.default#workspace-documents" method="post"
                                     tal:define="show_extra view/show_extra">
                       <div class="panel-content">
@@ -71,7 +71,7 @@
                           </tal:can_add>
                           <li>
                             <label class="pat-checklist">
-                              <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra" i18n:translate="">Show archived documents</input>
+                              <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra"><span tal:omit-tag="" i18n:translate="">Show archived documents</span>
                               <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
                             </label>
                           </li>
@@ -160,49 +160,49 @@
                       <!--         title="Post selected document(s) on a timeline">Share</button> -->
                     </span>
                     <div class="pat-collapsible context-menu closed" data-pat-collapsible="close-trigger: *:not(#batch-more)" id="batch-more">
-                      <strong class="pat-button label" i18n:translate="">More…</strong>
+                      <strong class="pat-button label" i18n:translate="">More...</strong>
                       <ul class="menu">
                         <li>
                           <button type="submit"
                                   class="icon-archive"
                                   title="Archive"
                                   formaction="${context/absolute_url}/cart-archive?_authenticator=${token}"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Archive</button>
+                                  i18n:translate="" i18n:attributes="title">Archive</button>
                         </li>
                         <li tal:condition="view/can_subscribe">
                           <button type="submit"
                                   class="icon-subscribe"
                                   title="Subscribe"
                                   formaction="${context/absolute_url}/cart-subscribe?_authenticator=${token}"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Subscribe</button>
+                                  i18n:translate="" i18n:attributes="title">Subscribe</button>
                         </li>
                         <li>
                           <button type="submit"
                                   class="icon-download"
                                   title="Download"
                                   formaction="${context/absolute_url}/cart-download-confirm?_authenticator=${token}"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Download</button>
+                                  i18n:translate="" i18n:attributes="title">Download</button>
                         </li>
                         <li>
                           <button type="submit"
                                   class="icon-trash"
                                   title="Delete"
                                   formaction="${context/absolute_url}/cart-delete-confirm?_authenticator=${token}#content"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Delete</button>
+                                  i18n:translate="" i18n:attributes="title">Delete</button>
                         </li>
                         <li>
                           <button type="submit"
                                   class="icon-tags"
                                   title="Re-tag"
                                   formaction="${context/absolute_url}/cart-retag-confirm?_authenticator=${token}#content"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Re-tag</button>
+                                  i18n:translate="" i18n:attributes="title">Re-tag</button>
                         </li>
                         <li>
                           <button type="submit"
                                   class="icon-rename"
                                   title="Rename"
                                   formaction="${context/absolute_url}/cart-rename-confirm?_authenticator=${token}#content"
-                                  i18n:translate="" i18n:attributes="title" i18n:translate="">Rename</button>
+                                  i18n:translate="" i18n:attributes="title">Rename</button>
                         </li>
                       </ul>
                     </div>
