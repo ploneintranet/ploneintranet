@@ -31,7 +31,7 @@
                      i18n:attributes="placeholder"
                     />
               <input type="hidden" value="${id_suffix}" name="id_suffix" />
-              <button hidden type="submit">Find bookmarks</button>
+              <button hidden type="submit" i18n:translate="">Find bookmarks</button>
             </label>
           </fieldset>
         </form>
@@ -44,6 +44,7 @@
               >Recent</a>
             <a href="${here/absolute_url}/@@${view/__name__}?id_suffix=${id_suffix}&amp;sort_by=popularity#portlet-bookmarks-bookmarks-list${id_suffix}"
                class="pat-inject ${python:sort_by=='popularity' and 'current' or ''}"
+               i18n:translate=""
               >Most popular</a>
           </nav>
           <tal:nobookmarks condition="not:bookmarks">

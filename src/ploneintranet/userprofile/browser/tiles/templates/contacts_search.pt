@@ -12,7 +12,7 @@
 		  <fieldset class="vertical">
 	        <label>
 	          <input name="SearchableText" type="search" placeholder="Search" i18n:attributes="placeholder"/>
-	          <button hidden type="submit">Find users</button>
+	          <button hidden type="submit" i18n:translate="">Find users</button>
 	        </label>
 		  </fieldset>
         </form>

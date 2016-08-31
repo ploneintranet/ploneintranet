@@ -25,7 +25,7 @@
               <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href=""
                  tal:attributes="href string:${portal_url}/@@author/${actor/userid}" class="subject">Jon Doe</a>
             </span>
-            <span class="verb">
+            <span class="verb" i18n:translate="">
               posted
             </span>
             <a class="object"

@@ -63,6 +63,7 @@
                       <a href="${view/next_batch_url}"
                          class="infinite-scrolling-trigger pat-inject"
                          data-pat-inject="trigger: autoload-visible; source: #case-mats; target: #load-more::element"
+                         i18n:translate=""
                          >Next</a>
                     </div>
                 </div>
