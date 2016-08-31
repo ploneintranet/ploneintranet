@@ -70,7 +70,7 @@
                       <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
                     </div><!-- quick-functions -->
                   </div> <!-- #meta-bar -->
-                  <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader">Loading…</p></div>
+                  <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader" i18n:translate="">Loading…</p></div>
 
                   <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                     <fieldset class="bar">
@@ -159,7 +159,7 @@
                 <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
               </li>
               <li>
-                <a class="icon-print" href="javascript:window.print()">Print</a>
+                <a class="icon-print" href="javascript:window.print()" i18n:translate="">Print</a>
               </li>
             </ul>
           </div>

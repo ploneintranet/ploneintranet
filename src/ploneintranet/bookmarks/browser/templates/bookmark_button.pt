@@ -10,6 +10,7 @@
       <button class="pat-button ${button_options/css_class}"
               title="${button_options/title}"
               tal:content="structure button_options/label"
+              i18n:translate=""
             >Bookmark/Unbookmark</button>
       <input tal:replace="structure context/@@authenticator/authenticator" />
       <input type="hidden" name="buttonified" value="1" />

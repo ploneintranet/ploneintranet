@@ -101,11 +101,11 @@
         <form action="./">
           <fieldset class="pat-upload upload" data-pat-upload="url: https://example.org/upload">
             <label class="accessibility-options">
-              <input type="file" multiple=""> Upload files
+              <input type="file" multiple=""  i18n:translate=""> Upload files
             </label>
             <div class="upload-container upload-multiple">
               <div class="upload-area dz-clickable">
-                <div class="dz-message"><p>Drop files here...</p></div>
+                <div class="dz-message"><p i18n:translate="">Drop files here...</p></div>
                 <div class="row">
                   <div class="col-md-9">
                     <input id="fakeUploadFile" placeholder="Choose File" disabled="disabled">
@@ -129,7 +129,7 @@
                         </div>
                       </div>
                       <div class="col-md-3 align-right">
-                        <button type="button" class="btn btn-primary upload-all">
+                        <button type="button" class="btn btn-primary upload-all"  i18n:translate="">
                           Upload
                         </button>
                       </div>

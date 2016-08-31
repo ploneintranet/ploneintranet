@@ -11,7 +11,7 @@
     <a title="Workspace landing page" i18n:attributes="title workspace_landing_page" class=" current pat-inject  landing pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document" href="${workspace_url}#document-body" tal:content="ws/Title">ws name</a>
 
     <a class="settings pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; #application-body focus-* focus-sidebar" href="#workspace-settings"
-       title="Workspace settings" i18n:attributes="title workspace_settings">Workspace settings and about</a>
+       title="Workspace settings" i18n:attributes="title workspace_settings" i18n:translate="">Workspace settings and about</a>
 
     <hr />
 

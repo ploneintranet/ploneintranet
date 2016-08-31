@@ -7,21 +7,21 @@
   <body>
     <div id="portlet-events" class="portlet events span-1">
       <div class="content">
-	    <h2 class="portlet-title" i18n:translate="">
-			<a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/">Events</a>
+	    <h2 class="portlet-title">
+			<a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/" i18n:translate="">Events</a>
 		</h2>
         <form class="search-box pat-inject pat-autosubmit" action="${here/absolute_url}/@@events.tile#events-search-items">
 			<fieldset class="vertical">
 	            <label>
 	                <input name="SearchableText" type="search" placeholder="Search events">
-	                <button hidden type="submit">Find events</button>
+	                <button hidden type="submit" i18n:translate="">Find events</button>
 	            </label>
 			</fieldset>
         </form>
 		<div id="events-search-items">
 			<nav class="navigation pat-tabs tabs" tal:condition="not:view/data/SearchableText|nothing">
-                <a href="${here/absolute_url}/@@events.tile?my_events:boolean=True#events-search-items" class="pat-inject ${python:view.data.get('my_events', True) and 'current' or ''}">My events</a>
-				<a href="${here/absolute_url}/@@events.tile?my_events:boolean=False#events-search-items" class="pat-inject ${python:not view.data.get('my_events', True) and 'current' or ''}">Other events</a>
+                <a href="${here/absolute_url}/@@events.tile?my_events:boolean=True#events-search-items" class="pat-inject ${python:view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">My events</a>
+				<a href="${here/absolute_url}/@@events.tile?my_events:boolean=False#events-search-items" class="pat-inject ${python:not view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">Other events</a>
 			</nav>
 			<div id="portlet-events-event-list"
                     tal:define="events view/upcoming_events;
@@ -51,7 +51,7 @@
                   </tal:events>
                 </ul>
                 <p class="portlet-footer" tal:condition="python:len(events) >= 5">
-                    <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record">Show all events</a>
+                    <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record" i18n:translate="">Show all events</a>
                 </p>
 			</div>
 		</div>
