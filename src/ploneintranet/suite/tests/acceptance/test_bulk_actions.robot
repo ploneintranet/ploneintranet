@@ -266,7 +266,7 @@ I save the document
     Wait until page does not contain element  xpath=//div[@id='application-body' and contains(@class, 'injecting-content')]
 
 I show archived items
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Select checkbox  xpath=//input[@name='show_archived_documents']
 
 I don't see an archived item
