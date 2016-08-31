@@ -206,7 +206,6 @@ class View(BookmarkView):
         userid = api.user.get_current().id
         for bookmark in self.my_bookmarks():
             bookmarked_on = pn.bookmarked_on(bookmark.UID, userid)
-            print bookmark.title, bookmarked_on
             if hasattr(bookmarked_on, 'date'):
                 day_past = (today - bookmarked_on.date()).days
             else:
