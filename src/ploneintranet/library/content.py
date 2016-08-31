@@ -27,6 +27,7 @@ class LibraryApp(AbstractAppContainer, content.Container):
 
     app_name = "library"
     app_layers = (ILibraryContentLayer, )
+    devices = 'desktop tablet'
 
 
 class LibrarySection(content.Container):

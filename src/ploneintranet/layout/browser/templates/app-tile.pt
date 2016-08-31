@@ -1,4 +1,4 @@
-<div class="tile app app-${here/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
+<div class="tile app ${here/devices} app-${here/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
     <a href="${here/absolute_url}#document-content"
        class="link ${view/modal}">
       <img class="icon"

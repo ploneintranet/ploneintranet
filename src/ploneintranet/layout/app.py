@@ -47,6 +47,17 @@ class IApp(form.Schema):
         required=False,
     )
 
+    devices = ASCIILine(
+        title=_('app_devices_label', 'App supported devices'),
+        description=_(
+            'app_devices_description',
+            u"This contains the devices supported by the app"
+            u"Valid values are desktop tablet mobile"
+        ),
+        default='desktop',
+        required=True,
+    )
+
     app_parameters = Text(
         title=_('app_parameters_label', u'App parameters'),
         description=_(

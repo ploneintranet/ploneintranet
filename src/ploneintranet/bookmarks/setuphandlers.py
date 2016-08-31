@@ -18,6 +18,7 @@ def create_bookmark_app():
             id='bookmarks',
             safe_id=False,
             app='@@app-bookmarks',
+            devices='desktop tablet mobile'
         )
 
     app = apps.bookmarks

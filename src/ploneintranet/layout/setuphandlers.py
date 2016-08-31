@@ -53,6 +53,7 @@ def create_apps():
         {
             'key': 'contacts',
             'title': u'Contacts',
+            'devices': 'desktop tablet'
         }, {
             'key': 'messages',
             'title': u'Messages',
@@ -60,11 +61,9 @@ def create_apps():
         }, {
             'key': 'todo',
             'title': u'Todo',
-
         }, {
             'key': 'calendar',
             'title': u'Calendar',
-
         }, {
             'key': 'slide-bank',
             'title': u'Slide bank',
@@ -78,7 +77,8 @@ def create_apps():
         }, {
             'key': 'case-manager',
             'title': u'Case manager',
-            'path': '@@case-manager'
+            'path': '@@case-manager',
+            'devices': 'desktop tablet'
         }, {
             'key': 'app-market',
             'title': u'App market',
@@ -94,6 +94,7 @@ def create_apps():
                 id=app['key'],
                 safe_id=False,
                 app=app.get('path', u''),
+                devices=app.get('devices', 'desktop'),
             )
         # if the app is published we will publish it
         app = app_container[app['key']]
