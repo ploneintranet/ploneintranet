@@ -6,4 +6,5 @@
     <a class="stand-alone suite-logo"
        href="${view/logo_url}">${view/logo_title | string:Intranet}</a>
 
+    <a href="${view/navigation_root_url}/dashboard.html#portal-tabs" id="mobile-menu" class="pat-tooltip stand-alone suite-logo" data-pat-switch="#app-space application-*" data-pat-tooltip="source: ajax; class: portal-navigation; position-list: tl">${view/logo_title | string:Intranet}</a>
 </span>
