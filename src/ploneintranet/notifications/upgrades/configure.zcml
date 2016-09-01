@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+    <genericsetup:upgradeStep
+        title="Get rid of PersistentLists"
+        description="Switch from PersistentList to LOBtree do dimish the chance of ConflictErrors"
+        source="*"
+        destination="0002"
+        handler=".to0002.switch_to_lobtrees"
+        profile="ploneintranet.notifications:default"
+      />
+
+</configure>

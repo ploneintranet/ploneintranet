@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0001</version>
+  <version>0002</version>
   <dependencies>
     <dependency>profile-ploneintranet.network:default</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
+    <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
   </dependencies>
 </metadata>

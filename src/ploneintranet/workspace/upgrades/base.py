@@ -1,4 +1,5 @@
 from plone import api
+from plone.app.contenttypes.interfaces import IEvent
 
 import logging
 
@@ -63,3 +64,15 @@ def update_workflows(context):
     pw = api.portal.get_tool('portal_workflow')
     count = pw.updateRoleMappings()
     logger.info('Updated role mappings for %s objects', count)
+
+
+def import_catalog(context):
+    logger.info('Import Catalog')
+    context.runImportStepFromProfile(default_profile, 'catalog')
+
+    pc = api.portal.get_tool('portal_catalog')
+    events = pc.searchResults({'object_provides': IEvent.__identifier__})
+    for event in events:
+        obj = event.getObject()
+        obj.reindexObject(idxs=['invitees'])
+        logger.info('Reindexed invitees of {}'.format(obj.absolute_url()))

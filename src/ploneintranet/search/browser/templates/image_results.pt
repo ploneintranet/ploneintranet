@@ -7,8 +7,8 @@
       i18n:domain="ploneintranet">
   <body>
 
-    <div metal:fill-slot="content">
-      <form action="${request/getURL}" id="global-search">
+    <tal:content metal:fill-slot="content">
+      <form action="${request/getURL}#results" id="global-search" class="pat-form pat-inject" data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record">
 
         <div class="container input">
           <fieldset class="search pat-subform pat-autosubmit pat-inject"
@@ -21,24 +21,25 @@
             <button type="search" i18n:translate="">Search</button>
           </fieldset>
         </div>
-        <nav class="tabs navigation" id="tabs-nav">
+
+        <nav class="tabs pat-tabs navigation" id="tabs-nav">
           <a href="@@search?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">All</a>
+             class="pat-inject #results" i18n:translate="">All</a>
           <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">People</a>
+             class="pat-inject" i18n:translate="">People</a>
           <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
-             class="current" i18n:translate="">Images</a>
+             class="pat-inject" i18n:translate="">Images</a>
           <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">Files</a>
+             class="pat-inject" i18n:translate="">Files</a>
         </nav>
-      
+
         <div class="results" id="results">
           <div class="container results"
                tal:define="search_response view/search_images"
                tal:condition="search_response">
-            
+
             <p><span tal:replace="search_response/total_results">87</span> <span i18n:translate="" tal:omit-tag="">items matched your search.</span></p>
-            
+
             <div class="images results pat-masonry images" data-pat-masonry="column-width: .item; gutter: 0;">
               <tal:result repeat="result search_response">
                 <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
@@ -52,7 +53,7 @@
                   </figure>
                 </a>
               </tal:result>
-	      <p tal:define="next_url python: 
+	      <p tal:define="next_url python:
 			     view.next_page_url(search_response.total_results)"
 		 tal:condition="next_url">
 		<a href="${next_url}" i18n:translate="">More results</a>
@@ -62,6 +63,6 @@
           </div><!-- /container results -->
         </div><!-- /#results retsults -->
       </form>
-    </div><!-- /content -->
+    </tal:content><!-- /content -->
   </body>
 </html>

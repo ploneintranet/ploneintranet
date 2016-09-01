@@ -4,6 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 from plone import api
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.layout.app import apps_container_id
@@ -33,10 +34,18 @@ class _AppMessagingMixin(object):
         return api.portal.get().absolute_url()
 
     @property
-    def apps_container_url(self):
+    def counter(self):
+        try:
+            return pi_api.messaging.get_inbox().new_messages_count
+        except KeyError:
+            return 0
+
+    @property
+    @memoize_contextless
+    def app_url(self):
         portal = api.portal.get()
         apps_container = getattr(portal, apps_container_id)
-        return apps_container.absolute_url()
+        return apps_container.messages.absolute_url()
 
 
 @implementer(IPublishTraverse, IAppView)
@@ -188,7 +197,8 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
     @property
     def chat_url(self):
         return '{}/@@app-messaging/{}'.format(
-            self.apps_container_url, self.userid)
+            self.app_url, self.userid
+        )
 
     @property
     def delay(self):
@@ -210,7 +220,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     def _chat_url(self, userid):
         return '{0}/@@app-messaging/{1}'.format(
-            self.apps_container_url,
+            self.app_url,
             urllib.quote(safe_unicode(userid))
         )
 
@@ -255,7 +265,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     def search_disabled(self):
         try:
-            enabled = len(pi_api.messaging.get_inbox().keys()) > 8
+            enabled = len(pi_api.messaging.get_inbox().keys()) > 0
         except KeyError:
             enabled = False
         if enabled:
@@ -307,5 +317,5 @@ class AppMessagingNewMessage(BrowserView, _AppMessagingMixin):
             api.user.get_current().id)
 
     def chat_url(self):
-        return '{}/@@app-messaging/{}'.format(
-            self.apps_container_url, self.userid)
+        return '{}/{}'.format(
+            self.app_url, self.userid)

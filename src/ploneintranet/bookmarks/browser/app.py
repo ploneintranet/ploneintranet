@@ -5,23 +5,30 @@ from DateTime import DateTime
 from plone import api
 from plone.memoize import forever
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.bookmarks.browser.base import BookmarkView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 from zope.i18nmessageid.message import Message
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IAppView)
 class View(BookmarkView):
     ''' The view for this app
     '''
-    implements(IAppView)
     app_name = 'bookmarks'
 
+    app_types = [
+        'ploneintranet.layout.app',
+    ]
     document_types = [
         'Document', 'File', 'Image'
+    ]
+    people_types = [
+        'ploneintranet.userprofile.userprofile',
     ]
 
     @property
@@ -64,74 +71,101 @@ class View(BookmarkView):
         '''
         return sorted(bookmarks, key=self.get_sortable_title)
 
-    @memoize
-    def my_bookmarked_workspaces(self):
-        ''' Get all the bookmarked workspaces
+    def my_bookmarks_of_type(self, portal_types=[]):
+        ''' Get all the bookmarked content of the following portal_types
         '''
+        query = self.request.get('SearchableText', '').lower()
         search_util = getUtility(ISiteSearch)
         uids = list(self.ploneintranet_network.get_bookmarks('content'))
         if not uids:
             return []
         response = search_util.query(
+            query,
             filters={
                 'UID': uids,
-                'portal_type': self.workspace_types,
+                'portal_type': portal_types,
             },
             step=9999,
         )
         return tuple(response)
+
+    @memoize
+    def my_bookmarked_workspaces(self):
+        ''' Get all the bookmarked workspaces
+        '''
+        return self.my_bookmarks_of_type(self.workspace_types)
 
     @memoize
     def my_bookmarked_documents(self):
         ''' Get all the bookmarked documents
         '''
-        search_util = getUtility(ISiteSearch)
-        uids = list(self.ploneintranet_network.get_bookmarks('content'))
-        if not uids:
-            return []
-        response = search_util.query(
-            filters={
-                'UID': uids,
-                'portal_type': self.document_types,
-            },
-            step=9999,
-        )
-        return tuple(response)
+        return self.my_bookmarks_of_type(self.document_types)
 
     @memoize
     def my_bookmarked_apps(self):
         ''' Get all the bookmarked apps
         '''
-        ng = self.ploneintranet_network
-        return tuple(
-            tile for tile in self.apps_view.tiles()
-            if tile.path and ng.is_bookmarked('apps', tile.path)
-        )
+        return self.my_bookmarks_of_type(self.app_types)
+
+    @memoize
+    def my_bookmarked_people(self):
+        ''' Get all the bookmarked apps
+        '''
+        return self.my_bookmarks_of_type(self.people_types)
 
     @memoize
     def my_bookmarks(self):
         ''' Lookup all the bookmarks
         '''
-        query = self.request.get('SearchableText', '').lower()
-        # First get the apps
-        bookmarks = [
-            app for app in self.my_bookmarked_apps()
-            if query in self.get_sortable_title(app)
-        ]
-        # Then, if needed, look for the bookmarked uids
-        uids = list(self.ploneintranet_network.get_bookmarks('content'))
-        if uids:
-            search_util = getUtility(ISiteSearch)
-            bookmarks.extend(
-                search_util.query(
-                    query,
-                    filters={
-                        'UID': uids,
-                    },
-                    step=9999,
-                )
-            )
+        bookmarks = self.my_bookmarks_of_type()
         return tuple(sorted(bookmarks, key=self.get_sortable_title))
+
+    @memoize
+    def my_recent_bookmarks(self, limit=10):
+        ''' Lookup my recent bookmarks
+        '''
+        userid = api.user.get_current().id
+        dates = self.ploneintranet_network._bookmarked_on.get(userid, {})
+
+        bookmarks = self.my_bookmarks_of_type()
+        bookmarks = sorted(
+            self.my_bookmarks_of_type(),
+            key=lambda bookmark: dates.get(bookmark.UID),
+        )
+        return tuple(bookmarks[:limit])
+
+    @memoize
+    def most_popular_bookmarks(self, limit=10):
+        ''' Lookup my recent bookmarks
+        '''
+        content = self.ploneintranet_network._bookmarked["content"]
+        sorted_uids = sorted(
+            content,
+            key=lambda uid: len(content[uid])
+        )
+        # We slice this list taking a lot of margin
+        # with respect to the requested limit
+        # In fact, not all the content is visibility to the authenticated user
+        # Hopefully the most bookmarked are also the most public ones
+        sorted_uids = sorted_uids[-limit * 5:]
+        if not sorted_uids:
+            return ()
+
+        search_util = getUtility(ISiteSearch)
+        response = search_util.query(
+            filters={
+                'UID': sorted_uids,
+            },
+            step=limit * 5,
+        )
+
+        # Sort the response results by their
+        # reversed position in the sorted_uids list
+        response = sorted(
+            response,
+            key=lambda result: - sorted_uids.index(result.UID)
+        )
+        return tuple(response[:limit])
 
     @memoize
     def my_bookmarks_by_created(self):
@@ -148,6 +182,32 @@ class View(BookmarkView):
                 created = created.asdatetime()
             if hasattr(created, 'date'):
                 day_past = (today - created.date()).days
+            else:
+                # happens, e.g., for apps
+                day_past = 100
+            if day_past < 1:
+                period = _('Today')
+            elif day_past < 7:
+                period = _('Last week')
+            elif day_past < 30:
+                period = _('Last month')
+            else:
+                period = _('All time')
+            items[period].append(bookmark)
+        return items
+
+    @memoize
+    def my_bookmarks_by_bookmarked(self):
+        ''' Get all the bookmarked objects grouped by bookmark date
+        '''
+        items = defaultdict(list)
+        today = date.today()
+        pn = self.ploneintranet_network
+        userid = api.user.get_current().id
+        for bookmark in self.my_bookmarks():
+            bookmarked_on = pn.bookmarked_on(bookmark.UID, userid)
+            if hasattr(bookmarked_on, 'date'):
+                day_past = (today - bookmarked_on.date()).days
             else:
                 # happens, e.g., for apps
                 day_past = 100
@@ -204,6 +264,8 @@ class View(BookmarkView):
             return self.my_bookmarks_by_workspace()
         elif group_by == 'created':
             return self.my_bookmarks_by_created()
+        elif group_by == 'bookmarked':
+            return self.my_bookmarks_by_bookmarked()
         return self.my_bookmarks_by_letter()
 
     @memoize
@@ -211,7 +273,7 @@ class View(BookmarkView):
         ''' The groups of my partition sorted
         '''
         group_by = self.request.get('group_by', '')
-        if group_by == 'created':
+        if group_by in ('bookmarked', 'created'):
             return [
                 _('Today'),
                 _('Last week'),
@@ -240,8 +302,11 @@ class View(BookmarkView):
             self.request,
         )
         search_class = view.get_facet_type_class(type_name)
-        return search_class.replace('type-', 'icon-file-', 1).replace(
-            'icon-file-rich', 'icon-doc-text'
+        return (
+            search_class.replace('type-', 'icon-file-', 1)
+            .replace('icon-file-rich', 'icon-doc-text')
+            .replace('icon-file-people', 'icon-user')
+            .replace('icon-file-workspace', 'icon-workspace')
         )
 
     @property
@@ -253,4 +318,11 @@ class View(BookmarkView):
             'apps.html',
             api.portal.get(),
             self.request,
+        )
+
+    def get_avatar_by_userid(self, userid):
+        ''' Provide HTML tag to display the avatar
+        '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
         )

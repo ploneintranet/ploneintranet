@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<object name="portal_notification" meta_type="CMFNotificationTool">
+  <property name="extra_subscriptions_enabled">True</property>
+  <property name="extra_subscriptions_recursive">True</property>
+  <property name="ignore_rules">
+    <element value="python: getattr(context, 'isTemporary', lambda: False)()"/>
+  </property>
+  <property name="item_creation_notification_enabled">True</property>
+  <property name="on_item_creation_users">
+  </property>
+  <property name="on_item_creation_mail_template">
+    <element value="* :: string:creation_mail_notification"/>
+  </property>
+  <property name="item_modification_notification_enabled">False</property>
+  <property name="on_item_modification_users">
+  </property>
+  <property name="on_item_modification_mail_template">
+    <element value="* :: string:pi_modification_mail_notification"/>
+  </property>
+  <property name="item_removal_notification_enabled">True</property>
+  <property name="on_item_removal_users">
+  </property>
+  <property name="on_item_removal_mail_template">
+    <element value="* :: string:pi_workflow_mail_notification"/>
+  </property>
+  <property name="wf_transition_notification_enabled">False</property>
+  <property name="on_wf_transition_users">
+  </property>
+  <property name="on_wf_transition_mail_template">
+    <element value="* :: string:workflow_mail_notification"/>
+  </property>
+  <property name="member_registration_notification_enabled">False</property>
+  <property name="on_member_registration_users"/>
+  <property name="on_member_registration_mail_template"/>
+  <property name="member_modification_notification_enabled">False</property>
+  <property name="on_member_modification_users"/>
+  <property name="on_member_modification_mail_template"/>
+  <property
+      name="discussion_item_creation_notification_enabled">False</property>
+  <property name="on_discussion_item_creation_users"/>
+  <property name="on_discussion_item_creation_mail_template"/>
+</object>

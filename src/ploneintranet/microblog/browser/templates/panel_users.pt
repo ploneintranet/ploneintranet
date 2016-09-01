@@ -56,9 +56,8 @@
                                      checked python:user.getId in selected_user_ids and 'checked' or ''"/>
               <a class="follow"
                 tal:define="userid user/getId;
-                            avatar_img string:${portal_url}/@@avatars/${userid};
                             fullname python:user.Title">
-                <img src="${avatar_img}" alt="${fullname}" class="avatar" />
+                <img tal:replace="structure python:view.get_avatar_by_userid(userid)">
                 <strong class="title">${python:fullname or userid}</strong>
                 <br>
                 <dfn class="byline" tal:condition="status">

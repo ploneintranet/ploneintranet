@@ -15,10 +15,10 @@
       />
 
   <browser:page
-      name="app-testing"
-      for="ploneintranet.layout.app.IAppsContainer"
-      class=".utils.AppTestingView"
-      permission="ploneintranet.viewsite"
+      name="app-with-parameters"
+      for="ploneintranet.layout.app.IApp"
+      class=".test_views.AppWithParametersView"
+      permission="zope2.View"
       />
 
    <genericsetup:registerProfile

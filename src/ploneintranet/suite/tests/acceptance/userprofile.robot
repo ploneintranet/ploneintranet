@@ -135,7 +135,8 @@ I can search in my documents for
     [arguments]  ${VALUE}
     Input Text  jquery=#person-documents [name=SearchableText]  ${VALUE}
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Click Element  jquery=.preview img[alt~="${VALUE}"]
+    # Click Element  jquery=.preview img[alt~="${VALUE}"]
+    Click Element  jquery=#result-listing a:contains("${VALUE}")
 
 # This is disabled at the moment, see:
 # https://github.com/ploneintranet/ploneintranet/pull/530#issuecomment-121600509
@@ -149,6 +150,7 @@ I open the profile tab
 
 I can follow the link to logout
     Click Element  css=.tooltip-container .menu a.icon-exit
+    Wait until page contains element  css=#login-panel #submit-button
 
 I can view the profile for user ${USERID}
     Go To  ${PLONE_URL}/profiles/${USERID}
@@ -209,7 +211,7 @@ I can log in with the new password
     I can follow the link to logout
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password   ${pwd}
-    Click button  Login
+    Click button  Log in
     Wait until page contains  Welcome! You are now logged in
 
 # https://github.com/quaive/ploneintranet/issues/522

@@ -11,5 +11,11 @@ specific workflow state. -->
     <role name="SelfPublisher"/>
   </roles>
   <permissions>
+    <permission
+        name="slc: Toggle outdated"
+        acquire="True">
+      <role name="TeamMember"/>
+      <role name="TeamManager"/>
+    </permission>
   </permissions>
 </rolemap>

@@ -10,10 +10,12 @@
              portal_url here/portal_url;
              app_bookmarks nocall:view/app_bookmarks;
              friendly_type_to_icon_class nocall:app_bookmarks/friendly_type_to_icon_class;
-             bookmarks app_bookmarks/my_bookmarks;
+             bookmarks view/get_bookmarks;
+             sort_by python:request.get('sort_by', 'recent');
+             SearchableText request/SearchableText|nothing;
            ">
         <h2 class="portlet-title">
-          <a href="${view/apps_container_url}/@@app-bookmarks"
+          <a href="${view/app_url}"
             i18n:translate=""
              >Bookmarks</a>
         </h2>
@@ -25,27 +27,40 @@
               <input name="SearchableText"
                      type="search"
                      placeholder="Search bookmarks"
-                     value="${request/SearchableText|nothing}"
+                     value="${SearchableText}"
                      i18n:attributes="placeholder"
                     />
               <input type="hidden" value="${id_suffix}" name="id_suffix" />
-              <button hidden type="submit">Find bookmarks</button>
+              <button hidden type="submit" i18n:translate="">Find bookmarks</button>
             </label>
           </fieldset>
         </form>
         <div id="bookmarks-search-items${id_suffix}">
-          <nav class="pat-tabs tabs" tal:condition="nothing">
+          <nav class="pat-tabs tabs">
             <!-- The tabs repopulate the bookmarks list below. The feedback needs to contain a `<ul class="menu links" id="portlet-bookmarks-bookmarks-list${id_suffix}">` filtered on the criterium written on the tab. 'Recommended' is a centrally administered list of links. -->
-            <!--a href="/dashboard.html#portlet-bookmarks-bookmarks-list" class="pat-inject current">Recent</a-->
-            <!--a href="/feedback/portlet-bookmarks-most-visited.html#portlet-bookmarks-bookmarks-list" class="pat-inject">Most visited</a-->
-            <!--a href="/feedback/portlet-bookmarks-recommended.html#portlet-bookmarks-bookmarks-list" class="pat-inject">Recommended</a-->
+            <a href="${here/absolute_url}/@@${view/__name__}?id_suffix=${id_suffix}&amp;sort_by=recent#portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-inject ${python:sort_by=='recent' and 'current' or ''}"
+               i18n:translate=""
+              >Recent</a>
+            <a href="${here/absolute_url}/@@${view/__name__}?id_suffix=${id_suffix}&amp;sort_by=popularity#portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-inject ${python:sort_by=='popularity' and 'current' or ''}"
+               i18n:translate=""
+              >Most popular</a>
           </nav>
-          <p class="pat-message notice"
-             tal:condition="not:bookmarks"
-             i18n:translate=""
-             >No bookmarks were found matching <strong i18n:name="SearchableText">${request/SearchableText|nothing}</strong></p>
-          <ul class="menu links"
-              id="portlet-bookmarks-bookmarks-list${id_suffix}"
+          <tal:nobookmarks condition="not:bookmarks">
+            <p id="portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-message notice"
+               tal:condition="SearchableText"
+               i18n:translate=""
+              >No bookmarks were found matching <strong i18n:name="SearchableText">${SearchableText}</strong></p>
+            <p id="portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-message notice"
+               tal:condition="not:SearchableText"
+               i18n:translate=""
+              >No bookmarks were found</p>
+          </tal:nobookmarks>
+          <ul id="portlet-bookmarks-bookmarks-list${id_suffix}"
+              class="menu links"
               tal:condition="bookmarks"
               >
             <tal:bookmarks repeat="bookmark bookmarks">

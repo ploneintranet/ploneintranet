@@ -23,6 +23,7 @@ def content_created(obj, event):
         logger.debug("%s disabled", event_key)
         return
 
+    # BBB: this should not be harcoded (maybe use a registry record)
     whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
     try:
         if obj.portal_type not in whitelist:
@@ -54,6 +55,14 @@ def content_statechanged(obj, event):
     enabled = obj.REQUEST.get(event_key, True)  # default is enabled
     if not enabled:
         logger.debug("%s disabled", event_key)
+        return
+
+    # BBB: this should not be harcoded (maybe use a registry record)
+    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
+    try:
+        if obj.portal_type not in whitelist:
+            return
+    except AttributeError:
         return
 
     if event.new_state.id not in ('published',):

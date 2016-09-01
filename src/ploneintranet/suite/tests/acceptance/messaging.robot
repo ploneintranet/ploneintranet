@@ -88,7 +88,7 @@ I click the messaging app
     Click Link  css=div.app-messages a.link
 
 I open the messaging app
-    Go To  ${PLONE_URL}/apps/@@app-messaging
+    Go To  ${PLONE_URL}/apps/messages
 
 I can see a conversation with
     [arguments]  ${userid}
@@ -127,10 +127,12 @@ I can send a new message
 I can start a new conversation with
     [arguments]  ${userid}
     Click Link  css=div.quick-functions a.new-chat
-    Input Text  css=#pat-modal div.users input.focus  ${userid}
+    Wait until page contains element  css=#pat-modal div.users
+    Input Text  css=#pat-modal div.users input  ${userid}
     Wait Until Page Contains Element  xpath=//div[@class='select2-result-label'][contains(text(), ${userid})]
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), ${userid})]
     Click Element  css=button.close-panel[type='submit']
+    Wait until page contains element  css=form#chat-bar
 
 I search a conversation
     [arguments]  ${query}

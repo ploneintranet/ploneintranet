@@ -1,8 +1,10 @@
 import collections
+import re
 from AccessControl import AuthEncoding
 from zope.interface import Invalid
 from zope.interface import directlyProvides
 from plone import api as plone_api
+from plone.namedfile import NamedBlobImage
 from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
 from ploneintranet.userprofile.content.userprofile import UserProfile
@@ -124,6 +126,138 @@ class TestUserProfile(IntegrationTestCase):
                 userid=profile.username,
             )
         )
+
+    def test_avatar_tag_no_portrait(self):
+        self.login_as_portal_owner()
+        profile = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+            approve=True,
+            properties={
+                'fullname': 'Jane Doe',
+            },
+        )
+
+        self.maxDiff = None
+        tag_no_link = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to=None))
+        self.assertEqual(
+            tag_no_link,
+            u' <span class="pat-avatar avatar" data-initials="{initials}" '
+            'title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="default-user" '
+            'i18n:attributes="alt"> '
+            '</span>'
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
+
+        tag_link_profile = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to='profile'))
+        self.assertEqual(
+            tag_link_profile,
+            u' <a href="{portal_url}/profiles/{userid}" '
+            'class="pat-avatar avatar" data-initials="{initials}" title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="default-user" '
+            'i18n:attributes="alt"> '
+            '</a>'
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
+
+        tag_link_image = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to='image'))
+        self.assertEqual(
+            tag_link_image,
+            u' <a class="pat-avatar avatar user-info-avatar" '
+            'data-initials="{initials}" title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="default-user" '
+            'i18n:attributes="alt"> '
+            '</a>'
+
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
+
+    def test_avatar_tag_with_portrait(self):
+        self.login_as_portal_owner()
+        profile = pi_api.userprofile.create(
+            username='janedoe',
+            email='janedoe@doe.com',
+            approve=True,
+            properties={
+                'fullname': 'Jane Doe',
+            },
+        )
+        profile.portrait = NamedBlobImage(
+            data='GIF89a;',
+            filename=u'avatar.png')
+
+        self.maxDiff = None
+        tag_no_link = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to=None))
+        self.assertEqual(
+            tag_no_link,
+            u' <span class="pat-avatar avatar" data-initials="{initials}" '
+            'title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="" '
+            'i18n:attributes="alt"> '
+            '</span>'
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
+
+        tag_link_profile = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to='profile'))
+        self.assertEqual(
+            tag_link_profile,
+            u' <a href="{portal_url}/profiles/{userid}" '
+            'class="pat-avatar avatar" data-initials="{initials}" title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="" '
+            'i18n:attributes="alt"> '
+            '</a>'
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
+
+        tag_link_image = re.sub('[ \n]+', ' ', pi_api.userprofile.avatar_tag(
+            username='janedoe', link_to='image'))
+        self.assertEqual(
+            tag_link_image,
+            u' <a href="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'class="pat-avatar avatar pat-gallery user-info-avatar" '
+            'data-initials="{initials}" title="" > '
+            '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
+            'alt="Image of {fullname}" class="" '
+            'i18n:attributes="alt"> '
+            '</a>'
+
+            ''.format(
+                portal_url=self.portal.absolute_url(),
+                userid=profile.username,
+                fullname=profile.fullname,
+                initials=profile.initials,
+            ))
 
     def test_get_users_from_userids_and_groupids(self):
         """NB this overlaps with the getters tested below

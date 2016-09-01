@@ -16,6 +16,7 @@ from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
 import lxml.etree as etree
 import requests
+from plone import api
 from ploneintranet.async.tasks import ReindexObject
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
@@ -26,6 +27,24 @@ from .solr_search import prepare_data
 
 logger = logging.getLogger(__name__)
 solr_indexing_enabled_key = 'ploneintranet.search.solr.index'
+
+
+def only_if_installed(f):
+    ''' Use this as a decorator to execute f only if a product is installed
+    '''
+    def decorated(*args, **kwargs):
+        try:
+            qi = api.portal.get_tool('portal_quickinstaller')
+            if qi.isProductInstalled('ploneintranet.search'):
+                return f(*args, **kwargs)
+        except api.exc.CannotGetPortalError:
+            pass
+        except:
+            logger.exception(
+                'Problem understading id ploneintranet.search '
+                'is instaled'
+            )
+    return decorated
 
 
 @implementer(IContentAdder)
@@ -315,18 +334,22 @@ class ContentIndexer(object):
             self._connection = IConnection(self._solr_conf)
         return self._connection
 
+    @only_if_installed
     def abort(self):
         self._solr.rollback()
 
+    @only_if_installed
     def begin(self):
         pass
 
+    @only_if_installed
     def commit(self):
         self._solr.commit(waitSearcher=None, expungeDeletes=True)
         # Optimize: Too expensive to do this every time.
         # Instead, call the solr-optimize browser view regularly (cron?)
         # self._solr.optimize(waitSearcher=None)
 
+    @only_if_installed
     def index(self, obj, attributes=None):
         """Index the object.
 
@@ -346,9 +369,11 @@ class ContentIndexer(object):
                 adder = ContentAdder(obj, self._solr)
             adder.add(data)
 
+    @only_if_installed
     def reindex(self, obj, attributes=None):
         self.index(obj, attributes)
 
+    @only_if_installed
     def unindex(self, obj):
         if hasattr(obj, 'context'):
             obj = obj.context

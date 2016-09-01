@@ -23,4 +23,6 @@
   <adapter name="is_archived" factory=".indexers.is_archived_dexterity" />
   <adapter name="is_archived" factory=".indexers.is_archived" />
 
+  <adapter name="invitees" factory=".indexers.invitees" />
+
 </configure>

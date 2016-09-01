@@ -49,7 +49,10 @@ class WorkspaceFolder(Container):
         returns a string for use in a css selector in the templates
         describing this content type
         Override in custom workspace types, if you want to make use of
-        it for custom styling
+        it for custom styling.
+
+        Keep in sync with registry record
+        ploneintranet.workspace.workspace_types_css_mapping
         """
         return "workspace"
 
@@ -261,6 +264,23 @@ class WorkspaceFolder(Container):
             return dumps(prefill)
         else:
             return ''
+
+    def get_related_workspaces(self):
+        if not hasattr(self, 'related_workspaces') or \
+           not self.related_workspaces:
+            return None
+        rw = []
+        for uid in self.related_workspaces:
+            ws = api.content.get(UID=uid)
+            if not ws:
+                continue
+            rw.append(
+                {'UID': uid,
+                 'URL': ws.absolute_url(),
+                 'Title': ws.Title()
+                 }
+            )
+        return rw
 
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):

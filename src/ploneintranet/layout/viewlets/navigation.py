@@ -46,13 +46,14 @@ class OneLevelBreadcrumbs(BrowserView):
             item = parent
         # Get the interesting part of the chain.
         chain = list(reversed(chain[:index]))
+        # Some things want to be hidden from the breadcrumbs.
+        chain = [
+            elem for elem in chain
+            if not IHideFromBreadcrumbs.providedBy(elem)]
         # Restrict to the wanted maximum of levels
         chain = chain[:self.levels]
         crumbs = []
         for item in chain:
-            # Some things want to be hidden from the breadcrumbs.
-            if IHideFromBreadcrumbs.providedBy(item):
-                continue
             crumbs.append(
                 {'absolute_url': item.absolute_url(),
                  'Title': utils.pretty_title_or_id(item, item)})

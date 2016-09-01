@@ -190,7 +190,7 @@ def archives_shown(context, request, section="main"):
     mtool = api.portal.get_tool('portal_membership')
     username = mtool.getAuthenticatedMember().getId()
     cookie_name = '%s-show-extra-%s' % (section, username)
-    return 'documents' in request.get(cookie_name, '')
+    return 'archived_documents' in request.get(cookie_name, '').split('|')
 
 
 def month_name(self, date):

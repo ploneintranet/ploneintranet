@@ -54,4 +54,21 @@
         handler=".to0004.add_apps_container"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:registerProfile
+        name="to_0006"
+        title="Upgrade to setup the login splash image"
+        description=""
+        directory="profiles/to_0006"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Setup the login splash image"
+        description=""
+        source="*"
+        destination="0006"
+        handler=".to0006.setup_login_splash"
+        profile="ploneintranet.layout:default" />
+
 </configure>

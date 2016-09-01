@@ -898,7 +898,36 @@ def create_bookmarks():
         portal['library']['human-resources']['leave-policies'].UID(),
         u'allan_neece'
     )
-    pn.bookmark('apps', u'@@app-bookmarks', u'allan_neece')
+    pn.bookmark(
+        'content',
+        portal['apps']['bookmarks'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['profiles']['alice_lindstrom'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['profiles']['kurt_weissman'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['profiles']['pearlie_whitby'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['profiles']['silvio_depaoli'].UID(),
+        u'allan_neece'
+    )
+    pn.bookmark(
+        'content',
+        portal['apps']['bookmarks'].UID(),
+        u'fernando_poulter'
+    )
 
 
 def create_messages():

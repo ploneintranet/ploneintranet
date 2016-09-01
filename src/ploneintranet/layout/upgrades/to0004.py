@@ -12,4 +12,4 @@ def add_apps_container(context):
         'profile-ploneintranet.layout.upgrades:to_0004'
     )
     # Create the apps container
-    create_apps_container()
+    create_apps_container(with_apps=False)

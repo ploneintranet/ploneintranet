@@ -11,7 +11,7 @@
 </tal:comment>
 
 <metal:content fill-slot="content">
-  <div class="container">
+  <div class="container" id="portal-content">
 
     <nav class="canvas-subnav">
       <a tal:repeat="section view/sections"
@@ -36,7 +36,8 @@
 
             <a href="#" class="edit icon-edit"
                tal:condition="view/can_edit"
-               tal:attributes="href string:${context/absolute_url}/@@switch_theme/edit">
+               tal:attributes="href string:${context/absolute_url}/@@switch_theme/edit"
+               i18n:translate="">
               Edit
             </a>
             <tal:link replace="structure here/@@bookmark-link" />
@@ -82,7 +83,7 @@
             </h3>
             <ul class="menu group-by-page">
               <li tal:repeat="child view/siblings"
-                      tal:attributes="class child/follow">
+                  class="${child/follow} ${python:'current' if context.absolute_url()==child['absolute_url'] else ''}">
                 <a href="#"
                         tal:attributes="href child/absolute_url"
                         tal:content="child/title">

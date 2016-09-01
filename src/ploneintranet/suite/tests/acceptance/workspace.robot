@@ -157,10 +157,9 @@ Member can create and edit a folder
 Create image
     Given I am in a workspace as a workspace member
      Then I can create a new image
-     
+
 # https://github.com/quaive/ploneintranet/issues/521
 Create structure
-    [Tags]  heisenbug
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
@@ -182,6 +181,17 @@ Member can create an event
      When I can create a new event  Christmas  2014-12-25  2014-12-26
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
      Then I can delete an event  Christmas (updated)
+
+# this is an actual UI issue caused by the new shell
+# https://github.com/quaive/ploneintranet/issues/609
+Member can create a link
+    Given I am in a workspace as a workspace admin
+     Then I can create a new link  Quaive site
+     Then I can edit the new link  Quaive site
+      And I can publish the new link  Quaive site
+     When I am logged in as the user allan_neece
+     Then I go to the Open Market Committee Workspace
+      And I can see the new link  Quaive site
 
 Member cannot create an event with invalid dates
     Given I am in a workspace as a workspace member
@@ -242,8 +252,8 @@ Site Administrator can add example user as member of workspace
      Add workspace  Example Workspace
      Click Link  Workspace settings and about
      Click Link  Members
-     Wait Until Page Contains  Add user
-     Click Link  Add user
+     Wait Until Page Contains Element  css=a.button.icon-user-add
+     Click Element  css=a.button.icon-user-add
      Wait Until Page Contains Element  css=li.select2-search-field input
      Input Text  css=li.select2-search-field input  alice
      Wait Until Element Is Visible  css=span.select2-match

@@ -8,10 +8,6 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet">
 
-  <include package="z3c.jbot" file="meta.zcml" />
-  <browser:jbot directory="overrides"
-                layer="ploneintranet.theme.interfaces.IThemeSpecific" />
-
   <!-- Register notfound as page displaying a notfound message. -->
   <browser:page
       for="*"

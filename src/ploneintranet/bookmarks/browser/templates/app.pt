@@ -9,13 +9,14 @@
   i18n:domain="ploneintranet">
 
   <metal:content fill-slot="content">
-    <div id="content" class="state-on">
-      <div id="application-body" class="application- application-bookmarks">
+    <div id="app-space" class="state-on">
+      <div id="application-body" class="application- application-bookmarks sidebar-left-open sidebar-right-closed">
         <div id="document-content">
           <nav class="tabs pat-tabs">
             <a href="#directory-all" i18n:translate="">All bookmarks</a>
             <a href="#directory-apps" i18n:translate="">Apps</a>
             <a href="#directory-workspaces" i18n:translate="">Workspaces</a>
+            <a href="#directory-people" i18n:translate="">People</a>
             <a href="#directory-documents" i18n:translate="">Documents</a>
           </nav>
           <div class="pat-stacks schwung">
@@ -44,9 +45,8 @@
                     </option>
                     <option value='bookmarked'
                             selected="${python:group_by=='bookmarked' and 'selected' or None}"
-                            tal:condition="nothing"
                             i18n:translate="">
-                      Group by bookmarking date (BBB: disabled for the moment, see https://github.com/quaive/ploneintranet.prototype/issues/283)
+                      Group by bookmarking date
                     </option>
                   </select>
                 </label>
@@ -91,17 +91,9 @@
             <div id="directory-apps">
               <div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                 <div class="grid-sizer"></div>
-                <div tal:repeat="tile view/my_bookmarked_apps" class="tile app ${tile/cls} ${tile/disabled}">
-                  <a href="${tile/url}"
-                     class="link ${tile/modal}">
-                    <img class="icon"
-                         src="${tile/img}"
-                         alt="${tile/alt}"
-                      />
-                      <h3>${tile/title}</h3>
-                  </a>
-                  <tal:link tal:condition="tile/path" replace="structure python:view.apps_view.get_bookmark_link(tile)" />
-                </div>
+                <tal:apps tal:repeat="app view/my_bookmarked_apps">
+                  <tal:app define="app app/getObject" replace="structure app/@@app-tile" />
+                </tal:apps>
               </div>
             </div>
 
@@ -121,6 +113,40 @@
               </div>
             </div>
 
+            <div id="directory-people">
+              <div class="row people user-cards results pat-equaliser">
+                <tal:repeat repeat="person view/my_bookmarked_people">
+                  <div class="item" tal:define="person person/getObject">
+                    <div href="" class="user-card">
+                      <img tal:replace="structure python:view.get_avatar_by_userid(person.username)">
+                      <a href="${person/absolute_url}">
+                        <h4 class="name">${person/fullname}</h4>
+                        <p class="byline">${person/job_title}</p>
+                      </a>
+                      <ul class="data">
+                        <li class="mail icon-mail"
+                            tal:condition="person/email"
+                          >
+                          <a title="Mail ${person/fullname} at ${person/email}"
+                             href="mailto:${person/email}">${person/email}</a>
+                        </li>
+                        <li class="phone icon-phone"
+                            tal:condition="person/telephone"
+                          >
+                          <a title="Call ${person/fullname} at ${person/telephone}" href="tel:${person/telephone}">${person/telephone}</a>
+                        </li>
+                        <li class="phone icon-mobile"
+                            tal:condition="person/mobile"
+                          >
+                          <a title="Call ${person/fullname} at ${person/mobile}" href="tel:${person/mobile}">${person/mobile}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </tal:repeat>
+              </div>
+            </div><!-- #directory-people -->
+
             <div id="directory-documents">
               <div class="office results pat-masonry office-files document-previews"
                    data-pat-masonry="column-width: .item; gutter: 0;">
@@ -132,7 +158,7 @@
                            title="${item/description}"
                            tal:condition="item/preview_image_url"
                         />
-                      <figcaption class="icon-word ${python:view.friendly_type_to_icon_class(item.portal_type)}">
+                      <figcaption class="icon-document ${python:view.friendly_type_to_icon_class(item.portal_type)}">
                         ${item/title}
                       </figcaption>
                     </figure>

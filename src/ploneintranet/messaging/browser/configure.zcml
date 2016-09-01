@@ -5,7 +5,7 @@
 
   <browser:page
       name="app-messaging"
-      for="ploneintranet.layout.app.IAppsContainer"
+      for="ploneintranet.layout.app.IApp"
       class=".views.AppMessagingView"
       template="templates/chat.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"
@@ -14,7 +14,7 @@
 
   <browser:page
       name="app-messaging-new-chat"
-      for="ploneintranet.layout.app.IAppsContainer"
+      for="ploneintranet.layout.app.IApp"
       class=".views.AppMessagingNewChat"
       template="templates/panel-new-chat.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"
@@ -23,7 +23,7 @@
 
   <browser:page
       name="app-messaging-new-message"
-      for="ploneintranet.layout.app.IAppsContainer"
+      for="ploneintranet.layout.app.IApp"
       class=".views.AppMessagingNewMessage"
       template="templates/new-message.html"
       layer=".interfaces.IPloneIntranetMessagingLayer"

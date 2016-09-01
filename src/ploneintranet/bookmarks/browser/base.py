@@ -1,6 +1,7 @@
 # coding=utf-8
 from plone import api
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from ploneintranet.layout.app import apps_container_id
 from Products.Five import BrowserView
 from zExceptions import NotFound
@@ -32,11 +33,14 @@ class BookmarkView(BrowserView):
         return self.ploneintranet_network._bookmarked
 
     @property
-    @memoize
-    def apps_container_url(self):
+    def app(self):
         portal = api.portal.get()
-        apps_container = getattr(portal, apps_container_id)
-        return apps_container.absolute_url()
+        return getattr(portal, apps_container_id).bookmarks
+
+    @property
+    @memoize_contextless
+    def app_url(self):
+        return self.app.absolute_url()
 
 
 class BookmarkActionView(BookmarkView):
@@ -54,7 +58,16 @@ class BookmarkActionView(BookmarkView):
     def iconified(self):
         ''' Check the request to serve the bookmark link iconifioed
         '''
+        if self.buttonified:
+            return False
         return bool(self.request.get('iconified'))
+
+    @property
+    @memoize
+    def buttonified(self):
+        ''' Check the request to serve the bookmark link iconifioed
+        '''
+        return bool(self.request.get('buttonified'))
 
     def disable_diazo(self):
         ''' Disable diazo if this is an ajax call

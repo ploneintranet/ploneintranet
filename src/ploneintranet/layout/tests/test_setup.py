@@ -4,6 +4,7 @@ from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.interfaces import IPloneintranetContentLayer
 from ploneintranet.layout.interfaces import IPloneintranetFormLayer
+from ploneintranet.layout.setuphandlers import create_apps_container
 
 
 class TestSetup(IntegrationTestCase):
@@ -39,6 +40,43 @@ class TestSetup(IntegrationTestCase):
         self.assertIn('dashboard', actions.portal_tabs)
         self.assertEqual('Dashboard', actions.portal_tabs['dashboard'].title)
         self.assertEqual(False, actions.portal_tabs['index_html'].visible)
+
+    def test_apps_created(self):
+        ''' The setuphandlers creates and publishes some apps
+        '''
+        self.assertListEqual(
+            self.portal.apps.keys(),
+            [
+                'contacts',
+                'messages',
+                'todo',
+                'calendar',
+                'slide-bank',
+                'image-bank',
+                'news',
+                'case-manager',
+                'app-market',
+            ]
+        )
+        for app in self.portal.apps.listFolderContents():
+            self.assertEqual(
+                api.content.get_state(app),
+                'published',
+            )
+
+    def test_create_apps_container(self):
+        ''' Test the create_apps_container function
+        '''
+        # we remove the apps created by the setuphandler
+        api.content.delete(self.portal.apps)
+
+        # We can call the function to just create the apps
+        create_apps_container(with_apps=False)
+        self.assertTrue(len(self.portal.apps) == 0)
+
+        # or to create everything (the default)
+        create_apps_container()
+        self.assertTrue(len(self.portal.apps) != 0)
 
 
 class TestUninstall(IntegrationTestCase):

@@ -31,6 +31,14 @@ User can unbookmark a workspace
     Given I am logged in as the user allan_neece
      Then I can unbookmark the workspace  Shareholder information
 
+User can bookmark another user
+    Given I am logged in as the user allan_neece
+     Then I can bookmark the user  Dollie Nocera
+
+User can unbookmark another user
+    Given I am logged in as the user allan_neece
+     Then I can unbookmark the user  Alice Lindström
+
 User can bookmark a workspace document
     Given I am in a workspace as a workspace member
      Then I can bookmark the workspace document  Public bodies reform
@@ -72,6 +80,11 @@ User can see bookmarked applications
      Then I can go to the bookmark application
      Then I can see the bookmarked applications
 
+User can see bookmarked people
+    Given I am logged in as the user allan_neece
+     Then I can go to the bookmark application
+     Then I can see the bookmarked people
+
 User can see bookmarked workspaces
     Given I am logged in as the user allan_neece
      Then I can go to the bookmark application
@@ -82,13 +95,26 @@ User can see bookmarked documents
      Then I can go to the bookmark application
      Then I can see the bookmarked documents
 
-User can use the bookmarks tile
+User can see the bookmarks tile in the dashboard
     Given I am logged in as the user allan_neece
-     Then I can see the bookmarks tile in the dashboard
+      And I open the Dashboard
+     Then I can see the bookmarks tile
+
+User can query the bookmarks tile in the dashboard
+    Given I am logged in as the user allan_neece
+      And I open the Dashboard
      Then I can query the bookmarks tile for  minutes
       And I can see in the bookmark tile that the last bookmark is  Minutes Overview
      Then I can query the bookmarks tile for  walrus
       And I can see in the bookmark tile that we have no bookmarks matching  walrus
+
+User can click the bookmarks tile tabs in the dashboard
+    Given I am logged in as the user allan_neece
+      And I open the Dashboard
+     When I click the portlet tab  Most popular
+     Then I can see in the bookmark tile that the first bookmark is  Bookmarks
+     When I click the portlet tab  Recent
+     Then I can see in the bookmark tile that the first bookmark is  Example Case
 
 *** Keywords ***
 

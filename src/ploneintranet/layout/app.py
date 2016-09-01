@@ -1,10 +1,15 @@
 # coding=utf-8
 from plone.dexterity.content import Container
+from plone.dexterity.content import Item
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.layers import enable_app_layer
+from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from zope.interface import implementer
+from zope.schema import ASCIILine
+from zope.schema import Text
 from ZPublisher.BeforeTraverse import registerBeforeTraverse
 
 
@@ -17,11 +22,70 @@ class IAppsContainer(form.Schema, IImageScaleTraversable):
     """
 
 
-@implementer(IAppsContainer, IAttachmentStoragable)
+class IApp(form.Schema):
+    """
+    Marker interface for an App
+    """
+    app = ASCIILine(
+        title=_('app_label', u'App'),
+        description=_(
+            'app_description',
+            u'The path to the App you want to add (e.g. @@case-manager)',
+        ),
+        default='',
+        required=False,
+    )
+
+    css_class = ASCIILine(
+        title=_('app_class_label', 'App CSS class'),
+        description=_(
+            'app_class_description',
+            u"Define which CSS class the app should have. If it is the same "
+            u"as the app's id, then you can leave this blank"
+        ),
+        default='',
+        required=False,
+    )
+
+    devices = ASCIILine(
+        title=_('app_devices_label', 'App supported devices'),
+        description=_(
+            'app_devices_description',
+            u"This contains the devices supported by the app"
+            u"Valid values are desktop tablet mobile"
+        ),
+        default='desktop',
+        required=True,
+    )
+
+    app_parameters = Text(
+        title=_('app_parameters_label', u'App parameters'),
+        description=_(
+            'app_parameters_description',
+            (
+                u'Add some request parameters in a json format, e.g.: '
+                u'{"query": "News"} '
+            ),
+        ),
+        default=u'',
+        required=False,
+    )
+
+
+@implementer(IAppsContainer, IAttachmentStoragable, IHideFromBreadcrumbs)
 class AppsContainer(Container):
     """
     A folder to contain Apps.
     """
+
+
+@implementer(IApp)
+class App(Item):
+    ''' An App
+    '''
+
+    def get_class(self):
+        return self.css_class or self.getId()
 
 
 class AbstractAppContainer(object):

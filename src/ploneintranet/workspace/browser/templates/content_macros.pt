@@ -110,7 +110,8 @@
       <br/>
       <fieldset class="pat-checklist options">
         <label>
-          <input name="whole_day" tal:attributes="disabled read_only" checked="${python:context.get('whole_day')}" type="checkbox"/>
+          <input name="whole_day" value="selected" tal:attributes="disabled read_only; checked python:getattr(context, 'whole_day', 0)" type="checkbox"/>
+          <input name="whole_day-empty-marker" type="hidden" value="1" />
           <span tal:omit-tag="" i18n:translate="">All day event</span>
         </label>
 <!--        <br/>
@@ -129,13 +130,13 @@
 
             <div class="row"
                  tal:define="start context/start | view/default_start">
-              <label class="six columns">
+              <label class="eight columns">
                   <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="start" id="${start_id}" placeholder="Date" value="${start}"
                          data-pat-validation="type: date; not-after: #${end_id}; message-date: This date must be on or before the end date."
                          i18n:attributes="placeholder"
                     data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json" />
               </label>
-              <label class="six columns">
+              <label class="four columns">
                 <input type="time" size="10" class="time" name="start" placeholder="Time"
                        i18n:attributes="placeholder"
                        tal:attributes="disabled read_only"
@@ -148,13 +149,13 @@
             <legend i18n:translate="">Until</legend>
             <div class="row"
                  tal:define="end context/end | view/default_end">
-              <label class="six columns">
+              <label class="eight columns">
                   <input type="date" required="required" tal:attributes="disabled read_only" size="10" class="date pat-date-picker" name="end" id="${end_id}" placeholder="Date" value="${end}"
                     data-pat-validation="type: date; not-before: #${start_id}; message-date: this date must be on or after the start date."
                     data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${context/portal_url}/@@date-picker-i18n.json"
                     i18n:attributes="placeholder"/>
               </label>
-              <label class="six columns">
+              <label class="four columns">
                 <input type="time" size="10" class="time" name="end" placeholder="Time"
                        i18n:attributes="placeholder"
                        tal:attributes="disabled read_only"

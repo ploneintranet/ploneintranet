@@ -19,6 +19,10 @@ class AddBase(BrowserView):
     '''
     template = ViewPageTemplateFile('templates/add_content.pt')
     can_edit = True
+    pat_inject = ' && '.join((
+        'source: #document-body; target: #document-body',
+        'source: #workspace-documents; target: #workspace-documents',
+    ))
 
     def redirect(self, url):
         """
@@ -115,6 +119,30 @@ class AddBase(BrowserView):
 class AddFolder(AddBase):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
+
+
+class AddLink(AddBase):
+    ''' The add link view
+    '''
+    template = ViewPageTemplateFile('templates/add_form.pt')
+
+    form_title = _('Create link')
+    form_portal_type = 'Link'
+    form_input_title_placeholder = _('Link name')
+
+    def extra_fields(self):
+        ''' BBB: this should be done in a cleaner way...
+        '''
+        return '''
+            <input name="remoteUrl"
+                   type="url"
+                   placeholder="http(s)://..."
+                   value="{remoteUrl}"
+                   required="required"
+              />
+        '''.format(
+            remoteUrl=self.request.form.get('remoteUrl', '')
+        )
 
 
 class AddTask(AddBase):

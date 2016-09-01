@@ -24,5 +24,6 @@
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
     <dependency>profile-slc.mailrouter:default</dependency>
+    <dependency>profile-slc.outdated:default</dependency>
   </dependencies>
 </metadata>

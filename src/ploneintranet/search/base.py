@@ -92,7 +92,7 @@ class SearchResult(object):
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
         self.mimetype = context.get('mimetype', None)
-        self.UID = context.get('UID')
+        self.UID = context['UID']
 
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently

@@ -15,10 +15,13 @@
          >
         <tal:label i18n:translate="">This item has been added to your bookmarks.</tal:label>
         <tal:label i18n:translate="">You can find your bookmarks in the</tal:label>
-        <a href="${view/apps_container_url}/@@app-bookmarks" i18n:translate="">bookmarks app</a>.
+        <a href="${view/app_url}" i18n:translate="">bookmarks app</a>.
       </p>
-      <tal:link condition="not:view/iconified" replace="structure view/bookmark_context/@@bookmark-link" />
-      <tal:link condition="view/iconified" replace="structure view/bookmark_context/@@bookmark-link-iconified" />
+      <tal:button condition="view/buttonified" replace="structure view/bookmark_context/@@bookmark-button" />
+      <tal:nobutton condition="not:view/buttonified">
+        <tal:link condition="not:view/iconified" replace="structure view/bookmark_context/@@bookmark-link" />
+        <tal:link condition="view/iconified" replace="structure view/bookmark_context/@@bookmark-link-iconified" />
+      </tal:nobutton>
     </div>
   </metal:content>
 

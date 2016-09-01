@@ -13,9 +13,17 @@
     <browser:viewlet
         name="plone.global_sections"
         manager="plone.app.layout.viewlets.interfaces.IMainNavigation"
-        class="plone.app.layout.viewlets.common.GlobalSectionsViewlet"
+        class=".common.GlobalSectionsViewlet"
         permission="zope2.View"
         template="sections.pt"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+    <browser:viewlet
+        name="plone.logo"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".common.LogoViewlet"
+        permission="zope2.View"
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
