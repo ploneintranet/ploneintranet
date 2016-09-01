@@ -3,6 +3,9 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.tiles import Tile
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.search.interfaces import ISiteSearch
+from scorched.dates import solr_date
+from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
 from ploneintranet.workspace.utils import month_name
 
@@ -30,14 +33,14 @@ def format_event_date_for_title(event):
     """
     # whole_day isn't a metadata field (yet)
     event_obj = event.getObject()
-    if is_single_day(event) and event_obj.whole_day:
+    if is_single_day(event_obj) and event_obj.whole_day:
         return _(u'All day')
-    elif is_single_day(event):
-        return event.start.strftime('%H:%M')
+    elif is_single_day(event_obj):
+        return event_obj.start.strftime('%H:%M')
     else:  # multi day event
         return '{} - {}'.format(
-            event.start.strftime('%Y-%m-%d'),
-            event.end.strftime('%Y-%m-%d'),
+            event_obj.start.strftime('%Y-%m-%d'),
+            event_obj.end.strftime('%Y-%m-%d'),
         )
 
 
@@ -48,20 +51,24 @@ class EventsTile(Tile):
         Return upcoming events, potentially filtered by invitation status
         and/or search term
         """
-        catalog = api.portal.get_tool('portal_catalog')
         now = localized_now()
 
         query = dict(
             object_provides=IEvent.__identifier__,
-            end={'query': now, 'range': 'min'},
-            sort_on='start',
-            sort_order='ascending',
+            end__gt=solr_date(now),
         )
+        phrase = None
         if self.data.get('SearchableText', ''):
-            query['SearchableText'] = self.data['SearchableText'] + '*'
+            phrase = self.data['SearchableText'] + '*'
         elif self.data.get('my_events', True):
             query['invitees'] = [api.user.get_current().getId()]
-        upcoming_events = catalog.searchResults(**query)
+
+        search_util = getUtility(ISiteSearch)
+        upcoming_events = search_util.query(
+            phrase=phrase,
+            filters=query,
+            sort='start',
+        )
         return upcoming_events
 
     def format_event_date(self, event):

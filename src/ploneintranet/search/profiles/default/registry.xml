@@ -18,6 +18,9 @@
       <element>is_archived</element>
       <element>division</element>
       <element>UID</element>
+      <element>invitees</element>
+      <element>end__gt</element>
+      <element>object_provides</element>
     </value>
   </record>
 

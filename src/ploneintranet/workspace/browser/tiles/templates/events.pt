@@ -25,22 +25,23 @@
 			</nav>
 			<div id="portlet-events-event-list"
                     tal:define="events view/upcoming_events;
-                                num_events python:len(events)">
+                                num_events python:len(list(events.results))">
                 <ul class="event-list">
-                  <tal:events repeat="event python:events[:5]">
+                  <tal:events repeat="event events">
 
                   <li class="event" title="${event/Title}: ${event/Description}"
-                        tal:define="location event/location">
-                      <a href="${event/getURL}" class="link">
+                      tal:condition="python:repeat.event.index < 5"
+                        tal:define="location event/location|nothing">
+                      <a href="${event/url}" class="link">
                         <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
                         <p class="byline" tal:condition="location">${location}</p>
 
                         <p class="date">
                           <time class="calendar-medium pat-auto-scale"
-                                tal:define="month_name python:view.month_name(event.start)">
-                            <strong class="day">${python:event.start.day}</strong>
+                                tal:define="month_name python:view.month_name(event['start'])">
+                            <strong class="day">${python:event['start'].day}</strong>
                             <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
-                            <strong class="year">${python:event.start.year}</strong>
+                            <strong class="year">${python:event['start'].year}</strong>
                           </time>
                         </p>
                         <p class="description">${event/Description}</p>
@@ -50,7 +51,7 @@
 
                   </tal:events>
                 </ul>
-                <p class="portlet-footer" tal:condition="python:len(events) >= 5">
+                <p class="portlet-footer" tal:condition="python:num_events >= 5">
                     <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record" i18n:translate="">Show all events</a>
                 </p>
 			</div>

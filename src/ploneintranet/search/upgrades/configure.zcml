@@ -13,11 +13,11 @@
       profile="ploneintranet.search:default" />
 
   <genericsetup:upgradeStep
-      title="Reread registry configuration"
+      title="Update registry configuration"
       description="Setup registry records filter on creator"
       source="*"
       destination="0003"
-      handler=".to0003.update_registry_filter_fields"
+      handler=".to0003.update_registry_filter_fields_0003"
       profile="ploneintranet.search:default" />
 
   <genericsetup:upgradeStep
@@ -25,7 +25,7 @@
       description="Setup registry records filter on UID"
       source="*"
       destination="0004"
-      handler=".to0004.update_registry_filter_fields"
+      handler=".to0004.update_registry_filter_fields_0004"
       profile="ploneintranet.search:default" />
 
   <genericsetup:upgradeStep
@@ -42,6 +42,14 @@
       source="*"
       destination="0005"
       handler=".to0005.remove_division_column"
+      profile="ploneintranet.search:default" />
+
+  <genericsetup:upgradeStep
+      title="Update registry configuration"
+      description="Update filter_fields registry record with event related fields"
+      source="*"
+      destination="0006"
+      handler=".to0006.update_registry_filter_fields_0006"
       profile="ploneintranet.search:default" />
 
   <!-- -*- extra stuff goes here -*- -->
