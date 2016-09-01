@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a9 (unreleased)
+1.2.0a9 (2016-09-01)
 --------------------
 
 * Update changelog (!!!!) [Guido A.J. Stevens]
