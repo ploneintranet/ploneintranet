@@ -797,19 +797,22 @@ I can create a new image
 
 I can create a structure
     Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create folder
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
     Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
-    Click Button  css=#form-buttons-create
+    Click Button  css=#pat-modal #form-buttons-create
     Wait until page does not contain element   xpath=//div[@id='document-body']/div[contains(@class, 'injecting')]
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='Document in subfolder']
@@ -817,6 +820,7 @@ I can create a structure
     Click Button  Save
     Wait until page does not contain element   xpath=//div[@id='application-body']/div[contains(@class, 'injecting')]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
