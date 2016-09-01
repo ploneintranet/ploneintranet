@@ -23,3 +23,5 @@ exclude .dockerignore
 exclude .gitlab-ci.yml
 exclude Dockerfile
 exclude Makefile
+recursive-include testfiles *.docx
+recursive-include testfiles *.pdf
