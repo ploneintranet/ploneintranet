@@ -160,6 +160,7 @@ Create image
 
 # https://github.com/quaive/ploneintranet/issues/521
 Create structure
+    [Tags]  heisenbug
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
