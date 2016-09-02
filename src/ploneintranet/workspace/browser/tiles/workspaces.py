@@ -9,7 +9,6 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.component import getUtility
 from zope.component import queryUtility
 from ploneintranet.layout.utils import shorten
-from plone.protect.utils import addTokenToUrl
 
 
 class WorkspacesTile(Tile):
@@ -155,7 +154,7 @@ def my_workspaces(context,
             'uid': item.context['UID'],
             'title': item.title,
             'description': item.description,
-            'url': addTokenToUrl(item.url),
+            'url': item.url,
             'activities': activities,
             'class': css_class,
             'modified': item.modified,
