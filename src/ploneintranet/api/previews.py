@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 ''' Methods to generate and access preview images on content '''
-import logging
 from ploneintranet.docconv.client import previews
+from ploneintranet.docconv.client import html_converter
 from zope.globalrequest import getRequest
+
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -183,6 +185,19 @@ def generate_previews(obj, event=None):
     :rtype: None
     """
     previews.generate_previews(obj, event)
+
+
+def generate_pdf(obj, event=None):
+    """ Generate a pdf for a content type. We need our own subscriber as
+    c.dv insists on checking for its custom layout. Also we want our own async
+    mechanism, it is using this method.
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: Does not return anything.
+    :rtype: None
+    """
+    html_converter.generate_pdf(obj, event)
 
 
 def events_disable(request=None):

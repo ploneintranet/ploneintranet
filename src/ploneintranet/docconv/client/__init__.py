@@ -10,6 +10,10 @@ SUPPORTED_CONTENTTYPES = [
     'File',
 ]
 
+HTML_CONTENTTYPES = [
+    'Document'
+]
+
 
 # documentviewer does set the layout in two places. One can be turned off
 # the following one can't. So we have to patch.

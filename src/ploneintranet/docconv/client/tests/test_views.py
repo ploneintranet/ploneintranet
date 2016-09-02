@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
+from StringIO import StringIO
 from pkg_resources import resource_string
 from plone import api
 from plone.app.testing import login
 from plone.app.testing.interfaces import SITE_OWNER_NAME
+from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from ploneintranet import api as pi_api
 from ploneintranet.docconv.client.decorators import force_synchronous_previews
-from ploneintranet.docconv.client.interfaces import IPloneintranetDocconvClientLayer  # noqa
 from ploneintranet.docconv.client.testing import FunctionalTestCase
-from StringIO import StringIO
 from zope.annotation import IAnnotations
 
 
@@ -158,3 +158,23 @@ class TestDocconvViews(FunctionalTestCase):
             self.get_preview_ids_for(file1),
             original_ids,
         )
+
+    def test_pdf_view(self):
+        '''
+        Test the PDF view that serves the PDF version of HTML content
+        '''
+        document = api.content.create(
+            self.portal,
+            id='Doc1',
+            type='Document',
+        )
+        raw_text = u'¯\_(ツ)_/¯<br/>'
+        richtext = RichTextValue(
+            raw=raw_text,
+            mimeType='text/plain',
+            outputMimeType='text/x-html-safe',
+        )
+        document.text = richtext
+        view = document.restrictedTraverse('pdf')
+        self.assertTrue(view.has_pdf())
+        self.assertTrue(len(view.get_pdf()) > 0)

@@ -19,18 +19,31 @@ class DownloadView(BaseCartView):
         return index(self)
 
     def downloadable_items(self):
+        files = []
+        pdfs = []
+        no_pdfs = []
+        folders = []
         for obj in self.items:
-            downloadable = []
-            not_downloadable = []
             # make sure obj is a file by checking if filename is set
             file_obj = getattr(obj, 'file', None)
             if file_obj:
                 filename = file_obj.filename
                 if filename:
-                    downloadable.append(obj)
-            if obj not in downloadable:
-                not_downloadable.append(obj)
-            return (downloadable, not_downloadable)
+                    files.append(obj)
+            elif obj.portal_type in ['Document']:
+                pdf = obj.restrictedTraverse('pdf')
+                if pdf.has_pdf():
+                    pdfs.append(obj)
+                else:
+                    no_pdfs.append(obj)
+            elif obj.portal_type == 'Folder':
+                folders.append(obj)
+        return {
+            'files': files,
+            'pdfs': pdfs,
+            'no_pdfs': no_pdfs,
+            'folders': folders
+        }
 
     def download(self):
         """Download cart content.
@@ -42,10 +55,13 @@ class DownloadView(BaseCartView):
         output = StringIO()
         zf = zipfile.ZipFile(output, mode='w')
 
-        downloadable, not_downloadable = self.downloadable_items()
+        downloadable_items = self.downloadable_items()
         try:
-            for obj in downloadable:
+            for obj in downloadable_items['files']:
                 zf.writestr(obj.file.filename, obj.file.data)
+            for pdf_obj in downloadable_items['pdfs']:
+                pdf_view = pdf_obj.restrictedTraverse('pdf')
+                zf.writestr(pdf_obj.getId() + '.pdf', pdf_view.get_pdf())
         finally:
             zf.close()
 

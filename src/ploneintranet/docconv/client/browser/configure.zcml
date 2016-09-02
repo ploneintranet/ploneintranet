@@ -19,4 +19,12 @@
         layer="..interfaces.IPloneintranetDocconvClientLayer"
         />
 
+  <browser:page
+      for="*"
+      name="pdf"
+      class=".pdf.PdfView"
+      permission="zope2.View"
+      layer="..interfaces.IPloneintranetDocconvClientLayer"
+      />
+
 </configure>

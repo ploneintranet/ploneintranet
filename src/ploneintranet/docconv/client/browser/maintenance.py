@@ -3,6 +3,7 @@ from logging import getLogger
 from ploneintranet import api as pi_api
 from ploneintranet.async.browser.views import AbstractAsyncView
 from ploneintranet.async.tasks import GeneratePreview
+from ploneintranet.docconv.client import HTML_CONTENTTYPES
 from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.search.solr.browser.maintenance import timer
@@ -18,7 +19,7 @@ class BaseGeneratePreviewsView(AbstractAsyncView):
     ''' Helper View for maintenance tasks
     '''
 
-    portal_types = SUPPORTED_CONTENTTYPES
+    portal_types = SUPPORTED_CONTENTTYPES + HTML_CONTENTTYPES
     ADDITIONAL_PARAMETERS = [{'name': 'regenerate', 'type': 'checkbox'}]
 
     _preview_storage_key = 'collective.documentviewer'

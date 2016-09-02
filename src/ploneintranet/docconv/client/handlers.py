@@ -1,6 +1,7 @@
 import logging
 import transaction
 
+from ploneintranet.docconv.client import HTML_CONTENTTYPES
 from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
@@ -16,7 +17,7 @@ def generate_previews_async(obj, event=None):
     """ Generates the previews by dispatching them to the async service
     """
     if hasattr(obj, 'portal_type') and \
-       obj.portal_type not in SUPPORTED_CONTENTTYPES:
+       obj.portal_type not in SUPPORTED_CONTENTTYPES + HTML_CONTENTTYPES:
         log.info('Skipping documentconversion for %s (unsupported type)'
                  % obj.absolute_url(1))
         return
@@ -79,6 +80,7 @@ def content_edited_in_workspace(obj, event):
         return
     if obj.REQUEST.form.get('file') or\
        obj.REQUEST.form.get('form.widgets.IFileField.file') or\
+       obj.REQUEST.form.get('text') or\
        obj.REQUEST.get('method') == 'PUT':
 
         event_key = 'ploneintranet.previews.content_edited_in_workspace'

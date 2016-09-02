@@ -163,6 +163,15 @@ A member can bulk download a document
       and I choose to download the items in the cart
      then I can download items
 
+A member can't bulk download a folder
+    Given I am logged in as the user guy_hackey
+      and I go to the Open Market Committee Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Projection Materials
+      and I choose to download the items in the cart
+     then I cannot download items
+
 
 *** Keywords ***
 
@@ -313,4 +322,7 @@ I see a message that I am subscribed
     Wait Until Page Contains  You have been subscribed to this item
 
 I can download items
-    Wait Until Page Contains  Batch download
+    Wait Until Page Contains  will be downloaded
+
+I cannot download items
+    Wait Until Page Contains  This object is a folder and cannot be downloaded

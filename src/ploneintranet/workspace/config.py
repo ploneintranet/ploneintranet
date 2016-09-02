@@ -3,6 +3,9 @@ DYNAMIC_GROUPS_PLUGIN_ID = 'ploneintranet_workspace_dynamic_groups'
 GROUPINGS = ['label', 'author', 'type']
 DOCUMENT_TYPE = 'ploneintranet.document_type'
 TEMPLATES_FOLDER = 'templates'
+PDF_VERSION_KEY = 'pi.pdfversion'
+PREVIEW_IMAGES_KEY = 'pi.previewimages'
+THUMBNAIL_KEY = 'pi.thumbnails'
 
 # Mime types
 

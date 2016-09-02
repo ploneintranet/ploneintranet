@@ -41,4 +41,12 @@
       layer="..interfaces.IPloneintranetAsyncLayer"
       />
 
+  <browser:page
+      name="generate-pdf-from-html"
+      for="*"
+      class=".views.GeneratePDFView"
+      permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IPloneintranetAsyncLayer"
+      />
+
 </configure>

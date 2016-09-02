@@ -12,6 +12,9 @@ from collective.documentviewer.utils import allowedDocumentType
 from collective.documentviewer.utils import getPortal
 from collective.documentviewer.convert import Converter as DVConverter
 
+from ploneintranet.docconv.client import HTML_CONTENTTYPES
+from ploneintranet.docconv.client.html_converter import generate_pdf
+
 from zope.site.hooks import getSite
 
 from logging import getLogger
@@ -343,6 +346,9 @@ def generate_previews(obj, event=None):
     """
     site = getPortal(obj)
     gsettings = GlobalSettings(site)
+
+    if obj.portal_type in HTML_CONTENTTYPES:
+        generate_pdf(obj, event=event)
 
     if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
         log.info('Object type is not in available file types for conversion.')
