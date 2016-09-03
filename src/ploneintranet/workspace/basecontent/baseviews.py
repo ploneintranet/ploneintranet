@@ -26,13 +26,14 @@ class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
     sidebar_target = ''
+    _edit_permission = 'Modify portal content'
 
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
-            'Modify portal content',
+            self._edit_permission,
             obj=context
         )
         # When saving, force to POST
@@ -62,7 +63,7 @@ class ContentView(BrowserView):
             )
             # re-calculate can_edit after the workflow state change
             self.can_edit = api.user.has_permission(
-                'Modify portal content',
+                self._edit_permission,
                 obj=context
             )
             workflow_modified = True
@@ -243,6 +244,45 @@ class ContentView(BrowserView):
         ''' Expose the homonymous pi_api method to get the list of preview_urls
         '''
         return pi_api.previews.get_preview_urls(obj)
+
+    @property
+    @memoize
+    def get_facet_type_class(self):
+        ''' Reuse the method from the search view
+        '''
+        view = api.content.get_view(
+            'search',
+            api.portal.get(),
+            self.request,
+        )
+        return view.get_facet_type_class
+
+    def get_obj_icon_class(self, obj):
+        ''' Return the best icon for this object
+        '''
+        if obj.portal_type == 'Image':
+            return 'icon-file-image'
+        if obj.portal_type == 'File' and obj.file:
+            content_type = obj.file.contentType
+            if content_type == 'message/rfc822':
+                return 'icon-mail'
+            for word in (
+                'pdf',
+                'word',
+                'excel',
+                'powerpoint',
+                'video',
+                'audio',
+                'archive',
+                'image',
+            ):
+                if word in content_type:
+                    return 'icon-file-%s' % word
+            return 'icon-attach'
+
+        icon_type = self.get_facet_type_class(obj.portal_type)
+        icon_file = icon_type.replace('type', 'file')
+        return 'icon-%s' % icon_file
 
 
 class HelperView(BrowserView):

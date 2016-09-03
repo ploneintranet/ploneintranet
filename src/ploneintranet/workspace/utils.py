@@ -27,11 +27,14 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 
 # The type map is used to deduct clear text names for classes and labels
 # from portal types
-TYPE_MAP = {'Event': 'event',
-            'Folder': 'folder',
-            'Document': 'rich',
-            'todo': 'task',
-            'ploneintranet.workspace.workspacefolder': 'workspace'}
+TYPE_MAP = {
+    'Event': 'event',
+    'Folder': 'folder',
+    'Document': 'rich',
+    'todo': 'task',
+    'ploneintranet.workspace.mail': 'email',
+    'ploneintranet.workspace.workspacefolder': 'workspace',
+}
 
 
 def get_storage(clear=False):

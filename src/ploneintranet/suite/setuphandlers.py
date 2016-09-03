@@ -364,7 +364,21 @@ def workspaces_spec(context):
                     Cornelis G. A. Kolbach</p>
                     </blockquote>
                    '''
-               )}
+               ),
+               'contents': [
+                   {
+                       'title': 'Budget proposal',
+                       'type': 'Image',
+                       'image': budget_proposal_img,
+                   },
+                   {
+                       'title': u'Minutes',
+                       'owner': 'allan_neece',
+                       'description': u'Meeting Minutes',
+                       'file': minutes_file,
+                       'type': 'File',
+                   },
+               ]}
               ],
          },
         {'title': 'Parliamentary papers guidance',

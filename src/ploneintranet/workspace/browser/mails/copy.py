@@ -12,7 +12,7 @@ logger = getLogger(__name__)
 class BaseView(BrowserView):
     ''' A base view that has methods useful for redirects
     '''
-    _msg_copy_success = _('copy_success', u'The copy was succesfull'),
+    _msg_copy_success = _('copy_success', u'The copy was succesfull')
     _msg_copy_not_allowed = _('copy_not_allowed', u'Copy not allowed')
     _msg_copy_error = _('copy_error', u'Problem during the copy process')
 
