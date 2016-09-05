@@ -107,13 +107,13 @@ def main():
     spec_pkg = spec('-s', packages)
     spec_tst = spec('-t', tests)
     if packages and tests:
-        run_multi(spec_pkg, spec_tst, verbose=verbose, dryrun=dryrun)
+        return run_multi(spec_pkg, spec_tst, verbose=verbose, dryrun=dryrun)
     elif packages:
-        run(spec_pkg, verbose=verbose, dryrun=dryrun)
+        return run(spec_pkg, verbose=verbose, dryrun=dryrun)
     elif tests:
-        run(spec_tst, verbose=verbose, dryrun=dryrun)
+        return run(spec_tst, verbose=verbose, dryrun=dryrun)
     else:
-        run('', verbose=verbose, dryrun=dryrun)
+        return run('', verbose=verbose, dryrun=dryrun)
 
 
 def repo():
