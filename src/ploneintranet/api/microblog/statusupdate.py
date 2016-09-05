@@ -6,6 +6,7 @@ from datetime import datetime
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from zope.component import queryUtility
 
 logger = logging.getLogger(__name__)
@@ -60,7 +61,15 @@ def create(
 
     :returns: Newly created statusupdate
     :rtype: StatusUpdate object
+
+    Note that you can add attachments to statusupdates by calling
+    .add_attachment(filename, data)
+    on the returned StatusUpdate.
     """
+    if IPloneSiteRoot.providedBy(microblog_context):
+        microblog_context = None
+    if IPloneSiteRoot.providedBy(content_context):
+        content_context = None
     status_obj = StatusUpdate(
         text=text,
         microblog_context=microblog_context,

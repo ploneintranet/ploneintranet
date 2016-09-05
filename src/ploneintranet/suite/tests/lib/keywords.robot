@@ -152,6 +152,10 @@ I cannot see updates by
     [arguments]  ${user_fullname}
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
 
+I can see an attachment
+    [arguments]  ${filename}
+    Page Should Contain Link  ${filename}
+
 I can follow the profile link for user
     [arguments]  ${user_fullname}
     [Documentation]  We click on the second post item, because we know that Christian Stoney has 2 posts and the 1st post can be hidden by a stupid scroll issue after activating the network filter
@@ -1014,8 +1018,8 @@ I upload a new image
 
 I browse to a file
     I browse to a workspace
-    Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
-    Click Link  xpath=//a[contains(@href, 'minutes/view')]
+    Wait Until Page Contains Element  jquery=#sidebar-content #workspace-documents .type-word :contains(Minutes)
+    Click Element  jquery=#sidebar-content #workspace-documents .type-word :contains(Minutes)
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
@@ -1038,9 +1042,7 @@ I change the title
     Comment  Toggle the metadata to give the JavaScript time to load
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Click Link  link=Toggle extra metadata
     Input Text  title  New title ♥
-    Wait Until Page Contains  New title ♥
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -1649,5 +1651,12 @@ I can inspect mail metadata
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click Link  jquery=.meta-data-toggle
     Element should be visible  jquery=a:contains('pilz@pilzen.de')
+
+
+I can see the preview of the
+    [arguments]  ${title}
+    Click Element  jquery=.document-preview :contains(${title})
+    Click Element  jquery=.tooltip-container:last .pat-gallery :contains(Preview)
+    Click Element  css=.pswp__button--close
 
 # *** END mail related keywords ***

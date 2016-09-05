@@ -30,6 +30,7 @@ This shows how to cut a private 1.1.x release from master::
     user@host:~$ git checkout release-1.1.x
     user@host:~$ git pull
     user@host:~$ git merge master
+    user@host:~$ git fetch --tags  # pull doesn't refresh tag info    
     user@host:~$ git tag --list
     user@host:~$ # select right tag for command below
     user@host:~$ git log --pretty='* %s [%cn]' 1.1.0a2.. > /tmp/changes

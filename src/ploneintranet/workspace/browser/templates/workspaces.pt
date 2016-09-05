@@ -59,8 +59,9 @@
                                              archived_class python:'state-archived' if is_archived else ''">
                     <div class="tile workspace four columns ${w/class} ${archived_class}" tal:on-error="nothing">
 
-                      <a href="${w/url}#app-space" class="link pat-inject pat-switch"
-                         data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record">
+                      <a href="${w/url}?${token}#app-space" class="link pat-inject pat-switch"
+                         data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record"
+                         tal:define="token context/@@authenticator/token">
                         <h3 tal:content="python:ploneview.cropText(w['title'], 80)">Open Market Committee ${not:is_archived}</h3>
                         <p class="description" tal:content="w/description" tal:condition="w/description">
                           The OMC holds eight regularly scheduled meetings during the year and other meetings as needed.

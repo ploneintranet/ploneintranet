@@ -364,7 +364,21 @@ def workspaces_spec(context):
                     Cornelis G. A. Kolbach</p>
                     </blockquote>
                    '''
-               )}
+               ),
+               'contents': [
+                   {
+                       'title': 'Budget proposal',
+                       'type': 'Image',
+                       'image': budget_proposal_img,
+                   },
+                   {
+                       'title': u'Minutes',
+                       'owner': 'allan_neece',
+                       'description': u'Meeting Minutes',
+                       'file': minutes_file,
+                       'type': 'File',
+                   },
+               ]}
               ],
          },
         {'title': 'Parliamentary papers guidance',
@@ -799,8 +813,14 @@ def create_stream(context, stream, files_dir):
     hashtags = re.compile('#(\S+)')
     atmentions = re.compile('@(\S+)')
     contexts_cache = {}
-    microblog = queryUtility(IMicroblogTool)
+    testfiles = {}
+    abs_dir = os.path.join(os.path.dirname(__file__),
+                           'profiles', 'testing', files_dir)
+    for filename in os.listdir(abs_dir):
+        with open(os.path.join(abs_dir, filename)) as fh:
+            testfiles[filename.decode('utf-8')] = fh.read()
     like_tool = getUtility(INetworkTool)
+    microblog = queryUtility(IMicroblogTool)
     microblog.clear()
     _orig_async = microblog.ASYNC
     microblog.ASYNC = False
@@ -824,6 +844,11 @@ def create_stream(context, stream, files_dir):
             userid=status['user'],
             time=_time,
         )  # stored by pi_api
+        # add attachments
+        if 'attachment' in status:
+            filename = status['attachment']['filename']
+            data = testfiles[filename]
+            status_obj.add_attachment(filename, data)
         # like some status-updates
         if 'likes' in status:
             for user_id in status['likes']:

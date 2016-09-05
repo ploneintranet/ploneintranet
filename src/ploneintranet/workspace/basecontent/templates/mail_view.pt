@@ -20,193 +20,198 @@
             token context/@@authenticator/token;
           "
          tal:attributes="class string:application page-type-${type} workspace-type-${type}">
+      <div id="application-body"
+           class="sidebar-normal application-workspace application- sidebar-left-closed sidebar-right-closed  workspace-type-${type}"
+          >
+        <h1 id="workspace-name">
+            <!-- Next link is to lead to landing state of current workspace -->
+            <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+        </h1>
 
-      <h1 id="workspace-name">
-          <!-- Next link is to lead to landing state of current workspace -->
-          <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
-      </h1>
-
-      <div class="${workspace_id} dark-theme" id="application-body">
-        <div id="document-body">
-          <form id="${view/form_id}"
-                class="document pat-inject pat-validation"
-                action="${context/absolute_url}/view#document-body"
-                method="POST"
-                data-pat-inject="${view/form_pat_inject_options}"
-              >
-            <div id="meta"
-                 class="metadata pat-bumper"
+        <div class="${workspace_id}">
+          <div id="document-body">
+            <form id="${view/form_id}"
+                  class="document pat-inject pat-validation"
+                  action="${context/absolute_url}/view#document-body"
+                  method="POST"
+                  data-pat-inject="${view/form_pat_inject_options}"
                 >
-              <div class="meta-bar">
-                <button class="pat-switch back-to-parent icon-left-open"
-                        data-pat-switch="body focus-* focus-sidebar"
-                      >${python:context.__parent__.title}</button>
-                <span class="title-group">
-                  <h1 id="document-title" class="doc-title">${context/title}</h1>
-                  <textarea type="text"
-                            name="title"
-                            maxlength="70"
-                            disabled="${read_only}"
-                            placeholder="${context/title}"
-                            class="doc-title pat-content-mirror"
-                            data-pat-content-mirror="target: #document-title"
-                          >${context/title}</textarea>
-                </span>
-                <div class="quick-functions">
-                  <a tal:condition="view/can_edit"
-                     href="${view/delete_url}"
-                     class="pat-modal icon-trash iconified"
-                     data-pat-inject="source: #content"
-                     title="Delete this event"
-                     i18n:attributes="title"
-                     i18n:translate=""
-                     >
-                      Delete
-                  </a>
-                  <a tal:condition="attachments"
-                     href="#attachment-menu"
-                     class="icon-attach iconified pat-tooltip"
-                     data-pat-tooltip="source: ajax"
-                     title="Attach documents"
-                     i18n:attributes="title"
-                     i18n:translate="">
-                      Attachments
-                  </a>
-                  <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
-                  <tal:history replace="structure here/@@app-audit-button|nothing" />
-                  <a class="icon-info-circle meta-data-toggle iconified"
-                     title="Show extra metadata fields"
-                     i18n:attributes="title"
-                     i18n:translate=""
-                    >Toggle extra metadata</a>
-                </div>
-              </div>
-              <fieldset id="meta-extra"
-                        class="pat-collapsible closed meta-extra"
-                        data-pat-collapsible="trigger: .meta-data-toggle"
-                      >
-                <p class="bar" tal:condition="here/mail_from">
-                  <span i18n:translate="">From</span>:
-                  <a href="mailto:${here/mail_from}">${here/mail_from}</a>
-                </p>
-                <p class="bar" tal:condition="here/mail_to">
-                  <span i18n:translate="">To</span>:
-                  <tal:mail repeat="mail here/mail_to">
-                    <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
-                  </tal:mail>
-                </p>
-                <p class="bar" tal:condition="here/mail_cc">
-                  <span i18n:translate="">CC</span>:
-                  <tal:mail repeat="mail here/mail_cc">
-                    <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
-                  </tal:mail>
-                </p>
-                <p class="bar" tal:condition="here/mail_bcc">
-                  <span i18n:translate="">BCC</span>:
-                  <tal:mail repeat="mail here/mail_bcc">
-                    <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
-                  </tal:mail>
-                </p>
-                <fieldset class="bar">
-                  <input type="text"
-                         name="subjects"
-                         placeholder="Tags"
-                         value="${python:','.join(context.subject)}"
-                         disabled="${read_only}"
-                         class="pat-autosuggest"
-                         data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"
-                         i18n:domain="plone"
-                         i18n:attributes="placeholder"
-                  />
-                </fieldset>
-                <fieldset class="bar description">
-                  <textarea
-                    name="description"
-                    title="Description"
-                    placeholder="Description"
-                    disabled="${read_only}"
-                    rows="8"
-                    i18n:attributes="title;placeholder"
-                  >${context/description}</textarea>
-                </fieldset>
-              </fieldset>
-            </div>
-            <div id="document-content">
-              <div class="attachments"
-                   tal:condition="attachments"
+              <div id="meta"
+                   class="metadata pat-bumper"
                   >
-                <tal:attachments repeat="attachment attachments">
-                  <section class="document document-preview compact {BBB: icon-file-pdf, icon-file-word}">
-                    <a href="#menu-${attachment/UID}"
-                       class="title pat-tooltip inactive"
-                       data-pat-tooltip="source: ajax; position-list: tm;"
-                      >${attachment/title}</a>
-                    <div id="menu-${attachment/UID}" hidden="">
-                      <ul class="menu"
-                          tal:define="
-                            previews python:view.get_preview_urls(attachment);
-                          "
+                <div class="meta-bar">
+                  <button class="pat-switch back-to-parent icon-left-open"
+                          data-pat-switch="body focus-* focus-sidebar"
+                        >${python:context.__parent__.title}</button>
+                  <span class="title-group">
+                    <h1 id="document-title" class="doc-title">${context/title}</h1>
+                    <textarea type="text"
+                              name="title"
+                              maxlength="70"
+                              disabled="${read_only}"
+                              placeholder="${context/title}"
+                              class="doc-title pat-content-mirror"
+                              data-pat-content-mirror="target: #document-title"
+                            >${context/title}</textarea>
+                  </span>
+                  <div class="quick-functions">
+                    <a tal:condition="view/can_edit"
+                       href="${view/delete_url}"
+                       class="pat-modal icon-trash iconified"
+                       data-pat-inject="source: #content"
+                       title="Delete this event"
+                       i18n:attributes="title"
+                       i18n:translate=""
+                       >
+                        Delete
+                    </a>
+                    <a tal:condition="attachments"
+                       href="#attachment-menu"
+                       class="icon-attach iconified pat-tooltip"
+                       data-pat-tooltip="source: ajax"
+                       title="Attach documents"
+                       i18n:attributes="title"
+                       i18n:translate="">
+                        Attachments
+                    </a>
+                    <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+                    <tal:history replace="structure here/@@app-audit-button|nothing" />
+                    <a class="icon-info-circle meta-data-toggle iconified"
+                       title="Show extra metadata fields"
+                       i18n:attributes="title"
+                       i18n:translate=""
+                      >Toggle extra metadata</a>
+                  </div>
+                </div>
+                <fieldset id="meta-extra"
+                          class="pat-collapsible closed meta-extra"
+                          data-pat-collapsible="trigger: .meta-data-toggle"
                         >
-                        <li tal:condition="previews">
-                          <span class="pat-gallery">
-                            <a class="icon-eye close-panel"
-                               href="${python:previews.pop(0)}"
-                               i18n:translate=""
-                              >Preview</a>
-                            <span class="extra"
-                                  hidden=""
-                                  tal:condition="previews"
-                                >
-                              <a tal:repeat="preview previews"
-                                 href="${preview}">Page ${python:2+repeat['preview'].index}</a>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="${attachment/absolute_url}"
-                             class="icon-download"
-                             i18n:translate=""
-                            >Download file</a>
-                        </li>
-                        <li>
-                          <a href="${attachment/absolute_url}/@@copy-to-workspace?_authenticator=${token}"
-                             class="close-panel"
-                             i18n:translate=""
-                            >Copy file to workspace</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </section>
-                </tal:attachments>
+                  <p class="bar" tal:condition="here/mail_from">
+                    <span i18n:translate="">From</span>:
+                    <a href="mailto:${here/mail_from}">${here/mail_from}</a>
+                  </p>
+                  <p class="bar" tal:condition="here/mail_to">
+                    <span i18n:translate="">To</span>:
+                    <tal:mail repeat="mail here/mail_to">
+                      <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
+                    </tal:mail>
+                  </p>
+                  <p class="bar" tal:condition="here/mail_cc">
+                    <span i18n:translate="">CC</span>:
+                    <tal:mail repeat="mail here/mail_cc">
+                      <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
+                    </tal:mail>
+                  </p>
+                  <p class="bar" tal:condition="here/mail_bcc">
+                    <span i18n:translate="">BCC</span>:
+                    <tal:mail repeat="mail here/mail_bcc">
+                      <a href="mailto:${mail}">${mail}</a><tal:sep condition="not:repeat/mail/end">,</tal:sep>
+                    </tal:mail>
+                  </p>
+                  <fieldset class="bar">
+                    <input type="text"
+                           name="subjects"
+                           placeholder="Tags"
+                           value="${python:','.join(context.subject)}"
+                           disabled="${read_only}"
+                           class="pat-autosuggest"
+                           data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"
+                           i18n:domain="plone"
+                           i18n:attributes="placeholder"
+                    />
+                  </fieldset>
+                  <fieldset class="bar description">
+                    <textarea
+                      name="description"
+                      title="Description"
+                      placeholder="Description"
+                      disabled="${read_only}"
+                      rows="8"
+                      i18n:attributes="title;placeholder"
+                    >${context/description}</textarea>
+                  </fieldset>
+                </fieldset>
               </div>
+              <div id="document-content">
+                <div class="attachments"
+                     tal:condition="attachments"
+                    >
+                  <tal:attachments repeat="attachment attachments">
+                    <section class="document document-preview compact ${python:view.get_obj_icon_class(attachment)}">
+                      <a href="#menu-${attachment/UID}"
+                         class="title pat-tooltip inactive"
+                         data-pat-tooltip="source: ajax; position-list: tm;"
+                        >${attachment/title}</a>
+                      <div id="menu-${attachment/UID}" hidden="">
+                        <ul class="menu"
+                            tal:define="
+                              previews python:view.get_preview_urls(attachment);
+                            "
+                          >
+                          <li tal:condition="previews">
+                            <span class="pat-gallery">
+                              <a class="icon-eye close-panel"
+                                 href="${python:previews.pop(0)}"
+                                 i18n:translate=""
+                                >Preview</a>
+                              <span class="extra"
+                                    hidden=""
+                                    tal:condition="previews"
+                                  >
+                                <a tal:repeat="preview previews"
+                                   href="${preview}">Page ${python:2+repeat['preview'].index}</a>
+                              </span>
+                            </span>
+                          </li>
+                          <li>
+                            <a href="${attachment/absolute_url}/@@download"
+                               class="icon-download"
+                               i18n:translate=""
+                              >Download file</a>
+                          </li>
+                          <li>
+                            <a href="${attachment/absolute_url}/@@copy-to-workspace?_authenticator=${token}"
+                               class="close-panel"
+                               i18n:translate=""
+                              >Copy file to workspace</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                  </tal:attachments>
+                </div>
 
-              <article class="document"
-                       tal:content="structure here/mail_body/raw|nothing">
-              </article>
-            </div> <!-- #document-content -->
-          </form>
-        </div>
-        <div id="attachment-menu"
-             hidden
-             tal:condition="attachments"
-            >
-          <ul class="menu">
-            <li tal:repeat="attachment attachments">
-              <a href="${attachment/absolute_url}"
-                 class="BBB: icon-file-pdf"
-                >${attachment/title}</a>
-            </li>
-          </ul>
-          <p>
-            <a href="${here/absolute_url}/@@copy-attachments-to-workspace?_authenticator=${token}"
-               i18n:translate=""
-              >Copy all attachments as individual files to this workspace.</a>
-          </p>
-        </div>
-        <aside data-tile="${context/absolute_url}/@@sidebar.default" />
+                <article class="document"
+                         tal:content="structure here/mail_body/raw|nothing">
+                </article>
+              </div> <!-- #document-content -->
+            </form>
+          </div>
+
+          <div id="attachment-menu"
+               hidden
+               tal:condition="attachments"
+              >
+            <ul class="menu">
+              <li tal:repeat="attachment attachments">
+                <a href="${attachment/absolute_url}"
+                   class="${python:view.get_obj_icon_class(attachment)}"
+                  >${attachment/title}</a>
+              </li>
+            </ul>
+            <p>
+              <a href="${here/absolute_url}/@@copy-attachments-to-workspace?_authenticator=${token}"
+                 i18n:translate=""
+                >Copy all attachments as individual files to this workspace.</a>
+            </p>
+          </div>
+
+          <aside data-tile="${context/absolute_url}/@@sidebar.default" />
       </div>
       <nav data-tile="${workspace_url}/@@workspace.tabs.tile" />
     </div>
+  </div>
   </metal:content>
 </body>
 </html>

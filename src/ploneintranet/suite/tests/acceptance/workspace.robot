@@ -160,6 +160,7 @@ Create image
 
 # https://github.com/quaive/ploneintranet/issues/521
 Create structure
+    [Tags]  heisenbug
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
@@ -247,6 +248,7 @@ Member can see an email
     And I go to the Open Market Committee Workspace
     And I open the sidebar documents tile
     And I can inspect mail metadata
+    And I can see the preview of the  Minutes
 
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
