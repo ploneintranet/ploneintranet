@@ -4,7 +4,28 @@ Changelog
 1.2.0a10 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Bulk download: include images (#670) [Alexander Pilz]
+* minimal proto align fixes [ci skip] (#669) [GitHub]
+* Merge pull request #663 from quaive/bump-cmfnotification [GitHub]
+* Merge pull request #664 from quaive/fix-pinned-version [GitHub]
+* pin correct version of script [Alexander Pilz]
+* Merge branch 'master' into bump-cmfnotification [Alexander Pilz]
+* new Products.CMFNotifications to avoid write on read [Alexander Pilz]
+* Microblog attachments api (#661) [Alexander Pilz]
+* Change the mailrouter to create a mail with attachments (#659) [Alexander Pilz]
+* 'Create structure' is still unstable, refs #521 [Guido A.J. Stevens]
+* Merge pull request #656 from quaive/csrf-token [GitHub]
+* Merge pull request #658 from quaive/CMFNotification-upgrade [GitHub]
+* Products.CMFNotification 2.3b4 → 2.4b1 [Cillian de Róiste]
+* ok, agreed. Let's add it in the template [Alexander Pilz]
+* Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
+* Merge pull request #651 from quaive/release-1.2.x [GitHub]
+* add csrf token to url when using injection on workspaces overview [Alexander Pilz]
+* Save PDF versions of Documents for bulk download (#655) [Alexander Pilz]
+* Merge pull request #654 from quaive/link_test_noncritical [GitHub]
+* Back to development: 1.2.0a10 [Guido A.J. Stevens]
+* Member can create a link was prematurely declared fixed, refs #609 [Guido A.J. Stevens]
+* Apparently we lost some upgrade step registrations during a faulty merge resolution I did. This fixes it (#652) [GitHub]
 
 
 1.2.0a9 (2016-09-01)
