@@ -28,7 +28,7 @@ class Strategy(object):
                 if matcher.match(path):
                     if verbose:
                         marker = self.wildcard and "* " or "- "
-                        print("{}{} matched on {}".format(
+                        print("  {}[{}] matched on {}".format(
                             marker, self.name, path))
                     if self.wildcard:
                         raise RunAllTestsException(path)
@@ -59,8 +59,10 @@ class Policy(object):
             matching = matching.union(strategy.match(whatchanged))
         if matching != whatchanged:
             if verbose:
-                print("Changes detected outside of optimization strategies. "
-                      "Running all tests.")
+                print("Changes detected outside of optimization strategies:")
+                for path in (whatchanged - matching):
+                    print("  {}".format(path))
+                print("Running all tests.")
             return (set(), set())
         # only if each path had a match do we dare to optimize
         else:

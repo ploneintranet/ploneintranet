@@ -57,11 +57,11 @@ search.tests = [
 ]
 
 fastest = Strategy('fastest')
-fastest.triggers = ['src/ploneintranet/fastest']
+fastest.triggers = ['src/ploneintranet/fastest', '.gitlab-ci.yml']
 fastest.packages = ['src/ploneintranet/fastest']
 
 docs = Strategy('docs')
-docs.triggers = ['docs']
+docs.triggers = ['^docs']
 
 force_all = Strategy('force all')
 force_all.wildcard = True
