@@ -229,3 +229,20 @@ test suite gets run.
 Additionally, it's possible to specifiy ``wildcard`` strategies that will
 force a full test run, even if all changed file paths were matched by
 a test strategy.
+
+Manual fastest run
+------------------
+
+You can run the fastest runner manually as follows:
+
+``bin/fastest``
+Default run with full verbosity.
+
+``bin/fastest -n``
+Dry run with full verbosity.
+
+``bin/fastest -q``
+Full run in quiet mode.
+
+``bin/fastest -n --from efe14a393 -- to 97a308f1``
+Dryrun to inspect what would be the testing strategy between the two given commits.
