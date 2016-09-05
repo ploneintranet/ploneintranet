@@ -3239,13 +3239,13 @@ msgstr "Aktuelle Mitglieder"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:51
 #: ../workspace/browser/tiles/templates/sidebar.pt:120
 msgid "select_all"
-msgstr "Alles wählen"
+msgstr "Alles"
 
 #. Default: "None"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:52
 #: ../workspace/browser/tiles/templates/sidebar.pt:121
 msgid "select_none"
-msgstr "Nichts anwählen"
+msgstr "Nichts"
 
 #. Default: "The participation policy of this workspace is ${policy_name}"
 #: ../workspace/browser/templates/sharingviewlet.pt:7

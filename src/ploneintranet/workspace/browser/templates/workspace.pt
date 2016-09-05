@@ -17,7 +17,7 @@
                                    is_archived workspace/archival_date;
                                    archived_class python:'workspace-state-archived' if is_archived else ''">
         <div class="application" id="app-space">
-            <div id="application-body" class="application-workspace project page-type-workspace workspace-type-${workspace/ws_type} ${archived_class} sidebar-left-closed sidebar-right-closed">
+            <div id="application-body" class="sidebar-normal application-workspace project page-type-workspace workspace-type-${workspace/ws_type} ${archived_class} sidebar-left-closed sidebar-right-closed">
 
             <h1 id="workspace-name">
                 <!-- Next link is to lead to landing state of current workspace! -->
