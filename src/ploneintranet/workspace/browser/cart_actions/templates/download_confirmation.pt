@@ -17,9 +17,10 @@
                tal:define="items view/downloadable_items;
                            files items/files;
                            pdfs items/pdfs;
+                           images items/images;
                            no_pdfs items/no_pdfs;
                            folders items/folders;
-                           num_downloads python:len(files) + len(pdfs)">
+                           num_downloads python:len(files) + len(images) + len(pdfs)">
             <p tal:condition="num_downloads">
               The following <strong>${num_downloads}</strong> will be downloaded as a ZIP-file (Un-tick to exclude from the download).
             </p>
@@ -31,7 +32,7 @@
             </p>
 
             <fieldset class="pat-checklist">
-              <tal:downloadable repeat="item python:files+pdfs">
+              <tal:downloadable repeat="item python:files+images+pdfs">
                 <label>
                   <input type="checkbox" name="items:list" value="${item/UID}" checked="checked"/> ${item/Title}
                 </label>

@@ -6,6 +6,7 @@ from StringIO import StringIO
 from datetime import datetime
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.docconv.client import HTML_CONTENTTYPES
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 import zipfile
@@ -21,6 +22,7 @@ class DownloadView(BaseCartView):
     def downloadable_items(self):
         files = []
         pdfs = []
+        images = []
         no_pdfs = []
         folders = []
         for obj in self.items:
@@ -30,7 +32,9 @@ class DownloadView(BaseCartView):
                 filename = file_obj.filename
                 if filename:
                     files.append(obj)
-            elif obj.portal_type in ['Document']:
+            elif getattr(obj, 'image', None):
+                images.append(obj)
+            elif obj.portal_type in HTML_CONTENTTYPES:
                 pdf = obj.restrictedTraverse('pdf')
                 if pdf.has_pdf():
                     pdfs.append(obj)
@@ -41,6 +45,7 @@ class DownloadView(BaseCartView):
         return {
             'files': files,
             'pdfs': pdfs,
+            'images': images,
             'no_pdfs': no_pdfs,
             'folders': folders
         }
@@ -59,6 +64,8 @@ class DownloadView(BaseCartView):
         try:
             for obj in downloadable_items['files']:
                 zf.writestr(obj.file.filename, obj.file.data)
+            for obj in downloadable_items['images']:
+                zf.writestr(obj.image.filename, obj.image.data)
             for pdf_obj in downloadable_items['pdfs']:
                 pdf_view = pdf_obj.restrictedTraverse('pdf')
                 zf.writestr(pdf_obj.getId() + '.pdf', pdf_view.get_pdf())
