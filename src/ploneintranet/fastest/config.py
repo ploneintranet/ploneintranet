@@ -56,6 +56,13 @@ search.tests = [
     'search.robot',
 ]
 
+fastest = Strategy('fastest')
+fastest.triggers = ['src/ploneintranet/fastest']
+fastest.packages = ['src/ploneintranet/fastest']
+
+docs = Strategy('docs')
+docs.triggers = ['docs']
+
 force_all = Strategy('force all')
 force_all.wildcard = True
 force_all.triggers = [
@@ -66,4 +73,4 @@ force_all.triggers = [
     'src/ploneintranet/layout',
 ]
 
-POLICY = Policy(workspaces, stream, search, force_all)
+POLICY = Policy(workspaces, stream, search, fastest, docs, force_all)
