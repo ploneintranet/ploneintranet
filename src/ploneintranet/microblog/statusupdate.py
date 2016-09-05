@@ -7,7 +7,10 @@ from persistent import Persistent
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
-from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.attachments import (IAttachmentStoragable,
+                                                   IAttachmentStorage)
+from ploneintranet.attachments.utils import (create_attachment,
+                                             add_attachments)
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
@@ -247,3 +250,31 @@ class StatusUpdate(Persistent):
         See https://github.com/ploneintranet/ploneintranet/blob/251c8cf9f1e69c38030b6b6ac2f7c93c86ae1e60/src/ploneintranet/microblog/browser/attachments.py#L45  # noqa
         '''
         return 'utf8'
+
+    @property
+    def attachments(self):
+        """The attachment storage. Lists filenames via .keys()."""
+        return IAttachmentStorage(self)
+
+    def add_attachment(self, filename, data):
+        """
+        Add a binary attachment.
+        Can be called multiple times to attach multiple files
+
+        :param filename: name of the file to attach
+        :type action_verb: string
+
+        :param filename: file data to attach
+        :type action_verb: binary
+
+        """
+        attachment = create_attachment(filename, data)
+        add_attachments([attachment, ], self.attachments)
+
+    def remove_attachment(self, filename):
+        """Remove the attachment named <filename>
+
+        :param filename: name of the file to remove
+        :type action_verb: string
+        """
+        self.attachments.remove(filename)

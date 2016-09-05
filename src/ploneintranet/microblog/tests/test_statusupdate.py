@@ -1,7 +1,5 @@
 import unittest2 as unittest
 from AccessControl import Unauthorized
-from Products.ATContentTypes.content.file import ATFile
-from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.component import queryUtility
 from zope.interface.verify import verifyClass
 from zope.interface import alsoProvides
@@ -155,13 +153,11 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
     def test_attachments(self):
         su = StatusUpdate('foo bar')
-        attachments = IAttachmentStorage(su)
-
-        f = ATFile('data.dat')
-        attachments.add(f)
-        self.assertEqual([k for k in attachments.keys()], [f.getId()])
-        attachments.remove(f.getId())
-        self.assertEqual(len(attachments.keys()), 0)
+        su.add_attachment('data.dat', 'XXXX')
+        self.assertEqual(len(su.attachments.keys()), 1)
+        self.assertEqual(su.attachments['data.dat'].file.data, 'XXXX')
+        su.remove_attachment('data.dat')
+        self.assertEqual(len(su.attachments.keys()), 0)
 
     def test_mentions(self):
         test_user = api.user.create(
