@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a10 (unreleased)
+1.2.0a10 (2016-09-05)
 ---------------------
 
 * Bulk download: include images (#670) [Alexander Pilz]
