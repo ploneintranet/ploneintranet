@@ -32,6 +32,11 @@ before_script:
   - /etc/init.d/redis-server start
   - Xvfb :99 1>/dev/null 2>&1 &
 
+fastest:
+  script:
+    - bin/code-analysis
+    - DISPLAY=:99 bin/fastest
+
 robot:
   script:
     - DISPLAY=:99 bin/test -t 'robot'
