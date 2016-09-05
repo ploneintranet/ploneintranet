@@ -14,9 +14,9 @@ class RunAllTestsException(Exception):
 class Strategy(object):
 
     wildcard = False  # if True executes full test suite on trigger match
-    triggers = {}
-    packages = {}
-    tests = {}
+    triggers = set()
+    packages = set()
+    tests = set()
 
     def __init__(self, name):
         self.name = name
@@ -33,7 +33,16 @@ class Strategy(object):
                     if self.wildcard:
                         raise RunAllTestsException(path)
                     return (set(self.packages), set(self.tests))
-        return ({}, {})
+        return (set(), set())
+
+    def match(self, changeset):
+        matchers = [re.compile(trigger) for trigger in self.triggers]
+        matching = set()
+        for path in changeset:
+            for matcher in matchers:
+                if matcher.match(path):
+                    matching.add(path)
+        return matching
 
 
 class Policy(object):
@@ -45,13 +54,26 @@ class Policy(object):
         self.strategies.append(strategy)
 
     def __call__(self, whatchanged, verbose=True):
+        matching = set()
+        for strategy in self.strategies:
+            matching = matching.union(strategy.match(whatchanged))
+        if matching != whatchanged:
+            if verbose:
+                print("Changes detected outside of optimization strategies. "
+                      "Running all tests.")
+            return (set(), set())
+        # only if each path had a match do we dare to optimize
+        else:
+            return self.optimized(whatchanged, verbose)
+
+    def optimized(self, whatchanged, verbose=True):
         packages = set()
         tests = set()
         for strategy in self.strategies:
             try:
                 (_packages, _tests) = strategy(whatchanged, verbose)
             except RunAllTestsException:
-                return ({}, {})
+                return (set(), set())
             packages = packages.union(_packages)
             tests = tests.union(_tests)
         return (packages, tests)

@@ -53,7 +53,7 @@ class TestFastest(unittest.TestCase):
             'src/ploneintranet/layout/viewlets/personalbar.py'
         }
         (packages, tests) = self.ws_strategy(changed, verbose=False)
-        self.assertEquals(({}, {}), (packages, tests))
+        self.assertEquals((set(), set()), (packages, tests))
 
     def test_strategy_matchall(self):
         changed = {
@@ -69,7 +69,7 @@ class TestFastest(unittest.TestCase):
         policy = Policy(self.ws_strategy, self.mb_strategy)
         changed = {
             'src/ploneintranet/workspace/workspacefolder.py',
-            'src/ploneintranet/layout/browser/templates/personal-menu.pt',
+            'src/ploneintranet/workspace/browser/configure.zcml',
         }
         (packages, tests) = policy(changed, verbose=False)
         self.assertEquals(({'ploneintranet.workspace'},
@@ -90,6 +90,16 @@ class TestFastest(unittest.TestCase):
                             'posting', 'content_discussion'}),
                           (packages, tests))
 
+    def test_policy_mismatch(self):
+        policy = Policy(self.ws_strategy, self.mb_strategy)
+        changed = {
+            'src/ploneintranet/workspace/workspacefolder.py',
+            'src/ploneintranet/microblog/browser/__init__.py',
+            'src/ploneintranet/no/such/thing'
+        }
+        (packages, tests) = policy(changed, verbose=False)
+        self.assertEquals((set(), set()), (packages, tests))
+
     def test_wildcard(self):
         policy = Policy(self.ws_strategy, self.mb_strategy)
         strategy = Strategy("wildcard")
@@ -102,7 +112,7 @@ class TestFastest(unittest.TestCase):
             'setup.py'
         }
         (packages, tests) = policy(changed, verbose=False)
-        self.assertEquals(({}, {}), (packages, tests))
+        self.assertEquals((set(), set()), (packages, tests))
 
     def test_spec(self):
         self.assertEquals("-s foo -s bar",
