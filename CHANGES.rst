@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a11 (unreleased)
+1.2.0a11 (2016-09-06)
 ---------------------
 
 * Fastest optimizations (#676) [Alexander Pilz]
