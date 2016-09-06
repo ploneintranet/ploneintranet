@@ -79,24 +79,6 @@
         profile="ploneintranet.workspace:default"
         />
 
-    <genericsetup:registerProfile
-        name="to_0013"
-        title="Upgrade profile that includes registry record to configure the subscribe action"
-        description=""
-        directory="profiles/to_0013"
-        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:upgradeStep
-        title="Install the upgrade profile to make the subscride bulk action configurable"
-        description=""
-        source="*"
-        destination="0013"
-        handler=".to_0013.subscribe_bulk_action_configurable"
-        profile="ploneintranet.workspace:default"
-        />
-
     <genericsetup:upgradeStep
         title="Reread catalog config"
         description="Activates the new invitees index and populates it (Cave: reindexes all events!)"
@@ -105,5 +87,24 @@
         handler=".base.import_catalog"
         profile="ploneintranet.workspace:default"
       />
+
+    <genericsetup:registerProfile
+        name="to_0015"
+        title="Upgrade profile that includes registry record to configure the subscribe action"
+        description=""
+        directory="profiles/to_0015"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile to make the subscride bulk action configurable"
+        description=""
+        source="*"
+        destination="0015"
+        handler=".to_0015.subscribe_bulk_action_configurable"
+        profile="ploneintranet.workspace:default"
+        />
+
 
 </configure>

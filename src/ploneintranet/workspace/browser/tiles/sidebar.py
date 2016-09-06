@@ -157,7 +157,7 @@ class BaseTile(BrowserView):
         ''' Check if we see the subscribe feature in the bulk actions
         '''
         return get_record_from_registry(
-            'ploneintranet.workspace.allow_bulk_subscribe', True
+            'ploneintranet.workspace.allow_bulk_subscribe', False
         )
 
     def month_name(self, date):

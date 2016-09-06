@@ -145,15 +145,6 @@ A content editor can bulk archive an item
       and I show archived items
      then I do see an archived item  Archivable doc
 
-A member can subscribe to changes of a document
-    Given I am logged in as the user guy_hackey
-      and I go to the Service Announcements Workspace
-      and I open the sidebar documents tile
-      and I toggle the bulk action controls
-      and I add an item to the cart  Terms and conditions
-      and I choose to subscribe the items in the cart
-     then I see a message that I am subscribed
-
 A member can bulk download a document
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
@@ -255,10 +246,6 @@ I choose to archive the items in the cart
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Archive']
 
-I choose to subscribe the items in the cart
-    Execute Javascript  $('#batch-more .panel-content').show()
-    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Subscribe']
-
 I choose to download the items in the cart
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Download']
@@ -317,9 +304,6 @@ I see a message that some items have been renamed
 
 I see a message that items have been archived
     Wait Until Page Contains  The following items have been archived
-
-I see a message that I am subscribed
-    Wait Until Page Contains  You have been subscribed to this item
 
 I can download items
     Wait Until Page Contains  will be downloaded

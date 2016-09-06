@@ -204,7 +204,7 @@ class TestWorkspaceSidebar(BaseViewTest):
     def test_subscribe_button_configurable(self):
         ''' There is a registry record
         (ploneintranet.workspace.allow_bulk_subscribe)
-        that can be used to hide the subscribe button from the sidebar
+        that can be used to show the subscribe button from the sidebar
         bulk actions
         '''
         view = api.content.get_view(
@@ -212,17 +212,17 @@ class TestWorkspaceSidebar(BaseViewTest):
             self.workspace,
             self.request
         )
-        # By default the button is enabled
-        self.assertIn(u'Subscribe</button>', view())
-
-        # But we can hide it
-        api.portal.set_registry_record(
-            'ploneintranet.workspace.allow_bulk_subscribe',
-            False,
-        )
+        # By default the button is disabled
         self.assertNotIn(u'Subscribe</button>', view())
 
-        # The button is there even if the record is not there for some reason
+        # But we can show it
+        api.portal.set_registry_record(
+            'ploneintranet.workspace.allow_bulk_subscribe',
+            True,
+        )
+        self.assertIn(u'Subscribe</button>', view())
+
+        # If there is no record, then the button is not shown
         pr = api.portal.get_tool('portal_registry')
         pr.records.__delitem__('ploneintranet.workspace.allow_bulk_subscribe')
-        self.assertIn(u'Subscribe</button>', view())
+        self.assertNotIn(u'Subscribe</button>', view())

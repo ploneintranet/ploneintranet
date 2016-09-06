@@ -3,11 +3,11 @@
           i18n:domain="ploneintranet">
   <record name="ploneintranet.workspace.allow_bulk_subscribe">
     <field type="plone.registry.field.Bool">
-      <default>True</default>
+      <default>False</default>
       <title>Allow subscribe in workspace bulk action</title>
       <description>If checked, the user can subscribe to the selected objects</description>
       <required>False</required>
     </field>
-    <value purge="false">True</value>
+    <value purge="true">False</value>
   </record>
 </registry>

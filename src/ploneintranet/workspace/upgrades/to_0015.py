@@ -9,5 +9,5 @@ def subscribe_bulk_action_configurable(context):
     '''
     loadMigrationProfile(
         context,
-        'profile-ploneintranet.workspace.upgrades:to_0013'
+        'profile-ploneintranet.workspace.upgrades:to_0015'
     )
