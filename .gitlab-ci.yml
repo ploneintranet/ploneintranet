@@ -32,10 +32,15 @@ before_script:
   - /etc/init.d/redis-server start
   - Xvfb :99 1>/dev/null 2>&1 &
 
-fastest:
+fastest1:
   script:
     - bin/code-analysis
-    - DISPLAY=:99 bin/fastest
+    - DISPLAY=:99 bin/fastest --run 1
+    - ASYNC_ENABLED=true bin/test -s ploneintranet.async
+
+fastest2:
+  script:
+    - DISPLAY=:99 bin/fastest --run 2
 
 robot:
   script:
@@ -46,5 +51,3 @@ norobot:
     - bin/code-analysis
     - bin/test -t '!robot'
     - ASYNC_ENABLED=true bin/test -s ploneintranet.async
-
-
