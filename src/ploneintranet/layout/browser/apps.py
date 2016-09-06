@@ -3,9 +3,10 @@ from AccessControl.unauthorized import Unauthorized
 from json import loads
 from logging import getLogger
 from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from zope.interface import implementer
 from zope.publisher.browser import BrowserView
-
 
 logger = getLogger(__name__)
 
@@ -31,6 +32,7 @@ class Apps(BrowserView):
         return apps.listFolderContents()
 
 
+@implementer(IBlocksTransformEnabled)
 class BaseAppView(BrowserView):
 
     @property
