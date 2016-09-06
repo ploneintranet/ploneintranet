@@ -1,10 +1,35 @@
 Changelog
 =========
 
-1.2.0a11 (unreleased)
+1.2.0a12 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a11 (2016-09-06)
+---------------------
+
+* Fastest optimizations (#676) [Alexander Pilz]
+* Disable bulk subscription by default (#665) [Alexander Pilz]
+* We want the app view to be able to transform the tile (#675) [Alexander Pilz]
+* Merge pull request #674 from quaive/do-not-be-rude-in-getting-groupings [GitHub]
+* Check if grouping is there before getting it [Alessandro Pisa]
+* Merge pull request #667 from quaive/fastest [GitHub]
+* Merge pull request #672 from quaive/release-1.2.x [GitHub]
+* Merge pull request #673 from quaive/fix-mail-encoding [GitHub]
+* Merge pull request #671 from quaive/bump-cmfnotification [GitHub]
+* encode instead of another decode [Alexander Pilz]
+* Back to development: 1.2.0a11 [Alexander Pilz]
+* bump [Alexander Pilz]
+* Anchor docs, improve logging, improve fastest config [Guido A.J. Stevens]
+* Actually return the status code or failures go undetected [Guido A.J. Stevens]
+* Add argparse docs [Guido A.J. Stevens]
+* Add fastest and docs config for fastest runner [Guido A.J. Stevens]
+* Document fastest runner [Guido A.J. Stevens]
+* Hook up in gitlab [Guido A.J. Stevens]
+* Only optimize if *all* paths had a match [Guido A.J. Stevens]
+* Fastest diff tester baseline implementation [Guido A.J. Stevens]
 
 
 1.2.0a10 (2016-09-05)
