@@ -201,3 +201,48 @@ The setup-handler of the suite creates four workspaces with the following settin
   * **Admin**: christian_stoney
   * **Member**: allan_neece (and others)
   * **Non-Member**: alice_lindstrom
+
+
+Fastest diff test runner
+========================
+
+An special test runner in ``ploneintranet/fastest`` calculates the changeset
+between a to-be-merged branch and master, then applies a series of testing
+strategies to calculate whether it's possible to run an optimized test suite
+that skips tests which are not needed for this changeset.
+
+The strategies for this are configured in ``ploneintranet/fastest/config.py``.
+
+Each strategy has ``triggers``, which are regular expressions to match
+filenames. If any filename in the change set matches a trigger, the matching
+test strategy will be applied.
+
+The testing policy applies all strategies to the changeset and schedules two
+test runs: one with ``strategy.packages`` e.g. ``bin/test -s ploneintranet.workspace`` and one with ``strategy.tests`` e.g. ``bin/test -t workspace.robot``.
+This is necessary because zope.testrunner would calculate the intersection
+rather than the union of ``-s`` package selectors and ``-t`` test selectors.
+
+In case a filepath is in the changeset which does not match any of the
+optimization strategies, optimization will be enabled and the full default
+test suite gets run.
+
+Additionally, it's possible to specifiy ``wildcard`` strategies that will
+force a full test run, even if all changed file paths were matched by
+a test strategy.
+
+Manual fastest run
+------------------
+
+You can run the fastest runner manually as follows:
+
+``bin/fastest``
+Default run with full verbosity.
+
+``bin/fastest -n``
+Dry run with full verbosity.
+
+``bin/fastest -q``
+Full run in quiet mode.
+
+``bin/fastest -n --from efe14a393 -- to 97a308f1``
+Dryrun to inspect what would be the testing strategy between the two given commits.

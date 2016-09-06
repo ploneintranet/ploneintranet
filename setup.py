@@ -88,6 +88,7 @@ setup(name='ploneintranet',
               'mock',
               'responses',
               'quaive.resources.ploneintranet',
+              'gitpython',
           ],
           'suite': [
               'requests',
@@ -154,4 +155,7 @@ setup(name='ploneintranet',
 
       [zest.releaser.releaser.after_checkout]
       add_files_to_release = ploneintranet.core.release:add_files_to_release
+
+      [console_scripts]
+      fastest=ploneintranet.fastest:main
       """)
