@@ -160,7 +160,7 @@ class MailImporter(BaseImporter):
             part
             .get_payload(decode=True)
             .decode(part.get_content_charset())
-            .decode(encoding)
+            .encode(encoding)
         )
 
     def set_mail_body(self, mail, parts, attachments):
