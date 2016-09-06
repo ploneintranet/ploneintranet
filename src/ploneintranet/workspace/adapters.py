@@ -468,6 +468,10 @@ class GroupingStorage(object):
         """
         uid = IUUID(obj)
         groupings = self.get_groupings()
+        if grouping not in groupings:
+            logger.info('Adding grouping %s to object %r', grouping, obj)
+            groupings[grouping] = OrderedBTreeFolderBase()
+
         for value in values:
             if value in groupings[grouping]:
                 groupings[grouping][value].add(uid)
