@@ -114,6 +114,13 @@ Search for objects in sidebar navigation
     Given I am in a workspace as a workspace member
      Then I can search for items
 
+I can see only my objects in sidebar navigation
+    Given I am in a workspace as a workspace member
+     Then I can enter the Manage Information Folder
+     Then I can create a new document  This is personal
+     Then I can show only my documents
+      And I can see that the only item displayed in the navigation is  This is personal
+
 The manager can modify workspace security policies
     Given I am in a workspace as a workspace admin
      Then I can open the workspace security settings tab
