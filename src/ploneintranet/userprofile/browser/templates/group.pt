@@ -30,7 +30,7 @@
                                         class="two columns equalised ${lastcls}"
                                         tal:define="title member/title; last repeat/member/end; lastcls python:last == 1 and 'last' or ''">
                                         <figure tal:condition="python:member['typ']=='user'">
-                                            <img src="${here/portal_url}/@@avatars/${member/id}" class="pat-avatar" alt="Image of ${title}">
+                                            <img src="${here/portal_url}/profiles/${member/id}/@@avatar_profile.jpg" class="pat-avatar" alt="Image of ${title}">
                                             <figcaption tal:content="title">
                                             Liz Baker
                                             </figcaption>
