@@ -1,10 +1,21 @@
 Changelog
 =========
 
-1.2.0a12 (unreleased)
+1.2.0a13 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a12 (2016-09-08)
+---------------------
+
+* Handle subject encoding (#681) [GitHub]
+* GroupedSearch: sort grouped results (#682) [Alexander Pilz]
+* Use a bigger version of the avatar image so that users don't appear blurred (#680) [GitHub]
+* Merge pull request #677 from quaive/release-1.2.x [GitHub]
+* Follow up for PR #656 (#666) [Alexander Pilz]
+* Back to development: 1.2.0a12 [Alexander Pilz]
 
 
 1.2.0a11 (2016-09-06)
