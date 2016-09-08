@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a13 (unreleased)
+1.2.0a13 (2016-09-08)
 ---------------------
 
 * Order Grouping Values (#685) [GitHub]
