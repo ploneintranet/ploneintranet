@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a12 (unreleased)
+1.2.0a12 (2016-09-08)
 ---------------------
 
 * Handle subject encoding (#681) [GitHub]
