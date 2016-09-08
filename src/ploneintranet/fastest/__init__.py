@@ -29,7 +29,7 @@ class Strategy(object):
                 if matcher.match(path):
                     if verbose:
                         marker = self.wildcard and "* " or "- "
-                        print("{}[{}] matched on {}".format(
+                        print("{}[{:_^12}] triggered by {}".format(
                             marker, self.name, path))
                     if self.wildcard:
                         raise RunAllTestsException(path)
@@ -117,7 +117,7 @@ def spec(operator, selectors):
 
 
 def main():
-    configpath = os.path.join(os.path.dirname(__file__), 'config.cfg')
+    configpath = os.path.join(os.path.dirname(__file__), 'policy.cfg')
     epilog = "You should schedule two separate runs: --run 1 and --run 2"
     parser = argparse.ArgumentParser("fastest",
                                      epilog=epilog)
@@ -207,7 +207,7 @@ def whatchanged(commitid, baseid=None, verbose=True):
         print("Found {} new commits".format(len(new_commits)))
         if len(new_commits) <= 20:
             for _c in new_commits:
-                print("    {}   {}".format(_c.hexsha[:10], _c.summary))
+                print("    {:.10}   {:.50}".format(_c.hexsha, _c.summary))
     commit_diffs = [x.diff(x.parents[0]) for x in new_commits]
     # each commit diff contains an iterable of file diffs
     file_diffs = [f for c in commit_diffs for f in c]
@@ -223,16 +223,17 @@ def run(testspec, verbose=True, dryrun=False):
     if verbose:
         marker = dryrun and "Dryrun" or "Subprocess"
         print("{}: {}".format(marker, command))
-    if not dryrun:
-        try:
-            output = subprocess.check_output(command, shell=True)
-            if verbose:
-                print(output)
-            return 0
-        except subprocess.CalledProcessError, exc:
-            if verbose:
-                print("ERROR: return code {}")
-            return exc.returncode
+    if dryrun:
+        return 0
+    try:
+        output = subprocess.check_output(command, shell=True)
+        if verbose:
+            print(output)
+        return 0
+    except subprocess.CalledProcessError, exc:
+        if verbose:
+            print("ERROR: return code {}")
+        return exc.returncode
 
 
 def run_multi(speclist, verbose=True, dryrun=False):

@@ -1,4 +1,5 @@
 # coding=utf-8
+from email.header import decode_header
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobFile
@@ -134,9 +135,12 @@ class MailImporter(BaseImporter):
     def create_mail(self, msg):
         ''' Create the mail looking in to
         '''
+        title, encoding = decode_header(msg.get('Subject'))[0]
+        if encoding:
+            title = title.decode(encoding).encode('utf-8')
         mail = api.content.create(
             type=self.mail_portal_type,
-            title=msg.get('Subject') or 'email',
+            title=title,
             container=self.context,
             id=self.context.generateId('mail-'),
             safe_id=False,
