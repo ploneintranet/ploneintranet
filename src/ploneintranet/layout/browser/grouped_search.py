@@ -1,4 +1,5 @@
 from collections import defaultdict
+from collections import OrderedDict
 from datetime import date
 from plone import api
 from plone.memoize import forever
@@ -86,7 +87,7 @@ class GroupedSearchTile(Tile):
             docs[key].append(result)
         for key in docs.keys():
             docs[key] = sorted(docs[key], key=lambda x: x.title)
-        return docs
+        return OrderedDict(sorted(docs.items()))
 
     @memoize
     def results_sorted_groups(self):
