@@ -1,10 +1,20 @@
 Changelog
 =========
 
-1.2.0a13 (unreleased)
+1.2.0a14 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a13 (2016-09-08)
+---------------------
+
+* Order Grouping Values (#685) [GitHub]
+* Merge pull request #684 from quaive/release-1.2.x [GitHub]
+* Merge pull request #683 from quaive/resilient-dashboard [GitHub]
+* Back to development: 1.2.0a13 [Alexander Pilz]
+* Make sure we don't redirect but directly load dashboard again. Otherwise the post parameter is missing unless you use a transparent proxy [Alexander Pilz]
 
 
 1.2.0a12 (2016-09-08)
