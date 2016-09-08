@@ -66,6 +66,8 @@ class GroupedSearchTile(Tile):
                 docs[_('Last month')].append(result)
             else:
                 docs[_('All time')].append(result)
+        for key in docs.keys():
+            docs[key] = sorted(docs[key], key=lambda x: x.modified)
         return docs
 
     @memoize
@@ -82,6 +84,8 @@ class GroupedSearchTile(Tile):
             else:
                 _('No title')
             docs[key].append(result)
+        for key in docs.keys():
+            docs[key] = sorted(docs[key], key=lambda x: x.title)
         return docs
 
     @memoize
