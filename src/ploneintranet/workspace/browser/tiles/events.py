@@ -62,7 +62,6 @@ class EventsTile(Tile):
             phrase = self.data['SearchableText'] + '*'
         elif self.data.get('my_events', True):
             query['invitees'] = [api.user.get_current().getId()]
-
         search_util = getUtility(ISiteSearch)
         upcoming_events = search_util.query(
             phrase=phrase,

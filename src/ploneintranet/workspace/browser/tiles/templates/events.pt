@@ -7,55 +7,56 @@
   <body>
     <div id="portlet-events" class="portlet events span-1">
       <div class="content">
-	    <h2 class="portlet-title">
-			<a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/" i18n:translate="">Events</a>
-		</h2>
+  	    <h2 class="portlet-title">
+  			 <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/" i18n:translate="">Events</a>
+  		  </h2>
         <form class="search-box pat-inject pat-autosubmit" action="${here/absolute_url}/@@events.tile#events-search-items">
-			<fieldset class="vertical">
-	            <label>
-	                <input name="SearchableText" type="search" placeholder="Search events">
-	                <button hidden type="submit" i18n:translate="">Find events</button>
-	            </label>
-			</fieldset>
+    			<fieldset class="vertical">
+    	            <label>
+    	                <input name="SearchableText" type="search" placeholder="Search events">
+    	                <button hidden type="submit" i18n:translate="">Find events</button>
+    	            </label>
+    			</fieldset>
         </form>
-		<div id="events-search-items">
-			<nav class="navigation pat-tabs tabs" tal:condition="not:view/data/SearchableText|nothing">
-                <a href="${here/absolute_url}/@@events.tile?my_events:boolean=True#events-search-items" class="pat-inject ${python:view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">My events</a>
-				<a href="${here/absolute_url}/@@events.tile?my_events:boolean=False#events-search-items" class="pat-inject ${python:not view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">Other events</a>
-			</nav>
-			<div id="portlet-events-event-list"
-                    tal:define="events view/upcoming_events;
-                                num_events python:len(list(events.results))">
-                <ul class="event-list">
-                  <tal:events repeat="event events">
+    		<div id="events-search-items">
+    			<nav class="navigation pat-tabs tabs" tal:condition="not:view/data/SearchableText|nothing">
+            <a href="${here/absolute_url}/@@events.tile?my_events:boolean=True#events-search-items" class="pat-inject ${python:view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">My events</a>
+    				<a href="${here/absolute_url}/@@events.tile?my_events:boolean=False#events-search-items" class="pat-inject ${python:not view.data.get('my_events', True) and 'current' or ''}" i18n:translate="">Other events</a>
+    			</nav>
+    			<div id="portlet-events-event-list"
+               tal:define="events view/upcoming_events;
+                           num_events python:len(list(events.results))">
+            <em tal:condition="not:num_events" i18n:translate="">No upcoming events</em>
+            <ul class="event-list">
+              <tal:events repeat="event events">
 
-                  <li class="event" title="${event/Title}: ${event/Description}"
-                      tal:condition="python:repeat.event.index < 5"
-                        tal:define="location event/location|nothing">
-                      <a href="${event/url}" class="link">
-                        <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
-                        <p class="byline" tal:condition="location">${location}</p>
+              <li class="event" title="${event/Title}: ${event/Description}"
+                  tal:condition="python:repeat.event.index < 5"
+                    tal:define="location event/location|nothing">
+                  <a href="${event/url}" class="link">
+                    <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
+                    <p class="byline" tal:condition="location">${location}</p>
 
-                        <p class="date">
-                          <time class="calendar-medium pat-auto-scale"
-                                tal:define="month_name python:view.month_name(event['start'])">
-                            <strong class="day">${python:event['start'].day}</strong>
-                            <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
-                            <strong class="year">${python:event['start'].year}</strong>
-                          </time>
-                        </p>
-                        <p class="description">${event/Description}</p>
-                      </a>
+                    <p class="date">
+                      <time class="calendar-medium pat-auto-scale"
+                            tal:define="month_name python:view.month_name(event['start'])">
+                        <strong class="day">${python:event['start'].day}</strong>
+                        <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
+                        <strong class="year">${python:event['start'].year}</strong>
+                      </time>
+                    </p>
+                    <p class="description">${event/Description}</p>
+                  </a>
 
-                    </li>
+                </li>
 
-                  </tal:events>
-                </ul>
-                <p class="portlet-footer" tal:condition="python:num_events >= 5">
-                    <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record" i18n:translate="">Show all events</a>
-                </p>
-			</div>
-		</div>
+              </tal:events>
+            </ul>
+            <!--p class="portlet-footer" tal:condition="python:num_events >= 5">
+                <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record" i18n:translate="">Show all events</a>
+            </p-->
+    			</div>
+    		</div>
       </div>
     </div>
   </body>
