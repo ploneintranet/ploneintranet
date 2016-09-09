@@ -227,6 +227,7 @@ The message is visible after a reload
 
 I post a reply on a status update
     [arguments]  ${message}  ${reply_message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
     Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
     Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
@@ -238,6 +239,7 @@ The reply is visible as a comment
 
 The reply is not visible
     [arguments]  ${message}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${message}')]
 
 The reply is visible after a reload

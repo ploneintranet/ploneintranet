@@ -99,7 +99,7 @@ class GroupedSearchTile(Tile):
             if _('No title') in groups:
                 no_title = groups.pop(groups.index(_('No title')))
                 groups.append(no_title)
-                return groups
+            return groups
         elif group_by == 'date':
             return [
                 _('Today'),

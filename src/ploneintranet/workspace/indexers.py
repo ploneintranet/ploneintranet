@@ -12,6 +12,7 @@ from plone.dexterity.utils import datify
 from plone.indexer.decorator import indexer
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from utils import guess_mimetype
+from .browser.event import get_invitee_details
 
 
 @indexer(IDocument)
@@ -117,4 +118,5 @@ def division(object, **kw):
 @indexer(IEvent)
 def invitees(obj):
     """Indexes the invitees as a list"""
-    return obj.invitees.split(',')
+    details = get_invitee_details(obj)
+    return [x['uid'] for x in details]

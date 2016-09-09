@@ -3,6 +3,7 @@ import unittest
 from git import InvalidGitRepositoryError
 from ploneintranet.fastest import (repo, whatchanged,
                                    RunAllTestsException,
+                                   RunNoTestsException,
                                    Strategy, Policy,
                                    spec,
                                    run, run_multi)
@@ -40,6 +41,33 @@ class TestFastest(unittest.TestCase):
             'src/ploneintranet/layout/browser/passwordpanel.py',
             'src/ploneintranet/layout/browser/templates/personal-menu.pt',
             'src/ploneintranet/layout/viewlets/personalbar.py'
+        }
+        self.assertEquals(changed, expect)
+
+    def test_whatchanged_runall(self):
+        newest = since = '8b1dc013'
+        with self.assertRaises(RunAllTestsException):
+            whatchanged(newest, since, verbose=False)
+
+    def test_whatchanged_ci_skip_runno(self):
+        newest = 'dde6af89ff84'
+        since = '8b1dc013749e0e1'
+        with self.assertRaises(RunNoTestsException):
+            whatchanged(newest, since, verbose=False)
+
+    def test_whatchanged_ci_skip_skips(self):
+        # this is only ever simple when no merge commits are involved
+        newest = 'c41760cf9959b43e2a3f72b5fc8b77a4a6acd2dd'
+        since = 'dde6af89ff8423c9cad68b8cf281125bd68f7f70'
+        changed = whatchanged(newest, since, verbose=False)
+        to_skip = {
+            'src/ploneintranet/fastest/policy.cfg'
+        }
+        for skipped in to_skip:
+            self.assertTrue(skipped not in changed)
+        expect = {
+            'src/ploneintranet/fastest/__init__.py',
+            'src/ploneintranet/fastest/tests.py',
         }
         self.assertEquals(changed, expect)
 
