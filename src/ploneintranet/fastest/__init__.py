@@ -9,7 +9,11 @@ repo_dir = os.path.abspath(os.path.join(__file__, '..', '..', '..', '..'))
 
 
 class RunAllTestsException(Exception):
-    """Raised to indicate that all tests should be run"""
+    """Raised to indicate that ALL tests should be run"""
+
+
+class RunNoTestsException(Exception):
+    """Raised to indicate that NO tests should be run"""
 
 
 class Strategy(object):
@@ -195,20 +199,50 @@ def whatchanged(commitid, baseid=None, verbose=True):
     repo().git.fetch()  # update master index even if master sandbox is behind
     commit = repo().commit(commitid)
     base = repo().commit(baseid)
-    commit_and_parents = [commit] + [x for x in commit.iter_parents()]
-    base_and_parents = [base] + [x for x in base.iter_parents()]
-    shared_ancestors = len([x for x in commit_and_parents
-                            if x in base_and_parents])
+    # GOTCHA: what looks like a neat sequential history turns out to
+    # be a more complex parenting history when merge commits are involved
+    commit_and_parents = [commit]
+    commit_parent_generator = commit.iter_parents()
+    base_and_parents = [base]
+    base_parent_generator = base.iter_parents()
+    shared_ancestors = []
+    commit_history_exhausted = base_history_exhausted = False
+    while not commit_history_exhausted or not base_history_exhausted:
+        try:
+            commit_and_parents.append(next(commit_parent_generator))
+        except StopIteration:
+            commit_history_exhausted = True
+        try:
+            base_and_parents.append(next(base_parent_generator))
+        except StopIteration:
+            base_history_exhausted = True
+        # massive speedup: stop backtracking on first shared parent
+        shared_ancestors = [x for x in commit_and_parents
+                            if x in base_and_parents]
+        if shared_ancestors:
+            break
     if not shared_ancestors:
         raise RunAllTestsException("No shared ancestors")
     # only test changes in HEAD that are not yet in master
     new_commits = [x for x in commit_and_parents if x not in base_and_parents]
+    if not new_commits:
+        # run full suite when testing master against master
+        raise RunAllTestsException("Nothing changed, running full suite.")
     if verbose:
         print("Found {} new commits".format(len(new_commits)))
         if len(new_commits) <= 20:
             for _c in new_commits:
                 print("    {:.10}   {:.50}".format(_c.hexsha, _c.summary))
-    commit_diffs = [x.diff(x.parents[0]) for x in new_commits]
+    skip_commits = [x for x in new_commits if '[ci skip]' in x.summary]
+    if skip_commits and verbose:
+        print("Skipping {} commits marked as [ci skip]".format(
+            len(skip_commits)))
+    if skip_commits and new_commits == skip_commits:
+        # only happens on a branch with minimal changes
+        raise RunNoTestsException(
+            "All changes marked as [ci skip], skipping all tests.")
+    commit_diffs = [x.diff(x.parents[0]) for x in new_commits
+                    if x not in skip_commits]
     # each commit diff contains an iterable of file diffs
     file_diffs = [f for c in commit_diffs for f in c]
     return {x.a_path or x.b_path for x in file_diffs}
