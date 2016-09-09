@@ -14,7 +14,7 @@
                            friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
                            "
                >
-            <tal:groups repeat="group results_grouped">
+            <tal:groups repeat="group results_sorted_groups">
               <div class="group"
                    tal:define="group_items results_grouped/?group;"
                    tal:condition="group_items"
