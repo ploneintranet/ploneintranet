@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <head/>
+  <body>
+    <div id="content">
+      <div id="document-content" class="pat-modal">
+        <h1 i18n:translate="">Reorder tags</h1>
+
+        <form class="pat-inject wizard-box"
+              data-pat-inject=""
+              method="post"
+              action="${context/absolute_url}/panel-reorder-tags#workspace-documents">
+
+          <div class="panel-body">
+            <ol class="pat-sortable sortable-list" data-pat-sortable="selector: .sortable-item">
+
+              <li class="sortable-item tag" tal:repeat="tag view/tags">
+    	        <p class="label icon-tag">${tag/title}</p>
+    	        <p class="button-cluster">
+    		      <button class="sortable-button-up small pat-button" type="submit">Up</button> 
+    		      <button class="sortable-button-down small pat-button" type="submit">down</button>
+                  <input type="hidden" name="tags_order:list" style="display:none" value="${tag}" />
+
+    	        </p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="buttons panel-footer">
+            <button name="batch-function" value="save" type="submit" class="icon-ok-circle close-panel" i18n:translate="">
+              Save
+            </button>
+            <button type="button" class="icon-cancel-circle close-panel" i18n:translate="">
+              Cancel
+            </button>
+          </div>
+
+          <span tal:replace="structure context/@@authenticator/authenticator"/>
+        </form>
+
+      </div>
+    </div>
+  </body>
+</html>
