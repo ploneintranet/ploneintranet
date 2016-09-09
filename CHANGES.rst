@@ -4,7 +4,12 @@ Changelog
 1.2.0a14 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge branch 'master' into release-1.2.x [Alexander Pilz]
+* Event portlet fixes (#688) [GitHub]
+* Fix grouped search sorting (#689) [Alexander Pilz]
+* Fastest ci skip support, speedup history analysis (#687) [Alexander Pilz]
+* Release 1.2.0a13 [ci skip] (#686) [GitHub]
+* Back to development: 1.2.0a14 [Alexander Pilz]
 
 
 1.2.0a13 (2016-09-08)
