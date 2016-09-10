@@ -43,8 +43,8 @@
                                     <button type="submit" class="icon-follow-empty" formaction="/feedback/follow-workspace.html" title="Click to follow Open Market Committee">Follow</button>
                                 </fieldset>
 -->
-<!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #bookmark-workspace" id="bookmark-workspace">
-
+                                <fieldset id="bookmark-workspace" data-tile="./@@workspace_bookmark.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace_bookmark.tile" ></fieldset>
+<!--
                                         <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button>
 
                                 </fieldset>
