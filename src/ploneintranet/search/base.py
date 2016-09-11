@@ -93,6 +93,9 @@ class SearchResult(object):
         self.modified = context['modified']
         self.mimetype = context.get('mimetype', None)
         self.UID = context['UID']
+        self.start = context.get('start', None)
+        self.end = context.get('end', None)
+        self.location = context.get('location', None)
 
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently

@@ -1,0 +1,61 @@
+<div class="pat-calendar fc fc-ltr" 
+     id="calendar-app"
+     tal:define="default_view request/default_view|string:month;
+                 new_event_url string: /star/++add++Event#calendar-details::element"
+     data-pat-calendar="default-view: ${default_view};
+                        start-date: ${view/get_start_date};
+                        first-hour: 8;
+                        first-day: mo;
+                        time-format: H:mm;
+                        height: auto;
+                        title-day: dddd, D MMM YYYY;
+                        column-week: ddd D MMM;
+                        calendar-controls: .cal-controls;
+                        category-controls: .cal-categories;
+                        drag-and-drop: true;
+                        drop-external-events: true;
+                        external-event-selector: .cal-event;
+                        store: local" 
+     data-pat-calendar-tooltip="height: max;
+                                source: ajax;
+                                url: ${new_event_url};
+                                class: event wizard;">
+
+    <tal:all_events define="events view/get_events">
+
+        <h1 class="cal-title" tal:content="view/today">saturday, 10 sept 2016</h1>
+        <fieldset class="cal-nav cal-controls">
+            <button class="jump-prev" title="Back" type="button" i18n:attributes="title">&lt;</button> 
+            <button class="jump-today active" title="Today" type="button" i18n:translate="" i18n:attributes="title">Today</button>
+            <button class="jump-next" title="Forward" type="button" i18n:attributes="title">&gt;</button>
+        </fieldset>
+
+        <div class="calendar">
+            <em class="message warning" tal:condition="python:len(list(events))==0" i18n:translate=""> There are no events to be displayed</em>
+            <ul class="cal-events" style="display:none">
+                <tal:events repeat="event events">
+                    <li class="cal-event ${event_class}"
+                        tal:define="event_date_times python:view.get_event_date_times(event);
+                                    event_class python:view.get_event_class(event);">
+                        <a class="url external" tal:attributes="href string:${event/url}/edit#content">
+                            <h4 class="title">${event/Title}</h4>
+                            <p class="location" tal:on-error="string: location not in solr yet" tal:condition="${event/location|nothing}">${event/location|nothing}</p>
+                            <ul class="details">
+                                <li>Starts
+                                    <time class="start" datetime="2012-02-18 09:00"
+                                          tal:attributes="datetime event_date_times/start_date_time_short"
+                                          tal:content="event_date_times/start_date_time_long">18 February 2012, 9:00</time>
+                                </li>
+                                <li>Ends
+                                    <time class="end" datetime="2012-02-18 17:00"
+                                          tal:attributes="datetime event_date_times/end_date_time_short"
+                                          tal:content="event_date_times/end_date_time_long">18 February 2012, 17:00</time>
+                                </li>
+                            </ul>
+                        </a>
+                    </li>
+                </tal:events>
+            </ul>
+        </div>
+    </tal:all_events>
+</div>

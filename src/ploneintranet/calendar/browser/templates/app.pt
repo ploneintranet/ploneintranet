@@ -1,0 +1,168 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+    <div id="app-space" 
+         class="state-on">
+      <div id="application-body" 
+           class="application- application-calendar sidebar-left-open sidebar-right-closed toolbar-on">
+
+        <div class="toolbar" id="toolbar-main" 
+        tal:define="tz request/timezone|nothing;
+                     dummy python:view.set_user_timezone(tz);
+                     my_zone view/get_user_timezone | string:Europe/Berlin;
+                     ">
+          <div class="sidebar-controls">
+              <button class="icon-list pat-toggle iconified" id="sidebar-toggle" data-pat-toggle="selector: #application-body; value: sidebar-left-open sidebar-left-closed; store: local" title="Toggle sidebar">Toggle sidebar</button>
+
+              <a href="++add++Event#document-content" class="icon-plus-circle button pat-modal" data-pat-modal="class: large" i18n:translate="">Create event</a>
+             
+          </div>
+          <div class="document-controls cal-controls">
+            <fieldset class="button-cluster float-before">
+              <button type="button" class="view-month" i18n:translate="">Month</button>
+              <button type="button" class="view-week" i18n:translate="">Week</button>
+              <button type="button" class="view-day" i18n:translate="">Day</button>
+            </fieldset>
+
+            <label class="timezone float-after pat-select bare">
+              <select name="timezone" class="timezone">
+                  <tal:timezone repeat="zone view/get_timezone_data" >
+                    <option data-timezone-id="${zone/id}" gmt-adjustment="${zone/offset}" data-use-daylight-time="${zone/daylight_saving}" value="${zone/name}"
+                      tal:attributes="selected python:my_zone == zone['zone'] and 'selected' or None">${zone/name}</option>
+                  </tal:timezone>
+              </select>
+            </label>
+
+            <a href="#extra-functions" class="float-after pat-tooltip dropdown button inactive" data-pat-tooltip="source: ajax; position: tl;" i18n:translate="">More</a>
+
+            <div hidden="" id="extra-functions">
+                <ul class="menu">
+                    <li>
+                        <a href="/apps/calendar/" class="icon-cog" i18n:translate="">Settings</a>
+
+                    </li>
+                    <li>
+                      <a href="#subscription-url" class="icon-rss pat-modal">Subscribe to this calendar in Outlook</a>
+                    </li>
+                </ul>
+            </div>
+            <fieldset hidden id="subscription-url"
+                      tal:define="url context/absolute_url;
+                                  schemaless_url python:url.split(':')[1][2:];">
+              <h3 i18n:translate="">Subscribe to calendar</h3>
+              <form>
+              <fieldset class="vertical panel">
+                <label>
+                  <input type="text" tal:attributes=" value string:webcal://${schemaless_url}/ical?export=${context/@@uuid}.ics">
+                </label>
+              </fieldset>
+              <p class="discrete"><tal:t i18n:translate="">Use the above URL to see this Workspace's calendar also in your Outlook calendar.</tal:t> <a href="http://office.microsoft.com/en-us/outlook-help/view-and-subscribe-to-internet-calendars-HA010167325.aspx#BM2" target="new" i18n:translate="label_subscribe_to_calendar">Learn how this works</a>.</p>
+              </form>
+            </fieldset>
+          </div>
+        </div> <!-- end #toolbar-main -->
+
+        <div id="document-body">
+          <div id="document-content">
+
+            <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${context/absolute_url}/@@fullcalendar.tile"></div>
+
+           </div> 
+        </div>
+        <aside class="sidebar left" id="sidebar">
+          <div class="content" id="sidebar-content">
+            <form action="/apps/calendar/calendar.html#document-body" class="pat-inject pat-autosubmit">
+              <fieldset class="cal-categories">
+                <div class="pat-collapsible open">
+                  <h3 class="collapsible-open">My calendars <a href="/help.md#My calendars" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                   
+                  <div class="panel-content">
+                    <fieldset class="pat-checklist cal-categories checklist checked">
+                        <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                      <div class="toggles functions button-cluster">
+                        <button class="small select-all" disabled="">Select all</button>
+                        <button class="small deselect-all" disabled="">Deselect all</button>
+                      </div>
+                      <label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked"> Personal calendar</label>
+
+                      <!-- This list of workspaces is generated -->
+
+                      <label class="cal-cat- checked">
+                          <input type="checkbox" checked="">
+                        <a href="/apps/calendar/wsl-.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a>
+                      </label>
+
+                      <label class="cal-cat- checked">
+                          <input type="checkbox" checked="">
+                        <a href="/apps/calendar/wsl-.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a>
+                      </label>
+                      <!-- Some extra 'fake' workspace follow below -->
+
+
+                            <!-- The next calendar tick box appears only when 'Show all calendars' is ticked -->
+                      <label class="cal-cat-commercial-strategy-team pat-depends checked" data-pat-depends="all-cals" style="display: none;"><input type="checkbox" checked=""> Commercial Cooperation Strategy Team <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                      <label class="cal-cat-star-alliance-events checked"><input type="checkbox" checked=""> Star Alliance events</label>
+                      <label class="cal-cat-star-alliance-publications checked"><input type="checkbox" checked=""> Star Alliance Publications <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <div class="pat-collapsible open">
+                  <h3 class="collapsible-open">Events I'm invited to <a href="/help.md#Events I'm invited to" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                  <div class="panel-content">
+                    <fieldset class="pat-checklist cal-categories checklist checked">
+                      <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                      <!-- <div class="toggles functions button-cluster">
+                            <button class="small select-all">Select all</button>
+                            <button class="small deselect-all">Deselect all</button>
+                        </div> -->
+                      <label class="cal-cat-lorem-ipsum-dolor-sit-amet checked"><input type="checkbox" checked=""> Lorem ipsum dolor sit</label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <div class="pat-collapsible open">
+                  <h3 class="collapsible-open">Shared events <a href="/help.md#Shared events" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                  <div class="panel-content">
+                    <fieldset class="pat-checklist cal-categories checklist checked">
+                      <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                      <!-- <div class="toggles functions button-cluster">
+                          <button class="small select-all">Select all</button>
+                          <button class="small deselect-all">Deselect all</button>
+                      </div> -->
+                      <label class="cal-cat-blackout-days checked"><input type="checkbox" checked=""> Blackout Days</label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <div class="pat-collapsible closed">
+                  <h3 class="collapsible-closed">Other calendars <a href="/help.md#Other calendars" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                  <div class="panel-content" style="display: none;">
+                    <p>Other calendars that you have viewing rights on.</p>
+                    <fieldset class="pat-checklist cal-categories checklist  unchecked">
+                        <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                      <div class="toggles functions button-cluster">
+                          <button class="small select-all">Select all</button>
+                          <button class="small deselect-all" disabled="">Deselect all</button>
+                      </div>
+                      <label class="cal-cat-emergency-committee unchecked"><input type="checkbox"> Emergency Committee <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                      <label class="cal-cat-saua unchecked"><input type="checkbox"> SAUA <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                    </fieldset>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </metal:content>
+
+  </html>

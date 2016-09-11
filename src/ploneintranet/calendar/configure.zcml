@@ -33,4 +33,9 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <utility
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabularies.timezone_vocabulary"
+        name="ploneintranet.calendar.timezones"
+        />
 </configure>

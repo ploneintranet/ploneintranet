@@ -8,6 +8,7 @@
     <dependency>profile-collective.externaleditor:default</dependency>
     <dependency>profile-ploneintranet.async:default</dependency>
     <dependency>profile-ploneintranet.bookmarks:default</dependency>
+    <dependency>profile-ploneintranet.calendar:default</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>

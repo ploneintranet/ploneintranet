@@ -10,6 +10,8 @@ def create_calendar_app():
     '''
     portal = api.portal.get()
     apps = portal.apps
+    if 'calendar' in apps and not apps.calendar.app:
+        api.content.delete(obj=apps.calendar)
     if 'calendar' not in apps:
         api.content.create(
             container=apps,
