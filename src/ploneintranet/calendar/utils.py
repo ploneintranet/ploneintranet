@@ -361,6 +361,7 @@ def get_calendars(context):
         else:
             other[ws_path] = w_by_path[ws_path]
             event_by_cal['other'].append(e)
+
     return dict(
         events=event_by_cal,
         calendars={

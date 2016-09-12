@@ -84,7 +84,7 @@
             <form action="@@app-calendar#document-content" class="pat-inject" data-pat-inject="source: #document-content && target: #document-content" data-pat-collapsible="store: local">
               <fieldset class="cal-categories"
                         tal:define="calendars view/get_calendars">
-                
+
                 <div class="pat-collapsible open" id="calendar-my-calendars">
                   <h3 class="collapsible-open">My calendars <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                    
@@ -122,11 +122,12 @@
                           <button class="small deselect-all">Deselect all</button>
                       </div>
                       <tal:wscal repeat="cal invited_cals">
-                      <label class="cal-cat-commercial-strategy-team"
-                             tal:define="calclass python:view.id2class(cal.getId())"
-                             tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;" data-pat-depends="all-cals">
-                          <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
-                      </label>
+
+                        <label class="cal-cat-commercial-strategy-team"
+                               tal:define="calclass python:view.id2class(cal.getId())"
+                               tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;">
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                        </label>
                       </tal:wscal>
                     </fieldset>
                   </div>

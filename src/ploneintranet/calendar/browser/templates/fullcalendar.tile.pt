@@ -35,9 +35,9 @@
             <ul class="cal-events">
                 <tal:events repeat="event events">
                     <li class="${event/classes}">
-                        <a class="url external" tal:attributes="href string:${event/url}/edit#content">
-                            <h4 class="title">${event/title}</h4>
-                            <p class="location" tal:on-error="string: location not in solr yet" tal:condition="${event/location|nothing}">${event/location|nothing}</p>
+                        <a class="url external" tal:attributes="href string:${event/url}#content">
+                            <h4 class="title">${event/Title}</h4>
+                            <p class="location" tal:condition="event/location|nothing">${event/location|nothing}</p>
                             <ul class="details">
                                 <li>Starts
                                     <time class="start" datetime="2012-02-18 09:00"

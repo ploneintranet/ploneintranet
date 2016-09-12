@@ -137,7 +137,13 @@ class FullCalendarTile(Tile):
             for event in ev_by_cal:
                 classes = self._get_event_class(event, calendar)
                 edict = {}
-                edict = event.__dict__.copy()
+                # Create a dict representation of the search results
+                # XXX: This is something to be done properly once we abstract
+                # use of solr into the pi_api
+                edict = event.context.copy()
+                edict.update(event.__dict__.copy())
+                del edict['context']
+                del edict['response']
                 edict['classes'] = classes
                 edict['url'] = event.url
                 edict.update(self._get_event_date_times(event))
