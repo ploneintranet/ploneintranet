@@ -1,8 +1,25 @@
 # -*- coding: utf-8 -*-
+import os
 import pytz
+from collections import defaultdict
 from datetime import datetime
-from vocabularies import timezone_list
+from datetime import timedelta
 from DateTime import DateTime
+
+from plone import api
+from plone.app.contenttypes.interfaces import IEvent
+from plone.app.event.base import localized_now
+
+from ploneintranet import api as pi_api
+from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
+
+from scorched.dates import solr_date
+
+from vocabularies import timezone_list
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
+
 
 daylight_saving = {
     1: 0,
@@ -241,3 +258,116 @@ def to_timezone(date, from_tz=31, to_tz=None, to_DateTime=True):   # noqa
         return DateTime(to_date)
     else:
         return to_date
+
+
+def escape_id_to_class(cid):
+    """ We use workspace ids as classes to colour them.
+        if a workspace has dots in its name, this is not usable as a class
+        name. We have to escape that. Refs #10052
+    """
+    return (
+        cid
+        .replace('.', '-')
+        .replace(':', '')
+        .replace('+', '')
+        .replace('(', '')
+        .replace(')', '')
+        .replace('&', '')
+    )
+
+
+def get_workspaces_of_current_user(context):
+    """ Load workspaces from solr, no archived ones """
+    user = api.user.get_current()
+    if not user:
+        return []
+    key = "get_workspaces_of_current_user" + user.getId()
+    cache = IAnnotations(context.REQUEST)
+    data = cache.get(key, None)
+    if data is None:
+        query = dict(object_provides=IBaseWorkspaceFolder.__identifier__,
+                     is_archived=False)
+
+        sitesearch = getUtility(ISiteSearch)
+        data = sitesearch.query(filters=query, step=99999)
+        cache[key] = data
+
+    # XXX we'll need to turn this into a dict to make it cacheable in memcached
+    return data
+
+
+def get_events_of_current_user(context):
+    """ Load events from solr """
+    # We only provide a history of 30 days, otherwise, fullcalendar has
+    # too much to render. This could be made more flexible
+    user = api.user.get_current()
+    if not user:
+        return []
+    key = "get_events_of_current_user" + user.getId()
+    cache = IAnnotations(context.REQUEST)
+    data = cache.get(key, None)
+    if data is None:
+        evt_date = localized_now() - timedelta(30)
+        query = dict(object_provides=IEvent.__identifier__,
+                     end__gt=solr_date(evt_date))
+        query['is_archived'] = False
+
+        sitesearch = getUtility(ISiteSearch)
+        data = sitesearch.query(filters=query, step=99999)
+        cache[key] = data
+
+    # XXX we'll need to turn this into a dict to make it cacheable in memcached
+    return data
+
+
+def get_calendars(context):
+
+    # Get all the users workspaces
+    # Get all the users events
+    # sort the workspaces depending on events available and the users
+    # rights within the workspaces and invitee status on the event
+
+    my = defaultdict(list)
+    invited = defaultdict(list)
+    public = defaultdict(list)
+    personal = defaultdict(list)
+    other = defaultdict(list)
+
+    user = api.user.get_current()
+    groups = pi_api.userprofile.get_groups(user.getId())
+    groups.append(user.getId())
+
+    all_workspaces = get_workspaces_of_current_user(context)
+    w_by_path = {}
+    for w in all_workspaces:
+        ws_path = w.getPath()
+        w_by_path[ws_path] = w
+
+    all_events = get_events_of_current_user(context)
+    event_by_cal = defaultdict(list)
+
+    for e in all_events:
+        ws_path = os.path.dirname(e.getPath())
+        if ws_path not in w_by_path:
+            # The immediate parent of this is event is not a workspace:
+            # should not happen, we ignore it
+            continue
+        is_invited = (e.invitees and
+                      set(groups).intersection(set(e.invitees)))
+
+        if is_invited:
+            invited[ws_path] = w_by_path[ws_path]
+            event_by_cal['invited'].append(e)
+        else:
+            other[ws_path] = w_by_path[ws_path]
+            event_by_cal['other'].append(e)
+    return dict(
+        events=event_by_cal,
+        calendars={
+            'my': my.values(),
+            'invited': invited.values(),
+            'public': public.values(),
+            'personal': personal.values(),
+            'other': other.values(),
+        }
+    )

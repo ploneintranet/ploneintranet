@@ -178,6 +178,24 @@ def get(username):
     return None
 
 
+def get_groups(username):
+    """ Get the groups a user belongs to
+
+    :param username: Username of the user profile to be found
+    :type username: string
+    :returns: Groups the user belongs to
+    :rtype: list of strings
+    """
+    user = get(username)
+    if user.getId() is None:
+        return []
+
+    groups = [
+        x.getId() for x in plone_api.group.get_groups(username=username)
+        if x is not None]
+    return groups
+
+
 def get_current():
     """Get the Plone Intranet user profile
     for the current logged-in user

@@ -1,21 +1,19 @@
 # coding=utf-8
+from AccessControl.security import checkPermission
+
+from datetime import datetime
+from DateTime import DateTime
+
 from plone import api
 from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
+
+from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.layout.app import apps_container_id
-from datetime import datetime
-from datetime import timedelta
-from DateTime import DateTime
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-from AccessControl.security import checkPermission
+
 from Products.CMFCore.permissions import ModifyPortalContent
-from zope.component import getUtility
-from ploneintranet.search.interfaces import ISiteSearch
-from scorched.dates import solr_date
-from plone.app.contenttypes.interfaces import IEvent
-from plone.app.event.base import localized_now
-from plone.event.interfaces import IEventAccessor
 
 
 class FullCalendarTile(Tile):
@@ -68,23 +66,6 @@ class FullCalendarTile(Tile):
                                                         day=day)
         return datestr
 
-    # @ram.cache(event_cache_key)
-    def get_event_class(self, event):
-        """take the classes and add alien if appropriate in context"""
-        return ''  # XX see star.theme.userdata line 77ff
-
-        ws = parent_workspace(self.context)
-        wsid = "cal-cat-{0}".format(ws.id)
-        classes = set(event.get('classes', '').split(' '))
-        if IBaseWorkspaceFolder.providedBy(ws):
-            if wsid not in classes:
-                classes.add('cal-cat-alien')
-            classes.add("cal-cat-%s" % ws.ws_type)
-
-        if checkPermission(ModifyPortalContent, self.context):
-            classes.add('editable')
-        return " ".join(classes)
-
     def _format_date_time(self, date_time, is_whole_day):
         if isinstance(date_time, DateTime):
             date_time = date_time.asdatetime()
@@ -94,41 +75,72 @@ class FullCalendarTile(Tile):
         date_time_long = date_time.strftime('%d %B %Y')
 
         if not is_whole_day:
-            time = date_time.strftime("%H:%M%z")
-            date_time_short += "T" + time
-            date_time_long += ", " + time
-
+            short_time = date_time.strftime("%H:%MZ")
+            long_time = date_time.strftime("%H:%M%Z")
+            date_time_short += "T" + short_time  # XXX Handle timezone
+            date_time_long += ", " + long_time
         return (date_time_short, date_time_long)
 
-    def get_event_date_times(self, event):
-        # XXXYYY Too slow, index that!!!
-        event_accessor = IEventAccessor(event.getObject())
-        is_whole_day = event_accessor.whole_day
+    def _get_event_date_times(self, event):
+        is_whole_day = event.whole_day
         event_dtimes = {}
-        if event_accessor.start:
-
+        if event.start:
             (event_dtimes["start_date_time_short"],
              event_dtimes["start_date_time_long"]) = self._format_date_time(
-                 event_accessor.start, is_whole_day)
-        if event_accessor.end:
+                 event.start, is_whole_day)
+        if event.end:
             (event_dtimes["end_date_time_short"],
              event_dtimes["end_date_time_long"]) = self._format_date_time(
-                 event_accessor.end, is_whole_day)
+                 event.end, is_whole_day)
 
         return event_dtimes
 
+    def _get_event_class(self, event, calendar):
+        """take the classes and add alien if appropriate in context"""
+
+        classes = set(('cal-event',))
+
+        # This assumes that an event always is placed right within a workspace.
+        # Reason: Obviously getting the event and its workspace is expensive
+        # and ading an index for it seems too much as well, but can be done if
+        # this assumption proves to be not valid anymore.
+        path = event.url
+        workspace_id = path.split('/')[-2]
+
+        classes.add("cal-cat-{0}".format(workspace_id))
+        classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
+
+        is_whole_day = event.whole_day
+        if is_whole_day:
+            classes.add('all-day')
+
+        classes.add("cal-cat-{0}".format(event.ws_type))
+        classes.add("cal-cat-{0}-{1}".format(event.ws_type, calendar))
+
+        current_ws = parent_workspace(self.context)
+        if current_ws is not None and \
+           IBaseWorkspaceFolder.providedBy(current_ws):
+            if current_ws.id != workspace_id:
+                classes.add('cal-cat-alien')
+
+        if checkPermission(ModifyPortalContent, self.context):
+            classes.add('editable')
+
+        return " ".join(classes)
+
     def get_events(self):
-        """ Load events from solr """
-        # We only provide a history of 30 days, otherwise, fullcalendar has
-        # too much to render. This could be made more flexible
-        evt_date = localized_now() - timedelta(30)
-        query = dict(object_provides=IEvent.__identifier__,
-                     end__gt=solr_date(evt_date))
+        """ get events for calendar, provide proper classes """
+        events = []
+        events_by_calendar = get_calendars(self.context)['events']
+        for calendar in events_by_calendar:
+            ev_by_cal = events_by_calendar[calendar]
+            for event in ev_by_cal:
+                classes = self._get_event_class(event, calendar)
+                edict = {}
+                edict = event.__dict__.copy()
+                edict['classes'] = classes
+                edict['url'] = event.url
+                edict.update(self._get_event_date_times(event))
 
-        include_archived = self.request.get('archived', False)
-        if not include_archived:
-            query['is_archived'] = False
-
-        sitesearch = getUtility(ISiteSearch)
-        response = sitesearch.query(filters=query, step=99999)
-        return response
+                events.append(edict)
+        return events

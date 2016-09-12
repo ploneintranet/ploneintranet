@@ -25,4 +25,11 @@
 
   <adapter name="invitees" factory=".indexers.invitees" />
 
+  <adapter name="whole_day" factory=".indexers.whole_day" />
+
+  <adapter name="ws_type" factory=".indexers.ws_type_workspace" />
+  <adapter name="ws_type" factory=".indexers.ws_type_event" />
+
+  <adapter name="location" factory=".indexers.location" />
+
 </configure>

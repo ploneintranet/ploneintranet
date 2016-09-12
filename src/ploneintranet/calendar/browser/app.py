@@ -14,8 +14,12 @@ from AccessControl.unauthorized import Unauthorized
 from plone import api
 from Products.Five import BrowserView
 
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+
+from ploneintranet.calendar.utils import escape_id_to_class
 from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.calendar.utils import pytz_zone
+from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.layout.interfaces import IAppView
 
 from zope.component import getUtility
@@ -29,6 +33,7 @@ for k, v in pytz_zone.items():
     timezone_number_by_name[v.zone] = k
 
 
+@implementer(IBlocksTransformEnabled)
 @implementer(IAppView)
 class View(BrowserView):
     """ The (global) calendar app view """
@@ -77,11 +82,8 @@ class View(BrowserView):
             context.request.response.setCookie(TZ_COOKIE_NAME, tz,
                                                path=cookie_path)
 
-    # def get_home_folder(self):
-    #     return utils.get_home_folder()
+    def get_calendars(self):
+        return get_calendars(self.context)['calendars']
 
-    # def get_personal_workspace(self):
-    #     return utils.get_personal_workspace()
-
-    # def id2class(self, cal):
-    #     return utils.escape_id_to_class(cal)
+    def id2class(self, cal):
+        return escape_id_to_class(cal)

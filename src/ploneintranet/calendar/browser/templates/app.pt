@@ -25,6 +25,7 @@
               <a href="++add++Event#document-content" class="icon-plus-circle button pat-modal" data-pat-modal="class: large" i18n:translate="">Create event</a>
              
           </div>
+            <form class="pat-autosubmit pat-inject" id="timezone-select" data-pat-inject="#document-body" tal:attributes="action string:${here/absolute_url}/calendar">
           <div class="document-controls cal-controls">
             <fieldset class="button-cluster float-before">
               <button type="button" class="view-month" i18n:translate="">Month</button>
@@ -33,14 +34,14 @@
             </fieldset>
 
             <label class="timezone float-after pat-select bare">
-              <select name="timezone" class="timezone">
+                <select name="timezone" class="timezone">
                   <tal:timezone repeat="zone view/get_timezone_data" >
                     <option data-timezone-id="${zone/id}" gmt-adjustment="${zone/offset}" data-use-daylight-time="${zone/daylight_saving}" value="${zone/name}"
                       tal:attributes="selected python:my_zone == zone['zone'] and 'selected' or None">${zone/name}</option>
                   </tal:timezone>
-              </select>
+                </select>
             </label>
-
+ 
             <a href="#extra-functions" class="float-after pat-tooltip dropdown button inactive" data-pat-tooltip="source: ajax; position: tl;" i18n:translate="">More</a>
 
             <div hidden="" id="extra-functions">
@@ -54,6 +55,7 @@
                     </li>
                 </ul>
             </div>
+             </form>
             <fieldset hidden id="subscription-url"
                       tal:define="url context/absolute_url;
                                   schemaless_url python:url.split(':')[1][2:];">
@@ -79,10 +81,12 @@
         </div>
         <aside class="sidebar left" id="sidebar">
           <div class="content" id="sidebar-content">
-            <form action="/apps/calendar/calendar.html#document-body" class="pat-inject pat-autosubmit">
-              <fieldset class="cal-categories">
-                <div class="pat-collapsible open">
-                  <h3 class="collapsible-open">My calendars <a href="/help.md#My calendars" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+            <form action="@@app-calendar#document-content" class="pat-inject" data-pat-inject="source: #document-content && target: #document-content" data-pat-collapsible="store: local">
+              <fieldset class="cal-categories"
+                        tal:define="calendars view/get_calendars">
+                
+                <div class="pat-collapsible open" id="calendar-my-calendars">
+                  <h3 class="collapsible-open">My calendars <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                    
                   <div class="panel-content">
                     <fieldset class="pat-checklist cal-categories checklist checked">
@@ -91,70 +95,84 @@
                         <button class="small select-all" disabled="">Select all</button>
                         <button class="small deselect-all" disabled="">Deselect all</button>
                       </div>
-                      <label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked"> Personal calendar</label>
+                      <label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked" name="personal-calendar" id="calendar-my-calendars-personal-calendar"> Personal calendar</label>
 
-                      <!-- This list of workspaces is generated -->
-
-                      <label class="cal-cat- checked">
-                          <input type="checkbox" checked="">
-                        <a href="/apps/calendar/wsl-.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a>
-                      </label>
-
-                      <label class="cal-cat- checked">
-                          <input type="checkbox" checked="">
-                        <a href="/apps/calendar/wsl-.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a>
-                      </label>
-                      <!-- Some extra 'fake' workspace follow below -->
-
-
-                            <!-- The next calendar tick box appears only when 'Show all calendars' is ticked -->
-                      <label class="cal-cat-commercial-strategy-team pat-depends checked" data-pat-depends="all-cals" style="display: none;"><input type="checkbox" checked=""> Commercial Cooperation Strategy Team <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
-                      <label class="cal-cat-star-alliance-events checked"><input type="checkbox" checked=""> Star Alliance events</label>
-                      <label class="cal-cat-star-alliance-publications checked"><input type="checkbox" checked=""> Star Alliance Publications <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                      <tal:wscal repeat="cal calendars/my">
+                        <label class="cal-cat-commercial-strategy-team" 
+                               tal:define="calclass python:view.id2class(cal.getId())"
+                               tal:attributes="class string:cal-cat-${calclass}-my cal-cat-${cal/ws_type}-my pat-depends checked" data-pat-depends="all-cals">
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar" i18n:translate="">Open workspace calendar</a>
+                        </label>
+                      </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible open">
-                  <h3 class="collapsible-open">Events I'm invited to <a href="/help.md#Events I'm invited to" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                <div class="pat-collapsible open" id="calendar-invited-events">
+                  <h3 class="collapsible-open">Events I'm invited to <a href="tooltip-help.html#invited-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content">
-                    <fieldset class="pat-checklist cal-categories checklist checked">
+                    <fieldset class="pat-checklist cal-categories checklist checked" tal:define="invited_cals calendars/invited">
                       <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
                       <!-- <div class="toggles functions button-cluster">
                             <button class="small select-all">Select all</button>
                             <button class="small deselect-all">Deselect all</button>
                         </div> -->
-                      <label class="cal-cat-lorem-ipsum-dolor-sit-amet checked"><input type="checkbox" checked=""> Lorem ipsum dolor sit</label>
+                      <div class="toggles functions button-cluster" tal:condition="python:len(invited_cals) > 1">
+                          <button class="small select-all">Select all</button>
+                          <button class="small deselect-all">Deselect all</button>
+                      </div>
+                      <tal:wscal repeat="cal invited_cals">
+                      <label class="cal-cat-commercial-strategy-team"
+                             tal:define="calclass python:view.id2class(cal.getId())"
+                             tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;" data-pat-depends="all-cals">
+                          <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                      </label>
+                      </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible open">
-                  <h3 class="collapsible-open">Shared events <a href="/help.md#Shared events" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                <div class="pat-collapsible open" id="calendar-shared-events">
+                  <h3 class="collapsible-open">Shared events <a href="tooltip-help.html#shared-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content">
-                    <fieldset class="pat-checklist cal-categories checklist checked">
+                    <fieldset class="pat-checklist cal-categories checklist checked" tal:define="public_cals calendars/public">
                       <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
                       <!-- <div class="toggles functions button-cluster">
                           <button class="small select-all">Select all</button>
                           <button class="small deselect-all">Deselect all</button>
                       </div> -->
-                      <label class="cal-cat-blackout-days checked"><input type="checkbox" checked=""> Blackout Days</label>
+                      <div class="toggles functions button-cluster" tal:condition="python:len(public_cals) > 0">
+                          <button class="small select-all">Select all</button>
+                          <button class="small deselect-all">Deselect all</button>
+                      </div>
+                      <tal:wscal repeat="cal public_cals">
+                        <label class="cal-cat-commercial-strategy-team"
+                               tal:define="calclass python:view.id2class(cal.getId())"
+                               tal:attributes="class string:cal-cat-${calclass}-public cal-cat-${cal/ws_type}-public;">
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                        </label>
+                      </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible closed">
-                  <h3 class="collapsible-closed">Other calendars <a href="/help.md#Other calendars" class="iconified icon-info-circle help pat-tooltip inactive" title="" data-pat-tooltip="trigger: click; source: ajax; ajax-data-type: markdown; position-list: lt;">More info</a></h3>
+                <div class="pat-collapsible closed" id="calendar-other-calendars">
+                  <h3 class="collapsible-closed">Other calendars <a href="tooltip-help.html#other-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content" style="display: none;">
-                    <p>Other calendars that you have viewing rights on.</p>
+                    <p i18n:translate="">Other calendars that you have viewing rights on.</p>
                     <fieldset class="pat-checklist cal-categories checklist  unchecked">
                         <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
                       <div class="toggles functions button-cluster">
                           <button class="small select-all">Select all</button>
                           <button class="small deselect-all" disabled="">Deselect all</button>
                       </div>
-                      <label class="cal-cat-emergency-committee unchecked"><input type="checkbox"> Emergency Committee <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
-                      <label class="cal-cat-saua unchecked"><input type="checkbox"> SAUA <a href="/apps/calendar/workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank">Open workspace calendar</a></label>
+                      <tal:wscal repeat="cal calendars/other">
+                        <label class="cal-cat-commercial-strategy-team"
+                               tal:define="calclass python:view.id2class(cal.getId())"
+                               tal:attributes="class string:cal-cat-${calclass}-other cal-cat-${cal/ws_type}-other;">
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-other-calendars-${cal/UID}" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                        </label>
+                      </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
