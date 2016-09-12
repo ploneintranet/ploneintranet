@@ -64,6 +64,17 @@ Alice can create a division and create a workspace for the division
       And I can open the workspace advanced settings tab
       And I can see the workspace belongs to division  Aerospace
 
+Alice can change the custom order of tags
+    Given I am logged in as the user alice_lindstrom
+    And I can create a new workspace  TaggedWS
+    And I can create a new document  Tagged
+    And I tag the item  Tag1, Tag2, Tag3
+    And I can open the workspace advanced settings tab
+    And I can change the custom order of tags
+    And I can swap Tag1 with Tag2
+    And I can change the custom order of tags
+   Then the tags are reordered
+
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
      when I can go to the Open Market Committee Workspace
