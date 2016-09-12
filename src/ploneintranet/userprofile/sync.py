@@ -86,14 +86,21 @@ def sync_many(profiles_container, users):
     if users:
         start = time.time()
         record_last_sync(profiles_container)
+        skipped = 0
         for (count, user) in enumerate(users, start=1):
-            profile_manager = IUserProfileManager(user)
+            try:
+                profile_manager = IUserProfileManager(user)
+            except TypeError:
+                # Could not adapt: WorkspaceFolder
+                skipped += 1
+                continue
             profile_manager.sync()
             if count and not count % 100:
                 logger.info('Synced %s profiles. Committing.', count + 1)
                 commit()
         duration = time.time() - start
-        logger.info('Updated {} in {:0.2f} seconds'.format(count, duration))
+        logger.info('Updated {} (skipped {}) in {:0.2f} seconds'.format(
+            count, skipped, duration))
     else:
         logger.info('No users to sync')
 
