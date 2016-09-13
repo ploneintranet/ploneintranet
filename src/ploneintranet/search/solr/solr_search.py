@@ -82,6 +82,10 @@ class Search(scorched.search.SolrSearch):
         spellchecker.update(**kw)
         return newself
 
+    def __str__(self):
+        return "{}: {} && {}".format(
+            repr(self), str(self.query_obj), str(self.filter_obj))
+
 
 @implementer(IConnectionConfig)
 class ConnectionConfig(object):
@@ -251,9 +255,13 @@ class SiteSearch(base.SiteSearch):
         arau = catalog._listAllowedRolesAndUsers(user)
         data = dict(allowedRolesAndUsers=arau)
         prepare_data(data)
-        arau_q = Q()
-        for entry in data.pop('allowedRolesAndUsers'):
-            arau_q |= Q(allowedRolesAndUsers=entry)
+        # avoid recursion exception by constructing a flat query
+        arau_q = Q().__or__(Q())  # construct toplevel OR
+        valid_opts = data['allowedRolesAndUsers']
+        sub_qs = [Q(allowedRolesAndUsers=v) for v in valid_opts]
+        # add subqueries directly on toplevel, refs #695
+        arau_q.add(sub_qs, {})
+        # you can check validity with: str(arau_q)
         return query.filter(arau_q)
 
     @classmethod
@@ -283,6 +291,7 @@ class SiteSearch(base.SiteSearch):
             #  - 'created': sort results ascending by creation date
             #  - '-created': sort results descending by creation date
             query = query.sort_by(kw['sort'])
+
         try:
             response = query.execute()
         except SolrError, exc:
