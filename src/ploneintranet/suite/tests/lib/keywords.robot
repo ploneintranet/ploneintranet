@@ -458,6 +458,19 @@ The tags are reordered
     # The first tag is now Tag2
     Wait until page contains element  xpath=(//li[contains(@class,"sortable-item")])[1]/p[text()="Tag2"]
 
+I see that calendar sharing is disabled
+    Checkbox should not be selected  xpath=//input[@name="event_global_default"]
+
+I see that calendar sharing is enabled
+    Checkbox should be selected  xpath=//input[@name="event_global_default"]
+
+I enable calendar sharing
+    Select checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
+
+I disable calendar sharing
+    Unselect checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
 
 I can archive the workspace
     Select checkbox  xpath=//input[@name='archival_date']

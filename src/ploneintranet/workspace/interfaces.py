@@ -96,6 +96,11 @@ class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
         title=_(u"Hero Image"),
         required=False
     )
+    event_global_default = schema.Bool(
+        title=_(u'label_event_global_default', u'Global Events by default?'),
+        required=False,
+        default=False,
+    )
 
 
 class IWorkspaceFolder(IBaseWorkspaceFolder):

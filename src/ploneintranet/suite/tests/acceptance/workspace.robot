@@ -75,6 +75,16 @@ Alice can change the custom order of tags
     And I can change the custom order of tags
    Then the tags are reordered
 
+Alice can make a workspace calendar visible on the global calendar
+    Given I am logged in as the user alice_lindstrom
+    And I can create a new workspace  CalSpace
+    And I can go to the sidebar info tile
+    And I see that calendar sharing is disabled
+   Then I enable calendar sharing
+    And I see that calendar sharing is enabled
+    And I disable calendar sharing
+   Then I see that calendar sharing is disabled
+
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
      when I can go to the Open Market Committee Workspace
