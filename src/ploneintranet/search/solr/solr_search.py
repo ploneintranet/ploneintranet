@@ -259,6 +259,11 @@ class SiteSearch(base.SiteSearch):
         arau_q = Q().__or__(Q())  # construct toplevel OR
         valid_opts = data['allowedRolesAndUsers']
         sub_qs = [Q(allowedRolesAndUsers=v) for v in valid_opts]
+        if len(sub_qs) > 900:
+            logger.warn(
+                "Many arau clauses: {}. Please configure Solr "
+                "maxBooleanClauses high enough to avoid SolrError.".format(
+                    len(sub_qs)))
         # add subqueries directly on toplevel, refs #695
         arau_q.add(sub_qs, {})
         # you can check validity with: str(arau_q)
