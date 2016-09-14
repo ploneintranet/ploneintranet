@@ -193,6 +193,17 @@ pytz_zone = {
 }
 
 
+def tzid_from_dt(dt):
+    if dt.tzinfo is None:
+        return 31
+    for tzid, zone in pytz_zone.items():
+        if zone.normalize(dt).utcoffset() == dt.utcoffset():
+            # Same offset, let's pick this one.
+            return tzid
+    # No match found, 31 is germany which is default.
+    return 31
+
+
 def get_timezone_info(timezone_id):
     timezone_id = int(timezone_id)
     timezone_pytz = pytz_zone[timezone_id]
