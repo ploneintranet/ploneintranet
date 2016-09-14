@@ -48,7 +48,7 @@
 
               <div class="quick-functions">
                 <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-                
+
                 <div class="pat-collapsible context-menu align-right closed" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
                   <strong class="label iconfified more-menu-trigger collapsible-closed" i18n:translate="">More...</strong>
                   <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.default#workspace-documents" method="post"
@@ -69,16 +69,40 @@
                               <a href="${context/absolute_url}/@@add_link" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
                             </li>
                           </tal:can_add>
-                          <li>
-                            <label class="pat-checklist">
-                              <input type="checkbox" name="show_archived_documents" tal:attributes="checked python:'archived_documents' in show_extra"><span tal:omit-tag="" i18n:translate="">Show archived documents</span>
-                              <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
-                            </label>
-                          </li>
                           <!-- This is commented until the functionality will be completed -->
                           <!--li>
                               <a class="pat-toggle icon-ok selector-toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow">Select</a>
                               </li-->
+                          <li>
+                            <label class="pat-checklist">
+                              <input type="checkbox"
+                                     name="show_archived_documents"
+                                     checked="${python:'archived_documents' in show_extra and 'checked' or None}"
+                                    />
+                              <span tal:omit-tag="" i18n:translate="">Show archived documents</span>
+                              <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
+                            </label>
+                          </li>
+                          <!--li>
+                            <label class="pat-checklist">
+                              <input type="checkbox"
+                                     name="show_archived_tags"
+                                     checked="${python:'archived_tags' in show_extra and 'checked' or None}"
+                                    />
+                              <span tal:omit-tag="" i18n:translate="">Show archived tags</span>
+                              <input type="hidden" name="show_archived_tags-empty-marker" value="1"/>
+                            </label>
+                          </li-->
+                          <li>
+                            <label class="pat-checklist">
+                              <input type="checkbox"
+                                     name="show_my_documents"
+                                     checked="${python:'my_documents' in show_extra and 'checked' or None}"
+                                    />
+                              <span tal:omit-tag="" i18n:translate="">Show my documents only</span>
+                              <input type="hidden" name="show_my_documents-empty-marker" value="1"/>
+                            </label>
+                          </li>
                         </ul>
                       </div>
                     </form>

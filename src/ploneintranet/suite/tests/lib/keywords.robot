@@ -741,6 +741,24 @@ I see the option to create a document
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
 
+I can show only my documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
+    Select checkbox  xpath=//input[@name='show_my_documents']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see that the first item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:first:contains(${title})
+
+I can see that the last item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:last:contains(${title})
+
+I can see that the only item displayed in the navigation is
+    [arguments]  ${title}
+    I can see that the first item displayed in the navigation is  ${title}
+    I can see that the last item displayed in the navigation is  ${title}
+
 I can create a new document
     [arguments]  ${title}
     Click link  Documents

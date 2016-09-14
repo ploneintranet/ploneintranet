@@ -4,7 +4,6 @@ from ...interfaces import IGroupingStorage
 from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
-from ...utils import archives_shown
 from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
@@ -18,6 +17,7 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
+from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
@@ -51,6 +51,13 @@ class BaseTile(BrowserView):
 
     index = None
     form_submitted = False
+
+    @property
+    @memoize
+    def current_userid(seelf):
+        ''' Return the current authenticated user id
+        '''
+        return api.user.get_current().getId()
 
     def render(self):
         return self.index()
@@ -589,6 +596,15 @@ class Sidebar(BaseTile):
             return 'type-folder'
         return 'document'
 
+    def update_with_show_extra(self, query):
+        ''' Update the query with the values from show_extra cookie
+        '''
+        show_extra = self.show_extra
+        if 'my_documents' in show_extra:
+            query['Creator'] = self.current_userid
+        if 'archived_documents' not in show_extra:
+            query['outdated'] = False
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -603,8 +619,7 @@ class Sidebar(BaseTile):
         allowed_types = [i for i in api.portal.get_tool('portal_types')
                          if i not in BLACKLISTED_TYPES]
         query['portal_type'] = allowed_types
-        if not self.archives_shown():
-            query['outdated'] = False
+        self.update_with_show_extra(query)
 
         #
         # 1. Retrieve the items
@@ -730,8 +745,8 @@ class Sidebar(BaseTile):
                 'query': '/'.join(self.context.getPhysicalPath()),
                 'depth': 1,
             }
-            if not self.archives_shown():
-                query['outdated'] = False
+            self.update_with_show_extra(query)
+
             pc = api.portal.get_tool('portal_catalog')
             return self._extract_attrs(pc.searchResults(query))
 
@@ -867,13 +882,7 @@ class Sidebar(BaseTile):
             'sort_order':
             sorting == 'modified' and 'descending' or 'ascending',
         }
-        # XXX: This is not yet exposed in the UI, but may soon be
-        # if 'my_documents' in self.show_extra:
-        #     username = api.user.get_current().getId()
-        #     criteria['Creator'] = username
-
-        if not self.archives_shown():
-            criteria['outdated'] = False
+        self.update_with_show_extra(criteria)
 
         def values_in_grouping(name, value):
             gs = IGroupingStorage(workspace)
@@ -976,8 +985,7 @@ class Sidebar(BaseTile):
         Set the selected grouping as cookie
         """
         grouping = self.request.get('grouping', 'folder')
-        member = api.user.get_current()
-        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, self.current_userid)
         set_cookie(self.request, cookie_name, grouping)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
@@ -995,8 +1003,7 @@ class Sidebar(BaseTile):
         """
         Return the user selected grouping
         """
-        member = api.user.get_current()
-        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, self.current_userid)
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
@@ -1004,12 +1011,12 @@ class Sidebar(BaseTile):
         """
         Return the user selected sorting
         """
-        member = api.user.get_current()
-        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+        cookie_name = '%s-sort-on-%s' % (self.section, self.current_userid)
         return self.get_from_request_or_cookie(
             "sorting", cookie_name, "modified")
 
     @property
+    @memoize
     def show_extra(self):
         cookie_name = '%s-show-extra-%s' % (
             self.section, api.user.get_current().getId())
@@ -1019,7 +1026,7 @@ class Sidebar(BaseTile):
         """
         Tell if we should show archived items or not
         """
-        return archives_shown(self.context, self.request, self.section)
+        return 'archived_documents' in self.show_extra
 
     # def urlquote(self, value):
     #     """
