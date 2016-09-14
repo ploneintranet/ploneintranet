@@ -4,7 +4,30 @@ Changelog
 1.2.0a15 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge branch 'master' into release-1.2.x [Guido A.J. Stevens]
+* Merge pull request #679 from quaive/implement-only-my-documents [GitHub]
+* Merge pull request #696 from quaive/695_arau_manymany [GitHub]
+* Search for any substring matches, not only match on beginning [Guido A.J. Stevens]
+* Add log warning in case of many clauses, refs #695 [Guido A.J. Stevens]
+* Avoid recursion error in scorched with many arau, refs #695 [Guido A.J. Stevens]
+* Merge pull request #694 from quaive/workspace-calendar [GitHub]
+* Add workspace field to display calendar globally [Cillian de Róiste]
+* Merge pull request #693 from quaive/update_qrp [GitHub]
+* Merge pull request #692 from quaive/custom-tag-order [GitHub]
+* Reimplement ci_skip test because c41760cf9959b43e2a3f72b5f got squashed [Guido A.J. Stevens]
+* Redo whitespace change to test [ci skip] replaces c41760cf9959b [Guido A.J. Stevens]
+* Upgrade quaive.resources.ploneintranet to 1.3.0a7 [Guido A.J. Stevens]
+* Merge pull request #691 from quaive/ldap_sync [GitHub]
+* Add robot tests for reordering tags [Cillian de Róiste]
+* Don't break the sync when encountering a membrane group [Guido A.J. Stevens]
+* Document all the magic moves needed to make LDAP work properly [Guido A.J. Stevens]
+* Avoid using TestRequest [Alessandro Pisa]
+* Show only my documents [Alessandro Pisa]
+* Merge pull request #690 from quaive/bookmark-on-workspace [GitHub]
+* hook up in workspace view [Alexander Pilz]
+* prepare PI bookmark workspace on workspace view [Alexander Pilz]
+* Allow a manager to reorder workspace tags [Cillian de Róiste]
+* Back to development: 1.2.0a15 [Alexander Pilz]
 
 
 1.2.0a14 (2016-09-09)
