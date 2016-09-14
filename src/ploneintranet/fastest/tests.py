@@ -20,7 +20,9 @@ class TestFastest(unittest.TestCase):
         self.ws_strategy = Strategy("workspace")
         self.ws_strategy.packages = ['ploneintranet.workspace']
         self.ws_strategy.tests = ['workspace', 'shoppingcart']
-        self.ws_strategy.triggers = ['src/ploneintranet/workspace']
+        self.ws_strategy.triggers = ['src/ploneintranet/workspace',
+                                     'workspace.robot',
+                                     'case.robot']
         self.mb_strategy = Strategy("microblog")
         self.mb_strategy.packages = ['ploneintranet.microblog',
                                      'ploneintranet.activitystream']
@@ -85,6 +87,16 @@ class TestFastest(unittest.TestCase):
         changed = {
             'src/ploneintranet/workspace/workspacefolder.py',
             'src/ploneintranet/workspace/browser/configure.zcml',
+        }
+        (packages, tests) = self.ws_strategy(changed, verbose=False)
+        self.assertEquals(({'ploneintranet.workspace'},
+                           {'workspace', 'shoppingcart'}),
+                          (packages, tests))
+
+    def test_strategy_matchall_2(self):
+        changed = {
+            'src/ploneintranet/suite/tests/acceptance/workspace.robot',
+            'src/ploneintranet/suite/tests/acceptance/case.robot',
         }
         (packages, tests) = self.ws_strategy(changed, verbose=False)
         self.assertEquals(({'ploneintranet.workspace'},
