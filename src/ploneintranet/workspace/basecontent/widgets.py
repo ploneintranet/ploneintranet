@@ -102,7 +102,12 @@ class PatDatePickerWidget(Widget):
         )
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')
-        date = date.replace(tzinfo=timezone(timezone_name))
+
+        # pytz "does not work" with datetime tzinfo. Use localize instead
+        # Symptoms are times in "LMT" format which are off a few minutes.
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        tz = timezone(timezone_name)
+        date = tz.localize(date)
         return date
 
 
@@ -125,7 +130,12 @@ class DateCheckboxWidget(Widget):
         timezone_name = default_timezone(self.context)
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')
-        date = date.replace(tzinfo=timezone(timezone_name))
+
+        # pytz "does not work" with datetime tzinfo. Use localize instead
+        # Symptoms are times in "LMT" format which are off a few minutes.
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        tz = timezone(timezone_name)
+        date = tz.localize(date)
         return date
 
     def render(self):
