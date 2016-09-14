@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a15 (unreleased)
+1.2.0a15 (2016-09-14)
 ---------------------
 
 * Merge branch 'master' into release-1.2.x [Guido A.J. Stevens]
