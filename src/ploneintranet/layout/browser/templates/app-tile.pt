@@ -8,6 +8,10 @@
       <h3>${here/title}</h3>
       <sup tal:condition="view/counter|nothing"
            class="counter digit-${view/digits}">${view/counter}</sup>
+      <time tal:condition="python:here.id=='calendar'" tal:define="now view/date" class="date pat-auto-scale">
+        <span class="date">${python:now.strftime('%d')}</span>
+        <span class="month">${python:now.strftime('%b')}</span>
+      </time>
     </a>
     <tal:link tal:condition="here/app" replace="structure here/bookmark-link-iconified" />
 </div>

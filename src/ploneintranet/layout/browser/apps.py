@@ -1,4 +1,5 @@
 # coding=utf-8
+from datetime import datetime
 from AccessControl.unauthorized import Unauthorized
 from json import loads
 from logging import getLogger
@@ -66,6 +67,13 @@ class BaseAppView(BrowserView):
         if self.disabled:
             return
         return getattr(self.app_view, 'counter', None)
+
+    @property
+    @memoize
+    def date(self):
+        ''' Show a date if needed (e.g. Calendar)
+        '''
+        return datetime.now()
 
     @property
     @memoize
