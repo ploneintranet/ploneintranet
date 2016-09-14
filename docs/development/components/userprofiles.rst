@@ -170,6 +170,7 @@ The registry entry `ploneintranet.userprofile.property_sheet_mapping` allows eac
     </value>
   </record>
 
+
 External property synchronisation
 ---------------------------------
 
@@ -292,6 +293,111 @@ This is useful for field data that comes from a separate source (e.g. AD/LDAP)
     </value>
   </record>
 
+
+LDAP: Putting it all together
+=============================
+
+Plugin activation
+-----------------
+
+- ZMI Install portal_setup > import > Plone Intranet Suite: LDAP
+
+- ZMI http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_servers
+  Delete the existing ldap server and create a new one with the right hostname and port. For a default ploneintranet buildout that is: host ‘localhost’ and port ‘8389’.
+  
+- ZMI http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_main
+  Configure the ``User Base DN``, ``Group Base DN``,  ``Manager DN`` and
+  ``User password encryption`` to match your local LDAP installation.
+
+If you'd like to configure that directly in ``ldap_plugin.xml`` be aware that it'll
+by default be configured ``update="False"`` which means you'd have to *delete* the LDAP plugin before loading the settings would take effect.
+
+Attribute mapping
+-----------------
+
+The variable names used in Plone may be different from the attribute names
+in your LDAP schema. ``plone.app.ldap`` maintains a mapping of the "LDAP key" to
+"Plone key" which you can inspect in the ZMI under "LDAP Schema"
+(direct ZMI URL: http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_ldapschema )
+
+The default mapping looks like this:
+
+.. image:: ldap_schema.png
+
+You can change this mapping in GenericSetup by changing ``ldap_plugin.xml``.
+(ZMI portal_setup: ``plone.app.ldap.ploneldap.exportimport.exportLDAPSettings``).
+
+But even if you don't need to change it you'll need to be aware of this name
+mapping in order to understand how the registry configuration below interacts
+with your LDAP schema.
+
+
+registry.xml
+------------
+
+To use LDAP, you will typically need to add the following registry config
+to your own policy GenericSetup. The below reflects the default ``plone.app.ldap``
+setup - you may wish to remove or change certain fields, depending on your
+own LDAP schema.
+
+.. code-block:: xml
+
+    <?xml version="1.0"?>
+    <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+              i18n:domain="ploneintranet">
+        <record name="ploneintranet.userprofile.primary_external_user_source">
+        <field type="plone.registry.field.ASCIILine">
+          <title>Primary External User Source</title>
+          <description>
+            The ID of the PAS plugin that will be treated as the primary source of external users.
+          </description>
+        </field>
+        <value>ldap-plugin</value>
+      </record>
+      <record name="ploneintranet.userprofile.property_sheet_mapping">
+        <field type="plone.registry.field.Dict">
+          <title>Property sheet mapping</title>
+          <description>
+            A mapping of a user property to a specific property sheet which
+            should be used to obtain the data for this attribute.
+          </description>
+          <key_type type="plone.registry.field.ASCII" />
+          <value_type type="plone.registry.field.TextLine" />
+        </field>
+        <value>
+          <element key="username">ldap-plugin</element>
+          <element key="first_name">ldap-plugin</element>
+          <element key="last_name">ldap-plugin</element>
+          <element key="email">ldap-plugin</element>
+          <element key="department">ldap-plugin</element>
+          <element key="telephone">ldap-plugin</element>
+          <element key="address">ldap-plugin</element>
+          <element key="primary_location">ldap-plugin</element>
+        </value>
+      </record>
+      <record name="ploneintranet.userprofile.read_only_fields">
+        <field type="plone.registry.field.Tuple">
+          <title>Read only fields</title>
+          <description>
+            User profile fields that are read-only
+            (shown on profile editing page but not editable)
+          </description>
+          <value_type type="plone.registry.field.TextLine" />
+        </field>
+        <value>
+          <element>username</element>
+          <element>first_name</element>
+          <element>last_name</element>
+          <element>email</element>
+          <element>IUserProfileAdditional.department</element>
+          <element>IUserProfileAdditional.telephone</element>
+          <element>IUserProfileAdditional.address</element>
+          <element>IUserProfileAdditional.primary_location</element>
+        </value>
+      </record>
+    </registry>
+
+There's a gotcha: ``fullname`` is a calculated property, so don't try to set that directly.
 
 User Profile API
 ================

@@ -443,6 +443,35 @@ I can turn the workspace into a division
     Wait until page contains  Attributes changed
     Click button  Close
 
+I can change the custom order of tags
+    Click Link  Change custom order of tags
+    Wait until page contains  Reorder tags
+
+I can swap Tag1 with Tag2
+    [Documentation]  The Drag and Drop keyword was not "dropping", so I'm just swapping the values, which still tests that they are stored correctly.
+    Execute javascript  $('[value=Tag1]').attr('value', 'Tag2temp')
+    Execute javascript  $('[value=Tag2]').attr('value', 'Tag1')
+    Execute javascript  $('[value=Tag2temp]').attr('value', 'Tag2')
+    Click button  xpath=//button[@name='batch-function']
+
+The tags are reordered
+    # The first tag is now Tag2
+    Wait until page contains element  xpath=(//li[contains(@class,"sortable-item")])[1]/p[text()="Tag2"]
+
+I see that calendar sharing is disabled
+    Checkbox should not be selected  xpath=//input[@name="event_global_default"]
+
+I see that calendar sharing is enabled
+    Checkbox should be selected  xpath=//input[@name="event_global_default"]
+
+I enable calendar sharing
+    Select checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
+
+I disable calendar sharing
+    Unselect checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
+
 I can archive the workspace
     Select checkbox  xpath=//input[@name='archival_date']
     Wait Until Page Does Not Contain Element  css=.injecting-content
@@ -711,6 +740,24 @@ I see the option to create a document
     Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
+
+I can show only my documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
+    Select checkbox  xpath=//input[@name='show_my_documents']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see that the first item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:first:contains(${title})
+
+I can see that the last item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:last:contains(${title})
+
+I can see that the only item displayed in the navigation is
+    [arguments]  ${title}
+    I can see that the first item displayed in the navigation is  ${title}
+    I can see that the last item displayed in the navigation is  ${title}
 
 I can create a new document
     [arguments]  ${title}

@@ -20,7 +20,9 @@ class TestFastest(unittest.TestCase):
         self.ws_strategy = Strategy("workspace")
         self.ws_strategy.packages = ['ploneintranet.workspace']
         self.ws_strategy.tests = ['workspace', 'shoppingcart']
-        self.ws_strategy.triggers = ['src/ploneintranet/workspace']
+        self.ws_strategy.triggers = ['src/ploneintranet/workspace',
+                                     'workspace.robot',
+                                     'case.robot']
         self.mb_strategy = Strategy("microblog")
         self.mb_strategy.packages = ['ploneintranet.microblog',
                                      'ploneintranet.activitystream']
@@ -57,8 +59,8 @@ class TestFastest(unittest.TestCase):
 
     def test_whatchanged_ci_skip_skips(self):
         # this is only ever simple when no merge commits are involved
-        newest = 'c41760cf9959b43e2a3f72b5fc8b77a4a6acd2dd'
-        since = 'dde6af89ff8423c9cad68b8cf281125bd68f7f70'
+        newest = 'a77c3036ff79c0d646445eae0a0cf2eb14add611'
+        since = '4186b5d71c7ac2dd7684dcfc71491c26f59dc3df'
         changed = whatchanged(newest, since, verbose=False)
         to_skip = {
             'src/ploneintranet/fastest/policy.cfg'
@@ -66,8 +68,9 @@ class TestFastest(unittest.TestCase):
         for skipped in to_skip:
             self.assertTrue(skipped not in changed)
         expect = {
-            'src/ploneintranet/fastest/__init__.py',
-            'src/ploneintranet/fastest/tests.py',
+            'src/ploneintranet/userprofile/sync.py',
+            'docs/development/components/ldap_schema.png',
+            'docs/development/components/userprofiles.rst',
         }
         self.assertEquals(changed, expect)
 
@@ -84,6 +87,16 @@ class TestFastest(unittest.TestCase):
         changed = {
             'src/ploneintranet/workspace/workspacefolder.py',
             'src/ploneintranet/workspace/browser/configure.zcml',
+        }
+        (packages, tests) = self.ws_strategy(changed, verbose=False)
+        self.assertEquals(({'ploneintranet.workspace'},
+                           {'workspace', 'shoppingcart'}),
+                          (packages, tests))
+
+    def test_strategy_matchall_2(self):
+        changed = {
+            'src/ploneintranet/suite/tests/acceptance/workspace.robot',
+            'src/ploneintranet/suite/tests/acceptance/case.robot',
         }
         (packages, tests) = self.ws_strategy(changed, verbose=False)
         self.assertEquals(({'ploneintranet.workspace'},
