@@ -250,8 +250,8 @@ class AddWorkspace(AddBase):
             policy = self.policies[policy_id]
         except KeyError:
             return
-
-        purge_and_refresh_security_manager()
+        finally:
+            purge_and_refresh_security_manager()
 
         obj.set_external_visibility(policy_id)  # yes this is the policy key
         obj.join_policy = policy['join_policy']
