@@ -30,7 +30,7 @@ class Strategy(object):
         for trigger in self.triggers:
             matcher = re.compile(trigger)
             for path in whatchanged:
-                if matcher.match(path):
+                if matcher.search(path):
                     if verbose:
                         marker = self.wildcard and "* " or "- "
                         print("{}[{:_^12}] triggered by {}".format(

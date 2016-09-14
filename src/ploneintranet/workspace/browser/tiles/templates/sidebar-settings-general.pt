@@ -40,8 +40,15 @@
               <label>
                   <span tal:omit-tag="" i18n:translate="workspace_hero_image">
                     Workspace hero image</span>              
-                  <input name="hero_image" type="file">
+                  <input name="hero_image" type="file"/>
               </label>
+              <fieldset class="pat-checklist">
+                <label tal:define="event_global_default context/event_global_default | nothing">
+                  <input name="event_global_default" type="checkbox" value="selected"
+                         tal:attributes="checked python:'checked' if event_global_default else ''"/> Workspace calendar visible in central calendar application
+                  <input name="event_global_default-empty-marker" type="hidden" value="1"/>
+                </label>
+              </fieldset>
             </fieldset>
           </form>
         </div>

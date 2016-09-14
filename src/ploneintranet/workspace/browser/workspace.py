@@ -1,4 +1,7 @@
 # coding=utf-8
+from Acquisition import aq_inner
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
@@ -7,9 +10,11 @@ from plone.memoize.view import memoize
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
 from zope.interface import implements
+from zope.component import getAdapter
+from ploneintranet.workspace.interfaces import IGroupingStorage
+from zope.component.interfaces import ComponentLookupError
+
 import ploneintranet.api as pi_api
 
 
@@ -229,6 +234,29 @@ class RelatedWorkspacesPicker(BrowserView):
 
     def get_related_workspaces(self):
         return self.context.get_related_workspaces()
+
+
+class ReorderTags(BrowserView):
+    """ Lets the workspace manager re-order the tags inside a workspace """
+
+    def __call__(self):
+        context = aq_inner(self.context)
+        try:
+            gs = getAdapter(context, IGroupingStorage)
+        except ComponentLookupError:
+            return u"Could not get adapter for context: %s"  \
+                % context.absolute_url()
+        self.tags = [tag['id'] for tag in gs.get_order_for('label')]
+        if self.request.get('batch-function') == 'save':
+            myorder = self.request.get('tags_order')
+            if myorder is None:
+                myorder = []
+            if 'Untagged' in myorder:
+                myorder.remove('Untagged')
+
+            gs.set_order_for('label', myorder)
+        else:
+            return self.index()
 
 
 def format_workspaces_json(workspaces, skip=[]):

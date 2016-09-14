@@ -19,6 +19,18 @@
         layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
         />
 
+  <plone:tile
+      name="workspace_bookmark.tile"
+      title="Workspace Bookmarking"
+      description="Tile to bookmark a workspace and show status"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".tiles.WorkspaceBookmarkTile"
+      template="templates/workspace-bookmark-tile.pt"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+      />
+
     <browser:page
         name="app-bookmarks"
         for="ploneintranet.layout.app.IApp"

@@ -9,7 +9,8 @@
         <div id="workspace-settings"
              tal:define="
                ws view/workspace;
-               disable_attribute python: not view.can_manage_workspace() and 'disabled' or None;
+               can_manage_workspace view/can_manage_workspace;
+               disable_attribute python: not can_manage_workspace and 'disabled' or None;
                token context/@@authenticator/token;
              ">
 
@@ -121,9 +122,15 @@
                                        title="Set related workspaces">Set related workspaces</a>
 
                                 </li>
-                                <!-- <li>
-                                    <a class="icon-tags pat-modal" href="/feedback/panel-related-workspaces.html">Change custom order of tags</a>
-                                </li> -->
+                                <li>
+                                <a class="icon-tags pat-modal"
+                                   href="${ws/absolute_url}/panel-reorder-tags#document-content"
+                                   data-pat-inject="source: #document-content"
+                                   title="Set related workspaces"
+                                   tal:condition="can_manage_workspace"
+                                   i18n:translate="" 
+                                   i18n:attributes="title">Change custom order of tags</a>
+                                </li>
                                 <!-- <li>
                                     <a class="pat-modal" href="/feedback/panel-related-workspaces.html">Set tracking</a>
                                 </li> -->

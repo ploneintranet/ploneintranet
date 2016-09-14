@@ -14,7 +14,7 @@ def set_show_extra_cookie(request, section):
     cookie_name = '%s-show-extra-%s' % (
         section, api.user.get_current().getId())
     values = request.get(cookie_name, '').split('|')
-    for t in ['archived_documents']:
+    for t in ['archived_documents', 'archived_tags', 'my_documents']:
         if request.form.get('show_%s' % t):
             if t not in values:
                 values.append(t)
