@@ -16,8 +16,7 @@
 
         <div class="toolbar" id="toolbar-main" 
         tal:define="tz request/timezone|nothing;
-                     dummy python:view.set_user_timezone(tz);
-                     my_zone view/get_user_timezone | string:Europe/Berlin;
+                     my_zone view/get_user_timezone | tz | string:Europe/Berlin;
                      ">
           <div class="sidebar-controls">
               <button class="icon-list pat-toggle iconified" id="sidebar-toggle" data-pat-toggle="selector: #application-body; value: sidebar-left-open sidebar-left-closed; store: local" title="Toggle sidebar">Toggle sidebar</button>
@@ -25,6 +24,7 @@
               <a href="++add++Event#document-content" class="icon-plus-circle button pat-modal" data-pat-modal="class: large" i18n:translate="">Create event</a>
              
           </div>
+          <form class=" pat-autosubmit" action="@@set-timezone-cookie" method="POST">
           <div class="document-controls cal-controls">
             <fieldset class="button-cluster float-before">
               <button type="button" class="view-month" i18n:translate="">Month</button>
@@ -33,6 +33,7 @@
             </fieldset>
 
             <label class="timezone float-after pat-select bare">
+            
                 <select name="timezone" class="timezone">
                   <tal:timezone repeat="zone view/get_timezone_data" >
                     <option data-timezone-id="${zone/id}" gmt-adjustment="${zone/offset}" data-use-daylight-time="${zone/daylight_saving}" value="${zone/zone}"
@@ -54,6 +55,7 @@
                     </li>
                 </ul>
             </div>
+            </form>
             <fieldset hidden id="subscription-url"
                       tal:define="url context/absolute_url;
                                   schemaless_url python:url.split(':')[1][2:];">

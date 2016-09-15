@@ -20,13 +20,11 @@ from ploneintranet.calendar.utils import escape_id_to_class
 from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.layout.interfaces import IAppView
+from ploneintranet.calendar.config import TZ_COOKIE_NAME
 
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
-
-
-TZ_COOKIE_NAME = "ploneintranet.calendar.timezone"
 
 
 @implementer(IBlocksTransformEnabled)

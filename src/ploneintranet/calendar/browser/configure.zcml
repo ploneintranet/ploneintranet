@@ -16,6 +16,14 @@
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
     />
 
+    <browser:page
+        name="set-timezone-cookie"
+        for="*"
+        permission="zope.Public"
+        class=".views.SetTimezoneView"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+    />
+
     <plone:tile
         name="fullcalendar.tile"
         title="Full Calendar tile"
