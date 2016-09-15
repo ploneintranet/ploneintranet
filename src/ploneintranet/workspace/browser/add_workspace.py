@@ -70,12 +70,24 @@ class AddWorkspace(AddBase):
         Uses unfiltered template list to ensure that only types that have
         no template at all are added to the menu.
         """
-        _blocked = [x.portal_type
-                    for x in self.templates_folder.objectValues()]
-        _blocked.append(self.default_fti)
-        return [dict(id=typ, title=typ, portal_type=typ)
-                for typ in self._addable_types()
-                if typ not in _blocked]
+        _blocked = {
+            x.portal_type
+            for x in self.templates_folder.objectValues()
+        }
+        _blocked.add(self.default_fti)
+
+        allowed_ftis = [
+            fti for fti in self.context.allowedContentTypes()
+            if fti.id not in _blocked
+        ]
+        return [
+            {
+                'id': fti.id,
+                'portal_type': fti.id,
+                'title': fti.title
+            }
+            for fti in allowed_ftis
+        ]
 
     def all_templates(self):
         return self.workspace_templates() + self.special_options()
@@ -238,8 +250,8 @@ class AddWorkspace(AddBase):
             policy = self.policies[policy_id]
         except KeyError:
             return
-
-        purge_and_refresh_security_manager()
+        finally:
+            purge_and_refresh_security_manager()
 
         obj.set_external_visibility(policy_id)  # yes this is the policy key
         obj.join_policy = policy['join_policy']
