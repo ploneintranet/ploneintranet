@@ -4,13 +4,11 @@ import pytz
 from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
-from DateTime import DateTime
 
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 
-from ploneintranet import api as pi_api
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 
@@ -20,6 +18,7 @@ from vocabularies import timezone_list
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 
+from .config import DEFAULT_TZ_ID
 
 daylight_saving = {
     1: 0,
@@ -195,13 +194,13 @@ pytz_zone = {
 
 def tzid_from_dt(dt):
     if dt.tzinfo is None:
-        return 31
+        return DEFAULT_TZ_ID
     for tzid, zone in pytz_zone.items():
         if zone.normalize(dt).utcoffset() == dt.utcoffset():
             # Same offset, let's pick this one.
             return tzid
-    # No match found, 31 is germany which is default.
-    return 31
+    # No match found, return default
+    return DEFAULT_TZ_ID
 
 
 def get_timezone_info(timezone_id):
@@ -220,55 +219,8 @@ def get_timezone_info(timezone_id):
 def get_pytz_timezone(timezone_id):
     # To stay compatible with old events during transition, we default to FRA
     if not timezone_id:
-        timezone_id = 31
+        timezone_id = DEFAULT_TZ_ID
     return pytz_zone[int(timezone_id)]
-
-
-def to_timezone(date, from_tz=31, to_tz=None, to_DateTime=True):   # noqa
-    """ The timezones can be passed in either as an int id or a valid timezone
-    name.
-    The parameter to_tz, used for casting a date in a given timezone to
-    another timzone, is optional. If it is omitted, the date will be returned
-    in the timezone given via from_tz.
-    """
-    # Fall back to Frankfurt
-    if not from_tz:
-        from_tz = 31
-    naive = datetime(
-        date.year(), date.month(), date.day(), date.hour(),
-        date.minute(), date.second(), date.microsecond()
-    )
-    try:
-        from_tz = int(from_tz)
-    except (ValueError, TypeError):
-        pass
-    if isinstance(from_tz, int):
-        from_pytz = get_pytz_timezone(from_tz)
-    elif isinstance(from_tz, basestring):
-        from_pytz = pytz.timezone(from_tz)
-    else:
-        from_pytz = pytz.timezone(31)
-    from_date = from_pytz.localize(naive)
-
-    if to_tz:
-        try:
-            to_tz = int(to_tz)
-        except (ValueError, TypeError):
-            pass
-        if isinstance(to_tz, int):
-            to_pytz = get_pytz_timezone(to_tz)
-        elif isinstance(to_tz, basestring):
-            to_pytz = pytz.timezone(to_tz)
-        else:
-            to_pytz = pytz.timezone(31)
-        to_date = from_date.astimezone(to_pytz)
-    else:
-        to_date = from_date
-
-    if to_DateTime:
-        return DateTime(to_date)
-    else:
-        return to_date
 
 
 def escape_id_to_class(cid):
@@ -345,7 +297,10 @@ def get_calendars(context):
     other = defaultdict(list)
 
     user = api.user.get_current()
-    groups = pi_api.userprofile.get_groups(user.getId())
+    groups = [
+        x.getId() for x in api.group.get_groups(username=user.getId())
+        if x is not None]
+
     groups.append(user.getId())
 
     all_workspaces = get_workspaces_of_current_user(context)

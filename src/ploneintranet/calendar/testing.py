@@ -19,12 +19,8 @@ class PloneintranetCalendarLayer(PloneSandboxLayer):
         import collective.workspace
         self.loadZCML(package=collective.workspace)
         z2.installProduct(app, 'collective.workspace')
-        import ploneintranet.network
-        self.loadZCML(package=ploneintranet.network)
         import ploneintranet.layout
         self.loadZCML(package=ploneintranet.layout)
-        import ploneintranet.docconv.client
-        self.loadZCML(package=ploneintranet.docconv.client)
         import ploneintranet.search
         self.loadZCML(package=ploneintranet.search)
         import Products.membrane
@@ -32,11 +28,9 @@ class PloneintranetCalendarLayer(PloneSandboxLayer):
         z2.installProduct(app, 'Products.membrane')
         import ploneintranet.userprofile
         self.loadZCML(package=ploneintranet.userprofile)
-        import ploneintranet.todo
-        self.loadZCML(package=ploneintranet.todo)
         import ploneintranet.workspace
         self.loadZCML(package=ploneintranet.workspace)
-        import ploneintranet.bookmarks
+        import ploneintranet.calendar
         self.loadZCML(package=ploneintranet.calendar)
 
     def setUpPloneSite(self, portal):

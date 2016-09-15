@@ -18,7 +18,6 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 from ploneintranet.calendar.utils import escape_id_to_class
 from ploneintranet.calendar.utils import get_timezone_info
-from ploneintranet.calendar.utils import pytz_zone
 from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.layout.interfaces import IAppView
 
@@ -28,9 +27,6 @@ from zope.schema.interfaces import IVocabularyFactory
 
 
 TZ_COOKIE_NAME = "ploneintranet.calendar.timezone"
-timezone_number_by_name = {}
-for k, v in pytz_zone.items():
-    timezone_number_by_name[v.zone] = k
 
 
 @implementer(IBlocksTransformEnabled)
@@ -68,10 +64,6 @@ class View(BrowserView):
 
     def set_user_timezone(self, tz):
         self.set_timezone_cookie(self, tz)
-
-    def get_timezone_name_by_number(self, tz):
-        return tz in timezone_number_by_name and \
-            str(timezone_number_by_name[tz]) or '31'
 
     def get_timezone_cookie(self, context):
         return context.request.get(TZ_COOKIE_NAME, 'Europe/Berlin')

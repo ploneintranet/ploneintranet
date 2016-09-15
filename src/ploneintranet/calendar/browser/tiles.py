@@ -5,7 +5,6 @@ from datetime import datetime
 from DateTime import DateTime
 
 from plone import api
-from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
 
 from ploneintranet.calendar.utils import get_calendars
@@ -25,24 +24,9 @@ class FullCalendarTile(Tile):
         return getattr(portal, apps_container_id).calendar
 
     @property
-    @memoize_contextless
-    def app_url(self):
-        return self.app.absolute_url()
-
-    @property
     def today(self):
-        return "saturday, 10 sept 2016"
-
-    @property
-    @memoize_contextless
-    def app_calendar(self):
-        ''' Return the calendar app that will be displayed in the tile
-        '''
-        return api.content.get_view(
-            'app-calendar',
-            self.app,
-            self.request,
-        )
+        now = datetime.now()
+        return now.strftime("%a, %d %b %Y")
 
     def get_start_date(self):
         current_date = datetime.now()
