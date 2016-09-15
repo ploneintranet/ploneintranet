@@ -21,7 +21,7 @@
           <div class="sidebar-controls">
               <button class="icon-list pat-toggle iconified" id="sidebar-toggle" data-pat-toggle="selector: #application-body; value: sidebar-left-open sidebar-left-closed; store: local" title="Toggle sidebar">Toggle sidebar</button>
 
-              <a href="++add++Event#document-content" class="icon-plus-circle button pat-modal" data-pat-modal="class: large" i18n:translate="">Create event</a>
+              <!--a href="++add++Event#document-content" class="icon-plus-circle button pat-modal" data-pat-modal="class: large" i18n:translate="">Create event</a-->
              
           </div>
           <form class=" pat-autosubmit" action="@@set-timezone-cookie" method="POST">
