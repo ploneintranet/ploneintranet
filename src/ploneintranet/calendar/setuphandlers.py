@@ -6,7 +6,7 @@ logger = getLogger()
 
 
 def create_calendar_app():
-    ''' Create the bookmark application
+    ''' Create the calendar application
     '''
     portal = api.portal.get()
     apps = portal.apps
@@ -34,6 +34,6 @@ def create_calendar_app():
 
 def post_default(context):
     ''' Actions needed after importing
-    the ploneintranet.bookmarks:default profile
+    the ploneintranet.calendar:default profile
     '''
     create_calendar_app()

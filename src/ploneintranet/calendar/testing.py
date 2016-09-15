@@ -26,6 +26,8 @@ class PloneintranetCalendarLayer(PloneSandboxLayer):
         import Products.membrane
         self.loadZCML(package=Products.membrane)
         z2.installProduct(app, 'Products.membrane')
+        import ploneintranet.docconv.client
+        self.loadZCML(package=ploneintranet.docconv.client)
         import ploneintranet.userprofile
         self.loadZCML(package=ploneintranet.userprofile)
         import ploneintranet.workspace
