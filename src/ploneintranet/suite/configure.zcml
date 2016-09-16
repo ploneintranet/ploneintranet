@@ -13,6 +13,7 @@
   <include package="ploneintranet.activitystream"/>
   <include package="ploneintranet.async"/>
   <include package="ploneintranet.bookmarks"/>
+  <include package="ploneintranet.calendar"/>
   <include package="ploneintranet.core"/>
   <include package="ploneintranet.messaging"/>
   <include package="ploneintranet.microblog"/>

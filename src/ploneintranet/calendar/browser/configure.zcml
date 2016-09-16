@@ -1,0 +1,39 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+    <include package="plone.tiles" file="meta.zcml" />
+
+    <browser:page
+        name="app-calendar"
+        for="ploneintranet.layout.app.IApp"
+        permission="zope.Public"
+        class=".app.View"
+        template="templates/app.pt"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+    />
+
+    <browser:page
+        name="set-timezone-cookie"
+        for="*"
+        permission="zope.Public"
+        class=".views.SetTimezoneView"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+    />
+
+    <plone:tile
+        name="fullcalendar.tile"
+        title="Full Calendar tile"
+        description="THe fullcalendar used in app and workspace"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.FullCalendarTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/fullcalendar.tile.pt"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+        />  
+
+</configure>

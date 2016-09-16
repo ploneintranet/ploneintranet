@@ -93,7 +93,12 @@ class SearchResult(object):
         self.modified = context['modified']
         self.mimetype = context.get('mimetype', None)
         self.UID = context['UID']
-
+        self.start = context.get('start', None)
+        self.end = context.get('end', None)
+        self.location = context.get('location', '')
+        self.invitees = context.get('invitees', [])
+        self.whole_day = context.get('whole_day', False)
+        self.ws_type = context.get('ws_type', 'workspace')
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently
         try:
