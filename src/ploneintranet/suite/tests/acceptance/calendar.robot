@@ -29,4 +29,4 @@ I can go to the calendar application
     Wait until element is visible  css=div#calendar-my-calendars
     Wait until element is visible  css=button.view-week
     Wait until element is visible  css=div.calendar
-    Wait until element is visible  css=select.timezone
+    Page should contain element  css=select.timezone
