@@ -62,7 +62,7 @@
             </fieldset>
 	    -->
 
-            <div class="row people results pat-equaliser" id="listing">
+            <div class="row people results pat-equaliser-disabled" id="listing">
                 <tal:result repeat="result search_response">
                 <!-- TODO check all result attributes are correect for a user profile -->
                 <div class="item">

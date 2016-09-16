@@ -45,8 +45,10 @@
             <tal:result repeat="result search_response">
               <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
                 <figure>
-                  <img tal:define="spacer python:result.description and ' - ' or ' '"
-                       tal:attributes="src result/preview_image_url;
+                  <img tal:define="spacer python:result.description and ' - ' or ' ';
+                                   preview_small result/preview_image_url;
+                                   preview_large python:preview_small.replace('/small/', '/large/')"
+                       tal:attributes="src preview_large;
                                        title string:${result/title}${spacer}${result/description} "/>
                   <figcaption tal:attributes="class string:icon-file">
                     <tal:title tal:replace="result/title" />

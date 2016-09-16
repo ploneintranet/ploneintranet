@@ -58,6 +58,10 @@ demo: jekyll demo-run
 demo-run:
 	cd prototype && make demo-run
 
+# demo buildout with CSRF disabled
+demo-buildout: bin/buildout
+	bin/buildout -c demo.cfg
+
 ####################################################################
 # docker.io
 # see comments for using boot2docker on MacOSX
