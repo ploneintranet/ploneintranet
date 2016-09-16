@@ -239,21 +239,21 @@
                             <tal:preview_file tal:case="string:file">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
+                                 tal:condition="result/preview_image_url"                                  
                                  >
-                                <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
-                                     alt="${result/title}"
-                                     />
+                                <img src="${result/preview_image_url}"
+                                     alt="${result/title}"/>
                               </a>
                             </tal:preview_file>
 
                             <tal:preview_user tal:case="string:user">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
+                                 tal:condition="result/preview_image_url"                                  
                                  >
                                 <img src="${result/preview_image_url}"
                                      class="pat-avatar"
-                                     alt="${result/title}"
-                                     tal:condition="result/preview_image_url" />
+                                     alt="${result/title}"/>
                                 <h4 class="name">${result/title}</h4>
                               </a>
                             </tal:preview_user>
