@@ -66,7 +66,6 @@ class SearchResultsView(BrowserView):
         )
     }
 
-    _facet_fallback_type_class = 'type-file'
     _batch_size = 10
 
     def _extract_date(self, field):
@@ -294,12 +293,14 @@ class SearchResultsView(BrowserView):
     @forever.memoize
     def get_facet_type_class(self, value):
         """ Take the friendly type name (e.g. OpenOffice Write Document)
-        and return a class for displaying the correct icon
+        and return a class for displaying the correct icon.
         """
+        # to see supported types:
+        # grep 'type-' proto/_sass/components/_search-results.scss
         value = value.lower()
-        if 'word' in value:
+        if 'word' in value or 'odt document' in value:
             return 'type-word'
-        if 'excel' in value:
+        if 'excel' in value or 'ods spreadsheet' in value:
             return 'type-excel'
         if 'pdf' in value:
             return 'type-pdf'
@@ -341,10 +342,28 @@ class SearchResultsView(BrowserView):
             return 'type-business-card'
         if 'person' in value:
             return 'type-people'
-        if 'ploneintranet.userprofile.userprofilecontainer':
-            return 'super-space'
+        if 'userprofilecontainer' in value:
+            return 'type-folder'
+        if 'todo' in value:
+            return 'type-task'
+        if 'folder' in value:
+            return 'type-folder'
+        if 'library.section' in value:
+            return 'type-library-section'
+        if 'library.folder' in value:
+            return 'type-library-subsection'
+        # we don't have a way to distinguish Document in library yet
+        # that would become 'type-library-item
+        if 'superspace' in value:
+            return 'type-superspace'
+        # the following are missing in proto:
+        if 'app' in value:
+            return 'type-app'
+        if 'email' in value:
+            return 'type-email'
         # This is our fallback
-        return self._facet_fallback_type_class
+        logger.warn('Unrecognized friendly type: {}'.format(value))
+        return 'type-file'
 
     def cmp_item_title(self, item1, item2):
         ''' A sorting cmp for item that have a title
