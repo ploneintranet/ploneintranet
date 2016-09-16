@@ -361,6 +361,8 @@ class SearchResultsView(BrowserView):
             return 'type-app'
         if 'email' in value:
             return 'type-email'
+        if 'profile' in value:
+            return 'type-people'
         # This is our fallback
         logger.warn('Unrecognized friendly type: {}'.format(value))
         return 'type-file'
