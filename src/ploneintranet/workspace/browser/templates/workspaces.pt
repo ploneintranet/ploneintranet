@@ -17,12 +17,12 @@
                method="POST"
                >
             <label class="bare pat-select">
-                <select name="sort" tal:define="selected_sort_option view/get_selected_sort_option">
-                    <tal:r repeat="o view/sort_options">
-                        <option selected="${python:o['value'] ==  selected_sort_option and 'selected' or None}"
-                                value="${o/value}">${o/content}</option>
-                    </tal:r>
-                 </select>
+              <select name="sort">
+                <option tal:repeat="o view/sort_options"
+                        selected="${o/selected}"
+                        value="${o/value}"
+                      >${o/content}</option>
+              </select>
             </label>
             <label class="bare pat-select">
               <select name="grouping">

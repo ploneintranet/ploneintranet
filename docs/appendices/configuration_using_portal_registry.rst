@@ -271,14 +271,25 @@ ploneintranet.workspace.externaleditor_always_activated
 
     **default**: False
 
+ploneintranet.workspace.sort_options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Workspace sort options
+
+    **description**: Controls in which way we are able to sort the workspaces
+
+    **type**: plone.registry.field.Dict {plone.registry.field.TextLine: plone.registry.field.TextLine}
+
+    **default**:  activity: Most active workspaces on top
+                  alphabet: Alphabetical
+                  newest: Newest workspaces on top
+
 ploneintranet.workspace.my_workspace_sorting
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: My workspace sorting.
 
-    **description**: At the moment we are able to handle the values
-                     "alphabet" and "newest".
-                     Planned is to allow sorting on "active".
+    **description**: At the moment we are able to handle the values "active", "alphabet" and "newest".
 
     **type**: plone.registry.field.TextLine
 
