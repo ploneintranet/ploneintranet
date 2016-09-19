@@ -9,7 +9,7 @@
              id_suffix python:view.data.get('id_suffix', '');
              portal_url here/portal_url;
              app_bookmarks nocall:view/app_bookmarks;
-             friendly_type_to_icon_class nocall:app_bookmarks/friendly_type_to_icon_class;
+             friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
              bookmarks view/get_bookmarks;
              sort_by python:request.get('sort_by', 'recent');
              SearchableText request/SearchableText|nothing;
@@ -68,7 +68,7 @@
                   title="${bookmark/description|bookmark/title|nothing}"
                 >
                  <a href="${bookmark/url}"
-                    class="${python: friendly_type_to_icon_class(getattr(bookmark, 'friendly_type_name', ''))}"
+                    class="${python: friendly_type2icon_class(getattr(bookmark, 'friendly_type_name', ''))}"
                     >
                     ${bookmark/title}
                  </a>

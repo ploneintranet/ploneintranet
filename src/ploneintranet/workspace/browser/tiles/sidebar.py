@@ -530,7 +530,7 @@ class Sidebar(BaseTile):
             if r['portal_type'] in FOLDERISH_TYPES:
                 structural_type = 'group'
             else:
-                structural_type = 'item'
+                structural_type = 'document'
 
             # If it is a file, we have to check the mime type as well
             # And the filename is not enough, we need to guess on the content
@@ -675,7 +675,6 @@ class Sidebar(BaseTile):
             )
 
             ctype = self.item2ctype(item)
-
             cls = 'item %s %s %s' % (
                 item.get('structural_type', 'group'), ctype, cls_desc)
 

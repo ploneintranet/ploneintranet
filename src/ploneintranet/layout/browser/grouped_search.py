@@ -2,7 +2,6 @@ from collections import defaultdict
 from collections import OrderedDict
 from datetime import date
 from plone import api
-from plone.memoize import forever
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.search.interfaces import ISiteSearch
@@ -117,20 +116,3 @@ class GroupedSearchTile(Tile):
             return self.results_by_letter()
         elif group_by == 'date':
             return self.results_by_date()
-
-    @forever.memoize
-    def friendly_type_to_icon_class(self, type_name):
-        ''' Convert the friendly_type_name of the search results
-        into an css class
-
-        For the time being reuse the search one
-        '''
-        view = api.content.get_view(
-            'search',
-            api.portal.get(),
-            self.request,
-        )
-        search_class = view.get_facet_type_class(type_name)
-        return search_class.replace('type-', 'icon-file-', 1).replace(
-            'icon-file-rich', 'icon-doc-text'
-        )

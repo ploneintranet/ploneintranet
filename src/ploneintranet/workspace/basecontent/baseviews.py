@@ -247,15 +247,15 @@ class ContentView(BrowserView):
 
     @property
     @memoize
-    def get_facet_type_class(self):
+    def friendly_type2type_class(self):
         ''' Reuse the method from the search view
         '''
         view = api.content.get_view(
-            'search',
+            'proto',
             api.portal.get(),
             self.request,
         )
-        return view.get_facet_type_class
+        return view.friendly_type2type_class
 
     def get_obj_icon_class(self, obj):
         ''' Return the best icon for this object
@@ -280,7 +280,7 @@ class ContentView(BrowserView):
                     return 'icon-file-%s' % word
             return 'icon-attach'
 
-        icon_type = self.get_facet_type_class(obj.portal_type)
+        icon_type = self.friendly_type2type_class(obj.portal_type)
         icon_file = icon_type.replace('type', 'file')
         return 'icon-%s' % icon_file
 
