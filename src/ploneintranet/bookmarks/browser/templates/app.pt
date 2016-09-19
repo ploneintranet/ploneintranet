@@ -152,8 +152,9 @@
                    data-pat-masonry="column-width: .item; gutter: 0;">
                 <tal:repeat repeat="item view/my_bookmarked_documents">
                   <a href="${item/url}" class="item">
-                    <figure>
-                      <img src="${item/preview_image_url}"
+                    <figure tal:define="preview_small item/preview_image_url;
+                                        preview_large python:preview_small.replace('/small/', '/large/')">
+                      <img src="${preview_large}"
                            alt="${item/title}"
                            title="${item/description}"
                            tal:condition="item/preview_image_url"
