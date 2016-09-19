@@ -13,7 +13,6 @@
   <browser:jbot directory="overrides"
                 layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer" />
 
-  <include package=".prototype" />
   <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
