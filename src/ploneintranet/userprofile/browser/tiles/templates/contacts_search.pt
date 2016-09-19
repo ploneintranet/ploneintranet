@@ -7,7 +7,9 @@
 
     <div class="contacts portlet span-1" id="portlet-contacts">
       <div class="content">
-	    <h2 class="portlet-title" i18n:translate="">Contacts</h2>
+        <h2 class="portlet-title">
+            <a href="${context/portal_url}/apps/contacts" i18n:translate="">Contacts</a>
+        </h2>
         <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_search.tile#contact-search-items">
 		  <fieldset class="vertical">
 	        <label>
@@ -28,7 +30,7 @@
                     <label class="item user">
                         <input name="" type="checkbox" />
                         <a href="${result/url}" class="follow">
-                        <img src="${result/preview_image_path}" alt="" class="avatar" />
+                        <img tal:replace="structure python:view.get_avatar_by_userid(result.getId(), link_to=None)" />
                         <strong class="title">${result/title}</strong>
                         <br/>
                         <dfn class="byline" tal:content="python: True and result.contact_telephone or '&nbsp;'"/>
