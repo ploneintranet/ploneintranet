@@ -30,6 +30,18 @@ import persistent
 
 logger = logging.getLogger(__name__)
 
+AVAILABLE_GROUPS = {
+    u'Admins': ('Contributor', 'Editor', 'Reviewer',
+                'Reader', 'TeamManager',),
+    u'Members': ('TeamMember', ),
+    u"Guests": ('TeamGuest', ),
+    # These are the 'participation policy' groups
+    u'Consumers': (),
+    u'Producers': ('Contributor',),
+    u'Publishers': ('Contributor', 'SelfPublisher',),
+    u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
+}
+
 
 class PloneIntranetWorkspace(Workspace):
     """
@@ -41,17 +53,7 @@ class PloneIntranetWorkspace(Workspace):
 
     # A list of groups to which team members can be assigned.
     # Maps group name -> roles
-    available_groups = {
-        u'Admins': ('Contributor', 'Editor', 'Reviewer',
-                    'Reader', 'TeamManager',),
-        u'Members': ('TeamMember', ),
-        u"Guests": ('TeamGuest', ),
-        # These are the 'participation policy' groups
-        u'Consumers': (),
-        u'Producers': ('Contributor',),
-        u'Publishers': ('Contributor', 'SelfPublisher',),
-        u'Moderators': ('Reader', 'Contributor', 'Reviewer', 'Editor',),
-    }
+    available_groups = AVAILABLE_GROUPS
 
     def add_to_team(self, user, **kw):
         """
