@@ -31,6 +31,14 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <!-- bindings for prototype -->
+  <browser:page
+      name="proto"
+      for="*"
+      class=".proto.ProtoView"
+      permission="zope.Public"
+    />
+
   <browser:page
       name="webstats_js"
       for="*"

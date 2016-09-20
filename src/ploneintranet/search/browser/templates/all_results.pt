@@ -44,7 +44,8 @@
                              display_previews view/display_previews;
                              results_sorting view/get_sorting;
                              portal_url portal_url|here/portal_url;
-                             ">
+                             friendly_type2type_class nocall:here/@@proto/friendly_type2type_class;
+                            ">
               <div class="three columns filters">
                 <fieldset tal:condition="search_response">
                   <!-- The hidden input below always gets the same value as the
@@ -180,7 +181,7 @@
                     data-search-string="${request/QUERY_STRING|nothing}">
                   <tal:results repeat="result search_response">
                     <tal:result tal:define="
-                                            type_class python:view.get_facet_type_class(result.friendly_type_name);
+                                            type_class python:friendly_type2type_class(result.friendly_type_name);
                                             fragments python: view.url_fragments.get(result.portal_type);
                                             result_url string:${result/url}${fragments};
                                             is_archived result/is_archived;
@@ -239,7 +240,7 @@
                             <tal:preview_file tal:case="string:file">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
-                                 tal:condition="result/preview_image_url"                                  
+                                 tal:condition="result/preview_image_url"
                                  >
                                 <img src="${result/preview_image_url}"
                                      alt="${result/title}"/>
@@ -249,7 +250,7 @@
                             <tal:preview_user tal:case="string:user">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
-                                 tal:condition="result/preview_image_url"                                  
+                                 tal:condition="result/preview_image_url"
                                  >
                                 <img src="${result/preview_image_url}"
                                      class="pat-avatar"

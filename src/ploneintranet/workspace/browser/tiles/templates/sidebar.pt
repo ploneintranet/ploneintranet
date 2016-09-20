@@ -274,8 +274,7 @@ Supported types include (class names):
                 <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
 
                 <tal:block repeat="item view/items">
-                  <label class="item document type-event has-description"
-                         tal:attributes="class item/cls">
+                  <label class="${item/cls}">
                     <input name="items:list" type="checkbox" tal:define="uid python: item.get('UID', '')" tal:condition="uid" value="${uid}"/>
                     <a href="/event-traces-through-time#document-body"
                        class="pat-inject follow"

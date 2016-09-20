@@ -11,7 +11,7 @@
           <div class="directory col-1"
                tal:define="results_grouped view/results_grouped;
                            results_sorted_groups view/results_sorted_groups;
-                           friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
+                           friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
                            "
                >
             <tal:groups repeat="group results_sorted_groups">
@@ -25,7 +25,7 @@
                       tal:repeat="item group_items"
                       title="${item/description|nothing}">
                     <a href="${item/url}"
-                       class="${python: friendly_type_to_icon_class(item.friendly_type_name)}"
+                       class="${python: friendly_type2icon_class(item.friendly_type_name)}"
                        >${item/title}</a>
                   </li>
                 </ul>

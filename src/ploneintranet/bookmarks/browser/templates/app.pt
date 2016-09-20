@@ -10,7 +10,10 @@
 
   <metal:content fill-slot="content">
     <div id="app-space" class="state-on">
-      <div id="application-body" class="application- application-bookmarks sidebar-left-open sidebar-right-closed">
+      <div id="application-body" class="application- application-bookmarks sidebar-left-open sidebar-right-closed"
+        tal:define="
+          friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+        ">
         <div id="document-content">
           <nav class="tabs pat-tabs">
             <a href="#directory-all" i18n:translate="">All bookmarks</a>
@@ -62,7 +65,6 @@
                    tal:define="
                        items_grouped view/my_bookmarks_grouped;
                        sorted_groups view/my_bookmarks_sorted_groups;
-                       friendly_type_to_icon_class nocall:view/friendly_type_to_icon_class;
                      ">
                 <div>
                   <tal:groups repeat="group sorted_groups">
@@ -78,7 +80,7 @@
                           tal:repeat="item group_items"
                           title="${item/description|nothing}">
                           <a href="${item/url}"
-                             class="${python: friendly_type_to_icon_class(getattr(item, 'friendly_type_name', ''))}"
+                             class="${python: friendly_type2icon_class(getattr(item, 'friendly_type_name', ''))}"
                             >${item/title}</a>
                         </li>
                       </ul>
@@ -159,7 +161,7 @@
                            title="${item/description}"
                            tal:condition="item/preview_image_url"
                         />
-                      <figcaption class="icon-document ${python:view.friendly_type_to_icon_class(item.portal_type)}">
+                      <figcaption class="icon-document ${python:friendly_type2icon_class(item.portal_type)}">
                         ${item/title}
                       </figcaption>
                     </figure>

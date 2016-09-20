@@ -3,7 +3,6 @@ from collections import defaultdict
 from datetime import date
 from DateTime import DateTime
 from plone import api
-from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.bookmarks.browser.base import BookmarkView
@@ -288,26 +287,6 @@ class View(BookmarkView):
                 value = groups.pop(groups.index(key))
                 groups.append(value)
         return groups
-
-    @forever.memoize
-    def friendly_type_to_icon_class(self, type_name):
-        ''' Convert the friendly_type_name of the search results
-        into an css class
-
-        For the time being reuse the search one
-        '''
-        view = api.content.get_view(
-            'search',
-            api.portal.get(),
-            self.request,
-        )
-        search_class = view.get_facet_type_class(type_name)
-        return (
-            search_class.replace('type-', 'icon-file-', 1)
-            .replace('icon-file-rich', 'icon-doc-text')
-            .replace('icon-file-people', 'icon-user')
-            .replace('icon-file-workspace', 'icon-workspace')
-        )
 
     @property
     @memoize
