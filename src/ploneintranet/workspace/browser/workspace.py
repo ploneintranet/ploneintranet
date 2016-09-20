@@ -296,6 +296,6 @@ class WorkspacesJSONView(BrowserView):
         catalog = api.portal.get_tool('portal_catalog')
         workspaces = catalog(query)
         if IBaseWorkspaceFolder.providedBy(self.context):
-            skip = getattr(self.context, 'related_workspaces', [])
+            skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
         return format_workspaces_json(workspaces, skip)

@@ -16,12 +16,12 @@ class TestSidebar(BaseTestCase):
         request.form.update(params)
         return api.content.get_view('sidebar.default', context, request)
 
-    def create_workspace(self):
+    def create_workspace(self, ws_id='example-workspace'):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
             self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace',
+            ws_id,
             title='Welcome to my workspace'
         )
         return workspace_folder
@@ -260,3 +260,42 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(
             sorted([k['id'] for k in items]),
             sorted(['none']))
+
+    def test_sidebar_update_relations(self):
+        # Prepare the test
+        ws1 = self.create_workspace()
+        ws2 = self.create_workspace(ws_id='ws2')
+        ws3 = self.create_workspace(ws_id='ws3')
+        sidebar1 = api.content.get_view(
+            'sidebar.settings.advanced', ws1, self.request.clone()
+        )
+        sidebar2 = api.content.get_view(
+            'sidebar.settings.advanced', ws2, self.request.clone()
+        )
+        sidebar3 = api.content.get_view(
+            'sidebar.settings.advanced', ws3, self.request.clone()
+        )
+        # Adding fake stuff will not break the method
+        sidebar1.update_relation_targets(['foo'])
+
+        # We now create a relation on ws1 and want the sidebar to update also
+        # the relation target
+        ws1.related_workspaces = [ws2.UID()]
+        sidebar1.update_relation_targets([])
+        self.assertListEqual(
+            ws2.related_workspaces,
+            [ws1.UID()]
+        )
+        # We add another relation
+        ws3.related_workspaces = [ws2.UID()]
+        sidebar3.update_relation_targets([])
+        self.assertListEqual(
+            ws2.related_workspaces,
+            [ws1.UID(), ws3.UID()]
+        )
+        # We now remove both the relation from the target
+        ws2.related_workspaces = []
+        sidebar2.update_relation_targets([ws1.UID(), ws3.UID()])
+        self.assertListEqual(ws1.related_workspaces, [])
+        self.assertListEqual(ws2.related_workspaces, [])
+        self.assertListEqual(ws3.related_workspaces, [])
