@@ -40,10 +40,6 @@ else:
 def default(context):
     """Run when installing the default profile.
     """
-    log.info("default setup")
-    cleanup_default_content(context)
-    commit()
-
     log.info("create case templates")
     casetemplates = case_templates_spec(context)
     # TEMPLATES_FOLDER is already created by ploneintranet.workspace
@@ -51,6 +47,15 @@ def default(context):
     commit()
 
     log.info("default setup: done.")
+
+
+def full(context):
+    ''' Full profile also deletes default Plone content
+    '''
+    log.info("default setup")
+    cleanup_default_content(context)
+    commit()
+    default(context)
 
 
 @force_synchronous_previews
