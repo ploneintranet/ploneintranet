@@ -52,9 +52,9 @@
 
               </tal:events>
             </ul>
-            <!--p class="portlet-footer" tal:condition="python:num_events >= 5">
+            <p class="portlet-footer" tal:condition="python:num_events >= 5">
                 <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/#app-space" class="link pat-inject pat-switch" data-pat-switch="#app-space state-off state-on" data-pat-inject="history: record" i18n:translate="">Show all events</a>
-            </p-->
+            </p>
     			</div>
     		</div>
       </div>
