@@ -324,7 +324,7 @@ def avatar_tag(username=None, link_to=None):
         'profile_url': profile_url,
         'target_url': target_url,
         'initials': profile.initials,
-        'title': profile.title,
+        'title': profile.fullname or profile.getId() or username,
         'link_class': ' '.join(link_class),
         'img_class': ' '.join(img_class),
     }

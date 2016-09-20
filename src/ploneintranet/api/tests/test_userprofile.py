@@ -144,7 +144,7 @@ class TestUserProfile(IntegrationTestCase):
         self.assertEqual(
             tag_no_link,
             u' <span class="pat-avatar avatar" data-initials="{initials}" '
-            'title="" > '
+            'title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="default-user" '
             'i18n:attributes="alt"> '
@@ -161,7 +161,8 @@ class TestUserProfile(IntegrationTestCase):
         self.assertEqual(
             tag_link_profile,
             u' <a href="{portal_url}/profiles/{userid}" '
-            'class="pat-avatar avatar" data-initials="{initials}" title="" > '
+            'class="pat-avatar avatar" data-initials="{initials}" '
+            'title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="default-user" '
             'i18n:attributes="alt"> '
@@ -178,7 +179,7 @@ class TestUserProfile(IntegrationTestCase):
         self.assertEqual(
             tag_link_image,
             u' <a class="pat-avatar avatar user-info-avatar" '
-            'data-initials="{initials}" title="" > '
+            'data-initials="{initials}" title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="default-user" '
             'i18n:attributes="alt"> '
@@ -211,7 +212,7 @@ class TestUserProfile(IntegrationTestCase):
         self.assertEqual(
             tag_no_link,
             u' <span class="pat-avatar avatar" data-initials="{initials}" '
-            'title="" > '
+            'title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="" '
             'i18n:attributes="alt"> '
@@ -228,7 +229,8 @@ class TestUserProfile(IntegrationTestCase):
         self.assertEqual(
             tag_link_profile,
             u' <a href="{portal_url}/profiles/{userid}" '
-            'class="pat-avatar avatar" data-initials="{initials}" title="" > '
+            'class="pat-avatar avatar" data-initials="{initials}" '
+            'title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="" '
             'i18n:attributes="alt"> '
@@ -246,7 +248,7 @@ class TestUserProfile(IntegrationTestCase):
             tag_link_image,
             u' <a href="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'class="pat-avatar avatar pat-gallery user-info-avatar" '
-            'data-initials="{initials}" title="" > '
+            'data-initials="{initials}" title="{fullname}" > '
             '<img src="{portal_url}/profiles/{userid}/@@avatar_profile.jpg" '
             'alt="Image of {fullname}" class="" '
             'i18n:attributes="alt"> '
