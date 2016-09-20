@@ -10,6 +10,7 @@ from ploneintranet.layout.utils import shorten
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
+from ploneintranet.workspace.adapters import AVAILABLE_GROUPS
 from ploneintranet.workspace.browser.tiles.workspaces import escape_id_to_class
 from ploneintranet.workspace.browser.tiles.workspaces import get_workspaces_css_mapping  # noqa
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
@@ -117,7 +118,10 @@ class UserProfileView(UserProfileViewForm):
                     description=group.getProperty('description'),
                     css_class=css_class,
                 )
-            elif ":" in group.id and len(group.id.split(':')[1]) == 32:
+            elif (
+                ":" in group.id and len(group.id.split(':')[1]) >= 32 and
+                group.id.split(':')[0] in AVAILABLE_GROUPS
+            ):
                 # Special group that denotes membership in a workspace
                 id, uid = group.id.split(':')
                 # If this workspaces has already been added via the
