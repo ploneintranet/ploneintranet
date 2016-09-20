@@ -39,7 +39,7 @@
       directory="profiles/full"
       description="Installs the full suite of Plone Intranet packages"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler="ploneintranet.suite.setuphandlers.default"
+      post_handler="ploneintranet.suite.setuphandlers.full"
       />
 
   <!-- This is :default for historical reasons.
