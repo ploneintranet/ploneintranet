@@ -83,17 +83,6 @@ def my_workspaces(context,
             # fallback if registry entry is not there
             sort_option = u'alphabet'
 
-    if sort_option == "activity":
-        raise NotImplementedError(
-            "Sorting by activity"
-            "is not yet possible")
-    elif sort_option == "newest":
-        sort_by = "modified"
-    elif sort_option == "alphabet":
-        sort_by = "sortable_title"
-    else:
-        sort_by = "sortable_title"
-
     # The rule to get the workspace types is this one
     #
     # 1. Look in to the request
@@ -148,6 +137,13 @@ def my_workspaces(context,
         if include_activities:
             obj = portal.restrictedTraverse(path_components)
             activities = get_workspace_activities(obj)
+        if activities:
+            last_activity = max(
+                activity.get('time', {}).get('timestamp', None)
+                for activity in activities
+            )
+        else:
+            last_activity = ''
 
         workspaces.append({
             'id': item_id,
@@ -161,9 +157,12 @@ def my_workspaces(context,
             'division': item.context.get('division', ''),
             'is_archived': item.is_archived,
             'archival_date': item.archival_date,
+            'last_activity': last_activity,
         })
 
-    if sort_by == 'modified':
+    if sort_option == 'activity':
+        workspaces.sort(key=lambda item: item['last_activity'], reverse=True)
+    elif sort_option == 'newest':
         workspaces.sort(key=lambda item: item['modified'], reverse=True)
     else:
         workspaces.sort(key=lambda item: item['title'].lower())
@@ -192,7 +191,9 @@ def get_workspace_activities(obj, limit=1):
             object=item.text,
             time={
                 'datetime': item.date.strftime('%Y-%m-%d'),
-                'title': item.date.strftime('%d %B %Y, %H:%M')}
+                'title': item.date.strftime('%d %B %Y, %H:%M'),
+                'timestamp': item.date.strftime('%s'),
+            }
         ))
     return results
 

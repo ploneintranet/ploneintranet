@@ -85,15 +85,25 @@ class Workspaces(BrowserView):
 
     @memoize
     def sort_options(self):
-        options = [{'value': 'alphabet',
-                    'content': _(u'Alphabetical')},
-                   {'value': 'newest',
-                    'content': _(u'Newest workspaces on top')},
-                   # Not yet implemented
-                   # {'value': 'activity',
-                   #  'content': 'Most active workspaces on top'}
-                   ]
-        return options
+        selected_sort_option = self.get_selected_sort_option()
+        try:
+            options = api.portal.get_registry_record(
+                'ploneintranet.workspace.sort_options'
+            )
+        except api.exc.InvalidParameterError:
+            # A backward compatible fallback
+            options = {
+                'alphabet': u'Alphabetical',
+                'newest': u'Newest workspaces on top',
+            }
+        options = (
+            {
+                'value': key,
+                'content': _(value),
+                'selected': key == selected_sort_option and 'selected' or None,
+            } for key, value in options.iteritems()
+        )
+        return sorted(options, key=lambda x: x['content'])
 
     def persist_sort_option(self):
         ''' This will persist the selected sort option in to a cookie
@@ -164,9 +174,7 @@ class Workspaces(BrowserView):
     def workspaces_by_division(self):
         ''' returns workspaces grouped by division
         '''
-        workspaces = my_workspaces(self.context,
-                                   self.request,
-                                   include_activities=False)
+        workspaces = self.workspaces()
         self.divisions = getUtility(IVocabularyFactory, vocab)(self.context)
         division_uids = [x.value for x in self.divisions]
         division_map = defaultdict(list)
@@ -183,9 +191,11 @@ class Workspaces(BrowserView):
     def workspaces(self):
         ''' The list of my workspaces
         '''
-        return my_workspaces(self.context,
-                             self.request,
-                             include_activities=False)
+        return my_workspaces(
+            self.context,
+            self.request,
+            include_activities=self.get_selected_sort_option() == 'activity',
+        )
 
 
 class AddView(BrowserView):

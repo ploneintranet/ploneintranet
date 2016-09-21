@@ -43,7 +43,8 @@ class TestTiles(BaseViewTest):
                 'subject': 'charlotte_holzer',
                 'time': {
                     'datetime': '2008-02-14',
-                    'title': '14 February 2008, 18:43'
+                    'title': '14 February 2008, 18:43',
+                    'timestamp': '1203010980',
                 },
                 'verb': 'posted'
             }

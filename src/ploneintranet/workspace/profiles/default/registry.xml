@@ -33,13 +33,25 @@
     </field>
     <value purge="false">False</value>
   </record>
+  <record name="ploneintranet.workspace.sort_options">
+    <field type="plone.registry.field.Dict">
+      <title i18n:translate="label_workspace_sort_options">Workspace sort options</title>
+      <description i18n:translate="help_workspace_sort_options">Controls in which way we are able to sort the workspaces</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element key="activity" i18n:translate="">Most active workspaces on top</element>
+      <element key="alphabet" i18n:translate="">Alphabetical</element>
+      <element key="newest" i18n:translate="">Newest workspaces on top</element>
+    </value>
+  </record>
   <record name="ploneintranet.workspace.my_workspace_sorting">
     <field type="plone.registry.field.TextLine">
       <default>title</default>
       <title i18n:translate="label_my_workspace_sorting">My workspace sorting.</title>
       <description i18n:translate="help_my_workspace_sorting">
-        At the moment we are able to handle the values "alphabet" and "newest".
-        Planned is to allow sorting on "active".
+        At the moment we are able to handle the values "active", "alphabet" and "newest".
       </description>
       <required>True</required>
     </field>

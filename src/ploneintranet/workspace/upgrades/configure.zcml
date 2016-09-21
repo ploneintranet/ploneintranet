@@ -106,5 +106,22 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0016"
+        title="Upgrade profile that includes registry record to configure the workspace sort options"
+        description=""
+        directory="profiles/to_0016"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile to control workspaces sort options"
+        description=""
+        source="*"
+        destination="0016"
+        handler=".to_0016.workspaces_sort_options"
+        profile="ploneintranet.workspace:default"
+        />
 
 </configure>
