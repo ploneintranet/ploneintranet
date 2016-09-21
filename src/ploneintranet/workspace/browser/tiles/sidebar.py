@@ -369,6 +369,32 @@ class SidebarSettingsAdvanced(BaseTile):
                     return True
         return False
 
+    def update_relation_targets(self, old_relations):
+        ''' Get old relations and new relations and update the targets
+        to point to self.context.
+        '''
+        context_uid = self.context.UID()
+        old_relations = set(old_relations or [])
+        new_relations = set(self.context.related_workspaces or [])
+        to_add = new_relations - old_relations
+        for uid in to_add:
+            target = api.content.get(UID=uid)
+            if target:
+                if not target.related_workspaces:
+                    target.related_workspaces = [context_uid]
+                elif context_uid not in target.related_workspaces:
+                    target.related_workspaces.append(context_uid)
+
+        to_remove = old_relations - new_relations
+        for uid in to_remove:
+            target = api.content.get(UID=uid)
+            if (
+                target and
+                target.related_workspaces and
+                context_uid in target.related_workspaces
+            ):
+                target.related_workspaces.remove(context_uid)
+
     def __call__(self):
         """ write attributes, if any, set state, render
         """
@@ -390,8 +416,13 @@ class SidebarSettingsAdvanced(BaseTile):
                     # Now, replace all commas with a new-line character
                     value = value.replace(',', '\n')
                     form['related_workspaces'] = value
+                    old_related_workspaces = self.context.related_workspaces
+                else:
+                    old_related_workspaces = ''
 
                 modified, errors = dexterity_update(self.context)
+
+                self.update_relation_targets(old_related_workspaces)
 
                 if 'email' in form and form['email']:
                     errors += store_name(self.context, form['email']).values()
