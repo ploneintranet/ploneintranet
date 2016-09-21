@@ -1610,7 +1610,12 @@ I can bookmark the user
 
 I can unbookmark the user
     [arguments]  ${fullname}
-    I can go to the profile of  ${fullname}
+    [documentation]  When using "I can go to the profile of" here then the selector for the search results in the contacts portlet fails if there's a non-ascii character in the name. We use the global search as a workaround.
+    Input Text  css=#global-nav-search input.search  ${fullname}
+    Submit Form  css=form#global-nav-search
+    Wait Until Page Contains Element  xpath=//*[@id='search-result']//dt[contains(@class, 'type-people')]//a[contains(text(), '${fullname}')]
+    Click Element  xpath=//*[@id='search-result']//dt[contains(@class, 'type-people')]//a[contains(text(), '${fullname}')]
+    Wait Until Page Contains Element  jquery=#person-timeline figcaption :contains(${fullname})
     Click Element  css=.icon-bookmark.active
     Wait Until Page Contains Element  css=.icon-bookmark-empty
 

@@ -14,8 +14,8 @@ class ContactsSearch(Tile):
             return recent
         return []
 
-    def get_avatar_by_userid(self, userid):
+    def get_avatar_by_userid(self, userid, link_to='profile'):
         return pi_api.userprofile.avatar_tag(
             username=userid,
-            link_to='profile',
+            link_to=link_to,
         )
