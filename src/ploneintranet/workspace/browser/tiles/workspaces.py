@@ -138,7 +138,7 @@ def my_workspaces(context,
             obj = portal.restrictedTraverse(path_components)
             activities = get_workspace_activities(obj)
         if activities:
-            last_activity = min(
+            last_activity = max(
                 activity.get('time', {}).get('timestamp', None)
                 for activity in activities
             )
