@@ -58,9 +58,11 @@ def workspace_state_changed(ob, event):
         workspace.reindexObjectSecurity()
 
 
-def _reset_security_context(userid, request):
+def _reset_security_context(userid, request, invalidate_cache=False):
     IAnnotations(request)[('workspaces', userid)] = None
     acl_users = api.portal.get_tool('acl_users')
+    if invalidate_cache and acl_users.ZCacheable_enabled():
+        acl_users.ZCacheable_invalidate()
     user = acl_users.getUserById(userid)
     if user is not None:
         # NB when copying a template with execute_as_manager
