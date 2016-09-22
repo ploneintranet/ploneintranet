@@ -58,6 +58,16 @@ def workspace_state_changed(ob, event):
         workspace.reindexObjectSecurity()
 
 
+def _reset_security_context(userid, request):
+    IAnnotations(request)[('workspaces', userid)] = None
+    acl_users = api.portal.get_tool('acl_users')
+    user = acl_users.getUserById(userid)
+    if user is not None:
+        # NB when copying a template with execute_as_manager
+        # this is 'finally' replaced again
+        newSecurityManager(None, user)
+
+
 def workspace_added(ob, event):
     """
     when a workspace is created, we add the creator to
@@ -80,13 +90,7 @@ def workspace_added(ob, event):
     # or groups during a request, so we have to manually re-initialise
     # the security context for the current user.
     # ref: https://github.com/ploneintranet/ploneintranet/pull/438
-    IAnnotations(ob.REQUEST)[('workspaces', userid)] = None
-    acl_users = api.portal.get_tool('acl_users')
-    user = acl_users.getUserById(userid)
-    if user is not None:
-        # NB when copying a template with execute_as_manager
-        # this is 'finally' replaced again
-        newSecurityManager(None, user)
+    _reset_security_context(userid, ob.REQUEST)
 
     if ICase.providedBy(ob):
         """Case Workspaces have their own custom workflows
