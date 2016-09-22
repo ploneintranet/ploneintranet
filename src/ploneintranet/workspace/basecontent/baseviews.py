@@ -46,6 +46,8 @@ class ContentView(BrowserView):
             return True
         if 'hide_sidebar' in form:
             return False
+        if self.request.method == 'POST':
+            return True
         if self.is_ajax:
             return False
         return True
