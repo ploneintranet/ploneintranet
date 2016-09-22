@@ -67,9 +67,8 @@
                         <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
                     </p>
                 </div>
-
-                <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
-                </aside>
+                <aside data-tile="${workspace_url}/@@sidebar.default"
+                       tal:condition="view/show_sidebar"></aside>
 
                 <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
             </div>

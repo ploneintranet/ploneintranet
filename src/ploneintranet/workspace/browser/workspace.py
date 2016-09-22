@@ -22,6 +22,26 @@ class BaseWorkspaceView(BrowserView):
     """
     Base view class for workspace related view
     """
+    @property
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        return True
+
     @memoize
     def workspace(self):
         """Acquire the root workspace of the current context"""

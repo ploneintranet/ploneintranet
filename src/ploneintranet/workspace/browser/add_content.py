@@ -28,7 +28,7 @@ class AddBase(BrowserView):
         """
         Has its own method to allow overriding
         """
-        url = '{}/view'.format(url)
+        url = '{}/view?show_sidebar'.format(url)
         return self.request.response.redirect(url)
 
     def validate(self):
@@ -151,7 +151,8 @@ class AddTask(AddBase):
 
     def redirect(self, url):
         workspace = parent_workspace(self.context)
-        return self.request.response.redirect(workspace.absolute_url())
+        url = workspace.absolute_url() + '?show_sidebar'
+        return self.request.response.redirect(url)
 
 
 class AddEvent(AddBase):
@@ -207,8 +208,8 @@ class AddEvent(AddBase):
 
     def redirect(self, url):
         workspace = parent_workspace(self.context)
-        return self.request.response.redirect(workspace.absolute_url() +
-                                              '#workspace-events')
+        url = workspace.absolute_url() + '?show_sidebar#workspace-events'
+        return self.request.response.redirect(url)
 
     def default_start(self):
         now = DateTime()
