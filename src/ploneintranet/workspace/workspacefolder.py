@@ -135,6 +135,8 @@ class WorkspaceFolder(Container):
         Look up the full user details for current workspace members
         """
         members = IWorkspace(self).members
+        gtool = self.portal_groups
+        group_names = gtool.listGroupNames()
         info = []
 
         for user_or_group_id, details in members.items():
@@ -159,11 +161,26 @@ class WorkspaceFolder(Container):
                     continue
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
+                # Resolving all users of a group with nested groups is
+                # ridiculously slow. PAS resolves each member and if it
+                # doesn't return a valid user, it resolves it as group
+                # and from that group every member again. With LDAP,
+                # Each of these is one ldap request. 'Hammering' is not
+                # the right word for this.
+                # At this position, it is not vital to return this information
+                # Instead we can simply say how many members/groups there are.
+                # People can click and see for themselves.
+                group_members = gtool.getGroupMembers(group.getId())
+                groups = 0
+                for member in group_members:
+                    if member in group_names:
+                        groups += 1
                 description = _(
                     u"number_of_members",
-                    default=u'${no_members} Members',
+                    default=u'${no_users} Users / ${no_groups} Groups',
                     mapping={
-                        u'no_members': len(group.getAllGroupMemberIds())})
+                        u'no_users': len(group_members) - groups,
+                        u'no_groups': groups})
                 classes = 'user-group has-description'
                 portrait = ''
 
