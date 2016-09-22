@@ -2,6 +2,7 @@
 from plone import api
 from Products.Five import BrowserView
 from Products.PlonePAS.interfaces.group import IGroupData
+from ploneintranet import api as pi_api
 
 
 class WorkspaceGroupView(BrowserView):
@@ -10,7 +11,11 @@ class WorkspaceGroupView(BrowserView):
     def group_details(self):
         """ Get group data """
         gid = self.request.get('id')
-        default = dict(id='', title=u"No Group", description=u"", members=[])
+        default = dict(id='',
+                       title=u"No Group",
+                       description=u"",
+                       users=[],
+                       groups=[])
         if not gid:
             return default
         group = api.group.get(groupname=gid)
@@ -19,9 +24,10 @@ class WorkspaceGroupView(BrowserView):
         g_title = group.getProperty('title') or group.getId() or gid
         g_description = group.getProperty('description')
 
-        users = api.user.get_users(groupname=gid)
-        members = []
-        for principal in users:
+        members = api.user.get_users(groupname=gid)
+        users = []
+        groups = []
+        for principal in members:
             id = principal.getId()
             if IGroupData.providedBy(principal):
                 if principal.getProperty('state') == 'secret':
@@ -29,12 +35,21 @@ class WorkspaceGroupView(BrowserView):
                 typ = 'group'
                 title = principal.getProperty('title') or id
                 path = principal.getProperty('workspace_path') or ''
+                groups.append(dict(id=id, title=title, typ=typ, path=path))
             else:
                 typ = 'user'
                 title = principal.getProperty('fullname') or id
                 path = '/profiles/{0}'.format(id)
-            members.append(dict(id=id, title=title, typ=typ, path=path))
+                users.append(dict(id=id, title=title, typ=typ, path=path))
 
         return dict(
-            id=gid, title=g_title, description=g_description, members=members
+            id=gid, title=g_title, description=g_description, users=users,
+            groups=groups
+        )
+
+    def get_avatar_tag(self, userid):
+        ''' Provide HTML tag to display the avatar
+        '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid
         )
