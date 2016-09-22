@@ -12,7 +12,8 @@
           <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
             <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
           </aside>
-          <form action="#" tal:attributes="action string:${ws/absolute_url}/sidebar.settings.general" method="post" class="pat-inject pat-autosubmit" data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content" enctype="multipart/form-data">
+          <form action="${ws/absolute_url}/sidebar.settings.general#sidebar-statusmessage"
+                method="post" class="pat-inject pat-autosubmit"  enctype="multipart/form-data">
             <fieldset class="vertical">
               <label>
                 <span tal:omit-tag="" i18n:translate="workspace_title">
@@ -39,7 +40,7 @@
               </label>
               <label>
                   <span tal:omit-tag="" i18n:translate="workspace_hero_image">
-                    Workspace hero image</span>              
+                    Workspace hero image</span>
                   <input name="hero_image" type="file"/>
               </label>
               <fieldset class="pat-checklist">
