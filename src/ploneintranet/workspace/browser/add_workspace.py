@@ -8,6 +8,7 @@ from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.add_content import AddBase
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.subscribers import _reset_security_context
 from ploneintranet.workspace.utils import purge_and_refresh_security_manager
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
@@ -211,9 +212,18 @@ class AddWorkspace(AddBase):
         new = api.content.copy(
             source=template,
             target=self.context,
-            id=self.get_new_unique_id(),
             safe_id=False,
         )
+        # We must not let api's `copy` method do the renaming. If the
+        # acl_users folder is cached, then AccessControl checks will not
+        # realise that the current user has the required permissions on
+        # the copied template. We first need to invalidate the cache.
+        # See https://github.com/quaive/ploneintranet/issues/727
+        # and https://github.com/ploneintranet/ploneintranet/pull/438
+        userid = api.user.get_current().id
+        _reset_security_context(userid, new.REQUEST, invalidate_cache=True)
+        # NOW we can set the new name
+        api.content.rename(new, self.get_new_unique_id())
         new.creation_date = datetime.now()
         # Now that the new workspace has been created, re-index it (async)
         # using the solr-maintenance convenience method.
