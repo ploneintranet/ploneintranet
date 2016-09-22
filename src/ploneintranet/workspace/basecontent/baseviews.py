@@ -307,6 +307,22 @@ class ContentView(BrowserView):
         return 'icon-%s' % icon_file
 
 
+class ContainerView(ContentView):
+    ''' For the container we always return the sidebar
+    '''
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        return True
+
+
 class HelperView(BrowserView):
     ''' Use this to provide helper methods
     '''

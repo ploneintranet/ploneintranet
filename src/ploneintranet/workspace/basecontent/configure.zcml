@@ -37,7 +37,7 @@
     for="plone.app.contenttypes.interfaces.IFolder"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     template="templates/document_view.pt"
-    class=".baseviews.ContentView"
+    class=".baseviews.ContainerView"
     permission="zope2.View"
     />
 
