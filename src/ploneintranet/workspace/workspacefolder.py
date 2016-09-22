@@ -12,7 +12,6 @@ from ploneintranet import api as pi_api
 from zope.event import notify
 from zope.interface import implementer
 from .policies import PARTICIPANT_POLICY
-from profilehooks import profile
 
 
 @implementer(IWorkspaceFolder, IAttachmentStoragable)
@@ -131,7 +130,6 @@ class WorkspaceFolder(Container):
                 items[milestone].sort(key=lambda x: x['checked'] is False)
         return items
 
-    @profile
     def existing_users(self):
         """
         Look up the full user details for current workspace members
