@@ -206,8 +206,7 @@
                 >Copy all attachments as individual files to this workspace.</a>
             </p>
           </div>
-
-          <aside data-tile="${context/absolute_url}/@@sidebar.default" />
+          <aside tal:condition="view/show_sidebar" data-tile="${context/absolute_url}/@@sidebar.default" />
       </div>
       <nav data-tile="${workspace_url}/@@workspace.tabs.tile" />
     </div>

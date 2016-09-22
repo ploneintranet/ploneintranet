@@ -28,6 +28,28 @@ class ContentView(BrowserView):
     sidebar_target = ''
     _edit_permission = 'Modify portal content'
 
+    @property
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        if self.is_ajax:
+            return False
+        return True
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)

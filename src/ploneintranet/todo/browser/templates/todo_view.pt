@@ -111,8 +111,8 @@
               </form>
             </div>
 
-            <aside class="sidebar left tagging-off" id="sidebar" data-tile="plone/new-workspace/@@sidebar.default" tal:attributes="data-tile string:${workspace_url}/@@sidebar.default">
-            </aside>
+            <aside data-tile="${workspace_url}/@@sidebar.default"
+                   tal:condition="view/show_sidebar"></aside>
           </div>
           <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
         </div>
