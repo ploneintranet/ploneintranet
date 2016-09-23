@@ -42,9 +42,9 @@ class TestTiles(BaseViewTest):
                 'object': 'Proposal draft V1.0 # This is a mock!!!',
                 'subject': 'charlotte_holzer',
                 'time': {
-                    'datetime': '2008-02-14',
-                    'title': '14 February 2008, 18:43',
-                    'timestamp': '1203010980',
+                    'datetime': su.date.strftime('%Y-%m-%d'),
+                    'title': su.date.strftime('%d %B %Y, %H:%M'),
+                    'timestamp': su.date.strftime('%s'),
                 },
                 'verb': 'posted'
             }
