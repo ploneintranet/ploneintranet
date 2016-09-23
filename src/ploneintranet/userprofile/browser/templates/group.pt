@@ -66,7 +66,7 @@
                                 <!-- The last anchor tag in this list should always get a class 'last' to avoid that the item will float to the right. -->
                                 <tal:repeat repeat="user group_details/users">
                                     <a href="${here/portal_url}${user/path}"
-                                        data-pat-inject="source: #person-info::element; target: #document-content"
+                                        data-pat-inject="source: #document-content; target: #document-content"
                                         class="two columns pat-inject equalised ${lastcls}"
                                         tal:define="title user/title; last repeat/user/end; lastcls python:last == 1 and 'last' or ''">
                                         <figure>
