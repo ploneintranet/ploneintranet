@@ -1,0 +1,22 @@
+<tal:archive_state define="plone_view view/plone_view"
+                   i18n:domain="ploneintranet">
+  <div class="tile workspace four columns ${view/get_css_classes}">
+    <a href="${here/absolute_url}?_authenticator=${here/@@authenticator/token}#app-space"
+       class="link pat-inject pat-switch"
+       data-pat-switch="#app-space state-off state-on"
+       data-pat-inject="history: record"
+      >
+      <h3>${python:plone_view.cropText(here.title, 80)}</h3>
+      <p class="description" tal:condition="here/description">
+        ${here/description}
+      </p>
+      <p class="workspace-state" tal:condition="here/is_archived|nothing">
+        <time class="icon-archive archived">
+          <tal:archived_on i18n:translate="">Archived on</tal:archived_on>
+          ${python:plone_view.toLocalizedTime(here.archival_date, long_format=0)}
+        </time>
+      </p>
+    </a>
+    <tal:bookmark replace="structure here/@@bookmark-link-iconified" />
+  </div>
+</tal:archive_state>

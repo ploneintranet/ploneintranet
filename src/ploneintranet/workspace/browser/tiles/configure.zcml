@@ -35,6 +35,17 @@
     />
 
   <plone:tile
+    for="*"
+    name="workspace.tile"
+    title="Workspace tile"
+    description="A display the workspace tile"
+    class=".workspaces.WorkspaceTile"
+    add_permission="cmf.ManagePortal"
+    permission="zope.Public"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
     name="workspace.tabs.tile"
     title="Workspace Tabs"
     description="This tile shows the workspace tabs"

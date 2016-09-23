@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
@@ -42,22 +43,65 @@ class WorkspacesTile(Tile):
                              include_activities=include_activities)
 
 
-def get_workspaces_css_mapping():
-    try:
-        workspace_types_css_mapping = api.portal.get_registry_record(
-            'ploneintranet.workspace.workspace_types_css_mapping'
-        )
-    except api.exc.InvalidParameterError:
-        # backward compatibility
-        workspace_types_css_mapping = [
-            'ploneintranet.workspace.case|type-case'
-        ]
+class WorkspaceTile(Tile):
+    index = ViewPageTemplateFile("templates/workspace.tile.pt")
 
-    css_mapping = {}
-    for line in workspace_types_css_mapping:
-        key, value = line.partition('|')[::2]
-        css_mapping[key] = value
-    return css_mapping
+    @property
+    @memoize_contextless
+    def plone_view(self):
+        ''' The plone_view called in the context of the portal
+        '''
+        return api.content.get_view(
+            'plone',
+            api.portal.get(),
+            self.request,
+        )
+
+    @property
+    @memoize_contextless
+    def workspace_type_mapping(self):
+        ''' Return the mapping between workspace types and css types
+        as defined in the registry record
+        ploneintranet.workspace.workspace_types_css_mapping
+        '''
+        try:
+            workspace_types_css_mapping = api.portal.get_registry_record(
+                'ploneintranet.workspace.workspace_types_css_mapping'
+            )
+        except api.exc.InvalidParameterError:
+            # backward compatibility
+            workspace_types_css_mapping = [
+                'ploneintranet.workspace.case|type-case'
+            ]
+
+        css_mapping = dict(
+            line.partition('|')[::2]
+            for line in workspace_types_css_mapping
+        )
+        return css_mapping
+
+    @property
+    def workspace_type(self):
+        ''' Return, if found the workspace type mapping
+        '''
+        return self.workspace_type_mapping.get(
+            self.context.portal_type, 'workspace'
+        )
+
+    def get_css_classes(self):
+        ''' Return the css classes for this tile
+        '''
+        classes = [
+            'workspace-' + self.context.id.replace('.', '-'),
+            getattr(self.context, 'class', ''),
+            self.workspace_type,
+        ]
+        if (
+            getattr(self.context, 'is_archived', False) or
+            getattr(self.context, 'archival_date', False)
+        ):
+            classes.append('state-archived')
+        return ' '.join(classes)
 
 
 def my_workspaces(context,
@@ -124,14 +168,9 @@ def my_workspaces(context,
     portal = api.portal.get()
     workspaces = []
 
-    css_mapping = get_workspaces_css_mapping()
     for item in response:
         path_components = item.path.split('/')
         item_id = path_components[-1]
-        css_class = " ".join((
-            escape_id_to_class(item_id),
-            css_mapping.get(item.portal_type, ''),
-        ))
 
         activities = []
         if include_activities:
@@ -152,12 +191,12 @@ def my_workspaces(context,
             'description': item.description,
             'url': item.url,
             'activities': activities,
-            'class': css_class,
             'modified': item.modified,
             'division': item.context.get('division', ''),
             'is_archived': item.is_archived,
             'archival_date': item.archival_date,
             'last_activity': last_activity,
+            'portal_type': item.portal_type,
         })
 
     if sort_option == 'activity':
@@ -196,12 +235,3 @@ def get_workspace_activities(obj, limit=1):
             }
         ))
     return results
-
-
-def escape_id_to_class(cid):
-    """ We use workspace ids as classes to style them.
-        if a workspace has dots in its name, this is not usable as a class
-        name. We have to escape that. We might need to do more to them, so this
-        became a utility function.
-    """
-    return cid.replace('.', '-')

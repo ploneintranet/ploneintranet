@@ -11,8 +11,6 @@ from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 from ploneintranet.workspace.adapters import AVAILABLE_GROUPS
-from ploneintranet.workspace.browser.tiles.workspaces import escape_id_to_class
-from ploneintranet.workspace.browser.tiles.workspaces import get_workspaces_css_mapping  # noqa
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from Products.Five import BrowserView
 from zExceptions import NotFound
@@ -97,7 +95,6 @@ class UserProfileView(UserProfileViewForm):
 
         # Don't show certain system groups
         group_filter = ['Members', 'AuthenticatedUsers', 'All Intranet Users']
-        css_mapping = get_workspaces_css_mapping()
         for group in my_groups:
             if not group:
                 continue
@@ -107,16 +104,10 @@ class UserProfileView(UserProfileViewForm):
                 # This is a groupspace
                 uid = group.getProperty('uid')
                 url = portal_url + group.getProperty('workspace_path')
-                css_class = " ".join((
-                    escape_id_to_class(group.id),
-                    css_mapping.get(
-                        group.getProperty('portal_type', ''), ''),
-                ))
                 workspaces[uid] = dict(
                     url=url,
                     title=group.getProperty('title'),
                     description=group.getProperty('description'),
-                    css_class=css_class,
                 )
             elif (
                 ":" in group.id and len(group.id.split(':')[1]) >= 32 and
@@ -133,15 +124,10 @@ class UserProfileView(UserProfileViewForm):
                 # User might not be allowed to access the ws
                 if ws is None:
                     continue
-                css_class = " ".join((
-                    escape_id_to_class(ws.id),
-                    css_mapping.get(ws.portal_type, ''),
-                ))
                 workspaces[uid] = dict(
                     url=ws.absolute_url(),
                     title=ws.title,
                     description=ws.description,
-                    css_class=css_class,
                 )
             else:
                 # "regular" group that is not a workspace
