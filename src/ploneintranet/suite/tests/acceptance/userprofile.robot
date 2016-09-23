@@ -214,11 +214,9 @@ I can log in with the new password
     Click button  Log in
     Wait until page contains  Welcome! You are now logged in
 
-# https://github.com/quaive/ploneintranet/issues/522
-# This doesn't work because the input form element isn't visible
-# It is possible to click on the label to get the file dialog, but that doesn't work for
-# the Choose File keyword
 I can upload a new avatar from my profile
-    Choose File  css=#change-personal-image label.icon-pencil  ${UPLOADS}/new-profile.jpg
+    # Make the file input visible otherwise "Choose file will not work"
+    Execute Javascript  jQuery('#change-personal-image > label.icon-pencil').removeClass('edit').removeClass('iconified')
+    Choose File  css=#change-personal-image [name=portrait]  ${UPLOADS}/new-profile.jpg
     Submit form  css=#change-personal-image
     Wait until page contains   Personal image updated
