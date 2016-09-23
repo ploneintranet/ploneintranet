@@ -154,12 +154,12 @@
                    data-pat-masonry="column-width: .item; gutter: 0;">
                 <tal:repeat repeat="item view/my_bookmarked_documents">
                   <a href="${item/url}" class="item">
-                    <figure tal:define="preview_small item/preview_image_url;
+                    <figure tal:define="preview_small python:item.preview_image_url or '';
                                         preview_large python:preview_small.replace('/small/', '/large/')">
                       <img src="${preview_large}"
                            alt="${item/title}"
                            title="${item/description}"
-                           tal:condition="item/preview_image_url"
+                           tal:condition="preview_large"
                         />
                       <figcaption class="icon-document ${python:friendly_type2icon_class(item.portal_type)}">
                         ${item/title}
@@ -172,6 +172,6 @@
           </div>
         </div>
       </div>
-    </metal:content>
-
-  </html>
+    </div>
+  </metal:content>
+</html>
