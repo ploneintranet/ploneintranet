@@ -187,7 +187,7 @@ class SearchResult(object):
         :returns: The absolute URL to the preview image
         :rtype: str
         """
-        return self._path_to_url(self.preview_image_path)
+        return self._path_to_url(self.preview_image_path) or ''
 
     def __getitem__(self, key):
         if shasattr(self, key) and callable(getattr(self, key)):
