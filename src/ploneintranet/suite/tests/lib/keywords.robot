@@ -1446,7 +1446,7 @@ I can search in the site header for ${SEARCH_STRING}
     Submit Form  css=form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
-    Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
+    Wait Until Element Is visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
 
 I cannot see the search result ${SEARCH_RESULT_TITLE}
     Element should not be visible  link=${SEARCH_RESULT_TITLE}
