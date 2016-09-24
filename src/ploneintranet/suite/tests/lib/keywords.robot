@@ -795,7 +795,7 @@ I can edit the new link
 I can publish the new link
     [arguments]  ${title}
     Click Link  jquery=.type-link a:contains('${title}')
-    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
     Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
@@ -974,7 +974,7 @@ The upload appears in the stream
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
 I submit the content item
-    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
@@ -992,7 +992,7 @@ I retract the content item
     Wait until page does not contain  The workflow state has been changed
 
 I can publish the content item
-    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
     Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
@@ -1000,6 +1000,7 @@ I can publish the content item
     Wait until page does not contain  The workflow state has been changed
 
 I cannot publish the content item
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Element should be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Element should not be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
@@ -1584,7 +1585,7 @@ I can bookmark the task
     I can go to the Example Case
     I can go to the sidebar tasks tile of my case
     Click link  ${task}
-    Wait Until Page Contains Element   css=#workflow-menu
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Bookmark the current context
 
 I can unbookmark the task
