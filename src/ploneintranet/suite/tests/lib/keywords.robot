@@ -1442,6 +1442,7 @@ I can see the site search button
     Page Should Contain Element  css=#global-nav-search input.search
 
 I can search in the site header for ${SEARCH_STRING}
+    Click Element  css=#global-nav-search input.search
     Input text  css=#global-nav-search input.search  ${SEARCH_STRING}
     Submit Form  css=form#global-nav-search
 
