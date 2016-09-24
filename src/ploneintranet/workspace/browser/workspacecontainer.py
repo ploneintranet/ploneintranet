@@ -22,7 +22,7 @@ vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
 @implementer(Interface)
-class BookmarkableWSDict(object):
+class AdaptableWSDict(object):
 
     def __init__(self, ws_dict):
         ''' Transforms a dict in to a traversable object
@@ -34,6 +34,13 @@ class BookmarkableWSDict(object):
 
     def absolute_url(self):
         return self.ws_dict['url']
+
+    def __getattribute__(self, value):
+        '''
+        '''
+        if value != 'ws_dict' and value in self.ws_dict:
+            return self.ws_dict[value]
+        return super(AdaptableWSDict, self).__getattribute__(value)
 
 
 class Workspaces(BrowserView):
@@ -137,17 +144,6 @@ class Workspaces(BrowserView):
                    ]
         return options
 
-    def get_bookmark_link(self, ws_dict):
-        ''' Get's the workspace bookmark icon from the dictionary
-        '''
-        obj = BookmarkableWSDict(ws_dict)
-        view = api.content.get_view(
-            'bookmark-link-iconified',
-            obj,
-            self.request
-        )
-        return view()
-
     def workspace_types(self):
         options = [{'value': '', 'content': _(u'All workspace types')}]
         translate = self.context.translate
@@ -180,10 +176,10 @@ class Workspaces(BrowserView):
         division_map = defaultdict(list)
         for workspace in workspaces:
             # Note: Already sorted as source list is sorted
-            if workspace['uid'] in division_uids:
-                division_map[workspace['uid']].append(workspace)
+            if workspace.uid in division_uids:
+                division_map[workspace.uid].append(workspace)
             else:
-                division_map[workspace['division']].append(workspace)
+                division_map[workspace.division].append(workspace)
 
         return division_map
 
@@ -191,10 +187,14 @@ class Workspaces(BrowserView):
     def workspaces(self):
         ''' The list of my workspaces
         '''
-        return my_workspaces(
-            self.context,
-            self.request,
-            include_activities=self.get_selected_sort_option() == 'activity',
+        include_activities = self.get_selected_sort_option() == 'activity'
+        return map(
+            AdaptableWSDict,
+            my_workspaces(
+                self.context,
+                self.request,
+                include_activities=include_activities,
+            )
         )
 
 

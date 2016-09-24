@@ -28,16 +28,7 @@
             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
             <div class="grid-sizer four columns"></div>
             <tal:workspaces repeat="workspace workspaces">
-              <div class="tile workspace four columns ${workspace/css_class}">
-                <a href="${workspace/url}"
-                   class="link">
-                  <h3>${workspace/title}</h3>
-                  <p class="description"
-                    tal:condition="workspace/description">
-                    ${workspace/description}
-                  </p>
-                </a>
-              </div>
+              <div data-tile="${workspace/url}/@@workspace.tile" />
             </tal:workspaces>
           </div>
         </div>
