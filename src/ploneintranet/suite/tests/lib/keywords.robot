@@ -1439,7 +1439,7 @@ I see that the workspace is not frozen
 # *** search related keywords ***
 
 I can see the site search button
-    Page Should Contain Element  css=#global-nav-search input.search
+    Wait Until Page Contains Element  css=#global-nav-search input.search
 
 I can search in the site header for ${SEARCH_STRING}
     Input text  css=#global-nav-search input.search  ${SEARCH_STRING}
