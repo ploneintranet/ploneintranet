@@ -49,6 +49,9 @@
                          class="pat-modal icon-trash iconified"
                          i18n:translate=""
                         >Delete</a>
+                      <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-inject="source: #content; target: body:after" title="Document history" i18n:attributes="title" i18n:translate="">
+                          View history
+                      </a>
                       <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
                       <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                       <tal:history tal:condition="exists:here/@@app-audit-button">
@@ -82,17 +85,32 @@
                              class="pat-autosuggest"
                              data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                     </fieldset>
-                    <fieldset class="bar"
-                              tal:condition="python: context.portal_type == 'Image'">
-                      <input type="file" class="image" name="image"/>
-                    </fieldset>
-                    <fieldset class="bar"
-                              tal:condition="python: context.portal_type == 'File'">
-                      <input type="file" class="file" name="file"/>
-                    </fieldset>
+
                     <fieldset class="bar description">
                       <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
                     </fieldset>
+
+                  <fieldset class="versioning pat-inject pat-subform"
+                            data-pat-inject="source: #document-content; target: #document-content && source: fieldset.versioning; target: fieldset.versioning; loading-class: ''">
+                    <label>
+                      <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                    </label>
+                    <fieldset class="condensed pat-depends new-version-details pat-inject" data-pat-depends="cmfeditions_save_new_version">
+                      <label tal:condition="python: context.portal_type == 'File'">
+                        Upload a new file <input type="file" class="file" name="file"/>
+                      </label>
+                      <label tal:condition="python: context.portal_type == 'Image'">
+                        Upload a new image <input type="file" class="image" name="image"/>
+                      </label>
+
+                      <label>
+                        <textarea placeholder="Change notes" tal:condition="view/is_versionable" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4" tal:attributes="value request/form/cmfeditions_version_comment | nothing"></textarea>
+                      </label>
+
+                      <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                      <input type="hidden" name="redirect" tal:attributes="value string:${context/absolute_url}/view" />
+                    </fieldset>
+                  </fieldset>
                   </fieldset>
                 </div><!-- pat-bumper -->
 

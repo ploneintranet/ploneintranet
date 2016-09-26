@@ -5,5 +5,6 @@
   <property name="model_file">ploneintranet.workspace.schema:image.xml</property>
   <property name="behaviors" purge="false">
     <element value="ploneintranet.workspace.behaviors.image.IImageField"/>
+    <element value="plone.app.versioningbehavior.behaviors.IVersionable"/>
   </property>
 </object>
