@@ -1,9 +1,12 @@
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+# coding=utf-8
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
+from ploneintranet.workspace.interfaces import IGroupingStoragable
+from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 import logging
 
@@ -37,6 +40,9 @@ class RetagView(BaseCartView):
         new_tags = self.request.form.get('subjects')
         if not new_tags:
             return
+        parent = parent_workspace(self.context)
+        storage = (IGroupingStoragable.providedBy(parent) and
+                   IGroupingStorage(parent) or None)
         for uid in uids:
             obj = api.content.get(UID=uid)
             if obj:
@@ -45,6 +51,8 @@ class RetagView(BaseCartView):
                     tags_set.add(safe_unicode(tag))
                 obj.subject = tuple(tags_set)
                 obj.reindexObject()
+                if storage:
+                    storage.update_groupings(obj)
                 handled.append(u'"%s"' % safe_unicode(obj.Title()))
         if handled:
             titles = ', '.join(sorted(handled))
