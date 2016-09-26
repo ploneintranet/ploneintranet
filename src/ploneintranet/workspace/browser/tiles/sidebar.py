@@ -680,7 +680,13 @@ class Sidebar(BaseTile):
 
         #
         # 2. Prepare the results for display in the sidebar
+        # Make sure we first show the group-elements (= folders or similar)
+        # before any content items
+        # Note: since False==0, it gets sorted before True!
         #
+
+        results = sorted(results, key=lambda x: (
+            x['structural_type'] != 'group', x['title'].lower()))
 
         # Each item must be a dict with at least the following attributes:
         # title, description, id, structural_type, content_type, dpi, url
