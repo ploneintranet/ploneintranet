@@ -260,10 +260,15 @@ def run(testspec, verbose=True, dryrun=False):
     if dryrun:
         return 0
     try:
-        output = subprocess.check_output(command, shell=True)
-        if verbose:
-            print(output)
-        return 0
+        process = subprocess.Popen(command, shell=True,
+                                   stdout=subprocess.PIPE)
+        while True:
+            output = process.stdout.readline()
+            if output and verbose:
+                print output.strip()
+            if process.poll() is not None:
+                break
+        return process.poll()
     except subprocess.CalledProcessError, exc:
         if verbose:
             print("ERROR: return code {}")
