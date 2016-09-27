@@ -10,6 +10,8 @@ from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError  # noqa
+from Products.CMFEditions.utilities import isObjectChanged, maybeSaveVersion
 from Products.Five import BrowserView
 from urllib import urlencode
 from zope import component
@@ -76,7 +78,7 @@ class ContentView(BrowserView):
         context = aq_inner(self.context)
         workflow_modified = False
         fields_modified = {}
-        errors = None
+        errors = []
         messages = []
         if (
                 self.request.get('workflow_action') and
@@ -101,6 +103,9 @@ class ContentView(BrowserView):
                 if fields_modified:
                     messages.append(
                         context.translate(_("Your changes have been saved.")))
+
+        versioning_errors = self.save_version()
+        errors.extend(versioning_errors)
 
         if errors:
             error_msg = context.translate(_("There was a problem:"))
@@ -307,6 +312,26 @@ class ContentView(BrowserView):
         icon_type = self.friendly_type2type_class(obj.portal_type)
         icon_file = icon_type.replace('type', 'file')
         return 'icon-%s' % icon_file
+
+    def save_version(self):
+        errors = []
+        comment = self.request.get('cmfeditions_version_comment', '')
+        save_new_version = self.request.get('cmfeditions_save_new_version',
+                                            None)
+        force = save_new_version is not None
+
+        if not (isObjectChanged(self.context) or force):
+            return errors
+
+        try:
+            maybeSaveVersion(self.context, comment=comment, force=force)
+        except FileTooLargeToVersionError as e:
+            errors.append(e)
+        return errors
+
+    def is_versionable(self):
+        portal_repository = api.portal.get_tool('portal_repository')
+        return portal_repository.isVersionable(self.context)
 
 
 class ContainerView(ContentView):

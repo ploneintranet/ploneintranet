@@ -1061,6 +1061,7 @@ I view the image
 I upload a new image
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
@@ -1077,6 +1078,7 @@ I view the file
 I upload a new file
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
