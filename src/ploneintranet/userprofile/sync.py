@@ -58,7 +58,7 @@ class UserPropertyManager(object):
                 continue
             sheet = property_sheet_mapping[pas_plugin_id]
             value = sheet.getProperty(property_name, default=NO_VALUE)
-            current_value = getattr(self.context, property_name)
+            current_value = getattr(self.context, property_name, None)
             if value is not NO_VALUE and value != current_value:
                 setattr(self.context, property_name, value)
                 changed = True
