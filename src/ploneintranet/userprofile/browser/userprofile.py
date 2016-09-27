@@ -43,6 +43,63 @@ class UserProfileView(UserProfileViewForm):
 
     my_groups = my_workspaces = []
 
+    _default_tabs = (
+        u'userprofile-view',
+        u'userprofile-info',
+        u'userprofile-followers',
+        u'userprofile-following',
+        u'userprofile-documents',
+        u'userprofile-workspaces',
+        u'userprofile-group',
+    )
+
+    @property
+    @memoize
+    def allowed_tabs(self):
+        ''' Filter out some tabs according to the registry configuration
+        '''
+        try:
+            banned_tabs = plone_api.portal.get_registry_record(
+                'ploneintranet.userprofile.userprofile_hidden_info'
+            )
+        except plone_api.exc.InvalidParameterError:
+            banned_tabs = ()
+        return [
+            tab for tab in self._default_tabs
+            if tab not in banned_tabs
+        ]
+
+    @property
+    @memoize
+    def display_tabs(self):
+        ''' Check if the navigation should be displayed
+        '''
+        return len(self.allowed_tabs) > 1
+
+    @property
+    @memoize
+    def default_tab(self):
+        ''' Check if the navigation should be displayed
+        '''
+        allowed_tabs = self.allowed_tabs
+        if not allowed_tabs:
+            return u''
+        return allowed_tabs[0]
+
+    @property
+    @memoize
+    def display_followers(self):
+        ''' Check if we should display the followers informations
+        '''
+        return u'userprofile-followers' in self.allowed_tabs
+
+    @property
+    @memoize
+    def display_following(self):
+        ''' Check if we should display the following informations
+        '''
+        return u'userprofile-following' in self.allowed_tabs
+
     @memoize
     def is_ajax(self):
         ''' Check if we have an ajax call
@@ -194,6 +251,7 @@ class UserProfileTabView(UserProfileView):
     ''' Personalize the userprofile tab view class to not be transformed
     by diazo if we have an ajax call
     '''
+
     def __call__(self):
         ''' Set diazo.off if this is an ajax request
         '''
