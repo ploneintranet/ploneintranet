@@ -1,6 +1,29 @@
 <?xml version="1.0"?>
 <registry>
 
+  <record name="ploneintranet.userprofile.userprofile_hidden_info">
+    <field type="plone.registry.field.Tuple">
+      <title>Hide some informations the user profile</title>
+      <description>
+        If you want to hide a tab in the user profile view add it here.
+        Add 'userprofile-view' to hide the "Timeline" tab,
+        'userprofile-info' to hide the "Info" tab,
+        'userprofile-followers' to hide the "Followers" tab,
+        'userprofile-following' to hide the "Following" tab,
+        'add userprofile-documents' to hide the "Documents" tab,
+        'userprofile-workspaces' to hide the "Workspaces" tab,
+        'userprofile-group' to hide the "Groups" tab.
+
+        Hiding a tab will also block hide from the user view the relevant
+        informations, i.e. if you remove the "Following" tab,
+        you will not see the "Following" portalet under the icon avatar.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
   <record name="ploneintranet.userprofile.hidden_fields">
     <field type="plone.registry.field.Tuple">
       <title>Hidden fields</title>

@@ -143,6 +143,34 @@ class TestUserProfileView(TestUserProfileBase):
         recent = self.profile1.recent_contacts or []
         self.assertLessEqual(len(recent), 20)
 
+    def test_info_hidden_through_registry(self):
+        view = api.content.get_view(
+            'userprofile-view', self.profile2, self.request.clone()
+        )
+        self.assertListEqual(view.allowed_tabs, list(view._default_tabs))
+        self.assertEqual(view.default_tab, u'userprofile-view')
+        self.assertTrue(view.display_following)
+        self.assertTrue(view.display_followers)
+        self.assertTrue(view.display_tabs)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            view._default_tabs,
+        )
+        view.request = self.request.clone()
+        self.assertListEqual(view.allowed_tabs, [])
+        self.assertEqual(view.default_tab, u'')
+        self.assertFalse(view.display_following)
+        self.assertFalse(view.display_followers)
+        self.assertFalse(view.display_tabs)
+
+        # reset the record
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info', ()
+        )
+
 
 class TestContactsResults(TestUserProfileBase):
 

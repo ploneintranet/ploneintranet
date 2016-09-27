@@ -13,15 +13,17 @@
       fill-slot="content"
       tal:define="
         is_me view/is_me;
-        following view/following;
+        following python:view.following() if view.display_following else [];
         num_following python: len(following);
-        followers view/followers;
+        followers python:view.followers() if view.display_followers else [];
         num_followers python: len(followers);
         groups view/my_groups;
         num_groups python: len(groups);
         workspaces view/my_workspaces;
         num_workspaces python: len(workspaces);
         absolute_url here/absolute_url;
+        fullname here/fullname;
+        default_tab view/default_tab;
       ">
       <aside class="four columns portlets sidebar">
         <figure class="user-info-header">
@@ -44,9 +46,9 @@
           </form>
           <figcaption>
             <a href="${absolute_url}"
-               title="Visit the profile of ${context/fullname}"
+               title="Visit the profile of ${fullname}"
               >
-              <span tal:replace="context/fullname"/>
+              <span tal:replace="fullname"/>
             </a>
           </figcaption>
         </figure>
@@ -67,13 +69,13 @@
             <li class="mail">
               <a href="mailto:${context/email}"
                  class="icon-mail"
-                 title="Mail ${context/fullname} via ${context/email}"
+                 title="Mail ${fullname} via ${context/email}"
                  i18n:attributes="title"
                 >${context/email}</a>
             </li>
             <li class="phone" tal:condition="context/telephone|nothing">
               <a class="icon-phone"
-                 title="Call ${context/fullname} at ${context/telephone}"
+                 title="Call ${fullname} at ${context/telephone}"
                   href="tel:${context/telephone}"
                  i18n:attributes="title"
                 >${context/telephone}</a>
@@ -85,7 +87,7 @@
                data-pat-inject="source: #document-content; target: #sheets"
                >
               <i18n:block i18n:translate="">More information about</i18n:block>
-              <span tal:replace="context/fullname"/>.</a>
+              <span tal:replace="fullname"/>.</a>
           </p>
         </div>
 
@@ -113,7 +115,7 @@
                class="pat-inject"
                data-pat-inject="source: #document-content; target: #sheets"
                i18n:translate="">Full list of people
-              <b tal:replace="context/fullname" i18n:name="name_of_followee"/>
+              <b tal:replace="fullname" i18n:name="name_of_followee"/>
               follows.</a>
           </p>
         </div>
@@ -145,54 +147,73 @@
       </aside>
 
       <div id="main">
-        <nav class="pat-tabs tabs">
+        <nav class="pat-tabs tabs"
+             tal:condition="view/display_tabs"
+             tal:define="
+                allowed_tabs view/allowed_tabs;
+              "
+             >
           <a href="${absolute_url}/userprofile-view"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-view' else ''}"
              data-pat-inject="source: #sheets; target: #sheets"
+             tal:condition="python:'userprofile-view' in allowed_tabs"
              i18n:translate="">Timeline</a>
           <a href="${absolute_url}/userprofile-info"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-info' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="python:'userprofile-info' in allowed_tabs"
              i18n:translate="">Info</a>
           <a href="${absolute_url}/userprofile-followers"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-followers' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="followers"
              i18n:translate="">Followers
             <sup tal:content="num_followers" i18n:name="num_followers">12</sup>
           </a>
           <a href="${absolute_url}/userprofile-following"
-             class="pat-inject link-following"
+             class="pat-inject link-following ${python: 'current' if default_tab=='userprofile-following' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="following"
              i18n:translate="">Following
             <sup tal:content="num_following" i18n:name="num_following">8</sup>
           </a>
           <a href="${absolute_url}/userprofile-documents"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-documents' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
+             tal:condition="python:'userprofile-documents' in allowed_tabs"
              i18n:translate=""
             >Documents</a>
           <a href="${absolute_url}/userprofile-workspaces"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-workspaces' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
-             tal:condition="num_workspaces"
+             tal:condition="python:'userprofile-workspaces' in allowed_tabs and num_workspaces"
              i18n:translate="person-workspaces"
             >Workspaces
             <sup tal:content="num_workspaces" i18n:name="num_workspaces">XX</sup>
           </a>
           <a href="${absolute_url}/userprofile-group"
-             class="pat-inject"
+             class="pat-inject ${python: 'current' if default_tab=='userprofile-group' else ''}"
              data-pat-inject="source: #document-content; target: #sheets"
-             tal:condition="num_groups"
+             tal:condition="python:'userprofile-group' in allowed_tabs and num_groups"
              i18n:translate="person-groups"
             >Groups
             <sup tal:content="num_groups" i18n:name="num_groups">XX</sup>
           </a>
         </nav>
         <div id="sheets">
-          <div class="activity-stream" id="person-timeline">
+          <div id="person-timeline"
+               class="activity-stream"
+               tal:condition="python: default_tab == 'userprofile-view'"
+              >
             <!-- The posts and shares of the user of the currently displayed profile are shown below. -->
             <div id="activity-stream" data-tile="${absolute_url}/@@activitystream.tile"></div>
           </div>
+          <a href="${absolute_url}/${default_tab}"
+             class="pat-inject"
+             data-pat-inject="trigger: autoload; source: #document-content; target: #sheets"
+             tal:condition="python: default_tab and default_tab != 'userprofile-view'"
+             i18n:translate=""
+            >Loading <tal:fullname i18n:name="num_groups">${here/fullname}</tal:fullname> data...</a>
         </div>
       </div>
     </metal:content>

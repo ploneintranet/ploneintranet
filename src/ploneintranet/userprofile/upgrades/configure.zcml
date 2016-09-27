@@ -33,4 +33,22 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:registerProfile
+    name="to_0005"
+    title="Update profile to add the registry record ploneintranet.userprofile.userprofile_hidden_info"
+    description=""
+    directory="profiles/to_0005"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+    title="Update registry to allow hiding some informations from the user profile view"
+    description=""
+    source="*"
+    destination="5"
+    handler=".to_0005.add_userprofile_hidden_info_registry_entry"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>
