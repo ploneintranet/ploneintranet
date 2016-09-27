@@ -85,6 +85,7 @@ class HTMLConverter(Converter):
             img['src'] = self.convert_virtual_url(img['src'])
             width = 0
             height = 0
+            img_data = None
             if img['src'].startswith('//'):
                 img['src'] = 'http:' + img['src']
             # local image
@@ -95,7 +96,6 @@ class HTMLConverter(Converter):
             if img['src'].startswith('http'):
                 _, remote_server, img_path, _, _, _ = urlparse.urlparse(
                     img['src'])
-                img_data = None
                 try:
                     conn = httplib.HTTPConnection(remote_server)
                     conn.request('GET', img_path)
