@@ -88,6 +88,7 @@
         handler=".to0006.setup_login_splash"
         profile="ploneintranet.layout:default" />        
 
+    <!-- postponed
     <genericsetup:upgradeStep
         title="Add the news action to the top navigation"
         description="News app now appears in top navigation"
@@ -95,6 +96,7 @@
         destination="0007"
         handler=".helpers.update_actions"
         profile="ploneintranet.layout:default" />
+    -->
 
     <genericsetup:upgradeStep
         title="Sort portal tabs"
