@@ -35,10 +35,18 @@
             <input type="hidden" name="submit" value="submit"/>
         </form>
       </li>
+      <!-- Any additional links or functions that might be required for this user (links to admin screens, etc) may go here. -->
+      <tal:block define="actions python:[action for action in here.portal_actions.listFilteredActionsFor(here).get('user_additional', []) if action['visible'] and action['available']];">
+
+        <li tal:repeat="action actions">
+          <a class="icon-link" href="${action/url}" target="${action/link_target}" title="${action/description}" i18n:translate="">${action/title}</a>
+        </li>
+
+        </tal:block>
+
       <li>
         <a class="icon-exit" href="${portal_url}/logout" i18n:translate="">Logout</a>
       </li>
-      <!-- Any additional links or functions that might be required for this user (links to admin screens, etc) may go here. -->
     </ul>
   </metal:macro>
 </body>
