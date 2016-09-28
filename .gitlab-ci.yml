@@ -26,7 +26,7 @@ before_script:
   - export LANG=en_US.UTF-8
 
   # buildout
-  - make gitlab-ci
+  - make clean gitlab-ci
 
   # start redis and framebuffer
   - /etc/init.d/redis-server start
