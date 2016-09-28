@@ -135,7 +135,7 @@ class App(Item):
                     self.app_parameters
                 )
         _request.form.update(params)
-        app = self.get('app', 'view')
+        app = getattr(self, 'app', 'view')
         return api.content.get_view(
             app.lstrip('@@'),
             self,

@@ -39,12 +39,12 @@ class TestViews(IntegrationTestCase):
         ''' We create addition apps for testing purposes
         '''
         for app in [
-            {'title': 'Empty app', 'app_path': ''},
-            {'title': 'Private app', 'app_path': 'robots.txt'},
-            {'title': 'Public app', 'app_path': 'robots.txt'},
+            {'title': 'Empty app', 'app': ''},
+            {'title': 'Private app', 'app': 'robots.txt'},
+            {'title': 'Public app', 'app': 'robots.txt'},
             {
                 'title': 'App with parameters',
-                'app_path': '@@app-with-parameters',
+                'app': '@@app-with-parameters',
                 'app_parameters': '{"foo": "bar"}'
             },
         ]:
@@ -52,7 +52,7 @@ class TestViews(IntegrationTestCase):
                 self.portal.apps,
                 type='ploneintranet.layout.app',
                 title=app['title'],
-                app=app['app_path'],
+                app=app['app'],
                 app_parameters=app.get('app_parameters', u''),
             )
         api.content.transition(
