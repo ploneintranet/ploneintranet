@@ -151,7 +151,7 @@ class TestViews(IntegrationTestCase):
         have any outside dependencies (to avoid dependency loops).
         '''
         view = self.get_view('apps.html')
-        found = {tile.getId() for tile in view.tiles()}
+        found = {app.getId() for app in view.apps()}
         configured = {
             'contacts',
             'messages',
@@ -159,7 +159,6 @@ class TestViews(IntegrationTestCase):
             'calendar',
             'slide-bank',
             'image-bank',
-            'news',
             'case-manager',
             'app-market'
         }
@@ -168,12 +167,19 @@ class TestViews(IntegrationTestCase):
         self.assertSetEqual(configured.difference(found), set([]))
 
     def test_app_view(self):
-        app = self.portal.apps['private-app']
-        self.assertTrue(app().startswith('Sitemap'))
+        app_view = self.get_app_view('private-app')
+        self.assertTrue(app_view().startswith('Sitemap'))
 
+    def test_app_view_parameters(self):
         # This is a testing app with parameters that return the parameters
-        app = self.portal.apps['app-with-parameters']
-        self.assertDictEqual(app(), {u'foo': u'bar'})
+        app_view = self.get_app_view('app-with-parameters')
+        self.assertDictEqual(app_view(), {u'foo': u'bar'})
+
+    def get_app_view(self, app_id):
+        ''' Return the app view for the given app_id
+        '''
+        app = self.portal.apps[app_id]
+        return app.app_view(self.request)
 
     def get_app_tile(self, app_id):
         ''' Return the app tile view for the given app_id

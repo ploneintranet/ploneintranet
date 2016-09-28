@@ -86,6 +86,30 @@
         source="*"
         destination="0006"
         handler=".to0006.setup_login_splash"
+        profile="ploneintranet.layout:default" />        
+
+    <genericsetup:upgradeStep
+        title="Add the news action to the top navigation"
+        description="News app now appears in top navigation"
+        source="*"
+        destination="0007"
+        handler=".helpers.update_actions"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:upgradeStep
+        title="Sort portal tabs"
+        description="Sort top navigation conform design intent"
+        source="*"
+        destination="0008"
+        handler="..setuphandlers.sort_portal_tabs"
+        profile="ploneintranet.layout:default" />
+
+    <genericsetup:upgradeStep
+        title="Re-initialize apps"
+        description="Update app instances to default specifications"
+        source="*"
+        destination="0009"
+        handler="..setuphandlers.create_apps"
+        profile="ploneintranet.layout:default" />
+    
 </configure>

@@ -6,6 +6,8 @@ from plone.app.event.interfaces import IBrowserLayer as IPloneAppEventLayer
 from zope.interface import Interface, Attribute
 
 
+# NB additional content interfaces in .app.
+
 class IPloneintranetLayoutLayer(Interface):
     """Marker interface for ploneintranet.layout installed"""
 
@@ -34,20 +36,14 @@ class IAppContainer(Interface):
     """
     Mixin for content interface to mark a content object in which
     a specific IAppLayer should be activated on traversal.
+
+    The implementer will typically also be an app.IApp.
+
+    NOT to be confused with the app.IAppsContainer toplevel singleton.
     """
 
     app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
     app_layers = Attribute("A list of IAppLayer to be activated on traversal")
-
-
-class IAppManager(Interface):
-    """
-    Content interface to mark a content object as listable
-    in the "Apps" section.
-    """
-    # extra attributes check Cornelis
-    title = Attribute("Title of the app")
-    icon = Attribute("Icon")
 
 
 class IAppView(Interface):

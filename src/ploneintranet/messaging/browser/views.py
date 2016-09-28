@@ -45,7 +45,7 @@ class _AppMessagingMixin(object):
     def app_url(self):
         portal = api.portal.get()
         apps_container = getattr(portal, apps_container_id)
-        return apps_container.messages.absolute_url()
+        return apps_container.messages.app_url()
 
 
 @implementer(IPublishTraverse, IAppView)

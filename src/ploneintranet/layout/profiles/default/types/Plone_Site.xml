@@ -3,7 +3,10 @@
     meta_type="Factory-based Type Information with dynamic views"
     i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="allowed_content_types"
-       purge="False">
+           purge="False">
+   <element value="ploneintranet.news.app" />
+   <element value="ploneintranet.library.app" />
+   <element value="ploneintranet.workspace.workspacecontainer" />
    <element value="ploneintranet.layout.appscontainer" />
  </property>
 </object>

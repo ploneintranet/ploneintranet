@@ -1,4 +1,5 @@
 # coding=utf-8
+from plone import api
 from plone.dexterity.content import Container
 from plone.dexterity.content import Item
 from plone.directives import form
@@ -13,24 +14,43 @@ from zope.schema import Text
 from ZPublisher.BeforeTraverse import registerBeforeTraverse
 
 
+from json import loads
+from logging import getLogger
+
+logger = getLogger(__name__)
+
+# NB additional browser layer switching interfaces in .interfaces.
+
 apps_container_id = 'apps'
 
 
 class IAppsContainer(form.Schema, IImageScaleTraversable):
     """
-    Marker interface for AppsContainer
+    The toplevel singleton containing all IApp objects.
+
+    NOT to be confused with interfaces.IAppContainer which
+    marks an IApp as containing content objects.
     """
 
 
 class IApp(form.Schema):
     """
-    Marker interface for an App
+    All apps in the IAppsContainer are IApp content objects,
+    so we can use @@sharing on them to configure access.
+
+    Additionally, this is the context interface for rendering the
+    app tiles in the apps overview.
+
+    When used as actual content containers, implementers will typically
+    also implement interfaces.IAppContainer in order to activate
+    custom browser layers only on content contained within the app.
     """
+
     app = ASCIILine(
         title=_('app_label', u'App'),
         description=_(
             'app_description',
-            u'The path to the App you want to add (e.g. @@case-manager)',
+            u'The view name for this App (e.g. @@case-manager)',
         ),
         default='',
         required=False,
@@ -71,6 +91,14 @@ class IApp(form.Schema):
         required=False,
     )
 
+    def app_url():
+        """The absolute URL of the app, based on `self.app`.
+        """
+
+    def app_view(request):
+        """Return the actual view as indicated by self.app,
+        with `self.app_parameters` applied to the `request`."""
+
 
 @implementer(IAppsContainer, IAttachmentStoragable, IHideFromBreadcrumbs)
 class AppsContainer(Container):
@@ -84,8 +112,37 @@ class App(Item):
     ''' An App
     '''
 
-    def get_class(self):
-        return self.css_class or self.getId()
+    def app_url(self):
+        if not self.app:
+            return self.absolute_url()
+        return "/".join((self.absolute_url(), self.app))
+
+    def app_view(self, request):
+        ''' Try to get the 'app' view for the app.
+        This is the view indicated by self.app, which is not necessarily
+        a view called 'view'.
+
+        Update the request form with the app parameters if needed
+        '''
+        _request = request.clone()
+        params = {}
+        if self.app_parameters:
+            try:
+                params = loads(self.app_parameters)
+            except ValueError:
+                logger.exception(
+                    'The app parameters %r are cannot be decoded to JSON.',
+                    self.app_parameters
+                )
+        _request.form.update(params)
+        app = self.get('app', 'view')
+        return api.content.get_view(
+            app.lstrip('@@'),
+            self,
+            _request,
+        )
+
+    pass
 
 
 class AbstractAppContainer(object):

@@ -11,10 +11,10 @@
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
   <property name="factory">ploneintranet.layout.appscontainer</property>
   <property name="global_allow">False</property>
-  <!-- filter_content_types will need to be set to False once we have the apps content type -->
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
     <element value="ploneintranet.layout.app" />
+    <element value="ploneintranet.news.app" />
   </property>
   <property name="allow_discussion">False</property>
 
