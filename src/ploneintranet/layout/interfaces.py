@@ -53,3 +53,21 @@ class IAppView(Interface):
     context can be rendered 'within' the Apps section.
     """
     app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
+
+
+class IAppContent(Interface):
+    """
+    Adapter interface for content that is (possibly) contained within an
+    IAppContainer, including nested content deep in a tree.
+    """
+
+    app_name = Attribute("Name of the app this content is contained in. "
+                         "Returns: string, or empty string if not contained.")
+
+    in_app = Attribute("Is this content contained within an IAppContainer? "
+                       "Returns: boolean.")
+
+    def get_app():
+        """
+        Return the IAppContainer this content is contained in, or None.
+        """

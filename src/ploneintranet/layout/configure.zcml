@@ -26,6 +26,10 @@
     <!-- enable only the "right" IAppLayer per app
          see app.AbstractAppContainer -->
 
+    <adapter
+        for="plone.dexterity.interfaces.IDexterityContent"
+        factory=".adapters.AppContent" />
+    
     <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- [Layout]"
