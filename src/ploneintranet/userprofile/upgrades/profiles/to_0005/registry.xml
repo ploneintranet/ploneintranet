@@ -2,20 +2,28 @@
 <registry>
   <record name="ploneintranet.userprofile.userprofile_hidden_info">
     <field type="plone.registry.field.Tuple">
-      <title>Hide some informations the user profile</title>
+      <title>Hide some informations from the user profile view</title>
       <description>
         If you want to hide a tab in the user profile view add it here.
-        Add 'userprofile-view' to hide the "Timeline" tab,
-        'userprofile-info' to hide the "Info" tab,
-        'userprofile-followers' to hide the "Followers" tab,
-        'userprofile-following' to hide the "Following" tab,
-        'add userprofile-documents' to hide the "Documents" tab,
-        'userprofile-workspaces' to hide the "Workspaces" tab,
-        'userprofile-group' to hide the "Groups" tab.
-
-        Hiding a tab will also block hide from the user view the relevant
-        informations, i.e. if you remove the "Following" tab,
-        you will not see the "Following" portalet under the icon avatar.
+        Add:
+        <ul>
+          <li><code>userprofile-view</code> to hide the "Timeline" tab</li>
+          <li><code>userprofile-info</code> to hide the "Info" tab</li>
+          <li><code>userprofile-followers</code> to hide the "Followers" tab</li>
+          <li><code>userprofile-following</code> to hide the "Following" tab</li>
+          <li><code>userprofile-documents</code> to hide the "Documents" tab</li>
+          <li><code>userprofile-workspaces</code> to hide the "Workspaces" tab</li>
+          <li><code>userprofile-group</code> to hide the "Groups" tab</li>
+        </ul>
+        <p>
+          As a convenience, adding <code>userprofile-follow*</code>
+          will hide both the "Followers" and "Following" tabs.
+        </p>
+        <p>
+          Hiding a tab will also block hide from the user view the relevant
+          informations, i.e. if you remove the "Following" tab,
+          you will not see the "Following" portlet under the icon avatar.
+        </p>
       </description>
       <value_type type="plone.registry.field.TextLine" />
     </field>

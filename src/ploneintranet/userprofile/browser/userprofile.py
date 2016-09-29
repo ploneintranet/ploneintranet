@@ -64,6 +64,8 @@ class UserProfileView(UserProfileViewForm):
             )
         except plone_api.exc.InvalidParameterError:
             banned_tabs = ()
+        if 'userprofile-follow*' in banned_tabs:
+            banned_tabs += (u'userprofile-followers', u'userprofile-following')
         return [
             tab for tab in self._default_tabs
             if tab not in banned_tabs
@@ -100,6 +102,15 @@ class UserProfileView(UserProfileViewForm):
         '''
         return u'userprofile-following' in self.allowed_tabs
 
+    @property
+    @memoize
+    def display_more_info_link(self):
+        ''' The more information link does not make sense if the only
+        tab available is the userprofile-info or if userprofile-info is not
+        between the allowed tabs
+        '''
+        return self.display_tabs and 'userprofile-info' in self.allowed_tabs
+
     @memoize
     def is_ajax(self):
         ''' Check if we have an ajax call
@@ -113,6 +124,8 @@ class UserProfileView(UserProfileViewForm):
         self.request.response.setHeader('X-Theme-Disabled', '1')
 
     def update(self):
+        # BBB: when groups and workspaces are not in the allowed tabs
+        # this should not be called
         self._get_my_groups_and_workspaces()
         self._update_recent_contacts()
 
