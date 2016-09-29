@@ -40,5 +40,13 @@
       replacement=".patches.patched_getOrdering"
       />
 
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0002"
+      profile="ploneintranet.library:default"
+      title="Activate publish widely behavior.
+             This is implicitly taken from the profile this upgradeStep is defined for."
+      import_steps="typeinfo" />
+  />
 
 </configure>
