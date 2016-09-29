@@ -1,0 +1,8 @@
+<span id="pinning-action-notification" >
+  <p class="pat-notification" id="pinned-on-workspace-body"
+     data-pat-notification="class: success; type: banner"
+     >
+    <tal:label i18n:translate="">This item has been pinned to your workspace.</tal:label>
+  </p>
+  <tal:link replace="structure context/@@pinning-link-iconified" />
+</span>

@@ -241,7 +241,7 @@
     <browser:page
       name="ploneintranet_workspace_state"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       class=".workspace.WorkspaceState"
       allowed_interface="..interfaces.IWorkspaceState"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
@@ -363,7 +363,7 @@
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"
-      permission="zope.Public"
+      permission="zope2.View"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -371,7 +371,7 @@
       for="*"
       name="breadcrumbs_view"
       class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
-      permission="zope.Public"
+      permission="zope2.View"
       allowed_attributes="breadcrumbs"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
@@ -402,4 +402,35 @@
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
 
+    <browser:page
+        name="pinning-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.ViewIconified"
+        template="templates/pinning_link.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+    <browser:page
+        name="pin"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.PinView"
+        template="templates/pin.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="unpin"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.UnpinView"
+        template="templates/unpin.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <adapter
+        for="*"
+        provides=".pinning.IPinner"
+        factory=".pinning.Pinner"
+        />
 </configure>

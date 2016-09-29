@@ -28,7 +28,7 @@
           <div class="${workspace_id}" id="project-body" tal:define="read_only python:not view.can_edit">
             <div id="document-body">
               <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
-                    data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; hooks: raptor &amp;&amp; source: #application-body; target: #application-body">
+                    data-pat-inject="source:#global-statusmessage; target:#global-statusmessage &amp;&amp; source: #application-body; target: #application-body">
                 <div class="metadata pat-bumper" id="meta">
                   <div class="meta-bar">
                     <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
@@ -53,6 +53,7 @@
                           View history
                       </a>
                       <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+                      <tal:pinning replace="structure here/@@pinning-link-iconified|nothing" />
                       <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                       <tal:history tal:condition="exists:here/@@app-audit-button">
                         <a tal:replace="structure here/@@app-audit-button" />
