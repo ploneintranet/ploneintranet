@@ -1,8 +1,9 @@
 *** Keywords ***
 
+# first responsive breakpoint is already at 1292px
 Prepare test browser
     Open test browser
-    Set window size  1280  1024
+    Set window size  1300  1024
 
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
