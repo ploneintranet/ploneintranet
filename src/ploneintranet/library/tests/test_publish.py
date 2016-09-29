@@ -27,25 +27,33 @@ class TestPublishWidely(IntegrationTestCase):
             type='Document',
             title='Holidays previous year',
             container=self.testfolder)
-        self.assertTrue(IPublishWidely.providedBy(content))
+        self.assertFalse(IPublishWidely.providedBy(content))
+        adapted = IPublishWidely(content)
+        self.assertTrue(IPublishWidely.providedBy(adapted))
 
     def test_behavior_active_file(self):
         content = api.content.create(
             type='File',
             title='Holidays previous year file',
             container=self.testfolder)
-        self.assertTrue(IPublishWidely.providedBy(content))
+        self.assertFalse(IPublishWidely.providedBy(content))
+        adapted = IPublishWidely(content)
+        self.assertTrue(IPublishWidely.providedBy(adapted))
 
     def test_behavior_active_image(self):
         content = api.content.create(
             type='Image',
             title='Holidays previous year image',
             container=self.testfolder)
-        self.assertTrue(IPublishWidely.providedBy(content))
+        self.assertFalse(IPublishWidely.providedBy(content))
+        adapted = IPublishWidely(content)
+        self.assertTrue(IPublishWidely.providedBy(adapted))
 
     def test_behavior_active_link(self):
         content = api.content.create(
             type='Link',
             title='Holidays previous year link',
             container=self.testfolder)
-        self.assertTrue(IPublishWidely.providedBy(content))
+        self.assertFalse(IPublishWidely.providedBy(content))
+        adapted = IPublishWidely(content)
+        self.assertTrue(IPublishWidely.providedBy(adapted))

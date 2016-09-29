@@ -8,12 +8,13 @@
       title="Publish widely"
       description="Copy into the Library"
       provides=".publish.IPublishWidely"
+      factory=".publish.PublishWidely"
       for="*"
       />
 
   <browser:page
       name="panel-publish-to-library"
-      for=".publish.IPublishWidely"
+      for="plone.dexterity.interfaces.IDexterityContent"
       class=".publish.PublishActionView"
       template="templates/panel-publish-to-library.pt"
       layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
@@ -22,7 +23,7 @@
 
   <browser:page
       name="feedback-library-copy-updated"
-      for=".publish.IPublishWidely"
+      for="plone.dexterity.interfaces.IDexterityContent"
       class=".publish.PublishActionView"
       template="templates/feedback-library-copy-updated.pt"
       layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
