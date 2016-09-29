@@ -13,9 +13,11 @@
       fill-slot="content"
       tal:define="
         is_me view/is_me;
-        following python:view.following() if view.display_following else [];
+        display_followers view/display_followers;
+        display_following view/display_following;
+        following python:view.following() if display_following else [];
         num_following python: len(following);
-        followers python:view.followers() if view.display_followers else [];
+        followers python:view.followers() if display_followers else [];
         num_followers python: len(followers);
         groups view/my_groups;
         num_groups python: len(groups);
@@ -54,7 +56,8 @@
         </figure>
 
         <div tal:condition="not:is_me" class="portlet follow" id="portlet-follow">
-          <form tal:replace="structure context/@@toggle_follow"/>
+          <form tal:condition="python: display_following or display_followers"
+                tal:replace="structure context/@@toggle_follow"/>
           <form tal:replace="structure context/@@bookmark-button"/>
         </div>
 
@@ -81,7 +84,7 @@
                 >${context/telephone}</a>
             </li>
           </ul>
-          <p class="portlet-footer">
+          <p class="portlet-footer" tal:condition="view/display_more_info_link">
             <a href="${absolute_url}/userprofile-info"
                class="pat-inject"
                data-pat-inject="source: #document-content; target: #sheets"

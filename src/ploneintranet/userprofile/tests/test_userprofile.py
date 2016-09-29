@@ -152,19 +152,47 @@ class TestUserProfileView(TestUserProfileBase):
         self.assertTrue(view.display_following)
         self.assertTrue(view.display_followers)
         self.assertTrue(view.display_tabs)
+        self.assertTrue(view.display_more_info_link)
 
         # refresh request to get rid of caching
         # and hide all the tabs
+        view.request = self.request.clone()
         api.portal.set_registry_record(
             'ploneintranet.userprofile.userprofile_hidden_info',
             view._default_tabs,
         )
-        view.request = self.request.clone()
         self.assertListEqual(view.allowed_tabs, [])
         self.assertEqual(view.default_tab, u'')
         self.assertFalse(view.display_following)
         self.assertFalse(view.display_followers)
         self.assertFalse(view.display_tabs)
+        self.assertFalse(view.display_more_info_link)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        view.request = self.request.clone()
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            (u'userprofile-follow*', ),
+        )
+        # check that userprofile-follow* is expanded to
+        # userprofile-following and userprofile-followers
+        self.assertNotIn(u'userprofile-following', view.allowed_tabs)
+        self.assertNotIn(u'userprofile-followers', view.allowed_tabs)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        view.request = self.request.clone()
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            tuple(
+                tab for tab in view._default_tabs
+                if tab != u'userprofile-info'
+            ),
+        )
+        # check that if we display userprofile-info we do not have anymore
+        # the more info link
+        self.assertFalse(view.display_more_info_link)
 
         # reset the record
         api.portal.set_registry_record(
