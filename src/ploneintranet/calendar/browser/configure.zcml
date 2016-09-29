@@ -10,7 +10,7 @@
     <browser:page
         name="app-calendar"
         for="ploneintranet.layout.app.IApp"
-        permission="zope.Public"
+        permission="zope2.View"
         class=".app.View"
         template="templates/app.pt"
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
@@ -19,7 +19,7 @@
     <browser:page
         name="set-timezone-cookie"
         for="*"
-        permission="zope.Public"
+        permission="zope2.View"
         class=".views.SetTimezoneView"
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
     />

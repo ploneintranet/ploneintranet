@@ -21,7 +21,7 @@
     for="*"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     class=".baseviews.HelperView"
-    permission="zope.Public"
+    permission="zope2.View"
   />
 
   <browser:page
