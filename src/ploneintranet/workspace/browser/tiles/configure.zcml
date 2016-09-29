@@ -18,7 +18,7 @@
       description="A tile for the side navigation of a workspace"
       add_permission="cmf.ManagePortal"
       class=".navigation.NavigationTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
       />
@@ -30,7 +30,7 @@
     description="A tile showing user workspaces and related activity"
     class=".workspaces.WorkspacesTile"
     add_permission="cmf.ManagePortal"
-    permission="zope.Public"
+    permission="zope2.View"
     layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
@@ -41,7 +41,7 @@
     description="A display the workspace tile"
     class=".workspaces.WorkspaceTile"
     add_permission="cmf.ManagePortal"
-    permission="zope.Public"
+    permission="zope2.View"
     layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
     />
 
