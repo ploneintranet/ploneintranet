@@ -85,14 +85,14 @@
       class=".apps.BaseAppView"
       template="templates/app-tile.pt"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-      permission="zope.Public"
+      permission="zope2.View"
   />
 
   <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/app-not-available.pt"
   />
 
@@ -128,7 +128,7 @@
   <browser:page
       name="personal-menu.html"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/personal-menu.pt"
       class=".personal_tools.PersonalTools"
       layer="..interfaces.IPloneintranetLayoutLayer"
@@ -157,7 +157,7 @@
       description="My tile's description"
       add_permission="cmf.ManagePortal"
       class=".dashboard.TasksTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
@@ -168,7 +168,7 @@
       description="News tile showing news on the dashboard"
       add_permission="cmf.ManagePortal"
       class=".dashboard.NewsTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
