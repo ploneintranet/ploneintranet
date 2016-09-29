@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.dexterity.interfaces import IDexterityContent
+from Products.Five import BrowserView
 
 from zope.component import adapter
 from zope.interface import implementer
@@ -22,3 +23,22 @@ class PublishWidely(object):
 
     def __init__(self, context):
         self.context = context
+
+    def can_publish_widely(self):
+        return True
+
+
+class PublishActionView(BrowserView):
+
+    def __call__(self):
+        self.update()
+        return self.index()
+
+    def update(self):
+        pass
+
+    def library_url(self):
+        return 'FIXME'
+
+    def copied_to_url(self):
+        return 'FIXME'

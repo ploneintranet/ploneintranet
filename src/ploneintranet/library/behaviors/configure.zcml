@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet">
 
   <plone:behavior
@@ -8,6 +9,24 @@
       description="Copy into the Library"
       provides=".publish.IPublishWidely"
       for="*"
+      />
+
+  <browser:page
+      name="panel-publish-to-library"
+      for=".publish.IPublishWidely"
+      class=".publish.PublishActionView"
+      template="templates/panel-publish-to-library.pt"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      permission="cmf.ReviewPortalContent"
+      />
+
+  <browser:page
+      name="feedback-library-copy-updated"
+      for=".publish.IPublishWidely"
+      class=".publish.PublishActionView"
+      template="templates/feedback-library-copy-updated.pt"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      permission="cmf.ReviewPortalContent"
       />
   
 </configure>
