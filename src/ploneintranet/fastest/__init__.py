@@ -152,16 +152,14 @@ def main():
         print("Fastest run:{} using config file {}".format(runid, config))
         print("Calculating changes in {} that are not in {}".format(
             head, base))
-
     try:
         changes = whatchanged(head, base, verbose)
+        policy = Policy(config)
+        (packages, tests) = policy(changes, verbose=verbose)
+        spec_pkg = spec('-s', packages)
+        spec_tst = spec('-t', tests)
     except RunAllTestsException:
-        return run('', verbose=verbose, dryrun=dryrun)
-
-    policy = Policy(config)
-    (packages, tests) = policy(changes, verbose=verbose)
-    spec_pkg = spec('-s', packages)
-    spec_tst = spec('-t', tests)
+        packages = tests = None
 
     if packages and tests and runid in [0, 1]:
         return run_multi([spec_pkg, spec_tst], verbose=verbose, dryrun=dryrun)
