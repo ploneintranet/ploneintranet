@@ -25,43 +25,13 @@
 
               <fieldset>
 	        <label>
-		  Destination within the library
-		  <select>
-		    <optgroup label="Teams">
-		      <option>
-			Open Market Committee
-		      </option>
-		    </optgroup>
-		    <optgroup label="HR">
-		      <option>
-			HR
-		      </option>
-		      <option>
-			HR > Valenpedicis palemtuem
-		      </option>
-		      <option>
-			HR > Valenpedicis palemtuem > Excepturi sint occaecati
-		      </option>
-		      <option>
-			HR > Valenpedicis palemtuem > Non provident
-		      </option>
-		      <option>
-			HR > Valenpedicis palemtuem > Praesentium voluptatum deleniti atque
-		      </option>
-		    </optgroup>
-		    <optgroup label="Regulations">
-		      <option>
-			Regulations
-		      </option>
-		    </optgroup>
-		    <optgroup label="Transportation">
-		      <option>
-			Transportation
-		      </option>
-		    </optgroup>
-		    <optgroup label="Lorem ipsum">
-		      <option>
-			Lorem ipsum
+		  Destination within the library:
+		  <select name="target_path">
+		    <optgroup tal:repeat="section view/target_tree"
+                              label="${section/title}">
+		      <option tal:repeat="option section/content"
+                              value="${section/id}/${option/id}">
+			${option/title}
 		      </option>
 		    </optgroup>
 		  </select>

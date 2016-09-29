@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
-from plone.dexterity.interfaces import IDexterityContent
-from Products.Five import BrowserView
-
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
+
+from plone import api
+from plone.dexterity.interfaces import IDexterityContent
+from plone.memoize import view
+from Products.Five import BrowserView
+
+from ploneintranet import api as pi_api
+from ploneintranet.layout.interfaces import IAppContent
+from ploneintranet.library.content import ILibraryApp, ILibraryFolder
+from ploneintranet.library.browser.utils import sections_of
+from ploneintranet.workspace.unrestricted import execute_as_manager
+
+import logging
+log = logging.getLogger(__name__)
 
 
 class IPublishWidely(Interface):
@@ -25,20 +36,80 @@ class PublishWidely(object):
         self.context = context
 
     def can_publish_widely(self):
-        return True
+        app = IAppContent(self.context).get_app()
+        if ILibraryApp.providedBy(app):
+            # don't allow copying FROM library
+            return False
+        return api.user.has_permission(
+            "Review portal content",
+            obj=self.context
+        )
+
+    def get_library(self):
+        # cannot use object_provides query for some reason
+        portal = api.portal.get()
+        try:
+            if ILibraryApp.providedBy(portal.library):
+                return portal.library
+        except (AttributeError, TypeError):
+            pass
+        for section in portal.objectValues():
+            if ILibraryApp.providedBy(section):
+                return section
+        raise ValueError("No library app")
+
+    def copy_to(self, target):
+        if not ILibraryFolder.providedBy(target):
+            log.error("Invalid target: {}".format(target))
+            return None
+        pi_api.events.disable_previews()
+
+        def copy_and_submit(content, target, user):
+            new = api.content.copy(content, target)
+            api.content.transition(new, 'submit')
+            new.changeOwnership(user)
+            # list publishing user as first creator = owner
+            creators = [user.id] + [x for x in new.creators if x != user.id]
+            new.setCreators(creators)
+            return new
+
+        user = api.user.get_current()
+        new = execute_as_manager(copy_and_submit,
+                                 self.context, target, user)
+        log.info("{} copied {} --> {}".format(
+            user.id, self.context.absolute_url(), new.absolute_url()
+        ))
+        return new
 
 
 class PublishActionView(BrowserView):
+
+    copy_obj = None
 
     def __call__(self):
         self.update()
         return self.index()
 
     def update(self):
-        pass
+        target_path = self.request.get('target_path')
+        if target_path:
+            path = target_path.split('/')
+            target = self.library.restrictedTraverse(path)
+            self.copy_obj = IPublishWidely(self.context).copy_to(target)
+
+    @property
+    @view.memoize_contextless
+    def library(self):
+        return IPublishWidely(self.context).get_library()
 
     def library_url(self):
-        return 'FIXME'
+        return self.library.absolute_url()
 
     def copied_to_url(self):
-        return 'FIXME'
+        if not self.copy_obj:
+            log.error("No copy found")
+            return '#'
+        return self.copy_obj.absolute_url()
+
+    def target_tree(self):
+        return sections_of(self.library)
