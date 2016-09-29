@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+  <plone:behavior
+      title="Publish widely"
+      description="Copy into the Library"
+      provides=".publish.IPublishWidely"
+      for="*"
+      />
+  
+</configure>

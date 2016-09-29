@@ -9,6 +9,7 @@
     i18n_domain="ploneintranet">
 
   <include package=".browser" />
+  <include package=".behaviors" />
 
   <genericsetup:registerProfile
       name="default"
