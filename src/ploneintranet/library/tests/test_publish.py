@@ -57,7 +57,6 @@ class TestPublishWidely(IntegrationTestCase):
             type='Image',
             title='Holidays previous year image',
             container=self.source_folder)
-        api.content.transition(content, 'publish')
         self.assertFalse(IPublishWidely.providedBy(content))
         adapted = IPublishWidely(content)
         self.assertTrue(IPublishWidely.providedBy(adapted))
@@ -83,6 +82,14 @@ class TestPublishWidely(IntegrationTestCase):
         self.assertTrue(adapted.can_publish_widely())
         api.content.transition(self.source_document, 'retract')
         self.assertFalse(adapted.can_publish_widely())
+
+    def test_workflow_noworkflow(self):
+        content = api.content.create(
+            type='Image',
+            title='Holidays previous year image',
+            container=self.source_folder)
+        adapted = IPublishWidely(content)
+        self.assertTrue(adapted.can_publish_widely())
 
     def test_location(self):
         content = api.content.create(

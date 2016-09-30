@@ -8,6 +8,7 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import view
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.Five import BrowserView
 
 from ploneintranet import api as pi_api
@@ -83,8 +84,12 @@ class PublishWidely(object):
         if ILibraryApp.providedBy(app):
             return False
         # only locally published content may be widely published
-        if api.content.get_state(self.context) not in ('published',):
-            return False
+        try:
+            if api.content.get_state(self.context) not in ('published',):
+                return False
+        except WorkflowException:
+            # no workflow, e.g. images
+            pass
         # only reviewers may publish widely
         return api.user.has_permission(
             "Review portal content",
