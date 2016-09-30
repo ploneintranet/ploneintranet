@@ -1,0 +1,33 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet">
+
+  <plone:behavior
+      title="Publish widely"
+      description="Copy into the Library"
+      provides=".publish.IPublishWidely"
+      factory=".publish.PublishWidely"
+      for="*"
+      />
+
+  <browser:page
+      name="panel-publish-to-library"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      class=".publish.PublishActionView"
+      template="templates/panel-publish-to-library.pt"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      permission="cmf.ReviewPortalContent"
+      />
+
+  <browser:page
+      name="feedback-library-copy-updated"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      class=".publish.PublishActionView"
+      template="templates/feedback-library-copy-updated.pt"
+      layer="ploneintranet.library.interfaces.IPloneintranetLibraryLayer"
+      permission="cmf.ReviewPortalContent"
+      />
+  
+</configure>

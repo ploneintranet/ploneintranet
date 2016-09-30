@@ -8,6 +8,7 @@ from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError  # noqa
@@ -332,6 +333,12 @@ class ContentView(BrowserView):
     def is_versionable(self):
         portal_repository = api.portal.get_tool('portal_repository')
         return portal_repository.isVersionable(self.context)
+
+    def can_publish_widely(self):
+        try:
+            return IPublishWidely(self.context).can_publish_widely()
+        except TypeError:
+            return False
 
 
 class ContainerView(ContentView):

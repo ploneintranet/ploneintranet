@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <body>
+    <div id="main">
+      <div id="content" class="modal">
+	<div id="document-content" class="pat-modal ">
+          <h1>
+            Publish to library
+          </h1>
+          
+          <form action="${view/action}" class="wizard-box pat-inject " data-pat-inject="source: #document-alert-bar::element; target: div.metadata::element::after">
+            
+            <div class="panel-body">
+              <article class="pat-rich">
+	        <p>
+		  Documents that you publish in the
+                  <a href="${view/library_url}" target="new">library</a> will be visible to all people who have access to the library.
+	        </p>
+              </article>
+
+              <fieldset>
+	        <label>
+		  Destination within the library
+		  <select>
+		    <optgroup label="Teams">
+		      <option>
+			Open Market Committee
+		      </option>
+		    </optgroup>
+		    <optgroup label="HR">
+		      <option>
+			HR
+		      </option>
+		      <option>
+			HR > Valenpedicis palemtuem
+		      </option>
+		      <option>
+			HR > Valenpedicis palemtuem > Excepturi sint occaecati
+		      </option>
+		      <option>
+			HR > Valenpedicis palemtuem > Non provident
+		      </option>
+		      <option>
+			HR > Valenpedicis palemtuem > Praesentium voluptatum deleniti atque
+		      </option>
+		    </optgroup>
+		    <optgroup label="Regulations">
+		      <option>
+			Regulations
+		      </option>
+		    </optgroup>
+		    <optgroup label="Transportation">
+		      <option>
+			Transportation
+		      </option>
+		    </optgroup>
+		    <optgroup label="Lorem ipsum">
+		      <option>
+			Lorem ipsum
+		      </option>
+		    </optgroup>
+		  </select>
+	        </label>
+              </fieldset>
+
+            </div>
+            
+            <div class="buttons panel-footer">
+              <button type="submit" class="close-panel icon-ok-circle">
+                Publish
+              </button>
+              <button type="button" class="close-panel icon-cancel-circle">
+                Cancel
+              </button>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

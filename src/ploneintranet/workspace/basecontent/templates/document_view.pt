@@ -181,6 +181,11 @@
               <li>
                 <a class="icon-print" href="javascript:window.print()" i18n:translate="">Print</a>
               </li>
+              <li tal:condition="view/can_publish_widely">
+                <a class="icon-feather pat-modal"
+                   href="${context/absolute_url}/panel-publish-to-library#document-content"
+                   i18n:translate="">Publish to library</a>
+                </li>
             </ul>
           </div>
 
