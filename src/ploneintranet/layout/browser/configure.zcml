@@ -21,7 +21,9 @@
   <!-- Custom widgets using the provided layout -->
   <adapter factory=".widgets.PloneIntranetSelectFieldWidget" />
 
-  <!-- set 'app-whatever' body class -->
+  <!-- set 'app-whatever' body class
+       intentionally zope.Public
+  -->
   <browser:page
       name="plone_layout"
       for="*"
@@ -31,7 +33,9 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
-  <!-- bindings for prototype -->
+  <!-- bindings for prototype
+       intentionally zope.Public
+  -->
   <browser:page
       name="proto"
       for="*"
@@ -39,6 +43,9 @@
       permission="zope.Public"
     />
 
+  <!--
+      intentionally zope.Public
+  -->
   <browser:page
       name="webstats_js"
       for="*"
@@ -85,14 +92,14 @@
       class=".apps.BaseAppView"
       template="templates/app-tile.pt"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-      permission="zope.Public"
+      permission="zope2.View"
   />
 
   <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/app-not-available.pt"
   />
 
@@ -128,7 +135,7 @@
   <browser:page
       name="personal-menu.html"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/personal-menu.pt"
       class=".personal_tools.PersonalTools"
       layer="..interfaces.IPloneintranetLayoutLayer"
@@ -144,11 +151,14 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <!--
+      A variant on cmf.SetOwnPassword. zope2.View safe enough.
+  -->
   <browser:page
       for="*"
       name="verify_password_reset_allowed"
       class=".utils.VerifyPasswordResetAllowed"
-      permission="zope.Public"
+      permission="zope2.View"
       />
 
   <plone:tile
@@ -157,7 +167,7 @@
       description="My tile's description"
       add_permission="cmf.ManagePortal"
       class=".dashboard.TasksTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
@@ -168,7 +178,7 @@
       description="News tile showing news on the dashboard"
       add_permission="cmf.ManagePortal"
       class=".dashboard.NewsTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />

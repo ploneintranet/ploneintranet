@@ -7,7 +7,12 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ploneintranet.theme">
 
-  <!-- Simplified main_template -->
+  <!-- Simplified main_template
+       Already zope.Public in upstream Products/CMFPlone/browser/configure.zcml
+       and needed for zope.Public views like unauthorized.
+
+       FIXME: remove this, superseded by quaive.resources.ploneintranet
+  -->
   <browser:page
     for="*"
     name="main_template"

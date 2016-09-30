@@ -241,7 +241,7 @@
     <browser:page
       name="ploneintranet_workspace_state"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       class=".workspace.WorkspaceState"
       allowed_interface="..interfaces.IWorkspaceState"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
@@ -363,7 +363,7 @@
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"
-      permission="zope.Public"
+      permission="zope2.View"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -371,7 +371,7 @@
       for="*"
       name="breadcrumbs_view"
       class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
-      permission="zope.Public"
+      permission="zope2.View"
       allowed_attributes="breadcrumbs"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
