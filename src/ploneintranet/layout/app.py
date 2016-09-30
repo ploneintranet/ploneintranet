@@ -142,8 +142,6 @@ class App(Item):
             _request,
         )
 
-    pass
-
 
 class AbstractAppContainer(object):
     """A mixin class that self-registers a beforetraverse hook.
