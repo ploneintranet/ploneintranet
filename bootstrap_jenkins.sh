@@ -1,6 +1,6 @@
 # Default to jenkins.cfg if no config file passed in
 BUILDOUT_CONFIG=${1-jenkins.cfg}
-make clean
+make solr-clean clean
 if [ ! -f bin/activate ]
 then
     virtualenv .
