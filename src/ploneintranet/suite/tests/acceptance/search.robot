@@ -20,7 +20,9 @@ Allan can see the search button in header
     Given I am logged in as the user allan_neece
     Then I can see the site search button
 
+# https://github.com/quaive/ploneintranet/issues/772
 Allan can search and find the Budget Proposal
+    [tags]  fixme
     Given I am logged in as the user allan_neece
     I can search in the site header for Budget
     And I can see the search result Budget Proposal
