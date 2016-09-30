@@ -42,10 +42,19 @@ class _AppMessagingMixin(object):
 
     @property
     @memoize_contextless
-    def app_url(self):
+    def app_app_url(self):
+        return self.get_app().app_url()
+
+    @property
+    @memoize_contextless
+    def app_base_url(self):
+        return self.get_app().absolute_url()
+
+    @memoize_contextless
+    def get_app(self):
         portal = api.portal.get()
         apps_container = getattr(portal, apps_container_id)
-        return apps_container.messages.absolute_url()
+        return apps_container.messages
 
 
 @implementer(IPublishTraverse, IAppView)
@@ -196,8 +205,8 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     @property
     def chat_url(self):
-        return '{}/@@app-messaging/{}'.format(
-            self.app_url, self.userid
+        return '{}/{}'.format(
+            self.app_app_url, self.userid
         )
 
     @property
@@ -219,8 +228,8 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
         return api.user.get(userid).getProperty('fullname')
 
     def _chat_url(self, userid):
-        return '{0}/@@app-messaging/{1}'.format(
-            self.app_url,
+        return '{0}/{1}'.format(
+            self.app_app_url,
             urllib.quote(safe_unicode(userid))
         )
 
@@ -318,4 +327,4 @@ class AppMessagingNewMessage(BrowserView, _AppMessagingMixin):
 
     def chat_url(self):
         return '{}/{}'.format(
-            self.app_url, self.userid)
+            self.app_app_url, self.userid)

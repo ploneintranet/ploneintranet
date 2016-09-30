@@ -9,6 +9,7 @@ log = logging.getLogger(__name__)
 def setupVarious(context):
     configureFrontPage(context)
     create_apps_container()
+    sort_portal_tabs()
 
 
 def configureFrontPage(context):
@@ -42,13 +43,14 @@ def create_apps_container(with_apps=True):
         create_apps()
 
 
-def create_apps():
+def create_apps(*args):
     ''' Create the known ploneintranet apps
     '''
     portal = api.portal.get()
-    app_container = portal.apps
+    app_container = portal.get(apps_container_id)
 
-    # BBB: Find me a better place
+    # Actual content-containing apps, like 'news' and 'library'
+    # are created by their own package.
     apps = [
         {
             'key': 'contacts',
@@ -58,6 +60,7 @@ def create_apps():
             'key': 'messages',
             'title': u'Messages',
             'path': '@@app-messaging',
+            'devices': 'desktop tablet'
         }, {
             'key': 'todo',
             'title': u'Todo',
@@ -67,13 +70,9 @@ def create_apps():
         }, {
             'key': 'slide-bank',
             'title': u'Slide bank',
-
         }, {
             'key': 'image-bank',
             'title': u'Image bank',
-        }, {
-            'key': 'news',
-            'title': u'News publisher',
         }, {
             'key': 'case-manager',
             'title': u'Case manager',
@@ -84,25 +83,48 @@ def create_apps():
             'title': u'App market',
         }
     ]
-    for app in apps:
+    for app_spec in apps:
         # if the app is not there we will create it
-        if app['key'] not in app_container:
+        if app_spec['key'] not in app_container:
             api.content.create(
                 container=app_container,
                 type='ploneintranet.layout.app',
-                title=app['title'],
-                id=app['key'],
+                title=app_spec['title'],
+                id=app_spec['key'],
                 safe_id=False,
-                app=app.get('path', u''),
-                devices=app.get('devices', 'desktop'),
+                app=app_spec.get('path', u''),
+                devices=app_spec.get('devices', 'desktop'),
             )
-        # if the app is published we will publish it
-        app = app_container[app['key']]
-        if api.content.get_state(app) != 'published':
+        # update the app object
+        app_obj = app_container[app_spec['key']]
+        for attr in ('title', 'app', 'devices'):
+            if attr == 'app':
+                attr_spec = app_spec.get('path')
+            else:
+                attr_spec = app_spec.get(attr)
+            if getattr(app_obj, attr) != attr_spec:
+                setattr(app_obj, attr, attr_spec)
+        # if the app is not published we will publish it
+        if api.content.get_state(app_obj) != 'published':
             try:
-                api.content.transition(app, to_state='published')
+                api.content.transition(app_obj, to_state='published')
             except:
-                log.exception('Cannot publish the app: %r', app)
+                log.exception('Cannot publish the app: %r', app_obj)
+
+
+def sort_portal_tabs(*args):
+    portal_tabs = api.portal.get_tool('portal_actions').portal_tabs
+    current = portal_tabs.objectIds()
+    goal = [x for x in ('index_html',
+                        'dashboard',
+                        'news',
+                        'library',
+                        'workspaces',
+                        'apps')
+            if x in current]
+    for id in goal:
+        if portal_tabs.getObjectPosition(id) != goal.index(id):
+            portal_tabs.moveObjectToPosition(id, goal.index(id))
 
 
 def uninstall(context):

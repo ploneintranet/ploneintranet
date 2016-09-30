@@ -24,7 +24,7 @@ class MessagesViewlet(base.ViewletBase):
 
     @property
     @memoize_contextless
-    def app_url(self):
+    def app_app_url(self):
         portal = api.portal.get()
         apps_container = getattr(portal, apps_container_id)
-        return apps_container.messages.absolute_url()
+        return apps_container.messages.app_url()

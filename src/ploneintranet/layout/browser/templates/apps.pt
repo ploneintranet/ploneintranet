@@ -9,8 +9,8 @@
     <metal:content fill-slot="content">
       <div class="row tiles apps pat-masonry" id="apps-listing" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
         <div class="grid-sizer"></div>
-        <tal:tiles tal:repeat="tile view/tiles">
-          <tal:tile replace="structure tile/app-tile" />
+        <tal:tiles tal:repeat="app view/apps">
+          <tal:tile replace="structure app/app-tile" />
         </tal:tiles>
       </div>
     </metal:content>

@@ -53,7 +53,7 @@ class TestSetup(IntegrationTestCase):
                 'calendar',
                 'slide-bank',
                 'image-bank',
-                'news',
+                # 'news',
                 'case-manager',
                 'app-market',
             ]

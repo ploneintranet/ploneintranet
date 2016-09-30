@@ -1,17 +1,17 @@
-<div class="tile app ${here/devices} app-${here/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
-    <a href="${here/absolute_url}#document-content"
+<div class="tile app ${context/devices} app-${view/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
+    <a href="${context/app_url}#document-content"
        class="link ${view/modal}">
       <img class="icon"
-           src="${here/portal_url}/++theme++ploneintranet.theme/generated/apps/${here/get_class}/icon.svg"
-           alt="${here/title}"
+           src="${context/portal_url}/++theme++ploneintranet.theme/generated/apps/${view/get_class}/icon.svg"
+           alt="${context/title}"
         />
-      <h3>${here/title}</h3>
+      <h3>${context/title}</h3>
       <sup tal:condition="view/counter|nothing"
            class="counter digit-${view/digits}">${view/counter}</sup>
-      <time tal:condition="python:here.id=='calendar'" tal:define="now view/date" class="date pat-auto-scale">
+      <time tal:condition="python:context.id=='calendar'" tal:define="now view/date" class="date pat-auto-scale">
         <span class="date">${python:now.strftime('%d')}</span>
         <span class="month">${python:now.strftime('%b')}</span>
       </time>
     </a>
-    <tal:link tal:condition="here/app" replace="structure here/bookmark-link-iconified" />
+    <tal:link tal:condition="context/app" replace="structure context/bookmark-link-iconified" />
 </div>

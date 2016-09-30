@@ -30,7 +30,7 @@
 		    <a title="Start a new conversation"
                        i18n:attributes="title"
                        i18n:translate=""
-                       href="${view/app_url}/@@app-messaging-new-chat#document-content"
+                       href="${view/app_base_url}/@@app-messaging-new-chat#document-content"
                        class="button pat-button new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
 		  </p>
 		</article>
@@ -77,7 +77,7 @@
             </div><!-- /document-content -->
 
             <form tal:condition="view/userid|nothing"
-                  id="chat-bar" method="post" action="${view/app_url}/@@app-messaging-new-message"
+                  id="chat-bar" method="post" action="${view/app_base_url}/@@app-messaging-new-message"
                   class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
               <input type="hidden" name="recipient" value="${view/userid}">
 	      <input autofocus type="text" name="message" placeholder="Write a message" />
@@ -97,7 +97,7 @@
                     </label>
                   </form>
                   <div class="quick-functions">
-                    <a title="Start a new conversation" href="${view/app_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+                    <a title="Start a new conversation" href="${view/app_base_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
                   </div>
                 </div><!-- /button-bar -->
 

@@ -12,9 +12,10 @@ from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 from zope.i18nmessageid.message import Message
 from zope.interface import implementer
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 
-@implementer(IAppView)
+@implementer(IAppView, IBlocksTransformEnabled)
 class View(BookmarkView):
     ''' The view for this app
     '''

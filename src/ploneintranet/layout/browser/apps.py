@@ -1,13 +1,14 @@
 # coding=utf-8
 from datetime import datetime
 from AccessControl.unauthorized import Unauthorized
-from json import loads
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from zope.interface import implementer
 from zope.publisher.browser import BrowserView
+
+from ploneintranet.layout.app import IApp
 
 logger = getLogger(__name__)
 
@@ -23,41 +24,23 @@ class Apps(BrowserView):
     """ A view to serve as overview over apps
     """
 
-    def tiles(self):
-        """ list available tiles
+    def apps(self):
+        """ list available apps, to be rendered as tiles
         """
-        portal = api.portal.get()
-        apps = portal.get('apps', None)
-        if not apps:
-            return []
-        return apps.listFolderContents()
+        catalog = api.portal.get_tool('portal_catalog')
+        query = dict(object_provides=IApp.__identifier__)
+        items = [x.getObject() for x in catalog(query)]
+        items.sort(key=lambda x: x.Title())
+        return items
 
 
 @implementer(IBlocksTransformEnabled)
-class BaseAppView(BrowserView):
+class AppTile(BrowserView):
 
     @property
     @memoize
     def app_view(self):
-        ''' Try to get the view for the app.
-
-        Update the request form with the app parameters if needed
-        '''
-        params = {}
-        if self.context.app_parameters:
-            try:
-                params = loads(self.context.app_parameters)
-            except ValueError:
-                logger.exception(
-                    'The app parameters %r are cannot be decoded to JSON.',
-                    self.context.app_parameters
-                )
-        self.request.form.update(params)
-        return api.content.get_view(
-            self.context.app.lstrip('@@'),
-            self.context,
-            self.request,
-        )
+        return self.context.app_view(self.request)
 
     @property
     @memoize
@@ -141,16 +124,5 @@ class BaseAppView(BrowserView):
             return 'pat-modal'
         return ''
 
-
-class AppView(BaseAppView):
-    def __call__(self):
-        ''' We maybe have app view to call, so many things can happen
-        '''
-        if not self.context.app:
-            return super(AppView, self).__call__()
-
-        if not self.can_view_context:
-            raise Unauthorized("Disallowed view: %s" % self.view_name)
-
-        # Call the app
-        return self.app_view()
+    def get_class(self):
+        return self.context.css_class or self.context.getId()

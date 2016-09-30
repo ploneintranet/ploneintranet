@@ -40,7 +40,7 @@ class BookmarkView(BrowserView):
     @property
     @memoize_contextless
     def app_url(self):
-        return self.app.absolute_url()
+        return self.app.app_url()
 
 
 class BookmarkActionView(BookmarkView):
