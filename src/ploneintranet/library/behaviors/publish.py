@@ -37,9 +37,13 @@ class PublishWidely(object):
 
     def can_publish_widely(self):
         app = IAppContent(self.context).get_app()
+        # don't allow copying FROM library
         if ILibraryApp.providedBy(app):
-            # don't allow copying FROM library
             return False
+        # only locally published content may be widely published
+        if api.content.get_state(self.context) not in ('published',):
+            return False
+        # only reviewers may publish widely
         return api.user.has_permission(
             "Review portal content",
             obj=self.context
@@ -59,6 +63,9 @@ class PublishWidely(object):
         raise ValueError("No library app")
 
     def copy_to(self, target):
+        if not self.can_publish_widely():
+            log.error("Cannot publish widely: {}".format(self.context))
+            return None
         if not ILibraryFolder.providedBy(target):
             log.error("Invalid target: {}".format(target))
             return None

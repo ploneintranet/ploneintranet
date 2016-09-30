@@ -13,20 +13,27 @@ class TestPublishWidely(IntegrationTestCase):
         super(TestPublishWidely, self).setUp()
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ('Manager',))
-        self.testsection = api.content.create(
+        self.source_folder = api.content.create(
+            type='Folder',
+            title='Source folder',
+            container=self.portal)
+        self.source_document = api.content.create(
+            type='Document',
+            title='Holidays previous year',
+            container=self.source_folder)
+        api.content.transition(self.source_document, 'publish')
+        self.library_section = api.content.create(
             type='ploneintranet.library.section',
             title='Human Resources',
             container=self.portal.library)
-        self.testfolder = api.content.create(
+        self.library_folder = api.content.create(
             type='ploneintranet.library.folder',
             title='Holidays',
-            container=self.testsection)
+            container=self.library_section)
+        setRoles(self.portal, TEST_USER_ID, ('Reviewer', 'Contributor'))
 
     def test_behavior_active_document(self):
-        content = api.content.create(
-            type='Document',
-            title='Holidays previous year',
-            container=self.testfolder)
+        content = self.source_document
         self.assertFalse(IPublishWidely.providedBy(content))
         adapted = IPublishWidely(content)
         self.assertTrue(IPublishWidely.providedBy(adapted))
@@ -35,7 +42,7 @@ class TestPublishWidely(IntegrationTestCase):
         content = api.content.create(
             type='File',
             title='Holidays previous year file',
-            container=self.testfolder)
+            container=self.source_folder)
         self.assertFalse(IPublishWidely.providedBy(content))
         adapted = IPublishWidely(content)
         self.assertTrue(IPublishWidely.providedBy(adapted))
@@ -44,7 +51,8 @@ class TestPublishWidely(IntegrationTestCase):
         content = api.content.create(
             type='Image',
             title='Holidays previous year image',
-            container=self.testfolder)
+            container=self.source_folder)
+        api.content.transition(content, 'publish')
         self.assertFalse(IPublishWidely.providedBy(content))
         adapted = IPublishWidely(content)
         self.assertTrue(IPublishWidely.providedBy(adapted))
@@ -53,7 +61,40 @@ class TestPublishWidely(IntegrationTestCase):
         content = api.content.create(
             type='Link',
             title='Holidays previous year link',
-            container=self.testfolder)
+            container=self.source_folder)
+        api.content.transition(content, 'publish')
         self.assertFalse(IPublishWidely.providedBy(content))
         adapted = IPublishWidely(content)
         self.assertTrue(IPublishWidely.providedBy(adapted))
+
+    def test_permission(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertTrue(adapted.can_publish_widely())
+        setRoles(self.portal, TEST_USER_ID, ('Member',))
+        self.assertFalse(adapted.can_publish_widely())
+
+    def test_workflow(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertTrue(adapted.can_publish_widely())
+        api.content.transition(self.source_document, 'retract')
+        self.assertFalse(adapted.can_publish_widely())
+
+    def test_location(self):
+        content = api.content.create(
+            type='Document',
+            title='Library document',
+            container=self.library_folder)
+        api.content.transition(content, 'publish')
+        adapted = IPublishWidely(content)
+        self.assertFalse(adapted.can_publish_widely())
+
+    def test_copy_to_target(self):
+        adapted = IPublishWidely(self.source_document)
+        new = adapted.copy_to(self.library_section)  # invalid target
+        self.assertEquals(None, new)
+
+    def test_copy_to(self):
+        adapted = IPublishWidely(self.source_document)
+        new = adapted.copy_to(self.library_folder)
+        self.assertIn(new, self.library_folder.objectValues())
+        self.assertEquals(new.title, self.source_document.title)
