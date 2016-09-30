@@ -14,8 +14,13 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
-    <include package=".browser" />
+    <!--
+        DEPRECATED
+        ploneintranet.theme is nearly completely replaced
+        by quaive.resources.ploneintranet.
+        Only the browser layer is still used.
 
+    -->
     <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- [Theme]"
@@ -36,7 +41,5 @@
         interface="ploneintranet.theme.interfaces.IThemeSpecific"
         type="zope.publisher.interfaces.browser.IBrowserSkinType"
         />
-
-    <include package="z3c.jbot" file="meta.zcml" />
 
 </configure>
