@@ -433,4 +433,32 @@
         provides=".pinning.IPinner"
         factory=".pinning.Pinner"
         />
+
+    <browser:page
+        name="archive"
+        for="*"
+        permission="zope2.View"
+        class=".archive.ArchiveView"
+        template="templates/archive.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="unarchive"
+        for="*"
+        permission="zope2.View"
+        class=".archive.UnarchiveView"
+        template="templates/archive.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="archive-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".archive.ArchiveLinkIconified"
+        template="templates/archive_link.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
 </configure>
