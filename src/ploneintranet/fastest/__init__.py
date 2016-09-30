@@ -205,16 +205,25 @@ def whatchanged(commitid, baseid=None, verbose=True):
     base_parent_generator = base.iter_parents()
     shared_ancestors = []
     commit_history_exhausted = base_history_exhausted = False
-    while not commit_history_exhausted or not base_history_exhausted:
-        try:
-            commit_and_parents.append(next(commit_parent_generator))
-        except StopIteration:
-            commit_history_exhausted = True
+    # dig up some history to improve detection of already-merged commits
+    for i in xrange(100):
         try:
             base_and_parents.append(next(base_parent_generator))
         except StopIteration:
             base_history_exhausted = True
-        # massive speedup: stop backtracking on first shared parent
+    # walk back both branches one step here, one step there
+    while not commit_history_exhausted or not base_history_exhausted:
+        if not commit_history_exhausted:
+            try:
+                commit_and_parents.append(next(commit_parent_generator))
+            except StopIteration:
+                commit_history_exhausted = True
+        if not base_history_exhausted:
+            try:
+                base_and_parents.append(next(base_parent_generator))
+            except StopIteration:
+                base_history_exhausted = True
+        # massive speedup: stop backtracking on shared parent
         shared_ancestors = [x for x in commit_and_parents
                             if x in base_and_parents]
         if shared_ancestors:
