@@ -44,6 +44,10 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <!-- 
+         zope.Public with attribute protection taken from upstream
+         Products/CMFPlone/browser/configure.zcml
+    -->
     <browser:page
         for="*"
         name="breadcrumbs_view"
@@ -53,6 +57,10 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
+    <!-- 
+         zope.Public with attribute protection taken from upstream
+         Products/CMFPlone/browser/configure.zcml
+    -->
     <browser:page
         for="*"
         name="orig_breadcrumbs_view"

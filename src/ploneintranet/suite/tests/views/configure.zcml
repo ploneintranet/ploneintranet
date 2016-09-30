@@ -5,7 +5,8 @@
 
 
   <!--
-    This views are here for testing purpose
+      This views are here for testing purpose
+      zope.Public needed to test unauthorized
   -->
   <browser:page
       name="test_injection_on_insufficient_privileges"
@@ -14,6 +15,9 @@
       template="test_injection_on_insufficient_privileges.pt"
       />
 
+  <!--
+      zope.Public needed to test unauthorized
+  -->
   <browser:page
       name="test_always_raise_insufficient_privileges"
       for="*"

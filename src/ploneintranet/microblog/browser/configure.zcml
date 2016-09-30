@@ -23,7 +23,7 @@
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       class=".update_social.UpdateSocialView"
       template="templates/update-social.html"
-      permission="zope.Public"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       />
   
   <browser:page
@@ -32,7 +32,7 @@
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       class=".post_well_done.PostWellDoneView"
       template="templates/post-well-done.html"
-      permission="zope.Public"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       />
   
   <browser:page
@@ -41,14 +41,14 @@
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       class=".comment_well_said.CommentWellSaidView"
       template="templates/comment-well-said.html"
-      permission="zope.Public"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       />
   
   <browser:view
       for="*"
       name="panel-tags"
       class=".panel_tags.Tags"
-      permission="zope2.View"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       />
 
@@ -56,7 +56,7 @@
       for="*"
       name="panel-users"
       class=".panel_users.Users"
-      permission="zope2.View"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       />
 
@@ -64,7 +64,7 @@
       for="*"
       name="panel-user"
       class=".panel_users.User"
-      permission="zope2.View"
+      permission="ploneintranet.microblog.AddStatusUpdate"
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       />
   
