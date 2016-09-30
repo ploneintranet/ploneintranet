@@ -1,8 +1,0 @@
-<registry>
-
-  <record name="plone.generate_tabs"
-          interface="plone.app.controlpanel.navigation.INavigationSchema">
-    <value>True</value>
-  </record>
-
-</registry>
