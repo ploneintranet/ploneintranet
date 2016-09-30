@@ -17,7 +17,10 @@
 
   <!-- Switch off various standard Plone pages that are not wanted.
        We could and should remove links to these, but we may forget
-       some, or users may try to be smart, which we want to avoid. -->
+       some, or users may try to be smart, which we want to avoid.
+
+       zope.Public by necessity to serve unauthorized users
+  -->
 
   <browser:pages
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -27,6 +30,9 @@
     <browser:page name="member-registration" />
   </browser:pages>
 
+  <!--
+       zope.Public by necessity to serve unauthorized users
+  -->
   <browser:pages
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       permission="zope.Public"
@@ -40,6 +46,9 @@
     <browser:page name="user-information" />
   </browser:pages>
 
+  <!--
+       zope.Public by necessity to serve unauthorized users
+  -->
   <browser:pages
       for="*"
       permission="zope.Public"

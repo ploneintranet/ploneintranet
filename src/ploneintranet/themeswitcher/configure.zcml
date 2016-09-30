@@ -22,7 +22,9 @@
         handler=".policy.filter_request"
         />
 
-    <!-- @@switch_theme view used as site action -->
+    <!-- @@switch_theme view used as site action
+         zope.Public is safe here, returns a redirect
+    -->
     <browser:page
         name="switch_theme"
         for="*"
