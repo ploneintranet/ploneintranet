@@ -1,0 +1,10 @@
+<tal:pin define="link_options view/link_options;" 
+         condition="python:context.portal_registry.get('ploneintranet.workspace.pinning_enabled')" > 
+<fieldset id="pinning-action-icon" class="icon pat-subform pat-autosubmit pat-inject ${link_options/css_class}"
+          data-pat-inject="url: ${link_options/base_url}/${link_options/action}?${view/query_string}; source: #pinning-action-notification; target: #pinning-action-icon::element">
+  <label class="${view/base_css_class} ${link_options/css_class}">
+      <input type="checkbox" name="pinning" tal:attributes="checked python:link_options['css_class'] == 'checked' and 'checked' or None"> ${link_options/label}
+  </label>
+  <!-- Depending on the state of the tickbox, the feedback will contain the #pinned-on-workspace message (green) or the unpinned-on-workspace (orange) message. -->
+</fieldset>
+</tal:pin>
