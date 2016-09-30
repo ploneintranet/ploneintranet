@@ -6,6 +6,8 @@ from zope.interface import Interface
 from plone import api
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import view
+from plone.app.uuid.utils import uuidToObject
+from plone.uuid.interfaces import IUUID
 from Products.Five import BrowserView
 
 from ploneintranet import api as pi_api
@@ -26,6 +28,46 @@ class IPublishWidely(Interface):
     Note that not every object with this behavior necessarily
     is published widely. It's just enabled to do so if needed.
     """
+
+    def can_publish_widely():
+        """
+        Is the context object eligible to be published widely?
+        Checks the following conditions:
+        - context is not already contained in Library app
+        - context state is 'published'
+        - user has Reviewer permissions
+
+        :rtype: bool
+        """
+
+    def copy_to(target):
+        """
+        Copies the context object to the target.
+        Submits copy for review.
+
+        :param target: Target folder to copy to.
+        :type target: ILibraryFolder.
+        :returns: The newly created copy object.
+        :rtype: IDexterityContent (same as self.context)
+        """
+
+    def source():
+        """
+        Get the original content object, if the current context
+        is a widely published copy of an original.
+
+        :returns: Original for this context, or None
+        :rtype: IDexterityContent or None
+        """
+
+    def target():
+        """
+        Get the copied content object, if the current context
+        is the original for a widely published copy.
+
+        :returns: Target for this context, or None
+        :rtype: IDexterityContent or None
+        """
 
 
 @implementer(IPublishWidely)
@@ -86,7 +128,19 @@ class PublishWidely(object):
         log.info("{} copied {} --> {}".format(
             user.id, self.context.absolute_url(), new.absolute_url()
         ))
+        setattr(self.context, 'publish_widely_target_uuid', IUUID(new))
+        setattr(new, 'publish_widely_source_uuid', IUUID(self.context))
         return new
+
+    def source(self):
+        uuid = getattr(self.context, 'publish_widely_source_uuid', None)
+        if uuid:
+            return uuidToObject(uuid)
+
+    def target(self):
+        uuid = getattr(self.context, 'publish_widely_target_uuid', None)
+        if uuid:
+            return uuidToObject(uuid)
 
 
 class PublishActionView(BrowserView):

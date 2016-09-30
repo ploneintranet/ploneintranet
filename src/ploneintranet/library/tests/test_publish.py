@@ -2,8 +2,9 @@
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from ploneintranet.library.testing import IntegrationTestCase
+from zope.interface.verify import verifyObject
 
+from ploneintranet.library.testing import IntegrationTestCase
 from ploneintranet.library.behaviors.publish import IPublishWidely
 
 
@@ -31,6 +32,10 @@ class TestPublishWidely(IntegrationTestCase):
             title='Holidays',
             container=self.library_section)
         setRoles(self.portal, TEST_USER_ID, ('Reviewer', 'Contributor'))
+
+    def test_behavior_interface(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertTrue(verifyObject(IPublishWidely, adapted))
 
     def test_behavior_active_document(self):
         content = self.source_document
@@ -98,3 +103,18 @@ class TestPublishWidely(IntegrationTestCase):
         new = adapted.copy_to(self.library_folder)
         self.assertIn(new, self.library_folder.objectValues())
         self.assertEquals(new.title, self.source_document.title)
+
+    def test_relation_source(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertEquals(adapted.source(), None)
+        new = adapted.copy_to(self.library_folder)
+        new_adapted = IPublishWidely(new)
+        self.assertEquals(new_adapted.source(), self.source_document)
+        self.assertNotEquals(new_adapted.source(), None)
+
+    def test_relation_target(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertEquals(adapted.target(), None)
+        new = adapted.copy_to(self.library_folder)
+        self.assertEquals(adapted.target(), new)
+        self.assertNotEquals(adapted.target(), None)
