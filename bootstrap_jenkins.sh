@@ -1,5 +1,6 @@
 # Default to jenkins.cfg if no config file passed in
 BUILDOUT_CONFIG=${1-jenkins.cfg}
+make clean
 if [ ! -f bin/activate ]
 then
     virtualenv .
@@ -9,6 +10,7 @@ mkdir -p buildout-cache/downloads || exit 1
 # NOTE: we need to use virtualenv --relocatable every time new
 # console_scripts have been created in ./bin to avoid running into the
 # problem where the shebang is > 127 characters long.
+
 virtualenv --relocatable .
 . bin/activate
 ./bin/pip install -UIr requirements.txt || exit 1
