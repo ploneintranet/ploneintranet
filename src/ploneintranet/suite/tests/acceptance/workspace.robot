@@ -349,7 +349,7 @@ Archived workspaces are marked search results
 
 # https://github.com/quaive/ploneintranet/issues/776
 User can archive a workspace document
-      Tags  [heisenbug]
+    [Tags]  heisenbug
     Given I am logged in as the user christian_stoney
       And I Go To the Terms and Conditions document
      Then I can archive the current context

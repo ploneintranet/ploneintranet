@@ -25,9 +25,16 @@ try:
 except pkg_resources.DistributionNotFound:
     SOLR_ENABLED = False
 
+# This works well in a docker container
 # /app/parts/test/../../bin => /app/bin
 _BUILDOUT_BIN_DIR = os.path.abspath(
-    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin'))
+    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin',)
+)
+if not os.path.isdir(_BUILDOUT_BIN_DIR):
+    # This works well when using robot-server
+    _BUILDOUT_BIN_DIR = os.path.abspath(
+        os.path.join(os.getcwd(), 'bin',)
+    )
 
 
 class SolrLayer(Layer):
