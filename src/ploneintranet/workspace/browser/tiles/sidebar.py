@@ -590,8 +590,8 @@ class Sidebar(BaseTile):
                     "history: record"
                 )
                 # Do we switch the view (unexpand the sidebar)?
-                dps = ("body focus-* focus-document && "
-                       "body sidebar-large sidebar-normal")
+                dps = ("#application-body focus-* focus-document && "
+                       "#application-body sidebar-large sidebar-normal")
 
             results.append(dict(
                 title=r['Title'],
