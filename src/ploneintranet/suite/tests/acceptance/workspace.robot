@@ -347,7 +347,9 @@ Archived workspaces are marked search results
       And I can see the search result ArchivedWSSearch
      Then I can see that the workspace is archived  ArchivedWSSearch
 
+# https://github.com/quaive/ploneintranet/issues/776
 User can archive a workspace document
+      Tags  [heisenbug]
     Given I am logged in as the user christian_stoney
       And I Go To the Terms and Conditions document
      Then I can archive the current context
