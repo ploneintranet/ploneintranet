@@ -11,5 +11,6 @@
     <dependency>profile-ploneintranet.activitystream:default</dependency>
     <dependency>profile-ploneintranet.todo:default</dependency>
     <dependency>profile-ploneintranet.invitations:default</dependency>
+    <dependency>profile-slc.outdated:default</dependency>
   </dependencies>
 </metadata>

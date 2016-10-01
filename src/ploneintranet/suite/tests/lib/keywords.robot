@@ -118,6 +118,10 @@ I go to the Archived Workspace
     Go To  ${PLONE_URL}/workspaces/archived-workspace
     Wait Until Page Does Not Contain Element  css=.injecting-content
 
+I go to the Terms and Conditions Document
+    Go To  ${PLONE_URL}/workspaces/service-announcements/terms-and-conditions
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
@@ -724,17 +728,32 @@ Go back to the workspace by clicking the parent button
     Wait Until Page Contains  Projection Materials
 
 I can search for items
-    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Public bodies reform')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Manage Information')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Projection Materials')]]
     Input Text  xpath=//input[@name='sidebar-search']  Info
-    Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
-    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+    Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Public bodies reform')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Manage Information')]]
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Projection Materials')]]
 
 I can see that the workspace is archived
     [arguments]  ${title}
     Wait until page contains element  xpath=//a/strong[text()='Archived']
+
+
+I can archive the current context
+    Click Element  jquery=.quick-functions :contains('Archive')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Unarchive')
+
+I can unarchive the current context
+    Click Element  jquery=.quick-functions :contains('Unarchive')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Archive')
 
 I see the option to create a document
     Click link  Documents
@@ -967,7 +986,7 @@ Then I can delete an event
     Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
-    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']
+    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()[contains(., 'bärtige_flößer.odt')]]
 
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]

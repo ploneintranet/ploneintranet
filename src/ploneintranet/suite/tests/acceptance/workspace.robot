@@ -347,6 +347,12 @@ Archived workspaces are marked search results
       And I can see the search result ArchivedWSSearch
      Then I can see that the workspace is archived  ArchivedWSSearch
 
+User can archive a workspace document
+    Given I am logged in as the user christian_stoney
+      And I Go To the Terms and Conditions document
+     Then I can archive the current context
+     Then I can unarchive the current context
+
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration
 # Site Administrator can edit roster

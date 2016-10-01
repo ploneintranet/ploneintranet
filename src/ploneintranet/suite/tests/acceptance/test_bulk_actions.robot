@@ -185,19 +185,19 @@ I can paste the Minutes word document
     Wait Until Page Contains  Item(s) pasted
 
 I can delete the Minutes word document
-    Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
+    I add an item to the cart  Minutes
     I choose to delete the items in the cart
     I confirm to delete the items
     Wait Until Page Contains  The following items have been deleted
 
 I can cut the Minutes word document
-    Click Element  xpath=//strong[text()="Minutes"]//ancestor::label/input
+    I add an item to the cart  Minutes
     I choose to cut the items in the cart
     Wait Until Page Contains  1 Files were cut and moved to your cloud clipboard.
 
 I add an item to the cart
     [arguments]  ${title}
-    Click Element  xpath=//strong[text()="${title}"]//ancestor::label/input
+    Click Element  xpath=//strong[text()[contains(., "${title}")]]//ancestor::label/input
 
 I choose to delete the items in the cart
     # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
@@ -267,11 +267,10 @@ I show archived items
 
 I don't see an archived item
     [arguments]  ${title}
-    Wait until page does not contain element  xpath=//strong[@class='title'][text()='${title}']
-
+    Wait until page does not contain element  xpath=//strong[@class='title'][text()[contains(., '${title}')]]//abbr[text()='(Archived)']
 I do see an archived item
     [arguments]  ${title}
-    Wait until page contains element  xpath=//strong[@class='title'][text()='${title}']
+    Wait until page contains element  xpath=//strong[@class='title'][text()[contains(., '${title}')]]//abbr[text()='(Archived)']
 
 I see a message that items have been deleted
     [arguments]  ${title}

@@ -284,7 +284,10 @@ Supported types include (class names):
                                        class python:item.get('dps', None) and (attrs['class'] + ' pat-switch') or attrs['class'];
                                        data-pat-inject item/dpi | nothing;
                                        data-pat-switch item/dps | nothing">
-                      <strong class="title" tal:content="item/title">Traces through Time data workshop</strong>
+                      <strong class="title">
+                        ${item/title}
+                        <abbr tal:condition="item/outdated" class="iconified icon-archive">(Archived)</abbr>
+                      </strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
                     </a>

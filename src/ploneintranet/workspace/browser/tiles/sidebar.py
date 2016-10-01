@@ -606,7 +606,8 @@ class Sidebar(BaseTile):
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
-                path=r.getPath()
+                path=r.getPath(),
+                outdated=r['outdated'],
             ))
         return results
 

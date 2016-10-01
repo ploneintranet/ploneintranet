@@ -3,6 +3,7 @@ from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.event import notify
+from zope.annotation import IAnnotations
 from zope.lifecycleevent import ObjectModifiedEvent
 
 
@@ -299,3 +300,38 @@ class TestSidebar(BaseTestCase):
         self.assertListEqual(ws1.related_workspaces, [])
         self.assertListEqual(ws2.related_workspaces, [])
         self.assertListEqual(ws3.related_workspaces, [])
+
+    def test_sidebar_archived_items(self):
+        ''' Check if the sidebar is showing/hiding updated items properly
+        '''
+        self.login_as_portal_owner()
+        ws = self.create_workspace()
+        doc = api.content.create(
+            ws,
+            'Document',
+            title='Archivable Document'
+        )
+        sidebar = api.content.get_view(
+            'sidebar.default',
+            ws, self.request.clone()
+        )
+        self.assertIn(
+            '<strong class="title"> Archivable Document </strong>',
+            ' '.join(sidebar().split()),
+        )
+        IAnnotations(doc)['slc.outdated'] = True
+        doc.reindexObject(idxs=['outdated'])
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        self.assertNotIn('Archivable Document', sidebar())
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.set('documents-show-extra-admin', 'archived_documents')
+        self.assertIn('Archivable Document', sidebar())
+        self.assertIn(
+            '<strong class="title"> Archivable Document '
+            '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
+            ' '.join(sidebar().split()),
+        )

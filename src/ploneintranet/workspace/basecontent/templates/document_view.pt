@@ -49,6 +49,7 @@
                          class="pat-modal icon-trash iconified"
                          i18n:translate=""
                         >Delete</a>
+                      <tal:archiving replace="structure here/@@archive-link-iconified" />
                       <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-inject="source: #content; target: body:after" title="Document history" i18n:attributes="title" i18n:translate="">
                           View history
                       </a>
