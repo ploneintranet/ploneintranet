@@ -34,8 +34,9 @@ class IPublishWidely(Interface):
         """
         Is the context object eligible to be published widely?
         Checks the following conditions:
-        - context is not already contained in Library app
+        - context is not contained in Library app
         - context state is 'published'
+        - context is not already widely published
         - user has Reviewer permissions
 
         :rtype: bool
@@ -90,6 +91,9 @@ class PublishWidely(object):
         except WorkflowException:
             # no workflow, e.g. images
             pass
+        # may only publish widely once
+        if self.target():
+            return False
         # only reviewers may publish widely
         return api.user.has_permission(
             "Review portal content",

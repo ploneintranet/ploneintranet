@@ -125,3 +125,9 @@ class TestPublishWidely(IntegrationTestCase):
         new = adapted.copy_to(self.library_folder)
         self.assertEquals(adapted.target(), new)
         self.assertNotEquals(adapted.target(), None)
+
+    def test_publish_only_once(self):
+        adapted = IPublishWidely(self.source_document)
+        self.assertTrue(adapted.can_publish_widely())
+        adapted.copy_to(self.library_folder)
+        self.assertFalse(adapted.can_publish_widely())
