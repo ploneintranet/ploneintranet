@@ -29,7 +29,7 @@
 
     <browser:viewlet
         name="plone.personal_bar"
-        manager="plone.app.layout.viewlets.interfaces.IToolbar"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".personalbar.PersonalBarViewlet"
         permission="zope2.View"
         layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
@@ -37,14 +37,14 @@
 
     <browser:viewlet
         name="ploneintranet.zopeuser_warning"
-        manager="plone.app.layout.viewlets.interfaces.IToolbar"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".zopeuser.WarningViewlet"
         template="zopeuser_warning.pt"
         permission="zope2.View"
         layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 
-    <!-- 
+    <!--
          zope.Public with attribute protection taken from upstream
          Products/CMFPlone/browser/configure.zcml
     -->
@@ -57,7 +57,7 @@
         layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
         />
 
-    <!-- 
+    <!--
          zope.Public with attribute protection taken from upstream
          Products/CMFPlone/browser/configure.zcml
     -->
