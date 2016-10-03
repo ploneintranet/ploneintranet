@@ -5,6 +5,7 @@ from ploneintranet.workspace.tests.test_views import BaseViewTest
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from zope.component import queryUtility
+from zope.i18nmessageid.message import Message
 
 
 class TestTiles(BaseViewTest):
@@ -49,3 +50,55 @@ class TestTiles(BaseViewTest):
                 'verb': 'posted'
             }
         )
+
+    def test_workspace_tile_properties(self):
+        ''' We have some request dependendent properties.
+        We want to check they behave well.
+        '''
+        tile = api.content.get_view(
+            'workspaces.tile',
+            self.portal,
+            self.request.clone()
+        )
+        self.assertEqual(self.portal.translate(tile.title), u'Workspaces')
+        self.assertListEqual(
+            tile.workspace_type,
+            tile.available_workspace_types
+        )
+        self.assertEqual(tile.workspaces_url, 'http://nohost/plone/workspaces')
+
+        # test requesting a request specifying a workspace type
+        tile.request = self.request.clone()
+        tile.request.form['workspace_type'] = 'ploneintranet.workspace.case'
+        self.assertEqual(tile.title, u'tile_ploneintranet.workspace.case')
+        self.assertIsInstance(tile.title, Message)
+        self.assertEqual(tile.workspace_type, 'ploneintranet.workspace.case')
+        self.assertEqual(
+            tile.workspaces_url,
+            (
+                'http://nohost/plone/workspaces/'
+                '?workspace_type=ploneintranet.workspace.case'
+            )
+        )
+
+        # test requesting a request specifying a workspace type and a title
+        tile.request = self.request.clone()
+        tile.request.form['workspace_type'] = 'ploneintranet.workspace.case'
+        tile.request.form['title'] = 'My workspace portlet'
+        self.assertEqual(tile.title, u'My workspace portlet')
+        self.assertIsInstance(tile.title, Message)
+        self.assertEqual(tile.workspace_type, 'ploneintranet.workspace.case')
+        self.assertEqual(
+            tile.workspaces_url,
+            (
+                'http://nohost/plone/workspaces/'
+                '?workspace_type=ploneintranet.workspace.case'
+            )
+        )
+
+        # test requesting a request specifying a multiple workspace types
+        tile.request = self.request.clone()
+        tile.request.form['workspace_type'] = ['foo', 'bar']
+        self.assertEqual(self.portal.translate(tile.title), u'Workspaces')
+        self.assertListEqual(tile.workspace_type, ['foo', 'bar'])
+        self.assertEqual(tile.workspaces_url, 'http://nohost/plone/workspaces')

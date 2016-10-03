@@ -16,21 +16,63 @@ class WorkspacesTile(Tile):
 
     index = ViewPageTemplateFile("templates/workspaces.pt")
 
-    def render(self):
-        return self.index()
-
-    def __call__(self):
-        return self.render()
+    @property
+    @memoize
+    def available_workspace_types(self):
+        ''' The workspace types defined in the registry
+        '''
+        workspace_type_filters = api.portal.get_registry_record(
+            'ploneintranet.workspace.workspace_type_filters'
+        )
+        return workspace_type_filters.keys()
 
     @property
+    @memoize
     def workspace_type(self):
         """
         A tile should show either Workspacefolders or Cases, not both.
         """
         return self.request.form.get(
             'workspace_type',
-            ['ploneintranet.workspace.workspacefolder',
-             'ploneintranet.workspace.case'])
+            self.available_workspace_types,
+        )
+
+    @property
+    def title(self):
+        ''' The tile title. If we have an homonymous request parameter, use it
+        Otherwise return a default based on the workspace type
+        '''
+        title = self.request.form.get('title', '')
+        if title:
+            return _(title)
+        workspace_type = self.workspace_type
+        if isinstance(workspace_type, basestring):
+            return _('tile_' + workspace_type)
+        return _('tile_workspaces_default_tile', u'Workspaces')
+
+    @property
+    @memoize
+    def workspace_container(self):
+        ''' The object we are looking workspaces in
+        '''
+        portal = api.portal.get()
+        workspace_path = self.request.form.get('workspace_path', 'workspaces')
+        return portal.get(workspace_path)
+
+    @property
+    def workspaces_url(self):
+        ''' The URL to get to the workspaces overview
+
+        Add the workspace_type parameter if it is a string
+        '''
+        workspaces_url = self.workspace_container.absolute_url()
+        workspace_type = self.workspace_type
+        if not isinstance(workspace_type, basestring):
+            return workspaces_url
+        return '{workspaces_url}/?workspace_type={workspace_type}'.format(
+            workspaces_url=workspaces_url,
+            workspace_type=workspace_type,
+        )
 
     def shorten(self, text):
         return shorten(text, length=60)
@@ -39,8 +81,11 @@ class WorkspacesTile(Tile):
     def workspaces(self, include_activities=False):
         """ The list of my workspaces
         """
-        return my_workspaces(self.context, workspace_types=self.workspace_type,
-                             include_activities=include_activities)
+        return my_workspaces(
+            self.workspace_container,
+            workspace_types=self.workspace_type,
+            include_activities=include_activities,
+        )
 
 
 class WorkspaceTile(Tile):
