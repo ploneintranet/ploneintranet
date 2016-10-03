@@ -1,18 +1,12 @@
 <div i18n:domain="plone" id="portal-personaltools-wrapper">
-
   <tal:block condition="not: view/anonymous">
-    <a class="pat-avatar pat-tooltip"
-       data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: content;"
-       data-initials="${view/initials}"
-       href="#portal-personaltools-menu"
-       id="user-avatar">
-       <img src="${view/avatar_url}" title="${view/user_name}" class="${view/img_class}"/>
+    <a class="pat-avatar pat-tooltip user-info-avatar"
+       id="user-avatar"
+       href="${here/portal_url}/personal-menu.html#content"
+       data-pat-tooltip="position-list: tr; position-policy: force; trigger: click; source: ajax;"
+       data-initials="${view/initials|nothing}"
+       >
+       <img src="${view/avatar_url}" alt="${view/user_name|nothing}" />
     </a>
-    <div id="portal-personaltools-menu"
-         tal:condition="python:view.user_actions and not view.anonymous"
-         style="display:none">
-        <metal:menu use-macro="here/personal-menu.html/main" />
-    </div>
   </tal:block>
-
 </div>

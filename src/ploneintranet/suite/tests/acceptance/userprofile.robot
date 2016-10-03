@@ -188,7 +188,7 @@ I cannot edit personal details
     Page Should Contain Element  css=dt.icon-user
 
 I can upload a new avatar from the menu
-    Choose File  xpath=(//input[@name='portrait'])[2]  ${UPLOADS}/new-profile.jpg
+    Choose File  xpath=(//input[@name='portrait'])[1]  ${UPLOADS}/new-profile.jpg
     Wait until page contains   Personal image updated
 
 I open the change passord form
