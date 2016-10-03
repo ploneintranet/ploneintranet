@@ -19,7 +19,7 @@
                   <label class="item user has-no-description unchecked" tal:repeat="user users">
                     <input type="checkbox" name=""/>
                     <a class="follow pat-inject" data-pat-inject="source: #document-body; target: #document-body; history: record" href="${user/url}">
-                      <img class="avatar" alt="" src="${user/avatar_url}"/>
+                      <tal:avatar replace="structure user/avatar_tag"/>
                       <strong class="title" tal:content="user/title">Liz Baker</strong>
                     </a>
                   </label>
