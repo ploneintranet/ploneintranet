@@ -113,28 +113,36 @@
               <div class="row people user-cards results pat-equaliser">
                 <tal:repeat repeat="person view/my_bookmarked_people">
                   <div class="item" tal:define="person person/getObject">
-                    <div href="" class="user-card">
+                    <div href=""
+                         class="user-card"
+                         tal:define="
+                            fullname person/fullname;
+                            email person/email;
+                            job_title person/job_title|nothing;
+                            mobile person/mobile|nothing;
+                            telephone person/telephone|nothing;
+                          ">
                       <img tal:replace="structure python:view.get_avatar_by_userid(person.username)">
                       <a href="${person/absolute_url}">
-                        <h4 class="name">${person/fullname}</h4>
-                        <p class="byline">${person/job_title}</p>
+                        <h4 class="name">${fullname}</h4>
+                        <p class="byline">${job_title}</p>
                       </a>
                       <ul class="data">
                         <li class="mail icon-mail"
-                            tal:condition="person/email"
+                            tal:condition="email"
                           >
-                          <a title="Mail ${person/fullname} at ${person/email}"
-                             href="mailto:${person/email}">${person/email}</a>
+                          <a title="Mail ${fullname} at ${email}"
+                             href="mailto:${email}">${email}</a>
                         </li>
                         <li class="phone icon-phone"
-                            tal:condition="person/telephone"
+                            tal:condition="telephone"
                           >
-                          <a title="Call ${person/fullname} at ${person/telephone}" href="tel:${person/telephone}">${person/telephone}</a>
+                          <a title="Call ${fullname} at ${telephone}" href="tel:${telephone}">${telephone}</a>
                         </li>
                         <li class="phone icon-mobile"
-                            tal:condition="person/mobile"
+                            tal:condition="mobile"
                           >
-                          <a title="Call ${person/fullname} at ${person/mobile}" href="tel:${person/mobile}">${person/mobile}</a>
+                          <a title="Call ${fullname} at ${mobile}" href="tel:${mobile}">${mobile}</a>
                         </li>
                       </ul>
                     </div>
