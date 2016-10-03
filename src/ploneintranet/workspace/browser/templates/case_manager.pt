@@ -68,12 +68,12 @@
                     </div>
                 </div>
               </div>
-
               <aside class="sidebar right"
-                     tal:condition="not:view/is_ajax"
+                     tal:condition="not:request/called_myself | nothing"
                     >
                 <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
                       tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
+                      <input type="hidden" name="called_myself" value="indeed"/>
                   <fieldset class="vertical">
                     <label>
                       <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
