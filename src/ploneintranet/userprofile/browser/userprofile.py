@@ -225,7 +225,7 @@ class UserProfileView(UserProfileViewForm):
             details.append({
                 'title': profile.fullname,
                 'url': profile.absolute_url(),
-                'avatar_url': pi_api.userprofile.avatar_url(userid),
+                'avatar_tag': pi_api.userprofile.avatar_tag(userid),
             })
         return details
 
