@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a16 (unreleased)
+1.2.0a16 (2016-10-03)
 ---------------------
 
 * Merge pull request #778 from quaive/fixes-from-design-review [GitHub]
