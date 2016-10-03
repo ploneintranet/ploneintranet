@@ -86,6 +86,7 @@ The messaging app indicates unread messages
 
 I click the messaging app
     Click Link  css=div.app-messages a.link
+    Wait Until Page Does Not Contain  css=#document-body.injecting
 
 I open the messaging app
     Go To  ${PLONE_URL}/apps/messages/@@app-messaging
