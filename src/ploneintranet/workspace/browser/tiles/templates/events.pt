@@ -26,7 +26,7 @@
     			<div id="portlet-events-event-list"
                tal:define="events view/upcoming_events;
                            num_events python:len(list(events.results))">
-            <em tal:condition="not:num_events" i18n:translate="">No upcoming events</em>
+            <em tal:condition="not:num_events" i18n:translate="">No upcoming events.</em>
             <ul class="event-list">
               <tal:events repeat="event events">
 
