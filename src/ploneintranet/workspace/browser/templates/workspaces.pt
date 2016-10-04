@@ -45,6 +45,12 @@
                      checked="${python:request.get('archived') and 'checked' or None}"
                     > <tal:archived i18n:translate="label_show_archived">Archived</tal:archived>
             </label>
+            <label class="pat-checklist" title="Show all workspaces or only workspace you're a member of." i18n:attributes="title">
+              <input type="checkbox"
+                     name="member"
+                     checked="${python:request.get('member') and 'checked' or None}"
+                    ><tal:label i18n:translate="">Only my workspaces</tal:label>
+            </label>
             <div class="icons">
                <a href="${view/target/absolute_url}/@@add_workspace" data-pat-modal="class: large" title="Create a new workspace" class="icon create pat-modal" tal:condition="view/can_add" i18n:translate="" i18n:attributes="title">Create workspace</a>
                <span tal:replace="structure context/@@authenticator/authenticator"/>

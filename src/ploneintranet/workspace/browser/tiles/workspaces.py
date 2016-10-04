@@ -8,6 +8,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import shorten
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.workspace.adapters import AVAILABLE_GROUPS
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -205,6 +206,26 @@ def my_workspaces(context,
     include_archived = request.get('archived', False)
     if not include_archived:
         query['is_archived'] = False
+
+    if request.get('member', False):
+        user = api.user.get_current()
+        if user:
+            groups = (
+                group for group in api.group.get_groups(user=user) if group
+            )
+        else:
+            groups = ()
+        uids = set([])
+        for group in groups:
+            if group.getProperty('type', None) == 'workspace':
+                uids.add(group.getProperty('uid'))
+            else:
+                role, uid = group.id.partition(':')[::2]
+                if role in AVAILABLE_GROUPS and len(uid) >= 32:
+                    uids.add(uid)
+        if not uids:
+            return []
+        query['UID'] = list(uids)
 
     sitesearch = getUtility(ISiteSearch)
     if searchable_text:

@@ -358,6 +358,10 @@ I can set workspace listing order
     [arguments]  ${value}
     Select From List  css=select[name=sort]  ${value}
 
+I Click only my workspaces
+    Click Element  css=input[name=member]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can create a new template workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder
