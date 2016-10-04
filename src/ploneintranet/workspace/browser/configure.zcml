@@ -403,6 +403,15 @@
       />
 
     <browser:page
+        name="cog-wheel-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".cogwheel.CogWheelViewIconified"
+        template="templates/cog_wheel_link.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
         name="pinning-link-iconified"
         for="*"
         permission="zope2.View"
