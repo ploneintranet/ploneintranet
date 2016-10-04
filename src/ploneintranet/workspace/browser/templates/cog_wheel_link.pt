@@ -1,0 +1,3 @@
+<tal:pin condition="python:context.portal_registry.get('ploneintranet.workspace.cog_wheel_enabled')" > 
+    <a class="icon-cog iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Show extra context actions" i18n:attributes="title" i18n:translate="" href="cogwheel#content">Show extra context actions</a>
+</tal:pin>
