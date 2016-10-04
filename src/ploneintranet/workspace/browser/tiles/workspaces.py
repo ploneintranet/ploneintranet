@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from logging import getLogger
+from plone import api
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
-from plone import api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.utils import shorten
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.search.interfaces import ISiteSearch
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.component import queryUtility
-from ploneintranet.layout.utils import shorten
+
+logger = getLogger(__name__)
 
 
 class WorkspacesTile(Tile):
@@ -83,6 +86,7 @@ class WorkspacesTile(Tile):
         """
         return my_workspaces(
             self.workspace_container,
+            request=self.request,
             workspace_types=self.workspace_type,
             include_activities=include_activities,
         )
@@ -250,6 +254,15 @@ def my_workspaces(context,
         workspaces.sort(key=lambda item: item['modified'], reverse=True)
     else:
         workspaces.sort(key=lambda item: item['title'].lower())
+
+    # BBB to gain speed slicing should be done before
+    # transforming workspace in a dict
+    limit = request.get('limit')
+    if limit:
+        try:
+            workspaces = workspaces[:int(limit)]
+        except ValueError:
+            logger.error('Invalid limit %r', limit)
     return workspaces
 
 

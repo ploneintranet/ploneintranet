@@ -115,3 +115,58 @@ class TestWorkspaceSort(BaseTestCase):
 
         # Get rid of testing content
         api.content.delete(workspace_container)
+
+    def test_my_workspaces_limit(self):
+        ''' This will test that with a limit parameter we slice the results
+
+        '''
+        # create dummy stuff
+        workspace_container = api.content.create(
+            self.portal,
+            'ploneintranet.workspace.workspacecontainer',
+            'workspace-container-sorting',
+            title='Workspace container sorting'
+        )
+        api.content.create(
+            workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'sort1',
+            title="Sortable 1",
+        )
+        api.content.create(
+            workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'sort2',
+            title="Sortable 2",
+        )
+        # Check default query
+        response = my_workspaces(
+            workspace_container,
+        )
+        self.assertListEqual(
+            [item['title'] for item in response],
+            ['Sortable 1', 'Sortable 2'],
+        )
+
+        # Check with a broken limit
+        response = my_workspaces(
+            workspace_container,
+            request={'limit': 'broken limit'},
+        )
+        self.assertListEqual(
+            [item['title'] for item in response],
+            ['Sortable 1', 'Sortable 2'],
+        )
+
+        # Check with a broken limit
+        response = my_workspaces(
+            workspace_container,
+            request={'limit': '1'},
+        )
+        self.assertListEqual(
+            [item['title'] for item in response],
+            ['Sortable 1'],
+        )
+
+        # Get rid of testing content
+        api.content.delete(workspace_container)
