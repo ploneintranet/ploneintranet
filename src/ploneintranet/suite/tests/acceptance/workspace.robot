@@ -47,6 +47,13 @@ Alice can list workspaces sorted
      And Go to  ${PLONE_URL}/workspaces
      And I can see the last listed workspace is  Zulu
 
+Dollie can see only her workspaces
+    Given I am logged in as the user dollie_nocera
+      And Go to  ${PLONE_URL}/workspaces
+     Then I can see the last listed workspace is  Service announcements
+     When I Click only my workspaces
+     Then I can see the last listed workspace is  Open Market Committee
+
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
       And I can create a new workspace  Aerospace
