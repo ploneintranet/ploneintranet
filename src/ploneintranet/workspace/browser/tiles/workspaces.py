@@ -267,6 +267,7 @@ def my_workspaces(context,
             'archival_date': item.archival_date,
             'last_activity': last_activity,
             'portal_type': item.portal_type,
+            'item': item,
         })
 
     if sort_option == 'activity':
