@@ -24,7 +24,8 @@
           <div class="${workspace_id}" id="project-body">
 
             <div id="document-body">
-              <form class="document pat-inject" method="POST" action="${context/absolute_url}/view#global-statusmessage">
+              <form class="document pat-inject" method="POST" action="${context/absolute_url}/view"
+                data-pat-inject="source: #document-content; target: #document-content &amp;&amp; source: #global-statusmessage; target: #global-statusmessage;">
                 <div class="metadata pat-bumper" id="meta">
                   <div class="meta-bar">
                     <span class="title-group">
