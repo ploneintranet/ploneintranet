@@ -90,7 +90,6 @@ class FullCalendarTile(Tile):
         # this assumption proves to be not valid anymore.
         path = event.url
         workspace_id = path.split('/')[-2]
-
         classes.add("cal-cat-{0}".format(workspace_id))
         classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
 

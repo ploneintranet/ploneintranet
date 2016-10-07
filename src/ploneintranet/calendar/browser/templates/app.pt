@@ -46,10 +46,10 @@
 
             <div hidden="" id="extra-functions">
                 <ul class="menu">
-                    <li>
-                        <a href="/apps/calendar/" class="icon-cog" i18n:translate="">Settings</a>
+                    <!--li>
+                        <a href="${context/absolute_url}/apps/calendar/" class="icon-cog" i18n:translate="">Settings</a>
 
-                    </li>
+                    </li-->
                     <li>
                       <a href="#subscription-url" class="icon-rss pat-modal">Subscribe to this calendar in Outlook</a>
                     </li>
@@ -85,30 +85,30 @@
               <fieldset class="cal-categories"
                         tal:define="calendars view/get_calendars">
 
-                <div class="pat-collapsible open" id="calendar-my-calendars">
+                <div class="pat-collapsible open" id="calendar-my-calendars" tal:condition="calendars/my">
                   <h3 class="collapsible-open">My calendars <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                    
                   <div class="panel-content">
-                    <fieldset class="pat-checklist cal-categories checklist checked">
+                    <fieldset class="pat-checklist cal-categories checklist checked" tal:define="my_cals calendars/my">
                         <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
                       <div class="toggles functions button-cluster">
                         <button class="small select-all" disabled="">Select all</button>
                         <button class="small deselect-all" disabled="">Deselect all</button>
                       </div>
-                      <label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked" name="personal-calendar" id="calendar-my-calendars-personal-calendar"> Personal calendar</label>
+                      <!--label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked" name="personal-calendar" id="calendar-my-calendars-personal-calendar"> Personal calendar</label-->
 
-                      <tal:wscal repeat="cal calendars/my">
+                      <tal:wscal repeat="cal my_cals">
                         <label class="cal-cat-commercial-strategy-team" 
                                tal:define="calclass python:view.id2class(cal.getId())"
-                               tal:attributes="class string:cal-cat-${calclass}-my cal-cat-${cal/ws_type}-my pat-depends checked" data-pat-depends="all-cals">
-                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar" i18n:translate="">Open workspace calendar</a>
+                               tal:attributes="class string:cal-cat-${calclass}-my cal-cat-${cal/ws_type}-my" data-pat-depends="all-cals">
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}" i18n:translate="">Open workspace calendar</a>
                         </label>
                       </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible open" id="calendar-invited-events">
+                <div class="pat-collapsible open" id="calendar-invited-events" tal:condition="calendars/invited">
                   <h3 class="collapsible-open">Events I'm invited to <a href="tooltip-help.html#invited-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content">
                     <fieldset class="pat-checklist cal-categories checklist checked" tal:define="invited_cals calendars/invited">
@@ -126,14 +126,14 @@
                         <label class="cal-cat-commercial-strategy-team"
                                tal:define="calclass python:view.id2class(cal.getId())"
                                tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;">
-                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}">Open workspace calendar</a>
                         </label>
                       </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible open" id="calendar-shared-events">
+                <div class="pat-collapsible open" id="calendar-shared-events"  tal:condition="calendars/public">
                   <h3 class="collapsible-open">Shared events <a href="tooltip-help.html#shared-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content">
                     <fieldset class="pat-checklist cal-categories checklist checked" tal:define="public_cals calendars/public">
@@ -150,14 +150,14 @@
                         <label class="cal-cat-commercial-strategy-team"
                                tal:define="calclass python:view.id2class(cal.getId())"
                                tal:attributes="class string:cal-cat-${calclass}-public cal-cat-${cal/ws_type}-public;">
-                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}">Open workspace calendar</a>
                         </label>
                       </tal:wscal>
                     </fieldset>
                   </div>
                 </div>
 
-                <div class="pat-collapsible closed" id="calendar-other-calendars">
+                <div class="pat-collapsible closed" id="calendar-other-calendars" tal:condition="calendars/other">
                   <h3 class="collapsible-closed">Other calendars <a href="tooltip-help.html#other-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h3>
                   <div class="panel-content" style="display: none;">
                     <p i18n:translate="">Other calendars that you have viewing rights on.</p>
@@ -171,7 +171,7 @@
                         <label class="cal-cat-commercial-strategy-team"
                                tal:define="calclass python:view.id2class(cal.getId())"
                                tal:attributes="class string:cal-cat-${calclass}-other cal-cat-${cal/ws_type}-other;">
-                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-other-calendars-${cal/UID}" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/calendar">Open workspace calendar</a>
+                            <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-other-calendars-${cal/UID}" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}">Open workspace calendar</a>
                         </label>
                       </tal:wscal>
                     </fieldset>
