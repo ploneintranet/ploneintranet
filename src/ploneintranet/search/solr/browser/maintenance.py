@@ -310,6 +310,10 @@ class SolrMaintenanceView(BrowserView):
             try:
                 obj = catalog_traverse(path)
             except AttributeError:
+                logger.warning('AttributeError traversing to path: %s', path)
+                return None
+            except KeyError:
+                logger.warning('KeyError traversing to path: %s', path)
                 return None
             return obj
         log('processing %d "unindex" operations next...\n' % len(unindex))
