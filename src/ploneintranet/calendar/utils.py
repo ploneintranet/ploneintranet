@@ -321,12 +321,17 @@ def get_calendars(context):
         is_invited = (e.invitees and
                       set(groups).intersection(set(e.invitees)))
 
+        # Actually I can see all calendars which I have access to.
+        # Plus I get a special section with calendars that have events I'm
+        # invited to.
+        # The concepts of public, personal and other seems deprecated
         if is_invited:
             invited[ws_path] = w_by_path[ws_path]
             event_by_cal['invited'].append(e)
         else:
-            other[ws_path] = w_by_path[ws_path]
-            event_by_cal['other'].append(e)
+            # Everything else I can see
+            my[ws_path] = w_by_path[ws_path]
+            event_by_cal['my'].append(e)
 
     return dict(
         events=event_by_cal,
