@@ -128,7 +128,8 @@ class SolrMaintenanceView(BrowserView):
         return 'solr index cleared.'
 
     def reindex(self, batch=1000, skip=0, limit=0, ignore_portal_types=None,
-                only_portal_types=None, idxs=[], no_log=False):
+                only_portal_types=None, idxs=[], no_log=False,
+                index_fulltext=False):
         """ find all contentish objects (meaning all objects derived from one
             of the catalog mixin classes) and (re)indexes them """
 
@@ -136,8 +137,18 @@ class SolrMaintenanceView(BrowserView):
             raise ValueError("It is not possible to combine "
                              "ignore_portal_types with only_portal_types")
 
-        atomic = idxs != []
         conn = IConnection(getUtility(IConnectionConfig))
+
+        if not index_fulltext:
+            logger.info("NOT indexing SearchableText. "
+                        "Pass index_fulltext=True to do otherwise.")
+            attributes = [x['name'] for x in conn.schema['fields']]
+            attributes.remove(u'SearchableText')
+            idxs = attributes
+        else:
+            logger.warn("Indexing SearchableText. This may take a while.")
+
+        atomic = idxs != []
         zodb_conn = self.context._p_jar
         CI = ContentIndexer()
 
