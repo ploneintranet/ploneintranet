@@ -140,9 +140,13 @@ class SolrMaintenanceView(BrowserView):
         conn = IConnection(getUtility(IConnectionConfig))
 
         if not index_fulltext:
+            logger.info("NOT indexing SearchableText. "
+                        "Pass index_fulltext=True to do otherwise.")
             attributes = [x['name'] for x in conn.schema['fields']]
             attributes.remove(u'SearchableText')
             idxs = attributes
+        else:
+            logger.warn("Indexing SearchableText. This may take a while.")
 
         atomic = idxs != []
         zodb_conn = self.context._p_jar
