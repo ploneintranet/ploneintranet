@@ -92,9 +92,9 @@
                       <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
                     </fieldset>
 
-                  <fieldset class="versioning pat-inject pat-subform"
+                  <fieldset class="bar versioning pat-inject pat-subform"
                             data-pat-inject="source: #document-content; target: #document-content && source: fieldset.versioning; target: fieldset.versioning; loading-class: ''">
-                    <label>
+                    <label class="pat-checklist">
                       <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
                     </label>
                     <fieldset class="condensed pat-depends new-version-details pat-inject" data-pat-depends="cmfeditions_save_new_version">
