@@ -144,8 +144,8 @@
                   </tal:c>
 
                   <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
-                    <figure>
-                      <img src="${view/image_url}" title="${context/title}" alt="${context/title}" />
+                    <figure tal:define="modified context/modified|nothing">
+                      <img src="${view/image_url}?timestamp=${modified/ISO|nothing}" title="${context/title}" alt="${context/title}" />
                     </figure>
                   </article>
 
