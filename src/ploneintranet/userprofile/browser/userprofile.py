@@ -124,9 +124,14 @@ class UserProfileView(UserProfileViewForm):
         self.request.response.setHeader('X-Theme-Disabled', '1')
 
     def update(self):
-        # BBB: when groups and workspaces are not in the allowed tabs
-        # this should not be called
-        self._get_my_groups_and_workspaces()
+        if (
+            u'userprofile-workspaces' in self.allowed_tabs or
+            u'userprofile-group' in self.allowed_tabs
+        ):
+            # BBB: this is setting two attributes my_workspaces and my_groups
+            # it would be better to not call this function and
+            # have two memoized properties that are lazy loaded on demand
+            self._get_my_groups_and_workspaces()
         self._update_recent_contacts()
 
     def is_me(self):
