@@ -60,7 +60,7 @@
                       </tal:history>
                       <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                       <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
-                      <tal:pinning replace="structure here/@@cog-wheel-link-iconified|nothing" />
+                      <tal:more replace="structure here/@@cog-wheel-link-iconified|nothing" />
                       <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
                         <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
