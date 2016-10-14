@@ -33,11 +33,9 @@
                         id="${formid}"
                         data-pat-validation="disable-selector: #save-event"
                         data-pat-inject="
-                            source: #${formid}; target: #${formid};
+                            source: #document-body; target: #document-body;
                             &amp;&amp;
-                            source:#workspace-events; target: #workspace-events;
-                            &amp;&amp;
-                            source: #global-statusmessage; target: #global-statusmessage;
+                            source: #global-statusmessage; target: #global-statusmessage; loading-class: '';
                         "
                         method="POST" action="${context/absolute_url}/view#document-body">
                       <div class="metadata pat-bumper" id="meta">
