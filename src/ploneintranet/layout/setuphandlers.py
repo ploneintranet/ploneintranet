@@ -69,7 +69,7 @@ def create_apps(*args):
             'title': u'Calendar',
         }, {
             'key': 'slide-bank',
-            'title': u'Slide bank',
+            'title': u'Slide Bank',
         }, {
             'key': 'image-bank',
             'title': u'Image bank',
