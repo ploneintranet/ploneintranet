@@ -54,6 +54,9 @@
                           View history
                       </a>
                       <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+                      <a tal:condition="python:context.portal_type == 'Link'" href="${context/remoteUrl}" class="icon-globe iconified" target="External" title="Open web page in new window">
+                        Open web page in new window
+                      </a>
                       <tal:pinning replace="structure here/@@pinning-link-iconified|nothing" />
                       <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                       <tal:history tal:condition="exists:here/@@app-audit-button">
