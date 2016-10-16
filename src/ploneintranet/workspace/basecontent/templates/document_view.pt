@@ -26,7 +26,7 @@
           </h1>
           <div class="${workspace_id}" id="project-body" tal:define="read_only python:not view.can_edit">
             <div id="document-body">
-              <form class="document pat-inject" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data"
+              <form class="document pat-inject document-type-${view/portal_type_to_class}" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data" id="document-form"
                     data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
                 <div class="metadata pat-bumper" id="meta">
                   <div class="meta-bar">
@@ -78,41 +78,56 @@
                   <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader" i18n:translate="">Loading...</p></div>
 
                   <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-                    <fieldset class="bar">
-                      <input type="text"
-                             name="subjects" placeholder="Tags"
-                             i18n:domain="plone" i18n:attributes="placeholder"
-                             value="${python:','.join(context.subject)}"
-                             tal:attributes="disabled read_only"
-                             class="pat-autosuggest"
-                             data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
-                    </fieldset>
+                      <div class="panel-content" style="display:none">
+                          <fieldset class="bar">
+                            <input type="text"
+                                   name="subjects" placeholder="Tags"
+                                   i18n:domain="plone" i18n:attributes="placeholder"
+                                   value="${python:','.join(context.subject)}"
+                                   tal:attributes="disabled read_only"
+                                   class="pat-autosuggest"
+                                   data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
+                          </fieldset>
 
-                    <fieldset class="bar description">
-                      <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
-                    </fieldset>
+                          <fieldset class="bar description">
+                            <textarea name="description" tal:attributes="disabled read_only" rows="8" title="Description" placeholder="Description">${context/description}</textarea>
+                          </fieldset>
 
-                  <fieldset class="bar versioning pat-inject pat-subform"
-                            data-pat-inject="source: #document-content; target: #document-content && source: fieldset.versioning; target: fieldset.versioning; loading-class: ''">
-                    <label class="pat-checklist">
-                      <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
-                    </label>
-                    <fieldset class="condensed pat-depends new-version-details pat-inject" data-pat-depends="cmfeditions_save_new_version">
-                      <label tal:condition="python: context.portal_type == 'File'">
-                        Upload a new file <input type="file" class="file" name="file"/>
-                      </label>
-                      <label tal:condition="python: context.portal_type == 'Image'">
-                        Upload a new image <input type="file" class="image" name="image"/>
-                      </label>
+                          <fieldset class="bar versioning pat-inject pat-subform" tal:condition="python:context.portal_type in ('File', 'Image')"
+                                    data-pat-inject="source: #document-content; target: #document-content && source: fieldset.versioning; target: fieldset.versioning; loading-class: ''">
+                              <label class="pat-checklist">
+                                <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                              </label>
+                              <fieldset class="condensed pat-depends new-version-details pat-inject" data-pat-depends="cmfeditions_save_new_version">
+                                  <label tal:condition="python: context.portal_type == 'File'">
+                                      Upload a new file <input type="file" class="file" name="file"/>
+                                  </label>
+                                  <label tal:condition="python: context.portal_type == 'Image'">
+                                      Upload a new image <input type="file" class="image" name="image"/>
+                                  </label>
 
-                      <label>
-                        <textarea placeholder="Change notes" tal:condition="view/is_versionable" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4" tal:attributes="value request/form/cmfeditions_version_comment | nothing"></textarea>
-                      </label>
+                                  <label>
+                                      <textarea placeholder="Change notes" tal:condition="view/is_versionable" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4" tal:attributes="value request/form/cmfeditions_version_comment | nothing"></textarea>
+                                  </label>
 
-                      <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
-                      <input type="hidden" name="redirect" tal:attributes="value string:${context/absolute_url}/view" />
-                    </fieldset>
-                  </fieldset>
+                                  <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                                  <input type="hidden" name="redirect" tal:attributes="value string:${context/absolute_url}/view" />
+                              </fieldset>
+                          </fieldset>
+                          <fieldset class="bar link pat-inject pat-subform" tal:condition="python:context.portal_type in ('Link')"
+                                    data-pat-inject="source: #document-content; target: #document-content;">
+                            <input tal:condition="not:read_only"
+                                   name="remoteUrl"
+                                   type="text"
+                                   size="80"
+                                   required="required"
+                                   value="${context/remoteUrl}"
+                              />
+                            <a tal:condition="read_only"
+                               href="${context/remoteUrl}"
+                              >${context/remoteUrl}</a>
+                          </fieldset>
+                      </div>
                   </fieldset>
                 </div><!-- pat-bumper -->
 
@@ -127,19 +142,19 @@
                   </article>
 
                   <tal:c condition="python: context.portal_type == 'File'">
-                  <article class="document preview" tal:condition="view/is_available">
-                    <tal:previews tal:repeat="preview view/previews">
-                      <img src="${preview}" />
-                    </tal:previews>
-                  </article>
-                  <article class="document preview" tal:condition="not:view/is_available">
-                    <p class="message no-preview">
-                          <strong class="title" tal:content="context/Title">projection-material.doc</strong>
-                          <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
-                          <em class="byline" tal:condition="view/is_allowed_document_type" i18n:translate="">Preview being generated</em>
-                          <em class="byline" tal:condition="not:view/is_allowed_document_type" i18n:translate="">No preview available</em>
-                    </p>
-                  </article>
+                    <article class="document preview" tal:condition="view/is_available">
+                      <tal:previews tal:repeat="preview view/previews">
+                        <img src="${preview}" />
+                      </tal:previews>
+                    </article>
+                    <article class="document preview" tal:condition="not:view/is_available">
+                      <p class="message no-preview">
+                            <strong class="title" tal:content="context/Title">projection-material.doc</strong>
+                            <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
+                            <em class="byline" tal:condition="view/is_allowed_document_type" i18n:translate="">Preview being generated</em>
+                            <em class="byline" tal:condition="not:view/is_allowed_document_type" i18n:translate="">No preview available</em>
+                      </p>
+                    </article>
                   </tal:c>
 
                   <article class="document preview" tal:condition="python: context.portal_type == 'Image'">
@@ -148,17 +163,10 @@
                     </figure>
                   </article>
 
-                <article tal:condition="python: context.portal_type == 'Link'">
-                  <input tal:condition="not:read_only"
-                         name="remoteUrl"
-                         type="text"
-                         required="required"
-                         value="${context/remoteUrl}"
-                    />
-                  <a tal:condition="read_only"
-                     href="${context/remoteUrl}"
-                    >${context/remoteUrl}</a>
-                </article>
+                  <div id="external-site-preview" tal:condition="python: context.portal_type == 'Link'">
+                    <iframe src="${context/remoteUrl}" class="preview-pane"></iframe>
+                  </div>
+
               </div><!-- #document-content -->
               <input type="hidden" name="form.submitted" value="1" />
             </form>
