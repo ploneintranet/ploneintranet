@@ -37,6 +37,7 @@
                     </span>
 
                     <div class="quick-functions">
+                      <tal:more replace="structure here/@@cog-wheel-link-iconified|nothing" />
                       <a href="${context/absolute_url}/external_edit"
                          tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit"
                          class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>
@@ -59,8 +60,7 @@
                         <a tal:replace="structure here/@@app-audit-button" />
                       </tal:history>
                       <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
-                      <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
-                      <tal:more replace="structure here/@@cog-wheel-link-iconified|nothing" />
+                      <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
                       <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
                         <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
