@@ -17,14 +17,10 @@ from Products.Five import BrowserView
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 from ploneintranet.calendar.utils import escape_id_to_class
-from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.layout.interfaces import IAppView
-from ploneintranet.calendar.config import TZ_COOKIE_NAME
 
-from zope.component import getUtility
 from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory
 
 
 @implementer(IBlocksTransformEnabled)
@@ -47,30 +43,6 @@ class View(BrowserView):
                 ['workspaces:list={0}'.format(cal) for cal in workspaces]),
                 self.request.get('all-cals', 'off') == 'on')
         return ''
-
-    def get_timezone_data(self):
-        timezone_vocab = getUtility(IVocabularyFactory,
-                                    'ploneintranet.calendar.timezones')
-        timezone_data = []
-        for item in timezone_vocab:
-            zoneinfo = get_timezone_info(item.token)
-            timezone_data.append(zoneinfo)
-        return timezone_data
-
-    def get_user_timezone(self):
-        return self.get_timezone_cookie(self)
-
-    def set_user_timezone(self, tz):
-        self.set_timezone_cookie(self, tz)
-
-    def get_timezone_cookie(self, context):
-        return context.request.get(TZ_COOKIE_NAME, 'Europe/Berlin')
-
-    def set_timezone_cookie(self, context, tz):
-        if tz:
-            cookie_path = '/' + api.portal.get().absolute_url(1)
-            context.request.response.setCookie(TZ_COOKIE_NAME, tz,
-                                               path=cookie_path)
 
     def get_calendars(self):
         return get_calendars(self.context)['calendars']
