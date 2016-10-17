@@ -10,6 +10,11 @@
                     Watch history
                 </a>
             </li>
+            <li tal:condition="nothing">
+                <a href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
+                    Attachments
+                </a>
+            </li>
             <li tal:condition="view/can_edit">
               <a href="${context/absolute_url}/delete_confirmation#content"
                  title="Delete this document"
