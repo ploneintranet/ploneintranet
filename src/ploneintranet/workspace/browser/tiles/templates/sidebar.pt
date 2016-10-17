@@ -286,7 +286,7 @@ Supported types include (class names):
                                        data-pat-switch item/dps | nothing">
                       <strong class="title">
                         ${item/title}
-                        <abbr tal:condition="item/outdated" class="iconified icon-archive">(Archived)</abbr>
+                        <abbr tal:condition="item/outdated|nothing" class="iconified icon-archive">(Archived)</abbr>
                       </strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
