@@ -41,20 +41,17 @@
                   </tal:timezone>
                 </select>
             </label>
- 
+            <!-- This can be activated on workspaces.
             <a href="#extra-functions" class="float-after pat-tooltip dropdown button inactive" data-pat-tooltip="source: ajax; position: tl;" i18n:translate="">More</a>
 
             <div hidden="" id="extra-functions">
                 <ul class="menu">
-                    <!--li>
-                        <a href="${context/absolute_url}/apps/calendar/" class="icon-cog" i18n:translate="">Settings</a>
-
-                    </li-->
                     <li>
                       <a href="#subscription-url" class="icon-rss pat-modal">Subscribe to this calendar in Outlook</a>
                     </li>
                 </ul>
             </div>
+            -->
             </form>
             <fieldset hidden id="subscription-url"
                       tal:define="url context/absolute_url;
@@ -63,7 +60,7 @@
               <form>
               <fieldset class="vertical panel">
                 <label>
-                  <input type="text" tal:attributes=" value string:webcal://${schemaless_url}/ical?export=${context/@@uuid}.ics">
+                  <input type="text" size="60" tal:attributes=" value string:webcal://${schemaless_url}/ical?export=${context/@@uuid}.ics">
                 </label>
               </fieldset>
               <p class="discrete"><tal:t i18n:translate="">Use the above URL to see this Workspace's calendar also in your Outlook calendar.</tal:t> <a href="http://office.microsoft.com/en-us/outlook-help/view-and-subscribe-to-internet-calendars-HA010167325.aspx#BM2" target="new" i18n:translate="label_subscribe_to_calendar">Learn how this works</a>.</p>
