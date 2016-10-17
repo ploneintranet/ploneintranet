@@ -403,11 +403,11 @@
       />
 
     <browser:page
-        name="cog-wheel-link-iconified"
+        name="context-menu"
         for="*"
         permission="zope2.View"
-        class=".cogwheel.CogWheelViewIconified"
-        template="templates/cog_wheel_link.pt"
+        class=".context-menu.ContextMenuView"
+        template="templates/context-menu.pt"
         layer="..interfaces.IWorkspaceAppContentLayer"
     />
 

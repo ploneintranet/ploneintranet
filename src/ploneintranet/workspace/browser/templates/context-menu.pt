@@ -1,0 +1,36 @@
+<div id="content">
+    <div id="extra-options">
+        <ul class="menu"> 
+            <li tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit">
+                <a href="${context/absolute_url}/external_edit"
+                     class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>                    
+            </li>
+            <li>
+                <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-inject="source: #content; target: body:after" title="Document history" i18n:attributes="title" i18n:translate="">
+                    Watch history
+                </a>
+            </li>
+            <li tal:condition="view/can_edit">
+              <a href="${context/absolute_url}/delete_confirmation#content"
+                 title="Delete this document"
+                 i18n:attributes="title"
+                 data-pat-inject="source: #content; hooks:"
+                 class="pat-modal icon-trash iconified"
+                 i18n:translate=""
+                >Delete</a>
+            </li>
+            <li>
+                <tal:archiving replace="structure here/@@archive-link-iconified" />                
+            </li>
+            <li>
+                <tal:pinning replace="structure here/@@pinning-link-iconified|nothing"></tal:pinning>
+            </li>
+            <li>
+              <tal:history tal:condition="exists:here/@@app-audit-button">
+                <a tal:replace="structure here/@@app-audit-button" />
+              </tal:history>
+            </li>
+
+        </ul>  
+    </div>
+</div>
