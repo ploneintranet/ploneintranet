@@ -686,8 +686,9 @@ class Sidebar(BaseTile):
         # Note: since False==0, it gets sorted before True!
         #
 
-        results = sorted(results, key=lambda x: (
-            x['structural_type'] != 'group', x['title'].lower()))
+        if self.grouping() != 'date':
+            results = sorted(results, key=lambda x: (
+                x['structural_type'] != 'group', x['title'].lower()))
 
         # Each item must be a dict with at least the following attributes:
         # title, description, id, structural_type, content_type, dpi, url
