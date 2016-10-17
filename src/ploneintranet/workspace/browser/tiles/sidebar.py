@@ -679,6 +679,9 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
+        workspace = parent_workspace(self.context)
+        results = [i for i in results if i['UID'] != workspace.UID()]
+
         #
         # 2. Prepare the results for display in the sidebar
         # Make sure we first show the group-elements (= folders or similar)
