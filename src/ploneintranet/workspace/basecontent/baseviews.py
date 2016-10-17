@@ -314,6 +314,22 @@ class ContentView(BrowserView):
         icon_file = icon_type.replace('type', 'file')
         return 'icon-%s' % icon_file
 
+    def portal_type_to_class(self):
+        pt = self.context.portal_type
+        if pt == 'File':
+            return 'file'
+        elif pt == 'Image':
+            return 'image'
+        elif pt == 'Link':
+            return 'link'
+        elif pt == 'Event':
+            return 'event'
+        elif pt == 'Document':
+            return 'rich'
+        elif pt == 'Folder':
+            return 'folder'
+        return 'generic'
+
     def save_version(self):
         errors = []
         comment = self.request.get('cmfeditions_version_comment', '')
