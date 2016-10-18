@@ -38,7 +38,7 @@
                     <div class="panel-content">
                       <fieldset class="pat-checklist cal-categories checklist checked" tal:define="my_cals calendars/my">
                           <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
-                        <div class="toggles functions button-cluster">
+                        <div class="toggles list-functions button-cluster">
                           <button class="small select-all" disabled="">Select all</button>
                           <button class="small deselect-all" disabled="">Deselect all</button>
                         </div>
