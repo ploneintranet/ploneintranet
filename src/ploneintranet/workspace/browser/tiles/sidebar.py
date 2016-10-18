@@ -680,7 +680,7 @@ class Sidebar(BaseTile):
             results = self.get_headers_for_group()
 
         workspace = parent_workspace(self.context)
-        results = [i for i in results if i['UID'] != workspace.UID()]
+        results = [i for i in results if i.get('UID') != workspace.UID()]
 
         #
         # 2. Prepare the results for display in the sidebar
