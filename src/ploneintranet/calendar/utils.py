@@ -311,6 +311,7 @@ def get_calendars(context):
 
     all_events = get_events_of_current_user(context)
     event_by_cal = defaultdict(list)
+    event_by_workspace = defaultdict(list)
 
     for e in all_events:
         ws_path = os.path.dirname(e.getPath())
@@ -318,6 +319,8 @@ def get_calendars(context):
             # The immediate parent of this is event is not a workspace:
             # should not happen, we ignore it
             continue
+        event_by_workspace[ws_path].append(e)
+
         is_invited = (e.invitees and
                       set(groups).intersection(set(e.invitees)))
 
@@ -340,6 +343,7 @@ def get_calendars(context):
             event_by_cal['my'].append(e)
 
     return dict(
+        workspaces=event_by_workspace,
         events=event_by_cal,
         calendars={
             'my': my.values(),

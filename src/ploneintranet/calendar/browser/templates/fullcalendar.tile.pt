@@ -55,6 +55,7 @@
                 </div>
                 
                 -->
+                <input tal:condition="in_workspace" type="checkbox" name="workspaces:list" value="${context/UID}" checked hidden class="cal-cat-${python:view.id2class(ws.getId())}">
                 <form class="float-after pat-autosubmit" action="@@set-timezone-cookie" method="POST">
                   <label class="timezone float-after pat-select bare">
                 
