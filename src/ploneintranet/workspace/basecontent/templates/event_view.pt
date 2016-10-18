@@ -51,24 +51,10 @@
                                 <textarea type="text" name="title" maxlength="70" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" tal:content="context/title" />
                               </span>
                               <div class="quick-functions">
-                                  <a tal:condition="view/can_edit"
-                                     href="${view/delete_url}"
-                                     class="pat-modal icon-trash iconified"
-                                     data-pat-inject="source: #content"
-                                     title="Delete this event"
-                                     i18n:attributes="title"
-                                     i18n:translate=""
-                                     >
-                                      Delete
-                                  </a>
-                                  <a tal:condition="nothing" href="/feedback/panel-event-attachments.html#content" class="icon-attach iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Attach documents" i18n:attributes="title" i18n:translate="">
-                                      Attachments
-                                  </a>
-                                  <tal:history tal:condition="exists:here/@@app-audit-button">
-                                    <a tal:replace="structure here/@@app-audit-button" />
-                                  </tal:history>
-                                  <tal:more replace="structure here/@@cog-wheel-link-iconified|nothing" />
-                                  <button id="save-event" type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
+                                <a class="icon-ellipsis iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Show extra context actions" i18n:attributes="title" i18n:translate="" href="${context/absolute_url}/context-menu#content">Show extra context actions</a>
+                                <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
+
+                                <button id="save-event" type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
 
                               </div>
                           </div>

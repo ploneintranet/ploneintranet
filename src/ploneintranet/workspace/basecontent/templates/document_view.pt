@@ -28,7 +28,7 @@
             <div id="document-body">
               <form class="document pat-inject document-type-${view/portal_type_to_class}" method="POST" action="${context/absolute_url}/view" enctype="multipart/form-data" id="document-form"
                     data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
-                <div class="metadata pat-bumper" id="meta">
+                <div class="metadata pat-bumper sticky-supported" id="meta">
                   <div class="meta-bar">
                     <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
                     <span class="title-group">
@@ -37,33 +37,18 @@
                     </span>
 
                     <div class="quick-functions">
-                      <tal:more replace="structure here/@@cog-wheel-link-iconified|nothing" />
-                      <a href="${context/absolute_url}/external_edit"
-                         tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit"
-                         class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>
-                      <a tal:condition="view/can_edit"
-                         href="${context/absolute_url}/delete_confirmation#content"
-                         title="Delete this document"
-                         i18n:attributes="title"
-                         data-pat-inject="source: #content; hooks:"
-                         class="pat-modal icon-trash iconified"
-                         i18n:translate=""
-                        >Delete</a>
-                      <tal:archiving replace="structure here/@@archive-link-iconified" />
-                      <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-inject="source: #content; target: body:after" title="Document history" i18n:attributes="title" i18n:translate="">
-                          View history
-                      </a>
-                      <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+
+                      <a class="icon-ellipsis iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Show extra context actions" i18n:attributes="title" i18n:translate="" href="${context/absolute_url}/context-menu#content">Show extra context actions</a>
+                      <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
+
                       <a tal:condition="python:context.portal_type == 'Link'" href="${context/remoteUrl}" class="icon-globe iconified" target="External" title="Open web page in new window">
                         Open web page in new window
                       </a>
-                      <tal:pinning replace="structure here/@@pinning-link-iconified|nothing" />
-                      <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
-                      <tal:history tal:condition="exists:here/@@app-audit-button">
-                        <a tal:replace="structure here/@@app-audit-button" />
-                      </tal:history>
+
                       <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
-                      <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
+
+                      <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+
                       <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                                 tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
                         <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
@@ -75,7 +60,13 @@
                         </label>
                         <span tal:replace="structure context/@@authenticator/authenticator"/>
                       </fieldset>
+
+
                       <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
+
+                      <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
+
+
                     </div><!-- quick-functions -->
                   </div> <!-- #meta-bar -->
                   <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader" i18n:translate="">Loading...</p></div>
