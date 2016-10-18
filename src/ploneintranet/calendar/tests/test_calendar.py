@@ -6,13 +6,14 @@ from plone import api
 from plone.mocktestcase import MockTestCase
 from ploneintranet.calendar.browser.interfaces import IPloneintranetCalendarLayer  # noqa
 from ploneintranet.calendar.browser.app import View as CalendarAppView
+from ploneintranet.calendar.browser.tiles import FullCalendarTile
 from ploneintranet.calendar.testing import IntegrationTestCase
 
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.testing import z2
 
 from ploneintranet.calendar.importexport import import_ics
-from ploneintranet.calendar.browser.app import TZ_COOKIE_NAME
+from ploneintranet.calendar.config import TZ_COOKIE_NAME
 
 from ploneintranet.calendar.config import DEFAULT_TZ_ID
 from ploneintranet.calendar.utils import tzid_from_dt
@@ -21,8 +22,6 @@ from ploneintranet.calendar.utils import get_pytz_timezone
 from ploneintranet.calendar.utils import get_workspaces_of_current_user
 from ploneintranet.calendar.utils import get_events_of_current_user
 from ploneintranet.calendar.utils import get_calendars
-
-from ploneintranet.calendar.browser.tiles import FullCalendarTile
 
 
 from pytz import timezone
@@ -69,7 +68,7 @@ class TestCalendar(IntegrationTestCase, MockTestCase):
         self.assertTrue('all-cals:boolean=True' in qs)
 
     def test_get_timezone_data(self):
-        view = CalendarAppView(self.portal.apps.calendar, self.request)
+        view = FullCalendarTile(self.portal.apps.calendar, self.request)
         data = view.get_timezone_data()
         # assuming we should have many, but they can grow over time
         self.assertTrue(len(data) > 80)
@@ -77,7 +76,7 @@ class TestCalendar(IntegrationTestCase, MockTestCase):
         self.assertTrue('Berlin' in berlin['name'])
 
     def test_timezone_cookie(self):
-        view = CalendarAppView(self.portal.apps.calendar, self.request)
+        view = FullCalendarTile(self.portal.apps.calendar, self.request)
         self.assertTrue(TZ_COOKIE_NAME not in self.request.RESPONSE.cookies)
         tz = view.get_user_timezone()
         self.assertTrue(tz == 'Europe/Berlin')

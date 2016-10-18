@@ -319,3 +319,10 @@ class WorkspacesJSONView(BrowserView):
             skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
         return format_workspaces_json(workspaces, skip)
+
+
+class WorkspaceCalendarView(BaseWorkspaceView):
+    """
+    Wrapper to include the fullcalendar tile on workspaces
+    """
+    implements(IBlocksTransformEnabled)

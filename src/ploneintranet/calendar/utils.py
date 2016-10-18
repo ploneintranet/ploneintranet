@@ -311,6 +311,7 @@ def get_calendars(context):
 
     all_events = get_events_of_current_user(context)
     event_by_cal = defaultdict(list)
+    event_by_workspace = defaultdict(list)
 
     for e in all_events:
         ws_path = os.path.dirname(e.getPath())
@@ -318,8 +319,13 @@ def get_calendars(context):
             # The immediate parent of this is event is not a workspace:
             # should not happen, we ignore it
             continue
+        event_by_workspace[ws_path].append(e)
+
         is_invited = (e.invitees and
                       set(groups).intersection(set(e.invitees)))
+
+        # XXX: Revisit this once we have globalEvent support and indexing
+        is_public = hasattr(e, 'globalEvent') and e.globalEvent
 
         # Actually I can see all calendars which I have access to.
         # Plus I get a special section with calendars that have events I'm
@@ -328,12 +334,16 @@ def get_calendars(context):
         if is_invited:
             invited[ws_path] = w_by_path[ws_path]
             event_by_cal['invited'].append(e)
+        elif is_public:
+            public[ws_path] = w_by_path[ws_path]
+            event_by_cal['public'].append(e)
         else:
             # Everything else I can see
             my[ws_path] = w_by_path[ws_path]
             event_by_cal['my'].append(e)
 
     return dict(
+        workspaces=event_by_workspace,
         events=event_by_cal,
         calendars={
             'my': my.values(),

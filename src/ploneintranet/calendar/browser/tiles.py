@@ -13,10 +13,19 @@ from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 
 from Products.CMFCore.permissions import ModifyPortalContent
+from ploneintranet.calendar.utils import get_timezone_info
+from ploneintranet.calendar.config import TZ_COOKIE_NAME
+from ploneintranet.calendar.utils import escape_id_to_class
+
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class FullCalendarTile(Tile):
     '''FullCalendar as a tile, used in cal app and workspace calendar'''
+
+    def workspace(self):
+        return parent_workspace(self.context)
 
     @property
     def app(self):
@@ -79,7 +88,7 @@ class FullCalendarTile(Tile):
 
         return event_dtimes
 
-    def _get_event_class(self, event, calendar):
+    def _get_event_class(self, event, calendar=None):
         """take the classes and add alien if appropriate in context"""
 
         classes = set(('cal-event',))
@@ -91,14 +100,16 @@ class FullCalendarTile(Tile):
         path = event.url
         workspace_id = path.split('/')[-2]
         classes.add("cal-cat-{0}".format(workspace_id))
-        classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
+        if calendar:
+            classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
 
         is_whole_day = event.whole_day
         if is_whole_day:
             classes.add('all-day')
 
         classes.add("cal-cat-{0}".format(event.ws_type))
-        classes.add("cal-cat-{0}-{1}".format(event.ws_type, calendar))
+        if calendar:
+            classes.add("cal-cat-{0}-{1}".format(event.ws_type, calendar))
 
         current_ws = parent_workspace(self.context)
         if current_ws is not None and \
@@ -114,22 +125,63 @@ class FullCalendarTile(Tile):
     def get_events(self):
         """ get events for calendar, provide proper classes """
         events = []
-        events_by_calendar = get_calendars(self.context)['events']
-        for calendar in events_by_calendar:
-            ev_by_cal = events_by_calendar[calendar]
-            for event in ev_by_cal:
-                classes = self._get_event_class(event, calendar)
-                edict = {}
-                # Create a dict representation of the search results
-                # XXX: This is something to be done properly once we abstract
-                # use of solr into the pi_api
-                edict = event.context.copy()
-                edict.update(event.__dict__.copy())
-                del edict['context']
-                del edict['response']
-                edict['classes'] = classes
-                edict['url'] = event.url
-                edict.update(self._get_event_date_times(event))
+        calendars = get_calendars(self.context)
 
-                events.append(edict)
+        def enrich(event, calendar=None):
+            classes = self._get_event_class(event, calendar)
+            edict = {}
+            # Create a dict representation of the search results
+            # XXX: This is something to be done properly once we
+            # abstract use of solr into the pi_api
+            edict = event.context.copy()
+            edict.update(event.__dict__.copy())
+            del edict['context']
+            del edict['response']
+            edict['classes'] = classes
+            edict['url'] = event.url
+            edict.update(self._get_event_date_times(event))
+            return edict
+
+        ws = self.workspace()
+        if ws is not None:
+            # On workspace calendar
+            events_by_workspace = calendars['workspaces']
+            ws_path = '/'.join(ws.getPhysicalPath())
+            events = [enrich(x, None) for x in events_by_workspace[ws_path]]
+
+        else:
+            # On app
+            events_by_calendar = calendars['events']
+            for calendar in events_by_calendar:
+                ev_by_cal = events_by_calendar[calendar]
+                for event in ev_by_cal:
+                    events.append(enrich(event, calendar))
+
         return events
+
+    def get_timezone_data(self):
+        timezone_vocab = getUtility(IVocabularyFactory,
+                                    'ploneintranet.calendar.timezones')
+        timezone_data = []
+        for item in timezone_vocab:
+            zoneinfo = get_timezone_info(item.token)
+            timezone_data.append(zoneinfo)
+        return timezone_data
+
+    def get_user_timezone(self):
+        return self.get_timezone_cookie(self)
+
+    def set_user_timezone(self, tz):
+        self.set_timezone_cookie(self, tz)
+
+    def get_timezone_cookie(self, context):
+        return context.request.get(TZ_COOKIE_NAME, 'Europe/Berlin')
+
+    def set_timezone_cookie(self, context, tz):
+        if tz:
+            cookie_path = '/' + api.portal.get().absolute_url(1)
+            context.request.response.setCookie(TZ_COOKIE_NAME, tz,
+                                               path=cookie_path)
+
+    def id2class(self, cal):
+        return escape_id_to_class(cal)
