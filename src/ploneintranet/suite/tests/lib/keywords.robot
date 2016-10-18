@@ -980,13 +980,12 @@ Then I can delete an event
     ### Solutions proposed on the web address this programmatically with a combination of looping
     ### and exception handling. I wouldn't know of an equivalent solution in robot.
     sleep  2
-    Wait until element is visible  css=.meta-bar .icon-trash
-    Click Element  css=.meta-bar .icon-trash
+    Click Element  css=div.quick-functions a.icon-ellipsis
+    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Click Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button  I am sure, delete now
     Wait Until Page Contains  has been deleted
-    Element should not be visible  css=#workspace-documents
-    Element should be visible  css=#workspace-events
     Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
