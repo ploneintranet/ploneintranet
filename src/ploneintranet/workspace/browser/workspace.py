@@ -321,7 +321,7 @@ class WorkspacesJSONView(BrowserView):
         return format_workspaces_json(workspaces, skip)
 
 
-class WorkspaceCalendarView(BrowserView):
+class WorkspaceCalendarView(BaseWorkspaceView):
     """
     Wrapper to include the fullcalendar tile on workspaces
     """
