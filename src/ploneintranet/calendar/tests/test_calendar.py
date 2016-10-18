@@ -12,7 +12,7 @@ from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.testing import z2
 
 from ploneintranet.calendar.importexport import import_ics
-from ploneintranet.calendar.browser.app import TZ_COOKIE_NAME
+from ploneintranet.calendar.config import TZ_COOKIE_NAME
 
 from ploneintranet.calendar.config import DEFAULT_TZ_ID
 from ploneintranet.calendar.utils import tzid_from_dt
