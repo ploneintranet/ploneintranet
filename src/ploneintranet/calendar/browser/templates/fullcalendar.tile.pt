@@ -1,6 +1,8 @@
 <div class="pat-calendar fc fc-ltr" 
      id="calendar-app"
      tal:define="default_view request/default_view|string:month;
+                 ws view/workspace;
+                 in_workspace python:ws is not None;
                  new_event_url string: ${context/portal_url}/workspaces/central-calendar/add_event#content"
      data-pat-calendar="default-view: ${default_view};
                         start-date: ${view/get_start_date};
@@ -39,6 +41,9 @@
                     <button class="view-week active" type="button">Week</button> 
                     <button class="view-day" type="button">Day</button>
                 </fieldset>
+                <label tal:condition="in_workspace" class="pat-checklist toggle alien-calendars cal-cat-alien float-before unchecked">
+                    <input type="checkbox"> All calendars
+                </label>
                 <!-- This can be activated on workspaces.
                 <a href="#more-menu" data-pat-tooltip="source: ajax; position: tr" class="icon iconified icon-ellipsis dropdown pat-tooltip float-after inactive">More</a>
                 <div hidden="" id="more-menu">

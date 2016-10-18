@@ -23,6 +23,9 @@ from zope.schema.interfaces import IVocabularyFactory
 class FullCalendarTile(Tile):
     '''FullCalendar as a tile, used in cal app and workspace calendar'''
 
+    def workspace(self):
+        return parent_workspace(self.context)
+
     @property
     def app(self):
         portal = api.portal.get()

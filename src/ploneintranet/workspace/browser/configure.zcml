@@ -75,6 +75,15 @@
       />
 
   <browser:page
+      name="workspace-calendar"
+      for="*"
+      permission="zope2.View"
+      template="templates/workspace-calendar.pt"
+      class=".workspace.WorkspaceCalendarView"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="transfer"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".forms.TransferMembershipForm"
