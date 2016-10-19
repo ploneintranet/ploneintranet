@@ -679,6 +679,9 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
+        workspace = parent_workspace(self.context)
+        results = [i for i in results if i.get('UID') != workspace.UID()]
+
         #
         # 2. Prepare the results for display in the sidebar
         # Make sure we first show the group-elements (= folders or similar)
@@ -686,8 +689,9 @@ class Sidebar(BaseTile):
         # Note: since False==0, it gets sorted before True!
         #
 
-        results = sorted(results, key=lambda x: (
-            x['structural_type'] != 'group', x['title'].lower()))
+        if self.grouping() != 'date':
+            results = sorted(results, key=lambda x: (
+                x['structural_type'] != 'group', x['title'].lower()))
 
         # Each item must be a dict with at least the following attributes:
         # title, description, id, structural_type, content_type, dpi, url
