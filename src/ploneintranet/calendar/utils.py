@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 import pytz
+import logging
 from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
-
+from plone.memoize import ram
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
@@ -13,12 +14,14 @@ from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 
 from scorched.dates import solr_date
-
+from time import time
 from vocabularies import timezone_list
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 
 from .config import DEFAULT_TZ_ID
+
+logger = logging.getLogger(__name__)
 
 daylight_saving = {
     1: 0,
@@ -283,6 +286,11 @@ def get_events_of_current_user(context):
     return data
 
 
+# This cache is simply there to avoid multiple calculation when being
+# called from tiles which have their own request. Therefore request
+# caching is not helpful here
+
+@ram.cache(lambda *args: time() // 5)
 def get_calendars(context):
 
     # Get all the users workspaces
@@ -315,6 +323,7 @@ def get_calendars(context):
 
     for e in all_events:
         ws_path = os.path.dirname(e.getPath())
+        logger.debug('Event url: ' + e.url)
         if ws_path not in w_by_path:
             # The immediate parent of this is event is not a workspace:
             # should not happen, we ignore it
