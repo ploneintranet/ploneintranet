@@ -142,20 +142,11 @@ class FullCalendarTile(Tile):
             edict.update(self._get_event_date_times(event))
             return edict
 
-        ws = self.workspace()
-        if ws is not None:
-            # On workspace calendar
-            events_by_workspace = calendars['workspaces']
-            ws_path = '/'.join(ws.getPhysicalPath())
-            events = [enrich(x, None) for x in events_by_workspace[ws_path]]
-
-        else:
-            # On app
-            events_by_calendar = calendars['events']
-            for calendar in events_by_calendar:
-                ev_by_cal = events_by_calendar[calendar]
-                for event in ev_by_cal:
-                    events.append(enrich(event, calendar))
+        events_by_calendar = calendars['events']
+        for calendar in events_by_calendar:
+            ev_by_cal = events_by_calendar[calendar]
+            for event in ev_by_cal:
+                events.append(enrich(event, calendar))
 
         return events
 
