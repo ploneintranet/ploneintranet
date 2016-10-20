@@ -54,4 +54,28 @@
       </field>
       <value>ldap-plugin</value>
     </record>
+    <record name="ploneintranet.docconv.file_types">
+      <field type="plone.registry.field.List">
+        <default>
+          <element>File</element>
+        </default>
+        <title>Preview Content Types</title>
+        <description>Generate preview images directly from this list of content types</description>
+        <missing_value/>
+        <required>False</required>
+        <value_type type="plone.registry.field.TextLine"/>
+      </field>
+    </record>
+    <record name="ploneintranet.docconv.html_types">
+      <field type="plone.registry.field.List">
+        <default>
+          <element>Document</element>
+        </default>
+        <title>HTML Preview Content Types</title>
+        <description>Generate preview images from PDF versions of this list of content types</description>
+        <missing_value/>
+        <required>False</required>
+        <value_type type="plone.registry.field.TextLine"/>
+      </field>
+    </record>
 </registry>

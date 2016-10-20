@@ -6,6 +6,15 @@ default_profile = 'profile-ploneintranet.suite:default'
 logger = logging.getLogger(__file__)
 
 
+def import_portal_registry(context):
+    logger.info('Import Registry')
+    context.runImportStepFromProfile(
+        default_profile,
+        'plone.app.registry',
+        run_dependencies=False,
+    )
+
+
 def barceloneta_workspace(context):
     logger.info("Enabling barceloneta specific browser layer")
     context.runImportStepFromProfile(

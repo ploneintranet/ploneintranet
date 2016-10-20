@@ -6,7 +6,6 @@ from StringIO import StringIO
 from datetime import datetime
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.docconv.client import HTML_CONTENTTYPES
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
 import zipfile
@@ -25,6 +24,9 @@ class DownloadView(BaseCartView):
         images = []
         no_pdfs = []
         folders = []
+        html_types = api.portal.get_registry_record(
+            'ploneintranet.docconv.html_types')
+
         for obj in self.items:
             # make sure obj is a file by checking if filename is set
             file_obj = getattr(obj, 'file', None)
@@ -34,7 +36,7 @@ class DownloadView(BaseCartView):
                     files.append(obj)
             elif getattr(obj, 'image', None):
                 images.append(obj)
-            elif obj.portal_type in HTML_CONTENTTYPES:
+            elif obj.portal_type in html_types:
                 pdf = obj.restrictedTraverse('pdf')
                 if pdf.has_pdf():
                     pdfs.append(obj)

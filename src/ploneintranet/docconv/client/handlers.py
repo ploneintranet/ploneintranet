@@ -1,8 +1,7 @@
 import logging
 import transaction
 
-from ploneintranet.docconv.client import HTML_CONTENTTYPES
-from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
+from plone import api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet import api as pi_api
@@ -16,8 +15,13 @@ log = logging.getLogger(__name__)
 def generate_previews_async(obj, event=None):
     """ Generates the previews by dispatching them to the async service
     """
+    file_types = api.portal.get_registry_record(
+        'ploneintranet.docconv.file_types')
+    html_types = api.portal.get_registry_record(
+        'ploneintranet.docconv.html_types')
+
     if hasattr(obj, 'portal_type') and \
-       obj.portal_type not in SUPPORTED_CONTENTTYPES + HTML_CONTENTTYPES:
+       obj.portal_type not in file_types + html_types:
         log.info('Skipping documentconversion for %s (unsupported type)'
                  % obj.absolute_url(1))
         return
