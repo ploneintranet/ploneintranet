@@ -8,6 +8,7 @@ from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.calendar.utils import get_workspaces_of_current_user
 from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
@@ -404,3 +405,6 @@ class HelperView(BrowserView):
             'value': x.token,
             'label': x.title,  # '(GMT+12:00) Fiji, Kamchatka, Marshall Is.'
         } for x in plone_tzs]
+
+    def get_user_workspaces(self):
+        return get_workspaces_of_current_user(self.context)

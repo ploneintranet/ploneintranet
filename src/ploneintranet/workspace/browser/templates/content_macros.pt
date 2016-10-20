@@ -68,6 +68,21 @@
                         tal:define="read_only python:not view.can_edit">
       <metal:extra-fields-top define-slot="extra-fields-top"/>
 
+      <input type="hidden" name="app" value="${request/app | nothing}" />
+      <label class="calendar" tal:condition="request/app | nothing">
+                <span tal:omit-tag="" i18n:translate="">Calendar</span> 
+          <select name="container" required="required">
+              <optgroup>
+                  <option value="" i18n:translate="">-- Please select a workspace --</option>
+              </optgroup>   
+              <tal:repeat repeat="uw here/content_helper_view/get_user_workspaces">
+                  <option tal:content="uw/Title" tal:attributes="value uw/getPath">
+                      Workspace Title
+                  </option>
+              </tal:repeat>
+
+          </select>
+      </label>
       <fieldset
           class="description"
           tal:define="

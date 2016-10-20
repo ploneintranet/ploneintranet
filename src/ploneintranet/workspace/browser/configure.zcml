@@ -194,6 +194,16 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+  <!-- add events called on the calendar app -->
+  <browser:page
+      name="add_event"
+      for="ploneintranet.layout.app.IApp"
+      class=".add_content.AddEvent"
+      permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+
   <browser:page
       name="email_invitees"
       for="plone.event.interfaces.IEvent"

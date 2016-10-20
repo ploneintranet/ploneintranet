@@ -5,17 +5,13 @@
   <form method="POST" action="#"
         tal:attributes="action request/URL"
         class="wizard-box pat-inject pat-validation"
-        data-pat-inject="
-            source: #workspace-events; target: #workspace-events;
-            &amp;&amp;
-            source: #global-statusmessage; target: #global-statusmessage;
-        "
+        data-pat-inject="${view/data_pat_inject}"
         data-pat-validation="disable-selector:#form-buttons-create">
     <div class="panel-body">
 
       <fieldset class="vertical"
-                tal:define="workspace context/acquire_workspace;
-                            workspace_url context/absolute_url">
+                tal:define="workspace context/portal_url/getPortalObject;
+                            workspace_url workspace/absolute_url">
         <label>
           <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>
         </label>

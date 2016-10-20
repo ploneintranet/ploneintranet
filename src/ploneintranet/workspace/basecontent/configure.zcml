@@ -19,7 +19,6 @@
   <browser:page
     name="content_helper_view"
     for="*"
-    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     class=".baseviews.HelperView"
     permission="zope2.View"
   />

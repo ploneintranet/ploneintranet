@@ -36,31 +36,31 @@ class AddBase(BrowserView):
         '''
         return True
 
-    def get_new_unique_id(self):
+    def get_new_unique_id(self, container):
         ''' This will get a new unique id according to the request
         '''
         form = self.request.form
         title = self.title or form.get('title')
         request_id = form.get('id')
 
-        chooser = INameChooser(self.context)
+        chooser = INameChooser(container)
         new_id = chooser.chooseName(
             idnormalizer.normalize(request_id or title),
-            self.context
+            container
         )
         return new_id
 
-    def get_new_object(self):
+    def get_new_object(self, container):
         ''' This will create a new object
         '''
         obj = api.content.create(
-            container=self.context,
+            container=container,
             type=self.portal_type,
-            id=self.get_new_unique_id(),
+            id=self.get_new_unique_id(container),
             title=self.title or self.request.get('title'),
             safe_id=False,
         )
-        return self.context[obj.getId()]
+        return container[obj.getId()]
 
     def update(self, obj):
         ''' Update the object and returns the modified fields and errors
@@ -68,9 +68,10 @@ class AddBase(BrowserView):
         modified, errors = dexterity_update(obj)
         return modified, errors
 
-    def create(self):
+    def create(self, container):
         """
-        Create content and return url. Uses dexterity_update to set the
+        Create content in the given container and return url.
+        Uses dexterity_update to set the
         appropriate fields after creation.
         """
         if not self.validate():
@@ -80,7 +81,7 @@ class AddBase(BrowserView):
             # so we cannot show that one here
             pass
 
-        new = self.get_new_object()
+        new = self.get_new_object(container)
         modified, errors = self.update(new)
 
         if not errors:
@@ -104,11 +105,17 @@ class AddBase(BrowserView):
         """Render form, or handle POST and redirect"""
         title = self.request.form.get('title', None)
         portal_type = self.request.form.get('portal_type', '')
+        container_path = self.request.form.get('container', None)
+        if container_path:
+            container = self.context.restrictedTraverse(container_path)
+        else:
+            container = self.context
+
         if title is not None:
             self.portal_type = portal_type.strip()
             self.title = title.strip()
             if self.portal_type in api.portal.get_tool('portal_types'):
-                url = self.create()
+                url = self.create(container)
                 return self.redirect(url)
         return self.template()
 
@@ -206,9 +213,22 @@ class AddEvent(AddBase):
 
         return True
 
+    def data_pat_inject(self):
+        """ Returns the correct dpi config """
+        if self.request.get('app'):
+            return """source: #document-content; target: #document-content;
+        && source: #global-statusmessage; target: #global-statusmessage;
+        loading-class='';"""
+
+        return """source: #workspace-events; target: #workspace-events;
+        && source: #global-statusmessage; target: #global-statusmessage;"""
+
     def redirect(self, url):
-        workspace = parent_workspace(self.context)
-        url = workspace.absolute_url() + '?show_sidebar#workspace-events'
+        if self.request.get('app'):
+            url = self.context.absolute_url() + '/@@app-calendar'
+        else:
+            target = parent_workspace(self.context)
+            url = target.absolute_url() + '?show_sidebar#workspace-events'
         return self.request.response.redirect(url)
 
     def default_start(self):

@@ -247,15 +247,15 @@ def get_workspaces_of_current_user(context):
     user = api.user.get_current()
     if not user:
         return []
-    key = "get_workspaces_of_current_user" + user.getId()
+    key = "get_workspaces_of_current_user-" + user.getId()
     cache = IAnnotations(context.REQUEST)
     data = cache.get(key, None)
     if data is None:
         query = dict(object_provides=IBaseWorkspaceFolder.__identifier__,
                      is_archived=False)
-
         sitesearch = getUtility(ISiteSearch)
         data = sitesearch.query(filters=query, step=99999)
+        data = sorted(data, key=lambda x: x['Title'])
         cache[key] = data
 
     # XXX we'll need to turn this into a dict to make it cacheable in memcached

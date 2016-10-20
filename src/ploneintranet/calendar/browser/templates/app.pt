@@ -24,7 +24,7 @@
           <div class="sidebar-content" id="sidebar-content">
             <div class="button-bar functions pat-bumper sticky-supported">
                 <div class="quick-functions">
-                    <!--a title="Create new event" href="/feedback/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a-->
+                    <a title="Create new event" href="add_event?app=1#content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
                 </div>
             </div>
             <div class="content">
