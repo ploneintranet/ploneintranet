@@ -68,7 +68,7 @@ class AddBase(BrowserView):
         modified, errors = dexterity_update(obj)
         return modified, errors
 
-    def create(self, container):
+    def create(self, container=None):
         """
         Create content in the given container and return url.
         Uses dexterity_update to set the
@@ -80,7 +80,8 @@ class AddBase(BrowserView):
             # but just some markup,
             # so we cannot show that one here
             pass
-
+        if not container:
+            container = self.context
         new = self.get_new_object(container)
         modified, errors = self.update(new)
 
