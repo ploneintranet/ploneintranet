@@ -3,7 +3,7 @@
      tal:define="default_view request/default_view|string:month;
                  ws view/workspace;
                  in_workspace python:ws is not None;
-                 new_event_url string:add_event#content"
+                 new_event_url string:add_event?app=1#content"
      data-pat-calendar="default-view: ${default_view};
                         start-date: ${view/get_start_date};
                         first-hour: 8;
@@ -18,10 +18,7 @@
                         drop-external-events: true;
                         external-event-selector: .cal-event;
                         store: local" 
-     data-pat-calendar-tooltip="height: max;
-                                source: ajax;
-                                url: ${new_event_url};
-                                class: event wizard;">
+     data-pat-calendar-tooltip="height: max; source: ajax; url: ${new_event_url}; class: event wizard;">
 
     <tal:all_events define="events view/get_events;
                             tz request/timezone|nothing;

@@ -351,7 +351,6 @@
         for="*"
         class=".workspace.AllUsersJSONView"
         permission="zope2.View"
-        layer="..interfaces.IPloneintranetWorkspaceLayer"
         />
 
     <browser:page
@@ -359,7 +358,6 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.AllGroupsJSONView"
       permission="collective.workspace.ManageRoster"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
     <browser:page
@@ -367,7 +365,6 @@
         for="plone.app.layout.navigation.interfaces.INavigationRoot"
         class=".workspace.AllUsersAndGroupsJSONView"
         permission="zope2.View"
-        layer="..interfaces.IPloneintranetWorkspaceLayer"
         />
 
     <browser:page
