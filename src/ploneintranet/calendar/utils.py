@@ -333,8 +333,10 @@ def get_calendars(context):
         is_invited = (e.invitees and
                       set(groups).intersection(set(e.invitees)))
 
-        # XXX: Revisit this once we have globalEvent support and indexing
-        is_public = hasattr(e, 'globalEvent') and e.globalEvent
+        is_public = e.context.get('globalEvent', False)
+
+        logger.debug(
+            'Event metadata: Public %s, invited %s' % (is_public, is_invited))
 
         # Actually I can see all calendars which I have access to.
         # Plus I get a special section with calendars that have events I'm
@@ -347,7 +349,7 @@ def get_calendars(context):
             public[ws_path] = w_by_path[ws_path]
             event_by_cal['public'].append(e)
         else:
-            # Everything else I can see
+            # Everything I can see
             my[ws_path] = w_by_path[ws_path]
             event_by_cal['my'].append(e)
 
