@@ -10,7 +10,7 @@
     <div class="panel-body">
 
       <fieldset class="vertical"
-                tal:define="workspace context/portal_url/getPortalObject;
+                tal:define="workspace here/content_helper_view/safe_get_workspace;
                             workspace_url workspace/absolute_url">
         <label>
           <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>

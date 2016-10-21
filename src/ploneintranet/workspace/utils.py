@@ -4,6 +4,7 @@ from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
 from collective.workspace.pas import purge_workspace_pas_cache
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
+from ploneintranet.layout.app import IApp
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
 from plone.dexterity.utils import iterSchemata
@@ -82,6 +83,21 @@ def parent_workspace(context):
 
 def in_workspace(context):
     return IWorkspaceFolder.providedBy(parent_workspace(context))
+
+
+def parent_app(context):
+    """ Return containing workspace
+        Returns None if not found.
+    """
+    if IApp.providedBy(context):
+        return context
+    for parent in aq_chain(context):
+        if IApp.providedBy(parent):
+            return parent
+
+
+def in_app(context):
+    return IApp.providedBy(parent_workspace(context))
 
 
 def existing_users(context):

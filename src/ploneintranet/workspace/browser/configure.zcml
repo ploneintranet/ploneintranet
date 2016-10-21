@@ -199,7 +199,7 @@
       name="add_event"
       for="ploneintranet.layout.app.IApp"
       class=".add_content.AddEvent"
-      permission="cmf.AddPortalContent"
+      permission="zope2.View"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
