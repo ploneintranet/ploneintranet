@@ -3,13 +3,14 @@ from plone import api
 import logging
 
 default_profile = 'profile-ploneintranet.suite:default'
+full_profile = 'profile-ploneintranet.suite:full'
 logger = logging.getLogger(__file__)
 
 
 def import_portal_registry(context):
     logger.info('Import Registry')
     context.runImportStepFromProfile(
-        default_profile,
+        full_profile,
         'plone.app.registry',
         run_dependencies=False,
     )
