@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content">
+
+            <div id="activity-stream" class="activity-stream" tal:define="message view/message">
+            <!-- The post will show "posted now in <Workspace name>" if the post was posted inside a Workspace and "posted on the dashboard" (With 'the dashboard' linked to the dashboard) if the post was posted directly on the homepage/dashboard. -->
+                <div class="stream-container col- ">
+
+                    <div id="stream-items">
+                
+                        <div class="tile">
+                            <div class="post item" id="post-">
+                                <div class="post-header">
+                                <!-- find the user 'post' that relates to the poster's id -->
+            
+                                    <a href="/liz-baker" tal:replace="structure python:view.get_author_image(message.actors[0]['userid'])">
+                                        <span class="pat-avatar" data-initials="LBa">
+                                            <img src="/media/avatar-liz-baker.jpg" alt="">
+                                        </span>
+                                        <h4 class="name">
+                                            Liz Baker
+                                        </h4>
+                                    </a>
+                                    <p class="byline">
+                                        <em class="action">posted</em>  
+                                        <time class="datestamp pat-display-time"
+                                              data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
+                                              datetime="${message/obj/message_last_modification_date}"
+                                            >${message/date}</time>
+                                         <br>
+                                            <a href="/feedback/post-menu.html#content" class="iconified icon-cog pat-tooltip inactive" data-pat-tooltip="source: ajax">Options</a>
+                                        
+                                    </p>
+                                </div>
+                                <section class="post-content">
+                                    <p tal:content="structure message/obj/title">
+                                        You've all done very well!
+                                    </p>                                    
+                                </section>
+
+                                <div class="functions">
+                                    
+                                    <!-- Buttons and anchors in this section get a class 'active, when the share or like is used by the current user.' -->
+                                    <a href="/sharing.html#document-content" class="share pat-modal">Share <sup class="counter">(0)</sup></a>
+                                    <form action="/feedback/liked.html#content" class="pat-inject" id="functions-mypost_1" data-pat-inject="source: #functions; target: #functions-mypost_1">
+                                        <!-- The submit button sends a name value pair to the server. The name is always the same but the value differs, depending whether the state is like or unlike. When the user has already liked the item and the form is submitted with the name value pair: like_button/like, then in the server feedback (/feedback/liked.html) the like count will be increased by 1 and the class 'active' is added. When the form is submitted with the name value pair like_button/unlike, the like count in will be decreased by one and the class 'active' is removed from the button. This is all done server side. -->
+                                        <button type="submit" name="like_button" value="like" class="like">Like <sup class="counter">(0)</sup></button>
+                                    </form>
+                                </div>
+                                <div class="comments" id="comments-${request/thread_id}">
+                                    <div id="comment-trail-mypost_1">
+            
+            
+        </div>
+                                    <div tal:replace="structure view/context/@@update-social.html" />
+
+                                </div>
+
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+        </metal:content>
+    </body>
+</html>

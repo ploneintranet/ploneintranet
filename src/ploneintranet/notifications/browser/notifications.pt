@@ -9,43 +9,39 @@
     <body class="view-secure">
         <metal:content fill-slot="content">
 
-      <h1 i18n:translate="">
-        Notifications
-      </h1>
+          <h1 i18n:translate="" cla>
+            Notifications
+          </h1>
 
-      <div id="notifications" tal:define="notifications view/your_notifications">
-        <ul class="notifications">
-          <li tal:repeat="notification notifications"  class="notification">
-            <a tal:condition="python: len(notification.actors) > 0" href="#" class="image"
-              tal:define="actorid python:notification.actors[0]['userid']"
-              tal:attributes="href string:${portal_url}/@@author/${actorid}">
-              <img class="avatar" src="defaultUser.png" alt="" tal:attributes="src python:view.get_author_image(notification.actors[0]['userid'])" />
-            </a>
-            <span class="subjects">
-              <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href=""
-                 tal:attributes="href string:${portal_url}/@@author/${actor/userid}" class="subject">Jon Doe</a>
-            </span>
-            <span class="verb" i18n:translate="">
-              posted
-            </span>
-            <a class="object"
-	       tal:omit-tag="not: notification/obj/url"
-               href="${notification/obj/url}"
-               tal:content="structure notification/obj/title">
-              Who's up for a beer at Watershed at 8pm?
-            </a>
-            <time class="datestamp pat-display-time"
-                  data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
-                  datetime="${notification/obj/message_last_modification_date}"
-                >${notification/date}</time>
-          </li>
-        </ul>
-        <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
+          <div id="notifications" tal:define="notifications view/your_notifications">
+              <ul class="notifications">
+                <li tal:repeat="notification notifications"  class="notification">
+                    <img class="avatar" src="defaultUser.png" alt="" tal:replace="structure python:view.get_author_image(notification.actors[0]['userid'])" />
+                    <span class="subjects">
+                      <a tal:repeat="actor notification/actors" tal:content="actor/fullname|nothing" href=""
+                         tal:attributes="href string:${portal_url}/@@author/${actor/userid}" class="subject">Jon Doe</a>
+                    </span>
+                    <span class="verb" i18n:translate="">
+                      posted
+                    </span>
+                    <a class="object"
+        	             tal:omit-tag="not: notification/obj/id"
+                       href="${notification/obj/url}/post?thread_id=${notification/obj/id}"
+                       tal:content="structure notification/obj/title">
+                      Who's up for a beer at Watershed at 8pm?
+                    </a>
+                    <time class="datestamp pat-display-time"
+                          data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
+                          datetime="${notification/obj/message_last_modification_date}"
+                        >${notification/date}</time>
+                </li>
+              </ul>
+              <div tal:condition="not: notifications" i18n:translate="">No pending notifications</div>
 
-        <p class="all-notifications">
-          <a tal:attributes="href string:${portal_url}/notifications?showall=1" i18n:translate="">All notifications</a>
-        </p>
-      </div>
+              <p class="all-notifications">
+                <a tal:attributes="href string:${portal_url}/notifications?showall=1" i18n:translate="">All notifications</a>
+              </p>
+          </div>
 
       </metal:content>
   </body>
