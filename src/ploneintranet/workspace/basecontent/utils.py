@@ -97,7 +97,12 @@ def dexterity_update(obj, request=None):
                             name, obj.absolute_url()))
                     raw = sanitized
 
-            value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
+            try:
+                value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
+            except Exception, exc:
+                log.warn("Error in converting value for %s: %s (%s)"
+                         % (name, raw, str(exc)))
+                raise exc
 
             try:
                 field.validate(value)

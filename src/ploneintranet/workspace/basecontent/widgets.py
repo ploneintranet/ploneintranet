@@ -7,6 +7,7 @@ from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.behaviors.file import IFileField
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
+from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from pytz import timezone
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
@@ -163,13 +164,13 @@ class PatDatePickerDataConverter(DateDataConverter):
         return super(PatDatePickerDataConverter).toFieldValue(value)
 
 
-@adapter(getSpecification(IEventBasic['start']), IWorkspaceAppFormLayer)
+@adapter(getSpecification(IEventBasic['start']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def StartPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))
 
 
-@adapter(getSpecification(IEventBasic['end']), IWorkspaceAppFormLayer)
+@adapter(getSpecification(IEventBasic['end']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def EndPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))

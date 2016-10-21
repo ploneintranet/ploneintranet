@@ -8,9 +8,11 @@ from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.calendar.utils import get_workspaces_of_current_user
 from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import parent_app
 from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError  # noqa
 from Products.CMFEditions.utilities import isObjectChanged, maybeSaveVersion
 from Products.Five import BrowserView
@@ -404,3 +406,35 @@ class HelperView(BrowserView):
             'value': x.token,
             'label': x.title,  # '(GMT+12:00) Fiji, Kamchatka, Marshall Is.'
         } for x in plone_tzs]
+
+    def get_user_workspaces(self):
+        return get_workspaces_of_current_user(self.context)
+
+    def safe_get_workspace(self):
+        """ This will safely return a sane element, either a workspace, or
+        app or portal object to call helper methods on
+        """
+        portal = api.portal.get()
+        return parent_workspace(self.context) or \
+            parent_app(self.context) or \
+            portal
+
+    def safe_member_prefill(self, context, name, default=''):
+        """ Tries safely to get a members prefill and returns nothing otherwise
+        without failing. This way a form can be used for add and edit and
+        within and outside a workspace
+        """
+        workspace = self.safe_get_workspace()
+        if hasattr(workspace, 'member_prefill'):
+            return workspace.member_prefill(context, name, default)
+        return default
+
+    def safe_member_and_group_prefill(self, context, name, default=''):
+        """ Tries safely to get a members prefill and returns nothing otherwise
+        without failing. This way a form can be used for add and edit and
+        within and outside a workspace
+        """
+        workspace = self.safe_get_workspace()
+        if hasattr(workspace, 'member_and_group_prefill'):
+            return workspace.member_and_group_prefill(context, name, default)
+        return default

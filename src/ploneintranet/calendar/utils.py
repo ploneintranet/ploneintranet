@@ -247,15 +247,15 @@ def get_workspaces_of_current_user(context):
     user = api.user.get_current()
     if not user:
         return []
-    key = "get_workspaces_of_current_user" + user.getId()
+    key = "get_workspaces_of_current_user-" + user.getId()
     cache = IAnnotations(context.REQUEST)
     data = cache.get(key, None)
     if data is None:
         query = dict(object_provides=IBaseWorkspaceFolder.__identifier__,
                      is_archived=False)
-
         sitesearch = getUtility(ISiteSearch)
         data = sitesearch.query(filters=query, step=99999)
+        data = sorted(data, key=lambda x: x['Title'])
         cache[key] = data
 
     # XXX we'll need to turn this into a dict to make it cacheable in memcached
@@ -333,8 +333,10 @@ def get_calendars(context):
         is_invited = (e.invitees and
                       set(groups).intersection(set(e.invitees)))
 
-        # XXX: Revisit this once we have globalEvent support and indexing
-        is_public = hasattr(e, 'globalEvent') and e.globalEvent
+        is_public = e.context.get('globalEvent', False)
+
+        logger.debug(
+            'Event metadata: Public %s, invited %s' % (is_public, is_invited))
 
         # Actually I can see all calendars which I have access to.
         # Plus I get a special section with calendars that have events I'm
@@ -347,7 +349,7 @@ def get_calendars(context):
             public[ws_path] = w_by_path[ws_path]
             event_by_cal['public'].append(e)
         else:
-            # Everything else I can see
+            # Everything I can see
             my[ws_path] = w_by_path[ws_path]
             event_by_cal['my'].append(e)
 
