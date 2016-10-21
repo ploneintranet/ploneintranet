@@ -13,7 +13,7 @@
             Notifications
           </h1>
 
-          <div id="notifications" tal:define="notifications view/your_notifications">
+          <div id="notifications" tal:define="notifications view/your_notifications; token context/@@authenticator/token;">
               <ul class="notifications">
                 <li tal:repeat="notification notifications"  class="notification">
                     <img class="avatar" src="defaultUser.png" alt="" tal:replace="structure python:view.get_author_image(notification.actors[0]['userid'])" />
@@ -26,7 +26,7 @@
                     </span>
                     <a class="object"
         	             tal:omit-tag="not: notification/obj/id"
-                       href="${notification/obj/url}/post?thread_id=${notification/obj/id}"
+                       href="${notification/obj/url}/post?thread_id=${notification/obj/id}&_authenticator=${token}"
                        tal:content="structure notification/obj/title">
                       Who's up for a beer at Watershed at 8pm?
                     </a>
