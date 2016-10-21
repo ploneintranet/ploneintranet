@@ -183,16 +183,19 @@ class AddWorkspace(AddBase):
         url = '{}#workspace-settings'.format(url)
         return self.request.response.redirect(url)
 
-    def get_new_object(self):
+    def get_new_object(self, container):
         ''' This will create a new object
         '''
+        if not container:
+            container = self.context
+
         if self.request.form.get('workspace-type') \
            in self.all_templates_dict:
-            return self.create_from_template()
+            return self.create_from_template(container)
         else:
-            return super(AddWorkspace, self).get_new_object()
+            return super(AddWorkspace, self).get_new_object(container)
 
-    def create_from_template(self):
+    def create_from_template(self, container):
         ''' Create an object with the given template
         '''
         template = self.get_template()
@@ -211,7 +214,7 @@ class AddWorkspace(AddBase):
         pi_api.events.disable_solr_indexing(self.request)
         new = api.content.copy(
             source=template,
-            target=self.context,
+            target=container,
             safe_id=False,
         )
         # We must not let api's `copy` method do the renaming. If the
@@ -223,7 +226,7 @@ class AddWorkspace(AddBase):
         userid = api.user.get_current().id
         _reset_security_context(userid, new.REQUEST, invalidate_cache=True)
         # NOW we can set the new name
-        api.content.rename(new, self.get_new_unique_id())
+        api.content.rename(new, self.get_new_unique_id(container))
         new.creation_date = datetime.now()
         # Now that the new workspace has been created, re-index it (async)
         # using the solr-maintenance convenience method.

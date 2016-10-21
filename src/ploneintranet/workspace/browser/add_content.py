@@ -50,9 +50,11 @@ class AddBase(BrowserView):
         )
         return new_id
 
-    def get_new_object(self, container):
+    def get_new_object(self, container=None):
         ''' This will create a new object
         '''
+        if not container:
+            container = self.context
         obj = api.content.create(
             container=container,
             type=self.portal_type,
@@ -80,8 +82,6 @@ class AddBase(BrowserView):
             # but just some markup,
             # so we cannot show that one here
             pass
-        if not container:
-            container = self.context
         new = self.get_new_object(container)
         modified, errors = self.update(new)
 
