@@ -195,9 +195,12 @@ class AddWorkspace(AddBase):
         else:
             return super(AddWorkspace, self).get_new_object(container)
 
-    def create_from_template(self, container):
+    def create_from_template(self, container=None):
         ''' Create an object with the given template
         '''
+        if not container:
+            container = self.context
+
         template = self.get_template()
         if not template:
             api.portal.show_message(
