@@ -426,7 +426,7 @@ class HelperView(BrowserView):
         """
         workspace = self.safe_get_workspace()
         if hasattr(workspace, 'member_prefill'):
-            return workspace.member_prefill(context, name)
+            return workspace.member_prefill(context, name, default)
         return default
 
     def safe_member_and_group_prefill(self, context, name, default=''):
@@ -436,5 +436,5 @@ class HelperView(BrowserView):
         """
         workspace = self.safe_get_workspace()
         if hasattr(workspace, 'member_and_group_prefill'):
-            return workspace.member_and_group_prefill(context, name)
+            return workspace.member_and_group_prefill(context, name, default)
         return default
