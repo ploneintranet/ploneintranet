@@ -8,6 +8,43 @@
     <include package="plone.tiles" file="meta.zcml" />
 
     <plone:tile
+        name="bookmarks.workspaces.tile"
+        title="Bookmarks of Workspaces tile"
+        description="Provides bookmarks of workspaces as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfWorkspacesTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.workspaces.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+    <plone:tile
+        name="bookmarks.apps.tile"
+        title="Bookmarks of Apps tile"
+        description="Provides bookmarks of Apps as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfAppsTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.apps.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+    <plone:tile
+        name="bookmarks.documents.tile"
+        title="Bookmarks of Documents tile"
+        description="Provides bookmarks of Documents as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfDocumentsTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.documents.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+
+    <plone:tile
         name="bookmarks.tile"
         title="Bookmarks tile"
         description="Provides bookmarks as a tile"

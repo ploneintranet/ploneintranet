@@ -1,0 +1,71 @@
+<html>
+  <body>
+    <div id="portlet-bookmarks${python:view.data.get('id_suffix', '')}"
+         class="library portlet span-1"
+         i18n:domain="ploneintranet"
+        >
+      <div class="content"
+           tal:define="
+             id_suffix python:view.data.get('id_suffix', '');
+             portal_url here/portal_url;
+             app_bookmarks nocall:view/app_bookmarks;
+             friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+             bookmarks view/get_bookmarks;
+             sort_by python:request.get('sort_by', 'recent');
+             SearchableText request/SearchableText|nothing;
+           ">
+        <h2 class="portlet-title">
+          <a href="${view/app_url}#directory-documents"
+            i18n:translate=""
+             >Bookmarked Documents</a>
+        </h2>
+        <form class="search-box pat-inject pat-autosubmit"
+              action="${portal_url}/@@${view/__name__}#bookmarks-search-items${id_suffix}"
+            >
+          <fieldset class="vertical">
+            <label>
+              <input name="SearchableText"
+                     type="search"
+                     placeholder="Search bookmarks"
+                     value="${SearchableText}"
+                     i18n:attributes="placeholder"
+                    />
+              <input type="hidden" value="${id_suffix}" name="id_suffix" />
+              <button hidden type="submit" i18n:translate="">Find bookmarked documents</button>
+            </label>
+          </fieldset>
+        </form>
+        <div id="bookmarks-search-items${id_suffix}">
+          <tal:nobookmarks condition="not:bookmarks">
+            <p id="portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-message notice"
+               tal:condition="SearchableText"
+               i18n:translate=""
+              >No bookmarks were found matching <strong i18n:name="SearchableText">${SearchableText}</strong></p>
+            <p id="portlet-bookmarks-bookmarks-list${id_suffix}"
+               class="pat-message notice"
+               tal:condition="not:SearchableText"
+               i18n:translate=""
+              >No bookmarks were found</p>
+          </tal:nobookmarks>
+          <ul id="portlet-bookmarks-bookmarks-list${id_suffix}"
+              class="menu links"
+              tal:condition="bookmarks"
+              >
+            <tal:bookmarks repeat="bookmark bookmarks">
+              <li class="bookmark"
+                  title="${bookmark/description|bookmark/title|nothing}"
+                >
+                 <a href="${bookmark/url}"
+                    class="${python: friendly_type2icon_class(getattr(bookmark, 'friendly_type_name', ''))}"
+                    >
+                    ${bookmark/title}
+                 </a>
+              </li>
+            </tal:bookmarks>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
