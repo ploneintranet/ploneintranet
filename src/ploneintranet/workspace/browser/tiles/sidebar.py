@@ -353,6 +353,13 @@ class SidebarSettingsAdvanced(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
 
+    def can_delete_workspace(self):
+        ws = parent_workspace(self.context)
+        return api.user.has_permission(
+            "Delete objects",
+            obj=ws,
+        )
+
     def can_be_division(self):
         ''' Check if this object can be a division,
         i.e. has a division field in the schema or in a behavior
