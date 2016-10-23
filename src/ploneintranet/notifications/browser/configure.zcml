@@ -11,7 +11,7 @@
       name="post"
       class=".post.PostView"
       template="post.pt"
-      permission="ploneintranet.viewsite"
+      permission="ploneintranet.microblog.ViewStatusUpdate"
       layer=".interfaces.IPloneintranetNotificationsLayer"
       />
 
