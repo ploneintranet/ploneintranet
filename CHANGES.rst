@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a17 (unreleased)
+1.2.0a17 (2016-10-24)
 ---------------------
 
 * Merge pull request #817 from quaive/dedicated-bookmark-portlets [GitHub]
