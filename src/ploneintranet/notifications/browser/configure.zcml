@@ -4,6 +4,7 @@
     i18n_domain="ploneintranet.notifications">
 
   <include package="ploneintranet.layout" file="permissions.zcml" />
+  <include package="ploneintranet.microblog" file="permissions.zcml" />
 
 
   <browser:page
