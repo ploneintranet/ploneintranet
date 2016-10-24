@@ -67,7 +67,8 @@ class GroupedSearchTile(Tile):
             else:
                 docs[_('All time')].append(result)
         for key in docs.keys():
-            docs[key] = sorted(docs[key], key=lambda x: x.modified)
+            docs[key] = sorted(
+                docs[key], key=lambda x: x.modified, reverse=True)
         return docs
 
     @memoize
