@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure">
+        <metal:content fill-slot="content">
+
+            <div id="activity-stream" class="activity-stream" tal:define="statusupdate view/statusupdate">
+
+                <div tal:replace="structure statusupdate/@@post.html"/>
+
+            </div>
+        </metal:content>
+    </body>
+</html>
