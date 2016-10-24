@@ -91,6 +91,17 @@ class IApp(form.Schema):
         required=False,
     )
 
+    condition = ASCIILine(
+        title=_('app_condition_label', 'Condition'),
+        description=_(
+            'app_condition_description',
+            u'If this condition is given then the app tile will not be shown'
+            u' if it evaluates to False.',
+        ),
+        default='',
+        required=False,
+    )
+
     def app_url():
         """The absolute URL of the app, based on `self.app`.
         """

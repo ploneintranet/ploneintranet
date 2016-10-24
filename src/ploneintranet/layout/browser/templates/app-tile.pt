@@ -1,4 +1,4 @@
-<div class="tile app ${context/devices} app-${view/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
+<div tal:condition="view/condition" class="tile app ${context/devices} app-${view/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
     <a href="${context/app_url}#app-space"
        class="link ${view/modal} pat-inject pat-switch"
        data-pat-switch="#app-space state-off state-on"
