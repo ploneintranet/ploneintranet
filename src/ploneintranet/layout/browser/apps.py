@@ -1,6 +1,8 @@
 # coding=utf-8
 from datetime import datetime
 from AccessControl.unauthorized import Unauthorized
+from Products.CMFCore.Expression import Expression
+from Products.CMFCore.Expression import createExprContext
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -114,6 +116,15 @@ class AppTile(BrowserView):
         if self.unauthorized:
             return 'disabled'
         return ''
+
+    def condition(self):
+        if self.context.condition:
+            expr_context = createExprContext(
+                self.context, api.portal.get(), self.context)
+            expr = Expression(self.context.condition)
+            return bool(expr(expr_context))
+        else:
+            return True
 
     @property
     def modal(self):

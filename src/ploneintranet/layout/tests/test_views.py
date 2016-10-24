@@ -47,6 +47,11 @@ class TestViews(IntegrationTestCase):
                 'app': '@@app-with-parameters',
                 'app_parameters': '{"foo": "bar"}'
             },
+            {
+                'title': 'Conditional App',
+                'app': 'robots.txt',
+                'condition': 'python:False',
+            },
         ]:
             api.content.create(
                 self.portal.apps,
@@ -54,6 +59,7 @@ class TestViews(IntegrationTestCase):
                 title=app['title'],
                 app=app['app'],
                 app_parameters=app.get('app_parameters', u''),
+                condition=app.get('condition', ''),
             )
         api.content.transition(
             self.portal.apps['public-app'],
@@ -256,6 +262,12 @@ class TestViews(IntegrationTestCase):
         tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
             self.assertEqual(tile.disabled, 'disabled')
+
+    def test_app_basetile_condition(self):
+        ''' Check the condition property of the app tile adapter
+        '''
+        tile = self.get_app_tile('conditional-app')
+        self.assertFalse(tile.condition())
 
     def test_webstats_js(self):
         ''' Check if the view works and if it is correctly cached
