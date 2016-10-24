@@ -35,6 +35,8 @@
                         data-pat-inject="
                             source: #document-body; target: #document-body;
                             &amp;&amp;
+                            source:#workspace-events; target: #workspace-events; loading-class: '';
+                            &amp;&amp;
                             source: #global-statusmessage; target: #global-statusmessage; loading-class: '';
                         "
                         method="POST" action="${context/absolute_url}/view#document-body">
