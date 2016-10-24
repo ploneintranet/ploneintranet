@@ -35,13 +35,43 @@ class BookmarksTile(Tile):
 
     @memoize_contextless
     def get_bookmarks(self):
-        ''' Return the bookarms accoring to the requested sort_by
+        ''' Return the bookmarks according to the requested sort_by
         '''
         sort_by = self.request.get('sort_by', 'recent')
         if sort_by == 'popularity':
             return self.app_bookmarks.most_popular_bookmarks()
         else:
             return self.app_bookmarks.my_recent_bookmarks()
+
+
+class BookmarksOfWorkspacesTile(BookmarksTile):
+    ''' Bookmarks of Workspaces as a Tile '''
+
+    @memoize_contextless
+    def get_bookmarks(self):
+        ''' Return my bookmarked workspaces
+        '''
+        return self.app_bookmarks.my_bookmarked_workspaces()
+
+
+class BookmarksOfAppsTile(BookmarksTile):
+    ''' Bookmarks of Apps as a Tile '''
+
+    @memoize_contextless
+    def get_bookmarks(self):
+        ''' Return my bookmarked apps
+        '''
+        return self.app_bookmarks.my_bookmarked_apps()
+
+
+class BookmarksOfDocumentsTile(BookmarksTile):
+    ''' Bookmarks of Documents as a Tile '''
+
+    @memoize_contextless
+    def get_bookmarks(self):
+        ''' Return my bookmarked documents
+        '''
+        return self.app_bookmarks.my_bookmarked_documents()
 
 
 class WorkspaceBookmarkTile(Tile, BookmarkActionView, View):

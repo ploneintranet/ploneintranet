@@ -1,0 +1,29 @@
+<html>
+  <body>
+    <div id="portlet-bookmarked-apps"
+         class="bookmarks portlet span-1"
+         i18n:domain="ploneintranet"
+        >
+      <div class="content"
+           tal:define="
+             portal_url here/portal_url;
+             app_bookmarks nocall:view/app_bookmarks;
+             friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+             bookmarks view/get_bookmarks;
+           ">
+        <h2 class="portlet-title">
+          <a href="${view/app_url}#directory-apps"
+            i18n:translate=""
+             >Bookmarked Apps</a>
+        </h2>
+        <div id="bookmarked-apps-search-items">
+          <div class="row tiles apps">
+            <tal:repeat repeat="app bookmarks">
+              <tal:app define="app app/getObject" replace="structure app/@@app-tile" />
+            </tal:repeat>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

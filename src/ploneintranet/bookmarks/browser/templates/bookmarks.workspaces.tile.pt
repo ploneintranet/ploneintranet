@@ -1,0 +1,30 @@
+<html>
+  <body>
+    <div id="portlet-bookmarked-workspaces"
+         class="bookmarks portlet span-1"
+         i18n:domain="ploneintranet"
+        >
+      <div class="content"
+           tal:define="
+             portal_url here/portal_url;
+             app_bookmarks nocall:view/app_bookmarks;
+             friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+             bookmarks view/get_bookmarks;
+           ">
+        <h2 class="portlet-title">
+          <a href="${view/app_url}#directory-workspaces"
+            i18n:translate=""
+             >Bookmarked Workspaces</a>
+        </h2>
+        <div id="bookmarked-workspaces-search-items">
+          <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer-bookmarked-workspaces; gutter: 0; item-selector: .tile;">
+            <div class="grid-sizer-bookmarked-workspaces"></div>
+            <tal:repeat repeat="workspace bookmarks">
+              <tal:app define="workspace workspace/getObject" replace="structure workspace/@@workspace.tile" />
+            </tal:repeat>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
