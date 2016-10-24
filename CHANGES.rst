@@ -4,7 +4,23 @@ Changelog
 1.2.0a18 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge branch 'master' into release-1.2.x [Alexander Pilz]
+* Merge pull request #819 from quaive/reverse-group-sort [GitHub]
+* Merge pull request #818 from quaive/app-tile-condition [GitHub]
+* Grouped search: reverse sort by modified date [Cillian de Roiste]
+* Added condition (expression) to apps [Manuel Reinhardt]
+* Merge pull request #814 from quaive/post-view [GitHub]
+* Include the permissions definition here in the configure.zcml where the permission is being used [Wolfgang Thomas]
+* Revert "include permission" Including the permissions file just for the tests does not make sense. [Wolfgang Thomas]
+* Merge pull request #815 from quaive/fix-injection-target-event [GitHub]
+* Back to development: 1.2.0a18 [Alexander Pilz]
+* include permission [Alexander Pilz]
+* Readd injection of sidebar [Alexander Pilz]
+* Implement pysailors suggestion [Alexander Pilz]
+* fake commit to get jenkins to test [Alexander Pilz]
+* Align injection behavior of events with document_content [Alexander Pilz]
+* simpler is better [Alexander Pilz]
+* Work to display posts. Commenting doesn't work yet [Alexander Pilz]
 
 
 1.2.0a17 (2016-10-24)
