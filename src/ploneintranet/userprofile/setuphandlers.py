@@ -46,6 +46,62 @@ def get_or_create_userprofile_container(context=None):
                 'Cannot publish the user profile container %s',
                 container.getId(),
             )
+            try:
+                api.content.transition(container, 'publish_internally')
+            except:
+                logger.exception(
+                    'Cannot publish the user profile container %s internally',
+                    container.getId(),
+                )
+
+
+def get_or_create_workgroup_container(context=None):
+    ''' We want to have a groups folder in the plone site root
+    We want it public
+
+    The context paramer is ignored
+    It depends on wheter this function is called as an upgrade
+    or an import step
+    We use plone api to get the portal.
+    '''
+    portal = api.portal.get()
+    try:
+        container = portal['groups']
+    except KeyError:
+        logger.info('Creating workgroup container')
+        container = api.content.create(
+            id='groups',
+            title="Groups",
+            type="ploneintranet.workspace.workspacecontainer",
+            container=portal,
+            safe_id=False
+        )
+
+    if container.getId() != 'groups':
+        logger.warning(
+            'The id for workgroup container is "%s" and not "groups"',
+            container.getId()
+        )
+
+    if api.content.get_state(container) != 'published':
+        logger.info(
+            'Publishing the workgroup container %s',
+            container.getId(),
+        )
+        try:
+            api.content.transition(container, 'publish')
+        except:
+            logger.exception(
+                'Cannot publish the workgroup container %s',
+                container.getId(),
+            )
+        try:
+            api.content.transition(container, 'publish_internally')
+        except:
+            logger.exception(
+                'Cannot publish the workgroup container %s internally',
+                container.getId(),
+            )
 
 
 def update_dx_membrane_behaviors(context):

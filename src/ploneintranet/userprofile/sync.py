@@ -1,5 +1,6 @@
 # coding=utf-8
 from .content.userprofile import IUserProfile
+from .content.workgroup import IWorkGroup
 from Acquisition import aq_base
 from datetime import datetime
 from plone import api
@@ -7,6 +8,7 @@ from plone.protect.interfaces import IDisableCSRFProtection
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from Products.Five import BrowserView
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from transaction import commit
 from zope.component import adapter
 from zope.interface import alsoProvides
@@ -45,7 +47,34 @@ class UserPropertyManager(object):
         self.property_mapping = api.portal.get_registry_record(
             PROP_SHEET_MAP_KEY)
 
+    def turn_properties_plugin_on(self):
+        """ Turn on properties plugin if deactivated. Returns state.
+        """
+        plugins = api.portal.get_tool(name='acl_users').plugins
+        plugin_id = api.portal.get_registry_record(PRI_EXT_USERS_KEY)
+        if not plugin_id or not getattr(plugins, plugin_id, None):
+            return
+
+        if plugin_id not in \
+           [x[0] for x in plugins.listPlugins(IPropertiesPlugin)]:
+            if IPropertiesPlugin.providedBy(getattr(plugins, plugin_id)):
+                plugins.activatePlugin(IPropertiesPlugin, plugin_id)
+                return True
+        return False
+
+    def turn_properties_plugin_off_again(self):
+        """ Turns the plugin off again """
+        plugins = api.portal.get_tool(name='acl_users').plugins
+        plugin_id = api.portal.get_registry_record(PRI_EXT_USERS_KEY)
+        if not plugin_id or not getattr(plugins, plugin_id, None):
+            return
+
+        if IPropertiesPlugin.providedBy(getattr(plugins, plugin_id)):
+            plugins.deactivatePlugin(IPropertiesPlugin, plugin_id)
+
     def sync(self):
+        was_activated = self.turn_properties_plugin_on()
+
         logger.info('Updating info for {0.username}'.format(self.context))
         member = api.user.get(username=self.context.username)
         property_sheet_mapping = {
@@ -68,6 +97,9 @@ class UserPropertyManager(object):
             self.context.reindexObject()
             logger.info('Properties updated for {0.username}'.format(
                 self.context))
+        # Turn off properties plugin again if it was deactivated
+        if was_activated is True:
+            self.turn_properties_plugin_off_again()
 
 
 class UserPropertySync(BrowserView):
@@ -217,4 +249,196 @@ class AllUsersSync(BrowserView):
                     )
                 )
                 api.content.transition(obj=self.context[userid],
+                                       transition='disable')
+
+
+class IWorkGroupManager(Interface):
+    """Sync properties for a workgroup
+    """
+
+
+@adapter(IWorkGroup)
+@implementer(IWorkGroupManager)
+class WorkGroupPropertyManager(object):
+
+    def __init__(self, context):
+        self.context = context
+        # self.property_mapping = api.portal.get_registry_record(
+        #     PROP_SHEET_MAP_KEY)
+
+    @property
+    def canonical_plugin_id(self):
+        return api.portal.get_registry_record(PRI_EXT_USERS_KEY)
+
+    def sync(self):
+        logger.info('Updating info for {0.id}'.format(self.context))
+        changed = False
+        acl_users = api.portal.get_tool(name='acl_users')
+        ext_source = acl_users[self.canonical_plugin_id]
+        groups = ext_source.enumerateGroups(id=self.context.canonical,
+                                            exact_match=True)
+        if len(groups) != 1:
+            raise
+        group = groups[0]
+
+        def safe_set(data, key):
+            if data.get(key) and data[key] != getattr(self.context, key):
+                setattr(self.context, key, data[key])
+                return True
+            return False
+
+        for key in ('title', 'description', 'mail'):
+            changed = changed or safe_set(group, key)
+
+        members = ext_source.getGroupMembers(self.context.canonical)
+        if set(members) != set(self.context.members):
+            self.context.members = members
+            changed = True
+
+        if changed:
+            record_last_sync(self.context)
+            self.context.reindexObject()
+            logger.info('Properties updated for {0.id}'.format(
+                self.context))
+
+
+class WorkGroupPropertySync(BrowserView):
+
+    def __call__(self):
+        """Sync a single user profile with external property providers"""
+        alsoProvides(self.request, IDisableCSRFProtection)
+        group = self.context
+        IWorkGroupManager(group).sync()
+        api.portal.show_message(message=_('WorkGroup property sync complete.'),
+                                request=self.request)
+        return self.request.response.redirect(group.absolute_url())
+
+
+def sync_many_groups(group_container, groups):
+    if groups:
+        start = time.time()
+        record_last_sync(group_container)
+        skipped = 0
+        for (count, group) in enumerate(groups, start=1):
+            try:
+                profile_manager = IWorkGroupManager(group)
+            except TypeError:
+                # Could not adapt: Group
+                skipped += 1
+                continue
+            profile_manager.sync()
+            if count and not count % 100:
+                logger.info('Synced %s groups. Committing.', count + 1)
+                commit()
+        duration = time.time() - start
+        logger.info('Updated {} (skipped {}) in {:0.2f} seconds'.format(
+            count, skipped, duration))
+    else:
+        logger.info('No groups to sync')
+
+
+class AllWorkGroupsSync(BrowserView):
+    """Sync all groups from the "canonical" source of external groups.
+
+    Compares local membrane groups to the list of groups found
+    in the canonical pas source.
+    Removes any groups no longer in the canonical source,
+    and creates groups for any new groups found in the canonical source.
+    """
+
+    def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+        self._sync()
+        return 'Group sync complete.'
+
+    def get_groups_container(self):
+        container = 'groups'
+        portal = api.portal.get()
+        if container not in portal:
+            groups_container = api.content.create(
+                container=portal,
+                type='ploneintranet.workspace.workspacecontainer',
+                title='WorkGroups'
+            )
+        else:
+            groups_container = portal[container]
+
+        return groups_container
+
+    def _plugin_groupids(self, plugin_id):
+        acl_users = api.portal.get_tool(name='acl_users')
+        plugin = acl_users[plugin_id]
+        if plugin_id != 'membrane_groups':
+            return [x['id'].lower() for x in plugin.enumerateGroups()]
+        groups_container = self.get_groups_container()
+        return [
+            x.getGroupId().lower() for x in groups_container.objectValues()
+        ]
+
+    @property
+    def canonical_plugin_id(self):
+        return api.portal.get_registry_record(PRI_EXT_USERS_KEY)
+
+    def _sync(self):
+        external_groupids = set(self._plugin_groupids(
+            self.canonical_plugin_id))
+        local_groupids = set(self._plugin_groupids('membrane_groups'))
+        self._disable_groups(local_groupids, external_groupids)
+        to_sync = self._create_groups(local_groupids, external_groupids)
+        sync_many_groups(self.context, list(to_sync))
+
+    def _create_groups(self, local_groupids, external_groupids):
+        """Create user profiles for any external user
+        without a local membrane profile"""
+        to_sync = external_groupids - local_groupids
+        plugin_id = self.canonical_plugin_id
+        logger.info('Found {0} workgroups in {1} in total'.format(
+            len(external_groupids), plugin_id,
+        ))
+        logger.info('Found {0} workgroups in {1} with no membrane profile'
+                    .format(len(to_sync), plugin_id,))
+        counter = 0
+        for groupid in to_sync:
+            logger.info(
+                'Creating new workgroup '
+                'found in plugin {0}: {1}'.format(plugin_id, groupid)
+            )
+            try:
+                obj = pi_api.workgroup.create(groupid=groupid)
+            except:
+                logger.exception('Error creating: %r', groupid)
+                obj = None
+            if obj:
+                counter += 1
+                if counter % 100 == 0:
+                    logger.info('Created %s workgroups. Committing.', counter)
+                    commit()
+                yield obj
+
+    def _disable_groups(self, local_groupids, external_groupids):
+        """Disable groups for any that are missing
+        a corresponding external group."""
+        to_remove = local_groupids - external_groupids
+        plugin_id = self.canonical_plugin_id
+        for groupid in to_remove:
+            group = api.group.get(groupid)
+            if not group:
+                continue
+            profile = self.context[group.getProperty('object_id')]
+            # Only disable our WorkGroup type.
+            # Don't do that with groupspaces or others
+            if profile.portal_type != 'ploneintranet.userprofile.workgroup':
+                continue
+            state = api.content.get_state(obj=profile)
+            # Skip users that have never been synced with an external source
+            # as they were probably created manually
+            if state == 'enabled' and get_last_sync(profile) is not None:
+                logger.info(
+                    'Disabling workgroup '
+                    'no longer in plugin {0}: {1}'.format(
+                        plugin_id,
+                        groupid,
+                    )
+                )
+                api.content.transition(obj=self.context[groupid],
                                        transition='disable')
