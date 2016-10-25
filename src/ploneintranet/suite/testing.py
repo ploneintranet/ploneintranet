@@ -75,8 +75,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # setup the default workflow
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
-        # The config for docconv needs to be in place before creating the
-        # default content
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
         setRoles(portal, TEST_USER_ID, ['Manager'])
