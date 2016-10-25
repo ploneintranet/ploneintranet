@@ -51,4 +51,22 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:registerProfile
+    name="to_0006"
+    title="Update profile to include the changes for ploneintranet.userprofile.workgroup"
+    description=""
+    directory="profiles/to_0006"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+    title="Install support for Membrane Workgroups"
+    description=""
+    source="*"
+    destination="6"
+    handler=".to_0006.prep_for_workgroups"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>

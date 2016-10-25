@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <object name="membrane_tool" meta_type="MembraneTool">
  <membrane-type name="ploneintranet.userprofile.userprofile"/>
+ <membrane-type name="ploneintranet.userprofile.workgroup"/>
+ <index name="workspace_members" meta_type="KeywordIndex">
+  <indexed_attr value="workspace_members"/>
+ </index>
  <column value="email"/>
  <query_index_map>
    <index name="fullname">Title</index>
