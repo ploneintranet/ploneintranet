@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
+from plone import api
+from plone.api.exc import InvalidParameterError
 from ploneintranet import api as pi_api
 from ploneintranet.async.browser.views import AbstractAsyncView
 from ploneintranet.async.tasks import GeneratePreview
-from ploneintranet.docconv.client import HTML_CONTENTTYPES
-from ploneintranet.docconv.client import SUPPORTED_CONTENTTYPES
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.search.solr.browser.maintenance import timer
 from time import clock
@@ -18,8 +18,6 @@ logger = getLogger(__name__)
 class BaseGeneratePreviewsView(AbstractAsyncView):
     ''' Helper View for maintenance tasks
     '''
-
-    portal_types = SUPPORTED_CONTENTTYPES + HTML_CONTENTTYPES
     ADDITIONAL_PARAMETERS = [{'name': 'regenerate', 'type': 'checkbox'}]
 
     _preview_storage_key = 'collective.documentviewer'
@@ -49,10 +47,19 @@ class BaseGeneratePreviewsView(AbstractAsyncView):
             write('forcing previews regeneration\n')
 
         search_util = getUtility(ISiteSearch)
+        try:
+            file_types = api.portal.get_registry_record(
+                'ploneintranet.docconv.file_types')
+            html_types = api.portal.get_registry_record(
+                'ploneintranet.docconv.html_types')
+        except InvalidParameterError:
+            file_types = ['File', ]
+            html_types = ['Document', ]
+        portal_types = file_types + html_types
 
         results = search_util.query(
             filters={
-                'portal_type': self.portal_types,
+                'portal_type': portal_types,
                 'path': '/'.join(self.context.getPhysicalPath())
             },
             start=skip,

@@ -120,6 +120,13 @@
       profile="ploneintranet.suite:default"
     />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <genericsetup:upgradeStep
+      title="Configure content types used for preview generation"
+      description=""
+      source="*"
+      destination="0012"
+      handler=".upgrades.import_portal_registry"
+      profile="ploneintranet.suite:default"
+      />
 
 </configure>
