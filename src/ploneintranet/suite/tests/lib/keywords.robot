@@ -746,18 +746,26 @@ I can see that the workspace is archived
 
 
 I can archive the current context
-    Click Element  jquery=.quick-functions :contains('Archive')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Archive this document"]
     Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
     Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Page should contain element  jquery=.quick-functions :contains('Unarchive')
+    Page should contain element  jquery=#extra-options [title="Unarchive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
 
 I can unarchive the current context
-    Click Element  jquery=.quick-functions :contains('Unarchive')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Unarchive this document"]
     Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
     Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Page should contain element  jquery=.quick-functions :contains('Archive')
+    Page should contain element  jquery=#extra-options [title="Archive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
 
 I see the option to create a document
     Click link  Documents
