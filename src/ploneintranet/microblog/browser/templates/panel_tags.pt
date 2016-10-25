@@ -1,3 +1,10 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+  <body>
     <div tal:define="thread_id request/thread_id|nothing;
                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
 
@@ -42,3 +49,5 @@
       </div>
 
     </div>
+  </body>
+</html>
