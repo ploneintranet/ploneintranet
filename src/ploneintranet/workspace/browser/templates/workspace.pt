@@ -12,7 +12,7 @@
         </metal:statusmessage>
 
         <metal:content fill-slot="content"
-                       tal:define="workspace view/workspace; workspace_url python:workspace.absolute_url();
+                       tal:define="workspace view/workspace; workspace_url workspace/absolute_url;
                                    related_ws workspace/get_related_workspaces;
                                    is_archived workspace/archival_date;
                                    archived_class python:'workspace-state-archived' if is_archived else ''">

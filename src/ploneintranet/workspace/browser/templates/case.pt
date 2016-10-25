@@ -13,7 +13,7 @@
     <metal:content fill-slot="content"
                    i18n:domain="ploneintranet"
                    tal:define="workspace view/workspace;
-                               workspace_url python:workspace.absolute_url();
+                               workspace_url workspace/absolute_url;
                                ws_type workspace/ws_type | string:case;
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
