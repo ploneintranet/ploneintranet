@@ -9,6 +9,7 @@ from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.calendar.utils import get_workspaces_of_current_user
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
@@ -56,6 +57,17 @@ class ContentView(BrowserView):
         if self.is_ajax:
             return False
         return True
+
+    @property
+    @memoize
+    def autosave_enabled(self):
+        ''' Look up the registry to check if autosave should be enabled
+        for this portal_type
+        '''
+        autosave_portal_types = get_record_from_registry(
+            'ploneintranet.workspace.autosave_portal_types'
+        )
+        return self.context.portal_type in autosave_portal_types
 
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
