@@ -3,6 +3,7 @@
   <version>0012</version>
   <!-- load :full if you want the theme also -->
   <dependencies>
+    <dependency>profile-ploneintranet.docconv.client:default</dependency>
     <dependency>profile-ploneintranet.userprofile:default</dependency>
     <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-collective.externaleditor:default</dependency>
@@ -13,7 +14,6 @@
     <dependency>profile-ploneintranet.workspace:default</dependency>
     <dependency>profile-ploneintranet.theme:default</dependency>
     <dependency>profile-ploneintranet.themeswitcher:default</dependency>
-    <dependency>profile-ploneintranet.docconv.client:default</dependency>
     <dependency>profile-ploneintranet.attachments:default</dependency>
     <dependency>profile-ploneintranet.invitations:default</dependency>
     <dependency>profile-ploneintranet.notifications:default</dependency>

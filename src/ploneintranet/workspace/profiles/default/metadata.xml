@@ -2,6 +2,7 @@
 <metadata>
   <version>0016</version>
   <dependencies>
+    <dependency>profile-ploneintranet.docconv.client:default</dependency>
     <dependency>profile-Products.membrane:default</dependency>
     <dependency>profile-collective.workspace:default</dependency>
     <dependency>profile-Products.CMFNotification:default</dependency>

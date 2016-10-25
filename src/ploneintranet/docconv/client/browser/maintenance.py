@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from plone import api
+from plone.api.exc import InvalidParameterError
 from ploneintranet import api as pi_api
 from ploneintranet.async.browser.views import AbstractAsyncView
 from ploneintranet.async.tasks import GeneratePreview
@@ -46,10 +47,14 @@ class BaseGeneratePreviewsView(AbstractAsyncView):
             write('forcing previews regeneration\n')
 
         search_util = getUtility(ISiteSearch)
-        file_types = api.portal.get_registry_record(
-            'ploneintranet.docconv.file_types')
-        html_types = api.portal.get_registry_record(
-            'ploneintranet.docconv.html_types')
+        try:
+            file_types = api.portal.get_registry_record(
+                'ploneintranet.docconv.file_types')
+            html_types = api.portal.get_registry_record(
+                'ploneintranet.docconv.html_types')
+        except InvalidParameterError:
+            file_types = ['File', ]
+            html_types = ['Document', ]
         portal_types = file_types + html_types
 
         results = search_util.query(

@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from StringIO import StringIO
 from datetime import datetime
 from plone import api
+from plone.api.exc import InvalidParameterError
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 
@@ -24,8 +25,11 @@ class DownloadView(BaseCartView):
         images = []
         no_pdfs = []
         folders = []
-        html_types = api.portal.get_registry_record(
-            'ploneintranet.docconv.html_types')
+        try:
+            html_types = api.portal.get_registry_record(
+                'ploneintranet.docconv.html_types')
+        except InvalidParameterError:
+            html_types = ['Document', ]
 
         for obj in self.items:
             # make sure obj is a file by checking if filename is set

@@ -2,6 +2,7 @@ import logging
 import transaction
 
 from plone import api
+from plone.api.exc import InvalidParameterError
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet import api as pi_api
@@ -15,10 +16,14 @@ log = logging.getLogger(__name__)
 def generate_previews_async(obj, event=None):
     """ Generates the previews by dispatching them to the async service
     """
-    file_types = api.portal.get_registry_record(
-        'ploneintranet.docconv.file_types')
-    html_types = api.portal.get_registry_record(
-        'ploneintranet.docconv.html_types')
+    try:
+        file_types = api.portal.get_registry_record(
+            'ploneintranet.docconv.file_types')
+        html_types = api.portal.get_registry_record(
+            'ploneintranet.docconv.html_types')
+    except InvalidParameterError:
+        file_types = ['File', ]
+        html_types = ['Document', ]
 
     if hasattr(obj, 'portal_type') and \
        obj.portal_type not in file_types + html_types:
