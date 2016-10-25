@@ -1,15 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      lang="en"
-      metal:use-macro="here/main_template/macros/master"
-      i18n:domain="ploneintranet">
-
-  <body>
-
-    <div metal:fill-slot="main"
-         tal:define="
+    <div tal:define="
            portal_url view/portal_url;
            microblog_context_url view/microblog_context_url;
            thread_id request/thread_id|nothing;
@@ -80,5 +69,3 @@
 
     </div>
 
-  </body>
-</html>
