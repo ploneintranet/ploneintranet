@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import FunctionalTesting
@@ -78,12 +77,6 @@ class PloneIntranetSuite(PloneSandboxLayer):
         portal.portal_workflow.setDefaultChain('simple_publication_workflow')
         # The config for docconv needs to be in place before creating the
         # default content
-        ps = api.portal.get_tool('portal_setup')
-        ps.runImportStepFromProfile(
-            'profile-ploneintranet.suite:full',
-            'plone.app.registry',
-            run_dependencies=False,
-        )
         # Install into Plone site using portal_setup
         self.applyProfile(portal, 'ploneintranet.suite:testing')
         setRoles(portal, TEST_USER_ID, ['Manager'])
