@@ -134,7 +134,7 @@
                 </fieldset>
               </div>
               <div id="document-content">
-                <div class="attachments"
+                <div class="document-attachments"
                      tal:condition="attachments"
                     >
                   <tal:attachments repeat="attachment attachments">
