@@ -83,7 +83,7 @@
                               <input type="hidden" name="show_archived_documents-empty-marker" value="1"/>
                             </label>
                           </li>
-                          <!--li>
+                          <li>
                             <label class="pat-checklist">
                               <input type="checkbox"
                                      name="show_archived_tags"
@@ -92,7 +92,7 @@
                               <span tal:omit-tag="" i18n:translate="">Show archived tags</span>
                               <input type="hidden" name="show_archived_tags-empty-marker" value="1"/>
                             </label>
-                          </li-->
+                          </li>
                           <li>
                             <label class="pat-checklist">
                               <input type="checkbox"
@@ -105,6 +105,7 @@
                           </li>
                         </ul>
                       </div>
+                      <input type="hidden" name="grouping" value="${view/grouping}" />
                     </form>
                 </div>
 <!--                 <a class="selector-toggle-select more-menu-trigger"
@@ -286,7 +287,7 @@ Supported types include (class names):
                                        data-pat-switch item/dps | nothing">
                       <strong class="title">
                         ${item/title}
-                        <abbr tal:condition="item/outdated|nothing" class="iconified icon-archive">(Archived)</abbr>
+                        <abbr tal:condition="item/outdated|item/archived|nothing" class="iconified icon-archive">(Archived)</abbr>
                       </strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
