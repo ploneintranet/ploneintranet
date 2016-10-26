@@ -831,9 +831,13 @@ class Sidebar(BaseTile):
 
         # In the grouping storage, all entries are accessible under their
         # respective grouping headers. Fetch them for the selected grouping.
+        if grouping == 'label':
+            include_archived = self.archived_tags_shown()
+        else:
+            include_archived = self.archived_documents_shown()
         headers = storage.get_order_for(
             grouping,
-            include_archived=self.archives_shown(),
+            include_archived=include_archived,
             alphabetical=True
         )
 
@@ -1070,11 +1074,17 @@ class Sidebar(BaseTile):
             self.section, api.user.get_current().getId())
         return self.request.get(cookie_name, '').split('|')
 
-    def archives_shown(self):
+    def archived_documents_shown(self):
         """
-        Tell if we should show archived items or not
+        Tell if we should show archived documents or not
         """
         return 'archived_documents' in self.show_extra
+
+    def archived_tags_shown(self):
+        """
+        Tell if we should show archived tags or not
+        """
+        return 'archived_tags' in self.show_extra
 
     # def urlquote(self, value):
     #     """

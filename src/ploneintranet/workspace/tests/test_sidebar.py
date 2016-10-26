@@ -2,8 +2,10 @@
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.interfaces import IGroupingStorage
 from zope.event import notify
 from zope.annotation import IAnnotations
+from zope.component import getAdapter
 from zope.lifecycleevent import ObjectModifiedEvent
 
 
@@ -332,6 +334,47 @@ class TestSidebar(BaseTestCase):
         self.assertIn('Archivable Document', sidebar())
         self.assertIn(
             '<strong class="title"> Archivable Document '
+            '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
+            ' '.join(sidebar().split()),
+        )
+
+    def test_sidebar_archived_tags(self):
+        ''' Check if the sidebar is showing/hiding archived tags properly
+        '''
+        self.login_as_portal_owner()
+        ws = self.create_workspace()
+        doc = api.content.create(
+            ws,
+            'Document',
+            title='Tagged Document'
+        )
+        doc.subject = ['Test Tag']
+        storage = getAdapter(ws, IGroupingStorage)
+        storage.update_groupings(doc)
+        request = self.request.clone()
+        request.form['grouping'] = 'label'
+        sidebar = api.content.get_view(
+            'sidebar.default',
+            ws, request
+        )
+        self.assertIn(
+            '<strong class="title"> Test Tag </strong>',
+            ' '.join(sidebar().split()),
+        )
+        storage.get_groupings().get('label').get('Test Tag').archived = True
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.form['grouping'] = 'label'
+        self.assertNotIn('Test Tag', sidebar())
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.form['grouping'] = 'label'
+        sidebar.request.set('documents-show-extra-admin', 'archived_tags')
+        self.assertIn('Test Tag', sidebar())
+        self.assertIn(
+            '<strong class="title"> Test Tag '
             '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
             ' '.join(sidebar().split()),
         )
