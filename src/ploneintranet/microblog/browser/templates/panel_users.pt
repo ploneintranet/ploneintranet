@@ -1,10 +1,13 @@
+<tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      i18n:domain="ploneintranet">
-      <head><meta charset="utf-8"/></head>
+      i18n:domain="ploneintranet"> 
+<head>    
+  <meta tal:replace="context/@@http-cache-headers" />
+</head>
 <body>
     <div tal:define="
            portal_url view/portal_url;
