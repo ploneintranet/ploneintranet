@@ -69,4 +69,22 @@
     </field>
     <value purge="false">++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg</value>
   </record>
+
+  <record name="ploneintranet.layout.num_news">
+      <field type="plone.registry.field.Int">
+          <title># News Portlet</title>
+          <description>Amount of News shown by default</description>
+          <min>1</min>
+      </field>
+      <value>3</value>
+  </record>
+  <record name="ploneintranet.layout.max_news_items">
+      <field type="plone.registry.field.Int">
+          <title>Max # News items</title>
+          <description>Max # News items shown in expanded portlet</description>
+          <min>1</min>
+      </field>
+      <value>6</value>
+  </record>
+
 </registry>

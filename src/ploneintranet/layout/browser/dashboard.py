@@ -101,12 +101,20 @@ class NewsTile(Tile):
         """
         Display a list of News items ordered by date.
         """
+        try:
+            max_num = api.portal.get_registry_record(
+                'ploneintranet.layout.max_news_items'
+            )
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            max_num = 5
+
         pc = api.portal.get_tool('portal_catalog')
         news = pc(portal_type='News Item',
-                  sort_on='created',
+                  sort_on='effective',
                   sort_order='reverse')
         self.news_items = []
-        for item in news[:3]:
+        for item in news[:max_num]:
             self.news_items.append({
                 'title': item.Title,
                 'description': item.Description,
