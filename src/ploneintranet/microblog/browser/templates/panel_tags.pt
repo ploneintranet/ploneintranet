@@ -4,6 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
+      <head><meta charset="utf-8"/></head>
   <body>
     <div tal:define="thread_id request/thread_id|nothing;
                      form_id python:thread_id and 'comment_box_%s' % thread_id or 'post-box'">
