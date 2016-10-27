@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.0a20 (unreleased)
-----------------------
+1.2.0a20 (2016-10-28)
+---------------------
 
 * Merge branch 'master' into release-1.2.x [Alexander Pilz]
 * Merge pull request #838 from quaive/minor-improvements [GitHub]
