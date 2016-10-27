@@ -59,8 +59,8 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         tags.sort()
         self.assertEqual(tags, ['beer', 'foo', 'fuzzy'])
 
-    def no_test_userid(self):
-        """Doesn't work in test context"""
+    @unittest.skip("Doesn't work in test context")
+    def test_userid(self):
         su = StatusUpdate('foo bar')
         self.assertEqual(su.id, TEST_USER_ID)
 
