@@ -204,7 +204,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         )
         su = StatusUpdate('foo bar', content_context=doc)
         self.assertEqual(su.absolute_url(),
-                         '{}#comments-document-comments'.format(
+                         '{}/view'.format(
                              doc.absolute_url()))
 
 

@@ -282,7 +282,7 @@ class StatusUpdate(Persistent):
     def absolute_url(self):
         context = self.content_context
         if context:
-            return '{}#comments-document-comments'.format(
+            return '{}/view'.format(
                 context.absolute_url())
         context = self.microblog_context
         if not context:
