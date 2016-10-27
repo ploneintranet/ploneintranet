@@ -180,6 +180,33 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         su = StatusUpdate('foo bar', action_verb='created')
         self.assertEqual(su.action_verb, 'created')
 
+    def test_url_no_context(self):
+        su = StatusUpdate('foo bar')
+        self.assertEqual(su.absolute_url(),
+                         '{}/@@post'.format(self.portal.absolute_url()))
+
+    def test_url_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        su = StatusUpdate('foo bar', microblog_context=f1)
+        self.assertEqual(su.absolute_url(),
+                         '{}/@@post'.format(f1.absolute_url()))
+
+    def test_url_content_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su = StatusUpdate('foo bar', content_context=doc)
+        self.assertEqual(su.absolute_url(),
+                         '{}#comments-document-comments'.format(
+                             doc.absolute_url()))
+
 
 class TestStatusUpdateEdit(unittest.TestCase):
 

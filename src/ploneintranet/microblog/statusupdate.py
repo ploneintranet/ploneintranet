@@ -278,3 +278,13 @@ class StatusUpdate(Persistent):
         :type action_verb: string
         """
         self.attachments.remove(filename)
+
+    def absolute_url(self):
+        context = self.content_context
+        if context:
+            return '{}#comments-document-comments'.format(
+                context.absolute_url())
+        context = self.microblog_context
+        if not context:
+            context = api.portal.get()
+        return '{}/@@post'.format(context.absolute_url())
