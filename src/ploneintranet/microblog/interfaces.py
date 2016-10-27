@@ -50,6 +50,9 @@ class IStatusUpdate(Interface):
     def remove_attachment(filename):
         """Remove the attachment named <filename>"""
 
+    def absolute_url():
+        """View this statusupdate in it's proper context"""
+
 
 class IStatusContainer(Interface):
     """Manages read/write access to, and storage of,
