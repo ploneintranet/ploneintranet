@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a19 (unreleased)
+1.2.0a19 (2016-10-27)
 ---------------------
 
 * Merge pull request #831 from quaive/markup-regression-fix [GitHub]
