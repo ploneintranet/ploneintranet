@@ -35,8 +35,8 @@
                     action="${context/absolute_url}/view"
                     enctype="multipart/form-data"
                     id="document-form"
-                    data-pat-autosubmit="${python:autosave_enabled and 'delay: 30000s' or None}"
-                    data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
+                    data-pat-autosubmit="${python:autosave_enabled and 'delay: 20000ms' or None}"
+                    data-pat-inject="source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
                 <div class="metadata pat-bumper sticky-supported" id="meta">
                   <div class="meta-bar">
                     <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
