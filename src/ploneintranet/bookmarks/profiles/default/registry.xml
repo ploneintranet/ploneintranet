@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<records>
+
+  <record name="ploneintranet.bookmarks.num_workspaces">
+      <field type="plone.registry.field.Int">
+          <title># Workspace Bookmarks</title>
+          <description>Amount of Workspace Bookmarks shown by default</description>
+          <min>1</min>
+      </field>
+      <value>3</value>
+  </record>
+  <record name="ploneintranet.bookmarks.num_apps">
+      <field type="plone.registry.field.Int">
+          <title># Apps Bookmarks</title>
+          <description>Amount of Apps Bookmarks shown by default</description>
+          <min>1</min>
+      </field>
+      <value>3</value>
+  </record>
+  <record name="ploneintranet.bookmarks.num_documents">
+      <field type="plone.registry.field.Int">
+          <title># Document Bookmarks</title>
+          <description>Amount of Document Bookmarks shown by default</description>
+          <min>1</min>
+      </field>
+      <value>3</value>
+  </record>
+
+</records>

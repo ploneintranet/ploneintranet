@@ -3,9 +3,19 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body>
-    <div class="news portlet span-1" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
+  <body tal:define="min_items python:context.portal_registry['ploneintranet.layout.num_news'] if 'ploneintranet.layout.num_news' in context.portal_registry else 3;">
+    <div class="news portlet span-1 state-collapsed" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
       <div class="content">
+        <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(news_items) > min_items">
+            <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-expanded">
+                <input type="radio" name="portlet-news-state-expanded" value="on"> 
+                Show more
+            </label>
+            <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-collapsed">
+                <input type="radio" name="portlet-news-state-collapsed" value="on"> 
+                Show less
+            </label>
+        </form>      
         <h2 class="portlet-title"><a href="${context/portal_url}/library/news" i18n:translate="label_news">News</a></h2>
 
         <div class="news-block" id="unread-news">

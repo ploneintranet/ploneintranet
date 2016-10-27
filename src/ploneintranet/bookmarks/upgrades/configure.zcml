@@ -11,5 +11,12 @@
         handler=".to0002.add_bookmark_app"
         profile="ploneintranet.bookmarks:default"
       />
-
+    
+    <genericsetup:upgradeStep
+        title="Reload Registry to get portlet num defaults"
+        source="0002"
+        destination="0003"
+        handler=".common.reload_registry"
+        profile="ploneintranet.bookmarks:default"
+    />
 </configure>
