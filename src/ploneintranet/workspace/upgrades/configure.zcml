@@ -124,4 +124,22 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0017"
+        title="Upgrade profile that includes registry record to configure autosave for selected portal types"
+        description=""
+        directory="profiles/to_0017"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile to control autosave for selected portal types"
+        description=""
+        source="*"
+        destination="0017"
+        handler=".to_0017.autosave_portal_types"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>
