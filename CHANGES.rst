@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.1.0b5 (unreleased)
---------------------
+1.1.0rc1 (2016-10-27)
+---------------------
 
 * Prepare Gaia RC1 [Guido A.J. Stevens]
 * Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
