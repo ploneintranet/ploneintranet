@@ -835,14 +835,14 @@ class Sidebar(BaseTile):
             include_archived = self.archived_tags_shown()
         else:
             include_archived = self.archived_documents_shown()
-        headers = storage.get_order_for(
-            grouping,
-            include_archived=include_archived,
-            alphabetical=True
-        )
 
         if grouping == 'label':
             # Show all labels stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=False
+            )
             for header in headers:
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'tag'
@@ -856,6 +856,11 @@ class Sidebar(BaseTile):
                                 archived=False))
 
         elif grouping == 'author':
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             # Show all authors stored in the grouping storage
 
             # XXX May come soon in UI
@@ -878,6 +883,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'type':
             # Show all types stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
 
             # Document types using mimetypes
             headers.append(dict(title='Other',
@@ -892,6 +902,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'first_letter':
             # Show all items by first letter stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             for header in headers:
                 header['title'] = header['title'].upper()
                 header['url'] = group_url_tmpl % header['id']

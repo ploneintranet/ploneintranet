@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.autosave_portal_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_autosave_portal_types">Autosave portal types</title>
+      <description i18n:translate="help_autosave_portal_types">Enable autosave for the selected portal types (works for edit forms inside workspaces)</description>
+      <required>False</required>
+      <default></default>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">True</value>
+  </record>
+</registry>

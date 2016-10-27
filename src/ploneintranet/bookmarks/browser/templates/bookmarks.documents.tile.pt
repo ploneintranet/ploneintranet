@@ -1,7 +1,7 @@
 <html>
-  <body>
-    <div id="portlet-bookmarks${python:view.data.get('id_suffix', '')}"
-         class="library portlet span-1"
+  <body tal:define="min_items python:context.portal_registry['ploneintranet.bookmarks.num_documents'] if 'ploneintranet.bookmarks.num_documents' in context.portal_registry else 3;">
+    <div id="portlet-bookmarked-documents"
+         class="bookmarked-documents portlet span-1 state-collapsed"
          i18n:domain="ploneintranet"
         >
       <div class="content"
@@ -14,6 +14,16 @@
              sort_by python:request.get('sort_by', 'recent');
              SearchableText request/SearchableText|nothing;
            ">
+        <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(bookmarks) > min_items">
+            <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-documents; remove: state-*; add: state-expanded">
+                <input type="radio" name="portlet-bookmarked-documents-state-expanded" value="on"> 
+                Show more
+            </label>
+            <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-documents; remove: state-*; add: state-collapsed">
+                <input type="radio" name="portlet-bookmarked-documents-state-collapsed" value="on"> 
+                Show less
+            </label>
+        </form>           
         <h2 class="portlet-title">
           <a href="${view/app_url}#directory-documents"
             i18n:translate=""

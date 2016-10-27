@@ -25,8 +25,8 @@
                       posted
                     </span>
                     <a class="object"
-        	             tal:omit-tag="not: notification/obj/id"
-                       href="${notification/obj/url}/post?thread_id=${notification/obj/id}&_authenticator=${token}"
+        	       tal:omit-tag="not: notification/obj/url"
+                       href="${notification/obj/url}?id=${notification/obj/id}&amp;_authenticator=${token}#comments-document-comments"
                        tal:content="structure notification/obj/title">
                       Who's up for a beer at Watershed at 8pm?
                     </a>

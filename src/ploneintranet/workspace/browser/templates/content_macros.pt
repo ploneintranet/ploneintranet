@@ -214,5 +214,22 @@
 
     </metal:event_fields>
 
+    <metal:saving_badge define-macro="saving_badge">
+      <p id="saving-badge"
+         class="saving-badge"
+         tal:define="
+           toLocalizedtime nocall:here/@@plone/toLocalizedTime;
+           last_modified python:toLocalizedtime(here.modified(), long_format=1);
+         ">
+        <button
+             type="submit"
+             class="saved-tag focus"
+             disabled="${python: read_only and 'disabled' or None}"
+          >Last saved
+          <time class="modification-date pat-display-time" data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}" datetime="${here/ModificationDate}">${last_modified}</time>
+        </button>
+      </p>
+    </metal:saving_badge>
+
   </body>
 </html>
