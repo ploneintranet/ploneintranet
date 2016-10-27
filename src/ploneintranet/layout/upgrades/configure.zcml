@@ -114,12 +114,21 @@
         handler="..setuphandlers.create_apps"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:registerProfile
+        name="to_0010"
+        title="Add registry entries to configure portlet expand"
+        description=""
+        directory="profiles/to_0010"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <genericsetup:upgradeStep
-        title="Configure dashboard news tile through portal_registry"
+        title="Add registry entries to configure portlet expand"
         description="num and max items"
-        source="0009"
+        source="*"
         destination="0010"
-        handler=".helpers.update_registry"
+        handler=".to_0010.add_portlet_configuration"
         profile="ploneintranet.layout:default" />
 
     
