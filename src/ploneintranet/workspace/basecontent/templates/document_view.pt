@@ -18,13 +18,13 @@
 
       <div class="application" id="app-space">
         <div id="application-body"
-             class="application-workspace project workspace-type- sidebar-left-closed"
+             class="application page-type-${type} workspace-type-${type} sidebar-left-closed"
              tal:define="
                type workspace/ws_type | string:workspace;
                autosave_enabled view/autosave_enabled|nothing;
                form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
              "
-             tal:attributes="class string:application page-type-${type} workspace-type-${type} sidebar-left-closed">
+            >
           <h1 id="workspace-name">
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
@@ -146,8 +146,8 @@
                               data-pat-redactor="imageupload: ${workspace_url}/fileUpload; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
                               placeholder="Write your text here"
                               i18n:attributes="placeholder;"
-                         >${python: context.text.raw if context.text else ''}</textarea>
-                    <span tal:condition="python:read_only and context.text" tal:replace="structure context/text/output" />
+                         >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
+                    <span tal:condition="python:read_only and context.text and hasattr(context.text, 'raw')" tal:replace="structure context/text/output" />
                   </article>
 
                   <tal:c condition="python: context.portal_type == 'File'">
