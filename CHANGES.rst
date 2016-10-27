@@ -4,7 +4,36 @@ Changelog
 1.2.0a19 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge pull request #831 from quaive/markup-regression-fix [GitHub]
+* Regression fix as requested in https://github.com/quaive/ploneintranet.prototype/commit/4d3747c4ac313183741628ae5e23c774702cbe98#commitcomment-19586122 [Alexander Pilz]
+* Merge pull request #830 from quaive/show-archived-tags [GitHub]
+* Merge pull request #824 from quaive/speedup-tooltips [GitHub]
+* Merge pull request #829 from quaive/protect-general-settings [GitHub]
+* Merge pull request #828 from quaive/update-resources [GitHub]
+* Remember grouping when setting filters [Manuel Reinhardt]
+* Activated option show_archived_tags [Manuel Reinhardt]
+* Set cache headers and encoding headers [Alexander Pilz]
+* Hide/disable hero image and global event settings if user can't change them [Manuel Reinhardt]
+* Update quaive.resources.ploneintranet [Alessandro Pisa]
+* Add charset [Alexander Pilz]
+* wrap in proper html tag [Alexander Pilz]
+* Merge pull request #826 from quaive/configurable-docconv-types2 [GitHub]
+* Merge pull request #825 from quaive/tal-optimizations [GitHub]
+* Merge pull request #822 from quaive/userprofile-optimization [GitHub]
+* Fix tests: add fallback value for docconv registry [Cillian de Roiste]
+* Suite testing: remove stray comment [Cillian de Roiste]
+* Fix tests: Move the docconv registry config [Cillian de Roiste]
+* Test setup: configure docconv before creating content [Cillian de Roiste]
+* Configure docconv content types in the registry [Cillian de Roiste]
+* Merge pull request #823 from quaive/776-fix-test [GitHub]
+* Optimize tal templates [Alessandro Pisa]
+* Merge pull request #821 from quaive/feature-flagging-membrane-groups [GitHub]
+* don't render the main template for simple tooltip content. Solves diazo issues and speeds up the display a lot [Alexander Pilz]
+* Adapt the test to the new UI [Alessandro Pisa]
+* Do not call _get_my_groups_and_workspaces if not needed [Alessandro Pisa]
+* Add workgroups without exposing them on the UI [Alessandro Pisa]
+* Merge pull request #820 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a19 [Alexander Pilz]
 
 
 1.2.0a18 (2016-10-24)
