@@ -166,11 +166,17 @@ class MyDocumentsTile(Tile):
 
     def my_documents(self):
         """
-        Return the 10 most recently modified documents which I have the
+        Return the X most recently modified documents which I have the
         permission to view.
         """
         catalog = api.portal.get_tool('portal_catalog')
-
+        try:
+            max_num = api.portal.get_registry_record(
+                'ploneintranet.layout.max_library_items'
+            )
+        except api.exc.InvalidParameterError:
+            # fallback if registry entry is not there
+            max_num = 20
         recently_modified_items = catalog.searchResults(
             object_provides=[
                 IDocument.__identifier__,
@@ -178,7 +184,7 @@ class MyDocumentsTile(Tile):
                 IImage.__identifier__,
             ],
             sort_on='modified',
-            sort_limit=10,
+            sort_limit=max_num,
             sort_order='descending',
         )
         return recently_modified_items

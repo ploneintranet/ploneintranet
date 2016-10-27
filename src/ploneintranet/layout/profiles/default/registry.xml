@@ -87,4 +87,20 @@
       <value>6</value>
   </record>
 
+  <record name="ploneintranet.layout.num_library_items">
+      <field type="plone.registry.field.Int">
+          <title># Library Items Portlet</title>
+          <description>Amount of Library items shown by default</description>
+          <min>1</min>
+      </field>
+      <value>5</value>
+  </record>
+  <record name="ploneintranet.layout.max_library_items">
+      <field type="plone.registry.field.Int">
+          <title>Max # Library items</title>
+          <description>Max # Library items shown in expanded portlet</description>
+          <min>1</min>
+      </field>
+      <value>20</value>
+  </record>
 </registry>
