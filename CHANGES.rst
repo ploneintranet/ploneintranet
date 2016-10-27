@@ -4,7 +4,29 @@ Changelog
 1.2.0a20 (unreleased)
 ----------------------
 
-- Nothing changed yet.
+* Merge branch 'master' into release-1.2.x [Alexander Pilz]
+* Merge pull request #838 from quaive/minor-improvements [GitHub]
+* Minor template improvements [Alessandro Pisa]
+* Merge pull request #839 from quaive/450_statusupdate_notifications [GitHub]
+* Properly hook up statusupdate notification views fixes #450 [Alessandro Pisa]
+* Provide StatusUpdate.absolute_url() [Alessandro Pisa]
+* Mark disabled test as skipped [Alessandro Pisa]
+* Merge pull request #837 from quaive/documents-autosave [GitHub]
+* Show the status popup if we are not autosaving [Alessandro Pisa]
+* Merge pull request #836 from quaive/proper-registry-update [GitHub]
+* Merge pull request #835 from quaive/documents-autosave [GitHub]
+* no notifications, save every 20secs and use ISO date [Alexander Pilz]
+* Remove debug statement and bump q.r.ploneintranet [Alexander Pilz]
+* Update registry properly, without reloading everything again [Alexander Pilz]
+* Optional autosave for selected portal_types [Alessandro Pisa]
+* Merge pull request #833 from quaive/expand-portlets [GitHub]
+* Merge pull request #832 from quaive/fix-tags-ordering [GitHub]
+* fake commit [Alexander Pilz]
+* Fix number [Alexander Pilz]
+* Back to development: 1.2.0a110 [Alexander Pilz]
+* Also collaps library portlet [Alexander Pilz]
+* Add expand buttons to portlets [Alexander Pilz]
+* Don't force alphabetical ordering if you have set a custom order [Alexander Pilz]
 
 
 1.2.0a19 (2016-10-27)
