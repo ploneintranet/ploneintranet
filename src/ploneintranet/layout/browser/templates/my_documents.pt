@@ -9,7 +9,6 @@
          id="portlet-library"
          tal:condition="my_documents">
       <div class="content">
-      my docs <span tal:replace="min_items"/>
         <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(my_documents) > min_items">
             <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-library; remove: state-*; add: state-expanded">
                 <input type="radio" name="portlet-library-state-expanded" value="on"> 
