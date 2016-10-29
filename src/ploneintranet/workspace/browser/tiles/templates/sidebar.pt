@@ -287,10 +287,11 @@ Supported types include (class names):
                                        data-pat-switch item/dps | nothing">
                       <strong class="title">
                         ${item/title}
-                        <abbr tal:condition="item/outdated|item/archived|nothing" class="iconified icon-archive">(Archived)</abbr>
+                        <abbr tal:condition="item/outdated|nothing" class="iconified icon-archive">(Archived)</abbr>
                       </strong>
 
                       <dfn class="byline" tal:content="item/description" tal:condition="item/description">An interactive workshop to test new and innovative tools to trace people through time.</dfn>
+                      <dfn class="byline" tal:condition="item/archived|nothing"><em>(Archived)</em></dfn>
                     </a>
                     <div class="additional-meta-data" tal:condition="python: item.get('structural_type', 'group') != 'group'">
                         <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator | nothing" tal:condition="item/creator | nothing" tal:content="python:creator.getProperty('fullname') or creator" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
