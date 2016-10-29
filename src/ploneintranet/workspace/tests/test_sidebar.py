@@ -374,7 +374,7 @@ class TestSidebar(BaseTestCase):
         sidebar.request.set('documents-show-extra-admin', 'archived_tags')
         self.assertIn('Test Tag', sidebar())
         self.assertIn(
-            '<strong class="title"> Test Tag '
-            '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
+            '<strong class="title"> Test Tag </strong> '
+            '<dfn class="byline"><em>(Archived)</em></dfn>',
             ' '.join(sidebar().split()),
         )
