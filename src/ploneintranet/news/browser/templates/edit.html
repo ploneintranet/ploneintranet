@@ -15,14 +15,24 @@
       <div id="application-body" class="sidebar-normal application-news-cms application-news-cms sidebar-left-open sidebar-right-closed">
 
         <!-- right column: the magazine front page / news item editor-->
-        <div id="document-body">
+        <div id="document-body" tal:define="read_only python:not view.can_edit">
 
-          <form class="document pat-inject" action="{{ page.url }}#document-form" id="news-edit-form">
+          <form class="document pat-inject" id="news-edit-form"
+                method="post"
+                action="${context/absolute_url}/edit.html#news-edit-form"
+                enctype="multipart/form-data"
+                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body">>
             <div class="metadata pat-bumper">
               <div class="meta-bar">
-                <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">Name of parent goes here</button>
                 <label class="tags float-before">
-                  <input type="text" class="pat-autosuggest" placeholder="Tags" />
+                  <input type="text"
+                         name="subjects" placeholder="Tags"
+                         i18n:domain="plone" i18n:attributes="placeholder"
+                         value="${python:','.join(context.subject)}"
+                         tal:attributes="disabled read_only"
+                         class="pat-autosuggest"
+                         data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
+                  
                 </label>
 
                 <div class="quick-functions">
@@ -52,7 +62,7 @@
               <div class="bar summary-hero">
                 <fieldset class="row" >
                   <label class="nine columns">
-                    <textarea name="description" rows="4" title="Description" placeholder="Summary (Will be automatically filled upon save if no summary is provided)"></textarea>
+                    <textarea name="description" rows="4" title="Description" placeholder="Summary">${context/description}</textarea>
                   </label>
                   <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/hero-upload.html#hero-upload" title="Upload a new hero image that may be displayed in the news overview pages.">
                     <!-- Image goes on this line in the markup in the feedback -->
