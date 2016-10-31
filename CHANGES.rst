@@ -1008,10 +1008,73 @@ This should not be released yet. It needs to wait for the new JS API.
 
 - Mars release cycle
 
-1.1.0b5 (unreleased)
---------------------
+1.1.0rc1 (2016-10-27)
+---------------------
 
-- Gaia branch
+- Gaia branch release cycle updates
+
+* Prepare Gaia RC1 [Guido A.J. Stevens]
+* Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
+* Merge pull request #641 from quaive/gaia_hotfix [GitHub]
+* Apply Products.PloneHotfix20160830==1.0 [Guido A.J. Stevens]
+* Document adding a new behavior with a facet field (#591) [Alexander Pilz]
+* Merge pull request #517 from quaive/testing_docs [GitHub]
+* Update testing docs [ci skip] <- note the irony :-) [Guido A.J. Stevens]
+* Merge pull request #499 from quaive/create_structure_hesienb_gaia [GitHub]
+* Attempt to fix robot heisenbug [Wolfgang Thomas]
+* Merge pull request #496 from quaive/447_gitflow [GitHub]
+* Merge pull request #493 from quaive/448_test_docsplit [GitHub]
+* Document git workflow fixes #447 [Guido A.J. Stevens]
+* Provide 'make test-docsplit' to quickly verify OS dependencies, fixes #448 [Guido A.J. Stevens]
+* ignore slc.mailrouter src [Guido A.J. Stevens]
+* Merge pull request #437 from quaive/plone-505-gaia [GitHub]
+* Merge pull request #467 from quaive/buxfix-update-bundle [GitHub]
+* update bundle [Alexander Pilz]
+* Don't hide which bundle we actionally download [Alexander Pilz]
+* Merge pull request #446 from quaive/prevent-owner-inheritance-via-folders [GitHub]
+* Merge pull request #463 from quaive/fred_nl_translations [GitHub]
+* userprofile tests: do not check for IStreamIterator. [Maurits van Rees]
+* Of course, on a folder outside of a workspace, the local role "Owner" is not taken away [Wolfgang Thomas]
+* Make sure we only remove the Owner local role on a folder in the context of a Workspace [Wolfgang Thomas]
+* sort imports [Wolfgang Thomas]
+* Merge pull request #451 from quaive/bulk-action-without-cart-2 [GitHub]
+* Merge pull request #459 from quaive/backport-remove-docstrings-from-NetworkGraph [GitHub]
+* Remove docstring from NetworkGraph [Alessandro Pisa]
+* Bulk actions: fake the modal markup [Wolfgang Thomas]
+* Wait for injection to finish for bulk modals [Wolfgang Thomas]
+* Since a new div with class pat-modal got introduced in 10465cb, the selectors in the modal for changing membership roles need to become more specific [Wolfgang Thomas]
+* Bulk actions: don't use cart [Wolfgang Thomas]
+* simplyfy test class inheritance [Wolfgang Thomas]
+* Every Contributor shall be able to edit a folder (e.g. to change the title) [Wolfgang Thomas]
+* Fix test: no more Owner role on folder [Wolfgang Thomas]
+* revoke owner role on folder [Wolfgang Thomas]
+* Add test to make sure that the Owner role on a folder is not passed on via inheritance to contained content. Found while evaluating #431 [Wolfgang Thomas]
+* Dutch translations. [Fred van Dijk]
+* Use Plone 5.0.5 and fix one problem with it. [Maurits van Rees]
+* Merged translations from Coen. [Maurits van Rees]
+* Add terminology (woordenlijst) Dutch [Fred van Dijk]
+* Merge pull request #428 from quaive/403-user-group-handling [GitHub]
+* Merge pull request #430 from quaive/update_diazo_gaia [GitHub]
+* Merge pull request #432 from quaive/filter-bulk-actions-by-context [GitHub]
+* Merge pull request #427 from quaive/update_ldap [GitHub]
+* Merge pull request #424 from quaive/upgrade-dcworkflow [GitHub]
+* Bulk actions: call mail-confirm on the context [Cillian de Róiste]
+* update diazo to include latest style fixes and the document browser templates [Guido A.J. Stevens]
+* Work around buildout issue by loading ldap-eggs.cfg directly [Guido A.J. Stevens]
+* Document LDIF cleanup [Guido A.J. Stevens]
+* Upgrade DCWorkflow, to ex/import managed groups [Cillian de Róiste]
+* Cart: only process items in the current folder [Cillian de Róiste]
+* Merge pull request #422 from quaive/release-1.1.x [GitHub]
+* Back to development: 1.1.0b5 [Alexander Pilz]
+* Use new Products.membrane and dexterity.membrane releases. [Maurits van Rees]
+* Use dexterity.membrane master again. [Maurits van Rees]
+* Reverted accidental IMembraneGroup interface change. [Maurits van Rees]
+* Register MembraneWorkspaceGroupsProvider for groups as well. [Maurits van Rees]
+* Write PAS call flow into docstring [Maurits van Rees]
+* Use master branch of Products.membrane, since the branch with the PRs was merged & deleted [Maurits van Rees]
+* Actually, we have a separate jenkins.cfg with our own auto-checkout [Maurits van Rees]
+* switch to HTTPS checkout of git packages, since jenkins does not like SSH [Maurits van Rees]
+* Handle enumeration of users and of the groups of a user better. [Maurits van Rees]
 
 
 1.1.0b4 (2016-07-06)
