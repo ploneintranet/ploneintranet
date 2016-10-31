@@ -219,10 +219,11 @@ class AddEvent(AddBase):
         if self.request.get('app'):
             return """source: #document-content; target: #document-content;
         && source: #global-statusmessage; target: #global-statusmessage;
-        loading-class='';"""
+        loading-class: '';"""
 
         return """source: #workspace-events; target: #workspace-events;
-        && source: #global-statusmessage; target: #global-statusmessage;"""
+        && source: #global-statusmessage; target: #global-statusmessage;
+        loading-class: ''"""
 
     def redirect(self, url):
         if self.request.get('app'):
