@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0003</version>
+  <version>0004</version>
   <dependencies>
     <dependency>profile-ploneintranet.suite:full</dependency>
+    <dependency>profile-ploneintranet.news:testing</dependency>
   </dependencies>
 </metadata>

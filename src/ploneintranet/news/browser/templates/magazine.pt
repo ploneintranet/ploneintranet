@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure">
+      <metal:content fill-slot="content">
+
+        <div id="portal-content" class="container">
+
+        <!-- XXX Implement Channel support -->
+        <nav class="canvas-subnav">
+          <a tal:repeat="section view/sections"
+             href="${section/absolute_url}"
+             class="${section/css_class}">${section/title}</a>
+        </nav>
+
+        <!-- Each news item will always start at the first position. This is the big image at the top. Regardless the section it lives in. When a newer news items comes in, the first item moves down to position 2, which is the first position of the 3 news items across. This whole procession of news items is a mix of news items of all categories. To still make clear which item belongs to which category, category badges are applied. The column 'trending' show the 5 news items which have seen the  most views in the last x (I would say 14) days.  -->
+
+        <div class="row">
+          <div class="eight columns">
+            <div class="news-feed">
+              <!-- First item -->
+              <article tal:repeat="item python: view.news_items()[0:1]"
+                       class="item item-${item/counter}">
+                <a class="follow" href="#" tal:attributes="href item/absolute_url">
+                  <figure class="branded">
+                    <img tal:condition="item/has_thumbs" 
+                         class="illustration" 
+                         tal:attributes="src string:${item/absolute_url}/@@images/image/large">
+                  </figure>
+                  <div class="teaser">
+                      <h3 class="title">
+                        <strong tal:repeat="cat item/category" class="category" tal:content="cat">Company news</strong> <em class="comment-count">6</em> <tal:c replace="item/title">Item Title</tal:c>
+                      </h3>
+                      <p class="byline"><time datetime="" tal:content="item/date" tal:attributes="datetime item/date">item.date | date: '%B %d, %Y'</time></p>
+                    <p class="description">
+                      <tal:c replace="item/description">item.description | truncate: 160</tal:c> <strong i18n:translate="">Read more…</strong>
+                    </p>
+                  </div>
+                </a>
+                <a href="/apps/news/edit.html" class="edit-button iconified">[Edit]</a>
+              </article>
+              <div class="row pat-equaliser"
+                   tal:define="second_batch python:view.news_items()[1:4]"
+                   tal:condition="second_batch">
+                <!-- Item 2-4 -->
+                <article tal:repeat="item second_batch"
+                         class="item item-${item/counter} level-2 four columns">
+                  FIXME HERE
+                </article>
+                  
+              </div>
+
+              <article tal:repeat="item python:view.news_items()[4:]"
+                       class="item item-${item/counter} level-3">
+                FIXME HERE
+              </article>
+            </div>
+          </div>
+
+          <div class="four columns"
+               tal:condition="view/trending_items">
+            <div class="news-feed pat-well">
+              <h2 i18n:translate="">
+                Trending
+              </h2>
+              <article tal:repeat="item view/trending_top5"
+                       class="item item-${item/counter}">
+                <a class="follow" href="${item/absolute_url}">
+                  <img class="illustration" src="/media/{{ item.image }}" alt="" />
+                  <div class="teaser">
+                      <h3 class="title">
+                        <strong class="category">Hot topics</strong> <em class="comment-count">6</em> {{ item.title }}
+                      </h3>
+                      <p class="byline">
+                        <time datetime="">{{ item.date | date: '%B %d, %Y' }}</time>
+                      </p>
+                      <p class="description">
+                      {{ item.description | truncate: 160 }} <strong>Read more…</strong>
+                    </p>
+                  </div>
+                </a>
+                <a href="/apps/news/edit.html" class="edit-button iconified">[Edit]</a>
+              </article>
+                  
+              <p class="more"
+                 tal:condition="view/trending_hasmore">
+                <a href="#" i18n:translate="">More trending…</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </metal:content>
+  </body>
+</html>

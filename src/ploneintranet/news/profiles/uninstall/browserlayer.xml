@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.news.browser"
+    interface="ploneintranet.news.browser.interfaces.IPloneintranetNewsLayer"
+    remove="True"
+  />
+</layers>

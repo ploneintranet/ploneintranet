@@ -1,0 +1,72 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.notifications">
+
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="view"
+      class=".views.NewsMagazine"
+      template="templates/magazine.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="publisher"
+      class=".views.NewsPublisher"
+      template="templates/publisher.pt"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="panel-create-news.html"
+      class=".views.NewsPublisher"
+      template="templates/panel-create-news.html"
+      permission="cmf.AddPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="panel-edit-news-section-info.html"
+      class=".views.SectionEdit"
+      template="templates/panel-edit-news-section-info.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="confirm-delete-section.html"
+      class=".views.SectionDelete"
+      template="templates/confirm-delete-section.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      name="edit.html"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".baseviews.NewsItemEdit"
+      template="templates/edit.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsContentLayer"
+      />
+
+  <!--browser:page
+      name="newsitem_view"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".baseviews.NewsItemView"
+      template="templates/page.pt"      
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      
+      /-->
+  
+</configure>

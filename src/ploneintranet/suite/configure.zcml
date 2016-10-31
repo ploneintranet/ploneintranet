@@ -19,6 +19,7 @@
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.microblog" file="subscribers.zcml"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.news"/>
   <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
   <include package="ploneintranet.library"/>

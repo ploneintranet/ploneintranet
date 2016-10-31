@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+    <!-- prototype/_site/feedback/panel-edit-news-section.html -->
+    
+    <metal:content fill-slot="content">
+
+      <div id="main">
+	<div id="content" class="modal">
+	  <div id="document-content" class="pat-modal ">
+            <h1 i18n:translate="">Edit news section</h1>
+            
+            <form method="post" action="${view/url}"
+                  class="wizard-box pat-inject "
+                  data-pat-inject="">
+              
+              <div class="panel-body">
+                <fieldset class="vertical">
+	          <fieldset class="group">
+	            <input type="text" name="title" value="${context/title}"
+                           placeholder="News item title" autofocus />
+	            <textarea name="description" rows="6"
+                              placeholder="Section description (Optional)">${context/description}</textarea>
+                  </fieldset>
+                  <label class="pat-checklist">
+    	            <input type="checkbox"
+    	                   name="section-description-visible"
+                           tal:attributes="checked context/description_visible|nothing"
+                           />
+                    <span i18n:translate="label_newssection_description_visible">
+                      Make the section description visible for visitors on the section page
+                    </span>
+                  </label>
+                  <label class="pat-checklist">
+                    <input type="checkbox"
+                           name="section-visible"
+                           tal:attributes="checked context/section_visible|nothing"
+                           />
+                    <span i18n:translate="label_newssection_visible">
+                      Show this section in the news subnavigation
+                    </span>
+                  </label>
+                </fieldset>
+              </div>
+              
+              <div class="buttons panel-footer">
+                <button type="submit" class="close-panel icon-ok-circle"
+                        i18n:translate="">Save</button>
+                <button type="button" class="close-panel icon-cancel-circle"
+                        i18n:translate="">Cancel</button>
+              </div>
+              
+            </form>
+
+          </div>
+        </div>
+      </div>
+      
+    </metal:content>
+  </body>
+</html>

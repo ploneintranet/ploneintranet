@@ -1,0 +1,47 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet">
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+
+  <plone:behavior
+      title="Section Reference"
+      description="Section reference for News Item"
+      provides=".behaviors.ISectionReference"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Intranet: -- [News: Install]"
+      directory="profiles/default"
+      description="Installs the ploneintranet.news package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.news.setuphandlers.setupVarious"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Plone Intranet: -- [News: Uninstall]"
+      directory="profiles/uninstall"
+      description="Uninstalls the ploneintranet.news package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.news.uninstall.uninstall"
+      />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="Plone Intranet: -- [News: Testcontent]"
+      directory="profiles/test"
+      description="Installs test content for ploneintranet.news"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler="ploneintranet.news.setuphandlers.setupTestdata"
+      />
+  
+</configure>
