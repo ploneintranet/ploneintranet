@@ -1,0 +1,68 @@
+        <div class="row">
+          <div class="eight columns">
+            <div class="news-feed">
+              <!-- First item -->
+              <article tal:repeat="item python: view.news_items()[0:1]"
+                       class="item item-${item/counter}">
+                <metal:item metal:define-macro="newsitem">
+                  <a class="follow" href="${item/absolute_url}">
+                    <figure class="branded">
+                      <img class="illustration" src="${item/absolute_url}/@@images/image/large" alt="" />
+                    </figure>
+                    <div class="teaser">
+                      <h3 class="title">
+                        <strong tal:repeat="category item/category"
+                                class="category">${category}</strong>
+                        
+                        <em class="comment-count"
+                            tal:condition="nothing">6</em>
+                        
+                        <tal:title replace="item/title">Item Title</tal:title>
+                      </h3>
+                      <p class="byline"><time datetime="">${item/date}</time></p>
+                      <p class="description">${item/description}
+                        <strong i18n:translate="">Read more…</strong>
+                      </p>
+                    </div>
+                  </a>
+                  <a tal:condition="item/can_edit"
+                     href="${item/absolute_url}/edit.html" class="edit-button iconified">[Edit]</a>
+                </metal:item>
+                
+              </article>
+              <div class="row pat-equaliser"
+                   tal:define="second_batch python:view.news_items()[1:4]"
+                   tal:condition="second_batch">
+                <!-- Item 2-4 -->
+                <article tal:repeat="item second_batch"
+                         class="item item-${item/counter} level-2 four columns">
+                  <tal:item metal:use-macro="template/macros/newsitem" />
+                </article>
+                  
+              </div>
+
+              <article tal:repeat="item python:view.news_items()[4:]"
+                       class="item item-${item/counter} level-3">
+                <tal:item metal:use-macro="template/macros/newsitem" />
+              </article>
+            </div>
+          </div>
+
+          <div class="four columns"
+               tal:condition="view/trending_items">
+            <div class="news-feed pat-well">
+              <h2 i18n:translate="">
+                Trending
+              </h2>
+              <article tal:repeat="item view/trending_top5"
+                       class="item item-${item/counter}">
+                <tal:item metal:use-macro="template/macros/newsitem" />
+              </article>
+                  
+              <p class="more"
+                 tal:condition="view/trending_hasmore">
+                <a href="#" i18n:translate="">More trending…</a>
+              </p>
+            </div>
+          </div>
+        </div>

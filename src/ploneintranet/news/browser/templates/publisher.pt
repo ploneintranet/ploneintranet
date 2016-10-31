@@ -15,7 +15,9 @@
 
         <!-- right column: the magazine front page / news item editor-->
         <div id="document-body">
-	  {{ content }}
+          <div id="document-content" class="news-feed">
+            <div class="row" tal:replace="structure context/newsfeed" />
+          </div>
         </div>
 
         <!-- left column: news cms navigation -->

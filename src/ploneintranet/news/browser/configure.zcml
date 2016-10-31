@@ -14,6 +14,16 @@
       layer=".interfaces.INewsLayer"
       />
 
+  <!-- the "inner magazine" is used in both magazine and publisher -->
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="newsfeed"
+      class=".views.NewsMagazine"
+      template="templates/newsfeed.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="publisher"

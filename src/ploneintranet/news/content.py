@@ -1,6 +1,7 @@
+from plone import api
 from plone.dexterity import content
-from zope.interface import implements
 from plone.directives import form
+from zope.interface import implements
 from zope import schema
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -85,10 +86,10 @@ class NewsApp(AbstractAppContainer, content.Container, App):
                 title=item.title,
                 description=shorten(item.description, desc_len),
                 absolute_url=item.absolute_url(),
-                has_thumbs=False,
                 date=item.effective().strftime('%B %d, %Y'),
                 category=item.Subject(),
                 counter=i,
+                can_edit=api.user.has_permission('Modify', obj=item)
             ))
         return _items
 
