@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <head>
+  </head>
+
+  <body tal:define="ws here;
+                    workspace_url context/absolute_url;
+                    related_ws view/get_related_workspaces;
+                    ">
+      <div id="content">
+        <div id="document-content" class="pat-modal">
+          <h1 i18n:translate="">
+              Select related workspaces
+          </h1>
+
+          <form class="pat-inject wizard-box"
+                data-pat-inject="target: #workspace-settings > .tabs-content; source: #workspace-settings > .tabs-content"
+                method="post"
+                tal:attributes="action string:${workspace_url}/sidebar.settings.advanced">
+
+            <div class="panel-body">
+
+                <input type="text" name="related_workspaces:list" class="large pat-autosuggest" i18n:attributes="placeholder" placeholder="Search workspaces"
+                  data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; allow-new-words: false; ajax-url: ${workspace_url}/workspaces.json"/>
+
+                <tal:c condition="related_ws">
+                    <article>
+                      <p>
+                         <tal:selected i18n:translate="info_items_selected_as_related_workspace">
+                          The following workspaces are currently set as related. Un-tick to remove the relation again.
+                         </tal:selected>
+                      </p>
+                    </article>
+
+                    <fieldset class="pat-checklist">
+                      <tal:modifiable repeat="item related_ws">
+                        <label>
+                          <input type="checkbox" name="related_workspaces:list" value="${item/UID}" checked="checked"/> ${item/Title}
+                        </label>
+                        <br />
+                      </tal:modifiable>
+                    </fieldset>
+                </tal:c>
+
+            </div>
+
+            <div class="buttons panel-footer">
+              <button name="batch-function" value="add" type="submit" class="icon-ok-circle close-panel" i18n:translate="">
+                  Ok
+              </button>
+              <button type="button" class="icon-cancel-circle close-panel" i18n:translate="">
+                  Cancel
+              </button>
+            </div>
+
+
+            <span tal:replace="structure context/@@authenticator/authenticator"/>
+          </form>
+
+        </div>
+      </div>
+  </body>
+</html>

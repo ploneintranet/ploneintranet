@@ -17,6 +17,7 @@ class TestPreviews(FunctionalTestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         self.testfolder = api.content.create(
             type='Folder',
             title=u"Testfolder",
@@ -76,3 +77,43 @@ class TestPreviews(FunctionalTestCase):
 
         thumbnail = pi_api.previews.get_thumbnail(self.testdoc)
         self.assertIsInstance(thumbnail, FilesystemFile)  # return default img
+
+    def test_previews_disable_enable(self):
+        # 1st run with previews disabled
+        pi_api.previews.events_disable(self.request)
+        testfile = api.content.create(
+            type='File',
+            id='test-file-1',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        self.assertFalse(pi_api.previews.has_previews(testfile))
+        # 2nd run with previews enabled
+        pi_api.previews.events_enable(self.request)
+        testfile = api.content.create(
+            type='File',
+            id='test-file-2',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        self.assertTrue(pi_api.previews.has_previews(testfile))
+
+    def test_events_disable_enable_requestfallback(self):
+        # 1st run with previews disabled
+        pi_api.events.disable_previews()
+        testfile = api.content.create(
+            type='File',
+            id='test-file-1',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        self.assertFalse(pi_api.previews.has_previews(testfile))
+        # 2nd run with previews enabled
+        pi_api.events.enable_previews()
+        testfile = api.content.create(
+            type='File',
+            id='test-file-2',
+            title=u"Test File",
+            file=NamedBlobFile(data=self.filedata, filename=TEST_FILENAME),
+            container=self.testfolder)
+        self.assertTrue(pi_api.previews.has_previews(testfile))

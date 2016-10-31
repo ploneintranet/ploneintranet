@@ -92,8 +92,13 @@ class SearchResult(object):
         self.contact_telephone = context.get('telephone')
         self.modified = context['modified']
         self.mimetype = context.get('mimetype', None)
-        self.UID = context.get('UID')
-
+        self.UID = context['UID']
+        self.start = context.get('start', None)
+        self.end = context.get('end', None)
+        self.location = context.get('location', '')
+        self.invitees = context.get('invitees', [])
+        self.whole_day = context.get('whole_day', False)
+        self.ws_type = context.get('ws_type', 'workspace')
         # The following try/except are needed because the get method of brains
         # and the one from dicts behave differently
         try:
@@ -182,7 +187,7 @@ class SearchResult(object):
         :returns: The absolute URL to the preview image
         :rtype: str
         """
-        return self._path_to_url(self.preview_image_path)
+        return self._path_to_url(self.preview_image_path) or ''
 
     def __getitem__(self, key):
         if shasattr(self, key) and callable(getattr(self, key)):

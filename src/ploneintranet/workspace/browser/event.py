@@ -38,6 +38,7 @@ def get_invitee_details(context):
             'id': user,
             'name': name,
             'email': user.getProperty('email'),
+            'uid': u_id
         })
     return details
 

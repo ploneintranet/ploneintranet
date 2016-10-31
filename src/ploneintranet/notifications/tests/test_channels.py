@@ -12,16 +12,17 @@ class TestAllChannel(FunctionalTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        user = api.user.get(username=TEST_USER_NAME)
-        tool = getToolByName(self.portal, 'ploneintranet_notifications')
-
-        self.channel = AllChannel(user)
-        self.queue = tool.get_user_queue(user)
+        self.user = api.user.get(username=TEST_USER_NAME)
+        self.tool = getToolByName(self.portal, 'ploneintranet_notifications')
+        self.channel = AllChannel(self.user.getId())
 
     def create_test_messages(self):
         for i in range(5):
             obj = {'title': 'Message {}'.format(i + 1)}
-            self.queue.append(Message(actors=[], predicate='test', obj=obj))
+            self.tool.append_to_user_queue(
+                self.user.getId(),
+                Message(actors=[], predicate='test', obj=obj)
+            )
 
     def test_queue_empty(self):
         self.assertEqual(0, len(self.channel.get_unread_messages()))
@@ -48,7 +49,6 @@ class TestAllChannel(FunctionalTestCase):
 
     def test_get_all_messages(self):
         self.create_test_messages()
-
         self.assertEqual(5, len(self.channel.get_all_messages()))
 
         self.channel.get_unread_messages()

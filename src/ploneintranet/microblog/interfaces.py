@@ -32,6 +32,27 @@ class IStatusUpdate(Interface):
     def replies():
         """ Return a list of replies (IStatusUpdate)"""
 
+    attachments = Attribute(
+        """
+        Returns an iterable IAttachmentStorage with the file
+        attachment(s) for this IStatusUpdate.
+        You can obtain the filenames by .attachments.keys()
+        and get the file data by .attachments[key]
+        """
+    )
+
+    def add_attachment(filename, data):
+        """
+        Add a binary attachment.
+        Can be called multiple times to attach multiple files.
+        """
+
+    def remove_attachment(filename):
+        """Remove the attachment named <filename>"""
+
+    def absolute_url():
+        """View this statusupdate in it's proper context"""
+
 
 class IStatusContainer(Interface):
     """Manages read/write access to, and storage of,

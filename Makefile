@@ -1,9 +1,4 @@
-_DIR	= release/prototype/_site
-DIAZO_DIR       = src/ploneintranet/theme/static/generated
-LATEST          = $(shell cat LATEST)
-BUNDLEPLONEID	= ploneintranet
-BUNDLEDISTNAME  = ploneintranet-bundle
-BUNDLEDISTURL	= https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
+default: help
 
 # Add help text after each target name starting with ' \#\# '
 help:
@@ -16,8 +11,6 @@ devel: bin/buildout ldap/schema ## 	 Run development buildout
 ldap/schema:
 	[ -L ldap/schema ] || ln -s /etc/ldap/schema ldap/schema
 
-all:: fetchrelease
-default: all
 clean:
 	rm bin/* .installed.cfg || true
 clean-proto:
@@ -25,21 +18,14 @@ clean-proto:
 check-clean:
 	test -z "$(shell git status --porcelain)" || (git status && echo && echo "Workdir not clean." && false) && echo "Workdir clean."
 
-fetchrelease: ## Download and install the latest javascript bundle into the theme.
-	$(eval LATEST := $(shell cat LATEST))
-	$(eval BUNDLEURL := https://products.syslab.com/packages/$(BUNDLEDISTNAME)/$(LATEST)/$(BUNDLEDISTNAME)-$(LATEST).tar.gz)
-	# fetch non-git-controlled required javascript resources
-	@[ -d $(DIAZO_DIR)/bundles/ ] || mkdir -p $(DIAZO_DIR)/bundles/
-	curl $(BUNDLEDISTURL) -o $(DIAZO_DIR)/bundles/$(BUNDLEDISTNAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && tar xfz $(BUNDLEDISTNAME)-$(LATEST).tar.gz && rm $(BUNDLEDISTNAME)-$(LATEST).tar.gz
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).js; then rm $(BUNDLEPLONEID).js; fi
-	@cd $(DIAZO_DIR)/bundles/ && if test -e $(BUNDLEPLONEID).min.js; then rm $(BUNDLEPLONEID).min.js; fi
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).js $(BUNDLEPLONEID).js
-	@cd $(DIAZO_DIR)/bundles/ && ln -sf $(BUNDLEDISTNAME)-$(LATEST).min.js $(BUNDLEPLONEID).min.js
+fetchrelease: deprecated
 
 ########################################################################
 ## Setup
 ## You don't run these rules unless you're a prototype dev
+
+deprecated:
+	@echo "Theme development is now done in quaive.resources.ploneintranet"
 
 prototype: ## Get the latest version of the prototype
 	@if [ ! -d "prototype" ]; then \
@@ -48,60 +34,16 @@ prototype: ## Get the latest version of the prototype
 		cd prototype && git pull; \
 	fi;
 
-latest: prototype
-	cp prototype/LATEST .
+latest: deprecated
 
 jekyll: prototype
 	@echo 'DO: rm prototype/stamp-bundler to force Jekyll re-install'
 	@cd prototype && make jekyll
 
-diazorelease: diazo ## Run 'diazo' and commit all changes to the generated theme, including removals
-	git add --all $(DIAZO_DIR)
-	@echo "=========================="
-	@git status
-	@echo "=========================="
-	@echo 'Ready to do: git commit -a -m "protoype release $(shell cat LATEST)"'
-	@echo "^C to abort (10 sec)"
-	@sleep 10
-	git commit -a -m "protoype release $(shell cat LATEST)"
+diazorelease: deprecated
+diazo: deprecated
 
-diazo: latest jekyll fetchrelease _diazo ## 	 Generate the theme with jekyll and copy it to src/ploneintranet/theme/static/generated
-_diazo:
-	# --- (1) --- prepare clean release dir
-	@rm -rf ${RELEASE_DIR} && mkdir -p ${RELEASE_DIR}
-	cp -R prototype/_site/* $(RELEASE_DIR)/
-	# Cleaning up non mission critical elements
-	rm -f $(RELEASE_DIR)/*-e
-	rm -rf $(RELEASE_DIR)/bundles/*
-	# --- (2) --- refresh diazo static/generated
-	# html templates referenced in rules.xml - second cut preserves subpath eg open-market-committee/index.html
-	# point js sourcing to registered resource and rewrite all other generated sources to point to diazo dir
-	for file in `grep 'href="generated' $(DIAZO_DIR)/../rules.xml | cut -f2 -d\" | cut -f2- -d/`; do \
-		echo "Rewriting resource URLs in $$file"; \
-		sed -i -e 's#src=".*ploneintranet.js"#src="++theme++ploneintranet.theme/generated/bundles/$(BUNDLEPLONEID).js"#' $(RELEASE_DIR)/$$file; \
-		sed -i -e 's#http://demo.ploneintranet.net/#++theme++ploneintranet.theme/generated/#g' $(RELEASE_DIR)/$$file; \
-		sed -i -e 's#="/*\(media\|style\)/#="++theme++ploneintranet.theme/generated/\1/#g' $(RELEASE_DIR)/$$file; \
-		mkdir -p `dirname $(DIAZO_DIR)/$$file`; \
-		cp $(RELEASE_DIR)/$$file $(DIAZO_DIR)/$$file; \
-	done
-	# we want all style elements recursively - and remove old resources not used anymore
-	@rm -rf $(DIAZO_DIR)/style/ && mkdir $(DIAZO_DIR)/style/
-	cp -R $(RELEASE_DIR)/style/* $(DIAZO_DIR)/style/
-	# logo
-	@[ -d $(DIAZO_DIR)/media/ ] || mkdir $(DIAZO_DIR)/media/
-	cp $(RELEASE_DIR)/media/icon* $(DIAZO_DIR)/media/
-	cp -R $(RELEASE_DIR)/media/logos $(DIAZO_DIR)/media/
-	# apps
-	@[ -d $(DIAZO_DIR)/apps/ ] || mkdir $(DIAZO_DIR)/apps/
-	cp -R $(RELEASE_DIR)/apps/* $(DIAZO_DIR)/apps/
-
-
-jsdev: clean-proto dev-bundle diazo _jsdev ## 	 Full js development refresh
-
-# fast replace ploneintranet-dev.js - requires diazo to have run!
-_jsdev:
-	# replace normal js bundle with dev bundle, directly in diazo theme dir
-	cp prototype/bundles/$(BUNDLEPLONEID)-dev.js $(DIAZO_DIR)/bundles/$(BUNDLEPLONEID).js
+jsdev: deprecated
 
 dev-bundle: prototype
 	cd prototype && make dev-bundle
@@ -109,14 +51,16 @@ dev-bundle: prototype
 bundle: prototype
 	cd prototype && make bundle
 
-jsrelease: prototype
-	cd prototype && make jsrelease
-	cp prototype/LATEST .
+jsrelease: deprecated
 
 demo: jekyll demo-run
 
 demo-run:
 	cd prototype && make demo-run
+
+# demo buildout with CSRF disabled
+demo-buildout: bin/buildout
+	bin/buildout -c demo.cfg
 
 ####################################################################
 # docker.io
@@ -124,7 +68,7 @@ demo-run:
 
 PROJECT=quaive/ploneintranet-dev
 
-docker-build: .ssh/known_hosts  ## Create docker container
+docker-build: .ssh/known_hosts dockerignore  ## Create docker container
 	docker build -t $(PROJECT) .
 
 # re-uses ssh agent
@@ -149,6 +93,10 @@ docker-run:  ## Start docker container
 	mkdir -p .ssh
 	echo "|1|YftEEH4HWPOfSNPY/5DKE9sxj4Q=|UDelHrh+qov24v5GlRh2YCCWcRM= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > .ssh/known_hosts
 
+dockerignore:
+# double $ only in makefile
+	ls --color=no -la | awk '{print $$9}' | egrep -v '\.$$' > .dockerignore
+
 ####################################################################
 # Guido's lazy targets
 
@@ -156,10 +104,11 @@ gitlab-ci: bin/buildout
 	bin/buildout -c gitlab-ci.cfg
 
 bin/buildout: bin/python2.7
-	@bin/pip install -r requirements.txt
+	@bin/pip install -UIr requirements.txt
 
 bin/python2.7:
 	@virtualenv --clear -p python2.7 .
+	@rm -rf local/lib/python2.7/site-packages/easy_install* local/lib/python2.7/site-packages/setuptools* 2>/dev/null || true
 
 devrun:
 	sudo service redis-server start

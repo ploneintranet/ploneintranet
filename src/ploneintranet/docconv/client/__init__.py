@@ -1,14 +1,9 @@
-# from Products.CMFCore.utils import getToolByName
 from collective.documentviewer.convert import Converter
 from collective.documentviewer.settings import GlobalSettings
 from logging import getLogger
 from zope.component.hooks import getSite
 
 logger = getLogger(__name__)
-
-SUPPORTED_CONTENTTYPES = [
-    'File',
-]
 
 
 # documentviewer does set the layout in two places. One can be turned off

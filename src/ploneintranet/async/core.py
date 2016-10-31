@@ -13,6 +13,10 @@ from ploneintranet.async.interfaces import IAsyncTask
 logger = logging.getLogger(__name__)
 
 
+class DispatchError(Exception):
+    pass
+
+
 # pre-processor in Plone before handing off to Celery
 
 @implementer(IAsyncTask)
@@ -94,7 +98,8 @@ class AbstractPost(object):
             **kwargs)
 
 
-# executed within Celery
+# executed within Celery. To see the log messages:
+# bin/celery -A ploneintranet.async.celerytasks worker -l debug
 
 def dispatch(url, data={}, headers={}, cookies={}):
     """
@@ -113,6 +118,16 @@ def dispatch(url, data={}, headers={}, cookies={}):
 
     :param cookies: request cookies. Normally contains __ac for Plone.
     :type cookies: dict
+
+    Debugging
+    ---------
+
+    This code path is executed in Celery, not in Plone!
+    You cannot insert a pdb. Instead, debug via log messages.
+    To see the log messages, run celery manually:
+
+    bin/celery -A ploneintranet.async.celerytasks worker -l debug
+
     """
     logger.info('Calling %s', url)
     logger.debug('headers: %s' % str(headers))
@@ -122,15 +137,20 @@ def dispatch(url, data={}, headers={}, cookies={}):
                          cookies=cookies,
                          data=data)
     if resp.status_code != 200:
-        logger.error("Invalid response %s: %s", resp.status_code, resp.reason)
+        logger.error("Invalid response %s: %s on <%s>: %s",
+                     resp.status_code, resp.reason, url, resp.text)
         if 'error has been logged' in resp.text:
             errcode = BeautifulSoup(resp.text).code.string
             logger.error(
                 "Error logged in {portal_url}/error_log/showEntry?id=%s",
                 errcode)
+        # trigger retry in celerytasks.py
+        raise DispatchError(resp.text)
     elif 'login_form' in resp.text \
          or 'Insufficient Privileges' in resp.text:
         logger.error("Unauthorized (masked as 200 OK)")
+        # it does not make sense to retry this one, so no raise
     else:
+        # success
         logger.info("%s: %s", resp.status_code, resp.reason)
         logger.debug(resp.text)

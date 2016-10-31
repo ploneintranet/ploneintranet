@@ -25,9 +25,16 @@ try:
 except pkg_resources.DistributionNotFound:
     SOLR_ENABLED = False
 
+# This works well in a docker container
 # /app/parts/test/../../bin => /app/bin
 _BUILDOUT_BIN_DIR = os.path.abspath(
-    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin'))
+    os.path.join(os.getcwd(), os.pardir, os.pardir, 'bin',)
+)
+if not os.path.isdir(_BUILDOUT_BIN_DIR):
+    # This works well when using robot-server
+    _BUILDOUT_BIN_DIR = os.path.abspath(
+        os.path.join(os.getcwd(), 'bin',)
+    )
 
 
 class SolrLayer(Layer):
@@ -130,6 +137,9 @@ class PloneIntranetSearchSolrLayer(PloneSandboxLayer):
         if not SOLR_ENABLED:
             return
 
+        import z3c.jbot
+        self.loadZCML(package=z3c.jbot)
+
         import ploneintranet.search.solr
         self.loadZCML(package=ploneintranet.search.solr)
         self.loadZCML(package=ploneintranet.search.solr,
@@ -156,6 +166,11 @@ class PloneIntranetSearchSolrTestContentLayer(PloneIntranetSearchSolrLayer):
         super(PloneIntranetSearchSolrTestContentLayer, self).setUpZope(
             app, configuration_context,
         )
+
+        import ploneintranet.theme
+        self.loadZCML(package=ploneintranet.theme)
+        import ploneintranet.layout
+        self.loadZCML(package=ploneintranet.layout)
         import ploneintranet.suite
         self.loadZCML(package=ploneintranet.suite)
 

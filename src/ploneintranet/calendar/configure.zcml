@@ -1,0 +1,41 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet">
+
+    <!-- Zope2 initialization -->
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <!-- Include configuration for dependencies listed in setup.py -->
+    <includeDependencies package="." />
+
+    <include package=".browser" />
+    <include package=".upgrades" />
+
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+        name="default"
+        title="Plone Intranet: -- [Calendar]"
+        directory="profiles/default"
+        description="Extension profile for ploneintranet.calendar."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler=".setuphandlers.post_default"
+        />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="Plone Intranet: -- [Calendar uninstall]"
+        directory="profiles/uninstall"
+        description="Extension profile for ploneintranet.calendar."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <utility
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabularies.timezone_vocabulary"
+        name="ploneintranet.calendar.timezones"
+        />
+</configure>

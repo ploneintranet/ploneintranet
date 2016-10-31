@@ -74,9 +74,9 @@ Async is provided by `Celery`_. Celery is a proven, pure python, distributed tas
 Celery is included as a dependency in the ploneintranet buildout and is typically run
 from supervisor. You can run it manually for debugging purposes as follows::
 
-   bin/celery -A ploneintranet.async.celerytasks worker -l info
+   bin/celery -A ploneintranet.async.celerytasks worker -l debug
 
-(or `-l debug` if you want more verbose logging info)
+(or `-l info` if you want less verbose logging info)
 
 .. _Celery: http://www.celeryproject.org/
 
@@ -102,7 +102,6 @@ distinguished by their task names. YMMV.
 
 If you're running multiple servers (virtuals) with Plone, each of those needs to have Redis
 and Celery running.
-
 
 @@async-status audit view
 -------------------------

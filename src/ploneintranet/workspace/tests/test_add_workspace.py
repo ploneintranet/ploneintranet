@@ -1,7 +1,9 @@
 # coding=utf-8
+import os
 from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from plone.api.exc import InvalidParameterError
+from plone.namedfile.file import NamedBlobImage
 from collective.workspace.interfaces import IHasWorkspace, IWorkspace
 
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
@@ -149,6 +151,17 @@ class TestAddWorkspace(BaseTestCase):
 
         self.assertEqual(ws.calendar_visible, True)
         self.assertEqual(ws.email, 'test@testing.net')
+
+        self.assertEqual(ws.hero_image, None)
+
+        filename = os.path.join(os.path.dirname(__file__), u'hero_image.jpg')
+        data = open(filename, 'r').read()
+        ws.hero_image = NamedBlobImage(
+            data=data,
+            filename=filename
+        )
+
+        self.assertEqual(len(ws.hero_image.data), len(data))
 
 
 class TestAddWorkspaceView(BaseTestCase):

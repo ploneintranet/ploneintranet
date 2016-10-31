@@ -7,10 +7,10 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ploneintranet">
   <body>
-    
-    <div metal:fill-slot="content">
-      <form action="${request/getURL}" id="global-search">
-        
+
+    <tal:content metal:fill-slot="content">
+      <form action="${request/getURL}#results" id="global-search" class="pat-form pat-inject" data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record">
+
         <div class="container input">
           <fieldset class="search pat-subform pat-autosubmit pat-inject"
                     data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record;">
@@ -23,19 +23,19 @@
           </fieldset>
         </div>
 
-        <nav class="tabs navigation" id="tabs-nav">
+        <nav class="tabs pat-tabs navigation" id="tabs-nav">
           <a href="@@search?SearchableText=${request/SearchableText|nothing}"
-             class="current" i18n:translate="">All</a>
+             class="pat-inject #results" i18n:translate="">All</a>
           <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">People</a>
+             class="pat-inject" i18n:translate="">People</a>
           <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">Images</a>
+             class="pat-inject" i18n:translate="">Images</a>
           <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
-             i18n:translate="">Files</a>
+             class="pat-inject" i18n:translate="">Files</a>
         </nav>
 
         <div class="results" id="results">
-      
+
           <div class="container results pat-subform pat-autosubmit pat-inject"
                data-pat-inject="source: #listing; target: #listing;">
             <div class="row"
@@ -44,7 +44,8 @@
                              display_previews view/display_previews;
                              results_sorting view/get_sorting;
                              portal_url portal_url|here/portal_url;
-                             ">
+                             friendly_type2type_class nocall:here/@@proto/friendly_type2type_class;
+                            ">
               <div class="three columns filters">
                 <fieldset tal:condition="search_response">
                   <!-- The hidden input below always gets the same value as the
@@ -122,7 +123,7 @@
                    id="listing">
                 <p class="introduction">
                   <tal:if condition="search_response/total_results|nothing">
-                    
+
                     <span tal:replace="search_response/total_results">
                       87</span>
                     <span i18n:translate=""
@@ -132,7 +133,7 @@
                      class="bare pat-select float-after pat-tooltip"
                      data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr" i18n:translate="">Options</a>
                 </p>
-                
+
                 <div id="view-options" hidden="">
                   <fieldset class="vertical pat-inject"
                             data-pat-inject="source: #listing; target: #listing;">
@@ -180,7 +181,7 @@
                     data-search-string="${request/QUERY_STRING|nothing}">
                   <tal:results repeat="result search_response">
                     <tal:result tal:define="
-                                            type_class python:view.get_facet_type_class(result.friendly_type_name);
+                                            type_class python:friendly_type2type_class(result.friendly_type_name);
                                             fragments python: view.url_fragments.get(result.portal_type);
                                             result_url string:${result/url}${fragments};
                                             is_archived result/is_archived;
@@ -196,12 +197,12 @@
                         <tal:preview tal:condition="display_previews">
                           <tal:preview_selector define="preview_class python: view.preview_class(result.portal_type);"
                                                 switch="preview_class">
-                            
+
                             <tal:preview_rich case="string:rich">
                               <article class="preview rich pat-rich"
                                        tal:content="structure python:view.get_text_preview(result)" />
                             </tal:preview_rich>
-                            
+
                             <tal:preview_workspace case="string:workspace">
                               <a href="${result_url}"
                                  class="preview workspace-preview
@@ -211,7 +212,7 @@
                                 <h4>${result/title}</h4>
                               </a>
                             </tal:preview_workspace>
-                            
+
                             <tal:preview_rich case="string:event">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
@@ -235,31 +236,31 @@
                                 </time>
                               </a>
                             </tal:preview_rich>
-                            
+
                             <tal:preview_file tal:case="string:file">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
+                                 tal:condition="result/preview_image_url"
                                  >
-                                <img src="${python: result.preview_image_url or '%s/++theme++ploneintranet.theme/generated/media/logo-pi.svg' % portal_url}"
-                                     alt="${result/title}"
-                                     />
+                                <img src="${result/preview_image_url}"
+                                     alt="${result/title}"/>
                               </a>
                             </tal:preview_file>
-                            
+
                             <tal:preview_user tal:case="string:user">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
+                                 tal:condition="result/preview_image_url"
                                  >
                                 <img src="${result/preview_image_url}"
                                      class="pat-avatar"
-                                     alt="${result/title}"
-                                     tal:condition="result/preview_image_url" />
+                                     alt="${result/title}"/>
                                 <h4 class="name">${result/title}</h4>
                               </a>
                             </tal:preview_user>
                           </tal:preview_selector>
                         </tal:preview>
-                        
+
                         <tal:highlights condition="highlights">
                           <p class="fragment"
                              tal:content="structure highlights">
@@ -300,8 +301,8 @@
           </div><!-- /container -->
 
         </div><!-- /results -->
-          
+
       </form>
-    </div><!-- /content -->
+    </tal:content><!-- /content -->
   </body>
 </html>

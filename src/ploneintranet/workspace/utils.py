@@ -4,12 +4,16 @@ from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
 from collective.workspace.pas import purge_workspace_pas_cache
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
+from ploneintranet.layout.app import IApp
 from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
+from plone.dexterity.utils import iterSchemata
+from plone.rfc822.interfaces import IPrimaryField
 
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
+from zope.schema import getFieldsInOrder
 
 from collective.workspace.interfaces import IWorkspace
 from urllib2 import urlparse
@@ -24,11 +28,14 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 
 # The type map is used to deduct clear text names for classes and labels
 # from portal types
-TYPE_MAP = {'Event': 'event',
-            'Folder': 'folder',
-            'Document': 'rich',
-            'todo': 'task',
-            'ploneintranet.workspace.workspacefolder': 'workspace'}
+TYPE_MAP = {
+    'Event': 'event',
+    'Folder': 'folder',
+    'Document': 'rich',
+    'todo': 'task',
+    'ploneintranet.workspace.mail': 'email',
+    'ploneintranet.workspace.workspacefolder': 'workspace',
+}
 
 
 def get_storage(clear=False):
@@ -76,6 +83,21 @@ def parent_workspace(context):
 
 def in_workspace(context):
     return IWorkspaceFolder.providedBy(parent_workspace(context))
+
+
+def parent_app(context):
+    """ Return containing workspace
+        Returns None if not found.
+    """
+    if IApp.providedBy(context):
+        return context
+    for parent in aq_chain(context):
+        if IApp.providedBy(parent):
+            return parent
+
+
+def in_app(context):
+    return IApp.providedBy(parent_workspace(context))
 
 
 def existing_users(context):
@@ -183,13 +205,6 @@ def map_content_type(mimetype, portal_type=''):
     return content_type
 
 
-def archives_shown(context, request, section="main"):
-    mtool = api.portal.get_tool('portal_membership')
-    username = mtool.getAuthenticatedMember().getId()
-    cookie_name = '%s-show-extra-%s' % (section, username)
-    return 'documents' in request.get(cookie_name, '')
-
-
 def month_name(self, date):
     """
     Return the full month name in the appropriate language
@@ -225,3 +240,14 @@ def purge_and_refresh_security_manager():
     current_user_id = api.user.get_current().getId()
     current_user = acl_users.getUser(current_user_id)
     newSecurityManager(None, current_user)
+
+
+def get_primary_field(obj):
+    primary = None
+    for i in iterSchemata(obj):
+        fields = getFieldsInOrder(i)
+        for name, field in fields:
+            if IPrimaryField.providedBy(field):
+                primary = (name, field)
+                break
+    return primary

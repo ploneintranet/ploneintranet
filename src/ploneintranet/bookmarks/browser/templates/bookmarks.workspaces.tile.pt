@@ -1,0 +1,46 @@
+<html>
+  <body tal:define="min_items python:context.portal_registry['ploneintranet.bookmarks.num_workspaces'] if 'ploneintranet.bookmarks.num_workspaces' in context.portal_registry else 3;">
+    <div id="portlet-bookmarked-workspaces"
+         class="bookmarked-workspaces portlet span-1 state-collapsed"
+         i18n:domain="ploneintranet"
+        >
+      <div class="content"
+           tal:define="
+             portal_url here/portal_url;
+             app_bookmarks nocall:view/app_bookmarks;
+             friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+             bookmarks view/get_bookmarks;
+           ">
+        <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(bookmarks) > min_items">
+            <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-workspaces; remove: state-*; add: state-expanded">
+                <input type="radio" name="portlet-bookmarked-workspaces-state-expanded" value="on"> 
+                Show more
+            </label>
+            <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-workspaces; remove: state-*; add: state-collapsed">
+                <input type="radio" name="portlet-bookmarked-workspaces-state-collapsed" value="on"> 
+                Show less
+            </label>
+        </form>
+        <h2 class="portlet-title">
+          <a href="${view/app_url}#directory-workspaces"
+            i18n:translate=""
+             >Bookmarked Workspaces</a>
+        </h2>
+        <div id="bookmarked-workspaces-search-items">
+          <tal:nobookmarks condition="not:bookmarks">
+            <p id="portlet-bookmarked-workspaces-list"
+               class="pat-message notice"
+               i18n:translate=""
+              >No bookmarks were found</p>
+          </tal:nobookmarks>
+          <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer-bookmarked-workspaces; gutter: 0; item-selector: .tile;">
+            <div class="grid-sizer-bookmarked-workspaces"></div>
+            <tal:repeat repeat="workspace bookmarks">
+              <tal:app define="workspace workspace/getObject" replace="structure workspace/@@workspace.tile" />
+            </tal:repeat>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

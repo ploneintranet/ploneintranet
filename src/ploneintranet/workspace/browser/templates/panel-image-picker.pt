@@ -7,8 +7,8 @@
 
 <div id="content">
     <div class="header">
-        <button type="button" class="close-panel">Close</button>
-        <h1>Upload or Select Image</h1>
+        <button type="button" class="close-panel" i18n:translate="">Close</button>
+        <h1 i18n:translate="">Upload or Select Image</h1>
     </div>
     <div class="panel-content">
     <div id="raptor-image-picker">
@@ -16,7 +16,7 @@
         <div class="panel-body">
             <fieldset class="filter-bar">
                 <select name="source" disabled>
-                    <option>This workspace</option>
+                    <option i18n:translate="">This workspace</option>
                     <optgroup label="Image bank">
                         <option>Folder so and so</option>
                         <option>Folder so and so</option>
@@ -34,16 +34,16 @@
                     </label>
                 </tal:loop>
             </fieldset>
-            <tal:if condition="not:images">
+            <tal:if condition="not:images" i18n:translate="">
                 No images found.
             </tal:if>
         </div>
 
         <div class="buttons panel-footer">
-            <button type="submit" class="close-panel icon-ok-circle" tal:condition="images">
+            <button type="submit" class="close-panel icon-ok-circle" tal:condition="images" i18n:translate="">
                 Insert selected image
             </button>
-            <button type="button" class="close-panel icon-cancel-circle">
+            <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
                 Cancel
             </button>
         </div>

@@ -2,14 +2,16 @@
 from datetime import datetime
 from DateTime import DateTime
 from logging import getLogger
-from Products.CMFPlone.PloneBatch import Batch
 from plone import api
 from plone.memoize.view import memoize
+from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IMetroMap
+from Products.CMFPlone.PloneBatch import Batch
 from urllib import urlencode
 from zope.component import getUtility
+from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
 logger = getLogger(__name__)
@@ -42,7 +44,8 @@ def percent_complete(task_details):
 
 
 class CaseManagerView(BrowserView):
-
+    implements(IAppView)
+    app_name = 'case-manager'
     _b_size = 5
 
     @property

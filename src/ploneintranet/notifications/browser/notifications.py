@@ -24,4 +24,4 @@ class NotificationsView(BrowserView):
         """
         Fetch the author portrait image url accoding to member_id
         """
-        return pi_api.userprofile.avatar_url(member_id)
+        return pi_api.userprofile.avatar_tag(member_id, link_to="profile")

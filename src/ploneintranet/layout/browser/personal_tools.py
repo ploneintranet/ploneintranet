@@ -1,21 +1,39 @@
-import logging
-import requests
-
+# coding=utf-8
+from OFS.Image import Image
 from plone import api
 from plone.namedfile.file import NamedBlobImage
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.utils import cleanId
-from Products.statusmessages.interfaces import IStatusMessage
-from Products.Five import BrowserView
-from OFS.Image import Image
 from Products.PlonePAS.utils import scale_image
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.statusmessages.interfaces import IStatusMessage
+from ploneintranet.layout.browser.base import BaseView
+import logging
+import requests
 
 log = logging.getLogger(__name__)
 
 
-class PersonalTools(BrowserView):
+class PersonalTools(BaseView):
     """ Personal Tools and User Information """
+
+    def get_actions(self):
+        ''' Get the available actions from portal_actions
+        '''
+        pa = api.portal.get_tool('portal_actions')
+        context_actions = pa.listFilteredActionsFor(self.context)
+        user_additional_actions = context_actions.get('user_additional', [])
+        return [
+            action for action in user_additional_actions
+            if action['visible'] and action['available']
+        ]
+
+    def enable_password_reset(self):
+        ''' Check if the password reset is allowed
+        '''
+        return api.portal.get_registry_record(
+            'ploneintranet.userprofile.enable_password_reset'
+        )
 
     def __call__(self, *args, **kw):
         if self.request.get('submit'):
@@ -56,10 +74,11 @@ class PersonalTools(BrowserView):
                     self.context.absolute_url()
                 self.request.RESPONSE.setHeader("X-Patterns-Redirect-Url",
                                                 redirect)
-
+        self.request['disable_toolbar'] = True
         return super(PersonalTools, self).__call__(*args, **kw)
 
     def userinfo(self):
+        # BBB this probably is not used anymore
         portal_membership = getToolByName(self.context, 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
         return {

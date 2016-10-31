@@ -56,6 +56,7 @@
 
 
           <fieldset>
+          <!-- Warning, having no spaces between the tags in pat-content-mirror is vital here. DO NOT apply nice formatting in the following block!! -->
             <p class="content-mirror"
               ><span class="text" id="mirror-${form_id}"
                 ><em class="placeholder">${view/placeholder}</em></span
@@ -69,8 +70,7 @@
                   ><a tal:content="string:#${tag}" /><tal:space condition="not:repeat/tag/end"> </tal:space><input
                   name="tags:list" type="hidden" tal:attributes="value tag" /></tal:block
                   ></tal:tags
-              ></em>
-            </p>
+              ></em></p>
 
             <tal:comment condition="nothing">
                       <!-- This is a deliberate duplication of hidden inputs with name mentions. This one is used for handing over selected

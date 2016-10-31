@@ -1,10 +1,13 @@
+# coding=utf-8
+from plone.app.contenttypes.interfaces import IFolder
+from plone.directives import form
+from plone.namedfile.field import NamedBlobImage
+from plone.namedfile.interfaces import IImageScaleTraversable
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout import interfaces as ilayout
+from zope import schema
 from zope.interface import Attribute
 from zope.interface import Interface
-from plone.directives import form
-from ploneintranet.layout import interfaces as ilayout
-from plone.namedfile.interfaces import IImageScaleTraversable
-from zope import schema
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 
 class IPloneintranetWorkspaceLayer(Interface):
@@ -79,6 +82,24 @@ class IBaseWorkspaceFolder(form.Schema, IImageScaleTraversable):
         title=_('label_archived', u'Archived'),
         required=False,
         default=None,
+    )
+    related_workspaces = schema.List(
+        value_type=schema.ASCIILine(
+            title=_(u'label_workspace_uid', u'UID of a workspace'),
+            required=False,
+            default=''),
+        title=_(u'label_related_workspaces', u'Related workspaces'),
+        required=False,
+        default=[]
+    )
+    hero_image = NamedBlobImage(
+        title=_(u"Hero Image"),
+        required=False
+    )
+    event_global_default = schema.Bool(
+        title=_(u'label_event_global_default', u'Global Events by default?'),
+        required=False,
+        default=False,
     )
 
 
@@ -167,3 +188,8 @@ class IGroupingStorage(Interface):
     def get_groupings():
         """ Return groupings
         """
+
+
+class IMail(IFolder):
+    ''' Marker interface for the ploneintranet.workspace.mail content type
+    '''

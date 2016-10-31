@@ -1,20 +1,47 @@
+# coding=utf-8
+from Acquisition import aq_inner
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from collective.workspace.interfaces import IWorkspace
+from json import dumps
 from plone import api
-from plone.memoize.view import memoize
-from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-import ploneintranet.api as pi_api
+from plone.memoize.view import memoize
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
-from json import dumps
+from zope.interface import implements
+from zope.component import getAdapter
+from ploneintranet.workspace.interfaces import IGroupingStorage
+from zope.component.interfaces import ComponentLookupError
+
+import ploneintranet.api as pi_api
 
 
 class BaseWorkspaceView(BrowserView):
     """
     Base view class for workspace related view
     """
+    @property
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        return True
+
     @memoize
     def workspace(self):
         """Acquire the root workspace of the current context"""
@@ -218,3 +245,84 @@ class AllUsersAndGroupsJSONView(BrowserView):
                 'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)
+
+
+class RelatedWorkspacesPicker(BrowserView):
+    """
+    Provides a picker to select related workspaces
+    """
+
+    def get_related_workspaces(self):
+        return self.context.get_related_workspaces()
+
+
+class ReorderTags(BrowserView):
+    """ Lets the workspace manager re-order the tags inside a workspace """
+
+    def __call__(self):
+        context = aq_inner(self.context)
+        try:
+            gs = getAdapter(context, IGroupingStorage)
+        except ComponentLookupError:
+            return u"Could not get adapter for context: %s"  \
+                % context.absolute_url()
+        self.tags = [tag['id'] for tag in gs.get_order_for('label')]
+        if self.request.get('batch-function') == 'save':
+            myorder = self.request.get('tags_order')
+            if myorder is None:
+                myorder = []
+            if 'Untagged' in myorder:
+                myorder.remove('Untagged')
+
+            gs.set_order_for('label', myorder)
+        else:
+            return self.index()
+
+
+def format_workspaces_json(workspaces, skip=[]):
+    """
+    Format a list of workspaces as JSON for use with pat-autosuggest
+
+    :param list workspaces: A list of brains
+    :param lis skip: A list of UIDs to skip
+    :rtype string: JSON {"ws_id1": "ws_title1", ...}
+    """
+    formatted_ws = []
+    for ws in workspaces:
+        uid = ws.UID
+        if uid in skip:
+            continue
+        title = safe_unicode(ws.Title)
+        formatted_ws.append({
+            'id': uid,
+            'text': title,
+        })
+    return dumps(formatted_ws)
+
+
+class WorkspacesJSONView(BrowserView):
+    """
+    Return a filtered list of workspaces for pat-autosuggest.
+    Any workspace can be found.
+    """
+    def __call__(self):
+        q = safe_unicode(self.request.get('q', '').strip())
+        if not q:
+            return ""
+        query = {'SearchableText': u'{0}*'.format(q),
+                 'object_provides':
+                 'collective.workspace.interfaces.IHasWorkspace'}
+
+        catalog = api.portal.get_tool('portal_catalog')
+        workspaces = catalog(query)
+        if IBaseWorkspaceFolder.providedBy(self.context):
+            skip = getattr(self.context, 'related_workspaces', []) or []
+            skip.append(self.context.UID())
+        return format_workspaces_json(workspaces, skip)
+
+
+class WorkspaceCalendarView(BaseWorkspaceView):
+    """
+    Wrapper to include the fullcalendar tile on workspaces
+    """
+    implements(IBlocksTransformEnabled)

@@ -37,6 +37,7 @@ def sections_of(context):
             log.error("Unsupported type %s", item.portal_type)
         child = result2object(item)
         section = dict(title=item.title,
+                       id=item.getId(),
                        description=item.description,
                        absolute_url=item.url,
                        type=type_,
@@ -70,6 +71,7 @@ def children_of(context):
             (follow, icon) = ("follow-x", "icon-x")
         content.append(dict(
             title=item.title,
+            id=item.getId(),
             absolute_url=item.url,
             follow=follow,
             icon=icon))

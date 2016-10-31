@@ -63,15 +63,13 @@ class TestUninstall(unittest.TestCase):
             dependency = dependency.split(':')[0]
             dependencies.append(str(dependency))
         for dependency in dependencies:
-            if dependency.startswith('ploneintranet.'):
+            if dependency.startswith('ploneintranet.') or \
+               dependency.startswith('quaive.') or \
+               dependency in ADDITIONAL_DEPENDENCIES:
                 self.assertFalse(
                     qi.isProductInstalled(dependency),
                     '%s is still installed' % dependency)
-            elif dependency not in ADDITIONAL_DEPENDENCIES:
+            else:
                 self.assertTrue(
                     qi.isProductInstalled(dependency),
                     '%s should not be uninstalled' % dependency)
-        for depdendency in ADDITIONAL_DEPENDENCIES:
-            self.assertFalse(
-                qi.isProductInstalled(dependency),
-                '%s is still installed' % dependency)

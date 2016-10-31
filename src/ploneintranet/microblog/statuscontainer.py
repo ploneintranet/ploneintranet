@@ -373,12 +373,14 @@ class BaseStatusContainer(Persistent, Explicit):
 
         This is the key security protection used by all getters.
         Because it's called a lot we're caching results per user request.
+        Because we use ram caching, we must make sure the return value
+        is *not* a ZODB BTree accessor, so we cast to tuple.
         """
         self._check_global_view_permission()
 
         uuid_blacklist = self._blacklist_microblogcontext_uuids()
         if not uuid_blacklist:
-            return self._status_mapping.keys()
+            return tuple(self._status_mapping.keys())
         else:
             # for each uid, expand uid into set of statusids
             blacklisted_treesets = (self._uuid_mapping.get(uuid)
@@ -390,8 +392,8 @@ class BaseStatusContainer(Persistent, Explicit):
                                            LLBTree.TreeSet())
             # subtract blacklisted statusids from all statusids
             all_statusids = LLBTree.LLSet(self._status_mapping.keys())
-            return LLBTree.difference(all_statusids,
-                                      blacklisted_statusids)
+            return tuple(LLBTree.difference(all_statusids,
+                                            blacklisted_statusids))
 
     def _blacklist_microblogcontext_uuids(self):
         """Returns the uuids for all IMicroblogContext that the current

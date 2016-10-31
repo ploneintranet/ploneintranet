@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
-version = '1.1.0rc2.dev0'
+version = '1.2.0a21.dev0'
 
 long_description = (
-    open('README.rst').read()
-    + '\n' +
-    open('CHANGES.rst').read()
-    + '\n')
+    open('README.rst').read() +
+    '\n' +
+    open('CHANGES.rst').read() +
+    '\n')
 
 setup(name='ploneintranet',
       version=version,
@@ -40,40 +40,48 @@ setup(name='ploneintranet',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'BeautifulSoup',
+          'Celery[redis]',
+          'collective.externaleditor >= 1.0.2',
+          'collective.dexteritytextindexer',
+          'collective.documentviewer',
           'collective.instancebehavior',
-          'requests',
+          'collective.monkeypatcher',
+          'collective.workspace',
+          'collective.z3cform.chosen',
+          'dexterity.membrane>=1.1.0',
+          'fake-factory',
+          'flower',
+          'htmllaundry',
+          'icalendar',
           'loremipsum',
-          'z3c.jbot',
-          'plone.tiles',
+          'mincemeat',
+          'networkx',
+          'pathlib',
+          'Plone',
           'plone.app.tiles',
           'plone.app.blocks',
           'plone.app.theming',
-          'BeautifulSoup',
-          'mincemeat',
-          'networkx',
-          'rwproperty',
-          'collective.z3cform.chosen',
-          'dexterity.membrane>=1.1.0',
-          'Plone',
           'plone.api',
-          'Products.UserAndGroupSelectionWidget',
           'plone.directives.form',
           'plone.directives.dexterity',
+          'plone.mocktestcase',
           'plone.principalsource',
-          'collective.documentviewer',
-          'collective.workspace',
-          'fake-factory',
-          'Celery[redis]',
+          'plone.tiles',
+          'Products.CMFNotification',
+          'Products.UserAndGroupSelectionWidget',
+          'pytz',
+          'quaive.resources.ploneintranet',
           'redis',
-          'pathlib',
-          'collective.externaleditor >= 1.0.2',
+          'requests',
+          'rwproperty',
+          'scorched',
+          'slc.mailrouter',
+          'slc.outdated',
           'tablib',
-          'collective.dexteritytextindexer',
           'twitter-text-python',
           'Unidecode',
-          'collective.monkeypatcher',
-          'scorched',
-          'htmllaundry',
+          'z3c.jbot',
       ],
       extras_require={
           'test': [
@@ -82,6 +90,8 @@ setup(name='ploneintranet',
               'fake-factory',
               'mock',
               'responses',
+              'quaive.resources.ploneintranet',
+              'gitpython',
           ],
           'suite': [
               'requests',
@@ -137,6 +147,9 @@ setup(name='ploneintranet',
               'requests',
               'scorched',
           ],
+          'theme': [
+              'quaive.resources.ploneintranet',
+          ]
       },
       entry_points="""
       # -*- Entry points: -*-
@@ -145,4 +158,7 @@ setup(name='ploneintranet',
 
       [zest.releaser.releaser.after_checkout]
       add_files_to_release = ploneintranet.core.release:add_files_to_release
+
+      [console_scripts]
+      fastest=ploneintranet.fastest:main
       """)

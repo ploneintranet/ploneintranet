@@ -125,7 +125,8 @@ Member can see delete button on an editable document
     Given I am in a workspace as a workspace member
     And I browse to a document
     Wait Until Page Contains  Draft
-    Element should be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Click Element  css=div.quick-functions a.icon-ellipsis
+    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
 
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member

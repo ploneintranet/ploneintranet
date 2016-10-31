@@ -160,4 +160,18 @@ class TestMicroblogContextBlacklisting(unittest.TestCase):
         self.assertIn(self.su1, found)
         self.assertIn(self.su2, found)
 
+    def test_allowed_status_keys_rtype_user(self):
+        # code path with uuid blacklist
+        tool = queryUtility(IMicroblogTool)
+        login(self.portal, 'user1')
+        self.assertTrue(isinstance(tool.allowed_status_keys(), tuple))
+        self.assertEquals((self.su2.id, ), tool.allowed_status_keys())
+
+    def test_allowed_status_keys_rtype_manager(self):
+        # code path without uuid blacklist
+        tool = queryUtility(IMicroblogTool)
+        self.assertTrue(isinstance(tool.allowed_status_keys(), tuple))
+        self.assertEquals((self.su1.id, self.su2.id, ),
+                          tool.allowed_status_keys())
+
 # more security testing in ploneintranet/suite/tests/test_microblog_security.py

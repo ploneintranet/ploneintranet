@@ -22,6 +22,10 @@ class INotificationsQueues(Interface):
     def clear(self):
         """Empty all queues"""
 
+    def append_to_user_queue(self, userid, value):
+        ''' Append value to the given userid queue
+        '''
+
     def get_user_queue(self, userid):
         """
         Get a queue for given user object.

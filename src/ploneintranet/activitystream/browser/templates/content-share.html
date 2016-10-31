@@ -12,11 +12,10 @@
         -->
     </tal:comment>
 
-    <div class="document-comments-header"
-         tal:define="avatar view/avatar">
-      <a href="${avatar/url}">
-        <img src="${avatar/img}" alt="${avatar/fullname}" class="pat-avatar ">
-        <h4 class="name">${avatar/fullname}</h4>
+    <div class="document-comments-header">
+      <a href="${view/portal_url}/author/${here/userid}">
+        <img tal:replace="structure view/avatar">
+        <h4 class="name">${view/fullname}</h4>
       </a>
       <p class="byline">
         <em class="action" i18n:translate=""

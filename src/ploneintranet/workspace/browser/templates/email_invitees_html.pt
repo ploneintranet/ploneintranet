@@ -8,7 +8,7 @@
 
 <p>
   <b i18n:translate="">Title:</b> <a href="${context/absolute_url}">${context/title}</a><br>
-  <b i18n:translate="">From</b> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <b i18n:translate="">to</b> ${python:context.end.strftime('%d.%m.%Y %H:%M')}<br>
+  <b i18n:translate="">From</b> ${python: context.start.strftime('%d.%m.%Y %H:%M')} <b i18n:translate="email_to">to</b> ${python:context.end.strftime('%d.%m.%Y %H:%M')}<br>
   <b i18n:translate="">Location</b>: ${context/location}<br>
 
 <p i18n:translate="">

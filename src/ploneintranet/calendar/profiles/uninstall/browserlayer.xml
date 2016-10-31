@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.calendar.browser"
+    interface="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+    remove="True"
+  />
+</layers>

@@ -7,6 +7,7 @@ Component Packages
 
     userprofiles
     microblogstream
+    messaging
     notifications
     workspace
     search
@@ -16,3 +17,4 @@ Component Packages
     network
     pagerank
     case-management
+    mailin

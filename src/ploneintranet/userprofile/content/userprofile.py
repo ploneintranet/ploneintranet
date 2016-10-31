@@ -49,6 +49,11 @@ class IUserProfile(form.Schema):
         title=_(u"Photo"),
         required=False
     )
+    form.omitted('recent_contacts')
+    recent_contacts = schema.List(
+        title=_("Last Contacts"),
+        required=False
+    )
 
 
 class IUserProfileAdditional(form.Schema):
@@ -115,6 +120,12 @@ class UserProfile(Container):
             self.last_name,
         ]
         return u' '.join([name for name in names if name])
+
+    @property
+    def initials(self):
+        first_name = self.first_name or ""
+        last_name = self.last_name or ""
+        return first_name[:1].upper() + last_name[:2].capitalize()
 
 
 class UsernameValidator(validator.SimpleFieldValidator):

@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0010</version>
+  <version>0017</version>
   <dependencies>
+    <dependency>profile-ploneintranet.docconv.client:default</dependency>
+    <dependency>profile-Products.membrane:default</dependency>
     <dependency>profile-collective.workspace:default</dependency>
+    <dependency>profile-Products.CMFNotification:default</dependency>
     <dependency>profile-Products.CMFPlacefulWorkflow:base</dependency>
     <dependency>profile-ploneintranet.layout:default</dependency>
     <dependency>profile-ploneintranet.microblog:default</dependency>
     <dependency>profile-ploneintranet.activitystream:default</dependency>
     <dependency>profile-ploneintranet.todo:default</dependency>
     <dependency>profile-ploneintranet.invitations:default</dependency>
+    <dependency>profile-slc.outdated:default</dependency>
   </dependencies>
 </metadata>

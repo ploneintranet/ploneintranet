@@ -100,14 +100,15 @@ class SolrMaintenanceView(BrowserView):
     """ helper view for indexing all portal content in Solr """
     implements(ISolrMaintenanceView)
 
-    def mklog(self, use_std_log=False):
+    def mklog(self, use_std_log=False, write_to_response=True):
         """ helper to prepend a time stamp to the output """
         write = self.request.RESPONSE.write
 
         def log(msg, timestamp=True):
             if timestamp:
                 msg = strftime('%Y/%m/%d-%H:%M:%S ') + msg
-            write(msg)
+            if write_to_response:
+                write(msg)
             if use_std_log:
                 logger.info(msg)
         return log
@@ -127,7 +128,8 @@ class SolrMaintenanceView(BrowserView):
         return 'solr index cleared.'
 
     def reindex(self, batch=1000, skip=0, limit=0, ignore_portal_types=None,
-                only_portal_types=None, idxs=[]):
+                only_portal_types=None, idxs=[], no_log=False,
+                index_fulltext=False):
         """ find all contentish objects (meaning all objects derived from one
             of the catalog mixin classes) and (re)indexes them """
 
@@ -135,12 +137,22 @@ class SolrMaintenanceView(BrowserView):
             raise ValueError("It is not possible to combine "
                              "ignore_portal_types with only_portal_types")
 
-        atomic = idxs != []
         conn = IConnection(getUtility(IConnectionConfig))
+
+        if not index_fulltext:
+            logger.info("NOT indexing SearchableText. "
+                        "Pass index_fulltext=True to do otherwise.")
+            attributes = [x['name'] for x in conn.schema['fields']]
+            attributes.remove(u'SearchableText')
+            idxs = attributes
+        else:
+            logger.warn("Indexing SearchableText. This may take a while.")
+
+        atomic = idxs != []
         zodb_conn = self.context._p_jar
         CI = ContentIndexer()
 
-        log = self.mklog()
+        log = self.mklog(write_to_response=not no_log)
         log('reindexing solr catalog...\n')
         if skip:
             log('skipping indexing of %d object(s)...\n' % skip)
@@ -309,6 +321,10 @@ class SolrMaintenanceView(BrowserView):
             try:
                 obj = catalog_traverse(path)
             except AttributeError:
+                logger.warning('AttributeError traversing to path: %s', path)
+                return None
+            except KeyError:
+                logger.warning('KeyError traversing to path: %s', path)
                 return None
             return obj
         log('processing %d "unindex" operations next...\n' % len(unindex))

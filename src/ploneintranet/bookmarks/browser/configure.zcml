@@ -1,0 +1,153 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet">
+
+    <include package="plone.tiles" file="meta.zcml" />
+
+    <plone:tile
+        name="bookmarks.workspaces.tile"
+        title="Bookmarks of Workspaces tile"
+        description="Provides bookmarks of workspaces as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfWorkspacesTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.workspaces.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+    <plone:tile
+        name="bookmarks.apps.tile"
+        title="Bookmarks of Apps tile"
+        description="Provides bookmarks of Apps as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfAppsTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.apps.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+    <plone:tile
+        name="bookmarks.documents.tile"
+        title="Bookmarks of Documents tile"
+        description="Provides bookmarks of Documents as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksOfDocumentsTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.documents.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+
+    <plone:tile
+        name="bookmarks.tile"
+        title="Bookmarks tile"
+        description="Provides bookmarks as a tile"
+        add_permission="cmf.ManagePortal"
+        class=".tiles.BookmarksTile"
+        permission="zope2.View"
+        for="*"
+        template="templates/bookmarks.tile.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+        />
+
+  <plone:tile
+      name="workspace_bookmark.tile"
+      title="Workspace Bookmarking"
+      description="Tile to bookmark a workspace and show status"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".tiles.WorkspaceBookmarkTile"
+      template="templates/workspace-bookmark-tile.pt"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+      />
+
+    <browser:page
+        name="app-bookmarks"
+        for="ploneintranet.layout.app.IApp"
+        permission="zope2.View"
+        class=".app.View"
+        template="templates/app.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:menuItem
+        action="app-bookmarks"
+        for="ploneintranet.layout.app.IApp"
+        menu="plone_displayviews"
+        title="bookmarks"
+        description=""
+        i18n:attributes="title"
+    />
+
+    <browser:page
+        name="bookmark"
+        for="*"
+        permission="zope2.View"
+        class=".bookmark.View"
+        template="templates/bookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="unbookmark"
+        for="*"
+        permission="zope2.View"
+        class=".unbookmark.View"
+        template="templates/unbookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-app"
+        for="*"
+        permission="zope2.View"
+        class=".bookmark.AppView"
+        template="templates/bookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="unbookmark-app"
+        for="*"
+        permission="zope2.View"
+        class=".unbookmark.AppView"
+        template="templates/unbookmark.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-link"
+        for="*"
+        permission="zope2.View"
+        class=".bookmark_link.View"
+        template="templates/bookmark_link.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".bookmark_link.ViewIconified"
+        template="templates/bookmark_link.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+    <browser:page
+        name="bookmark-button"
+        for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+        permission="zope2.View"
+        class=".bookmark_button.BookmarkProfileView"
+        template="templates/bookmark_button.pt"
+        layer="ploneintranet.bookmarks.browser.interfaces.IPloneintranetBookmarksLayer"
+    />
+
+
+</configure>

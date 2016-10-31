@@ -12,16 +12,23 @@ class TestGenericMessageClassHandler(FunctionalTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        user1 = api.user.get(username=TEST_USER_NAME)
-        user2 = api.user.create(email='a@example.com',
-                                username='user').getUser()
-        tool = getToolByName(self.portal, 'ploneintranet_notifications')
-
+        self.user1 = api.user.get(username=TEST_USER_NAME)
+        self.user2 = api.user.create(
+            email='a@example.com',
+            username='user'
+        ).getUser()
+        self.tool = getToolByName(self.portal, 'ploneintranet_notifications')
         self.msg_class_handler = getAdapter(
             self.portal, IMessageClassHandler, name='GLOBAL_NOTICE'
         )
-        self.queue1 = tool.get_user_queue(user1.getUserId())
-        self.queue2 = tool.get_user_queue(user2.getUserId())
+
+    @property
+    def queue1(self):
+        return self.tool.get_user_queue(self.user1.getUserId())
+
+    @property
+    def queue2(self):
+        return self.tool.get_user_queue(self.user2.getUserId())
 
     def test_adding(self):
         message = Message(actors=[], predicate='GLOBAL_NOTICE', obj={})

@@ -4,5 +4,6 @@
    i18n:domain="ploneintranet">
   <property name="behaviors" purge="False">
     <element value="plone.app.contenttypes.behaviors.leadimage.ILeadImage"/>
+    <element value="ploneintranet.library.behaviors.publish.IPublishWidely"/>
   </property>
  </object>

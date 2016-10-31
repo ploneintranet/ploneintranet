@@ -9,8 +9,7 @@ class AllChannel(object):
 
     def __init__(self, userid):
         self.userid = userid
-        tool = api.portal.get_tool('ploneintranet_notifications')
-        self.queue = tool.get_user_queue(userid)
+        self.tool = api.portal.get_tool('ploneintranet_notifications')
 
     def get_unread_count(self):
         return len(self.get_unread_messages(keep_unread=True))
@@ -27,10 +26,7 @@ class AllChannel(object):
 
     def get_all_messages(self, limit=None,
                          keep_unread=False):
-        if not limit:
-            messages = self.queue[:]
-        else:
-            messages = self.queue[:limit]
+        messages = self.tool.get_user_queue(self.userid, limit)
 
         if not keep_unread:
             for message in messages:

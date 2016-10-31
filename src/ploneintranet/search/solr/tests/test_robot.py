@@ -10,7 +10,10 @@ def test_suite():
     suite = unittest.TestSuite()
     if SOLR_ENABLED:
         suite.addTests([
-            layered(robotsuite.RobotTestSuite('search.robot'),
-                    layer=ROBOT_TESTING),
+            layered(
+                robotsuite.RobotTestSuite(
+                    'search.robot',
+                    noncritical=['fixme', 'noncritical', 'heisenbug']),
+                layer=ROBOT_TESTING),
         ])
     return suite

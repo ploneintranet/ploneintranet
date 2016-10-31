@@ -8,6 +8,7 @@ from ...utils import map_content_type
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from ...utils import month_name
+from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
@@ -16,12 +17,18 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
+from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.todo.utils import update_task_status
+from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
+from Products.Archetypes.utils import shasattr
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from slc.mailrouter.utils import store_name
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -31,7 +38,6 @@ from zope.publisher.browser import BrowserView
 from zope.schema import getFieldNames
 from zope.schema.interfaces import IVocabularyFactory
 import logging
-
 
 log = logging.getLogger(__name__)
 
@@ -45,6 +51,13 @@ class BaseTile(BrowserView):
 
     index = None
     form_submitted = False
+
+    @property
+    @memoize
+    def current_userid(seelf):
+        ''' Return the current authenticated user id
+        '''
+        return api.user.get_current().getId()
 
     def render(self):
         return self.index()
@@ -117,6 +130,10 @@ class BaseTile(BrowserView):
         Cave. We don't use the plone.app.contenttypes per-type permissions.
         Our workflows don't map those, only cmf.AddPortalContent.
         """
+        if shasattr(self.context, 'disable_add_from_sidebar'):
+            if self.context.disable_add_from_sidebar:
+                return False
+
         return api.user.has_permission(
             "Add portal content",
             obj=self.context,
@@ -141,6 +158,13 @@ class BaseTile(BrowserView):
         return api.user.has_permission(
             "Delete objects",
             obj=obj,
+        )
+
+    def can_subscribe(self):
+        ''' Check if we see the subscribe feature in the bulk actions
+        '''
+        return get_record_from_registry(
+            'ploneintranet.workspace.allow_bulk_subscribe', False
         )
 
     def month_name(self, date):
@@ -247,6 +271,13 @@ class SidebarSettingsMembers(BaseTile):
         api.portal.show_message(msg, self.request, msg_type)
         notify(WorkspaceRosterChangedEvent(self.context))
 
+    def get_avatar_by_userid(self, userid):
+        ''' Provide HTML tag to display the avatar
+        '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
+        )
+
     def __call__(self):
         if self.request.method == 'POST':
             self.execute_batch_function()
@@ -322,6 +353,13 @@ class SidebarSettingsAdvanced(BaseTile):
 
     index = ViewPageTemplateFile('templates/sidebar-settings-advanced.pt')
 
+    def can_delete_workspace(self):
+        ws = parent_workspace(self.context)
+        return api.user.has_permission(
+            "Delete objects",
+            obj=ws,
+        )
+
     def can_be_division(self):
         ''' Check if this object can be a division,
         i.e. has a division field in the schema or in a behavior
@@ -338,21 +376,69 @@ class SidebarSettingsAdvanced(BaseTile):
                     return True
         return False
 
+    def update_relation_targets(self, old_relations):
+        ''' Get old relations and new relations and update the targets
+        to point to self.context.
+        '''
+        context_uid = self.context.UID()
+        old_relations = set(old_relations or [])
+        new_relations = set(self.context.related_workspaces or [])
+        to_add = new_relations - old_relations
+        for uid in to_add:
+            target = api.content.get(UID=uid)
+            if target:
+                if not target.related_workspaces:
+                    target.related_workspaces = [context_uid]
+                elif context_uid not in target.related_workspaces:
+                    target.related_workspaces.append(context_uid)
+
+        to_remove = old_relations - new_relations
+        for uid in to_remove:
+            target = api.content.get(UID=uid)
+            if (
+                target and
+                target.related_workspaces and
+                context_uid in target.related_workspaces
+            ):
+                target.related_workspaces.remove(context_uid)
+
     def __call__(self):
         """ write attributes, if any, set state, render
         """
         form = self.request.form
-        ws = self.workspace()
         if self.request.method == 'POST' and form:
             if self.can_manage_workspace():
+                if 'email' in form and form['email']:
+                    if '@' in form['email']:
+                        # Only use the name part as the domain is fixed.
+                        form['email'] = form['email'].split('@')[0]
+                if 'related_workspaces' in form and form['related_workspaces']:
+                    # We defined this as a list of TextLine values.
+                    # Therefore, the value from the form must be passed
+                    # as a string with one value per line.
+                    value = form['related_workspaces']
+                    # First, if this is a list, flatten to a comma-separated
+                    # string
+                    value = ','.join([x for x in value if x])
+                    # Now, replace all commas with a new-line character
+                    value = value.replace(',', '\n')
+                    form['related_workspaces'] = value
+                    old_related_workspaces = self.context.related_workspaces
+                else:
+                    old_related_workspaces = ''
+
                 modified, errors = dexterity_update(self.context)
+
+                self.update_relation_targets(old_related_workspaces)
+
+                if 'email' in form and form['email']:
+                    errors += store_name(self.context, form['email']).values()
 
                 if modified and not errors:
                     api.portal.show_message(
                         _("Attributes changed."),
                         request=self.request,
                         type="success")
-                    ws.reindexObject()
                     notify(ObjectModifiedEvent(self.context))
 
                 if errors:
@@ -391,7 +477,8 @@ class Sidebar(BaseTile):
             ws = self.workspace()
             self.set_grouping_cookie()
             # wft = api.portal.get_tool("portal_workflow")
-            section = self.request.form.get('section', None)
+            section = self.request.form.get('section', self.section)
+            set_show_extra_cookie(self.request, section)
             do_reindex = False
 
             # Do the workflow transitions based on what tasks the user checked
@@ -481,7 +568,7 @@ class Sidebar(BaseTile):
             if r['portal_type'] in FOLDERISH_TYPES:
                 structural_type = 'group'
             else:
-                structural_type = 'item'
+                structural_type = 'document'
 
             # If it is a file, we have to check the mime type as well
             # And the filename is not enough, we need to guess on the content
@@ -510,8 +597,8 @@ class Sidebar(BaseTile):
                     "history: record"
                 )
                 # Do we switch the view (unexpand the sidebar)?
-                dps = ("body focus-* focus-document && "
-                       "body sidebar-large sidebar-normal")
+                dps = ("#application-body focus-* focus-document && "
+                       "#application-body sidebar-large sidebar-normal")
 
             results.append(dict(
                 title=r['Title'],
@@ -526,7 +613,8 @@ class Sidebar(BaseTile):
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
-                path=r.getPath()
+                path=r.getPath(),
+                outdated=r['outdated'],
             ))
         return results
 
@@ -547,6 +635,15 @@ class Sidebar(BaseTile):
             return 'type-folder'
         return 'document'
 
+    def update_with_show_extra(self, query):
+        ''' Update the query with the values from show_extra cookie
+        '''
+        show_extra = self.show_extra
+        if 'my_documents' in show_extra:
+            query['Creator'] = self.current_userid
+        if 'archived_documents' not in show_extra:
+            query['outdated'] = False
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -561,6 +658,7 @@ class Sidebar(BaseTile):
         allowed_types = [i for i in api.portal.get_tool('portal_types')
                          if i not in BLACKLISTED_TYPES]
         query['portal_type'] = allowed_types
+        self.update_with_show_extra(query)
 
         #
         # 1. Retrieve the items
@@ -588,9 +686,19 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
+        workspace = parent_workspace(self.context)
+        results = [i for i in results if i.get('UID') != workspace.UID()]
+
         #
         # 2. Prepare the results for display in the sidebar
+        # Make sure we first show the group-elements (= folders or similar)
+        # before any content items
+        # Note: since False==0, it gets sorted before True!
         #
+
+        if self.grouping() != 'date':
+            results = sorted(results, key=lambda x: (
+                x['structural_type'] != 'group', x['title'].lower()))
 
         # Each item must be a dict with at least the following attributes:
         # title, description, id, structural_type, content_type, dpi, url
@@ -616,7 +724,6 @@ class Sidebar(BaseTile):
             )
 
             ctype = self.item2ctype(item)
-
             cls = 'item %s %s %s' % (
                 item.get('structural_type', 'group'), ctype, cls_desc)
 
@@ -682,7 +789,14 @@ class Sidebar(BaseTile):
                              if i not in BLACKLISTED_TYPES]
             query['portal_type'] = allowed_types
             query['sort_on'] = 'sortable_title'
-            return self._extract_attrs(self.context.getFolderContents(query))
+            query['path'] = {
+                'query': '/'.join(self.context.getPhysicalPath()),
+                'depth': 1,
+            }
+            self.update_with_show_extra(query)
+
+            pc = api.portal.get_tool('portal_catalog')
+            return self._extract_attrs(pc.searchResults(query))
 
         elif grouping == 'date':
             # Group by Date, this is a manual list
@@ -717,14 +831,18 @@ class Sidebar(BaseTile):
 
         # In the grouping storage, all entries are accessible under their
         # respective grouping headers. Fetch them for the selected grouping.
-        headers = storage.get_order_for(
-            grouping,
-            include_archived='archived_tags' in self.show_extra,
-            alphabetical=True
-        )
+        if grouping == 'label':
+            include_archived = self.archived_tags_shown()
+        else:
+            include_archived = self.archived_documents_shown()
 
         if grouping == 'label':
             # Show all labels stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=False
+            )
             for header in headers:
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'tag'
@@ -738,6 +856,11 @@ class Sidebar(BaseTile):
                                 archived=False))
 
         elif grouping == 'author':
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             # Show all authors stored in the grouping storage
 
             # XXX May come soon in UI
@@ -760,6 +883,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'type':
             # Show all types stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
 
             # Document types using mimetypes
             headers.append(dict(title='Other',
@@ -774,6 +902,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'first_letter':
             # Show all items by first letter stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             for header in headers:
                 header['title'] = header['title'].upper()
                 header['url'] = group_url_tmpl % header['id']
@@ -816,13 +949,7 @@ class Sidebar(BaseTile):
             'sort_order':
             sorting == 'modified' and 'descending' or 'ascending',
         }
-        # XXX: This is not yet exposed in the UI, but may soon be
-        # if 'my_documents' in self.show_extra:
-        #     username = api.user.get_current().getId()
-        #     criteria['Creator'] = username
-
-        # if not self.archives_shown():
-        #     criteria['outdated'] = False
+        self.update_with_show_extra(criteria)
 
         def values_in_grouping(name, value):
             gs = IGroupingStorage(workspace)
@@ -925,8 +1052,7 @@ class Sidebar(BaseTile):
         Set the selected grouping as cookie
         """
         grouping = self.request.get('grouping', 'folder')
-        member = api.user.get_current()
-        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, self.current_userid)
         set_cookie(self.request, cookie_name, grouping)
 
     def get_from_request_or_cookie(self, key, cookie_name, default):
@@ -944,8 +1070,7 @@ class Sidebar(BaseTile):
         """
         Return the user selected grouping
         """
-        member = api.user.get_current()
-        cookie_name = '%s-grouping-%s' % (self.section, member.getId())
+        cookie_name = '%s-grouping-%s' % (self.section, self.current_userid)
         return self.get_from_request_or_cookie(
             "grouping", cookie_name, "folder")
 
@@ -953,22 +1078,28 @@ class Sidebar(BaseTile):
         """
         Return the user selected sorting
         """
-        member = api.user.get_current()
-        cookie_name = '%s-sort-on-%s' % (self.section, member.getId())
+        cookie_name = '%s-sort-on-%s' % (self.section, self.current_userid)
         return self.get_from_request_or_cookie(
             "sorting", cookie_name, "modified")
 
     @property
+    @memoize
     def show_extra(self):
         cookie_name = '%s-show-extra-%s' % (
             self.section, api.user.get_current().getId())
         return self.request.get(cookie_name, '').split('|')
 
-    # def archives_shown(self):
-    #     """
-    #     Tell if we should show archived items or not
-    #     """
-    #     return utils.archives_shown(self.context, self.request, self.section)
+    def archived_documents_shown(self):
+        """
+        Tell if we should show archived documents or not
+        """
+        return 'archived_documents' in self.show_extra
+
+    def archived_tags_shown(self):
+        """
+        Tell if we should show archived tags or not
+        """
+        return 'archived_tags' in self.show_extra
 
     # def urlquote(self, value):
     #     """
@@ -1018,3 +1149,6 @@ class Sidebar(BaseTile):
             sort_order='descending',
         )
         return {'upcoming': upcoming_events, 'older': older_events}
+
+    def format_event_date(self, event):
+        return format_event_date_for_title(event)

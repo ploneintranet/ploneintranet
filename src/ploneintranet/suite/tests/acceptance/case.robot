@@ -52,8 +52,10 @@ Manager can close a case milestone but only after closing open task
      When I select the task check box  Populate Metadata
      Then I can close a milestone  new
       And I can delete a case  workflow-case
-
+      
+# https://github.com/quaive/ploneintranet/issues/529
 Manager can reopen a case milestone without closing open tasks
+    [Tags]  Heisenbug
     Given I am logged in as the user allan_neece
       And I can create a new case  Workflow case
       And I can go to the sidebar tasks tile of my case

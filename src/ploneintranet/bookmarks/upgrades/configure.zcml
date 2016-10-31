@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+    <genericsetup:upgradeStep
+        title="Add the bookmark app"
+        description=""
+        source="*"
+        destination="0002"
+        handler=".to0002.add_bookmark_app"
+        profile="ploneintranet.bookmarks:default"
+      />
+
+    <genericsetup:registerProfile
+        name="to_0003"
+        title="Add registry entries to configure portlet expand"
+        description=""
+        directory="profiles/to_0003"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry entries to configure portlet expand"
+        description="num and max items"
+        source="*"
+        destination="0003"
+        handler=".to_0003.add_portlet_configuration"
+        profile="ploneintranet.bookmarks:default" />
+
+</configure>

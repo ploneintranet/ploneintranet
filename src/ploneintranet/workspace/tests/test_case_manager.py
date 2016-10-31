@@ -42,7 +42,7 @@ class TestCaseManagerView(FunctionalBaseTestCase):
         request.form.update(options)
         return api.content.get_view(
             'case-manager',
-            self.portal,
+            self.portal.apps['case-manager'],
             request,
         )
 
@@ -70,11 +70,11 @@ class TestCaseManagerView(FunctionalBaseTestCase):
         case_manager.cases = lambda: range(5)
         self.assertEqual(
             case_manager.next_batch_url,
-            'http://localhost:55001/plone/@@case-manager?b_start=5'
+            'http://localhost:55001/plone/apps/case-manager/@@case-manager?b_start=5'  # noqa
         )
         case_manager = self.get_view()
         case_manager.cases = lambda: range(6)
         self.assertEqual(
             case_manager.next_batch_url,
-            'http://localhost:55001/plone/@@case-manager?b_start=5'
+            'http://localhost:55001/plone/apps/case-manager/@@case-manager?b_start=5'  # noqa
         )

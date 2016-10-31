@@ -93,6 +93,11 @@ class PersonalizedKeywordsVocabulary(object):
         # into network is TODO FIXME
 
         # 4. fall back to catalog, list all Subject indexed tags
+        # This is a potential information leakage security issue
+        # if the mere existance of certain tags is confidential.
+        # However: unifying tags by providing suggestions across
+        # the whole tag space is good, and filtering the tag space
+        # for per-document access would not be performant.
         if len(tags) < self.min_matches:
             tags.extend(self._filter(self._catalog_subjects(),
                                      blacklist, query, True))

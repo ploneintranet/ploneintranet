@@ -13,9 +13,17 @@
     <browser:viewlet
         name="plone.global_sections"
         manager="plone.app.layout.viewlets.interfaces.IMainNavigation"
-        class="plone.app.layout.viewlets.common.GlobalSectionsViewlet"
+        class=".common.GlobalSectionsViewlet"
         permission="zope2.View"
         template="sections.pt"
+        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        />
+
+    <browser:viewlet
+        name="plone.logo"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".common.LogoViewlet"
+        permission="zope2.View"
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
@@ -36,6 +44,10 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
       />
 
+    <!-- 
+         zope.Public with attribute protection taken from upstream
+         Products/CMFPlone/browser/configure.zcml
+    -->
     <browser:page
         for="*"
         name="breadcrumbs_view"
@@ -45,6 +57,10 @@
         layer="ploneintranet.theme.interfaces.IThemeSpecific"
         />
 
+    <!-- 
+         zope.Public with attribute protection taken from upstream
+         Products/CMFPlone/browser/configure.zcml
+    -->
     <browser:page
         for="*"
         name="orig_breadcrumbs_view"

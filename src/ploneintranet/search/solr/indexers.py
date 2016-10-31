@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
+import datetime
 import logging
+import threading
 from Acquisition import aq_inner, aq_parent
 from OFS.interfaces import IOrderedContainer
 from urllib import urlencode
@@ -14,13 +16,35 @@ from zope.component import adapter, queryMultiAdapter, queryUtility
 from zope.interface import implementer, Interface
 import lxml.etree as etree
 import requests
+from plone import api
 from ploneintranet.async.tasks import ReindexObject
+from zope.annotation.interfaces import IAnnotations
+from zope.globalrequest import getRequest
 
 from .interfaces import IContentAdder, IConnectionConfig, IConnection
 from .solr_search import prepare_data
 
 
 logger = logging.getLogger(__name__)
+solr_indexing_enabled_key = 'ploneintranet.search.solr.index'
+
+
+def only_if_installed(f):
+    ''' Use this as a decorator to execute f only if a product is installed
+    '''
+    def decorated(*args, **kwargs):
+        try:
+            qi = api.portal.get_tool('portal_quickinstaller')
+            if qi.isProductInstalled('ploneintranet.search'):
+                return f(*args, **kwargs)
+        except api.exc.CannotGetPortalError:
+            pass
+        except:
+            logger.exception(
+                'Problem understading id ploneintranet.search '
+                'is instaled'
+            )
+    return decorated
 
 
 @implementer(IContentAdder)
@@ -32,7 +56,11 @@ class ContentAdder(object):
         self.solr = solr
 
     def add(self, data):
-        self.solr.add(data)
+        try:
+            self.solr.add(data)
+        except UnicodeDecodeError, msg:
+            logger.error('UnicodeDecodeError when indexing {0}: {1}'.format(
+                self.context.absolute_url(), msg))
 
 
 @implementer(IContentAdder)
@@ -63,13 +91,35 @@ class BinaryAdder(ContentAdder):
         :type data: collections.Mapping
         :returns:
         """
-        # async dispatch sets attributes
+        # limit async optimizations to per-thread avoids inconsistencies
+        key = 'ploneintranet.search.indexers.SearchableText:{}'.format(
+            threading.current_thread().ident)
+        annotations = IAnnotations(self.context)
+        scheduled = annotations.setdefault(key, False)  # our mutex
+        maxdelay = datetime.timedelta(minutes=5)  # failsafe mutex expire
+
+        # final re-entry where an async dispatched job is handled sync
         if self.context.REQUEST.get('attributes') == 'SearchableText':
-            logger.info("Indexing: Handle reindex of SearchableText")
+            logger.info("Handle reindex of SearchableText <%s>",
+                        threading.current_thread().ident)
+            # remove mutex for current object on current thread
+            annotations[key] = False
             data = self._add_handler(data)
+
+        # on repeat reindex(), do not dispatch multiple async jobs
+        # 'maxdelay' failsafe auto-expires the 'scheduled' mutex
+        elif scheduled and datetime.datetime.now() - scheduled < maxdelay:
+            logger.info(
+                "SearchableText reindex already in progress <%s>",
+                threading.current_thread().ident)
+
+        # initial entry point, dispatch async reindex for handling above
         else:
-            logger.info("Indexing: Dispatch reindex of SearchableText async")
-            # Dispatch an async job to also reindex the blob
+            logger.info("Dispatch reindex of SearchableText async <%s>",
+                        threading.current_thread().ident)
+            # mutex limits open async index jobs to 1 per object per thread
+            annotations[key] = datetime.datetime.now()
+            # Dispatch an async job to reindex the blob
             ReindexObject(self.context, self.context.REQUEST)(
                 data=dict(attributes=["SearchableText"]),
                 countdown=10)
@@ -284,22 +334,33 @@ class ContentIndexer(object):
             self._connection = IConnection(self._solr_conf)
         return self._connection
 
+    @only_if_installed
     def abort(self):
         self._solr.rollback()
 
+    @only_if_installed
     def begin(self):
         pass
 
+    @only_if_installed
     def commit(self):
         self._solr.commit(waitSearcher=None, expungeDeletes=True)
         # Optimize: Too expensive to do this every time.
         # Instead, call the solr-optimize browser view regularly (cron?)
         # self._solr.optimize(waitSearcher=None)
 
+    @only_if_installed
     def index(self, obj, attributes=None):
         """Index the object.
 
+        Can be temporarily disabled via solr_indexing_disable(request)
         """
+        switch_key = solr_indexing_enabled_key
+        enabled = obj.REQUEST.get(switch_key, True)  # default is enabled
+        if not enabled:
+            logger.debug("%s disabled", switch_key)
+            return
+
         data = self._get_data(obj, attributes=attributes)
         if data is not None:
             portal_type = data.get('portal_type', 'default')
@@ -308,9 +369,11 @@ class ContentIndexer(object):
                 adder = ContentAdder(obj, self._solr)
             adder.add(data)
 
+    @only_if_installed
     def reindex(self, obj, attributes=None):
         self.index(obj, attributes)
 
+    @only_if_installed
     def unindex(self, obj):
         if hasattr(obj, 'context'):
             obj = obj.context
@@ -356,3 +419,33 @@ def getObjPositionInParent(obj):
         except ValueError:
             return 0
     return 0
+
+
+def solr_indexing_disable(request=None):
+    """Temporarily disable solr indexing for this request.
+
+    :param request: The request for which solr indexing is to be disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle solr indexing.")
+        return
+    request[solr_indexing_enabled_key] = False
+
+
+def solr_indexing_enable(request=None):
+    """Re-enable solr indexing for this request.
+    This only makes sense if you explicitly disabled solr indexing,
+    since it is enabled by default.
+
+    :param request: The request for which solr indexing is to be re-enabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle solr indexing.")
+        return
+    request[solr_indexing_enabled_key] = True

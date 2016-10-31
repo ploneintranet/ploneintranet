@@ -2,8 +2,9 @@ from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.interfaces import IImageScaleTraversable
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.layout.interfaces import IAppContainer
 from ploneintranet.layout.app import AbstractAppContainer
+from ploneintranet.layout.interfaces import IAppContainer
+from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from zope.interface import implementer
 
 from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
@@ -18,7 +19,9 @@ class IWorkspaceContainer(form.Schema,
     """
 
 
-@implementer(IWorkspaceContainer, IAttachmentStoragable, IAppContainer)
+@implementer(
+    IWorkspaceContainer, IAttachmentStoragable, IAppContainer,
+    IHideFromBreadcrumbs)
 class WorkspaceContainer(AbstractAppContainer, Container):
     """
     A folder to contain WorkspaceFolders.

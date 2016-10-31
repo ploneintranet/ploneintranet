@@ -1,7 +1,7 @@
+# coding=utf-8
 from Acquisition import aq_inner
 from collections import defaultdict
 from email.Utils import formatdate
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.tiles import Tile
@@ -10,12 +10,37 @@ from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from time import time
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface import Interface
 from zope.publisher.browser import BrowserView
 from zope.schema.interfaces import IVocabularyFactory
-from zope.component import getUtility
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
+
+
+@implementer(Interface)
+class AdaptableWSDict(object):
+
+    def __init__(self, ws_dict):
+        ''' Transforms a dict in to a traversable object
+        '''
+        self.ws_dict = ws_dict
+
+    def UID(self):
+        return self.ws_dict['uid']
+
+    def absolute_url(self):
+        return self.ws_dict['url']
+
+    def __getattribute__(self, value):
+        '''
+        '''
+        if value != 'ws_dict' and value in self.ws_dict:
+            return self.ws_dict[value]
+        return super(AdaptableWSDict, self).__getattribute__(value)
 
 
 class Workspaces(BrowserView):
@@ -67,15 +92,25 @@ class Workspaces(BrowserView):
 
     @memoize
     def sort_options(self):
-        options = [{'value': 'alphabet',
-                    'content': _(u'Alphabetical')},
-                   {'value': 'newest',
-                    'content': _(u'Newest workspaces on top')},
-                   # Not yet implemented
-                   # {'value': 'activity',
-                   #  'content': 'Most active workspaces on top'}
-                   ]
-        return options
+        selected_sort_option = self.get_selected_sort_option()
+        try:
+            options = api.portal.get_registry_record(
+                'ploneintranet.workspace.sort_options'
+            )
+        except api.exc.InvalidParameterError:
+            # A backward compatible fallback
+            options = {
+                'alphabet': u'Alphabetical',
+                'newest': u'Newest workspaces on top',
+            }
+        options = (
+            {
+                'value': key,
+                'content': _(value),
+                'selected': key == selected_sort_option and 'selected' or None,
+            } for key, value in options.iteritems()
+        )
+        return sorted(options, key=lambda x: x['content'])
 
     def persist_sort_option(self):
         ''' This will persist the selected sort option in to a cookie
@@ -135,18 +170,16 @@ class Workspaces(BrowserView):
     def workspaces_by_division(self):
         ''' returns workspaces grouped by division
         '''
-        workspaces = my_workspaces(self.context,
-                                   self.request,
-                                   include_activities=False)
+        workspaces = self.workspaces()
         self.divisions = getUtility(IVocabularyFactory, vocab)(self.context)
         division_uids = [x.value for x in self.divisions]
         division_map = defaultdict(list)
         for workspace in workspaces:
             # Note: Already sorted as source list is sorted
-            if workspace['uid'] in division_uids:
-                division_map[workspace['uid']].append(workspace)
+            if workspace.uid in division_uids:
+                division_map[workspace.uid].append(workspace)
             else:
-                division_map[workspace['division']].append(workspace)
+                division_map[workspace.division].append(workspace)
 
         return division_map
 
@@ -154,9 +187,15 @@ class Workspaces(BrowserView):
     def workspaces(self):
         ''' The list of my workspaces
         '''
-        return my_workspaces(self.context,
-                             self.request,
-                             include_activities=False)
+        include_activities = self.get_selected_sort_option() == 'activity'
+        return map(
+            AdaptableWSDict,
+            my_workspaces(
+                self.context,
+                self.request,
+                include_activities=include_activities,
+            )
+        )
 
 
 class AddView(BrowserView):
@@ -230,7 +269,7 @@ class AddView(BrowserView):
 
 class WorkspaceTabsTile(Tile):
 
-    index = ViewPageTemplateFile("templates/workspace-tabs-tile.pt")
+    index = ViewPageTemplateFile("tiles/templates/workspace-tabs-tile.pt")
 
     def render(self):
         return self.index()

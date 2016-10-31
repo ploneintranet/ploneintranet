@@ -9,6 +9,7 @@
 
   <include package="collective.workspace" />
   <include package="ploneintranet.layout" file="permissions.zcml" />
+  <include package=".mails" />
   <include package=".tiles" />
   <include file="cart.zcml" />
 
@@ -32,7 +33,7 @@
 
   <browser:page
       name="add_workspace"
-      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"      
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
       class=".add_workspace.AddWorkspace"
       template="templates/add_workspace.pt"
       permission="cmf.AddPortalContent"
@@ -70,6 +71,15 @@
       for="*"
       permission="zope2.View"
       template="templates/content_macros.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
+      name="workspace-calendar"
+      for="*"
+      permission="zope2.View"
+      template="templates/workspace-calendar.pt"
+      class=".workspace.WorkspaceCalendarView"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -125,6 +135,14 @@
       />
 
   <browser:page
+      name="add_link"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".add_content.AddLink"
+      permission="cmf.AddPortalContent"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+  <browser:page
       name="edit_folder"
       for="Products.CMFCore.interfaces.IFolderish"
       class=".edit_content.EditFolder"
@@ -155,7 +173,7 @@
 
   <browser:page
       name="case-manager"
-      for="*"
+      for="ploneintranet.layout.app.IApp"
       class=".case_manager.CaseManagerView"
       permission="zope2.View"
       template="templates/case_manager.pt"
@@ -175,6 +193,16 @@
       permission="cmf.AddPortalContent"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
+
+  <!-- add events called on the calendar app -->
+  <browser:page
+      name="add_event"
+      for="ploneintranet.layout.app.IApp"
+      class=".add_content.AddEvent"
+      permission="zope2.View"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
 
   <browser:page
       name="email_invitees"
@@ -232,7 +260,7 @@
     <browser:page
       name="ploneintranet_workspace_state"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       class=".workspace.WorkspaceState"
       allowed_interface="..interfaces.IWorkspaceState"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
@@ -284,6 +312,24 @@
       />
 
     <browser:page
+      name="panel-related-workspaces"
+      for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+      permission="ploneintranet.workspace.ManageWorkspace"
+      class=".workspace.RelatedWorkspacesPicker"
+      template="templates/panel-related-workspaces.pt"
+      layer="..interfaces.IPloneintranetWorkspaceLayer"
+      />
+
+    <browser:page
+        name="panel-reorder-tags"
+        for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
+        permission="ploneintranet.workspace.ManageWorkspace"
+        class=".workspace.ReorderTags"
+        template="templates/panel-reorder-tags.pt"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
       name="confirmation-remove-special-role"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       permission="collective.workspace.ManageRoster"
@@ -305,7 +351,6 @@
         for="*"
         class=".workspace.AllUsersJSONView"
         permission="zope2.View"
-        layer="..interfaces.IPloneintranetWorkspaceLayer"
         />
 
     <browser:page
@@ -313,13 +358,19 @@
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       class=".workspace.AllGroupsJSONView"
       permission="collective.workspace.ManageRoster"
-      layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
     <browser:page
         name="allusers-and-groups.json"
         for="plone.app.layout.navigation.interfaces.INavigationRoot"
         class=".workspace.AllUsersAndGroupsJSONView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        name="workspaces.json"
+        for="*"
+        class=".workspace.WorkspacesJSONView"
         permission="zope2.View"
         layer="..interfaces.IPloneintranetWorkspaceLayer"
         />
@@ -328,7 +379,7 @@
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"
-      permission="zope.Public"
+      permission="zope2.View"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
@@ -336,7 +387,7 @@
       for="*"
       name="breadcrumbs_view"
       class="ploneintranet.layout.viewlets.navigation.TwoLevelBreadcrumbs"
-      permission="zope.Public"
+      permission="zope2.View"
       allowed_attributes="breadcrumbs"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
@@ -357,5 +408,82 @@
       permission="zope2.View"
       layer="..interfaces.IWorkspaceAppContentLayer"
       />
+
+    <browser:page
+      for="*"
+      name="pi_modification_mail_notification"
+      class=".mail_notification.MailNotificationView"
+      template="templates/pi_modification_mail_notification.pt"
+      permission="zope2.View"
+      layer="..interfaces.IWorkspaceAppContentLayer"
+      />
+
+    <browser:page
+        name="context-menu"
+        for="*"
+        permission="zope2.View"
+        class=".context-menu.ContextMenuView"
+        template="templates/context-menu.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="pinning-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.ViewIconified"
+        template="templates/pinning_link.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+    <browser:page
+        name="pin"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.PinView"
+        template="templates/pin.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="unpin"
+        for="*"
+        permission="zope2.View"
+        class=".pinning.UnpinView"
+        template="templates/unpin.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <adapter
+        for="*"
+        provides=".pinning.IPinner"
+        factory=".pinning.Pinner"
+        />
+
+    <browser:page
+        name="archive"
+        for="*"
+        permission="zope2.View"
+        class=".archive.ArchiveView"
+        template="templates/archive.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="unarchive"
+        for="*"
+        permission="zope2.View"
+        class=".archive.UnarchiveView"
+        template="templates/archive.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
+
+    <browser:page
+        name="archive-link-iconified"
+        for="*"
+        permission="zope2.View"
+        class=".archive.ArchiveLinkIconified"
+        template="templates/archive_link.pt"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+    />
 
 </configure>

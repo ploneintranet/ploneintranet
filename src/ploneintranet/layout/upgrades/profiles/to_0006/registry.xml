@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.layout.login_splash">
+    <field type="plone.registry.field.TextLine">
+      <title>Splash image for the login form</title>
+      <description>
+        Insert a path relative to the portal_url
+      </description>
+      <required>False</required>
+    </field>
+    <value purge="false">++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg</value>
+  </record>
+</registry>

@@ -71,5 +71,4 @@ class CutView(BaseCartView):
                 request=request,
                 type="info",
             )
-
         return self.index()

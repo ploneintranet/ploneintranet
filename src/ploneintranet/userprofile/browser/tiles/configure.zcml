@@ -14,15 +14,9 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       name="contacts_search.tile"
       permission="zope2.View"
+      class=".contacts_search.ContactsSearch"
       template="templates/contacts_search.pt"
       title="Contacts Search"
       />
 
-  <browser:page
-      name="contacts_results"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      permission="zope2.View"
-      template="templates/contacts_results.pt"
-      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
-      />
 </configure>

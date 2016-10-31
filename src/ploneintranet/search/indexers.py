@@ -47,6 +47,8 @@ def friendly_type_name(obj):
                 )
                 return default_name
 
+            if not mimetypeitem:
+                return default_name
             mimetype_name = mimetypeitem[0].name()
             if mimetype_name != contenttype:
                 return mimetype_name

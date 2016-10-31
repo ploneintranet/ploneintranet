@@ -1,20 +1,16 @@
 # coding=utf-8
 from AccessControl import Unauthorized
-from collections import defaultdict
-from datetime import date
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.memoize import forever
 from plone.memoize.view import memoize
+from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import shorten
 from ploneintranet.network.interfaces import INetworkTool
-from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.userprofile.browser.forms import get_fields_for_template
 from ploneintranet.userprofile.browser.forms import UserProfileViewForm
-from ploneintranet.workspace.browser.tiles.workspaces import escape_id_to_class
-from ploneintranet.workspace.browser.tiles.workspaces import get_workspaces_css_mapping  # noqa
+from ploneintranet.workspace.adapters import AVAILABLE_GROUPS
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from Products.Five import BrowserView
 from zExceptions import NotFound
@@ -45,25 +41,98 @@ class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
     """View for user profile."""
 
-    # List of types excluded when loading the documents tab of the profile
-    _types_not_to_search_for = {
-        'Folder',
-        'Plone Site',
-        'TempFolder',
-        'ploneintranet.library.app',
-        'ploneintranet.library.folder'
-        'ploneintranet.library.section',
-        'ploneintranet.userprofile.userprofile',
-        'ploneintranet.userprofile.userprofilecontainer',
-        'ploneintranet.workspace.workspacecontainer',
-        'ploneintranet.workspace.workspacefolder',
-        'todo',
-    }
-
     my_groups = my_workspaces = []
 
+    _default_tabs = (
+        u'userprofile-view',
+        u'userprofile-info',
+        u'userprofile-followers',
+        u'userprofile-following',
+        u'userprofile-documents',
+        u'userprofile-workspaces',
+        u'userprofile-group',
+    )
+
+    @property
+    @memoize
+    def allowed_tabs(self):
+        ''' Filter out some tabs according to the registry configuration
+        '''
+        try:
+            banned_tabs = plone_api.portal.get_registry_record(
+                'ploneintranet.userprofile.userprofile_hidden_info'
+            )
+        except plone_api.exc.InvalidParameterError:
+            banned_tabs = ()
+        if 'userprofile-follow*' in banned_tabs:
+            banned_tabs += (u'userprofile-followers', u'userprofile-following')
+        return [
+            tab for tab in self._default_tabs
+            if tab not in banned_tabs
+        ]
+
+    @property
+    @memoize
+    def display_tabs(self):
+        ''' Check if the navigation should be displayed
+        '''
+        return len(self.allowed_tabs) > 1
+
+    @property
+    @memoize
+    def default_tab(self):
+        ''' Check if the navigation should be displayed
+        '''
+        allowed_tabs = self.allowed_tabs
+        if not allowed_tabs:
+            return u''
+        return allowed_tabs[0]
+
+    @property
+    @memoize
+    def display_followers(self):
+        ''' Check if we should display the followers informations
+        '''
+        return u'userprofile-followers' in self.allowed_tabs
+
+    @property
+    @memoize
+    def display_following(self):
+        ''' Check if we should display the following informations
+        '''
+        return u'userprofile-following' in self.allowed_tabs
+
+    @property
+    @memoize
+    def display_more_info_link(self):
+        ''' The more information link does not make sense if the only
+        tab available is the userprofile-info or if userprofile-info is not
+        between the allowed tabs
+        '''
+        return self.display_tabs and 'userprofile-info' in self.allowed_tabs
+
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    def disable_diazo(self):
+        ''' Disable diazo if this is an ajax call
+        '''
+        self.request.response.setHeader('X-Theme-Disabled', '1')
+
     def update(self):
-        self._get_my_groups_and_workspaces()
+        if (
+            u'userprofile-workspaces' in self.allowed_tabs or
+            u'userprofile-group' in self.allowed_tabs
+        ):
+            # BBB: this is setting two attributes my_workspaces and my_groups
+            # it would be better to not call this function and
+            # have two memoized properties that are lazy loaded on demand
+            self._get_my_groups_and_workspaces()
+        self._update_recent_contacts()
 
     def is_me(self):
         """Does this user profile belong to the current user"""
@@ -101,7 +170,6 @@ class UserProfileView(UserProfileViewForm):
 
         # Don't show certain system groups
         group_filter = ['Members', 'AuthenticatedUsers', 'All Intranet Users']
-        css_mapping = get_workspaces_css_mapping()
         for group in my_groups:
             if not group:
                 continue
@@ -111,18 +179,15 @@ class UserProfileView(UserProfileViewForm):
                 # This is a groupspace
                 uid = group.getProperty('uid')
                 url = portal_url + group.getProperty('workspace_path')
-                css_class = " ".join((
-                    escape_id_to_class(group.id),
-                    css_mapping.get(
-                        group.getProperty('portal_type', ''), ''),
-                ))
                 workspaces[uid] = dict(
                     url=url,
                     title=group.getProperty('title'),
                     description=group.getProperty('description'),
-                    css_class=css_class,
                 )
-            elif ":" in group.id and len(group.id.split(':')[1]) == 32:
+            elif (
+                ":" in group.id and len(group.id.split(':')[1]) >= 32 and
+                group.id.split(':')[0] in AVAILABLE_GROUPS
+            ):
                 # Special group that denotes membership in a workspace
                 id, uid = group.id.split(':')
                 # If this workspaces has already been added via the
@@ -134,15 +199,10 @@ class UserProfileView(UserProfileViewForm):
                 # User might not be allowed to access the ws
                 if ws is None:
                     continue
-                css_class = " ".join((
-                    escape_id_to_class(ws.id),
-                    css_mapping.get(ws.portal_type, ''),
-                ))
                 workspaces[uid] = dict(
                     url=ws.absolute_url(),
                     title=ws.title,
                     description=ws.description,
-                    css_class=css_class,
                 )
             else:
                 # "regular" group that is not a workspace
@@ -170,110 +230,24 @@ class UserProfileView(UserProfileViewForm):
             details.append({
                 'title': profile.fullname,
                 'url': profile.absolute_url(),
-                'avatar_url': pi_api.userprofile.avatar_url(userid),
+                'avatar_tag': pi_api.userprofile.avatar_tag(userid),
             })
         return details
 
+    def _update_recent_contacts(self):
+        my_profile = pi_api.userprofile.get_current()
+        if not my_profile or my_profile.username == self.context.username:
+            return
+        safeWrite(my_profile, self.request)
+        if my_profile.recent_contacts is None:
+            my_profile.recent_contacts = []
+        if self.context.username in my_profile.recent_contacts:
+            my_profile.recent_contacts.remove(self.context.username)
+        my_profile.recent_contacts.insert(0, self.context.username)
+        my_profile.recent_contacts = my_profile.recent_contacts[:20]
+
     def fields_for_display(self):
         return get_fields_for_template(self)
-
-    @memoize
-    def my_documents(self):
-        ''' Return the list of my documents
-        '''
-        search_util = getUtility(ISiteSearch)
-        pt = plone_api.portal.get_tool('portal_types')
-        types = [
-            t for t in pt.keys() if t not in self._types_not_to_search_for
-        ]
-        response = search_util.query(
-            filters={
-                'Creator': self.context.getId(),
-                'portal_type': types,
-            },
-            step=9999,
-        )
-        return response
-
-    @memoize
-    def my_documents_by_date(self):
-        ''' Return the list of my documents grouped by date
-        '''
-        docs = defaultdict(list)
-        today = date.today()
-
-        for result in self.my_documents():
-            if hasattr(result.modified, 'date'):
-                day_past = (today - result.modified.date()).days
-            else:
-                day_past = 100
-            if day_past < 1:
-                docs[_('Today')].append(result)
-            elif day_past < 7:
-                docs[_('Last week')].append(result)
-            elif day_past < 30:
-                docs[_('Last month')].append(result)
-            else:
-                docs[_('All time')].append(result)
-        return docs
-
-    @memoize
-    def my_documents_by_letter(self):
-        ''' Return the list of my documents grouped by letter
-        '''
-        docs = defaultdict(list)
-        for result in self.my_documents():
-            stripped_title = result.title.strip()
-            if stripped_title:
-                key = stripped_title[0].upper()
-                if isinstance(key, unicode):
-                    key = key.encode('utf8')
-            else:
-                _('No title')
-            docs[key].append(result)
-        return docs
-
-    @memoize
-    def my_documents_sorted_groups(self):
-        ''' Return the list of my documents grouped by letter
-        '''
-        if self.request.get('by_date'):
-            return [
-                _('Today'),
-                _('Last week'),
-                _('Last month'),
-                _('All time'),
-            ]
-        groups = sorted(self.my_documents_by_letter().keys())
-        if _('No title') in groups:
-            no_title = groups.pop(groups.index(_('No title')))
-            groups.append(no_title)
-        return groups
-
-    @memoize
-    def my_documents_grouped(self):
-        ''' Return the list of my documents grouped
-        '''
-        if self.request.get('by_date'):
-            return self.my_documents_by_date()
-        return self.my_documents_by_letter()
-
-    @forever.memoize
-    def friendly_type_to_icon_class(self, type_name):
-        ''' Convert the friendly_type_name of the search results
-        into an css class
-
-        For the time being reuse the search one
-        '''
-        view = plone_api.content.get_view(
-            'search',
-            self.context,
-            self.request,
-        )
-        search_class = view.get_facet_type_class(type_name)
-        return search_class.replace('type-', 'icon-file-', 1).replace(
-            'icon-file-rich', 'icon-doc-text'
-        )
 
     @memoize
     def user_search_placeholder(self):
@@ -283,6 +257,25 @@ class UserProfileView(UserProfileViewForm):
             mapping={"user_name": self.context.fullname}
         )
         return msg
+
+    def get_avatar_tag(self):
+        return pi_api.userprofile.avatar_tag(
+            username=self.context.username,
+            link_to='image',
+        )
+
+
+class UserProfileTabView(UserProfileView):
+    ''' Personalize the userprofile tab view class to not be transformed
+    by diazo if we have an ajax call
+    '''
+
+    def __call__(self):
+        ''' Set diazo.off if this is an ajax request
+        '''
+        if self.is_ajax():
+            self.disable_diazo()
+        return super(UserProfileTabView, self).__call__()
 
 
 class AuthorView(BaseAuthorView):

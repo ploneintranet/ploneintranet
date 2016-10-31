@@ -1,8 +1,9 @@
 *** Keywords ***
 
+# first responsive breakpoint is already at 1292px
 Prepare test browser
     Open test browser
-    Set window size  1024  900
+    Set window size  1300  1024
 
 I'm logged in as a '${ROLE}'
     Enable autologin as  ${ROLE}
@@ -14,7 +15,7 @@ I am logged in as the user ${userid}
     Go To  ${PLONE_URL}/login
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password  secret
-    Click button  Login
+    Submit Form  css=#login-panel
 
 # add content keyword that supports
 # both dexterity and archetypes
@@ -117,6 +118,10 @@ I go to the Archived Workspace
     Go To  ${PLONE_URL}/workspaces/archived-workspace
     Wait Until Page Does Not Contain Element  css=.injecting-content
 
+I go to the Terms and Conditions Document
+    Go To  ${PLONE_URL}/workspaces/service-announcements/terms-and-conditions
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can go to the Open Market Committee Workspace
     Go To  ${PLONE_URL}/workspaces/open-market-committee
 
@@ -132,6 +137,16 @@ I open the password reset form
 The page is not found
     Page should contain  This page does not seem to exist
 
+I cannot reset my password with an illegal request posing as
+    [arguments]    ${user_name}
+    Page should contain  Set your password
+    Input text  css=input#userid  ${user_name}
+    Input text  css=input#password  impostor
+    Input text  css=input#password2  impostor
+    Click button  Set my password
+    Wait until page contains  Error setting password
+
+
 # *** Posting and stream related keywords ***
 
 I can see updates by
@@ -142,9 +157,14 @@ I cannot see updates by
     [arguments]  ${user_fullname}
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
 
+I can see an attachment
+    [arguments]  ${filename}
+    Page Should Contain Link  ${filename}
+
 I can follow the profile link for user
     [arguments]  ${user_fullname}
-    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
+    [Documentation]  We click on the second post item, because we know that Christian Stoney has 2 posts and the 1st post can be hidden by a stupid scroll issue after activating the network filter
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item'][2]//div[@class='post-header']//h4[text()='${user_fullname}']/..
 
 I can see updates tagged
     [arguments]  ${tag}
@@ -212,6 +232,7 @@ The message is visible after a reload
 
 I post a reply on a status update
     [arguments]  ${message}  ${reply_message}
+    Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
     Click Element  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]
     Wait Until Element Is visible  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../button[@name='form.buttons.statusupdate']
     Input Text  xpath=//div[@id='activity-stream']//div[@class='post item']//section[@class='post-content']//p[contains(text(), '${message}')]//..//..//../textarea[contains(@class, 'pat-content-mirror')]  ${reply_message}
@@ -223,6 +244,7 @@ The reply is visible as a comment
 
 The reply is not visible
     [arguments]  ${message}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Element should not be visible  xpath=//div[@id='activity-stream']//div[@class='post item']//div[@class='comments']//section[@class='comment-content']//p[contains(text(), '${message}')]
 
 The reply is visible after a reload
@@ -336,6 +358,10 @@ I can set workspace listing order
     [arguments]  ${value}
     Select From List  css=select[name=sort]  ${value}
 
+I Click only my workspaces
+    Click Element  css=input[name=member]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can create a new template workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/templates/++add++ploneintranet.workspace.workspacefolder
@@ -426,6 +452,35 @@ I can turn the workspace into a division
     Wait until page contains  Attributes changed
     Click button  Close
 
+I can change the custom order of tags
+    Click Link  Change custom order of tags
+    Wait until page contains  Reorder tags
+
+I can swap Tag1 with Tag2
+    [Documentation]  The Drag and Drop keyword was not "dropping", so I'm just swapping the values, which still tests that they are stored correctly.
+    Execute javascript  $('[value=Tag1]').attr('value', 'Tag2temp')
+    Execute javascript  $('[value=Tag2]').attr('value', 'Tag1')
+    Execute javascript  $('[value=Tag2temp]').attr('value', 'Tag2')
+    Click button  xpath=//button[@name='batch-function']
+
+The tags are reordered
+    # The first tag is now Tag2
+    Wait until page contains element  xpath=(//li[contains(@class,"sortable-item")])[1]/p[text()="Tag2"]
+
+I see that calendar sharing is disabled
+    Checkbox should not be selected  xpath=//input[@name="event_global_default"]
+
+I see that calendar sharing is enabled
+    Checkbox should be selected  xpath=//input[@name="event_global_default"]
+
+I enable calendar sharing
+    Select checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
+
+I disable calendar sharing
+    Unselect checkbox  xpath=//input[@name="event_global_default"]
+    Wait until page contains  Attributes changed
+
 I can archive the workspace
     Select checkbox  xpath=//input[@name='archival_date']
     Wait Until Page Does Not Contain Element  css=.injecting-content
@@ -510,7 +565,7 @@ I can see upcoming events
     Page Should Contain Element  xpath=//ul[@class='event-list']//a/h4[text()[contains(.,'Plone Conf')]]
 
 Older events are hidden
-    Element should not be visible  jquery=div#older-events a
+    Element should be visible  jquery=div#older-events a
 
 I can go to the sidebar tasks tile
     Go To  ${PLONE_URL}/workspaces/open-market-committee
@@ -571,8 +626,8 @@ I can invite Alice to join the workspace
     I can invite Alice to the workspace
 
 I can invite Alice to join the workspace from the menu
-    Wait Until Page Contains Element  link=Functions
-    Click Link  link=Functions
+    Wait Until Page Contains Element  css=#member-list-more-menu
+    Execute Javascript  jquery=$('#member-list-more-menu .panel-content').show()
     Wait until page does not contain element   xpath=//div[@id='member-list-more-menu']/div[contains(@class, 'panel-content in-progress')]
     Wait until element is visible  xpath=//div[@id='member-list-more-menu']/div[@class='panel-content']
     Click Link  xpath=//ul[@class='menu']//a[.='Add user']
@@ -587,7 +642,7 @@ I can invite Alice to the workspace
 
 I give the Consumer role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -597,8 +652,8 @@ I give the Consumer role to Allan
 
 I give the Producer role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -610,8 +665,8 @@ I give the Producer role to Allan
 
 I give the Admin role to Allan
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
-    Wait until element is visible   xpath=//div[@class='batch-functions']//button[@value='role']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
+    Wait until element is visible   xpath=//div[contains(@class, 'batch-functions')]//button[@value='role']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Change role
     Wait until element is visible  //div[@class='panel-content']//select[@name='role']
@@ -644,7 +699,7 @@ I can change Allan's role to Moderator
 
 I can remove Allan from the workspace members
     I can open the workspace member settings tab
-    Click link  xpath=//div[@id='member-list-functions']//a[text()='Select']
+    Click element  css=div#member-list-functions div.quick-functions a.toggle-select
     Wait until element is visible    css=button[value='remove']
     Click Element  xpath=//input[@value='allan_neece']/..
     Click Button  Remove
@@ -654,7 +709,7 @@ I can remove Allan from the workspace members
     Page Should Not Contain Element  xpath=//input[@value='allan_neece']/..
 
 The breadcrumbs show the name of the workspace
-    Page Should Contain Element  xpath=//a[@id='breadcrumbs-2' and text()='Open Market Committee']
+    Page Should Contain Element  xpath=//a[@id='breadcrumbs-1' and text()='Open Market Committee']
 
 I can enter the Manage Information Folder
     Click Link  link=Documents
@@ -677,42 +732,122 @@ Go back to the workspace by clicking the parent button
     Wait Until Page Contains  Projection Materials
 
 I can search for items
-    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Public bodies reform')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Manage Information')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Projection Materials')]]
     Input Text  xpath=//input[@name='sidebar-search']  Info
-    Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Public bodies reform']
-    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Manage Information']
-    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()='Projection Materials']
+    Wait Until Page Contains Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Public bodies reform')]]
+    Page Should Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Manage Information')]]
+    Page Should Not Contain Element  xpath=//form[@id='items']/fieldset/label/a/strong[text()[contains(., 'Projection Materials')]]
 
 I can see that the workspace is archived
     [arguments]  ${title}
     Wait until page contains element  xpath=//a/strong[text()='Archived']
 
+
+I can archive the current context
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Archive this document"]
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=#extra-options [title="Unarchive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+
+I can unarchive the current context
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Unarchive this document"]
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=#extra-options [title="Archive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+
 I see the option to create a document
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
+
+I can show only my documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
+    Select checkbox  xpath=//input[@name='show_my_documents']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see that the first item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:first:contains(${title})
+
+I can see that the last item displayed in the navigation is
+    [arguments]  ${title}
+    Page Should Contain Element  jquery=#items .item:last:contains(${title})
+
+I can see that the only item displayed in the navigation is
+    [arguments]  ${title}
+    I can see that the first item displayed in the navigation is  ${title}
+    I can see that the last item displayed in the navigation is  ${title}
 
 I can create a new document
     [arguments]  ${title}
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Click Button  css=#form-buttons-create
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
+# https://github.com/quaive/ploneintranet/issues/609
+I can create a new link
+    [arguments]  ${title}
+    Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
+    Click link  Create link
+    Wait Until Page Contains Element  css=.panel-content input[name=title]
+    Input Text  css=.panel-content input[name=title]  text=${title}
+    Input Text  css=.panel-content input[name=remoteUrl]  text=http://quaive.com/
+    Click Button  css=#form-buttons-create
+    Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
+
+I can edit the new link
+    [arguments]  ${title}
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Input Text  remoteUrl  http://quaive.net#
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button   Save
+    Wait Until Element Is Visible  css=div.pat-notification-panel.success
+    Wait Until Page Contains  Your changes have been saved.
+    Click button  Close
+
+I can publish the new link
+    [arguments]  ${title}
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click element    xpath=//fieldset[@id='workflow-menu']
+    Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
+    Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
+
+I can see the new link
+    [arguments]  ${title}
+    Click link  Documents
+    Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
+    Click Link  jquery=.type-link a:contains('${title}')
+    Wait Until Page Contains Element  jquery=#document-title:contains('${title}')
+    Page Should Contain Element  jquery=#document-content article a:contains('http')
+
 I cannot create a new document
     Click link  Documents
     Wait until page contains  Expand sidebar
-    Page Should Not Contain   Create document
-    Page Should Not Contain Link  Functions
+    Page Should Not Contain Element  css=#more-menu a.create-document
 
 I can create a new folder
     Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
@@ -736,7 +871,7 @@ I can edit the new folder
 
 I can create a new image
     Click link  Documents
-    Click link  Functions
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Image
@@ -747,26 +882,30 @@ I can create a new image
 
 I can create a structure
     Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create folder
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Another Folder
     Click Button  css=#form-buttons-create
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
     Click link  Documents
+    Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
-    Wait Until Page Contains Element  css=.panel-content form
+    Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
-    Click Button  css=#form-buttons-create
+    Click Button  css=#pat-modal #form-buttons-create
     Wait until page does not contain element   xpath=//div[@id='document-body']/div[contains(@class, 'injecting')]
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='Document in subfolder']
     Wait until page does not contain element   xpath=//div[@id='application-body']/div[contains(@class, 'injecting')]
     Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
+    Wait until page does not contain element   xpath=//div[@id='application-body']/div[contains(@class, 'injecting')]
     Go To  ${PLONE_URL}/workspaces/open-market-committee
+    Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
     Click element  xpath=//a/strong[contains(text(), 'Another Folder')]
     Wait Until Page Contains Element  xpath=//a[@class='pat-inject follow pat-switch'][contains(@href, '/document-in-subfolder')]
@@ -849,17 +988,16 @@ Then I can delete an event
     ### Solutions proposed on the web address this programmatically with a combination of looping
     ### and exception handling. I wouldn't know of an equivalent solution in robot.
     sleep  2
-    Wait until element is visible  css=.meta-bar .icon-trash
-    Click Element  css=.meta-bar .icon-trash
+    Click Element  css=div.quick-functions a.icon-ellipsis
+    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Click Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button  I am sure, delete now
     Wait Until Page Contains  has been deleted
-    Element should not be visible  css=#workspace-documents
-    Element should be visible  css=#workspace-events
     Element should not be visible  jquery=a:contains("${title}")
 
 The file appears in the sidebar
-    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()='bärtige_flößer.odt']
+    Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()[contains(., 'bärtige_flößer.odt')]]
 
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]
@@ -867,7 +1005,7 @@ The upload appears in the stream
 # The self-healing Close messages below are a source of Heisenbugs in the test
 
 I submit the content item
-    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Pending')]
     Wait until page contains  The workflow state has been changed
@@ -885,7 +1023,7 @@ I retract the content item
     Wait until page does not contain  The workflow state has been changed
 
 I can publish the content item
-    Wait until element is visible  xpath=//fieldset[@id='workflow-menu']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Click Element    xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
     Wait Until Element Is Visible   xpath=//fieldset[@id='workflow-menu']//select/option[@selected='selected' and contains(text(), 'Published')]
@@ -893,6 +1031,7 @@ I can publish the content item
     Wait until page does not contain  The workflow state has been changed
 
 I cannot publish the content item
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click element    xpath=//fieldset[@id='workflow-menu']
     Element should be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Draft')]
     Element should not be visible   xpath=//fieldset[@id='workflow-menu']//select/option[contains(text(), 'Published')]
@@ -904,6 +1043,9 @@ I can edit the document
 I cannot edit the document
     Element should not be visible  xpath=//div[@id='document-body']//div[@id='editor-toolbar']
     Element should not be visible  xpath=//div[@id='document-body']//div[@class='meta-bar']//button[@type='submit']
+
+I cannot edit the link
+    Click link  Documents
 
 I can see the document
     [arguments]  ${title}
@@ -950,6 +1092,7 @@ I view the image
 I upload a new image
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
@@ -957,8 +1100,8 @@ I upload a new image
 
 I browse to a file
     I browse to a workspace
-    Wait Until Page Contains Element  xpath=//a[contains(@href, 'minutes')]
-    Click Link  xpath=//a[contains(@href, 'minutes/view')]
+    Wait Until Page Contains Element  jquery=#sidebar-content #workspace-documents .type-word :contains(Minutes)
+    Click Element  jquery=#sidebar-content #workspace-documents .type-word :contains(Minutes)
 
 I view the file
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/minutes/view
@@ -966,6 +1109,7 @@ I view the file
 I upload a new file
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
@@ -981,9 +1125,7 @@ I change the title
     Comment  Toggle the metadata to give the JavaScript time to load
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
-    Click Link  link=Toggle extra metadata
     Input Text  title  New title ♥
-    Wait Until Page Contains  New title ♥
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click Button  Close
@@ -1105,14 +1247,14 @@ I can create a new case from a template
 I can delete a case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/workspaces/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
 I can delete a template case
     [arguments]  ${case_id}
     Go To  ${PLONE_URL}/templates/${case_id}/delete_confirmation
-    Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
+    Wait until page contains element    xpath=//div[@class='buttons panel-footer']//button[@name='form.buttons.Delete']
     Click Button    I am sure, delete now
     Wait Until Page Contains    has been deleted
 
@@ -1330,14 +1472,15 @@ I see that the workspace is not frozen
 # *** search related keywords ***
 
 I can see the site search button
-    Page Should Contain Element  css=#global-header input.search
+    Wait Until Page Contains Element  css=#global-nav-search input.search
 
 I can search in the site header for ${SEARCH_STRING}
-    Input text  css=#global-header input.search  ${SEARCH_STRING}
-    Submit Form  css=#global-header form#global-nav-search
+    Click Element  css=#global-nav-search input.search
+    Input text  css=#global-nav-search input.search  ${SEARCH_STRING}
+    Submit Form  css=form#global-nav-search
 
 I can see the search result ${SEARCH_RESULT_TITLE}
-    Element should be visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
+    Wait Until Element Is visible  jquery=.results a:contains("${SEARCH_RESULT_TITLE}")
 
 I cannot see the search result ${SEARCH_RESULT_TITLE}
     Element should not be visible  link=${SEARCH_RESULT_TITLE}
@@ -1399,5 +1542,210 @@ I can sort search results by ${FIELD}
 
 I can click the ${TAB_NAME} tab
     Click Link  link=${TAB_NAME}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 # *** END search related keywords ***
+
+# *** bookmark related keywords ***
+
+I can bookmark the application
+    [arguments]  ${application}
+    I can click the Apps tab
+    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
+    I can click the Apps tab
+    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Remove bookmark')]
+
+I can unbookmark the application
+    [arguments]  ${application}
+    I can click the Apps tab
+    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Remove bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click button  Close
+    I can click the Apps tab
+    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Bookmark')]
+
+I can bookmark the workspace
+    [arguments]  ${workspace}
+    I can click the Workspaces tab
+    Click element  xpath=//h3[contains(text(),'${workspace}')]/../../a[contains(text(), 'Bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Workspaces tab
+    Page should contain element  xpath=//h3[contains(text(), '${workspace}')]/../../a[contains(text(), 'Remove bookmark')]
+
+I can unbookmark the workspace
+    [arguments]  ${workspace}
+    I can click the Workspaces tab
+    Click element  xpath=//h3[contains(text(),'${workspace}')]/../../a[contains(text(), 'Remove bookmark')]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    I can click the Workspaces tab
+    Page should contain element  xpath=//h3[contains(text(), '${workspace}')]/../../a[contains(text(), 'Bookmark')]
+
+Bookmark the current context
+    Click Element  jquery=.quick-functions :contains('Bookmark')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Remove bookmark')
+
+Unbookmark the current context
+    Click Element  jquery=.quick-functions :contains('Remove bookmark')
+    Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.pat-notification-panel :contains('Close')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.quick-functions :contains('Bookmark')
+
+I can bookmark the workspace document
+    [arguments]  ${document}
+    I open the sidebar documents tile
+    Click Element  xpath=//strong[contains(text(), 'Manage Information')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  xpath=//strong[contains(text(), '${document}')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Bookmark the current context
+
+I can unbookmark the workspace document
+    [arguments]  ${document}
+    I open the sidebar documents tile
+    Click Element  xpath=//strong[contains(text(), 'Manage Information')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  xpath=//strong[contains(text(), '${document}')]/..
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Unbookmark the current context
+
+I can bookmark the task
+    [arguments]  ${task}
+    I can go to the Example Case
+    I can go to the sidebar tasks tile of my case
+    Click link  ${task}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Bookmark the current context
+
+I can unbookmark the task
+    [arguments]  ${task}
+    I can go to the Example Case
+    I can go to the sidebar tasks tile of my case
+    Click link  ${task}
+    Unbookmark the current context
+
+I can go to the profile of
+    [arguments]  ${fullname}
+    I open the Dashboard
+    Input Text  jquery=#portlet-contacts [name=SearchableText]  ${fullname}
+    Wait Until Page Contains Element  jquery=#portlet-contacts .follow .title:contains(${fullname})
+    Click Element  jquery=#portlet-contacts .follow .title:contains(${fullname})
+    Wait Until Page Contains Element  jquery=#person-timeline figcaption :contains(${fullname})
+
+I can bookmark the user
+    [arguments]  ${fullname}
+    I can go to the profile of  ${fullname}
+    Click Element  css=.icon-bookmark-empty
+    Wait Until Page Contains Element  css=.icon-bookmark.active
+
+I can unbookmark the user
+    [arguments]  ${fullname}
+    [documentation]  When using "I can go to the profile of" here then the selector for the search results in the contacts portlet fails if there's a non-ascii character in the name. We use the global search as a workaround.
+    Input Text  css=#global-nav-search input.search  ${fullname}
+    Submit Form  css=form#global-nav-search
+    Wait Until Page Contains Element  xpath=//*[@id='search-result']//dt[contains(@class, 'type-people')]//a[contains(text(), '${fullname}')]
+    Click Element  xpath=//*[@id='search-result']//dt[contains(@class, 'type-people')]//a[contains(text(), '${fullname}')]
+    Wait Until Page Contains Element  jquery=#person-timeline figcaption :contains(${fullname})
+    Click Element  css=.icon-bookmark.active
+    Wait Until Page Contains Element  css=.icon-bookmark-empty
+
+I can go to the bookmark application
+    I can Click the Apps tab
+    Click Element  jquery=h3:contains(Bookmarks)
+    Wait until element is visible  jquery=.bookmark :contains(Example Case)
+
+I can filter bookmarked application
+    Input text  jquery=.application-bookmarks [name=SearchableText]  bookmark
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.bookmark :contains(Bookmark)
+    Page should not contain element  jquery=.bookmark :contains(Example Case)
+
+I can filter bookmarked content
+    Input text  jquery=.application-bookmarks [name=SearchableText]  example
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=.bookmark :contains(Example Case)
+    Page should not contain element  jquery=.bookmark :contains(Bookmark)
+
+I can see the bookmarked applications
+    Click Element  jquery=[href=#directory-apps]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.tile.app-bookmarks
+
+I can see the bookmarked workspaces
+    Click Element  jquery=[href=#directory-workspaces]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.tile.workspace-example-case
+
+I can see the bookmarked people
+    Click Element  jquery=[href=#directory-people]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  css=.user-cards .user-card
+
+I can see the bookmarked documents
+    Click Element  jquery=[href=#directory-documents]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  jquery=figcaption:contains('Budget Proposal')
+
+I can see bookmark grouped by workspace
+    Select From List  group_by  workspace
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    # I can see a ws
+    Page should contain element  xpath=//h3[contains(text(), 'Example Case')]/../ul/li/a[contains(text(), 'Example Case')]
+    # a document inside it
+    Page should contain element  xpath=//h3[contains(text(), 'Example Case')]/../ul/li/a[contains(text(), 'Draft proposal')]
+    # and somethign unrelated
+    Page should contain element  xpath=//h3[contains(text(), 'Not in a workspace')]/../ul/li/a[contains(text(), 'Bookmark')]
+
+I can see bookmark grouped by creation date
+    Select From List  group_by  created
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Page should contain element  xpath=//h3[contains(text(), 'Last week')]/../ul/li/a[contains(text(), 'Draft proposal')]
+
+I can see the bookmarks tile
+    Wait Until Page Contains Element  jquery=.portlet .portlet-title :contains(Bookmarks)
+
+I can query the bookmarks tile for
+    [arguments]  ${query}
+    Input Text  jquery=#portlet-bookmarks-dashboard [name=SearchableText]  ${query}
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I click the portlet tab
+    [arguments]  ${title}
+    Click Element  jquery=.portlet .tabs :contains(${title})
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I can see in the bookmark tile that the first bookmark is
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard li:first a  ${text}
+
+I can see in the bookmark tile that the last bookmark is
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard li:last a  ${text}
+
+I can see in the bookmark tile that we have no bookmarks matching
+    [arguments]  ${text}
+    Element should contain  jquery=#bookmarks-search-items-dashboard .pat-message  No bookmarks were found matching ${text}
+
+# *** END bookmark related keywords ***
+
+# *** mail related keywords ***
+
+I can inspect mail metadata
+    Click Link  jquery=a:contains("Files for application 2837")
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Link  jquery=.meta-data-toggle
+    Element should be visible  jquery=a:contains('pilz@pilzen.de')
+
+
+I can see the preview of the
+    [arguments]  ${title}
+    Click Element  jquery=.document-preview :contains(${title})
+    Click Element  jquery=.tooltip-container:last .pat-gallery :contains(Preview)
+    Click Element  css=.pswp__button--close
+
+# *** END mail related keywords ***

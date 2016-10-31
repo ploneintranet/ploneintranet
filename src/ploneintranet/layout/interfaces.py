@@ -6,6 +6,8 @@ from plone.app.event.interfaces import IBrowserLayer as IPloneAppEventLayer
 from zope.interface import Interface, Attribute
 
 
+# NB additional content interfaces in .app.
+
 class IPloneintranetLayoutLayer(Interface):
     """Marker interface for ploneintranet.layout installed"""
 
@@ -34,34 +36,38 @@ class IAppContainer(Interface):
     """
     Mixin for content interface to mark a content object in which
     a specific IAppLayer should be activated on traversal.
+
+    The implementer will typically also be an app.IApp.
+
+    NOT to be confused with the app.IAppsContainer toplevel singleton.
     """
 
     app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
     app_layers = Attribute("A list of IAppLayer to be activated on traversal")
 
 
-class IAppManager(Interface):
+class IAppView(Interface):
     """
-    Content interface to mark a content object as listable
-    in the "Apps" section.
+    View interface to mark a view as being placed within the Apps section.
+    I.e. event app views on the siteroot that don't have an IAppManager
+    context can be rendered 'within' the Apps section.
     """
-    # extra attributes check Cornelis
-    title = Attribute("Title of the app")
-    icon = Attribute("Icon")
+    app_name = Attribute("Name of the app. Will be set as app-{name} on body.")
 
 
-class IAppTile(Interface):
+class IAppContent(Interface):
     """
-    Tile interface to indicate a tile as listable on
-    the dashboard.
+    Adapter interface for content that is (possibly) contained within an
+    IAppContainer, including nested content deep in a tree.
     """
-    # Nothing implemented yet
-    # - coordinate with Cornelis
-    # - bring existing tiles in line
 
+    app_name = Attribute("Name of the app this content is contained in. "
+                         "Returns: string, or empty string if not contained.")
 
-# -- test fixture installed by profiles/testing --
+    in_app = Attribute("Is this content contained within an IAppContainer? "
+                       "Returns: boolean.")
 
-
-class IMockLayer(IAppLayer):
-    pass
+    def get_app():
+        """
+        Return the IAppContainer this content is contained in, or None.
+        """

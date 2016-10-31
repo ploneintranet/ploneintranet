@@ -7,7 +7,13 @@
 
   <includeDependencies package="." />
 
+  <permission
+      id="ploneintranet.messaging.usemessaging"
+      title="Plone Intranet: Use Messaging"
+      />
+
   <include package=".browser" />
+  <include package=".upgrades" />
 
   <genericsetup:registerProfile
       name="default"
@@ -19,7 +25,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="Plone Intranet: -- [Messaging]"
+      title="Plone Intranet: -- [Messaging uninstall]"
       directory="profiles/uninstall"
       description="Uninstalls the ploneintranet.messaging package"
       provides="Products.GenericSetup.interfaces.EXTENSION"

@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <body>
+    <div id="main">
+      <div id="content" class="modal">
+        <fieldset id="document-alert-bar">
+          <!-- no comparison/retraction support yet -->
+          <p class="pat-message notice animated zoomInDown">
+            <a href="${view/copied_to_url}">A copy of this document</a> is published in the library.
+          </p>
+        </fieldset>
+      </div>
+    </div>
+
+  </body>
+</html>

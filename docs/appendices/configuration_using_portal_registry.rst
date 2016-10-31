@@ -23,6 +23,7 @@ ploneintranet.layout.dashboard_activity_tiles
     **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
 
     **default**: ./@@contacts_search.tile,
+                 ./@@bookmarks.tile?id_suffix=-dashboard
                  ./@@news.tile,
                  ./@@my_documents.tile
 
@@ -31,7 +32,7 @@ ploneintranet.layout.dashboard_task_tiles
 
     tilte: List of dashboard activity tiles
 
-    **description**: This is the list of the tiles the user will see on the "Activity centric view" dashboard.
+    **description**: This is the list of the tiles the user will see on the "Task centric view" dashboard.
 
     **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
 
@@ -53,6 +54,18 @@ ploneintranet.layout.dashboard_default
     **type**: plone.registry.field.TextLine
 
     **default**: activity
+
+
+ploneintranet.layout.login_spash
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    tilte: Splash image for the login form
+
+    **description**: This is the path, relative to the portal url, used to customize the login_form splash image
+
+    **type**: plone.registry.field.TextLine
+
+    **default**: ++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg
 
 
 ploneintranet.search
@@ -220,6 +233,18 @@ ploneintranet.userprofile.locations
 ploneintranet.workpace
 ----------------------
 
+ploneintranet.workspace.allow_bulk_subscribe
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**title**: Allow the subscribe bulk action
+
+**description**: If set to True, the user can subscribe to the selected objects
+
+**type**: plone.registry.field.Bool
+
+**default**: True
+
+
 ploneintranet.workspace.case_manager.states
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -246,14 +271,25 @@ ploneintranet.workspace.externaleditor_always_activated
 
     **default**: False
 
+ploneintranet.workspace.sort_options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Workspace sort options
+
+    **description**: Controls in which way we are able to sort the workspaces
+
+    **type**: plone.registry.field.Dict {plone.registry.field.TextLine: plone.registry.field.TextLine}
+
+    **default**:  activity: Most active workspaces on top
+                  alphabet: Alphabetical
+                  newest: Newest workspaces on top
+
 ploneintranet.workspace.my_workspace_sorting
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: My workspace sorting.
 
-    **description**: At the moment we are able to handle the values
-                     "alphabet" and "newest".
-                     Planned is to allow sorting on "active".
+    **description**: At the moment we are able to handle the values "active", "alphabet" and "newest".
 
     **type**: plone.registry.field.TextLine
 
@@ -298,3 +334,14 @@ ploneintranet.workspace.sanitize_html
     **type**: plone.registry.field.Bool
 
     **default**: True
+
+ploneintranet.workspace.autosave_portal_types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Autosave portal types
+
+    **description**: Enable autosave for the selected portal types (works for edit forms inside workspaces)
+
+    **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
+
+    **default**: []

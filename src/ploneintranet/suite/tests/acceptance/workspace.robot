@@ -18,7 +18,6 @@ Test Teardown  Close all browsers
 
 # The case that a user created outside our local membrane context should be
 # able to create a workspace is not supported. Deactivating this test.
-
 # Manager can create a workspace
 #     Given I'm logged in as a 'Manager'
 #      Then I can create a new workspace    My new workspace
@@ -48,6 +47,13 @@ Alice can list workspaces sorted
      And Go to  ${PLONE_URL}/workspaces
      And I can see the last listed workspace is  Zulu
 
+Dollie can see only her workspaces
+    Given I am logged in as the user dollie_nocera
+      And Go to  ${PLONE_URL}/workspaces
+     Then I can see the last listed workspace is  Service announcements
+     When I Click only my workspaces
+     Then I can see the last listed workspace is  Open Market Committee
+
 Alice can create a division and list workspaces by division
     Given I am logged in as the user alice_lindstrom
       And I can create a new workspace  Aerospace
@@ -64,6 +70,27 @@ Alice can create a division and create a workspace for the division
      Then I can create a new workspace for the division  Engines  Aerospace
       And I can open the workspace advanced settings tab
       And I can see the workspace belongs to division  Aerospace
+
+Alice can change the custom order of tags
+    Given I am logged in as the user alice_lindstrom
+    And I can create a new workspace  TaggedWS
+    And I can create a new document  Tagged
+    And I tag the item  Tag1, Tag2, Tag3
+    And I can open the workspace advanced settings tab
+    And I can change the custom order of tags
+    And I can swap Tag1 with Tag2
+    And I can change the custom order of tags
+   Then the tags are reordered
+
+Alice can make a workspace calendar visible on the global calendar
+    Given I am logged in as the user alice_lindstrom
+    And I can create a new workspace  CalSpace
+    And I can go to the sidebar info tile
+    And I see that calendar sharing is disabled
+   Then I enable calendar sharing
+    And I see that calendar sharing is enabled
+    And I disable calendar sharing
+   Then I see that calendar sharing is disabled
 
 Non-member cannot see into a workspace
     Given I am logged in as the user alice_lindstrom
@@ -115,6 +142,13 @@ Search for objects in sidebar navigation
     Given I am in a workspace as a workspace member
      Then I can search for items
 
+I can see only my objects in sidebar navigation
+    Given I am in a workspace as a workspace member
+     Then I can enter the Manage Information Folder
+     Then I can create a new document  This is personal
+     Then I can show only my documents
+      And I can see that the only item displayed in the navigation is  This is personal
+
 The manager can modify workspace security policies
     Given I am in a workspace as a workspace admin
      Then I can open the workspace security settings tab
@@ -159,7 +193,9 @@ Create image
     Given I am in a workspace as a workspace member
      Then I can create a new image
 
+# https://github.com/quaive/ploneintranet/issues/521
 Create structure
+    [Tags]  heisenbug
     Given I am in a workspace as a workspace member
      Then I can create a structure
 
@@ -181,6 +217,18 @@ Member can create an event
      When I can create a new event  Christmas  2014-12-25  2014-12-26
      Then I can edit an event  Christmas  2120-12-25  2121-12-26  Europe/Rome
      Then I can delete an event  Christmas (updated)
+
+# this is an actual UI issue caused by the new shell
+# https://github.com/quaive/ploneintranet/issues/609
+Member can create a link
+    [Tags]  fixme
+    Given I am in a workspace as a workspace admin
+     Then I can create a new link  Quaive site
+     Then I can edit the new link  Quaive site
+      And I can publish the new link  Quaive site
+     When I am logged in as the user allan_neece
+     Then I go to the Open Market Committee Workspace
+      And I can see the new link  Quaive site
 
 Member cannot create an event with invalid dates
     Given I am in a workspace as a workspace member
@@ -230,13 +278,20 @@ Non-Member can view published content in an open workspace
      Then I can see the document  Terms and conditions
       And I cannot see the document  Customer satisfaction survey
 
+Member can see an email
+    Given I'm logged in as a 'Site Administrator'
+    And I go to the Open Market Committee Workspace
+    And I open the sidebar documents tile
+    And I can inspect mail metadata
+    And I can see the preview of the  Minutes
+
 Site Administrator can add example user as member of workspace
     Given I'm logged in as a 'Site Administrator'
      Add workspace  Example Workspace
      Click Link  Workspace settings and about
      Click Link  Members
-     Wait Until Page Contains  Add user
-     Click Link  Add user
+     Wait Until Page Contains Element  css=a.button.icon-user-add
+     Click Element  css=a.button.icon-user-add
      Wait Until Page Contains Element  css=li.select2-search-field input
      Input Text  css=li.select2-search-field input  alice
      Wait Until Element Is Visible  css=span.select2-match
@@ -298,6 +353,14 @@ Archived workspaces are marked search results
       And I can search in the site header for ArchivedWSSearch
       And I can see the search result ArchivedWSSearch
      Then I can see that the workspace is archived  ArchivedWSSearch
+
+# https://github.com/quaive/ploneintranet/issues/776
+User can archive a workspace document
+    [Tags]  heisenbug
+    Given I am logged in as the user christian_stoney
+      And I Go To the Terms and Conditions document
+     Then I can archive the current context
+     Then I can unarchive the current context
 
 # XXX: The following tests derive from ploneintranet.workspace and still
 # need to be adapted to our current state of layout integration

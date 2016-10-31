@@ -17,11 +17,74 @@
       />
 
   <browser:page
+      name="group-view"
+      for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
+      class=".workgroup.WorkGroupView"
+      permission="zope2.View"
+      template="templates/group.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
       name="userprofile-view"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".userprofile.UserProfileView"
       permission="zope2.View"
       template="templates/userprofile.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-documents"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_documents.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-followers"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_followers.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-following"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_following.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-group"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_group.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-info"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_info.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
+      name="userprofile-workspaces"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      class=".userprofile.UserProfileTabView"
+      permission="zope2.View"
+      template="templates/userprofile_workspaces.pt"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
@@ -90,6 +153,22 @@
       permission="cmf.ManagePortal"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
+
+  <browser:page
+      for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
+      name="sync"
+      class="..sync.WorkGroupPropertySync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      name="sync-groups"
+      class="..sync.AllWorkGroupsSync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
 
   <browser:page
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"

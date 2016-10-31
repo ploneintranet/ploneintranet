@@ -1,0 +1,108 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+    <div id="app-space" class="state-on">
+      <div id="application-body" 
+           class="sidebar-normal application- application-calendar sidebar-left-open sidebar-right-closed toolbar-on">
+
+        <div id="document-body">
+          <div id="document-content">
+
+            <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${context/absolute_url}/@@fullcalendar.tile"></div>
+
+           </div> 
+        </div>
+        <aside class="sidebar left" id="sidebar">
+          <div class="sidebar-content" id="sidebar-content">
+            <div class="button-bar functions pat-bumper sticky-supported">
+                <div class="quick-functions">
+                    <a title="Create new event" href="add_event?app=1#content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create event</a>
+                </div>
+            </div>
+            <div class="content">
+              <form action="@@app-calendar#document-content" class="pat-inject" data-pat-inject="source: #document-content && target: #document-content" data-pat-collapsible="store: local">
+                <fieldset class="cal-categories"
+                          tal:define="calendars view/get_calendars">
+
+                  
+
+                  <div class="pat-collapsible object-list open" id="calendar-invited-events" tal:condition="calendars/invited">
+                    <h4 class="collapsible-open">Events I'm invited to <a href="tooltip-help.html#invited-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
+                    <div class="panel-content">
+                      <fieldset class="pat-checklist cal-categories checklist checked" tal:define="invited_cals calendars/invited">
+                        <div class="toggles list-functions button-cluster" tal:condition="python:len(invited_cals) > 1">
+                            <button class="small select-all">Select all</button>
+                            <button class="small deselect-all">Deselect all</button>
+                        </div>
+                        <tal:wscal repeat="cal invited_cals">
+
+                          <label class="cal-cat-commercial-strategy-team"
+                                 tal:define="calclass python:view.id2class(cal.getId())"
+                                 tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;">
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
+                          </label>
+                        </tal:wscal>
+                      </fieldset>
+                    </div>
+                  </div>
+                  
+                  <div class="pat-collapsible object-list open" id="calendar-my-calendars" tal:condition="calendars/my">
+                    <h4 class="collapsible-open">My calendars <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
+                     
+                    <div class="panel-content">
+                      <fieldset class="pat-checklist cal-categories checklist checked" tal:define="my_cals calendars/my">
+                          <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
+                        <div class="toggles list-functions button-cluster">
+                          <button class="small select-all" disabled="">Select all</button>
+                          <button class="small deselect-all" disabled="">Deselect all</button>
+                        </div>
+                        <!--label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked" name="personal-calendar" id="calendar-my-calendars-personal-calendar"> Personal calendar</label-->
+
+                        <tal:wscal repeat="cal my_cals">
+                          <label class="cal-cat-commercial-strategy-team" 
+                                 tal:define="calclass python:view.id2class(cal.getId())"
+                                 tal:attributes="class string:cal-cat-${calclass}-my cal-cat-${cal/ws_type}-my" data-pat-depends="all-cals">
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:translate="">Open workspace calendar</a>
+                          </label>
+                        </tal:wscal>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                  <div class="pat-collapsible object-list open" id="calendar-shared-events"  tal:condition="calendars/public">
+                    <h4 class="collapsible-open">Shared events <a href="tooltip-help.html#shared-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
+                    <div class="panel-content">
+                      <fieldset class="pat-checklist cal-categories checklist checked" tal:define="public_cals calendars/public">
+                        <div class="toggles list-functions button-cluster" tal:condition="python:len(public_cals) > 0">
+                            <button class="small select-all">Select all</button>
+                            <button class="small deselect-all">Deselect all</button>
+                        </div>
+                        <tal:wscal repeat="cal public_cals">
+                          <label class="cal-cat-commercial-strategy-team"
+                                 tal:define="calclass python:view.id2class(cal.getId())"
+                                 tal:attributes="class string:cal-cat-${calclass}-public cal-cat-${cal/ws_type}-public;">
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
+                          </label>
+                        </tal:wscal>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                  
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </metal:content>
+
+  </html>

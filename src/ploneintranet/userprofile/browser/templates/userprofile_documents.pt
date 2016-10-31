@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en" metal:use-macro="context/main_template/macros/master" i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content-core">
+      <div id="document-content">
+        <div id="person-documents" tal:define="group_by python: request.get('group-by', 'first-letter')">
+          <form action="${here/absolute_url}/@@grouped_search.tile" class="pat-inject pat-autosubmit canvas-toolbar"
+            data-pat-inject="source: #search-result; target: #search-result;" style="float:left;">
+            <label class="pat-select bare pat-inject">
+              <select name="group-by">
+                <option value="first-letter" i18n:translate="">Group by first letter</option>
+                <option value="date" i18n:translate="">Group by date</option>
+              </select>
+            </label>
+          </form>
+          <form action="${here/absolute_url}/@@search#search-result" class="pat-inject pat-autosubmit canvas-toolbar"
+            data-pat-inject="source: #search-result; target: #search-result;">
+            <input type="search" name="SearchableText" size="38" placeholder="${view/user_search_placeholder}"
+            />
+            <input type="hidden" name="Creator" value="${here/getId}" />
+          </form>
+          <div data-tile="${here/absolute_url}/@@grouped_search.tile?group-by=${group_by}#person-documents"></div>
+        </div>
+      </div>
+    </metal:content>
+  </body>
+
+</html>

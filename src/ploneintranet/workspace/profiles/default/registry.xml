@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
           i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.allow_bulk_subscribe">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <title>Allow subscribe in workspace bulk action</title>
+      <description>If checked, the user can subscribe to the selected objects</description>
+      <required>False</required>
+    </field>
+    <value purge="false">False</value>
+  </record>
   <record name="ploneintranet.workspace.case_manager.states">
     <field type="plone.registry.field.Tuple">
       <title i18n:translate="label_case_manager_states">Case Manager Workflow States</title>
@@ -24,13 +33,25 @@
     </field>
     <value purge="false">False</value>
   </record>
+  <record name="ploneintranet.workspace.sort_options">
+    <field type="plone.registry.field.Dict">
+      <title i18n:translate="label_workspace_sort_options">Workspace sort options</title>
+      <description i18n:translate="help_workspace_sort_options">Controls in which way we are able to sort the workspaces</description>
+      <key_type type="plone.registry.field.TextLine" />
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element key="activity" i18n:translate="">Most active workspaces on top</element>
+      <element key="alphabet" i18n:translate="">Alphabetical</element>
+      <element key="newest" i18n:translate="">Newest workspaces on top</element>
+    </value>
+  </record>
   <record name="ploneintranet.workspace.my_workspace_sorting">
     <field type="plone.registry.field.TextLine">
       <default>title</default>
       <title i18n:translate="label_my_workspace_sorting">My workspace sorting.</title>
       <description i18n:translate="help_my_workspace_sorting">
-        At the moment we are able to handle the values "alphabet" and "newest".
-        Planned is to allow sorting on "active".
+        At the moment we are able to handle the values "active", "alphabet" and "newest".
       </description>
       <required>True</required>
     </field>
@@ -68,6 +89,16 @@
       <description i18n:translate="help_sanitize_html">If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break.</description>
       <required>False</required>
       <title i18n:translate="label_sanitize_html">Sanitize HTML on saving.</title>
+    </field>
+    <value purge="false">True</value>
+  </record>
+  <record name="ploneintranet.workspace.autosave_portal_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_autosave_portal_types">Autosave portal types</title>
+      <description i18n:translate="help_autosave_portal_types">Enable autosave for the selected portal types (works for edit forms inside workspaces)</description>
+      <required>False</required>
+      <default></default>
+      <value_type type="plone.registry.field.TextLine" />
     </field>
     <value purge="false">True</value>
   </record>

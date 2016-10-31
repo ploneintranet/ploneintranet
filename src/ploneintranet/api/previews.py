@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 ''' Methods to generate and access preview images on content '''
-
 from ploneintranet.docconv.client import previews
+from ploneintranet.docconv.client import html_converter
+from zope.globalrequest import getRequest
+
+import logging
+
+logger = logging.getLogger(__name__)
+
+event_keys = (
+    'ploneintranet.previews.handle_file_creation',
+    'ploneintranet.previews.content_added_in_workspace',
+    'ploneintranet.previews.content_edited_in_workspace',
+)
 
 
 def get(obj, scale='normal'):
@@ -174,3 +185,48 @@ def generate_previews(obj, event=None):
     :rtype: None
     """
     previews.generate_previews(obj, event)
+
+
+def generate_pdf(obj, event=None):
+    """ Generate a pdf for a content type. We need our own subscriber as
+    c.dv insists on checking for its custom layout. Also we want our own async
+    mechanism, it is using this method.
+
+    :param obj: The Plone content object to get preview URLs for
+    :type obj: A Plone content object
+    :return: Does not return anything.
+    :rtype: None
+    """
+    html_converter.generate_pdf(obj, event)
+
+
+def events_disable(request=None):
+    """Temporarily disable event-driven preview generation for this request.
+
+    :param request: The request for which events are to be disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle event handling.")
+        return
+    for event_key in event_keys:
+        request[event_key] = False
+
+
+def events_enable(request=None):
+    """Re-enable event-driven preview generation for this request.
+    This only makes sense if you explicitly disabled preview generation,
+    since it is enabled by default.
+
+    :param request: The request for which events were disabled
+    :type request: Request
+    """
+    if not request:
+        request = getRequest()
+    if not request:
+        logger.error("No request available, cannot toggle event handling.")
+        return
+    for event_key in event_keys:
+        request[event_key] = True

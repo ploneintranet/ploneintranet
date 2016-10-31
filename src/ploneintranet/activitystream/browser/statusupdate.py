@@ -105,32 +105,26 @@ class StatusUpdateView(BrowserView):
 
     @memoize_contextless
     def get_avatar_by_userid(self, userid):
-        ''' Provide informations to display the avatar
+        ''' Provide HTML tag to display the avatar
         '''
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
+        )
+
+    @property
+    def fullname(self):
         user = api.user.get(self.context.userid)
 
         if user:
             fullname = user.getProperty('fullname')
         else:
-            fullname = userid
-
-        url = u'%s/author/%s' % (
-            self.portal_url,
-            userid,
-        )
-        img = pi_api.userprofile.avatar_url(userid)
-        avatar = {
-            'id': userid,
-            'fullname': fullname,
-            'img': img,
-            'url': url,
-        }
-        return avatar
+            fullname = self.context.userid
+        return fullname
 
     @property
     @memoize
     def avatar(self):
-        ''' Provide informations to display the avatar
+        ''' Provide HTML tag to display the current user's avatar
         '''
         return self.get_avatar_by_userid(self.context.userid)
 

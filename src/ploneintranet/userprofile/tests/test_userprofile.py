@@ -5,6 +5,7 @@ from ZPublisher.HTTPRequest import ZopeFieldStorage
 from io import BytesIO
 from plone import api
 from plone.namedfile import NamedBlobImage
+from ploneintranet.userprofile.browser.tiles.contacts_search import ContactsSearch  # noqa
 from ploneintranet.userprofile.browser.userprofile import AuthorView
 from ploneintranet.userprofile.browser.userprofile import AvatarsView
 from ploneintranet.userprofile.browser.userprofile import MyAvatar
@@ -104,6 +105,127 @@ class TestUserProfileView(TestUserProfileBase):
         self.assertEqual(
             details[1]['title'], self.profile2.fullname,
         )
+
+    def test_recent_contacts_not_duplicated(self):
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        self.assertIn(self.profile2.username,
+                      self.profile1.recent_contacts or [])
+
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertEqual(
+            recent.count(self.profile2.username), 1,
+            "Recent contact entry duplicated")
+
+    def test_recent_contacts_most_recent_first(self):
+        self.profile1.recent_contacts = ['some_user']
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertEqual(recent[0], self.profile2.username)
+
+    def test_recent_contacts_self_excluded(self):
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile1, self.request)
+        profile_view._update_recent_contacts()
+        self.assertNotIn(
+            self.profile1.username, self.profile1.recent_contacts or [])
+
+    def test_recent_contacts_length_limited(self):
+        self.profile1.recent_contacts = [
+            'user{0}'.format(n) for n in range(20)]
+        self.login(self.profile1.username)
+        profile_view = UserProfileView(self.profile2, self.request)
+        profile_view._update_recent_contacts()
+        recent = self.profile1.recent_contacts or []
+        self.assertLessEqual(len(recent), 20)
+
+    def test_info_hidden_through_registry(self):
+        view = api.content.get_view(
+            'userprofile-view', self.profile2, self.request.clone()
+        )
+        self.assertListEqual(view.allowed_tabs, list(view._default_tabs))
+        self.assertEqual(view.default_tab, u'userprofile-view')
+        self.assertTrue(view.display_following)
+        self.assertTrue(view.display_followers)
+        self.assertTrue(view.display_tabs)
+        self.assertTrue(view.display_more_info_link)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        view.request = self.request.clone()
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            view._default_tabs,
+        )
+        self.assertListEqual(view.allowed_tabs, [])
+        self.assertEqual(view.default_tab, u'')
+        self.assertFalse(view.display_following)
+        self.assertFalse(view.display_followers)
+        self.assertFalse(view.display_tabs)
+        self.assertFalse(view.display_more_info_link)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        view.request = self.request.clone()
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            (u'userprofile-follow*', ),
+        )
+        # check that userprofile-follow* is expanded to
+        # userprofile-following and userprofile-followers
+        self.assertNotIn(u'userprofile-following', view.allowed_tabs)
+        self.assertNotIn(u'userprofile-followers', view.allowed_tabs)
+
+        # refresh request to get rid of caching
+        # and hide all the tabs
+        view.request = self.request.clone()
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info',
+            tuple(
+                tab for tab in view._default_tabs
+                if tab != u'userprofile-info'
+            ),
+        )
+        # check that if we display userprofile-info we do not have anymore
+        # the more info link
+        self.assertFalse(view.display_more_info_link)
+
+        # reset the record
+        api.portal.set_registry_record(
+            'ploneintranet.userprofile.userprofile_hidden_info', ()
+        )
+
+
+class TestContactsResults(TestUserProfileBase):
+
+    def test_resolve_profile(self):
+        self.profile1.recent_contacts = [self.profile2.username]
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(recent[0], self.profile2)
+
+    def test_invalid_users_dropped(self):
+        self.profile1.recent_contacts = [
+            'deleted_user', self.profile2.username]
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(len(recent), 1)
+        self.assertEqual(recent[0], self.profile2)
+
+    def test_length_limited(self):
+        # In practice a user will not be in recent_contacts multiple times. We
+        # use this shortcut only to avoid creating 10 user profiles.
+        self.profile1.recent_contacts = [self.profile2.username] * 11
+        self.login(self.profile1.username)
+        contacts_results = ContactsSearch(self.portal, self.request)
+        recent = contacts_results.recent_contacts()
+        self.assertEqual(len(recent), 10)
 
 
 class TestAuthorView(TestUserProfileBase):

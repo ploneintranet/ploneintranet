@@ -1,0 +1,37 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+
+    <div id="content">
+      <div id="message-area"
+           hidden
+           tal:define="
+             can_archive view/can_archive;
+           "
+        >
+        <p class="pat-notification"
+           data-pat-notification="class: ${view/notification_class}; type: banner"
+           tal:condition="can_archive">
+          ${view/notification_msg}
+        </p>
+        <p class="pat-notification"
+           data-pat-notification="class: error; type: banner"
+           tal:condition="not:can_archive"
+           i18n:translate=""
+           i18n:domain="plone"
+           >Insufficient Privileges</p>
+        <tal:link replace="structure here/@@archive-link-iconified" />
+      </div>
+    </div>
+
+  </metal:content>
+
+  </html>

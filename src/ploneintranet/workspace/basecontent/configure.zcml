@@ -19,9 +19,8 @@
   <browser:page
     name="content_helper_view"
     for="*"
-    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     class=".baseviews.HelperView"
-    permission="zope.Public"
+    permission="zope2.View"
   />
 
   <browser:page
@@ -37,7 +36,7 @@
     for="plone.app.contenttypes.interfaces.IFolder"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     template="templates/document_view.pt"
-    class=".baseviews.ContentView"
+    class=".baseviews.ContainerView"
     permission="zope2.View"
     />
 
@@ -74,6 +73,24 @@
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     template="templates/event_view.pt"
     class=".event.EventView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="link_redirect_view"
+    for="plone.app.contenttypes.interfaces.ILink"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/document_view.pt"
+    class=".baseviews.ContentView"
+    permission="zope2.View"
+    />
+
+  <browser:page
+    name="mail_view"
+    for="..interfaces.IMail"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/mail_view.pt"
+    class=".mail.MailView"
     permission="zope2.View"
     />
 

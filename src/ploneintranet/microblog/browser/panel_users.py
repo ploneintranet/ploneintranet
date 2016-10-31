@@ -59,6 +59,12 @@ class Users(UpdateSocialBase):
         '''
         return sorted([user.getId for user in self.users])
 
+    @memoize_contextless
+    def get_avatar_by_userid(self, userid):
+        return pi_api.userprofile.avatar_tag(
+            username=userid,
+        )
+
 
 class User(Users):
 

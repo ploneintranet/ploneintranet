@@ -1,27 +1,30 @@
 # coding=utf-8
 from collective.workspace.interfaces import IWorkspace
 from plone import api
-from plone.tiles.interfaces import IBasicTile
-from ploneintranet.workspace.browser.tiles.sidebar import Sidebar
-from ploneintranet.workspace.browser.tiles.sidebar import \
-    SidebarSettingsMembers
 from ploneintranet.workspace.tests.base import BaseTestCase
-from zope.component import getMultiAdapter
-from zope.component import provideAdapter
+from ploneintranet.workspace.interfaces import IGroupingStorage
 from zope.event import notify
-from zope.interface import Interface
+from zope.annotation import IAnnotations
+from zope.component import getAdapter
 from zope.lifecycleevent import ObjectModifiedEvent
-from zope.publisher.browser import TestRequest
 
 
 class TestSidebar(BaseTestCase):
 
-    def create_workspace(self):
+    def get_sidebar_default(self, context, params={}):
+        ''' Returns the sidebar default tile on the context
+        with the given parameters
+        '''
+        request = self.request.clone()
+        request.form.update(params)
+        return api.content.get_view('sidebar.default', context, request)
+
+    def create_workspace(self, ws_id='example-workspace'):
         """ returns adapted workspace folder"""
         workspace_folder = api.content.create(
             self.workspace_container,
             'ploneintranet.workspace.workspacefolder',
-            'example-workspace',
+            ws_id,
             title='Welcome to my workspace'
         )
         return workspace_folder
@@ -36,12 +39,6 @@ class TestSidebar(BaseTestCase):
         self.assertNotIn(user_id, IWorkspace(ws).members, "Id already present")
 
         IWorkspace(ws).add_to_team(user=user_id)
-        provideAdapter(
-            SidebarSettingsMembers,
-            (Interface, Interface),
-            IBasicTile,
-            name=u"sidebarSettingsMember.default",
-        )
 
         # Commenting out because they aren't (yet?) being used.
         # sidebarSettingsMembers = getMultiAdapter(
@@ -86,9 +83,7 @@ class TestSidebar(BaseTestCase):
         example_subdocument.setSubject((u'bar', u'baz'))
         notify(ObjectModifiedEvent(example_subdocument))
 
-        provideAdapter(Sidebar, (Interface, Interface), IBasicTile,
-                       name=u"sidebar.default")
-        sidebar = getMultiAdapter((ws, ws.REQUEST), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws)
         items = sidebar.items()
 
         titles = [x['title'] for x in items]
@@ -121,8 +116,8 @@ class TestSidebar(BaseTestCase):
                          ids,
                          "No such IDs found in sidebar navigation")
 
-        subsidebar = getMultiAdapter((myfolder, myfolder.REQUEST),
-                                     name=u"sidebar.default")
+        subsidebar = self.get_sidebar_default(myfolder)
+
         subitems = subsidebar.items()
         ids = [x['id'] for x in subitems]
         self.assertIn('example-subdocument',
@@ -130,24 +125,21 @@ class TestSidebar(BaseTestCase):
                       "No such IDs found in sidebar navigation")
 
         # Check if search works
-        tr = TestRequest(form={'sidebar-search': 'Folder'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'sidebar-search': 'Folder'})
+
         items = sidebar.items()
         self.assertEqual(len(items), 1)
         self.assertTrue(items[0]['id'] == 'myfolder')
 
         # Assert that substr works and we find all
-        tr = TestRequest(form={'sidebar-search': 'exampl'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'sidebar-search': 'exampl'})
         items = sidebar.items()
         self.assertEqual(len(items), 3)
 
         # Test Groupings
 
         # … by tag
-
-        tr = TestRequest(form={'grouping': 'label'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'label'})
         items = sidebar.items()
         self.assertEqual(len(items), 4)
         self.assertEqual(
@@ -157,8 +149,10 @@ class TestSidebar(BaseTestCase):
             sidebar.logical_parent(), None)
 
         # …and step into tag 'bar'
-        tr = TestRequest(form={'grouping': 'label', 'groupname': 'bar'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(
+            ws,
+            {'grouping': 'label', 'groupname': 'bar'},
+        )
         items = sidebar.items()
         self.assertEqual(len(items), 2)
         self.assertEqual(
@@ -170,14 +164,15 @@ class TestSidebar(BaseTestCase):
 
         # … by type
         # XXX
-        tr = TestRequest(form={'grouping': 'type'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'type'})
         items = sidebar.items()
         self.assertEqual(
             sidebar.logical_parent(), None)
 
-        tr = TestRequest(form={'grouping': 'type', 'groupname': 'text/html'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(
+            ws,
+            {'grouping': 'type', 'groupname': 'text/html'},
+        )
         items = sidebar.items()
         self.assertEqual(len(items), 2)
         self.assertEqual(
@@ -191,15 +186,16 @@ class TestSidebar(BaseTestCase):
 
         # … by author
         # XXX
-        tr = TestRequest(form={'grouping': 'author'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'author'})
         items = sidebar.items()
         self.assertEqual(
             sidebar.logical_parent(), None)
 
         # …and step into author admin
-        tr = TestRequest(form={'grouping': 'author', 'groupname': 'admin'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(
+            ws,
+            {'grouping': 'author', 'groupname': 'admin'},
+        )
         items = sidebar.items()
         self.assertEqual(len(items), 3)
         self.assertEqual(
@@ -211,8 +207,7 @@ class TestSidebar(BaseTestCase):
             'All Authors')
 
         # … by date
-        tr = TestRequest(form={'grouping': 'date'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'date'})
         items = sidebar.items()
         self.assertEqual(len(items), 4)
         self.assertEqual(
@@ -222,8 +217,10 @@ class TestSidebar(BaseTestCase):
             sidebar.logical_parent(), None)
 
         # …and step into date 'today'
-        tr = TestRequest(form={'grouping': 'date', 'groupname': 'today'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(
+            ws,
+            {'grouping': 'date', 'groupname': 'today'},
+        )
         items = sidebar.items()
         self.assertEqual(len(items), 3)
         self.assertEqual(
@@ -235,8 +232,7 @@ class TestSidebar(BaseTestCase):
             'All Dates')
 
         # … by first_letter
-        tr = TestRequest(form={'grouping': 'first_letter'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'first_letter'})
         items = sidebar.items()
         self.assertEqual(len(items), 2)
         self.assertEqual(
@@ -246,8 +242,10 @@ class TestSidebar(BaseTestCase):
             sidebar.logical_parent(), None)
 
         # …and step into letter 's'
-        tr = TestRequest(form={'grouping': 'first_letter', 'groupname': 'a'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(
+            ws,
+            {'grouping': 'first_letter', 'groupname': 'a'},
+        )
         items = sidebar.items()
         self.assertEqual(len(items), 2)
         self.assertEqual(
@@ -259,10 +257,124 @@ class TestSidebar(BaseTestCase):
             'All Letters')
 
         # Yet unknown grouping, don't break!
-        tr = TestRequest(form={'grouping': 'theunknown'})
-        sidebar = getMultiAdapter((ws, tr), name=u"sidebar.default")
+        sidebar = self.get_sidebar_default(ws, {'grouping': 'theunknown'})
         items = sidebar.items()
         self.assertEqual(len(items), 1)
         self.assertEqual(
             sorted([k['id'] for k in items]),
             sorted(['none']))
+
+    def test_sidebar_update_relations(self):
+        # Prepare the test
+        ws1 = self.create_workspace()
+        ws2 = self.create_workspace(ws_id='ws2')
+        ws3 = self.create_workspace(ws_id='ws3')
+        sidebar1 = api.content.get_view(
+            'sidebar.settings.advanced', ws1, self.request.clone()
+        )
+        sidebar2 = api.content.get_view(
+            'sidebar.settings.advanced', ws2, self.request.clone()
+        )
+        sidebar3 = api.content.get_view(
+            'sidebar.settings.advanced', ws3, self.request.clone()
+        )
+        # Adding fake stuff will not break the method
+        sidebar1.update_relation_targets(['foo'])
+
+        # We now create a relation on ws1 and want the sidebar to update also
+        # the relation target
+        ws1.related_workspaces = [ws2.UID()]
+        sidebar1.update_relation_targets([])
+        self.assertListEqual(
+            ws2.related_workspaces,
+            [ws1.UID()]
+        )
+        # We add another relation
+        ws3.related_workspaces = [ws2.UID()]
+        sidebar3.update_relation_targets([])
+        self.assertListEqual(
+            ws2.related_workspaces,
+            [ws1.UID(), ws3.UID()]
+        )
+        # We now remove both the relation from the target
+        ws2.related_workspaces = []
+        sidebar2.update_relation_targets([ws1.UID(), ws3.UID()])
+        self.assertListEqual(ws1.related_workspaces, [])
+        self.assertListEqual(ws2.related_workspaces, [])
+        self.assertListEqual(ws3.related_workspaces, [])
+
+    def test_sidebar_archived_items(self):
+        ''' Check if the sidebar is showing/hiding updated items properly
+        '''
+        self.login_as_portal_owner()
+        ws = self.create_workspace()
+        doc = api.content.create(
+            ws,
+            'Document',
+            title='Archivable Document'
+        )
+        sidebar = api.content.get_view(
+            'sidebar.default',
+            ws, self.request.clone()
+        )
+        self.assertIn(
+            '<strong class="title"> Archivable Document </strong>',
+            ' '.join(sidebar().split()),
+        )
+        IAnnotations(doc)['slc.outdated'] = True
+        doc.reindexObject(idxs=['outdated'])
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        self.assertNotIn('Archivable Document', sidebar())
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.set('documents-show-extra-admin', 'archived_documents')
+        self.assertIn('Archivable Document', sidebar())
+        self.assertIn(
+            '<strong class="title"> Archivable Document '
+            '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
+            ' '.join(sidebar().split()),
+        )
+
+    def test_sidebar_archived_tags(self):
+        ''' Check if the sidebar is showing/hiding archived tags properly
+        '''
+        self.login_as_portal_owner()
+        ws = self.create_workspace()
+        doc = api.content.create(
+            ws,
+            'Document',
+            title='Tagged Document'
+        )
+        doc.subject = ['Test Tag']
+        storage = getAdapter(ws, IGroupingStorage)
+        storage.update_groupings(doc)
+        request = self.request.clone()
+        request.form['grouping'] = 'label'
+        sidebar = api.content.get_view(
+            'sidebar.default',
+            ws, request
+        )
+        self.assertIn(
+            '<strong class="title"> Test Tag </strong>',
+            ' '.join(sidebar().split()),
+        )
+        storage.get_groupings().get('label').get('Test Tag').archived = True
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.form['grouping'] = 'label'
+        self.assertNotIn('Test Tag', sidebar())
+
+        # Clean memoize.view cache
+        sidebar.request = self.request.clone()
+        sidebar.request.form['grouping'] = 'label'
+        sidebar.request.set('documents-show-extra-admin', 'archived_tags')
+        self.assertIn('Test Tag', sidebar())
+        self.assertIn(
+            '<strong class="title"> Test Tag '
+            '<abbr class="iconified icon-archive">(Archived)</abbr> </strong>',
+            ' '.join(sidebar().split()),
+        )

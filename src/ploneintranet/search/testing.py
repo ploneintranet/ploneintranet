@@ -84,7 +84,7 @@ class FunctionalTestCase(unittest.TestCase):
         return obj
 
     def _delete_content(self, obj):
-        api.content.delete(obj=obj)
+        api.content.delete(obj=obj, check_linkintegrity=False)
 
     def setUp(self):
         self._created = []

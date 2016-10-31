@@ -12,7 +12,7 @@
                              current_user context/portal_membership/getAuthenticatedMember;
                              user_name current_user/getUserName">
 
-        <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/#dashboard">
+        <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/dashboard.html#dashboard" method="GET">
           <label class="bare pat-select">
             <select name="dashboard">
               <option value="activity" i18n:translate="" tal:attributes="selected python:dashboard == 'activity' and 'selected' or nothing">

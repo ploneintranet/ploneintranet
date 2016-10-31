@@ -49,7 +49,10 @@ class WorkspaceFolder(Container):
         returns a string for use in a css selector in the templates
         describing this content type
         Override in custom workspace types, if you want to make use of
-        it for custom styling
+        it for custom styling.
+
+        Keep in sync with registry record
+        ploneintranet.workspace.workspace_types_css_mapping
         """
         return "workspace"
 
@@ -94,7 +97,7 @@ class WorkspaceFolder(Container):
         brains = catalog(
             path=current_path,
             portal_type=ptype,
-            sort_on='getObjPositionInParent',
+            sort_on=['due', 'getObjPositionInParent'],
         )
         for brain in brains:
             obj = brain.getObject()
@@ -132,6 +135,8 @@ class WorkspaceFolder(Container):
         Look up the full user details for current workspace members
         """
         members = IWorkspace(self).members
+        gtool = self.portal_groups
+        group_names = gtool.listGroupNames()
         info = []
 
         for user_or_group_id, details in members.items():
@@ -156,11 +161,26 @@ class WorkspaceFolder(Container):
                     continue
                 title = (group.getProperty('title') or group.getId() or
                          user_or_group_id)
+                # Resolving all users of a group with nested groups is
+                # ridiculously slow. PAS resolves each member and if it
+                # doesn't return a valid user, it resolves it as group
+                # and from that group every member again. With LDAP,
+                # Each of these is one ldap request. 'Hammering' is not
+                # the right word for this.
+                # At this position, it is not vital to return this information
+                # Instead we can simply say how many members/groups there are.
+                # People can click and see for themselves.
+                group_members = gtool.getGroupMembers(group.getId())
+                groups = 0
+                for member in group_members:
+                    if member in group_names:
+                        groups += 1
                 description = _(
                     u"number_of_members",
-                    default=u'${no_members} Members',
+                    default=u'${no_users} Users / ${no_groups} Groups',
                     mapping={
-                        u'no_members': len(group.getAllGroupMemberIds())})
+                        u'no_users': len(group_members) - groups,
+                        u'no_groups': groups})
                 classes = 'user-group has-description'
                 portrait = ''
 
@@ -261,6 +281,23 @@ class WorkspaceFolder(Container):
             return dumps(prefill)
         else:
             return ''
+
+    def get_related_workspaces(self):
+        if not hasattr(self, 'related_workspaces') or \
+           not self.related_workspaces:
+            return None
+        rw = []
+        for uid in self.related_workspaces:
+            ws = api.content.get(UID=uid)
+            if not ws:
+                continue
+            rw.append(
+                {'UID': uid,
+                 'URL': ws.absolute_url(),
+                 'Title': ws.Title()
+                 }
+            )
+        return rw
 
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):

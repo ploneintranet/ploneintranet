@@ -17,6 +17,13 @@ def content_created(obj, event):
         # We are not installed
         return
 
+    event_key = 'ploneintranet.microblog.content_created'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        logger.debug("%s disabled", event_key)
+        return
+
+    # BBB: this should not be harcoded (maybe use a registry record)
     whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
     try:
         if obj.portal_type not in whitelist:
@@ -44,6 +51,20 @@ def content_statechanged(obj, event):
         # We are not installed
         return
 
+    event_key = 'ploneintranet.microblog.content_statechanged'
+    enabled = obj.REQUEST.get(event_key, True)  # default is enabled
+    if not enabled:
+        logger.debug("%s disabled", event_key)
+        return
+
+    # BBB: this should not be harcoded (maybe use a registry record)
+    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
+    try:
+        if obj.portal_type not in whitelist:
+            return
+    except AttributeError:
+        return
+
     if event.new_state.id not in ('published',):
         return
     action_verb = event.new_state.id
@@ -67,8 +88,9 @@ def content_removed(obj, event):
     tool = api.portal.get_tool('ploneintranet_microblog')
     if tool.content_keys(obj) or tool.context_keys(obj):
         # obj can be already detached from parent. reconstruct url
-        logger.info("Archiving statusupdates referencing uuid {} -> {}/{}",
-                    IUUID(obj), event.oldParent.absolute_url(), obj.id)
+        logger.info(
+            "Archiving statusupdates referencing uuid {0} -> {1}/{2}".format(
+                IUUID(obj), event.oldParent.absolute_url(), obj.id))
     for id in tool.content_keys(obj):
         tool.delete(id, restricted=False)
     for id in tool.context_keys(obj):

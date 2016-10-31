@@ -64,7 +64,7 @@ not read yet
     >>> dave_conversation.username
     'Bob'
 
-Messages are returned in an iterable that yields its itmes, not in a
+Messages are returned in an iterable that yields its items, not in a
 real list. So we iterate over the messages to get the content
 
     >>> def print_messages(dave_conversation):
@@ -79,25 +79,29 @@ real list. So we iterate over the messages to get the content
     sender: Bob
     recipient: Dave
     text: Hi Dave
-    created: 2013-01-01 00:00:00
+    created: 2013-01-01 00:00:00+00:00
     new: True
 
     >>> print_messages(inboxes[bob][dave])
     sender: Bob
     recipient: Dave
     text: Hi Dave
-    created: 2013-01-01 00:00:00
+    created: 2013-01-01 00:00:00+00:00
     new: True
 
-Now let Dave read his mail and answer Bob. His message will show up in
-the conversation.
+The last message received by Dave is directly accessible on the conversation.
+
+   >>> dave_conversation.last.text
+   'Hi Dave'
+    
+Now let Dave read his mail.
 
    >>> dave_conversation.mark_read()
    >>> print_messages(dave_conversation)
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: False
 
 In Bob's inbox the message is still unread.
@@ -106,8 +110,11 @@ In Bob's inbox the message is still unread.
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: True
+
+Dave now answers Bob. His message will show up in
+the conversation.
 
    >>> inboxes.send_message(dave, bob, 'Thanks Bob',
    ...                      created=datetime(2013, 1, 2))
@@ -115,14 +122,18 @@ In Bob's inbox the message is still unread.
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: False
    sender: Dave
    recipient: Bob
    text: Thanks Bob
-   created: 2013-01-02 00:00:00
+   created: 2013-01-02 00:00:00+00:00
    new: True
 
+Now Dave's own message shows up as 'last'
+
+   >>> dave_conversation.last.text
+   'Thanks Bob'
 
 Now Dave does not want to keep the conversation with Bob and deletes it:
 
@@ -136,36 +147,11 @@ Even then Bob still has the conversation with Dave in his inbox:
    sender: Bob
    recipient: Dave
    text: Hi Dave
-   created: 2013-01-01 00:00:00
+   created: 2013-01-01 00:00:00+00:00
    new: True
    sender: Dave
    recipient: Bob
    text: Thanks Bob
-   created: 2013-01-02 00:00:00
+   created: 2013-01-02 00:00:00+00:00
    new: True
 
-Build status
-------------
-
-Unit tests
-~~~~~~~~~~
-
-Robot tests for Plone Social and Plone Intranet
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Copyright (c) Plone Foundation
-------------------------------
-
-This package is Copyright (c) Plone Foundation.
-
-Any contribution to this package implies consent and intent to irrevocably transfer all 
-copyrights on the code you contribute, to the `Plone Foundation`_, 
-under the condition that the code remains under a `OSI-approved license`_.
-
-To contribute, you need to have signed a Plone Foundation `contributor agreement`_.
-If you're `listed on Github`_ as a member of the Plone organization, you already signed.
-
-.. _Plone Foundation: https://plone.org/foundation
-.. _OSI-approved license: http://opensource.org/licenses
-.. _contributor agreement: https://plone.org/foundation/contributors-agreement
-.. _listed on Github: https://github.com/orgs/plone/people

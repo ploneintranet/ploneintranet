@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <body class="stand-alone sidebar-normal gh-collapsed focus-listing  generic application- application- ">
+
+        <fieldset class="pat-inject pat-subform" data-pat-inject="source: #bookmark-workspace; target: #bookmark-workspace" id="bookmark-workspace">
+            <button type="submit" formaction="${view/link}" class="pat-inject ${view/icon_class}" data-pat-inject="source: #bookmark-workspace; target: #bookmark-workspace" title="${view/description}">${view/title}</button>
+            <p class="pat-notification" data-pat-notification="class: warning; type: banner" tal:condition="view/msg">
+                ${view/msg}
+            </p>
+        </fieldset>
+
+    </body>
+</html>
+
+

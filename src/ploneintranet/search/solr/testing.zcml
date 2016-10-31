@@ -8,6 +8,8 @@
   <include package="ploneintranet.search.solr"
            file="meta.zcml" />
 
+  <include package="quaive.resources.ploneintranet" />
+
   <solr:connection host="localhost"
                    port="8984"
                    basepath="/solr"

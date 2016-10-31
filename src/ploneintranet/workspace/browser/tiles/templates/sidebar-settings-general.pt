@@ -12,7 +12,8 @@
           <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
             <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
           </aside>
-          <form action="#" tal:attributes="action string:${ws/absolute_url}/sidebar.settings.general" method="post" class="pat-inject pat-autosubmit" data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content">
+          <form action="${ws/absolute_url}/sidebar.settings.general#sidebar-statusmessage"
+                method="post" class="pat-inject pat-autosubmit"  enctype="multipart/form-data">
             <fieldset class="vertical">
               <label>
                 <span tal:omit-tag="" i18n:translate="workspace_title">
@@ -37,6 +38,18 @@
                           i18n:attributes="placeholder workspace_brief_description"
                           data-pat-autosubmit="delay: defocus">The goal of this project is to integrate CA to ADC product.</textarea>
               </label>
+              <label tal:condition="view/can_manage_workspace">
+                  <span tal:omit-tag="" i18n:translate="workspace_hero_image">
+                    Workspace hero image</span>
+                  <input name="hero_image" type="file"/>
+              </label>
+              <fieldset class="pat-checklist">
+                <label tal:define="event_global_default context/event_global_default | nothing">
+                  <input name="event_global_default" type="checkbox" value="selected"
+                         tal:attributes="checked python:'checked' if event_global_default else ''; disabled not:view/can_manage_workspace"/> Workspace calendar visible in central calendar application
+                  <input name="event_global_default-empty-marker" type="hidden" value="1"/>
+                </label>
+              </fieldset>
             </fieldset>
           </form>
         </div>

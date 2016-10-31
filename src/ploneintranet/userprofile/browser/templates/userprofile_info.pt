@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en" metal:use-macro="context/main_template/macros/master" i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content-core">
+      <div id="document-content">
+        <article id="person-info" tal:define="is_me view/is_me">
+          <tal:block condition="is_me">
+            <a href="${here/absolute_url}/@@edit"
+               class="pat-inject"
+               i18n:translate=""
+               data-pat-inject="source: #user-edit-form::element; target: #person-info; trigger: autoload">
+              Edit profile
+            </a>
+          </tal:block>
+          <tal:block condition="not:is_me">
+            <dl class="pat-grid-list" tal:define="fields view/fields_for_display">
+              <dt class="icon-user" i18n:translate="">
+                Name
+              </dt>
+              <dd>
+                <em class="title" tal:condition="context/person_title|nothing" tal:content="context/person_title"/>
+                <span tal:replace="context/fullname"/>
+              </dd>
+              <tal:field repeat="field fields">
+                <dt class="${field/icon_class}" i18n:translate="" tal:content="field/label"/>
+                <dd>
+                  <span tal:replace="structure field/html"/>
+                </dd>
+              </tal:field>
+            </dl>
+            <article class="pat-rich" tal:condition="context/biography|nothing">
+              <p tal:content="context/biography">
+                Some content goes here on Jeff
+              </p>
+            </article>
+          </tal:block>
+        </article>
+      </div>
+    </metal:content>
+  </body>
+
+</html>

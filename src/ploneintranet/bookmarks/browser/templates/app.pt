@@ -1,0 +1,179 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <metal:content fill-slot="content">
+    <div id="app-space" class="state-on">
+      <div id="application-body" class="application- application-bookmarks sidebar-left-open sidebar-right-closed"
+        tal:define="
+          friendly_type2icon_class nocall:here/@@proto/friendly_type2icon_class;
+        ">
+        <div id="document-content">
+          <nav class="tabs pat-tabs">
+            <a href="#directory-all" i18n:translate="">All bookmarks</a>
+            <a href="#directory-apps" i18n:translate="">Apps</a>
+            <a href="#directory-workspaces" i18n:translate="">Workspaces</a>
+            <a href="#directory-people" i18n:translate="">People</a>
+            <a href="#directory-documents" i18n:translate="">Documents</a>
+          </nav>
+          <div class="pat-stacks schwung">
+            <div id="directory-all">
+              <form class="canvas-toolbar pat-inject pat-autosubmit"
+                    action="${request/getURL}#directory-all">
+
+                <label class="bare pat-select">
+                  <select name="group_by"
+                          tal:define="group_by request/group_by|nothing"
+                      >
+                    <option value='letter'
+                            selected="${python:group_by=='letter' and 'selected' or None}"
+                            i18n:translate="">
+                      Group by first character
+                    </option>
+                    <option value='workspace'
+                            selected="${python:group_by=='workspace' and 'selected' or None}"
+                            i18n:translate="">
+                      Group by workspace
+                    </option>
+                    <option value='created'
+                            selected="${python:group_by=='created' and 'selected' or None}"
+                            i18n:translate="">
+                      Group by creation date
+                    </option>
+                    <option value='bookmarked'
+                            selected="${python:group_by=='bookmarked' and 'selected' or None}"
+                            i18n:translate="">
+                      Group by bookmarking date
+                    </option>
+                  </select>
+                </label>
+
+                <input type="search"
+                       name="SearchableText"
+                       value="${request/SearchableText|nothing}"
+                       i18n:attributes="placeholder"
+                       placeholder="Search bookmarks"/>
+              </form>
+
+              <div class="directory"
+                   tal:define="
+                       items_grouped view/my_bookmarks_grouped;
+                       sorted_groups view/my_bookmarks_sorted_groups;
+                     ">
+                <div>
+                  <tal:groups repeat="group sorted_groups">
+                    <div class="group"
+                         tal:define="
+                           group_items items_grouped/?group;
+                         "
+                         tal:condition="group_items"
+                        >
+                      <h3 class="group-title">${group}</h3>
+                      <ul class="menu links">
+                        <li class="bookmark"
+                          tal:repeat="item group_items"
+                          title="${item/description|nothing}">
+                          <a href="${item/url}"
+                             class="${python: friendly_type2icon_class(getattr(item, 'friendly_type_name', ''))}"
+                            >${item/title}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </tal:groups>
+                </div>
+              </div>
+            </div>
+
+            <div id="directory-apps">
+              <div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                <div class="grid-sizer"></div>
+                <tal:apps tal:repeat="app view/my_bookmarked_apps">
+                  <tal:app define="app app/getObject" replace="structure app/@@app-tile" />
+                </tal:apps>
+              </div>
+            </div>
+
+            <div id="directory-workspaces">
+              <div class="row tiles workspaces pat-masonry"
+                   data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
+                <div class="grid-sizer four columns"></div>
+                <tal:repeat repeat="workspace view/my_bookmarked_workspaces">
+                  <div data-tile="${workspace/url}/@@workspace.tile" />
+                </tal:repeat>
+              </div>
+            </div>
+
+            <div id="directory-people">
+              <div class="row people user-cards results pat-equaliser">
+                <tal:repeat repeat="person view/my_bookmarked_people">
+                  <div class="item" tal:define="person person/getObject">
+                    <div href=""
+                         class="user-card"
+                         tal:define="
+                            fullname person/fullname;
+                            email person/email;
+                            job_title person/job_title|nothing;
+                            mobile person/mobile|nothing;
+                            telephone person/telephone|nothing;
+                          ">
+                      <img tal:replace="structure python:view.get_avatar_by_userid(person.username)">
+                      <a href="${person/absolute_url}">
+                        <h4 class="name">${fullname}</h4>
+                        <p class="byline">${job_title}</p>
+                      </a>
+                      <ul class="data">
+                        <li class="mail icon-mail"
+                            tal:condition="email"
+                          >
+                          <a title="Mail ${fullname} at ${email}"
+                             href="mailto:${email}">${email}</a>
+                        </li>
+                        <li class="phone icon-phone"
+                            tal:condition="telephone"
+                          >
+                          <a title="Call ${fullname} at ${telephone}" href="tel:${telephone}">${telephone}</a>
+                        </li>
+                        <li class="phone icon-mobile"
+                            tal:condition="mobile"
+                          >
+                          <a title="Call ${fullname} at ${mobile}" href="tel:${mobile}">${mobile}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </tal:repeat>
+              </div>
+            </div><!-- #directory-people -->
+
+            <div id="directory-documents">
+              <div class="office results pat-masonry office-files document-previews"
+                   data-pat-masonry="column-width: .item; gutter: 0;">
+                <tal:repeat repeat="item view/my_bookmarked_documents">
+                  <a href="${item/url}" class="item">
+                    <figure tal:define="preview_small python:item.preview_image_url or '';
+                                        preview_large python:preview_small.replace('/small/', '/large/')">
+                      <img src="${preview_large}"
+                           alt="${item/title}"
+                           title="${item/description}"
+                           tal:condition="preview_large"
+                        />
+                      <figcaption class="icon-document ${python:friendly_type2icon_class(item.portal_type)}">
+                        ${item/title}
+                      </figcaption>
+                    </figure>
+                  </a>
+                </tal:repeat>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </metal:content>
+</html>

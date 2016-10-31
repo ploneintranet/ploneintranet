@@ -1,0 +1,45 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  lang="en"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+    <metal:content fill-slot="content-core" tal:define="
+        groups view/my_groups;
+        num_groups python: len(groups);
+      ">
+      <div id="document-content">
+        <div id="person-groups">
+          <article class="pat-rich">
+            <p i18n:translate="user_member_of_groups">
+              <span tal:replace="context/fullname" i18n:name="name"/>
+              is a member of the following
+              <span tal:replace="num_groups" i18n:name="num_groups"/>
+              groups.
+            </p>
+          </article>
+          <ul class="group-table pat-equaliser">
+            <li class="group" tal:repeat="group groups">
+              <a href="${group/url}" class="two columns">
+                <img src="${group/img}" class="group-badge" alt="Image of ${group/title}"/>
+                <h4 class="title">
+                  ${group/title}
+                </h4>
+                <p class="byline">
+                  <tal:comment condition="nothing">
+                    Not implemented yet: 35 Members
+                  </tal:comment>
+                </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </metal:content>
+  </body>
+</html>

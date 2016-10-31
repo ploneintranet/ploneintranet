@@ -21,10 +21,12 @@ from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
 
 from ploneintranet.network.vocabularies import IPersonalizedVocabularyFactory
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 
 
 logger = getLogger(__name__)
 
+# workspaces are checked for 'View' rather than 'Modify portal content'
 _permissions = {
     'ploneintranet.network.vocabularies.Keywords': 'Modify portal content',
 }
@@ -59,10 +61,20 @@ class PersonalizedVocabularyView(VocabularyView):
             # don't mess with upstream vocabulary handling
             return super(PersonalizedVocabularyView, self).get_vocabulary()
 
-        authorized = None
         sm = getSecurityManager()
-        if (factory_name not in _permissions or
-                not INavigationRoot.providedBy(context)):
+
+        # Special hardcoded 'View' check to enable Workspace batch tagging:
+        # user has 'Modify' on content items but not on the workspace itself.
+        # This at least limits tag space disclosure to workspace members.
+        # See vocabularies.py comment for infosec considerations.
+        if IWorkspaceFolder.providedBy(context):
+            if not sm.checkPermission('View', context):
+                raise VocabLookupException('Vocabulary lookup not allowed')
+
+        # default handler for anything except the siteroot
+        elif (factory_name not in _permissions or
+              not INavigationRoot.providedBy(context)):
+            authorized = None
             # Check field specific permission
             if field_name:
                 permission_checker = queryAdapter(context,
@@ -75,6 +87,7 @@ class PersonalizedVocabularyView(VocabularyView):
                 logger.error("Vocabulary %s lookup (%s) not allowed",
                              factory_name, field_name)
                 raise VocabLookupException('Vocabulary lookup not allowed')
+
         # Short circuit if we are on the site root and permission is
         # in global registry
         elif not sm.checkPermission(_permissions[factory_name], context):

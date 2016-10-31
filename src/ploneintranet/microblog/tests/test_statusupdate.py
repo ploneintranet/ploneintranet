@@ -1,7 +1,5 @@
 import unittest2 as unittest
 from AccessControl import Unauthorized
-from Products.ATContentTypes.content.file import ATFile
-from ploneintranet.attachments.attachments import IAttachmentStorage
 from zope.component import queryUtility
 from zope.interface.verify import verifyClass
 from zope.interface import alsoProvides
@@ -61,8 +59,8 @@ class TestStatusUpdateIntegration(unittest.TestCase):
         tags.sort()
         self.assertEqual(tags, ['beer', 'foo', 'fuzzy'])
 
-    def no_test_userid(self):
-        """Doesn't work in test context"""
+    @unittest.skip("Doesn't work in test context")
+    def test_userid(self):
         su = StatusUpdate('foo bar')
         self.assertEqual(su.id, TEST_USER_ID)
 
@@ -155,13 +153,11 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
     def test_attachments(self):
         su = StatusUpdate('foo bar')
-        attachments = IAttachmentStorage(su)
-
-        f = ATFile('data.dat')
-        attachments.add(f)
-        self.assertEqual([k for k in attachments.keys()], [f.getId()])
-        attachments.remove(f.getId())
-        self.assertEqual(len(attachments.keys()), 0)
+        su.add_attachment('data.dat', 'XXXX')
+        self.assertEqual(len(su.attachments.keys()), 1)
+        self.assertEqual(su.attachments['data.dat'].file.data, 'XXXX')
+        su.remove_attachment('data.dat')
+        self.assertEqual(len(su.attachments.keys()), 0)
 
     def test_mentions(self):
         test_user = api.user.create(
@@ -183,6 +179,33 @@ class TestStatusUpdateIntegration(unittest.TestCase):
     def test_action_verb_custom(self):
         su = StatusUpdate('foo bar', action_verb='created')
         self.assertEqual(su.action_verb, 'created')
+
+    def test_url_no_context(self):
+        su = StatusUpdate('foo bar')
+        self.assertEqual(su.absolute_url(),
+                         '{}/@@post'.format(self.portal.absolute_url()))
+
+    def test_url_microblog_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        su = StatusUpdate('foo bar', microblog_context=f1)
+        self.assertEqual(su.absolute_url(),
+                         '{}/@@post'.format(f1.absolute_url()))
+
+    def test_url_content_context(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su = StatusUpdate('foo bar', content_context=doc)
+        self.assertEqual(su.absolute_url(),
+                         '{}/view'.format(
+                             doc.absolute_url()))
 
 
 class TestStatusUpdateEdit(unittest.TestCase):
@@ -282,6 +305,7 @@ class TestContentStatusUpdate(unittest.TestCase):
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager', 'Member'])
         self.container = queryUtility(IMicroblogTool)
 
@@ -360,3 +384,33 @@ class TestContentStatusUpdate(unittest.TestCase):
         found = [x for x in self.container.values()]
         su1 = found[0]
         self.assertEqual('published', su1.action_verb)
+
+    def test_content_context_subscriber_disable_enable(self):
+        # 1st run events disabled
+        self.request['ploneintranet.microblog.content_created'] = False
+        self.request['ploneintranet.microblog.content_statechanged'] = False
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        self.assertEqual(0, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(0, len(found))
+        # 2nd run with event enabled
+        self.request['ploneintranet.microblog.content_created'] = True
+        self.request['ploneintranet.microblog.content_statechanged'] = True
+        doc = api.content.create(
+            container=self.portal,
+            type='Document',
+            title='My document',
+        )
+        # auto-created by event listener
+        self.assertEqual(1, len([x for x in self.container.values()]))
+        api.content.transition(doc, to_state='published')
+        found = [x for x in self.container.values()]
+        self.assertEqual(2, len(found))
+        su = found[0]
+        self.assertEqual(None, su.microblog_context)
+        self.assertEqual(doc, su.content_context)

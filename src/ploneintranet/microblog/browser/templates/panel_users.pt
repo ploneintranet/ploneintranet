@@ -1,15 +1,15 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+<tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="here/main_template/macros/master"
-      i18n:domain="ploneintranet">
-
-  <body>
-
-    <div metal:fill-slot="main"
-         tal:define="
+      i18n:domain="ploneintranet"> 
+<head>    
+  <meta tal:replace="context/@@http-cache-headers" />
+</head>
+<body>
+    <div tal:define="
            portal_url view/portal_url;
            microblog_context_url view/microblog_context_url;
            thread_id request/thread_id|nothing;
@@ -56,9 +56,8 @@
                                      checked python:user.getId in selected_user_ids and 'checked' or ''"/>
               <a class="follow"
                 tal:define="userid user/getId;
-                            avatar_img string:${portal_url}/@@avatars/${userid};
                             fullname python:user.Title">
-                <img src="${avatar_img}" alt="${fullname}" class="avatar" />
+                <img tal:replace="structure python:view.get_avatar_by_userid(userid)">
                 <strong class="title">${python:fullname or userid}</strong>
                 <br>
                 <dfn class="byline" tal:condition="status">
@@ -80,6 +79,5 @@
       </div>
 
     </div>
-
   </body>
 </html>

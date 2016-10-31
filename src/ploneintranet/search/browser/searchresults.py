@@ -66,7 +66,6 @@ class SearchResultsView(BrowserView):
         )
     }
 
-    _facet_fallback_type_class = 'type-file'
     _batch_size = 10
 
     def _extract_date(self, field):
@@ -291,61 +290,6 @@ class SearchResultsView(BrowserView):
         )
         return response
 
-    @forever.memoize
-    def get_facet_type_class(self, value):
-        """ Take the friendly type name (e.g. OpenOffice Write Document)
-        and return a class for displaying the correct icon
-        """
-        value = value.lower()
-        if 'word' in value:
-            return 'type-word'
-        if 'excel' in value:
-            return 'type-excel'
-        if 'pdf' in value:
-            return 'type-pdf'
-        if 'page' in value:
-            return 'type-rich'
-        if 'news' in value:
-            return 'type-news'
-        if 'event' in value:
-            return 'type-event'
-        if 'image' in value:
-            return 'type-image'
-        if 'presentation' in value:
-            return 'type-powerpoint'
-        if 'workspace' in value:
-            return 'type-workspace'
-        if 'link' in value:
-            return 'type-link'
-        if 'question' in value:
-            return 'type-question'
-        if 'audio' in value:
-            return 'type-audio'
-        if 'video' in value:
-            return 'type-video'
-        if 'contract' in value:
-            return 'type-contract'
-        if 'odt' in value:
-            return 'type-odt'
-        if 'openoffice' in value:
-            return 'type-odt'
-        if 'octet' in value:
-            return 'type-octet'
-        if 'postscript' in value:
-            return 'type-postscript'
-        if 'plain' in value:
-            return 'type-plain-text'
-        if 'archive' in value:
-            return 'type-zip'
-        if 'business card' in value:
-            return 'type-business-card'
-        if 'person' in value:
-            return 'type-people'
-        if 'ploneintranet.userprofile.userprofilecontainer':
-            return 'super-space'
-        # This is our fallback
-        return self._facet_fallback_type_class
-
     def cmp_item_title(self, item1, item2):
         ''' A sorting cmp for item that have a title
         '''
@@ -378,9 +322,10 @@ class SearchResultsView(BrowserView):
         '''
         response = self.search_response()
         types = response.facets.get('friendly_type_name', [])
+        proto = api.content.get_view('proto', self.context, self.request)
         types = [
             {
-                'id': self.get_facet_type_class(t['name']),
+                'id': proto.friendly_type2type_class(t['name']),
                 'title': t['name'],
                 'counter': t['count'],
             }

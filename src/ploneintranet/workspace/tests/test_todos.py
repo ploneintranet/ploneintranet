@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from AccessControl import Unauthorized
+from datetime import datetime
+from datetime import timedelta
 from plone import api
 from ploneintranet import api as pi_api
 from ploneintranet.workspace.tests.base import BaseTestCase
@@ -177,6 +179,9 @@ class TestTodos(BaseTestCase):
 
     def test_todo_sorting(self):
         ''' Check if we can effectively sort todos
+
+        They are sorted by due date if set, and otherwise by
+        getObjPositionInParent.
         '''
         case = api.content.create(
             type='ploneintranet.workspace.case',
@@ -208,6 +213,20 @@ class TestTodos(BaseTestCase):
             ['todo1', 'todo2'],
         )
         case.moveObjectsUp(['todo2'])
+        self.assertEqual(
+            [todo['title'] for todo in case.tasks()['new']],
+            ['todo2', 'todo1'],
+        )
+
+        case.todo1.due = datetime.now()
+        case.todo1.reindexObject()
+        self.assertEqual(
+            [todo['title'] for todo in case.tasks()['new']],
+            ['todo1', 'todo2'],
+        )
+
+        case.todo2.due = datetime.now() - timedelta(days=1)
+        case.todo2.reindexObject()
         self.assertEqual(
             [todo['title'] for todo in case.tasks()['new']],
             ['todo2', 'todo1'],

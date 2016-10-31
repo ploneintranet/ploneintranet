@@ -7,6 +7,7 @@ from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.behaviors.file import IFileField
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
+from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from pytz import timezone
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
@@ -102,7 +103,12 @@ class PatDatePickerWidget(Widget):
         )
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')
-        date = date.replace(tzinfo=timezone(timezone_name))
+
+        # pytz "does not work" with datetime tzinfo. Use localize instead
+        # Symptoms are times in "LMT" format which are off a few minutes.
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        tz = timezone(timezone_name)
+        date = tz.localize(date)
         return date
 
 
@@ -125,7 +131,12 @@ class DateCheckboxWidget(Widget):
         timezone_name = default_timezone(self.context)
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')
-        date = date.replace(tzinfo=timezone(timezone_name))
+
+        # pytz "does not work" with datetime tzinfo. Use localize instead
+        # Symptoms are times in "LMT" format which are off a few minutes.
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        tz = timezone(timezone_name)
+        date = tz.localize(date)
         return date
 
     def render(self):
@@ -153,13 +164,13 @@ class PatDatePickerDataConverter(DateDataConverter):
         return super(PatDatePickerDataConverter).toFieldValue(value)
 
 
-@adapter(getSpecification(IEventBasic['start']), IWorkspaceAppFormLayer)
+@adapter(getSpecification(IEventBasic['start']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def StartPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))
 
 
-@adapter(getSpecification(IEventBasic['end']), IWorkspaceAppFormLayer)
+@adapter(getSpecification(IEventBasic['end']), IPloneintranetFormLayer)
 @implementer(IFieldWidget)
 def EndPatDatePickerFieldWidget(field, request):
     return FieldWidget(field, PatDatePickerWidget(request))

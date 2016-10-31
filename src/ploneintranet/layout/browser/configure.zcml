@@ -9,7 +9,10 @@
     i18n_domain="ploneintranet">
 
   <include package="plone.tiles" file="meta.zcml" />
-  <include package=".prototype" />
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot directory="overrides"
+                layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer" />
+
   <include file="switchoff.zcml" />
 
   <!-- Provides markup around the Dexterity Add/Edit forms -->
@@ -18,7 +21,9 @@
   <!-- Custom widgets using the provided layout -->
   <adapter factory=".widgets.PloneIntranetSelectFieldWidget" />
 
-  <!-- set 'app-whatever' body class -->
+  <!-- set 'app-whatever' body class
+       intentionally zope.Public
+  -->
   <browser:page
       name="plone_layout"
       for="*"
@@ -28,6 +33,19 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <!-- bindings for prototype
+       intentionally zope.Public
+  -->
+  <browser:page
+      name="proto"
+      for="*"
+      class=".proto.ProtoView"
+      permission="zope.Public"
+    />
+
+  <!--
+      intentionally zope.Public
+  -->
   <browser:page
       name="webstats_js"
       for="*"
@@ -47,15 +65,32 @@
       name="apps.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.Apps"
-      permission="zope.Public"
+      permission="ploneintranet.viewsite"
       template="templates/apps.pt"
+  />
+
+  <browser:page
+      name="apps.html"
+      for="ploneintranet.layout.app.IAppsContainer"
+      class=".apps.Apps"
+      permission="ploneintranet.viewsite"
+      template="templates/apps.pt"
+      />
+
+  <browser:page
+      name="app-tile"
+      for="ploneintranet.layout.app.IApp"
+      class=".apps.AppTile"
+      template="templates/app-tile.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      permission="zope2.View"
   />
 
   <browser:page
       name="app-not-available.html"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class=".apps.AppNotAvailable"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/app-not-available.pt"
   />
 
@@ -91,10 +126,38 @@
   <browser:page
       name="personal-menu.html"
       for="*"
-      permission="zope.Public"
+      permission="zope2.View"
       template="templates/personal-menu.pt"
       class=".personal_tools.PersonalTools"
       layer="..interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <!-- override change password form -->
+  <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="change-password"
+      class=".passwordpanel.PloneIntranetPasswordPanel"
+      permission="cmf.SetOwnPassword"
+      template="templates/change-password.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <!--
+      A variant on cmf.SetOwnPassword. zope2.View safe enough.
+  -->
+  <browser:page
+      for="*"
+      name="verify_password_reset_allowed"
+      class=".utils.VerifyPasswordResetAllowed"
+      permission="zope2.View"
+      />
+
+  <!-- Yes, zope.Public, everybody can call this to set cache headers -->
+  <browser:view
+      for="*"
+      name="http-cache-headers"
+      class=".httpheaders.HTTPHeaders"
+      permission="zope.Public"
       />
 
   <plone:tile
@@ -103,7 +166,7 @@
       description="My tile's description"
       add_permission="cmf.ManagePortal"
       class=".dashboard.TasksTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
@@ -114,7 +177,7 @@
       description="News tile showing news on the dashboard"
       add_permission="cmf.ManagePortal"
       class=".dashboard.NewsTile"
-      permission="zope.Public"
+      permission="zope2.View"
       for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
@@ -128,6 +191,18 @@
       class=".dashboard.MyDocumentsTile"
       template="templates/my_documents.pt"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <plone:tile
+      name="grouped_search.tile"
+      title="Grouped Search"
+      description="Tile to list recently modified documents"
+      add_permission="cmf.ManagePortal"
+      permission="zope2.View"
+      class=".grouped_search.GroupedSearchTile"
+      template="templates/grouped_search.pt"
+      for="*"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 

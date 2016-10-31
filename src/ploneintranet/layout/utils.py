@@ -4,10 +4,11 @@ Utilities for general purposes. Meant to be imported from other packages
 and have no dependencies of other packages
 """
 
-from Products.CMFPlone.utils import safe_unicode
-from plone import api
+from Acquisition import aq_chain
 from logging import getLogger
-
+from plone import api
+from ploneintranet.layout.app import IAppsContainer
+from Products.CMFPlone.utils import safe_unicode
 
 logger = getLogger(__name__)
 
@@ -37,3 +38,16 @@ def get_record_from_registry(record, fallback=[]):
                 record,
             )
             return fallback
+
+
+def parent_container(context):
+    if IAppsContainer.providedBy(context):
+        return context
+    context = getattr(context, 'context', context)
+    for parent in aq_chain(context):
+        if IAppsContainer.providedBy(parent):
+            return parent
+
+
+def in_app(context):
+    return IAppsContainer.providedBy(parent_container(context))

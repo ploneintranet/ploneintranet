@@ -28,6 +28,11 @@ Allan can view the stream
     when I open the Dashboard
     then I can see updates by  Christian Stoney
 
+Allan can see attachments in the stream
+    Given I am logged in as the user allan_neece
+    when I open the Dashboard
+    then I can see an attachment  report.xlsx
+
 Allan can open his user filter stream and see only people he is following
     Given I am logged in as the user allan_neece
     when I open the Dashboard

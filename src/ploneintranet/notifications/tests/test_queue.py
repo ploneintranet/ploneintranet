@@ -14,28 +14,42 @@ class TestQueue(unittest.TestCase):
 
     def test_getting_empty_data(self):
         queues = Queues()
-        user = FakeUser()
-        self.assertEqual([], queues.get_user_queue(user.getUserId()))
+        self.assertTupleEqual(
+            queues.get_user_queue('a-user'),
+            (),
+        )
 
     def test_getting_filled_data(self):
         queues = Queues()
-        user = FakeUser()
-        user_queue = queues.get_user_queue(user.getUserId())
-        user_queue.append('123')
-        self.assertEqual(['123'], queues.get_user_queue(user.getUserId()))
+        queues.append_to_user_queue('a-user', '123')
+        self.assertTupleEqual(
+            queues.get_user_queue('a-user'),
+            ('123',),
+        )
+
+    def test_getting_data_with_limit(self):
+        queues = Queues()
+        for idx in range(10):
+            queues.append_to_user_queue('a-user', idx)
+        self.assertTupleEqual(
+            queues.get_user_queue('a-user', limit=5),
+            (0, 1, 2, 3, 4),
+        )
 
     def test_deleting_data(self):
         queues = Queues()
-        user = FakeUser()
-        user_queue = queues.get_user_queue(user.getUserId())
-        user_queue.append('123')
-        queues.del_user_queue(user.getUserId())
-        self.assertEqual([], queues.get_user_queue(user.getUserId()))
+        queues.append_to_user_queue('a-user', '123')
+        queues.del_user_queue('a-user')
+        self.assertTupleEqual(
+            queues.get_user_queue('a-user'),
+            (),
+        )
 
     def test_delete_all_queues(self):
         queues = Queues()
-        user = FakeUser()
-        user_queue = queues.get_user_queue(user.getUserId())
-        user_queue.append('123')
+        queues.append_to_user_queue('a-user', '123')
         queues.clear()
-        self.assertEqual([], queues.get_user_queue(user.getUserId()))
+        self.assertTupleEqual(
+            queues.get_user_queue('a-user'),
+            (),
+        )

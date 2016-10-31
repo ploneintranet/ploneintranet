@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .utils import dexterity_update
 from Acquisition import aq_inner
-# from DateTime import DateTime
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.event.base import default_timezone
@@ -9,9 +8,16 @@ from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.calendar.utils import get_workspaces_of_current_user
+from ploneintranet.layout.utils import get_record_from_registry
+from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
 from ploneintranet.workspace.utils import parent_workspace
+from ploneintranet.workspace.utils import parent_app
+from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError  # noqa
+from Products.CMFEditions.utilities import isObjectChanged, maybeSaveVersion
 from Products.Five import BrowserView
+from urllib import urlencode
 from zope import component
 from zope.component import getUtility
 from zope.event import notify
@@ -25,12 +31,50 @@ from zope.schema.interfaces import IVocabularyFactory
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
+    sidebar_target = ''
+    _edit_permission = 'Modify portal content'
+
+    @property
+    @memoize
+    def is_ajax(self):
+        ''' Check if we have an ajax call
+        '''
+        requested_with = self.request.environ.get('HTTP_X_REQUESTED_WITH')
+        return requested_with == 'XMLHttpRequest'
+
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        if self.request.method == 'POST':
+            return True
+        if self.is_ajax:
+            return False
+        return True
+
+    @property
+    @memoize
+    def autosave_enabled(self):
+        ''' Look up the registry to check if autosave should be enabled
+        for this portal_type
+        '''
+        autosave_portal_types = get_record_from_registry(
+            'ploneintranet.workspace.autosave_portal_types'
+        )
+        return self.context.portal_type in autosave_portal_types
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
         self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
-            'Modify portal content',
+            self._edit_permission,
             obj=context
         )
         # When saving, force to POST
@@ -49,7 +93,7 @@ class ContentView(BrowserView):
         context = aq_inner(self.context)
         workflow_modified = False
         fields_modified = {}
-        errors = None
+        errors = []
         messages = []
         if (
                 self.request.get('workflow_action') and
@@ -60,7 +104,7 @@ class ContentView(BrowserView):
             )
             # re-calculate can_edit after the workflow state change
             self.can_edit = api.user.has_permission(
-                'Modify portal content',
+                self._edit_permission,
                 obj=context
             )
             workflow_modified = True
@@ -74,6 +118,9 @@ class ContentView(BrowserView):
                 if fields_modified:
                     messages.append(
                         context.translate(_("Your changes have been saved.")))
+
+        versioning_errors = self.save_version()
+        errors.extend(versioning_errors)
 
         if errors:
             error_msg = context.translate(_("There was a problem:"))
@@ -154,7 +201,7 @@ class ContentView(BrowserView):
         return sorted(states, key=lambda x: x['title'])
 
     def previews(self):
-        return pi_api.previews.get_preview_urls(self.context)
+        return pi_api.previews.get_preview_urls(self.context, scale="large")
 
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
@@ -200,6 +247,145 @@ class ContentView(BrowserView):
             return name.capitalize()
         return "unknown"
 
+    def delete_url(self):
+        ''' Prepare a url to the delete form triggering:
+         - pat-modal
+         - pat-inject
+        '''
+        options = {
+            'pat-modal': 'true',
+            'pat-inject': ' && '.join([
+                'source:#document-body; target:#document-body',
+                'source:#workspace-events; target:#workspace-events',
+                'target:#global-statusmessage; source:#global-statusmessage',
+            ])
+        }
+        return "%s/delete_confirmation?%s#content" % (
+            self.context.absolute_url(),
+            urlencode(options)
+        )
+
+    @property
+    def form_id(self):
+        ''' The id to be used in the main form
+        '''
+        return self.context.UID()
+
+    def form_pat_inject_options(self):
+        ''' Return the data-path-inject options we want to use
+        '''
+        template = ' && '.join([
+            'source: #{form_id}; target: #{form_id};',
+            'source: #{sidebar_target}; target: #{sidebar_target};'
+            'source: #global-statusmessage; target: #global-statusmessage;'
+        ])
+        return template.format(
+            form_id=self.form_id,
+            sidebar_target=self.sidebar_target,
+        )
+
+    def get_preview_urls(self, obj):
+        ''' Expose the homonymous pi_api method to get the list of preview_urls
+        '''
+        return pi_api.previews.get_preview_urls(obj)
+
+    @property
+    @memoize
+    def friendly_type2type_class(self):
+        ''' Reuse the method from the search view
+        '''
+        view = api.content.get_view(
+            'proto',
+            api.portal.get(),
+            self.request,
+        )
+        return view.friendly_type2type_class
+
+    def get_obj_icon_class(self, obj):
+        ''' Return the best icon for this object
+        '''
+        if obj.portal_type == 'Image':
+            return 'icon-file-image'
+        if obj.portal_type == 'File' and obj.file:
+            content_type = obj.file.contentType
+            if content_type == 'message/rfc822':
+                return 'icon-mail'
+            for word in (
+                'pdf',
+                'word',
+                'excel',
+                'powerpoint',
+                'video',
+                'audio',
+                'archive',
+                'image',
+            ):
+                if word in content_type:
+                    return 'icon-file-%s' % word
+            return 'icon-attach'
+
+        icon_type = self.friendly_type2type_class(obj.portal_type)
+        icon_file = icon_type.replace('type', 'file')
+        return 'icon-%s' % icon_file
+
+    def portal_type_to_class(self):
+        pt = self.context.portal_type
+        if pt == 'File':
+            return 'file'
+        elif pt == 'Image':
+            return 'image'
+        elif pt == 'Link':
+            return 'link'
+        elif pt == 'Event':
+            return 'event'
+        elif pt == 'Document':
+            return 'rich'
+        elif pt == 'Folder':
+            return 'folder'
+        return 'generic'
+
+    def save_version(self):
+        errors = []
+        comment = self.request.get('cmfeditions_version_comment', '')
+        save_new_version = self.request.get('cmfeditions_save_new_version',
+                                            None)
+        force = save_new_version is not None
+
+        if not (isObjectChanged(self.context) or force):
+            return errors
+
+        try:
+            maybeSaveVersion(self.context, comment=comment, force=force)
+        except FileTooLargeToVersionError as e:
+            errors.append(e)
+        return errors
+
+    def is_versionable(self):
+        portal_repository = api.portal.get_tool('portal_repository')
+        return portal_repository.isVersionable(self.context)
+
+    def can_publish_widely(self):
+        try:
+            return IPublishWidely(self.context).can_publish_widely()
+        except TypeError:
+            return False
+
+
+class ContainerView(ContentView):
+    ''' For the container we always return the sidebar
+    '''
+    @property
+    @memoize
+    def show_sidebar(self):
+        ''' Should we show the sidebar?
+        '''
+        form = self.request.form
+        if 'show_sidebar' in form:
+            return True
+        if 'hide_sidebar' in form:
+            return False
+        return True
+
 
 class HelperView(BrowserView):
     ''' Use this to provide helper methods
@@ -232,3 +418,35 @@ class HelperView(BrowserView):
             'value': x.token,
             'label': x.title,  # '(GMT+12:00) Fiji, Kamchatka, Marshall Is.'
         } for x in plone_tzs]
+
+    def get_user_workspaces(self):
+        return get_workspaces_of_current_user(self.context)
+
+    def safe_get_workspace(self):
+        """ This will safely return a sane element, either a workspace, or
+        app or portal object to call helper methods on
+        """
+        portal = api.portal.get()
+        return parent_workspace(self.context) or \
+            parent_app(self.context) or \
+            portal
+
+    def safe_member_prefill(self, context, name, default=''):
+        """ Tries safely to get a members prefill and returns nothing otherwise
+        without failing. This way a form can be used for add and edit and
+        within and outside a workspace
+        """
+        workspace = self.safe_get_workspace()
+        if hasattr(workspace, 'member_prefill'):
+            return workspace.member_prefill(context, name, default)
+        return default
+
+    def safe_member_and_group_prefill(self, context, name, default=''):
+        """ Tries safely to get a members prefill and returns nothing otherwise
+        without failing. This way a form can be used for add and edit and
+        within and outside a workspace
+        """
+        workspace = self.safe_get_workspace()
+        if hasattr(workspace, 'member_and_group_prefill'):
+            return workspace.member_and_group_prefill(context, name, default)
+        return default

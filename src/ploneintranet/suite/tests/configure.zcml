@@ -3,6 +3,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ploneintranet">
 
+  <include package="quaive.resources.ploneintranet" />
+
   <browser:resourceDirectory
     name="ploneintranet.suite.tests"
     directory="static"
