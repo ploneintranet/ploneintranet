@@ -11,8 +11,7 @@
                     </figure>
                     <div class="teaser">
                       <h3 class="title">
-                        <strong tal:repeat="category item/category"
-                                class="category">${category}</strong>
+                        <strong class="category">${item/category}</strong>
                         
                         <em class="comment-count"
                             tal:condition="nothing">6</em>

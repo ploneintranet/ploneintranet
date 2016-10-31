@@ -87,7 +87,7 @@ class NewsApp(AbstractAppContainer, content.Container, App):
                 description=shorten(item.description, desc_len),
                 absolute_url=item.absolute_url(),
                 date=item.effective().strftime('%B %d, %Y'),
-                category=item.Subject(),
+                category=item.section.to_object.title,
                 counter=i,
                 can_edit=api.user.has_permission('Modify', obj=item)
             ))
