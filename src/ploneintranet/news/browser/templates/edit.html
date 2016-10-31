@@ -15,7 +15,7 @@
       <div id="application-body" class="sidebar-normal application-news-cms application-news-cms sidebar-left-open sidebar-right-closed">
 
         <!-- right column: the magazine front page / news item editor-->
-        <div id="document-body" tal:define="read_only python:not view.can_edit">
+        <div id="document-body" tal:define="read_only python: not view.can_edit">
 
           <form class="document pat-inject" id="news-edit-form"
                 method="post"
@@ -42,32 +42,32 @@
                   <a href="/news-press-2/" class="icon-eye iconified" target="Preview" title="Preview this news item">
                     Preview
                   </a>
-                  <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a> 
-                  <fieldset class="pat-subform pat-autosubmit pat-inject" data-pat-inject="target: #document-content::before; url: /feedback/banner-notifications.html; source: #workflow-state-changed::element;">
-                    <label class="pat-select bare" title="Change the workflow state">
-                      <select>
-                        <option>Private</option>
-                        <option>Draft</option>
-                        <option>Published</option>
-                        <!-- <option>Members</option> -->
-                        <!-- <option>Logged in</option> -->
-                        <!-- <option>Internal</option> -->
-                        <!-- <option>External</option> -->
-                      </select>
-                    </label>
-                  </fieldset>      
-                  <button type="submit" class="pat-button icon-floppy" title="Save this document">Save</button>
+                  <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
+                  <fieldset id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
+                            tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/edit.html;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/edit.html;; source: #application-body;; target: #application-body">
+                        <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
+                          <select name="workflow_action" id="workflow_action"
+                                  tal:attributes="disabled view/can_review">
+                            <option tal:repeat="state view/get_workflow_transitions"
+                                    tal:attributes="title state/title; value state/action; selected state/selected|nothing"
+                                    tal:content="state/title">Workflow State</option>
+                          </select>
+                        </label>
+                        <span tal:replace="structure context/@@authenticator/authenticator"/>
+                      </fieldset>
+                  <button type="submit" class="pat-button icon-floppy" title="Save this document" tal:condition="not: read_only">Save</button>
                 </div>
               </div>
               <div class="bar summary-hero">
                 <fieldset class="row" >
                   <label class="nine columns">
-                    <textarea name="description" rows="4" title="Description" placeholder="Summary">${context/description}</textarea>
+                    <textarea name="description" rows="4" title="Description" placeholder="Summary" tal:attributes="disabled read_only">${context/description}</textarea>
                   </label>
                   <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/hero-upload.html#hero-upload" title="Upload a new hero image that may be displayed in the news overview pages.">
                     <!-- Image goes on this line in the markup in the feedback -->
                     <span class="pat-button upload-button">Upload image</span>
-                    <input type="file" name="hero" /> 
+                    <input type="file" name="hero"
+                           tal:attributes="disabled read_only"/> 
                   </label>
                 </fieldset> 
               </div>
@@ -75,7 +75,7 @@
                 <fieldset class="bar pat-checklist">
                   <label>
                     <input name="article_image" type="checkbox" value="selected"
-                           tal:attributes="checked python:getattr(context, 'article_image', 0)" />
+                           tal:attributes="checked python:getattr(context, 'article_image', 0); disabled read_only" />
                     <input name="article_image-empty-marker" type="hidden" value="1" />
                     <span tal:omit-tag=""
                           i18n:translate="label_article_image">
@@ -84,7 +84,7 @@
                   </label>
                   <label>
                     <input name="magazine_image" type="checkbox" value="selected"
-                           tal:attributes="checked python:getattr(context, 'magazine_image', 0)"/>
+                           tal:attributes="checked python:getattr(context, 'magazine_image', 0); disabled read_only"/>
                     <input name="magazine_image-empty-marker" type="hidden" value="1" />
                     <span tal:omit-tag=""
                           i18n:translate="label_magazine_image">
@@ -94,7 +94,7 @@
                 </fieldset>
                 <label class="bar">
                   Section 
-                  <select>
+                  <select tal:attributes="disabled read_only">
                     <option>Hot topics</option>
                     <option>Company news</option>
                     <option>Press releases</option>
@@ -104,7 +104,8 @@
                 <div class="bar" tal:condition="nothing">
                   <label class="pat-checklist">
                     <input type="checkbox" value="selected"
-                           name="allow_comments"/>
+                           name="allow_comments"
+                           tal:attributes="checked python:getattr(context, 'allow_comments', 0); disabled read_only" />
                     <input name="allow_comments-empty-marker" type="hidden" value="1" />
                     <span tal:omit-tag=""
                           i18n:translate="label_allow_comments">
@@ -116,7 +117,7 @@
                   <label class="pat-checklist">
                     <input type="checkbox"
                            name="magazine_home" value="selected"
-                           tal:attributes="checked python:getattr(context, 'magazine_home', 0)"/>
+                           tal:attributes="checked python:getattr(context, 'magazine_home', 0); disabled read_only"/>
                     <input name="magazine_home-empty-marker" type="hidden" value="1" />
                     <span tal:omit-tag=""
                           i18n:translate="label_magazine_home">
@@ -129,18 +130,19 @@
                     Publication date
                     <input class="pat-date-picker" type="date"
                            name="effective"
-                           tal:attributes="value context/effective" />
+                           tal:attributes="value context/effective; disabled read_only" />
                   </label>, 
                   <label class="">
                     Expiration date
                     <input class="pat-date-picker" type="date"
                            name="expires"
                            tal:define="expires context/expires;"
-                           tal:attributes="value python:str(expires).startswith('20') and expires or ''" />
+                           tal:attributes="value python:str(expires).startswith('20') and expires or ''; disabled read_only" />
                   </label>
                 </fieldset>
               </fieldset>
-              <div id="editor-toolbar" class="bar redactor">
+              <div id="editor-toolbar" class="bar redactor"
+                   tal:condition="not:read_only">
                 <p class="loader">Loading…</p>
               </div>
             </div>

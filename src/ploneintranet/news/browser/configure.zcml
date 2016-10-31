@@ -60,15 +60,20 @@
       layer=".interfaces.INewsLayer"
       />
 
+  <!-- Workflow changes might cause you to lose 'modify'
+       so 'view' is the safer permission.
+       The template and backend are locked down.
+  -->
   <browser:page
       name="edit.html"
       for="plone.app.contenttypes.interfaces.INewsItem"
       class=".baseviews.NewsItemEdit"
       template="templates/edit.html"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       layer=".interfaces.INewsContentLayer"
       />
 
+  
   <!--browser:page
       name="newsitem_view"
       for="plone.app.contenttypes.interfaces.INewsItem"
