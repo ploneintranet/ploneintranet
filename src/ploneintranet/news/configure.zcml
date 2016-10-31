@@ -11,9 +11,9 @@
   <include package=".browser" />
 
   <plone:behavior
-      title="Section Reference"
-      description="Section reference for News Item"
-      provides=".behaviors.ISectionReference"
+      title="Newsitem Magazine Metadata"
+      description="Magazine metadata for News Item"
+      provides=".behaviors.INewsMeta"
       for="plone.app.contenttypes.interfaces.INewsItem"
       />
 

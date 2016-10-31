@@ -74,10 +74,22 @@
               <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                 <fieldset class="bar pat-checklist">
                   <label>
-                    <input name="hero-visibility" type="radio" checked /> Image visible as hero image on the news article page.
+                    <input name="article_image" type="checkbox" value="selected"
+                           tal:attributes="checked python:getattr(context, 'article_image', 0)" />
+                    <input name="article_image-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_article_image">
+                      Image visible as hero image on the news article page.
+                    </span>
                   </label>
                   <label>
-                    <input name="hero-visibility" type="radio" /> Image visible on news overview pages.
+                    <input name="magazine_image" type="checkbox" value="selected"
+                           tal:attributes="checked python:getattr(context, 'magazine_image', 0)"/>
+                    <input name="magazine_image-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_magazine_image">
+                      Image visible on news overview pages.
+                      </span>
                   </label>
                 </fieldset>
                 <label class="bar">
@@ -88,22 +100,43 @@
                     <option>Press releases</option>
                   </select>
                 </label>
-                <div class="bar">
+                <!-- commenting not implemented yet -->
+                <div class="bar" tal:condition="nothing">
                   <label class="pat-checklist">
-                    <input type="checkbox" checked /> Allow comments
+                    <input type="checkbox" value="selected"
+                           name="allow_comments"/>
+                    <input name="allow_comments-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_allow_comments">
+                      Allow comments
+                      </span>
                   </label>
                 </div>
                 <div class="bar">
                   <label class="pat-checklist">
-                    <input type="checkbox" checked /> Visible on news landing page
+                    <input type="checkbox"
+                           name="magazine_home" value="selected"
+                           tal:attributes="checked python:getattr(context, 'magazine_home', 0)"/>
+                    <input name="magazine_home-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_magazine_home">
+                      Visible on news landing page
+                      </span>
                   </label>
                 </div>
                 <fieldset class="bar">                
                   <label class="">
-                    Publication date <input class="pat-date-picker" type="date" />
+                    Publication date
+                    <input class="pat-date-picker" type="date"
+                           name="effective"
+                           tal:attributes="value context/effective" />
                   </label>, 
                   <label class="">
-                    Expiration date <input class="pat-date-picker" type="date" />
+                    Expiration date
+                    <input class="pat-date-picker" type="date"
+                           name="expires"
+                           tal:define="expires context/expires;"
+                           tal:attributes="value python:str(expires).startswith('20') and expires or ''" />
                   </label>
                 </fieldset>
               </fieldset>
