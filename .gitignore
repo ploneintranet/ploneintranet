@@ -12,6 +12,7 @@
 .gem/
 .gitconfig
 .installed.cfg
+.ipython/
 .mozilla/
 .mr.developer.cfg
 .npm/
@@ -39,7 +40,7 @@ node_modules/
 parts/
 Patterns/
 /prototype
-/share/python-wheels
+/share/
 release/
 /src/collective.*
 /src/dexterity.membrane
