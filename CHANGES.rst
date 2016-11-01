@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a21 (unreleased)
+1.2.0a21 (2016-11-01)
 ---------------------
 
 * Merge pull request #848 from quaive/expandable-stream [GitHub]
