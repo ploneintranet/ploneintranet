@@ -4,7 +4,36 @@ Changelog
 1.2.0a21 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge pull request #848 from quaive/expandable-stream [GitHub]
+* adapt test to new dom nesting [Alexander Pilz]
+* Merge pull request #847 from quaive/markup-alignment-proto [GitHub]
+* stream is now collapsible/expandable. Also markup has been aligned with proto [Alexander Pilz]
+* Merge pull request #846 from quaive/versioning-improvements [GitHub]
+* release theme and bump [Alexander Pilz]
+* Disarmed a div.content which leads to a large padding around the comment box. Cornelis wants the div completely gone but we use it to carry an id which is used to inject the new post into the comment stream. And there is no replacement available. So this would mean major refactoring. I take this shortcut in stressful times. [Alexander Pilz]
+* Changes requested in https://github.com/quaive/ploneintranet.prototype/commit/c95a10e63f9b088daab949c72303382bbc8f84e6 [Alexander Pilz]
+* implement revert preview generation [Alexander Pilz]
+* enable file download [Alexander Pilz]
+* Make the CMFEditions template show [Alexander Pilz]
+* fix styling [Alexander Pilz]
+* Merge pull request #845 from quaive/fix-injection-parameter [GitHub]
+* Merge pull request #844 from quaive/release-1.1.x [GitHub]
+* Merge pull request #841 from quaive/release-1.2.x [GitHub]
+* Fix the loading-class syntax [Alexander Pilz]
+* Merge remote-tracking branch 'origin/release-1.2.x' into release-1.1.x [Guido A.J. Stevens]
+* Merge pull request #843 from quaive/show-archived-tags-byline [GitHub]
+* adapt test to changed markup (= the very essence of this PR) [Wolfgang Thomas]
+* Indicate archived status of tags in byline. See https://github.com/quaive/ploneintranet.prototype/issues/350 [Manuel Reinhardt]
+* Merge pull request #842 from quaive/fix_whole_day [GitHub]
+* Load start and end date for whole_day events [Manuel Reinhardt]
+* Back to development: 1.2.0a21 [Alexander Pilz]
+* s/venus/gaia/ [Guido A.J. Stevens]
+* Back to development: 1.1.0rc2 [Guido A.J. Stevens]
+* Preparing release 1.1.0rc1 [Guido A.J. Stevens]
+* Prepare Gaia RC1 [Guido A.J. Stevens]
+* Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
+* Merge pull request #641 from quaive/gaia_hotfix [GitHub]
+* Apply Products.PloneHotfix20160830==1.0 [Guido A.J. Stevens]
 
 
 1.2.0a20 (2016-10-28)
