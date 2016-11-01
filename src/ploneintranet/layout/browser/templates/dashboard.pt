@@ -32,8 +32,18 @@
              tal:condition="python: dashboard == 'activity'">
           <div class="grid-sizer four columns"></div>
           <div tal:repeat="tile view/activity_tiles" data-tile="${tile}"/>
-          <div class="portlet span-2 stamp right" id="portlet-activity-stream">
+          <div class="portlet span-2 state-expanded stamp right" id="portlet-activity-stream">
             <div class="content">
+              <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar">
+                  <label class="show-more pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-expanded">
+                      <input type="radio" name="portlet-activity-stream-state-expanded"> 
+                      Show more
+                  </label>
+                  <label class="show-less pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-collapsed">
+                      <input type="radio" name="portlet-activity-stream-state-collapsed"> 
+                      Show less
+                  </label>
+              </form>
               <form data-tile="./@@newpostbox.tile"/>
               <div data-tile="./@@activitystream.tile?stream_filter_menu=1"/>
             </div>
