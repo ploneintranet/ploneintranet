@@ -6,7 +6,7 @@
       i18n:domain="ploneintranet">
 <head>
 </head>
-<body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-workspace">
+<body class="diazo-off sidebar-normal gh-collapsed sidebar-left-open generic application-workspace">
   <div id="workspaces">
       <h1 i18n:translate="">Create workspace</h1>
 
