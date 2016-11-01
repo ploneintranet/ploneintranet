@@ -13,17 +13,8 @@
                       ">
 
         <div id="content-core">
-            <p tal:condition="size_value">
-                <a href=""
-                   tal:define="here_url context/absolute_url"
-                   tal:attributes="href string:$here_url/download_file_version?version_id=${version_id}">
-                    <tal:block i18n:translate="label_click_to_get_file">
-                    Click here to get the file
-                    </tal:block>
-                </a>
-            </p>
 
-            <small class="discreet">
+            <em>
 
               <span tal:condition="not:size_value" i18n:translate="no_file_uploaded">
                   (No file has been uploaded yet)
@@ -39,7 +30,6 @@
                 257</span> KB
 
                 -
-
                 <span i18n:translate="label_file_type">
                 File type
                 </span>
@@ -48,10 +38,18 @@
                 Content type
                 </span>
               </tal:fileinfo>
-            </small>
 
+            </em>
 
-<!--<span tal:replace="python:context.restrictedTraverse('@@content_helper_view').get_previews_for_object(context)"/>-->
+            <p tal:condition="size_value">
+                <a href="" class="pat-button"
+                   tal:define="here_url context/absolute_url"
+                   tal:attributes="href string:$here_url/download_file_version?version_id=${version_id}">
+                    <tal:block i18n:translate="">
+                    Download
+                    </tal:block>
+                </a>
+            </p>
 
 
             <div class="row"

@@ -81,9 +81,9 @@
                               </span>
                             </td>
                             <td class="VersionActions">
+                                      <!-- Diff tool not yet supported
                               <ul>
                                   <li tal:condition="can_diff">
-                                      <!-- Diff tool not yet supported
                                       <a href=""
                                          style="text-decoration: none"
                                          tal:attributes="href string:${here_url}/@@history?one=current&amp;two=${reverted_vid}">
@@ -98,9 +98,9 @@
                                           Compare to previous revision
                                         </span>
                                       </a>
-                                      -->
                                   </li>
                               </ul>
+                                      -->
                             </td>
                           </tr>
                           <tal:block repeat="vdatai histrange">
@@ -134,30 +134,29 @@
                               <span tal:content="vdata/sys_metadata/comment" i18n:translate="">Draft version ready for comments from the group.</span>
                             </td>
                             <td class="VersionActions">
-                              <ul>
                                   <!-- diff not yet supported -->
                                   <tal:comment replace="nothing">
-                                  <tal:diffs condition="can_diff">
-                                  <li tal:condition="not:current_version">
-                                      <a href=""
-                                         style="text-decoration: none"
-                                         tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=current&amp;two=${id}"
-                                         i18n:translate="label_compare_current">
-                                      Compare to current revision
-                                      </a>
-                                  </li>
-                                  <li tal:condition="not:repeat/vdatai/end">
-                                      <a href=""
-                                         style="text-decoration: none"
-                                         tal:define="prev_ver python:str(int(id)-1)"
-                                         tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=${id}&amp;two=${prev_ver}"
-                                         i18n:translate="label_compare_previous">
-                                      Compare to previous revision
-                                      </a>
-                                  </li>
-                                  </tal:diffs>
+                                    <tal:diffs condition="can_diff">
+                                    <li tal:condition="not:current_version">
+                                        <a href=""
+                                           style="text-decoration: none"
+                                           tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=current&amp;two=${id}"
+                                           i18n:translate="label_compare_current">
+                                        Compare to current revision
+                                        </a>
+                                    </li>
+                                    <li tal:condition="not:repeat/vdatai/end">
+                                        <a href=""
+                                           style="text-decoration: none"
+                                           tal:define="prev_ver python:str(int(id)-1)"
+                                           tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=${id}&amp;two=${prev_ver}"
+                                           i18n:translate="label_compare_previous">
+                                        Compare to previous revision
+                                        </a>
+                                    </li>
+                                    </tal:diffs>
                                   </tal:comment>
-                                  <li tal:condition="python: (not current_version) and canRevertToPrevious">
+                                  <tal:c tal:condition="python: (not current_version) and canRevertToPrevious">
 
                                       <form action="" method="post"
                                             tal:attributes="action string:$here_url/revertversion">
@@ -166,8 +165,8 @@
                                         <input class="standalone" type="submit"
                                                i18n:attributes="value label_revert"
                                                value="Revert to this revision" /></form>
-                                  </li>
-                              </ul>
+                                  </tal:c>
+                              
                             </td>
                           </tr>
                           </tal:block>
@@ -206,27 +205,25 @@
                   </fieldset>
 
               </form>
-
-              <a name="version_preview" style="color: #222; text-decoration: none">
-                <h2 for="description"
-                       tal:condition="version_id"
-                       i18n:translate="label_preview_version">
-                  Preview of Revision <span i18n:name="version_id" tal:replace="version_id">0</span>
-                </h2>
-              </a>
-              <div style="border:dashed 1px #ddd; padding: 1em"
-                   tal:condition="version_id">
-                <tal:block define="vdata python:pr.retrieve(context, version_id);
+              <tal:block define="vdata python:pr.retrieve(context, version_id);
                                    context nocall:vdata/object;
                                    portal_type python:context.getPortalTypeName().lower().replace(' ', '_');
                                    object_title context/Title;
                                    suppress_preview python:True;
                                    version_view context/@@version-view|nothing;">
 
+
+                  <a name="version_preview" style="color: #222; text-decoration: none" tal:condition="version_id">
+                    <h1>   
+                        <span tal:omit-tag="" i18n:translate="label_preview_version">
+                      Preview of Revision <span i18n:name="version_id" tal:replace="version_id">0</span></span>:
+                      ${vdata/object/Title}
+                    </h1>
+                  </a>
+                
                   <em class="byline"><div tal:replace="structure provider:plone.belowcontenttitle" /></em>
 
-                  <h1 class="documentFirstHeading" tal:content="vdata/object/Title"/>
-                  <div class="documentDescription" tal:content="vdata/object/Description"></div>
+                  <p class="description" tal:content="vdata/object/Description" tal:condition="vdata/object/Description"></p>
 
                   <div tal:condition="version_view" tal:replace="structure version_view" />
 
@@ -242,9 +239,7 @@
 
                   </tal:noversionview>
 
-                </tal:block>
-
-              </div>
+            </tal:block>
           </article>
         </div>
       </div>
