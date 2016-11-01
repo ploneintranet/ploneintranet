@@ -496,4 +496,12 @@
         layer="..interfaces.IWorkspaceAppContentLayer"
         />
 
+    <browser:view
+        for="*"
+        name="download_file_version"
+        class=".download_file_version.DownloadFileVersion"
+        permission="zope2.View"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+        />
+
 </configure>

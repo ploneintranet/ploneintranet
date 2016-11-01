@@ -450,3 +450,6 @@ class HelperView(BrowserView):
         if hasattr(workspace, 'member_and_group_prefill'):
             return workspace.member_and_group_prefill(context, name, default)
         return default
+
+    def get_previews_for_object(self, obj, scale="large"):
+        pi_api.previews.get_preview_urls(obj, scale=scale)

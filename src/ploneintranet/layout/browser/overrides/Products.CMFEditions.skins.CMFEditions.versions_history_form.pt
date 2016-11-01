@@ -10,7 +10,8 @@
                    view nocall:context/@@candiff;
                    can_diff view/can_diff;
                    checkPermission nocall:context/portal_membership/checkPermission;
-                   canRevertToPrevious python:checkPermission('CMFEditions: Revert to previous versions', context);"
+                   canRevertToPrevious python:checkPermission('CMFEditions: Revert to previous versions', context);
+                   token context/@@authenticator/token;"
                    tal:condition="python: pr.isVersionable(context)">
   <div class="application" id="app-space">
 
@@ -114,12 +115,12 @@
                               <span tal:condition="not:current_version" tal:content="id">1</span>
                               <a href="#"
                                  class="version-table-version"
-                                 tal:attributes="href string:${here_url}/versions_history_form?version_id=${id}#version_preview"
+                                 tal:attributes="href string:${here_url}/versions_history_form?_authenticator=${token}&version_id=${id}#version_preview"
                                  tal:condition="python:version_id!=id and not current_version"
                                  i18n:translate="label_preview_version_link">(preview)</a>
                               <a href="#"
                                  class="version-table-version"
-                                 tal:attributes="href string:${here_url}/versions_history_form?version_id=${id}#version_preview"
+                                 tal:attributes="href string:${here_url}/versions_history_form?_authenticator=${token}&version_id=${id}#version_preview"
                                  tal:condition="python:version_id==id"
                                  i18n:translate="label_preview_version_below">(jump down)</a>
                             </td>
@@ -140,7 +141,7 @@
                                   <li tal:condition="not:current_version">
                                       <a href=""
                                          style="text-decoration: none"
-                                         tal:attributes="href string:${here_url}/@@history?one=current&amp;two=${id}"
+                                         tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=current&amp;two=${id}"
                                          i18n:translate="label_compare_current">
                                       Compare to current revision
                                       </a>
@@ -149,7 +150,7 @@
                                       <a href=""
                                          style="text-decoration: none"
                                          tal:define="prev_ver python:str(int(id)-1)"
-                                         tal:attributes="href string:${here_url}/@@history?one=${id}&amp;two=${prev_ver}"
+                                         tal:attributes="href string:${here_url}/@@history?_authenticator=${token}&one=${id}&amp;two=${prev_ver}"
                                          i18n:translate="label_compare_previous">
                                       Compare to previous revision
                                       </a>
@@ -160,6 +161,7 @@
 
                                       <form action="" method="post"
                                             tal:attributes="action string:$here_url/revertversion">
+                                        <span tal:replace="structure context/@@authenticator/authenticator"/>
                                         <input type="hidden" name="version_id" value="" tal:attributes="value id" />
                                         <input class="standalone" type="submit"
                                                i18n:attributes="value label_revert"
@@ -177,6 +179,7 @@
                   tal:define="here_url context/absolute_url"
                   tal:attributes="action string:${here_url}/saveasnewversion"
                   tal:condition="not: python:pr.supportsPolicy(context, 'at_edit_autoversion')">
+                  <span tal:replace="structure context/@@authenticator/authenticator"/>
                   <fieldset>
                     <fieldset class="horizontal">
                           <h2 for="description"
