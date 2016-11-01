@@ -5,7 +5,7 @@
             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
             lang="en"
             i18n:domain="ploneintranet">
-  <body class="sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-apps ">
+  <body class="sidebar-normal gh-collapsed sidebar-left-open generic application-apps ">
 
     <div id="content">
       <div id="document-content" class="pat-modal">
