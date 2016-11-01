@@ -6,8 +6,8 @@
                      class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>                    
             </li>
             <li>
-                <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-inject="source: #content; target: body:after" title="Document history" i18n:attributes="title" i18n:translate="">
-                    Watch history
+                <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-modal="class: large" data-pat-inject="source: #content; target: body:after" title="Version history" i18n:attributes="title" i18n:translate="">
+                    Version history
                 </a>
             </li>
             <li tal:condition="nothing">

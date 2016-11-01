@@ -1,0 +1,251 @@
+<html metal:use-macro="context/main_template/macros/master" i18n:domain="cmfeditions">
+
+  <metal:main fill-slot="main"
+       tal:define="pr nocall:context/portal_repository;
+                   version_id python:request.get('version_id', None);
+                   history python:pr.getHistoryMetadata(context);
+                   revisions python:history and history.getLength(countPurged=False) or 0;
+                   histrange python:range(revisions-1, -1, -1);
+                   here_url context/absolute_url;
+                   view nocall:context/@@candiff;
+                   can_diff view/can_diff;
+                   checkPermission nocall:context/portal_membership/checkPermission;
+                   canRevertToPrevious python:checkPermission('CMFEditions: Revert to previous versions', context);"
+                   tal:condition="python: pr.isVersionable(context)">
+  <div class="application" id="app-space">
+
+    <div id="application-body" class="sidebar-normal application-workspace project page-type-workspace  sidebar-left-closed sidebar-right-closed"
+         >
+      <h1 id="workspace-name">
+          <!-- Next link is to lead to landing state of current workspace! -->
+          <a href="{{page.url}}" tal:attributes="href context/absolute_url" tal:content="context/Title">{{ page.workspace_name }}</a>
+      </h1>
+      <div id="document-body">
+        <div id="document-content">
+
+              <article class="rich pat-rich">
+                <div tal:replace="structure provider:plone.abovecontenttitle" />
+                <h1 class="title"
+                    i18n:translate="versions_of_title">Revisions of
+                      "<span i18n:name="title" tal:replace="context/title_or_id">title</span>"
+                </h1>
+
+                <p><em class="byline"><div tal:replace="structure provider:plone.belowcontenttitle" /></em></p>
+              </article>
+              <article class="rich pat-rich">
+                  <table id="sortable"
+                      class="listing"
+                      summary="Content history"
+                      cellpadding="0" cellspacing="0"
+                      tal:condition="history"
+                      tal:define="current python:context.checkUpToDate(history)">
+                      <thead>
+                          <tr>
+                            <th><tal:title i18n:translate="listingheader_key"
+                                >Revision</tal:title></th>
+                            <th><tal:title i18n:translate="listingheader_performed_by"
+                                >Performed by</tal:title></th>
+                            <th><tal:title i18n:translate="listingheader_date_and_time"
+                            >Date and Time</tal:title></th>
+                            <th><tal:title i18n:translate="listingheader_comment"
+                                >Comment</tal:title></th>
+                            <th><tal:title i18n:translate="listingheader_actions"
+                                >Actions</tal:title></th>
+                          </tr>
+                      </thead>
+
+                      <tbody tal:define="isModified current/isModified;
+                                         reverted_vid current/reverted_vid;
+                                         isReverted current/isReverted">
+                          <tr class="CurrentVersion odd"
+                              tal:condition="isModified">
+                            <td class="VersionId"
+                                tal:define="id current/version_id;">
+                              <span i18n:translate="">Working Copy</span>
+                            </td>
+                            <td class="VersionUser">
+                              <span tal:replace="context/Creator">user</span>
+                            </td>
+                            <td class="VersionDate">
+                              <span tal:replace="python:context.toLocalizedTime(context.ModificationDate(),long_format=1)">2004/10/21 03:15 PM</span>
+                            </td>
+                            <td class="VersionComment">
+                              <span i18n:translate="label_modifications_from_revision">
+                                modifications from revision
+                                <span tal:replace="reverted_vid" i18n:name="version_id" />
+                              </span>
+                              <span tal:condition="isReverted"
+                                     i18n:translate="label_previously_reverted">
+                                (previously reverted)
+                              </span>
+                            </td>
+                            <td class="VersionActions">
+                              <ul>
+                                  <li tal:condition="can_diff">
+                                      <!-- Diff tool not yet supported
+                                      <a href=""
+                                         style="text-decoration: none"
+                                         tal:attributes="href string:${here_url}/@@history?one=current&amp;two=${reverted_vid}">
+                                        <span tal:condition="isReverted"
+                                              i18n:translate="label_compare_to_revision">
+                                          Compare to revision
+                                          <span tal:replace="reverted_vid"
+                                                i18n:name="version_id" />
+                                        </span>
+                                        <span tal:condition="not:isReverted"
+                                              i18n:translate="label_compare_to_previous_revision">
+                                          Compare to previous revision
+                                        </span>
+                                      </a>
+                                      -->
+                                  </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <tal:block repeat="vdatai histrange">
+                          <tr tal:define="id     vdatai;
+                                          vdatafull   python:history.retrieve(vdatai, countPurged=False);
+                                          vdata       vdatafull/metadata;
+                                          current_version python:not current['isModified'] and current['version_id']==vdatai;
+                                          even repeat/vdatai/even;"
+                              tal:attributes="class python:(current_version and 'CurrentVersion' or '') + (even and ' even' or '')">
+                            <td class="VersionId">
+                              <span tal:condition="current_version" i18n:translate="">Working Copy</span>
+                              <span tal:condition="not:current_version" tal:content="id">1</span>
+                              <a href="#"
+                                 class="version-table-version"
+                                 tal:attributes="href string:${here_url}/versions_history_form?version_id=${id}#version_preview"
+                                 tal:condition="python:version_id!=id and not current_version"
+                                 i18n:translate="label_preview_version_link">(preview)</a>
+                              <a href="#"
+                                 class="version-table-version"
+                                 tal:attributes="href string:${here_url}/versions_history_form?version_id=${id}#version_preview"
+                                 tal:condition="python:version_id==id"
+                                 i18n:translate="label_preview_version_below">(jump down)</a>
+                            </td>
+                            <td class="VersionUser">
+                              <span tal:content="vdata/sys_metadata/principal">francesco</span>
+                            </td>
+                            <td class="VersionDate">
+                              <span tal:content="python:context.toLocalizedTime(vdata['sys_metadata']['timestamp'],long_format=1)">2004/10/21 03:15 PM</span>
+                            </td>
+                            <td class="VersionComment">
+                              <span tal:content="vdata/sys_metadata/comment" i18n:translate="">Draft version ready for comments from the group.</span>
+                            </td>
+                            <td class="VersionActions">
+                              <ul>
+                                  <!-- diff not yet supported -->
+                                  <tal:comment replace="nothing">
+                                  <tal:diffs condition="can_diff">
+                                  <li tal:condition="not:current_version">
+                                      <a href=""
+                                         style="text-decoration: none"
+                                         tal:attributes="href string:${here_url}/@@history?one=current&amp;two=${id}"
+                                         i18n:translate="label_compare_current">
+                                      Compare to current revision
+                                      </a>
+                                  </li>
+                                  <li tal:condition="not:repeat/vdatai/end">
+                                      <a href=""
+                                         style="text-decoration: none"
+                                         tal:define="prev_ver python:str(int(id)-1)"
+                                         tal:attributes="href string:${here_url}/@@history?one=${id}&amp;two=${prev_ver}"
+                                         i18n:translate="label_compare_previous">
+                                      Compare to previous revision
+                                      </a>
+                                  </li>
+                                  </tal:diffs>
+                                  </tal:comment>
+                                  <li tal:condition="python: (not current_version) and canRevertToPrevious">
+
+                                      <form action="" method="post"
+                                            tal:attributes="action string:$here_url/revertversion">
+                                        <input type="hidden" name="version_id" value="" tal:attributes="value id" />
+                                        <input class="standalone" type="submit"
+                                               i18n:attributes="value label_revert"
+                                               value="Revert to this revision" /></form>
+                                  </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          </tal:block>
+                      </tbody>
+                    </table>
+
+              <form action="#"
+                  method="post"
+                  tal:define="here_url context/absolute_url"
+                  tal:attributes="action string:${here_url}/saveasnewversion"
+                  tal:condition="not: python:pr.supportsPolicy(context, 'at_edit_autoversion')">
+                  <fieldset>
+                    <fieldset class="horizontal">
+                          <h2 for="description"
+                                i18n:translate="label_newversion">New version</h2>
+
+                          <p class="formHelp description" i18n:translate="help_versioncomment">
+                            At any moment you can save the content you just edited as a new revision. Enter below a comment to identify the version and hit the "Save as new revision" button.
+                          </p>
+                          <textarea cols="60"
+                                    rows="3"
+                                    id="versioncomment"
+                                    name="versioncomment"
+                                    ></textarea>
+                    </fieldset>
+
+                    <fieldset class="button-bar group">
+                        <input class="context"
+                               type="submit"
+                               name="saveversion"
+                               value="Save as new revision"
+                               i18n:attributes="value button_save_as_new_version"
+                               />
+                    </fieldset>
+                  </fieldset>
+
+              </form>
+
+              <a name="version_preview" style="color: #222; text-decoration: none">
+                <h2 for="description"
+                       tal:condition="version_id"
+                       i18n:translate="label_preview_version">
+                  Preview of Revision <span i18n:name="version_id" tal:replace="version_id">0</span>
+                </h2>
+              </a>
+              <div style="border:dashed 1px #ddd; padding: 1em"
+                   tal:condition="version_id">
+                <tal:block define="vdata python:pr.retrieve(context, version_id);
+                                   context nocall:vdata/object;
+                                   portal_type python:context.getPortalTypeName().lower().replace(' ', '_');
+                                   object_title context/Title;
+                                   suppress_preview python:True;
+                                   version_view context/@@version-view|nothing;">
+
+                  <em class="byline"><div tal:replace="structure provider:plone.belowcontenttitle" /></em>
+
+                  <h1 class="documentFirstHeading" tal:content="vdata/object/Title"/>
+                  <div class="documentDescription" tal:content="vdata/object/Description"></div>
+
+                  <div tal:condition="version_view" tal:replace="structure version_view" />
+
+                  <tal:noversionview
+                    condition="not:version_view"
+                    define="version_view_macro python:context.restrictedTraverse('@@get_macros')(vdata);">
+
+                    <tal:viewmacro condition="version_view_macro">
+                      <metal:use_body use-macro="version_view_macro" />
+                    </tal:viewmacro>
+
+                    <div tal:condition="not:version_view_macro" i18n:translate="">Preview is not available.</div>
+
+                  </tal:noversionview>
+
+                </tal:block>
+
+              </div>
+          </article>
+        </div>
+      </div>
+    </div>
+ </div>
+</metal:main>
+</html>

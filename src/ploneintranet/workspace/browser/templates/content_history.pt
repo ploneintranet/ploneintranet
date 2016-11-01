@@ -12,8 +12,10 @@
                     i18n:translate="">What</th>
                 <th class="nosort"
                     i18n:translate="">View</th>
+                <tal:comment replace="nothing"> <!-- Not yet supported -->
                 <th class="nosort" colspan="2"
                     i18n:translate="">Compare</th>
+                </tal:comment>
                 <th class="nosort"
                     i18n:translate="">Revert</th>
             </tr>
@@ -60,6 +62,7 @@
                             i18n:translate="title_view_revision">View</a>
                     </span>
                 </td>
+                <tal:comment replace="nothing"> <!-- Not yet supported -->
                 <td>
                     <span class="historyLinks" tal:condition="isVersion">
                         <a class="standalone" href="" tal:attributes="href item/diff_current_url"
@@ -76,6 +79,7 @@
                         <span>&#x2193; <span i18n:translate="label_compare" tal:omit-tag="">Compare</span></span>
                     </a>
                 </td>
+                </tal:comment>
                 <td>
                     <span class="historyTools" tal:condition="isVersion">
                     <form action="" method="post" tal:condition="item/revert_url" tal:attributes="action item/revert_url">
