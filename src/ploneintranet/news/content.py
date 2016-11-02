@@ -53,20 +53,21 @@ class NewsApp(AbstractAppContainer, content.Container, App):
     css_class = 'news'
     devices = 'desktop tablet'
 
-    def sections(self):
+    def sections(self, list_items=True):
         _sections = []
         contentFilter = dict(portal_type="ploneintranet.news.section")
         for section in self.listFolderContents(contentFilter=contentFilter):
-            news_items = self.news_items(section.id)
-            delete_protected = len(news_items) == 0
-            _sections.append(dict(
+            section = dict(
                 id=section.id,
                 title=section.title,
                 description=section.description,
                 absolute_url=section.absolute_url(),
-                delete_protected=delete_protected,
-                news_items=news_items,
-            ))
+            )
+            if list_items:
+                news_items = self.news_items(section.id)
+                section['news_items'] = news_items
+                section['delete_protected'] = len(news_items) == 0
+            _sections.append(section)
         if len(_sections) == 1:
             _sections[0]['delete_protected'] = True
         return _sections
@@ -80,6 +81,9 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         )
         i = 0
         for item in self.listFolderContents(contentFilter=contentFilter):
+            # maintaining an index just for this is also costly
+            if section_id and item.section.to_object.id != section_id:
+                continue
             i += 1
             _items.append(dict(
                 obj=item,

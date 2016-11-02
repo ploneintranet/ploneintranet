@@ -32,7 +32,7 @@ class NewsMagazine(BrowserView):
         sections = [dict(title=_('All news'),
                          absolute_url=self.app.absolute_url(),
                          css_class=app_current and 'current' or '')]
-        for section in self.app.sections():
+        for section in self.app.sections(list_items=False):
             current = self.section_id == section['id']
             section['css_class'] = current and 'current' or ''
             sections.append(section)
