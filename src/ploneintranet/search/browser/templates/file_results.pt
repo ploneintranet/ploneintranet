@@ -37,38 +37,38 @@
 
         <div class="container results"
              tal:define="search_response view/search_files"
-             tal:condition="search_response">
+          >
+          <tal:has_results condition="search_response">
+            <p i18n:translate=""><span i18n:name="results" tal:replace="search_response/total_results">87</span> items matched your search.</p>
 
-          <p i18n:translate=""><span i18n:name="results" tal:replace="search_response/total_results">87</span> items matched your search.</p>
-
-          <div id="result_items" class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
-            <tal:result repeat="result search_response">
-              <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
-                <figure>
-                  <img tal:define="spacer python:result.description and ' - ' or ' ';
-                                   preview_small result/preview_image_url;
-                                   preview_large python:preview_small.replace('/small/', '/large/')"
-                       tal:condition="preview_large"
-                       src="${preview_large}"
-                       title="${result/title}${spacer}${result/description}"
-                    />
-                  <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
-                </figure>
-              </a>
-            </tal:result>
-            <tal:next define="
-                next_url python: view.next_page_url(search_response.total_results);
-              "
-              tal:condition="next_url">
-              <a id="files-autoload-target"
-                 class="item pat-inject"
-                 href="${next_url}"
-                 data-pat-inject="source: #result_items; target: #files-autoload-target::element; trigger: autoload-visible;"
-                 i18n:translate=""
-                >More results</a>
-            </tal:next>
-          </div>
-
+            <div id="result_items" class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
+              <tal:result repeat="result search_response">
+                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
+                  <figure>
+                    <img tal:define="spacer python:result.description and ' - ' or ' ';
+                                     preview_small result/preview_image_url;
+                                     preview_large python:preview_small.replace('/small/', '/large/')"
+                         tal:condition="preview_large"
+                         src="${preview_large}"
+                         title="${result/title}${spacer}${result/description}"
+                      />
+                    <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
+                  </figure>
+                </a>
+              </tal:result>
+              <tal:next define="
+                  next_url python: view.next_page_url(search_response.total_results);
+                "
+                tal:condition="next_url">
+                <a id="files-autoload-target"
+                   class="item pat-inject"
+                   href="${next_url}"
+                   data-pat-inject="source: #result_items; target: #files-autoload-target::element; trigger: autoload-visible;"
+                   i18n:translate=""
+                  >More results</a>
+              </tal:next>
+            </div>
+          </tal:has_results>
         </div><!-- /container results -->
       </div><!-- /#results results -->
 
