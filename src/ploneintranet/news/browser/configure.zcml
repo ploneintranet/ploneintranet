@@ -27,6 +27,15 @@
       layer=".interfaces.INewsLayer"
       />
 
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="view"
+      class=".views.NewsSectionView"
+      template="templates/magazine_section.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+  
 
   <browser:page
       name="feeditem"
