@@ -11,7 +11,7 @@
   <metal:content fill-slot="content">
     <div id="app-space" class="state-on">
       <div id="application-body" 
-           class="sidebar-normal application- application-calendar sidebar-left-open sidebar-right-closed toolbar-on">
+           class="sidebar-normal application- application-calendar sidebar-left-open sidebar-right-closed">
 
         <div id="document-body">
           <div id="document-content">
