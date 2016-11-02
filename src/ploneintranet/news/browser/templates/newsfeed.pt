@@ -7,7 +7,9 @@
                 <metal:item metal:define-macro="newsitem">
                   <a class="follow" href="${item/absolute_url}">
                     <figure class="branded">
-                      <img class="illustration" src="${item/absolute_url}/@@images/image/large" alt="" />
+                      <img class="illustration"
+                           style="background-image: url(${item/absolute_url}/@@images/image/large)"
+                           src="++theme++ploneintranet.theme/generated/media/placeholder-16x9.png" alt="">                      
                     </figure>
                     <div class="teaser">
                       <h3 class="title">
