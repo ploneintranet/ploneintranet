@@ -48,11 +48,11 @@
                   <img tal:define="spacer python:result.description and ' - ' or ' ';
                                    preview_small result/preview_image_url;
                                    preview_large python:preview_small.replace('/small/', '/large/')"
-                       tal:attributes="src preview_large;
-                                       title string:${result/title}${spacer}${result/description} "/>
-                  <figcaption tal:attributes="class string:icon-file">
-                    <tal:title tal:replace="result/title" />
-                  </figcaption>
+                       tal:condition="preview_large"
+                       src="${preview_large}"
+                       title="${result/title}${spacer}${result/description}"
+                    />
+                  <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
                 </figure>
               </a>
             </tal:result>
