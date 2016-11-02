@@ -1,0 +1,24 @@
+<a class="follow" href="${context/absolute_url}">
+  <figure class="branded">
+    <img class="illustration"
+         style="background-image: url(${context/absolute_url}/@@images/image/large)"
+         src="++theme++ploneintranet.theme/generated/media/placeholder-16x9.png" alt="">                      
+  </figure>
+  <div class="teaser">
+    <h3 class="title">
+      <strong class="category">${view/category}</strong>
+      
+      <em class="comment-count"
+          tal:condition="nothing">6</em>
+      
+      <tal:title replace="context/title">Item Title</tal:title>
+    </h3>
+    <p class="byline"><time datetime="">${view/date}</time></p>
+    <p class="description">${view/description}
+      <strong i18n:translate="">Read more…</strong>
+    </p>
+  </div>
+</a>
+<a tal:condition="view/can_edit"
+   href="${context/absolute_url}/edit.html" class="edit-button iconified">[Edit]</a>
+

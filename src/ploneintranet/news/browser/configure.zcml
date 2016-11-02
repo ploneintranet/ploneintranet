@@ -5,6 +5,9 @@
 
   <include package="ploneintranet.layout" file="permissions.zcml" />
 
+
+  <!-- ======== MAGAZINE VIEWS =============== -->
+  
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="view"
@@ -24,6 +27,28 @@
       layer=".interfaces.INewsLayer"
       />
 
+
+  <browser:page
+      name="feeditem"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".views.FeedItem"
+      template="templates/feeditem.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      />
+  
+  <!--browser:page
+      name="newsitem_view"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".baseviews.NewsItemView"
+      template="templates/page.pt"      
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      
+      /-->
+
+  <!-- ======== PUBLISHER VIEWS =============== -->
+  
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="publisher"
@@ -73,15 +98,5 @@
       layer=".interfaces.INewsContentLayer"
       />
 
-  
-  <!--browser:page
-      name="newsitem_view"
-      for="plone.app.contenttypes.interfaces.INewsItem"
-      class=".baseviews.NewsItemView"
-      template="templates/page.pt"      
-      permission="zope2.View"
-      layer=".interfaces.INewsContentLayer"
-      
-      /-->
   
 </configure>

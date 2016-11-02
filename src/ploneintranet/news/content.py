@@ -82,6 +82,7 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         for item in self.listFolderContents(contentFilter=contentFilter):
             i += 1
             _items.append(dict(
+                obj=item,
                 id=item.id,
                 title=item.title,
                 description=shorten(item.description, desc_len),

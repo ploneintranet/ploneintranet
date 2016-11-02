@@ -1,18 +1,25 @@
 # -*- coding: utf-8 -*-
+from chameleon import PageTemplateLoader
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 
 import logging
+import os
+
 log = logging.getLogger(__name__)
+path = os.path.dirname(__file__)
 
 
 class NewsMagazine(BrowserView):
 
     section_id = None
+
+    templates = PageTemplateLoader(os.path.join(path, "templates"))
 
     @property
     @memoize
@@ -46,6 +53,22 @@ class NewsMagazine(BrowserView):
 
     def trending_hasmore(self):
         return bool(self.trending_items()[5:6])
+
+
+class FeedItem(BrowserView):
+
+    def can_edit(self):
+        return api.user.has_permission('Modify',
+                                       obj=self.context)
+
+    def description(self, desc_len=160):
+        return shorten(self.context.description, desc_len)
+
+    def date(self):
+        return self.context.effective().strftime('%B %d, %Y')
+
+    def category(self):
+        return self.context.section.to_object.title
 
 
 class NewsSectionView(NewsMagazine):
