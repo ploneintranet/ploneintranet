@@ -41,7 +41,7 @@
 
           <p i18n:translate=""><span i18n:name="results" tal:replace="search_response/total_results">87</span> items matched your search.</p>
 
-          <div class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
+          <div id="result_items" class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
             <tal:result repeat="result search_response">
               <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
                 <figure>
@@ -56,11 +56,17 @@
                 </figure>
               </a>
             </tal:result>
-	    <p tal:define="next_url python:
-			   view.next_page_url(search_response.total_results)"
-	       tal:condition="next_url">
-	      <a href="${next_url}" i18n:translate="">More results</a>
-	    </p>
+            <tal:next define="
+                next_url python: view.next_page_url(search_response.total_results);
+              "
+              tal:condition="next_url">
+              <a id="files-autoload-target"
+                 class="item pat-inject"
+                 href="${next_url}"
+                 data-pat-inject="source: #result_items; target: #files-autoload-target::element; trigger: autoload-visible;"
+                 i18n:translate=""
+                >More results</a>
+            </tal:next>
           </div>
 
         </div><!-- /container results -->
