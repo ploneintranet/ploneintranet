@@ -24,8 +24,8 @@
               data-pat-display-time="from-now: true; locale: ${view/portal/plone_portal_state/language}"
               datetime="${context/date/ISO}"
             >${context/date/ISO}</time>
-        <tal:location condition="context/microblog_context/Title|nothing">
-          in <a href="${context/microblog_context/absolute_url}">${context/microblog_context/Title}</a>
+        <tal:location condition="context/microblog_context/Title|nothing" define="token context/@@authenticator/token">
+          in <a href="${context/microblog_context/absolute_url}?_authenticator=${token}">${context/microblog_context/Title}</a>
         </tal:location>
 
         <tal:comment condition="nothing">
