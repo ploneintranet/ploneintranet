@@ -132,6 +132,25 @@ class TestCalendar(IntegrationTestCase, MockTestCase):
         self.assertTrue(
             ", " in fmt[1])
 
+    def test_format_date_time_with_timezone(self):
+        """We get UTC dates/times from solr, so we need to be able to convert
+        back to the original time zone"""
+        tile = FullCalendarTile(self.portal.apps.calendar, self.request)
+
+        au_tz = timezone('Australia/Sydney')
+        utc_tz = timezone('UTC')
+        dt = datetime(2016, 11, 2, 0, 0, 0, 0, au_tz)
+
+        fmt = tile._format_date_time(
+            dt.astimezone(utc_tz),
+            is_whole_day=True,
+            timezone=au_tz,
+        )
+        self.assertTrue(
+            fmt[0] == '2016-11-02')
+        self.assertTrue(
+            fmt[1] == '02 November 2016')
+
     def test_get_event_class(self):
         tile = FullCalendarTile(self.portal.apps.calendar, self.request)
         event = self.create_dummy(

@@ -1,4 +1,5 @@
 # coding=utf-8
+import pytz
 from AccessControl.security import checkPermission
 
 from datetime import datetime
@@ -59,9 +60,11 @@ class FullCalendarTile(Tile):
                                                         day=day)
         return datestr
 
-    def _format_date_time(self, date_time, is_whole_day):
+    def _format_date_time(self, date_time, is_whole_day, timezone=None):
         if isinstance(date_time, DateTime):
             date_time = date_time.asdatetime()
+        if timezone is not None:
+            date_time = date_time.astimezone(timezone)
         # 2012-02-18T09:00Z
         date_time_short = date_time.strftime('%Y-%m-%d')
         # 18 February 2012, 9:00
@@ -76,15 +79,18 @@ class FullCalendarTile(Tile):
 
     def _get_event_date_times(self, event):
         is_whole_day = event.whole_day
+        timezone = event.timezone
+        if timezone is not None:
+            timezone = pytz.timezone(timezone)
         event_dtimes = {}
         if event.start:
             (event_dtimes["start_date_time_short"],
              event_dtimes["start_date_time_long"]) = self._format_date_time(
-                 event.start, is_whole_day)
+                 event.start, is_whole_day, timezone)
         if event.end:
             (event_dtimes["end_date_time_short"],
              event_dtimes["end_date_time_long"]) = self._format_date_time(
-                 event.end, is_whole_day)
+                 event.end, is_whole_day, timezone)
 
         return event_dtimes
 

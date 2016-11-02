@@ -66,7 +66,7 @@ def update_workflows(context):
     logger.info('Updated role mappings for %s objects', count)
 
 
-def import_catalog(context):
+def import_catalog(context, indexes=[]):
     logger.info('Import Catalog')
     context.runImportStepFromProfile(default_profile, 'catalog')
 
@@ -74,5 +74,6 @@ def import_catalog(context):
     events = pc.searchResults({'object_provides': IEvent.__identifier__})
     for event in events:
         obj = event.getObject()
-        obj.reindexObject(idxs=['invitees'])
-        logger.info('Reindexed invitees of {}'.format(obj.absolute_url()))
+        obj.reindexObject(idxs=indexes)
+        logger.info('Reindexed {} of {}'.format(
+            ', '.join(indexes), obj.absolute_url()))
