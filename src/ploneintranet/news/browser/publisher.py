@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
+from plone.uuid.interfaces import IUUID
 
 from ploneintranet.workspace.basecontent import baseviews
 from .utils import obj2dict
@@ -155,3 +156,13 @@ class NewsItemEdit(baseviews.ContentView):
     def can_review(self):
         return api.user.has_permission('Review portal content',
                                        obj=aq_inner(self.context))
+
+    def sections(self):
+        _sections = []
+        for section in self.app.sections():
+            current = section == self.context.section.to_object
+            _sections.append(obj2dict(section,
+                                      'title',
+                                      current=current,
+                                      uuid=IUUID(section)))
+        return _sections

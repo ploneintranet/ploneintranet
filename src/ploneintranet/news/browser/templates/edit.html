@@ -21,7 +21,7 @@
                 method="post"
                 action="${context/absolute_url}/edit.html#news-edit-form"
                 enctype="multipart/form-data"
-                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body">>
+                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body &amp;&amp; source: #sidebar-news-cms; target: #sidebar-news-cms">
             <div class="metadata pat-bumper">
               <div class="meta-bar">
                 <label class="tags float-before">
@@ -94,10 +94,10 @@
                 </fieldset>
                 <label class="bar">
                   Section 
-                  <select tal:attributes="disabled read_only">
-                    <option>Hot topics</option>
-                    <option>Company news</option>
-                    <option>Press releases</option>
+                  <select name="section" tal:attributes="disabled read_only">
+                    <option tal:repeat="section view/sections"
+                            value="${section/uuid}"
+                            tal:attributes="selected section/current">${section/title}</option>
                   </select>
                 </label>
                 <!-- commenting not implemented yet -->
