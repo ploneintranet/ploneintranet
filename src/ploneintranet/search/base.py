@@ -370,6 +370,7 @@ class SiteSearch(object):
             step=None,
             sort=None,
             debug=False,
+            restricted_filters=True,
     ):
         """Return a search response.
 
@@ -377,7 +378,10 @@ class SiteSearch(object):
         """
         query = self._create_query_object(phrase)
         if filters is not None:
-            query = self.__apply_filters(query, filters)
+            if restricted_filters:
+                query = self.__apply_filters(query, filters)
+            else:
+                query = self._apply_filters(query, filters)
         query = self._apply_facets(query)
         query = self._apply_spellchecking(query, phrase)
         if any((start_date, end_date)):
