@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a22 (unreleased)
+1.2.0a22 (2016-11-03)
 ---------------------
 
 * Merge pull request #853 from quaive/bookmarking-at-midnight [GitHub]
