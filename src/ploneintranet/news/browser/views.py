@@ -55,6 +55,19 @@ class NewsMagazine(BrowserView):
         return bool(self.trending_items()[5:6])
 
 
+class NewsSectionView(NewsMagazine):
+
+    @property
+    @memoize
+    def section_id(self):
+        return self.context.id
+
+    @property
+    @memoize
+    def app(self):
+        return self.context.aq_parent
+
+
 class FeedItem(BrowserView):
 
     def can_edit(self):
@@ -71,17 +84,18 @@ class FeedItem(BrowserView):
         return self.context.section.to_object.title
 
 
-class NewsSectionView(NewsMagazine):
+class NewsItemView(NewsMagazine):
 
     @property
-    @memoize
+    def section(self):
+        return self.context.section.to_object
+
+    @property
     def section_id(self):
-        return self.context.id
+        return self.section.id
 
-    @property
-    @memoize
-    def app(self):
-        return self.context.aq_parent
+    def date(self):
+        return self.context.effective().strftime('%B %d, %Y')
 
 
 class NewsPublisher(BrowserView):

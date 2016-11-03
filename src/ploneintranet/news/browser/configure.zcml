@@ -46,15 +46,14 @@
       layer=".interfaces.INewsContentLayer"
       />
   
-  <!--browser:page
+  <browser:page
       name="newsitem_view"
       for="plone.app.contenttypes.interfaces.INewsItem"
-      class=".baseviews.NewsItemView"
-      template="templates/page.pt"      
+      class=".views.NewsItemView"
+      template="templates/news-item.html"
       permission="zope2.View"
       layer=".interfaces.INewsContentLayer"
-      
-      /-->
+      />
 
   <!-- ======== PUBLISHER VIEWS =============== -->
   
