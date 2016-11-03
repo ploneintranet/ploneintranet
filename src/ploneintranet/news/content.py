@@ -1,4 +1,3 @@
-from plone import api
 from plone.dexterity import content
 from plone.directives import form
 from zope.interface import implements
@@ -7,7 +6,6 @@ from zope import schema
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.app import AbstractAppContainer, IApp, App
 from ploneintranet.layout.interfaces import IAppContainer
-from ploneintranet.layout.utils import shorten
 from ploneintranet.news.browser.interfaces import INewsLayer, INewsContentLayer
 
 
@@ -53,50 +51,23 @@ class NewsApp(AbstractAppContainer, content.Container, App):
     css_class = 'news'
     devices = 'desktop tablet'
 
-    def sections(self, list_items=True):
-        _sections = []
+    def sections(self):
         contentFilter = dict(portal_type="ploneintranet.news.section")
-        for section in self.listFolderContents(contentFilter=contentFilter):
-            _section = dict(
-                id=section.id,
-                title=section.title,
-                description=section.description,
-                absolute_url=section.absolute_url(),
-            )
-            if list_items:
-                news_items = self.news_items(section.id)
-                _section['news_items'] = news_items
-                _section['delete_protected'] = len(news_items) == 0
-            _sections.append(_section)
-        if len(_sections) == 1:
-            _sections[0]['delete_protected'] = True
-        return _sections
+        return self.listFolderContents(contentFilter=contentFilter)
 
-    def news_items(self, section_id=None, desc_len=160):
-        _items = []
+    def news_items(self, section_id=None):
         contentFilter = dict(
             portal_type="News Item",
             sort_on='effective',
             sort_order='reverse'
         )
-        i = 0
+        items = []
         for item in self.listFolderContents(contentFilter=contentFilter):
-            # maintaining an index just for this is also costly
+            # maintaining an index just for this would also be costly
             if section_id and item.section.to_object.id != section_id:
                 continue
-            i += 1
-            _items.append(dict(
-                obj=item,
-                id=item.id,
-                title=item.title,
-                description=shorten(item.description, desc_len),
-                absolute_url=item.absolute_url(),
-                date=item.effective().strftime('%B %d, %Y'),
-                category=item.section.to_object.title,
-                counter=i,
-                can_edit=api.user.has_permission('Modify', obj=item)
-            ))
-        return _items
+            items.append(item)
+        return items
 
 
 class NewsSection(content.Item):

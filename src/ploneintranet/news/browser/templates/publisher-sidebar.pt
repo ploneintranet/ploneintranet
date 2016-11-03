@@ -27,7 +27,7 @@
           </div>
     	</div>
 
-        <form tal:repeat="section context/sections"
+        <form tal:repeat="section view/sections"
               id="listing-${section/id}"
               class="pat-collapsible object-list news pat-inject"
               data-pat-inject="target: body::after"

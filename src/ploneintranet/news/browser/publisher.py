@@ -1,101 +1,17 @@
 # -*- coding: utf-8 -*-
-from chameleon import PageTemplateLoader
+from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.workspace.basecontent import baseviews
+from .utils import obj2dict
 
 import logging
-import os
 
 log = logging.getLogger(__name__)
-path = os.path.dirname(__file__)
-
-
-class NewsMagazine(BrowserView):
-
-    section_id = None
-
-    templates = PageTemplateLoader(os.path.join(path, "templates"))
-
-    @property
-    @memoize
-    def app(self):
-        return self.context
-
-    def sections(self):
-        # TODO: add 'trending'
-        app_current = self.section_id is None
-        sections = [dict(title=_('All news'),
-                         absolute_url=self.app.absolute_url(),
-                         css_class=app_current and 'current' or '')]
-        for section in self.app.sections(list_items=False):
-            current = self.section_id == section['id']
-            section['css_class'] = current and 'current' or ''
-            sections.append(section)
-        return sections
-
-    @memoize
-    def news_items(self):
-        return self.app.news_items(section_id=self.section_id,
-                                   desc_len=120)
-
-    @memoize
-    def trending_items(self):
-        all_trending = self.context.news_items('trending', desc_len=120)
-        return [x for x in all_trending if x not in self.news_items()[0:4]]
-
-    def trending_top5(self):
-        return self.trending_items()[0:5]
-
-    def trending_hasmore(self):
-        return bool(self.trending_items()[5:6])
-
-
-class NewsSectionView(NewsMagazine):
-
-    @property
-    @memoize
-    def section_id(self):
-        return self.context.id
-
-    @property
-    @memoize
-    def app(self):
-        return self.context.aq_parent
-
-
-class FeedItem(BrowserView):
-
-    def can_edit(self):
-        return api.user.has_permission('Modify',
-                                       obj=self.context)
-
-    def description(self, desc_len=160):
-        return shorten(self.context.description, desc_len)
-
-    def date(self):
-        return self.context.effective().strftime('%B %d, %Y')
-
-    def category(self):
-        return self.context.section.to_object.title
-
-
-class NewsItemView(NewsMagazine):
-
-    @property
-    def section(self):
-        return self.context.section.to_object
-
-    @property
-    def section_id(self):
-        return self.section.id
-
-    def date(self):
-        return self.context.effective().strftime('%B %d, %Y')
 
 
 class NewsPublisher(BrowserView):
@@ -118,6 +34,39 @@ class NewsPublisher(BrowserView):
                 self.create_section()
             elif get('type') == 'item':
                 self.create_item()
+
+    @memoize
+    def sections(self):
+        _sections = []
+        for section in self.context.sections():
+            news_items = self.news_items(section.id)
+            delete_protected = len(news_items) == 0
+            _sections.append(obj2dict(
+                section,
+                'id', 'title', 'description', 'absolute_url',
+                news_items=news_items,
+                delete_protected=delete_protected
+            ))
+        if len(_sections) == 1:
+            _sections[0]['delete_protected'] = True
+        return _sections
+
+    @memoize
+    def news_items(self, section_id=None, desc_len=160):
+        _items = []
+        i = 0
+        for item in self.context.news_items(section_id):
+            i += 1
+            _items.append(obj2dict(
+                item,
+                'id', 'title', 'absolute_url',
+                description=shorten(item.description, desc_len),
+                date=item.effective().strftime('%B %d, %Y'),
+                category=item.section.to_object.title,
+                counter=i,
+                can_edit=api.user.has_permission('Modify', obj=item)
+            ))
+        return _items
 
     def create_section(self):
         get = self.request.form.get
@@ -191,3 +140,18 @@ class SectionDelete(SectionEdit):
     def update(self):
         log.info("Deleting {}".format(self.context))
         api.content.delete(obj=self.context, check_linkintegrity=False)
+
+
+class NewsItemEdit(baseviews.ContentView):
+
+    @property
+    def app(self):
+        return self.context.aq_parent
+
+    def sidebar(self):
+        publisher = api.content.get_view('publisher', self.app, self.request)
+        return publisher.sidebar()
+
+    def can_review(self):
+        return api.user.has_permission('Review portal content',
+                                       obj=aq_inner(self.context))
