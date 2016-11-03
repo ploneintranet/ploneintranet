@@ -1358,8 +1358,7 @@ I can open a milestone task panel
 
 I can see the user is a guest
     [arguments]  ${username}
-    Wait until page contains element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_guests']//strong[@class='title' and contains(text(), '${username}')]
-    Page should not contain element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_users']//strong[@class='title' and contains(text(), '${username}')]
+    Wait until page contains element  xpath=//form[@id='member-list-items']//strong[@class='title' and contains(text(), '${username}')]/../../a[contains(text(), 'Guest')]
 
 I write a status update
     [arguments]  ${message}
