@@ -97,6 +97,7 @@ class SearchResult(object):
         self.end = context.get('end', None)
         self.location = context.get('location', '')
         self.invitees = context.get('invitees', [])
+        self.timezone = context.get('timezone', False)
         self.whole_day = context.get('whole_day', False)
         self.ws_type = context.get('ws_type', 'workspace')
         # The following try/except are needed because the get method of brains
