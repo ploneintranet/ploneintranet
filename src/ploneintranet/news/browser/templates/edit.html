@@ -63,10 +63,19 @@
                   <label class="nine columns">
                     <textarea name="description" rows="4" title="Description" placeholder="Summary" tal:attributes="disabled read_only">${context/description}</textarea>
                   </label>
-                  <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject" data-pat-inject="url: /feedback/hero-upload.html#hero-upload" title="Upload a new hero image that may be displayed in the news overview pages.">
-                    <!-- Image goes on this line in the markup in the feedback -->
-                    <span class="pat-button upload-button">Upload image</span>
-                    <input type="file" name="hero"
+                  <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject"
+                         data-pat-inject="url: ${context/absolute_url}/edit.html#hero-upload"
+                         title="Upload a new hero image that may be displayed in the news overview pages."
+                         tal:define="has_image python:True">
+                    <img src="${context/absolute_url}/@@images/image/preview" alt=""
+                         tal:condition="has_image"/>
+                    <span class="pat-button upload-button"
+                          tal:condition="has_image"
+                          i18n:translate="label_replace_image">Replace image</span>
+                    <span class="pat-button upload-button"
+                          tal:condition="not: has_image"
+                          i18n:translate="label_upload_image">Upload image</span>
+                    <input type="file" name="image"
                            tal:attributes="disabled read_only"/> 
                   </label>
                 </fieldset> 
