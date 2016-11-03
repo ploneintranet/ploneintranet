@@ -9,6 +9,9 @@ from ploneintranet.bookmarks.testing import FunctionalTestCase
 from ploneintranet.layout.app import apps_container_id
 from zope.interface import alsoProvides
 
+import unittest
+
+
 PROJECTNAME = 'ploneintranet.bookmarks'
 
 
@@ -296,6 +299,7 @@ class TestViews(FunctionalTestCase):
             ],
         )
 
+    @unittest.skip('May fail close to midnight')
     def test_app_bookmarks_grouped_by_bookmarked(self):
         self.bookmark_contents(fiddle_dates=True)
         view = self.get_app_bookmarks({
@@ -362,6 +366,7 @@ class TestViews(FunctionalTestCase):
             ['Bookmarks']
         )
 
+    @unittest.skip('May fail close to midnight')
     def test_app_bookmarks_grouped_by_bookmarked_and_filtered(self):
         ''' We search and filter bookmarks
         '''
