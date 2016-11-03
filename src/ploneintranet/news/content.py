@@ -57,7 +57,7 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         _sections = []
         contentFilter = dict(portal_type="ploneintranet.news.section")
         for section in self.listFolderContents(contentFilter=contentFilter):
-            section = dict(
+            _section = dict(
                 id=section.id,
                 title=section.title,
                 description=section.description,
@@ -65,9 +65,9 @@ class NewsApp(AbstractAppContainer, content.Container, App):
             )
             if list_items:
                 news_items = self.news_items(section.id)
-                section['news_items'] = news_items
-                section['delete_protected'] = len(news_items) == 0
-            _sections.append(section)
+                _section['news_items'] = news_items
+                _section['delete_protected'] = len(news_items) == 0
+            _sections.append(_section)
         if len(_sections) == 1:
             _sections[0]['delete_protected'] = True
         return _sections
