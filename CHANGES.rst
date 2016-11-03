@@ -4,7 +4,21 @@ Changelog
 1.2.0a22 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge pull request #853 from quaive/bookmarking-at-midnight [GitHub]
+* Merge pull request #852 from quaive/search-enhancements [GitHub]
+* Merge pull request #849 from quaive/release-1.2.x [GitHub]
+* remove class [Alexander Pilz]
+* make day not zero padded [Alexander Pilz]
+* Skip test that can fail close to midnight [Alessandro Pisa]
+* Merge pull request #851 from quaive/authenticator-to-workspace [GitHub]
+* Allow to replace the search navigation overriding just one template [Alessandro Pisa]
+* The div is needed for injection, even if we have no results [Alessandro Pisa]
+* Do not try to display a preview if there is not [Alessandro Pisa]
+* Fix batching [Alessandro Pisa]
+* add an authenticator when linking to workspace from stream [Alexander Pilz]
+* Merge pull request #850 from quaive/markup-fixes [GitHub]
+* More markup fixes to fix sidebar positioning on doc and event view [Alexander Pilz]
+* Back to development: 1.2.0a22 [Alexander Pilz]
 
 
 1.2.0a21 (2016-11-01)
