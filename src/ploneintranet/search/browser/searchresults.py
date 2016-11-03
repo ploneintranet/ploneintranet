@@ -3,9 +3,8 @@ from datetime import datetime
 from logging import getLogger
 from os import environ
 from plone import api
-from plone import api as plone_api
-from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.app.textfield.value import RichTextValue
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
@@ -17,6 +16,7 @@ from zope.component import getUtility
 from ZTUtils import make_query
 
 import locale
+
 
 logger = getLogger(__name__)
 
@@ -204,7 +204,7 @@ class SearchResultsView(BrowserView):
     def supported_filters(self):
         ''' The list of supported filters as defined in the registry
         '''
-        return plone_api.portal.get_registry_record(
+        return api.portal.get_registry_record(
             'ploneintranet.search.filter_fields'
         )
 
@@ -399,6 +399,8 @@ class SearchResultsView(BrowserView):
         response = search_util.query(
             keywords,
             filters=filters,
+            start=self.get_start(),
+            step=self._batch_size,
         )
         return response
 

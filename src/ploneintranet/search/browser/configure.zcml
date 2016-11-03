@@ -27,6 +27,14 @@
       layer="..interfaces.IPloneintranetSearchLayer"
       />
 
+  <browser:page
+      name="search_tabs"
+      for="*"
+      permission="zope2.View"
+      template="templates/search_tabs.pt"
+      layer="..interfaces.IPloneintranetSearchLayer"
+      />
+
    <browser:page
        name="search_images"
        for="plone.app.layout.navigation.interfaces.INavigationRoot"

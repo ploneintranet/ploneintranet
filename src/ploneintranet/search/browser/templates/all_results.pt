@@ -23,16 +23,7 @@
           </fieldset>
         </div>
 
-        <nav class="tabs pat-tabs navigation" id="tabs-nav">
-          <a href="@@search?SearchableText=${request/SearchableText|nothing}"
-             class="pat-inject #results" i18n:translate="">All</a>
-          <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
-             class="pat-inject" i18n:translate="">People</a>
-          <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
-             class="pat-inject" i18n:translate="">Images</a>
-          <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
-             class="pat-inject" i18n:translate="">Files</a>
-        </nav>
+        <tal:nav replace="structure here/search_tabs" />
 
         <div class="results" id="results">
 

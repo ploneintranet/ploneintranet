@@ -1,0 +1,21 @@
+<nav id="tabs-nav"
+     class="tabs pat-tabs navigation"
+     i18n:domain="ploneintranet"
+    >
+  <a href="@@search?SearchableText=${request/SearchableText|nothing}"
+     class="pat-inject #results"
+     i18n:translate=""
+    >All</a>
+  <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
+     class="pat-inject"
+     i18n:translate=""
+    >People</a>
+  <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
+     class="pat-inject"
+     i18n:translate=""
+    >Images</a>
+  <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
+     class="pat-inject"
+     i18n:translate=""
+    >Files</a>
+</nav>
