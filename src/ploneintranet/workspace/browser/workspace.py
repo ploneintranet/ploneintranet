@@ -7,6 +7,7 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStorage
@@ -15,6 +16,7 @@ from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
+from Products.membrane.interfaces import group as group_ifaces
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
@@ -334,31 +336,71 @@ class AllUsersJSONView(BrowserView):
         return format_users_json(users)
 
 
+class BrainToGroupAdapter(object):
+    ''' Make a brain behave like a group
+    '''
+
+    def __init__(self, context):
+        self.context = context
+
+    def getId(self):
+        ''' Return this group id
+        '''
+        return self.context.getGroupId
+
+    def getProperty(self, key, fallback=''):
+        ''' Mimic getProperty, remapping some keys
+        '''
+        if key == 'state':
+            key = 'review_state'
+        elif key == 'title':
+            key = 'Title'
+        return getattr(self.context, key, fallback)
+
+
 class AllGroupsJSONView(BrowserView):
     """
     Return all groups in JSON for use in picker
     TODO: consolidate AllGroupsJSONView with AllUsersJSONView
     """
+
+    def get_groups(self):
+        ''' Return all the groups
+        '''
+        only_membrane_groups = get_record_from_registry(
+            'ploneintranet.suite.only_membrane_groups',
+            False
+        )
+        if only_membrane_groups:
+            mt = api.portal.get_tool(name='membrane_tool')
+            purl = api.portal.get_tool(name='portal_url')
+            groups = map(
+                BrainToGroupAdapter,
+                mt.unrestrictedSearchResults(
+                    object_implements=(group_ifaces.IGroup.__identifier__),
+                    path=purl.getPortalPath()
+                )
+            )
+        else:
+            groups = api.group.get_groups()
+        return groups
+
     def __call__(self):
         q = self.request.get('q', '').lower()
-        groups = api.group.get_groups()
+
+        groups = self.get_groups()
+
         group_details = []
         ws = IWorkspace(self.context)
         for group in groups:
             groupid = group.getId()
-            if groupid == self.context.id:
-                # don't add group to itself
-                continue
             # XXX Filter out groups representing workspace roles. Review
             # whether we need/want this and/or can do it more efficiently.
-            skip = False
-            for special_group in ws.available_groups:
-                if groupid.startswith('{}:'.format(special_group)):
-                    skip = True
-                    break
-            if group.getProperty('state') == 'secret':
-                skip = True
-            if skip:
+            if (
+                groupid == self.context.id or  # don't add group to itself
+                group.getProperty('state') == 'secret' or
+                groupid.partition(':')[0] in ws.available_groups
+            ):
                 continue
             title = group.getProperty('title') or groupid
             email = group.getProperty('email')
