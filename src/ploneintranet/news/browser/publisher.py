@@ -7,6 +7,7 @@ from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
 from plone.uuid.interfaces import IUUID
 
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent import baseviews
 from .utils import obj2dict
 
@@ -38,7 +39,12 @@ class NewsPublisher(BrowserView):
 
     @memoize
     def sections(self):
-        _sections = []
+        _sections = [dict(
+            id='None',
+            title=_(u'No section'),
+            description=_(u'Items not assigned to a section'),
+            news_items=self.news_items(None)
+        )]
         for section in self.context.sections():
             news_items = self.news_items(section.id)
             delete_protected = len(news_items) == 0
@@ -53,17 +59,21 @@ class NewsPublisher(BrowserView):
         return _sections
 
     @memoize
-    def news_items(self, section_id=None, desc_len=160):
+    def news_items(self, section_id='', desc_len=160):
         _items = []
         i = 0
         for item in self.context.news_items(section_id):
             i += 1
+            if item.section:
+                category = item.section.to_object.title
+            else:
+                category = None
             _items.append(obj2dict(
                 item,
                 'id', 'title', 'absolute_url',
                 description=shorten(item.description, desc_len),
                 date=item.effective().strftime('%B %d, %Y'),
-                category=item.section.to_object.title,
+                category=category,
                 counter=i,
                 can_edit=api.user.has_permission('Modify', obj=item)
             ))
@@ -160,7 +170,11 @@ class NewsItemEdit(baseviews.ContentView):
     def sections(self):
         _sections = []
         for section in self.app.sections():
-            current = section == self.context.section.to_object
+            if self.context.section:
+                context_section = self.context.section.to_object
+            else:
+                context_section = None
+            current = section == context_section
             _sections.append(obj2dict(section,
                                       'title',
                                       current=current,

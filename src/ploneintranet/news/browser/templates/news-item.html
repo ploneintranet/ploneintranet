@@ -20,7 +20,9 @@
         <article class="news-article pat-rich">
 	  <p class="page-function-bar">
 	    <!-- The word 'Press release' below is to be replaced with the relevant section name of the respective article. The same is true for the link.  -->
-	    <a class="back" href="${view/section/absolute_url}">
+	    <a class="back"
+               tal:condition="view/section"
+               href="${view/section/absolute_url}">
               ${view/section/title}</a>
 	    <a href="#" class="share icon-share"
                tal:condition="nothing">Share</a>
@@ -29,7 +31,7 @@
 	  <h1 class="title">${context/title}</h1>
           
 	  <figure class="hero">
-	    <img src="${context/absolute_url}/@@images/image" alt="" />
+	    <img src="${context/absolute_url}/@@images/image" alt=""/>
 	  </figure>
           
 	  <p class="summary">
@@ -38,6 +40,7 @@
 	  </p>
           
 	  <div class="main-content"
+               tal:condition="context/text"
                tal:content="structure context/text/output">
             text
 	  </div>

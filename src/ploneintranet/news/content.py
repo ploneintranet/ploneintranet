@@ -55,7 +55,9 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         contentFilter = dict(portal_type="ploneintranet.news.section")
         return self.listFolderContents(contentFilter=contentFilter)
 
-    def news_items(self, section_id=None):
+    def news_items(self, section_id=''):
+        # section_id==''   -> all items regardless of section
+        # section_id==None -> all items not assigned to a section
         contentFilter = dict(
             portal_type="News Item",
             sort_on='effective',
@@ -64,7 +66,11 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         items = []
         for item in self.listFolderContents(contentFilter=contentFilter):
             # maintaining an index just for this would also be costly
-            if section_id and item.section.to_object.id != section_id:
+            if not item.section:
+                _item_section_id = None
+            else:
+                _item_section_id = item.section.to_object.id
+            if section_id != '' and _item_section_id != section_id:
                 continue
             items.append(item)
         return items

@@ -35,12 +35,12 @@
           <h4 class="section-label">
             ${section/title}
           </h4>
-          <p class="list-icons">
+          <p class="list-icons" tal:condition="section/absolute_url|nothing">
             <a href="#options-${section/id}" class="iconified icon-cog pat-tooltip" data-pat-tooltip="source: ajax;" i18n:translate="">
               Options
             </a>
           </p>
-          <div id="options-${section/id}" hidden>
+          <div id="options-${section/id}" hidden tal:condition="section/absolute_url|nothing">
             <ul class="menu">
 	      <li>
 		<a class="icon-edit pat-inject"
@@ -111,7 +111,8 @@
 	      </a>
             </label>
 	    <!-- Five items are shown. Older items are ajaxed in with the link below: -->
-	    <p class="more" id="load-more-${section/id}">
+	    <p class="more" id="load-more-${section/id}"
+               tal:condition="section/absolute_url|nothing">
 	      <a href="/feedback/news-load-more-hot-topics.html#content"
                  class="pat-inject"
                  data-pat-inject="target: #load-more-${section/id}::element">

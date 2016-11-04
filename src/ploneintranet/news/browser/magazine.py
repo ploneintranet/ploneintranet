@@ -10,7 +10,7 @@ from .utils import obj2dict
 
 class NewsMagazine(BrowserView):
 
-    section_id = None
+    section_id = ''
 
     @property
     @memoize
@@ -35,8 +35,8 @@ class NewsMagazine(BrowserView):
         return sections
 
     @memoize
-    def news_items(self, section_id=None):
-        if not section_id:
+    def news_items(self, section_id=''):
+        if section_id != '':
             section_id = self.section_id
         items = []
         i = 0
@@ -83,18 +83,25 @@ class FeedItem(BrowserView):
         return self.context.effective().strftime('%B %d, %Y')
 
     def category(self):
-        return self.context.section.to_object.title
+        try:
+            return self.context.section.to_object.title
+        except AttributeError:
+            return None
 
 
 class NewsItemView(NewsMagazine):
 
     @property
     def section(self):
-        return self.context.section.to_object
+        try:
+            return self.context.section.to_object
+        except AttributeError:
+            return None
 
     @property
     def section_id(self):
-        return self.section.id
+        if self.section:
+            return self.section.id
 
     def date(self):
         return self.context.effective().strftime('%B %d, %Y')
