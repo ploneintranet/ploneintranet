@@ -467,6 +467,7 @@ class WorkspacesJSONView(BrowserView):
 
         search_util = getUtility(ISiteSearch)
         workspaces = search_util.query(**query)
+        workspaces = sorted(workspaces, key=lambda ws: ws['Title'])
         if IBaseWorkspaceFolder.providedBy(self.context):
             skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
