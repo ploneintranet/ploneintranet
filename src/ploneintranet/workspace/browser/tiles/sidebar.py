@@ -5,9 +5,9 @@ from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ...utils import map_content_type
+from ...utils import month_name
 from ...utils import parent_workspace
 from ...utils import set_cookie
-from ...utils import month_name
 from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
@@ -25,19 +25,19 @@ from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.Archetypes.utils import shasattr
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from slc.mailrouter.utils import store_name
 from zope.component import getAdapter
-from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
 from zope.schema import getFieldNames
 from zope.schema.interfaces import IVocabularyFactory
+
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -193,41 +193,6 @@ class SidebarSettingsMembers(BaseTile):
     """
 
     index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
-
-    users = []
-    guests = []
-
-    def render(self):
-        self._get_users_and_guests()
-        return self.index()
-
-    def _get_users_and_guests(self):
-        """
-        Get current users and add in any search results.
-        Saves two list of dicts with keys, one for regular members,
-        one for users with the "Guest" role.
-        """
-        users = []
-        guests = []
-        existing_users = self.existing_users()
-        existing_user_ids = [x['id'] for x in existing_users]
-
-        # Only add search results that are not already members
-        sharing = getMultiAdapter((self.workspace(), self.request),
-                                  name='sharing')
-        search_results = sharing.user_search_results()
-        all_users = existing_users + [
-            x for x in search_results if x['id'] not in existing_user_ids]
-        for record in all_users:
-            if record.get('role') == 'Guest':
-                guests.append(record)
-            else:
-                users.append(record)
-
-        users.sort(key=lambda x: safe_unicode(x['title']))
-        guests.sort(key=lambda x: safe_unicode(x['title']))
-        self.users = users
-        self.guests = guests
 
     def existing_users(self):
         return self.workspace().existing_users()
