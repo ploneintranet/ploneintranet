@@ -138,6 +138,7 @@ class WorkspaceFolder(Container):
         gtool = self.portal_groups
         group_names = gtool.listGroupNames()
         info = []
+        portal_url = api.portal.get().absolute_url()
 
         for user_or_group_id, details in members.items():
             user = api.user.get(user_or_group_id)
@@ -151,6 +152,10 @@ class WorkspaceFolder(Container):
                 classes = 'user ' + (description and 'has-description' or
                                      'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)
+                obj = user
+                absolute_url = '/'.join(
+                    (portal_url, 'profiles', user.getId())
+                )
             else:
                 typ = 'group'
                 group = api.group.get(user_or_group_id)
@@ -159,7 +164,7 @@ class WorkspaceFolder(Container):
                 # Don't show a secret group, ever
                 if group.getProperty('state') == 'secret':
                     continue
-                title = (group.getProperty('title') or group.getId() or
+                title = (group.getProperty('title') or group.getGroupId() or
                          user_or_group_id)
                 # Resolving all users of a group with nested groups is
                 # ridiculously slow. PAS resolves each member and if it
@@ -183,6 +188,14 @@ class WorkspaceFolder(Container):
                         u'no_groups': groups})
                 classes = 'user-group has-description'
                 portrait = ''
+                obj = group
+                obj.getProperty('object_id') or obj.getId()
+
+                absolute_url = '/'.join((
+                    portal_url,
+                    'groups',
+                    obj.getProperty('object_id') or obj.getId()
+                ))
 
             # User's 'role' is any group they are a member of
             # that is not the default participation policy group
@@ -213,7 +226,9 @@ class WorkspaceFolder(Container):
                     member=True,
                     admin='Admins' in details['groups'],
                     role=role,
-                    typ=typ
+                    typ=typ,
+                    obj=obj,
+                    absolute_url=absolute_url,
                 )
             )
 
