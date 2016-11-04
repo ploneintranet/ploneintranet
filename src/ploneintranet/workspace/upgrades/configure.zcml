@@ -84,7 +84,7 @@
         description="Activates the new invitees index and populates it (Cave: reindexes all events!)"
         source="*"
         destination="0014"
-        handler=".base.import_catalog"
+        handler=".to_0014.activate_invitees"
         profile="ploneintranet.workspace:default"
       />
 
@@ -141,5 +141,14 @@
         handler=".to_0017.autosave_portal_types"
         profile="ploneintranet.workspace:default"
         />
+
+    <genericsetup:upgradeStep
+        title="Reread catalog config"
+        description="Activates the new timezone index and populates it (Cave: reindexes all events!)"
+        source="*"
+        destination="0018"
+        handler=".to_0018.activate_timezone"
+        profile="ploneintranet.workspace:default"
+      />
 
 </configure>

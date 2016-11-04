@@ -97,6 +97,7 @@ class SearchResult(object):
         self.end = context.get('end', None)
         self.location = context.get('location', '')
         self.invitees = context.get('invitees', [])
+        self.timezone = context.get('timezone', False)
         self.whole_day = context.get('whole_day', False)
         self.ws_type = context.get('ws_type', 'workspace')
         # The following try/except are needed because the get method of brains
@@ -370,6 +371,7 @@ class SiteSearch(object):
             step=None,
             sort=None,
             debug=False,
+            restricted_filters=True,
     ):
         """Return a search response.
 
@@ -377,7 +379,10 @@ class SiteSearch(object):
         """
         query = self._create_query_object(phrase)
         if filters is not None:
-            query = self.__apply_filters(query, filters)
+            if restricted_filters:
+                query = self.__apply_filters(query, filters)
+            else:
+                query = self._apply_filters(query, filters)
         query = self._apply_facets(query)
         query = self._apply_spellchecking(query, phrase)
         if any((start_date, end_date)):

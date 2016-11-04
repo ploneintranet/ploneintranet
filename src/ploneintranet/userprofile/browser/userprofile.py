@@ -20,6 +20,7 @@ from zope.publisher.interfaces import IPublishTraverse
 
 import os
 
+
 AVATAR_SIZES = {
     'profile': 200,
     'stream': 50,
@@ -168,6 +169,15 @@ class UserProfileView(UserProfileViewForm):
         portal_url = plone_api.portal.get().absolute_url()
         g_icon = '/++theme++ploneintranet.theme/generated/media/icon-group.svg'
 
+        portal = plone_api.portal.get()
+
+        group_container = portal.get('groups', {})
+        group_url_template = '%s/{}' % (
+            group_container.absolute_url() if group_container else ''
+        )
+        group_view_url_template = '%s/workspace-group-view?id={}' % (
+            self.context.absolute_url()
+        )
         # Don't show certain system groups
         group_filter = ['Members', 'AuthenticatedUsers', 'All Intranet Users']
         for group in my_groups:
@@ -205,9 +215,14 @@ class UserProfileView(UserProfileViewForm):
                     description=ws.description,
                 )
             else:
-                # "regular" group that is not a workspace
-                url = self.context.absolute_url() + \
-                    '/workspace-group-view?id=' + group.id
+                if group.id in group_container:
+                    # a membrane group
+                    url = group_url_template.format(group.id)
+                else:
+                    # "regular" group that is not a workspace
+                    # or a membrane group
+                    url = group_view_url_template.format(group.id)
+
                 title = group.title or group.id
                 img = portal_url + g_icon
 

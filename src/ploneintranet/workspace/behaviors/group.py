@@ -6,6 +6,8 @@ from Products.membrane.interfaces import IGroup
 from Products.membrane.interfaces import IMembraneGroupProperties
 from collective.workspace.interfaces import IWorkspace
 from collective.workspace.pas import WORKSPACE_INTERFACE
+from dexterity.membrane.behavior.group import IMembraneGroup \
+    as IMembraneGroupBase
 from dexterity.membrane.behavior.group import MembraneGroup
 from plone import api
 from zope.interface import Interface
@@ -161,11 +163,16 @@ class MembraneWorkspaceGroupsProvider(object):
         self.context = context
 
     def _iterWorkspaces(self, userid=None):
-        catalog = api.portal.get_tool('portal_catalog')
-        query = {'object_provides': WORKSPACE_INTERFACE}
+        mt = api.portal.get_tool('membrane_tool')
+        query = {'object_provides': [WORKSPACE_INTERFACE,
+                                     IMembraneGroupBase.__identifier__]}
         if userid:
             query['workspace_members'] = userid
-        return (b.id for b in catalog.unrestrictedSearchResults(query))
+        return (
+            b.getGroupId
+            for b in mt.unrestrictedSearchResults(query)
+            if b.getGroupId
+        )
 
     # IGroupsPlugin implementation
     def getGroupsForPrincipal(self, principal, request=None):

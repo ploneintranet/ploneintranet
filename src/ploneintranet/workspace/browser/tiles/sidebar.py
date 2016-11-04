@@ -101,6 +101,7 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
+    @memoize
     def workspace(self):
         """ Acquire the workspace of the current context
         """

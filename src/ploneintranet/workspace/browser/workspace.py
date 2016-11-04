@@ -7,6 +7,7 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.interfaces import IWorkspaceState
@@ -15,6 +16,7 @@ from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from zope.component import getAdapter
+from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
 
@@ -440,7 +442,7 @@ def format_workspaces_json(workspaces, skip=[]):
         uid = ws.UID
         if uid in skip:
             continue
-        title = safe_unicode(ws.Title)
+        title = safe_unicode(ws['Title'])
         formatted_ws.append({
             'id': uid,
             'text': title,
@@ -457,12 +459,14 @@ class WorkspacesJSONView(BrowserView):
         q = safe_unicode(self.request.get('q', '').strip())
         if not q:
             return ""
-        query = {'SearchableText': u'{0}*'.format(q),
-                 'object_provides':
-                 'collective.workspace.interfaces.IHasWorkspace'}
+        query = {'phrase': u'{0}*'.format(q),
+                 'filters': {
+                     'object_provides':
+                     'collective.workspace.interfaces.IHasWorkspace'}
+                 }
 
-        catalog = api.portal.get_tool('portal_catalog')
-        workspaces = catalog(query)
+        search_util = getUtility(ISiteSearch)
+        workspaces = search_util.query(**query)
         if IBaseWorkspaceFolder.providedBy(self.context):
             skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
