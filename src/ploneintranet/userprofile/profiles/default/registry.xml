@@ -99,6 +99,18 @@
     </value>
   </record>
 
+  <record name="ploneintranet.userprofile.only_membrane_groups">
+    <field type="plone.registry.field.Bool">
+      <title>Use only membrane groups</title>
+      <description>
+        If set to True the system will assume
+        that only membrane groups are used
+        allowing various optimizations
+      </description>
+    </field>
+    <value>False</value>
+  </record>
+
   <!-- By default we use usernames to login -->
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_email_as_username">
     <field type="plone.registry.field.Bool">

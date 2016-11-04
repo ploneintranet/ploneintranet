@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="ploneintranet.userprofile.only_membrane_groups">
+    <field type="plone.registry.field.Bool">
+      <title>Use only membrane groups</title>
+      <description>
+        If set to True the system will assume
+        that only membrane groups are used
+        allowing various optimizations
+      </description>
+    </field>
+    <value>False</value>
+  </record>
+</registry>
