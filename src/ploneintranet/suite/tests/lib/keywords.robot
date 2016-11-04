@@ -1423,6 +1423,7 @@ I can edit the status reply
     [arguments]  ${message1}  ${message2}
     I open the comment action menu  ${message1}
     Click Link  Edit comment
+    Wait Until Element Is Visible  xpath=//textarea[contains(text(), '${message1}')]
     Input Text  xpath=//textarea[contains(text(), '${message1}')]  ${message2}
     Click Button  Save
     Wait Until Page Contains  Edited
