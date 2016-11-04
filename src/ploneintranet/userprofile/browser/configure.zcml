@@ -21,7 +21,7 @@
       for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
       class=".workgroup.WorkGroupView"
       permission="zope2.View"
-      template="templates/group.pt"
+      template="templates/group_view.pt"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
@@ -203,7 +203,5 @@
       template="templates/group.pt"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
-
-
 
 </configure>
