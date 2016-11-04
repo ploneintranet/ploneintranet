@@ -69,4 +69,22 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:registerProfile
+    name="to_0007"
+    title="Update profile to include the changes for ploneintranet.userprofile.only_membrane_groups"
+    description=""
+    directory="profiles/to_0007"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+    title="Update profile to include the changes for ploneintranet.userprofile.only_membrane_groups"
+    description=""
+    source="*"
+    destination="7"
+    handler=".to_0007.only_membrane_groups_registry_record"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>
