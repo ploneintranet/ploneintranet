@@ -1,23 +1,24 @@
 # coding=utf-8
 from Acquisition import aq_inner
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-from ploneintranet.workspace.interfaces import IWorkspaceState
-from ploneintranet.workspace.utils import parent_workspace
-from zope.interface import implements
-from zope.component import getAdapter
 from ploneintranet.workspace.interfaces import IGroupingStorage
+from ploneintranet.workspace.interfaces import IWorkspaceState
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
+from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from zope.component import getAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
-
-import ploneintranet.api as pi_api
+from zope.interface import implements
 
 
 class BaseWorkspaceView(BrowserView):
@@ -65,6 +66,153 @@ class BaseWorkspaceView(BrowserView):
         return api.user.has_permission(
             "Plone Social: Add Microblog Status Update",
             obj=self.context)
+
+    @property
+    @memoize
+    def groupids_key_mapping(self):
+        ''' Return the set of the group ids knows by portal_groups
+        '''
+        if not self.groups_container:
+            return {}
+        return {
+            group.getGroupId(): key
+            for key, group in self.groups_container.objectItems()
+        }
+
+    @memoize
+    def get_principal_title(self, principal):
+        ''' Get the title for this principal
+        '''
+        if isinstance(principal, basestring):
+            principal = self.resolve_principalid(principal)
+        if hasattr(principal, 'getGroupId'):
+            return principal.Title() or principal.getGroupId()
+        return (
+            getattr(principal, 'fullname', '') or
+            principal.Title() or
+            principal.getId()
+        )
+
+    @memoize
+    def get_principal_description(self, principal):
+        ''' Get the description for this principal
+        '''
+        if isinstance(principal, basestring):
+            principal = self.resolve_principalid(principal)
+        if not hasattr(principal, 'getGroupId'):
+            return ''
+        group_memberids = set(principal.getGroupMembers())
+        group_groupids = group_memberids.intersection(
+            self.groupids_key_mapping
+        )
+        return _(
+            u"number_of_members",
+            default=u'${no_users} Users / ${no_groups} Groups',
+            mapping={
+                u'no_users': len(group_memberids) - len(group_groupids),
+                u'no_groups': len(group_groupids)
+            }
+        )
+
+    @memoize
+    def get_principal_roles(self, principal):
+        ''' Get the description for this principalid
+        '''
+        adapter = IWorkspace(self.context)
+        if hasattr(principal, 'getGroupId'):
+            groups = adapter.get(principal.getGroupId()).groups
+        else:
+            groups = adapter.get(principal.getId()).groups
+
+        if 'Admins' in groups:
+            return ['Admin']
+
+        # The policies are ordered from the less permissive to the most
+        # permissive. We reverse them
+        for policy in reversed(PARTICIPANT_POLICY):
+            # BBB: code copied from the workspacefolder existing_users function
+            # at 58c758d20a820dcb9f691168a9215bfc9741b00e
+            # not really clear to me why we are skipping the current policy
+            if policy != self.context.participant_policy:
+                if policy.title() in groups:
+                    # According to the design there is at most one extra role
+                    # per user, so we go with the first one we find. This may
+                    # not be enforced in the backend though.
+                    return [PARTICIPANT_POLICY[policy]['title']]
+
+        if groups == {'Guests'}:
+            return ['Guest']
+
+    def principal_sorting_key(self, principal):
+        ''' First we want the groups, the we want alphabetical sorting
+        '''
+        is_group = hasattr(principal, 'getGroupId')
+        return (not is_group, self.get_principal_title(principal))
+
+    @property
+    @memoize
+    def groups_container(self):
+        ''' Returns the group container (if found) or an empty dictionary
+        '''
+        portal = api.portal.get()
+        return portal.get('groups', {})
+
+    @property
+    @memoize
+    def users_container(self):
+        ''' Returns the group container (if found) or an empty dictionary
+        '''
+        portal = api.portal.get()
+        return portal.get('profiles', {})
+
+    @memoize
+    def resolve_principalid(self, principalid):
+        ''' Given a principal id, tries to get him for profile or groups folder
+        and then look for him with pas
+        '''
+        return (
+            self.users_container.get(principalid) or
+            self.groups_container.get(
+                self.groupids_key_mapping.get(principalid)
+            ) or
+            api.user.get(principalid) or
+            api.group.get(principalid)
+        )
+
+    @property
+    @memoize
+    def guest_ids(self):
+        ''' Get the valid member ids through IWorkspace
+        '''
+        adapter = IWorkspace(self.context)
+        return [
+            principalid for principalid in self.member_ids
+            if adapter.get(principalid).groups == {'Guests'}
+        ]
+
+    @property
+    @memoize
+    def member_ids(self):
+        ''' Get the valid member ids through IWorkspace
+        '''
+        principalids = IWorkspace(self.context).members
+        return filter(self.resolve_principalid, principalids)
+
+    @property
+    @memoize
+    def principals(self):
+        ''' Return the list of principals which are assigned to this context
+        '''
+        objs = map(self.resolve_principalid, self.member_ids)
+        return objs
+
+    @memoize
+    def guests(self):
+        ''' Return the list of principals which are guests in this context
+        By design they are assigned through the sharing view
+        '''
+        objs = map(self.resolve_principalid, self.guest_ids)
+        return objs
 
 
 class WorkspaceView(BaseWorkspaceView):
