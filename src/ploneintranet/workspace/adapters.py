@@ -489,6 +489,8 @@ class GroupingStorage(object):
         """
         uid = IUUID(obj)
         groupings = self.get_groupings()
+        if grouping not in groupings:
+            return
         for value in groupings[grouping].keys():
             if value not in values and uid in groupings[grouping][value]:
                 if len(groupings[grouping][value]) == 1:
