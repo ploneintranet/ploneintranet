@@ -151,4 +151,14 @@
         profile="ploneintranet.workspace:default"
       />
 
+    <genericsetup:upgradeStep
+        title="Allow workgroups in workspacecontainers"
+        description="Add the workgroups type to the allowed items in workspacecontainers."
+        source="*"
+        destination="0019"
+        handler=".to_0019.workspacecontainer_contains_workgroups"
+        profile="ploneintranet.workspace:default" />
+      />
+
+
 </configure>
