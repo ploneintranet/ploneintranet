@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+    <body class="view-secure sidebar-normal gh-collapsed sidebar-left-open generic application-contacts patterns-loaded">
+        <metal:content fill-slot="content">
+        <div class="application page-type- workspace-type-"
+             id="content"
+             tal:define="
+               groups view/groups;
+               users view/users;
+             "
+            >
+            <h1 id="workspace-name">
+                <!-- Next link is to lead to landing state of current workspace -->
+                <a href="/open-market-committee"></a>
+            </h1>
+
+            <div class="sidebar-normal focus-listing application-workspace project page-type-workspace sidebar-left-closed sidebar-right-closed" id="application-body">
+                <div id="document-body" class="">
+                    <div id="document-content">
+                        <article class="document pat-rich person">
+                            <section class="group-header">
+                                <img class="group-badge" src="${here/portal_url}/++theme++ploneintranet.theme/generated/media/icon-group.svg" alt="Group logo">
+
+                                <h1 class="group-title">${here/title}</h1>
+                                <p class="byline">${python:len(users)} Users / ${python:len(groups)} Groups
+                                </p>
+
+                                <section class="introduction">
+                                  <p>${here/description}</p>
+                                </section>
+
+                                <p class="visit-workspace">
+                                    <!--Visit the <a href="" class="icon-workspace">Task Group workspace</a>.-->
+                                </p>
+                            </section>
+
+                            <tal:cond condition="groups">
+                            <h2 i18n:translate=""> Member groups </h2>
+                            <ul class="group-table pat-equaliser">
+                                <tal:repeat repeat="group groups">
+                                <li class="group">
+                                    <a href="${group/absolute_url}"
+                                       class="three columns pat-inject"
+                                       data-pat-inject="source: #document-content; target: #document-content"
+                                      >
+                                        <img src="${here/portal_url}/++theme++ploneintranet.theme/generated/media/icon-group.svg"
+                                             class="group-badge"
+                                             alt="Image of ${group/title}"
+                                            >
+                                        <h4 class="title">${group/title}</h4>
+                                        <p class="byline">${group/description}</p>
+                                    </a>
+                                </li>
+                                </tal:repeat>
+                            </ul>
+                            </tal:cond>
+
+                            <tal:cond condition="users">
+                            <h2 i18n:translate=""> Member users </h2>
+
+                            <div class="row user-table pat-equaliser">
+                                <!-- The last anchor tag in this list should always get a class 'last' to avoid that the item will float to the right. -->
+                                <tal:repeat repeat="user users">
+
+                                    <a href="${user/absolute_url}"
+                                       class="two columns pat-inject equalised ${lastcls}"
+                                       data-pat-inject="source: #document-content; target: #document-content"
+                                       tal:define="last repeat/user/end; lastcls python:last == 1 and 'last' or ''">
+                                      <figure>
+                                          <img tal:replace="structure python:view.get_avatar_tag(user.id)" >
+                                          <figcaption>${user/fullname}<br>
+                                          (<em>${user/title}</em>)</figcaption>
+                                      </figure>
+                                    </a>
+                                </tal:repeat>
+                            </div>
+                            </tal:cond>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </metal:content>
+    </body>
+</html>
