@@ -42,7 +42,6 @@
                   <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item">
                     Preview
                   </a>
-                  <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields">Toggle extra metadata</a>
                   <fieldset id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
                             tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/edit.html;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/edit.html;; source: #application-body;; target: #application-body">
                         <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
@@ -56,6 +55,9 @@
                         <span tal:replace="structure context/@@authenticator/authenticator"/>
                       </fieldset>
                   <button type="submit" class="pat-button icon-floppy" title="Save this document" tal:condition="not: read_only">Save</button>
+                  <a class="icon-down-open meta-data-toggle iconified pat-toggle collapsible-closed" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields">
+                    Toggle extra metadata
+                </a>                  
                 </div>
               </div>
               <div class="bar summary-hero">
