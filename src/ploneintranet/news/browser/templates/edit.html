@@ -161,36 +161,9 @@
               <article class="document rich">
 		<hgroup id="title-block">
 	          <h1 id="document-title">${context/title}</h1>
-		  <textarea type="text" name="title" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="">${context/title}</textarea>
+		  <textarea type="text" name="title" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="">${context/title|nothing}</textarea>
 		</hgroup>
-                <textarea placeholder="Write your body text here…" class="pat-redactor" data-allow="p-ul-ol-h1-h2-h3" data-pat-redactor="imageupload: @@star-quickupload; imagegetjson: /feedback/images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: bufferbuttons,alignment,table,source,video,imagemanager,romanlisting">
-                  
-            	  <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-
-		  <h2>Header Level 2</h2>
-		  
-		  <ol>
-		    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		    <li>Aliquam tincidunt mauris eu risus.</li>
-		  </ol>
-
-		  <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
-
-		  <h3>Header Level 3</h3>
-
-		  <ul>
-		    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		    <li>Aliquam tincidunt mauris eu risus.</li>
-		  </ul>
-
-                  <pre><code>
-                      #header h1 a { 
-	              display: block; 
-	              width: 300px; 
-	              height: 80px; 
-                      }
-                  </code></pre>
-                </textarea>
+                <textarea name="text" placeholder="Write your body text here…" class="pat-redactor" data-allow="p-ul-ol-h1-h2-h3" data-pat-redactor="imageupload: @@star-quickupload; imagegetjson: /feedback/images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: bufferbuttons,alignment,table,source,video,imagemanager,romanlisting">${context/text/output|nothing}</textarea>
               </article>
             </div>
           </form>          
