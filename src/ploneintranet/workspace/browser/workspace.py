@@ -504,7 +504,8 @@ class WorkspacesJSONView(BrowserView):
         query = {'phrase': u'{0}*'.format(q),
                  'filters': {
                      'object_provides':
-                     'collective.workspace.interfaces.IHasWorkspace'}
+                     'collective.workspace.interfaces.IHasWorkspace'},
+                 'step': 50,
                  }
 
         search_util = getUtility(ISiteSearch)
