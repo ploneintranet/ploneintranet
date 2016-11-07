@@ -30,8 +30,10 @@
           
 	  <h1 class="title">${context/title}</h1>
           
-	  <figure class="hero">
-	    <img src="${context/absolute_url}/@@images/image" alt=""/>
+	  <figure class="hero"
+                  tal:condition="context/article_image">
+	    <img src="${context/absolute_url}/@@images/image" alt=""
+                 tal:condition="context/image"/>
 	  </figure>
           
 	  <p class="summary">

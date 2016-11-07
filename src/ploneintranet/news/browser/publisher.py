@@ -182,3 +182,10 @@ class NewsItemEdit(baseviews.ContentView):
                                       current=current,
                                       uuid=IUUID(section)))
         return _sections
+
+    def update(self):
+        # do not remove existing image without new upload
+        if 'image' in self.request.form.keys() \
+           and not bool(self.request.form.get('image')):
+            del(self.request.form['image'])
+        return super(NewsItemEdit, self).update()
