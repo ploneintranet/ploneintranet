@@ -166,7 +166,7 @@ class NewsItemEdit(baseviews.ContentView):
         return publisher.sidebar()
 
     def can_review(self):
-        return api.user.has_permission('Review portal content',
+        return api.user.has_permission('Review',
                                        obj=aq_inner(self.context))
 
     def sections(self):
