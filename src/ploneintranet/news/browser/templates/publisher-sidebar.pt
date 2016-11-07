@@ -106,7 +106,11 @@
                  class="pat-inject follow pat-switch"
                  data-pat-switch="body focus-* focus-document"
                  data-pat-inject="target: #document-body; history: record">
-		<strong class="title">${item/title}</strong>
+		<h4 class="title">${item/title}
+                  <em class="publication-state unpublished"
+                      tal:condition="not:item/published"
+                      i18n:translate="">Unpublished</em>
+                </h4>
 		<p class="byline">${item/description}</p>
 	      </a>
             </label>

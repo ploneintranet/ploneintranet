@@ -68,6 +68,7 @@ class NewsPublisher(BrowserView):
                 category = item.section.to_object.title
             else:
                 category = None
+            published = api.content.get_state(item) == 'published'
             _items.append(obj2dict(
                 item,
                 'id', 'title', 'absolute_url',
@@ -75,7 +76,8 @@ class NewsPublisher(BrowserView):
                 date=item.effective().strftime('%B %d, %Y'),
                 category=category,
                 counter=i,
-                can_edit=api.user.has_permission('Modify', obj=item)
+                can_edit=api.user.has_permission('Modify', obj=item),
+                published=published,
             ))
         return _items
 
