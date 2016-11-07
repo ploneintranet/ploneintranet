@@ -160,10 +160,8 @@
             <div id="document-content">
               <article class="document rich">
 		<hgroup id="title-block">
-	          <h1 id="document-title">
-	            Title of news item
-	          </h1>
-		  <textarea type="text" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value=""></textarea>
+	          <h1 id="document-title">${context/title}</h1>
+		  <textarea type="text" name="title" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="">${context/title}</textarea>
 		</hgroup>
                 <textarea placeholder="Write your body text here…" class="pat-redactor" data-allow="p-ul-ol-h1-h2-h3" data-pat-redactor="imageupload: @@star-quickupload; imagegetjson: /feedback/images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: bufferbuttons,alignment,table,source,video,imagemanager,romanlisting">
                   
