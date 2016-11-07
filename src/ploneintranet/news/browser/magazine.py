@@ -41,6 +41,8 @@ class NewsMagazine(BrowserView):
         items = []
         i = 0
         for item in self.app.news_items(section_id):
+            if api.content.get_state(item) != 'published':
+                continue
             i += 1
             items.append(obj2dict(item, counter=i))
         return items
