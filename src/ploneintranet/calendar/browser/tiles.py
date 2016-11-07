@@ -1,25 +1,22 @@
 # coding=utf-8
-import pytz
 from AccessControl.security import checkPermission
-
-from datetime import datetime
 from DateTime import DateTime
-
+from datetime import datetime
 from plone import api
 from plone.tiles import Tile
-
-from ploneintranet.calendar.utils import get_calendars
-from ploneintranet.layout.app import apps_container_id
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-
-from Products.CMFCore.permissions import ModifyPortalContent
-from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.calendar.config import TZ_COOKIE_NAME
 from ploneintranet.calendar.utils import escape_id_to_class
-
+from ploneintranet.calendar.utils import get_calendars
+from ploneintranet.calendar.utils import get_timezone_info
+from ploneintranet.layout.app import apps_container_id
+from ploneintranet.workspace.indexers import timezone as timezone_indexer
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
+from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFCore.permissions import ModifyPortalContent
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
+
+import pytz
 
 
 class FullCalendarTile(Tile):
@@ -80,6 +77,9 @@ class FullCalendarTile(Tile):
     def _get_event_date_times(self, event):
         is_whole_day = event.whole_day
         timezone = event.timezone
+        if isinstance(timezone, bool):
+            # do not break badly if the timezone is not indexed
+            timezone = timezone_indexer(event.getObject())()
         if timezone is not None:
             timezone = pytz.timezone(timezone)
         event_dtimes = {}
