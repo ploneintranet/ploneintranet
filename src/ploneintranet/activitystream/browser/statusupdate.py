@@ -1,17 +1,20 @@
 # coding=utf-8
-import logging
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser import BrowserView
 from plone import api
-from plone.app.contenttypes.content import Image, File
+from plone.app.contenttypes.content import File
+from plone.app.contenttypes.content import Image
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
-from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet.activitystream.browser.utils import link_tags
-from ploneintranet.activitystream.browser.utils import link_users
-from ploneintranet.activitystream.browser.utils import link_urls
 from ploneintranet import api as pi_api
+from ploneintranet.activitystream.browser.utils import link_tags
+from ploneintranet.activitystream.browser.utils import link_urls
+from ploneintranet.activitystream.browser.utils import link_users
+from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser import BrowserView
+
+import logging
+
 
 logger = logging.getLogger('ploneintranet.activitystream')
 
@@ -113,10 +116,12 @@ class StatusUpdateView(BrowserView):
 
     @property
     def fullname(self):
-        user = api.user.get(self.context.userid)
-
+        user = (
+            pi_api.userprofile.get(self.context.userid) or
+            api.user.get(self.context.userid)
+        )
         if user:
-            fullname = user.getProperty('fullname')
+            fullname = getattr(user, 'fullname', user.getProperty('fullname'))
         else:
             fullname = self.context.userid
         return fullname
