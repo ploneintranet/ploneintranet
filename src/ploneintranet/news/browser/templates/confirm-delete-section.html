@@ -3,15 +3,13 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="here/main_template/macros/master"
       i18n:domain="ploneintranet">
 
-  <body class="view-secure">
+  <body class="view-secure diazo.off">
 
     <!-- Proto links to nonexisting template. Instead, derived from
          prototype/_site/feedback/confirmation-remove-special-role.html -->
     
-    <metal:content fill-slot="content">
 
       <div id="main">
 	<div id="content" class="modal">
@@ -44,7 +42,6 @@
           </div>
         </div>
       </div>
-      
-    </metal:content>
+
   </body>
 </html>

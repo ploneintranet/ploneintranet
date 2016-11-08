@@ -53,7 +53,7 @@
 	      </li>
 	      <li tal:condition="not:section/delete_protected">
 		<a class="pat-inject icon-trash"
-                   href="${section/absolute_url}/confirm-delete-section.html" data-pat-inject="target: body::after">
+                   href="${section/absolute_url}/confirm-delete-section.html#content" data-pat-inject="target: body::after">
                   <span i18n:translate="label_section_delete">
                     Delete news section</span> "${section/title}"</a>
 	      </li>

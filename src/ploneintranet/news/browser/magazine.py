@@ -76,6 +76,11 @@ class NewsSectionView(NewsMagazine):
 
 class FeedItem(BrowserView):
 
+    @property
+    @memoize
+    def portal_url(self):
+        return api.portal.get().absolute_url()
+
     def can_edit(self):
         return api.user.has_permission('Modify portal content',
                                        obj=self.context)
