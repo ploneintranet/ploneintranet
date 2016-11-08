@@ -63,13 +63,13 @@ class NewsSectionView(NewsMagazine):
 
     @property
     @memoize
-    def section(self):
-        return self.context
+    def app(self):
+        return self.context.aq_parent
 
     @property
     @memoize
-    def app(self):
-        return self.context.aq_parent
+    def section(self):
+        return self.context
 
 
 class FeedItem(BrowserView):
@@ -94,11 +94,14 @@ class FeedItem(BrowserView):
 class NewsItemView(NewsMagazine):
 
     @property
+    @memoize
+    def app(self):
+        return self.context.aq_parent
+
+    @property
+    @memoize
     def section(self):
-        try:
-            return self.context.section.to_object
-        except AttributeError:
-            return None
+        return self.context.section.to_object
 
     def date(self):
         return self.context.effective().strftime('%B %d, %Y')
