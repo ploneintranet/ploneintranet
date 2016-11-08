@@ -10,7 +10,8 @@
       <div id="sidebar-content" class="mode-follow">
 
     	<div class="button-bar functions" id="-functions">
-          <div class="contextual buttons float-before" id="-contextual-functions">
+          <div class="contextual buttons float-before" id="-contextual-functions"
+               tal:condition="nothing">
             <form action="./#-items" class="pat-inject pat-autosubmit">
               <label class="pat-select bare" data-option="Milestone">Group by
                 <select name="browse-mode">
@@ -23,7 +24,8 @@
           </div>
           <div class="quick-functions">
             <a title="Create new document" href="${context/absolute_url}/panel-create-news.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create news item</a>
-            <a class="pat-toggle toggle-select" data-pat-toggle="selector: #sidebar-content; value: mode-select mode-follow">Select</a>
+            <a class="pat-toggle toggle-select" data-pat-toggle="selector: #sidebar-content; value: mode-select mode-follow"
+               tal:condition="nothing">Select</a>
           </div>
     	</div>
 
