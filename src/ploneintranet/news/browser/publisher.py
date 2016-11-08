@@ -206,3 +206,25 @@ class NewsItemEdit(baseviews.ContentView):
            and not bool(self.request.form.get('image')):
             del(self.request.form['image'])
         return super(NewsItemEdit, self).update()
+
+
+class NewsItemDelete(NewsItemEdit):
+
+    @property
+    def url(self):
+        return self.request.get('ACTUAL_URL')
+
+    @property
+    def app_url(self):
+        return '{}/publisher'.format(self.context.aq_parent.absolute_url())
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.update()
+            return self.request.response.redirect(self.app_url)
+        else:
+            return super(NewsItemDelete, self).__call__()
+
+    def update(self):
+        log.info("Deleting {}".format(self.context))
+        api.content.delete(obj=self.context, check_linkintegrity=False)

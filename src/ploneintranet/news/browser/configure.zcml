@@ -115,5 +115,14 @@
       layer=".interfaces.INewsContentLayer"
       />
 
+  <browser:page
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      name="confirm-delete-item.html"
+      class=".publisher.NewsItemDelete"
+      template="templates/confirm-delete-item.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
   
 </configure>

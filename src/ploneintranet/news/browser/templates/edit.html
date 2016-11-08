@@ -21,7 +21,7 @@
                 method="post"
                 action="${context/absolute_url}/edit.html#news-edit-form"
                 enctype="multipart/form-data"
-                data-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body &amp;&amp; source: #sidebar-news-cms; target: #sidebar-news-cms">
+                NONOdata-pat-inject="source:#global-statusmessage; target:#global-statusmessage; loading-class: '' &amp;&amp; source: #document-body; target: #document-body &amp;&amp; source: #sidebar-news-cms; target: #sidebar-news-cms">
             <div class="metadata pat-bumper">
               <div class="meta-bar">
                 <label class="tags float-before">
@@ -36,7 +36,7 @@
                 </label>
 
                 <div class="quick-functions">
-                  <a href="/feedback/panel-delete.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
+                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
                     Delete
                   </a>
                   <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item">
@@ -141,7 +141,8 @@
                     Publication date
                     <input class="pat-date-picker" type="date"
                            name="effective"
-                           tal:attributes="value context/effective; disabled read_only" />
+                           tal:define="effective context/effective"
+                           tal:attributes="value python:str(effective).startswith('20') and effective or ''; disabled read_only" />
                   </label>, 
                   <label class="">
                     Expiration date
