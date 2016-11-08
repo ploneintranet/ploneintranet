@@ -77,7 +77,7 @@ class NewsSectionView(NewsMagazine):
 class FeedItem(BrowserView):
 
     def can_edit(self):
-        return api.user.has_permission('Modify',
+        return api.user.has_permission('Modify portal content',
                                        obj=self.context)
 
     def description(self, desc_len=160):
