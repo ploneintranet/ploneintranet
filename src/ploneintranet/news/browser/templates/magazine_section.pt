@@ -18,6 +18,10 @@
              href="${section/absolute_url}"
              class="${section/css_class}">${section/title}</a>
         </nav>
+
+        <p class="description"
+           tal:condition="context/description_visible">
+          ${context/description|nothing}</p>
         
         <div class="news-feed row pat-masonry"
              data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .item;">

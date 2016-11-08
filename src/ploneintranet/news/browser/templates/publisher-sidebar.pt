@@ -37,16 +37,16 @@
           <h4 class="section-label">
             ${section/title}
           </h4>
-          <p class="list-icons" tal:condition="section/absolute_url|nothing">
+          <p class="list-icons">
             <a href="#options-${section/id}" class="iconified icon-cog pat-tooltip" data-pat-tooltip="source: ajax;" i18n:translate="">
               Options
             </a>
           </p>
-          <div id="options-${section/id}" hidden tal:condition="section/absolute_url|nothing">
+          <div id="options-${section/id}" hidden>
             <ul class="menu">
 	      <li>
 		<a class="icon-edit pat-inject"
-                   href="${section/absolute_url}/panel-edit-news-section-info.html"
+                   href="${section/absolute_url}/panel-edit-news-section-info.html#content"
                    data-pat-inject="target: body::after"
                    i18n:translate="label_newssection_edit">
                   Edit news section information</a>

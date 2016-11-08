@@ -25,6 +25,8 @@ class NewsMagazine(BrowserView):
                          absolute_url=self.app.absolute_url(),
                          css_class=app_current and 'current' or '')]
         for section in self.app.sections():
+            if not section.section_visible:
+                continue
             current = self.section == section
             css_class = current and 'current' or ''
             sections.append(obj2dict(

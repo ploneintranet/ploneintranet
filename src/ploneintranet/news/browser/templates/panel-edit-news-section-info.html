@@ -3,15 +3,12 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="here/main_template/macros/master"
       i18n:domain="ploneintranet">
 
-  <body class="view-secure">
+  <body class="view-secure diazo.off">
 
     <!-- prototype/_site/feedback/panel-edit-news-section.html -->
     
-    <metal:content fill-slot="content">
-
       <div id="main">
 	<div id="content" class="modal">
 	  <div id="document-content" class="pat-modal ">
@@ -62,7 +59,6 @@
           </div>
         </div>
       </div>
-      
-    </metal:content>
+
   </body>
 </html>
