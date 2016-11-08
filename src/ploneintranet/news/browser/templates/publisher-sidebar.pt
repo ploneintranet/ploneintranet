@@ -66,7 +66,7 @@
           </article>
 	  <fieldset class="checklist pat-checklist news">
             
-            <div class="button-bar batch-buttons">
+            <div class="button-bar batch-buttons" tal:condition="nothing">
               <span class="float-before button-cluster select-buttons">
                 <button type="button" class="select-all" title="Select all">All</button>
                 <button type="button" class="deselect-all" title="Deslect all">None</button>
