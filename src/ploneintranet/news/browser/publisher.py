@@ -58,7 +58,9 @@ class NewsPublisher(BrowserView):
         desc_len = 160
         _items = []
         i = 0
-        for item in self.context.news_items(section, start, limit):
+        for item in self.context.news_items(section, start, limit,
+                                            sort_on='created',
+                                            sort_order='reverse'):
             i += 1
             if item.section:
                 category = item.section.to_object.title
