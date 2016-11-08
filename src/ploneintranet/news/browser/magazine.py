@@ -10,7 +10,7 @@ from .utils import obj2dict
 
 class NewsMagazine(BrowserView):
 
-    section_id = ''
+    section = None
 
     @property
     @memoize
@@ -20,12 +20,12 @@ class NewsMagazine(BrowserView):
     @memoize
     def sections(self):
         # TODO: add 'trending'
-        app_current = self.section_id is None
+        app_current = self.section is None
         sections = [dict(title=_('All news'),
                          absolute_url=self.app.absolute_url(),
                          css_class=app_current and 'current' or '')]
         for section in self.app.sections():
-            current = self.section_id == section.id
+            current = self.section == section
             css_class = current and 'current' or ''
             sections.append(obj2dict(
                 section,
@@ -35,15 +35,13 @@ class NewsMagazine(BrowserView):
         return sections
 
     @memoize
-    def news_items(self, section_id=''):
-        if section_id != '':
-            section_id = self.section_id
+    def news_items(self):
         items = []
         i = 0
-        for item in self.app.news_items(section_id):
+        for item in self.app.news_items(self.section):
             if api.content.get_state(item) != 'published':
                 continue
-            if not item.magazine_home and not section_id:
+            if not item.magazine_home and not self.section:
                 continue
             i += 1
             items.append(obj2dict(item, counter=i))
@@ -51,7 +49,7 @@ class NewsMagazine(BrowserView):
 
     @memoize
     def trending_items(self):
-        all_trending = self.news_items('trending')
+        all_trending = self.news_items()
         return [x for x in all_trending if x not in self.news_items()[0:4]]
 
     def trending_top5(self):
@@ -65,8 +63,8 @@ class NewsSectionView(NewsMagazine):
 
     @property
     @memoize
-    def section_id(self):
-        return self.context.id
+    def section(self):
+        return self.context
 
     @property
     @memoize
@@ -101,11 +99,6 @@ class NewsItemView(NewsMagazine):
             return self.context.section.to_object
         except AttributeError:
             return None
-
-    @property
-    def section_id(self):
-        if self.section:
-            return self.section.id
 
     def date(self):
         return self.context.effective().strftime('%B %d, %Y')

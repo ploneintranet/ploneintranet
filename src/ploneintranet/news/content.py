@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+from plone import api
 from plone.dexterity import content
 from plone.directives import form
-from zope.interface import implements
+from plone.uuid.interfaces import IUUID
+from zope.interface import implements, Attribute
 from zope import schema
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -21,6 +24,8 @@ class INewsApp(IApp, IAppContainer):
 
 class INewsSection(form.Schema):
     """News Sections can contain News Items"""
+
+    uuid = Attribute("Stable unique id")
 
     section_visible = schema.Bool(
         title=_('section_visible', u'Section visible'),
@@ -55,29 +60,23 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         contentFilter = dict(portal_type="ploneintranet.news.section")
         return self.listFolderContents(contentFilter=contentFilter)
 
-    def news_items(self, section_id=''):
-        # section_id==''   -> all items regardless of section
-        # section_id==None -> all items not assigned to a section
-        contentFilter = dict(
-            portal_type="News Item",
-            sort_on='effective',
-            sort_order='reverse'
-        )
-        items = []
-        for item in self.listFolderContents(contentFilter=contentFilter):
-            # maintaining an index just for this would also be costly
-            if not item.section:
-                _item_section_id = None
-            else:
-                _item_section_id = item.section.to_object.id
-            if section_id != '' and _item_section_id != section_id:
-                continue
-            items.append(item)
+    def news_items(self, section=None, limit=5, getObject=True,
+                   **query):
+        query['portal_type'] = "News Item"
+        if section:
+            query['section_uuid'] = section.uuid
+        if 'sort_on' not in query:
+            query['sort_on'] = 'effective'
+            query['sort_order'] = 'reverse'
+        items = api.portal.get_tool('portal_catalog')(**query)
+        if getObject:
+            return [x.getObject() for x in items]
         return items
 
 
 class NewsSection(content.Item):
     implements(INewsSection)
 
-    def news_items(self):
-        return self.aq_parent.news_items(self.id)
+    @property
+    def uuid(self):
+        return IUUID(self)

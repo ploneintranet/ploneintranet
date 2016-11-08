@@ -5,9 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
-from plone.uuid.interfaces import IUUID
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent import baseviews
 from .utils import obj2dict
 
@@ -39,14 +37,9 @@ class NewsPublisher(BrowserView):
 
     @memoize
     def sections(self):
-        _sections = [dict(
-            id='None',
-            title=_(u'No section'),
-            description=_(u'Items not assigned to a section'),
-            news_items=self.news_items(None)
-        )]
+        _sections = []
         for section in self.context.sections():
-            news_items = self.news_items(section.id)
+            news_items = self.news_items(section)
             delete_protected = len(news_items) == 0
             _sections.append(obj2dict(
                 section,
@@ -59,10 +52,10 @@ class NewsPublisher(BrowserView):
         return _sections
 
     @memoize
-    def news_items(self, section_id='', desc_len=160):
+    def news_items(self, section=None, desc_len=160):
         _items = []
         i = 0
-        for item in self.context.news_items(section_id):
+        for item in self.context.news_items(section):
             i += 1
             if item.section:
                 category = item.section.to_object.title
@@ -108,12 +101,15 @@ class NewsPublisher(BrowserView):
             return
         description = get('item_description', '')
         visibility = bool(get('item_visibility', False))
+        # always force a section - default to first in app
+        section = self.context.sections()[0]
         item = api.content.create(
             container=self.context,
             type='News Item',
             title=title,
             description=description,
             visibility=visibility,
+            section=section.uuid,
         )
         log.info("Created news item {}".format(item))
 
@@ -180,7 +176,7 @@ class NewsItemEdit(baseviews.ContentView):
             _sections.append(obj2dict(section,
                                       'title',
                                       current=current,
-                                      uuid=IUUID(section)))
+                                      uuid=section.uuid))
         return _sections
 
     def update(self):

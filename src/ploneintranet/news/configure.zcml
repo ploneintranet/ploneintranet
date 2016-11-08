@@ -17,6 +17,8 @@
       for="plone.app.contenttypes.interfaces.INewsItem"
       />
 
+  <adapter name="section_uuid" factory=".indexers.section_uuid" />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [News: Install]"
