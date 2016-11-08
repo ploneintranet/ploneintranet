@@ -43,7 +43,7 @@ class NewsMagazine(BrowserView):
         for item in self.app.news_items(section_id):
             if api.content.get_state(item) != 'published':
                 continue
-            if not item.magazine_home:
+            if not item.magazine_home and not section_id:
                 continue
             i += 1
             items.append(obj2dict(item, counter=i))
