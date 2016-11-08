@@ -518,6 +518,12 @@ class Sidebar(BaseTile):
             else:
                 return
 
+    @memoize
+    def userid_to_user(self, userid):
+        ''' Given a user id, return the user
+        '''
+        return api.user.get(userid=userid)
+
     def _extract_attrs(self, catalog_results):
         """
         The items to show in the sidebar may come from the current folder or
@@ -575,7 +581,7 @@ class Sidebar(BaseTile):
                 dpi=dpi,
                 dps=dps,
                 url=url,
-                creator=api.user.get(username=r['Creator']),
+                creator=self.userid_to_user(r['Creator']),
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
