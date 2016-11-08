@@ -5,6 +5,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
+from zope import component
+from zope.intid.interfaces import IIntIds
+from z3c.relationfield import RelationValue
 
 from ploneintranet.workspace.basecontent import baseviews
 from .utils import obj2dict
@@ -105,17 +108,23 @@ class NewsPublisher(BrowserView):
             log.error("No title given for item creation")
             return
         description = get('item_description', '')
-        visibility = bool(get('item_visibility', False))
+        visibility = get('item_visibility', 'both')
+        if visibility == 'both':
+            magazine_home = True
+        else:
+            magazine_home = False
         # always force a section - default to first in app
         section = self.context.sections()[0]
+        intids = component.getUtility(IIntIds)
         item = api.content.create(
             container=self.context,
             type='News Item',
             title=title,
             description=description,
-            visibility=visibility,
-            section=section.uuid,
+            section=RelationValue(intids.getId(section)),
+            magazine_home=magazine_home,
         )
+        item.indexObject()
         log.info("Created news item {}".format(item))
 
 
