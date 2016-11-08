@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
-from plone import api
-
-# from ploneintranet.async.celerytasks import generate_and_add_preview, app
-from collective.documentviewer.settings import Settings
-from collective.documentviewer.settings import GlobalSettings
+from collective.documentviewer import storage
+from collective.documentviewer.convert import Converter as DVConverter
 from collective.documentviewer.convert import DUMP_FILENAME
 from collective.documentviewer.convert import TEXT_REL_PATHNAME
-from collective.documentviewer import storage
-
+from collective.documentviewer.settings import GlobalSettings
+from collective.documentviewer.settings import Settings
 from collective.documentviewer.utils import allowedDocumentType
 from collective.documentviewer.utils import getPortal
-from collective.documentviewer.convert import Converter as DVConverter
-
+from datetime import datetime
+from logging import getLogger
+from plone import api
 from ploneintranet.docconv.client.html_converter import generate_pdf
-
+from urllib import urlencode
 from zope.site.hooks import getSite
 
-from logging import getLogger
 
 log = getLogger(__name__)
 
@@ -199,12 +196,14 @@ def has_previews(obj):
     return False
 
 
-def get_preview_urls(obj, scale='normal'):
+def get_preview_urls(obj, scale='normal', with_timestamp=False):
     """Convenience method to get URLs of image previews as these are most
     frequently used
 
     :param obj: The Plone content object to get preview URLs for
     :type obj: A Plone content object
+    :param with_timestamp: If True add a timestamp to the URLs
+    :type with_timestamp: bool
     :param scale: The Plone image scale to get preview images at
     :type scale: str
     :return: List of preview image absolute URLs
@@ -217,10 +216,19 @@ def get_preview_urls(obj, scale='normal'):
     if number_of_previews < 1:
         return [fallback_image_url(obj)]
     scale = _backward_map(scale)
-    return [dv_data['resources']['page']['image'].format(size=scale,
-                                                         page=page)
-            for page in range(1, number_of_previews + 1)
-            ]
+    urls = [
+        dv_data['resources']['page']['image'].format(size=scale, page=page)
+        for page in range(1, number_of_previews + 1)
+    ]
+    if with_timestamp:
+        try:
+            timestamp = Settings(obj).last_updated
+        except:
+            log.exception('Cannot get timestamp from %r', obj)
+            timestamp = datetime.now().isoformat()
+        qs = '?%s' % urlencode({'t': timestamp})
+        urls = [(url + qs) for url in urls]
+    return urls
 
 
 def fallback_image(obj):
