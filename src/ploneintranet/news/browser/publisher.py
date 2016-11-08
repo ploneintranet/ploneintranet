@@ -40,22 +40,25 @@ class NewsPublisher(BrowserView):
         _sections = []
         for section in self.context.sections():
             news_items = self.news_items(section)
-            delete_protected = len(news_items) == 0
+            delete_protected = len(news_items) > 0
+            has_more = len(news_items) == 5
             _sections.append(obj2dict(
                 section,
                 'id', 'title', 'description', 'absolute_url',
                 news_items=news_items,
-                delete_protected=delete_protected
+                delete_protected=delete_protected,
+                has_more=has_more,
             ))
         if len(_sections) == 1:
             _sections[0]['delete_protected'] = True
         return _sections
 
     @memoize
-    def news_items(self, section=None, desc_len=160):
+    def news_items(self, section=None, start=None, limit=5):
+        desc_len = 160
         _items = []
         i = 0
-        for item in self.context.news_items(section):
+        for item in self.context.news_items(section, start, limit):
             i += 1
             if item.section:
                 category = item.section.to_object.title
@@ -112,6 +115,13 @@ class NewsPublisher(BrowserView):
             section=section.uuid,
         )
         log.info("Created news item {}".format(item))
+
+
+class SectionMore(NewsPublisher):
+
+    @memoize
+    def more_items(self):
+        return self.news_items(section=self.context, start=5, limit=None)
 
 
 class SectionEdit(BrowserView):

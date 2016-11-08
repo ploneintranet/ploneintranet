@@ -116,8 +116,8 @@
             </label>
 	    <!-- Five items are shown. Older items are ajaxed in with the link below: -->
 	    <p class="more" id="load-more-${section/id}"
-               tal:condition="section/absolute_url|nothing">
-	      <a href="/feedback/news-load-more-hot-topics.html#content"
+               tal:condition="section/has_more|nothing">
+	      <a href="${section/absolute_url}/loadmore#content"
                  class="pat-inject"
                  data-pat-inject="target: #load-more-${section/id}::element">
                 <span i18n:translate="more">More</span> ${section/title}…</a>

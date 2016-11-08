@@ -67,6 +67,15 @@
       />
 
   <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="loadmore"
+      class=".publisher.SectionMore"
+      template="templates/loadmore.pt"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+  
+  <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="panel-create-news.html"
       class=".publisher.NewsPublisher"

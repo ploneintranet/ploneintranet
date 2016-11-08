@@ -60,7 +60,7 @@ class NewsApp(AbstractAppContainer, content.Container, App):
         contentFilter = dict(portal_type="ploneintranet.news.section")
         return self.listFolderContents(contentFilter=contentFilter)
 
-    def news_items(self, section=None, limit=5, getObject=True,
+    def news_items(self, section=None, start=None, limit=None, getObject=True,
                    **query):
         query['portal_type'] = "News Item"
         if section:
@@ -69,9 +69,18 @@ class NewsApp(AbstractAppContainer, content.Container, App):
             query['sort_on'] = 'effective'
             query['sort_order'] = 'reverse'
         items = api.portal.get_tool('portal_catalog')(**query)
+        if start and limit:
+            sliced = items[start:limit]
+        elif start:
+            sliced = items[start:]
+        elif limit:
+            sliced = items[:limit]
+        else:
+            sliced = items
         if getObject:
-            return [x.getObject() for x in items]
-        return items
+            return [x.getObject() for x in sliced]
+        else:
+            return sliced
 
 
 class NewsSection(content.Item):
