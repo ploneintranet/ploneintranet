@@ -54,10 +54,17 @@ class BaseTile(BrowserView):
 
     @property
     @memoize
-    def current_userid(seelf):
+    def current_user(self):
         ''' Return the current authenticated user id
         '''
-        return api.user.get_current().getId()
+        return api.user.get_current()
+
+    @property
+    @memoize
+    def current_userid(self):
+        ''' Return the current authenticated user id
+        '''
+        return self.current_user.getId()
 
     def render(self):
         return self.index()
@@ -738,7 +745,7 @@ class Sidebar(BaseTile):
         (e.g. label, author, type, first_letter)
         """
         workspace = parent_workspace(self.context)
-        user = api.user.get_current()
+        user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
         if not workspace or not user.has_permission('View', workspace):
@@ -1052,7 +1059,9 @@ class Sidebar(BaseTile):
     @memoize
     def show_extra(self):
         cookie_name = '%s-show-extra-%s' % (
-            self.section, api.user.get_current().getId())
+            self.section,
+            self.current_userid
+        )
         return self.request.get(cookie_name, '').split('|')
 
     def archived_documents_shown(self):
@@ -1066,12 +1075,6 @@ class Sidebar(BaseTile):
         Tell if we should show archived tags or not
         """
         return 'archived_tags' in self.show_extra
-
-    # def urlquote(self, value):
-    #     """
-    #     Encodes values to be used as URL pars
-    #     """
-    #     return urllib.quote(value)
 
     @property
     def page_idx(self):
