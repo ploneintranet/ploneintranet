@@ -63,15 +63,20 @@ class FullCalendarTile(Tile):
         if timezone is not None:
             date_time = date_time.astimezone(timezone)
         # 2012-02-18T09:00Z
-        date_time_short = date_time.strftime('%Y-%m-%d')
+        format_short = '%Y-%m-%d'
         # 18 February 2012, 9:00
-        date_time_long = date_time.strftime('%d %B %Y')
+        format_long = '%d %B %Y'
 
         if not is_whole_day:
-            short_time = date_time.strftime("%H:%MZ")
-            long_time = date_time.strftime("%H:%M%Z")
-            date_time_short += "T" + short_time  # XXX Handle timezone
-            date_time_long += ", " + long_time
+            format_short = format_short + 'T%H:%M'
+            format_long = format_long + ', %H:%M'
+            if timezone is not None:
+                format_short += '%z'
+                format_long += ' %Z'
+            else:
+                format_short += 'Z'
+        date_time_short = date_time.strftime(format_short)
+        date_time_long = date_time.strftime(format_long)
         return (date_time_short, date_time_long)
 
     def _get_event_date_times(self, event):
