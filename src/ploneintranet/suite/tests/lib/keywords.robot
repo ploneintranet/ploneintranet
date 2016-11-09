@@ -1097,7 +1097,6 @@ I upload a new image
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
-    Click Button  Close
 
 I browse to a file
     I browse to a workspace
@@ -1115,7 +1114,6 @@ I upload a new file
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
-    Click Button  Close
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
