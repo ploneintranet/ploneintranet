@@ -207,6 +207,21 @@ class NewsItemEdit(baseviews.ContentView):
             del(self.request.form['image'])
         return super(NewsItemEdit, self).update()
 
+    @property
+    def effective(self):
+        return self.format_date(self.context.effective())
+
+    @property
+    def expires(self):
+        return self.format_date(self.context.expires())
+
+    def format_date(self, dt):
+        date = dt.strftime('%Y-%m-%d')
+        if date.startswith('20'):
+            return date
+        else:
+            return ''
+
 
 class NewsItemDelete(NewsItemEdit):
 

@@ -141,15 +141,13 @@
                     Publication date
                     <input class="pat-date-picker" type="date"
                            name="effective"
-                           tal:define="effective context/effective"
-                           tal:attributes="value python:str(effective).startswith('20') and effective or ''; disabled read_only" />
+                           tal:attributes="value view/effective; disabled read_only" />
                   </label>, 
                   <label class="">
                     Expiration date
                     <input class="pat-date-picker" type="date"
                            name="expires"
-                           tal:define="expires context/expires;"
-                           tal:attributes="value python:str(expires).startswith('20') and expires or ''; disabled read_only" />
+                           tal:attributes="value view/expires; disabled read_only" />
                   </label>
                 </fieldset>
               </fieldset>
