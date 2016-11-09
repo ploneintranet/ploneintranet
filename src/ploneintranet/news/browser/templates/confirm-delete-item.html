@@ -14,16 +14,16 @@
 	  <div id="document-content" class="pat-modal ">
             <h1>
               <span i18n:translate="">Delete news item</span>
-              "${context/title}"
             </h1>
             
             <form method="post" action="${view/url}"
-                  class="wizard-box pat-inject "
-                  data-pat-inject="">
+                  class="wizard-box "
+                  >
               
               <div class="panel-body">
-                <article i18n:translate="help_delete_newsitem">
-                  You are about to delete this news item. Are you sure?
+                <article i18n:translate="sorry_dont_know_how_to_i18n_this">
+                  You are about to delete <strong>"${context/title}"</strong>.
+                  Are you sure?
                 </article>
               </div>
               

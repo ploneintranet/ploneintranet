@@ -21,26 +21,33 @@
               <div class="panel-body">
                 <fieldset class="vertical">
 	          <fieldset class="group">
-	            <input type="text" name="title" value="${context/title}"
-                           placeholder="News item title" autofocus />
-	            <textarea name="description" rows="6"
-                              placeholder="Section description (Optional)">${context/description}</textarea>
+                    <label>
+	              <input type="text" name="title" value="${context/title}"
+                             placeholder="News item title" autofocus />
+                    </label>
+                    <label>
+	              <textarea name="description" rows="6"
+                                placeholder="Section description (Optional)">${context/description}</textarea>
+                      </label>
                   </fieldset>
-                  <label class="pat-checklist">
+                  <fieldset class="pat-checklist">
+                  <label>
     	            <input type="checkbox"
     	                   name="section-description-visible"
                            tal:attributes="checked context/description_visible|nothing"
                            />
-                    <span i18n:translate="label_newssection_description_visible">
+                    <span i18n:translate="label_newssection_description_visible"
+                          tal:omit-tag="">
                       Make the section description visible for visitors on the section page
                     </span>
                   </label>
-                  <label class="pat-checklist">
+                  <label>
                     <input type="checkbox"
                            name="section-visible"
                            tal:attributes="checked context/section_visible|nothing"
                            />
-                    <span i18n:translate="label_newssection_visible">
+                    <span i18n:translate="label_newssection_visible"
+                          tal:omit-tag="">
                       Show this section in the news subnavigation
                     </span>
                   </label>

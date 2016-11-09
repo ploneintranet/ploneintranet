@@ -19,9 +19,11 @@
              class="${section/css_class}">${section/title}</a>
         </nav>
 
-        <p class="description"
-           tal:condition="context/description_visible">
-          ${context/description|nothing}</p>
+        <article class="pat-rich canvas-intro"
+                 tal:condition="context/description_visible">
+          <h1>${context/title}</h1>
+          <p class="description">${context/description|nothing}</p>
+        </article>
         
         <div class="news-feed row pat-masonry"
              data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .item;">

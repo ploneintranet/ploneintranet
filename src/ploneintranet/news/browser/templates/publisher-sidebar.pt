@@ -6,7 +6,7 @@
       i18n:domain="ploneintranet">
 
   <body class="diazo.off">
-    <aside class="sidebar left" id="sidebar-news-cms">
+    <aside class="sidebar left" id="sidebar">
       <div id="sidebar-content" class="mode-follow">
 
     	<div class="button-bar functions" id="-functions">
@@ -45,14 +45,14 @@
           <div id="options-${section/id}" hidden>
             <ul class="menu">
 	      <li>
-		<a class="icon-edit pat-inject"
+		<a class="icon-edit pat-inject close-panel"
                    href="${section/absolute_url}/panel-edit-news-section-info.html#content"
                    data-pat-inject="target: body::after"
                    i18n:translate="label_newssection_edit">
                   Edit news section information</a>
 	      </li>
 	      <li tal:condition="not:section/delete_protected">
-		<a class="pat-inject icon-trash"
+		<a class="pat-inject icon-trash close-panel"
                    href="${section/absolute_url}/confirm-delete-section.html#content" data-pat-inject="target: body::after">
                   <span i18n:translate="label_section_delete">
                     Delete news section</span> "${section/title}"</a>
