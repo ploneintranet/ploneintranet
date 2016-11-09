@@ -502,19 +502,37 @@ class WorkspacesJSONView(BrowserView):
         if not q:
             return ""
         query = {'phrase': u'{0}*'.format(q),
-                 'filters': {
-                     'object_provides':
-                     'collective.workspace.interfaces.IHasWorkspace'},
+                 'filters': self.get_filters(),
                  'step': 50,
                  }
 
         search_util = getUtility(ISiteSearch)
         workspaces = search_util.query(**query)
         workspaces = sorted(workspaces, key=lambda ws: ws['Title'])
+        skip = self.get_skip()
+        return format_workspaces_json(workspaces, skip)
+
+    def get_filters(self):
+        return {
+            'object_provides': 'collective.workspace.interfaces.IHasWorkspace',
+        }
+
+    def get_skip(self):
+        return []
+
+
+class RelatedWorkspacesJSONView(WorkspacesJSONView):
+    """
+    Return a filtered list of workspaces for pat-autosuggest.
+    Current workspace and its related workspaces are excluded.
+    """
+
+    def get_skip(self):
+        skip = []
         if IBaseWorkspaceFolder.providedBy(self.context):
             skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
-        return format_workspaces_json(workspaces, skip)
+        return skip
 
 
 class WorkspaceCalendarView(BaseWorkspaceView):

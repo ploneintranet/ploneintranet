@@ -376,6 +376,14 @@
         />
 
     <browser:page
+        name="workspaces-related.json"
+        for="*"
+        class=".workspace.RelatedWorkspacesJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"
