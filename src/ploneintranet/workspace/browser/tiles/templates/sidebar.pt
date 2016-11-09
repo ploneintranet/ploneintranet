@@ -372,7 +372,7 @@ Supported types include (class names):
 
 
 
-        <div id="workspace-tickets" tal:define="tasks context/tasks">
+        <div id="workspace-tickets" tal:define="tasks ws_view/tasks">
           <div class="button-bar functions" id="tasks-functions">
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>

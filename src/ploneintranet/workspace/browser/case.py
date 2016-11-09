@@ -1,10 +1,9 @@
-from Products.Five import BrowserView
 from plone import api
 from plone.memoize.view import memoize
-
-from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.browser.workspace import WorkspaceView
+from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.utils import parent_workspace
+from Products.Five import BrowserView
 
 
 class CaseView(WorkspaceView):
@@ -31,7 +30,7 @@ class CaseView(WorkspaceView):
         if mm_seq[milestone_id].get('finished'):
             state = 'finished'
         elif is_last and mm_seq[second_last_milestone_id].get('finished'):
-            tasks = self.context.tasks()
+            tasks = self.tasks()
             if not tasks[milestone_id]:
                 state = 'finished'
         return state

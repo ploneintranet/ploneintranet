@@ -18,7 +18,7 @@
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
                                existing_users_by_id workspace/existing_users_by_id;
-                               tasks context/tasks;
+                               tasks view/tasks;
                                target nothing;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">

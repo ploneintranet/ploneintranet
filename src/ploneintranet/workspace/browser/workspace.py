@@ -1,5 +1,6 @@
 # coding=utf-8
 from Acquisition import aq_inner
+from collections import defaultdict
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
@@ -9,6 +10,7 @@ from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.interfaces import IWorkspaceState
@@ -224,6 +226,50 @@ class BaseWorkspaceView(BrowserView):
             userid,
             link_to='profile'
         )
+
+    @memoize
+    def tasks(self):
+        ''' Get the context tasks
+        '''
+        is_case = self.context.is_case
+        items = defaultdict(list) if is_case else []
+        wft = api.portal.get_tool('portal_workflow')
+        ptype = 'todo'
+        brains = api.content.find(
+            context=self.context,
+            portal_type=ptype,
+            sort_on=['due', 'getObjPositionInParent'],
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            assignee = api.user.get(obj.assignee) if obj.assignee else None
+            initiator = api.user.get(obj.initiator) if obj.initiator else None
+            data = {
+                'id': brain.UID,
+                'title': brain.Title,
+                'description': brain.Description,
+                'url': brain.getURL(),
+                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
+                'due': obj.due,
+                'assignee': assignee,
+                'initiator': initiator,
+                'obj': obj,
+                'can_edit': api.user.has_permission(
+                    'Modify portal content', obj=obj),
+            }
+            if is_case:
+                milestone = "unassigned"
+                if obj.milestone not in ["", None]:
+                    milestone = obj.milestone
+                items[milestone].append(data)
+            else:
+                items.append(data)
+        if is_case:
+            for milestone in items.keys():
+                # Show the checked tasks before the unchecked tasks
+                items[milestone].sort(key=lambda x: x['checked'] is False)
+        return items
 
 
 class WorkspaceView(BaseWorkspaceView):
