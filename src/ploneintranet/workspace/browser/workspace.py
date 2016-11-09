@@ -216,6 +216,15 @@ class BaseWorkspaceView(BrowserView):
         objs = map(self.resolve_principalid, self.guest_ids)
         return objs
 
+    @memoize
+    def get_avatar_tag(self, userid):
+        ''' Get's and caches the userprofile
+        '''
+        return pi_api.userprofile.avatar_tag(
+            userid,
+            link_to='profile'
+        )
+
 
 class WorkspaceView(BaseWorkspaceView):
     """
