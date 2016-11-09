@@ -30,8 +30,10 @@ def update_task_status(self, return_status_message=False):
 
     wft = api.portal.get_tool("portal_workflow")
     catalog = api.portal.get_tool('portal_catalog')
-    brains = catalog(UID={'query': current_tasks,
-                          'operator': 'or'})
+    if current_tasks:
+        brains = catalog(UID=current_tasks)
+    else:
+        brains = []
 
     for brain in brains:
         obj = brain.getObject()
