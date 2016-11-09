@@ -1092,6 +1092,7 @@ I view the image
 I upload a new image
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
     Click Button  Save
@@ -1109,6 +1110,7 @@ I view the file
 I upload a new file
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Button  Save
