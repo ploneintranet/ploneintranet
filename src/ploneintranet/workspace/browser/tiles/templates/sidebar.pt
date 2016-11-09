@@ -15,7 +15,15 @@
         </ul>
       </div>
 
-      <div id="sidebar-content" class="pat-stacks" tal:define="iinfo context/@@plone_interface_info; ws view/workspace; ws_view nocall:ws/@@view; token context/@@authenticator/token">
+      <div id="sidebar-content"
+           class="pat-stacks"
+           tal:define="
+            iinfo context/@@plone_interface_info;
+            ws view/workspace;
+            ws_view nocall:ws/@@view;
+            token context/@@authenticator/token;
+            can_add view/can_add;
+          ">
         <div id="workspace-documents">
           <div class="item-selector mode-follow" id="selector">
             <div class="button-bar functions pat-bumper sticky-supported" id="selector-functions">
@@ -55,7 +63,7 @@
                                     tal:define="show_extra view/show_extra">
                       <div class="panel-content">
                         <ul class="menu">
-                          <tal:can_add condition="view/can_add">
+                          <tal:can_add condition="can_add">
                             <li>
                               <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                             </li>
@@ -110,7 +118,7 @@
                 </div>
 <!--                 <a class="selector-toggle-select more-menu-trigger"
                    tal:condition="python:view.can_add() or view.can_edit()">Functions</a> -->
-                <a tal:condition="view/can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
+                <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
                    tal:attributes="href string:${context/absolute_url}/add_content"
                    i18n:attributes="title" i18n:translate="">Create document</a>
                 <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Select</a>
@@ -315,7 +323,7 @@ Supported types include (class names):
               </fieldset>
             </form>
 
-            <tal:can_add condition="view/can_add">
+            <tal:can_add condition="can_add">
               <form action="${context/absolute_url}/workspaceFileUpload"
                     method="POST"
                     class="pat-inject"
@@ -372,7 +380,7 @@ Supported types include (class names):
                  class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
                  i18n:attributes="title"
                  tal:attributes="href string:${ws/absolute_url}/add_task"
-                 tal:condition="view/can_add" i18n:translate="">Create task</a>
+                 tal:condition="can_add" i18n:translate="">Create task</a>
             </div>
           </div>
           <h3 i18n:translate="">General tasks</h3>
@@ -464,7 +472,7 @@ Supported types include (class names):
                     <p class="button-bar">
                       <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
                          tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
-                         tal:condition="view/can_add" i18n:translate="">Create new task</a>
+                         tal:condition="can_add" i18n:translate="">Create new task</a>
                       <a class="small icon-stage success button pat-inject"
                          tal:condition="python:milestone['transition_enabled']"
                          tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
@@ -511,7 +519,7 @@ Supported types include (class names):
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-              <a tal:condition="view/can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event" i18n:translate="">Create event</a>
+              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event" i18n:translate="">Create event</a>
             </div>
           </div>
           <div class="content">
