@@ -144,6 +144,7 @@ class BaseWorkspaceView(BrowserView):
 
         if groups == {'Guests'}:
             return ['Guest']
+        return []
 
     def principal_sorting_key(self, principal):
         ''' First we want the groups, the we want alphabetical sorting
