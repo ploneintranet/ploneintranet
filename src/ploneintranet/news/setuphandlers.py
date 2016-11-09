@@ -25,6 +25,7 @@ def create_news_app():
             safe_id=False,
         )
     app_obj = portal.news
+    app_obj.indexObject()
     # if the app is not published we will publish it
     if api.content.get_state(app_obj) != 'published':
         try:
@@ -33,13 +34,14 @@ def create_news_app():
             log.exception('Cannot publish the app: %r', app_obj)
     # there always must be 1 or more news sections
     if not app_obj.objectValues():
-        api.content.create(
+        section = api.content.create(
             container=app_obj,
             type='ploneintranet.news.section',
             title='Company News',
             id='company-news',
             safe_id=False,
         )
+        section.indexObject()
     return app_obj
 
 
@@ -58,7 +60,9 @@ def setupTestdata(context):
         safe_id=False,
     )
     api.content.transition(company_news, 'publish')
+    company_news.reindexObject()
     api.content.transition(press_mentions, 'publish')
+    press_mentions.reindexObject()
     for i in range(5):
         create_news_items(context, news, company_news, i)
     for i in range(5, 10):
