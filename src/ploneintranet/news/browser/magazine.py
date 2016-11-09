@@ -58,7 +58,8 @@ class NewsMagazine(BrowserView):
         return self.trending_items()[0:5]
 
     def trending_hasmore(self):
-        return bool(self.trending_items()[5:6])
+        # return bool(self.trending_items()[5:6])
+        return False
 
 
 class NewsSectionView(NewsMagazine):
