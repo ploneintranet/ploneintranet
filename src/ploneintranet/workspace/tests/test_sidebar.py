@@ -1,11 +1,11 @@
 # coding=utf-8
 from collective.workspace.interfaces import IWorkspace
 from plone import api
-from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from zope.event import notify
+from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.annotation import IAnnotations
 from zope.component import getAdapter
+from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
 
@@ -314,7 +314,7 @@ class TestSidebar(BaseTestCase):
             title='Archivable Document'
         )
         sidebar = api.content.get_view(
-            'sidebar.default',
+            'sidebar.documents',
             ws, self.request.clone()
         )
         self.assertIn(
@@ -354,7 +354,7 @@ class TestSidebar(BaseTestCase):
         request = self.request.clone()
         request.form['grouping'] = 'label'
         sidebar = api.content.get_view(
-            'sidebar.default',
+            'sidebar.documents',
             ws, request
         )
         self.assertIn(
