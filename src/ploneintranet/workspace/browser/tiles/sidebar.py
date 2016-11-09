@@ -511,7 +511,7 @@ class Sidebar(BaseTile):
             if self.request.get('groupname'):
                 if grouping == 'date':
                     title = _(u'All Dates')
-                elif grouping == 'label':
+                elif grouping.startswith('label'):
                     title = _(u'All Tags')
                 elif grouping == 'author':
                     title = _(u'All Authors')
@@ -675,7 +675,7 @@ class Sidebar(BaseTile):
         # Note: since False==0, it gets sorted before True!
         #
 
-        if self.grouping() != 'date':
+        if self.grouping() not in ['date', 'label_custom']:
             results = sorted(results, key=lambda x: (
                 x['structural_type'] != 'group', x['title'].lower()))
 
@@ -810,15 +810,15 @@ class Sidebar(BaseTile):
 
         # In the grouping storage, all entries are accessible under their
         # respective grouping headers. Fetch them for the selected grouping.
-        if grouping == 'label':
+        if grouping.startswith('label'):
             include_archived = self.archived_tags_shown()
         else:
             include_archived = self.archived_documents_shown()
 
-        if grouping == 'label':
+        if grouping.startswith('label'):
             # Show all labels stored in the grouping storage
             headers = storage.get_order_for(
-                grouping,
+                'label',
                 include_archived=include_archived,
                 alphabetical=False
             )
@@ -938,7 +938,7 @@ class Sidebar(BaseTile):
 
         documents = []
 
-        if grouping == 'label':
+        if grouping.startswith('label'):
             # This is a bit of an exception compared to the
             # other groupings.
             # We have to check whether grouping_value is 'Untagged', so we
