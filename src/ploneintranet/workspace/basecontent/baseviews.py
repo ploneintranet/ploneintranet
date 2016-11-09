@@ -8,7 +8,7 @@ from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
 from ploneintranet.calendar.utils import get_workspaces_of_current_user
-from ploneintranet.calendar.utils import get_writable_workspaces_of_current_user
+from ploneintranet.calendar.utils import get_writable_workspaces_of_current_user  # noqa: E501
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.library.behaviors.publish import IPublishWidely
