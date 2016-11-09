@@ -2,6 +2,7 @@
 import os
 import pytz
 import logging
+from Products.CMFCore.permissions import AddPortalContent
 from collections import defaultdict
 from datetime import datetime
 from datetime import timedelta
@@ -260,6 +261,15 @@ def get_workspaces_of_current_user(context):
 
     # XXX we'll need to turn this into a dict to make it cacheable in memcached
     return data
+
+
+def get_writable_workspaces_of_current_user(context):
+    workspaces = get_workspaces_of_current_user(context)
+    pm = api.portal.get_tool('portal_membership')
+    writable_workspaces = [
+        ws for ws in workspaces
+        if pm.checkPermission(AddPortalContent, ws.getObject())]
+    return writable_workspaces
 
 
 def get_events_of_current_user(context):
