@@ -1,17 +1,15 @@
-from collections import defaultdict
+from .policies import PARTICIPANT_POLICY
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.dexterity.content import Container
+from ploneintranet import api as pi_api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
-from ploneintranet import api as pi_api
 from zope.event import notify
 from zope.interface import implementer
-from .policies import PARTICIPANT_POLICY
 
 
 @implementer(IWorkspaceFolder, IAttachmentStoragable)
@@ -87,48 +85,6 @@ class WorkspaceFolder(Container):
             new_policy,
         )
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
-
-    def tasks(self):
-        items = defaultdict(list) if self.is_case else []
-        catalog = api.portal.get_tool('portal_catalog')
-        wft = api.portal.get_tool('portal_workflow')
-        current_path = '/'.join(self.getPhysicalPath())
-        ptype = 'todo'
-        brains = catalog(
-            path=current_path,
-            portal_type=ptype,
-            sort_on=['due', 'getObjPositionInParent'],
-        )
-        for brain in brains:
-            obj = brain.getObject()
-            todo = ITodo(obj)
-            assignee = api.user.get(obj.assignee) if obj.assignee else None
-            initiator = api.user.get(obj.initiator) if obj.initiator else None
-            data = {
-                'id': brain.UID,
-                'title': brain.Title,
-                'description': brain.Description,
-                'url': brain.getURL(),
-                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
-                'due': obj.due,
-                'assignee': assignee,
-                'initiator': initiator,
-                'obj': obj,
-                'can_edit': api.user.has_permission(
-                    'Modify portal content', obj=obj),
-            }
-            if self.is_case:
-                milestone = "unassigned"
-                if obj.milestone not in ["", None]:
-                    milestone = obj.milestone
-                items[milestone].append(data)
-            else:
-                items.append(data)
-        if self.is_case:
-            for milestone in items.keys():
-                # Show the checked tasks before the unchecked tasks
-                items[milestone].sort(key=lambda x: x['checked'] is False)
-        return items
 
     def existing_users(self):
         """

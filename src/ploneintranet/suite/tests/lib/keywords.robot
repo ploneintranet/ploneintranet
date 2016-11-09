@@ -1274,20 +1274,14 @@ I select the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
-    ### Without the following sleep statement the 'Wait until' statement that follows it
-    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
-    ### This leads to errors later on when the box is assumed to be checked.
-    sleep  4
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I unselect the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
-    ### Without the following sleep statement the 'Wait until' statement that follows it
-    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
-    ### This leads to errors later on when the box is assumed to be checked.
-    sleep  4
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see a task is complete
