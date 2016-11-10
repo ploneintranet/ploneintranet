@@ -68,6 +68,39 @@
     />
 
   <plone:tile
+    name="sidebar.documents"
+    title="SidebarDocuments"
+    description="default tile"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarDocuments"
+    permission="zope2.View"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
+    name="sidebar.events"
+    title="SidebarEvents"
+    description="default tile"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarEvents"
+    permission="zope2.View"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
+    name="sidebar.todos"
+    title="SidebarTodos"
+    description="default tile"
+    add_permission="cmf.ManagePortal"
+    class=".sidebar.SidebarTodos"
+    permission="zope2.View"
+    for="*"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
     name="sidebar.settings.general"
     title="General settings"
     description=""
