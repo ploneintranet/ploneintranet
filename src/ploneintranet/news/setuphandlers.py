@@ -87,7 +87,7 @@ def create_news_items(context, app, section, i):
     item = api.content.create(
         container=app,
         type='News Item',
-        title=LOREMIPSUM_TITLES.next(),
+        title=LOREMIPSUM_TITLES[i],
     )
     item.section = create_relation(section.getPhysicalPath())
     item.description = ' '.join(loremipsum.get_sentences(2))
@@ -104,4 +104,4 @@ def create_news_items(context, app, section, i):
     item.reindexObject()
 
 
-LOREMIPSUM_TITLES = (x for x in [u'Etiam augue.', u'Fames vitae.', u'Dolor etiam mauris lobortis nibh torquent dis natoque torquent cubilia.', u'Class lacus semper erat laoreet et accumsan gravida aliquet mauris luctus mi eros.', u'Vitae ipsum metus nonummy tempus lorem netus vivamus dui ad cursus leo orci inceptos eni fames.', u'Proin netus.', u'Felis proin senectus quis non est.', u'Massa lacus sociis molestie odio pretium.', u'Class velit dis velit integer.', u'Fusce fames.'])  # noqa
+LOREMIPSUM_TITLES = [u'Etiam augue.', u'Fames vitae.', u'Dolor etiam mauris lobortis nibh torquent dis natoque torquent cubilia.', u'Class lacus semper erat laoreet et accumsan gravida aliquet mauris luctus mi eros.', u'Vitae ipsum metus nonummy tempus lorem netus vivamus dui ad cursus leo orci inceptos eni fames.', u'Proin netus.', u'Felis proin senectus quis non est.', u'Massa lacus sociis molestie odio pretium.', u'Class velit dis velit integer.', u'Fusce fames.', u'Felis fusce nec duis ac non vitae donec magnis cursus molestie.', u'Magna nulla vitae purus lacus tempus.', u'Etiam purus aptent lacus adipiscing sociosqu commodo sapien id euismod amet lorem in lorem.', u'Magna felis congue maecenas dolor tincidunt quis ipsum taciti suspendisse lacus hymenaeos.', u'Dolor vitae metus habitant class dignissim pede per leo nam viverra ante non ipsum vestibulum.', u'Netus fames sociosqu.', u'Fusce morbi sit nisl velit commodo eleifend nonummy elit ut consectetuer.', u'Etiam vitae sapien suspendisse curae aptent imperdiet.', u'Neque nulla fusce luctus magna mattis ligula vel amet fames.', u'Purus augue suspendisse at mauris mus dis et posuere.']  # noqa
