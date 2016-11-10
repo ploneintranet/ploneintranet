@@ -21,7 +21,7 @@ def create_news_app():
         api.content.create(
             container=portal,
             type='ploneintranet.news.app',
-            title='News',
+            title='News publisher',
             id='news',
             safe_id=False,
         )
