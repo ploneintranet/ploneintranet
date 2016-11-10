@@ -1,21 +1,28 @@
 # coding=utf-8
 from Acquisition import aq_inner
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five import BrowserView
+from collections import defaultdict
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.utils import get_record_from_registry
+from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-from ploneintranet.workspace.interfaces import IWorkspaceState
-from ploneintranet.workspace.utils import parent_workspace
-from zope.interface import implements
-from zope.component import getAdapter
 from ploneintranet.workspace.interfaces import IGroupingStorage
+from ploneintranet.workspace.interfaces import IWorkspaceState
+from ploneintranet.workspace.policies import PARTICIPANT_POLICY
+from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from Products.membrane.interfaces import group as group_ifaces
+from zope.component import getAdapter
+from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
-
-import ploneintranet.api as pi_api
+from zope.interface import implements
 
 
 class BaseWorkspaceView(BrowserView):
@@ -63,6 +70,206 @@ class BaseWorkspaceView(BrowserView):
         return api.user.has_permission(
             "Plone Social: Add Microblog Status Update",
             obj=self.context)
+
+    @property
+    @memoize
+    def groupids_key_mapping(self):
+        ''' Return the set of the group ids knows by portal_groups
+        '''
+        if not self.groups_container:
+            return {}
+        return {
+            group.getGroupId(): key
+            for key, group in self.groups_container.objectItems()
+        }
+
+    @memoize
+    def get_principal_title(self, principal):
+        ''' Get the title for this principal
+        '''
+        if isinstance(principal, basestring):
+            principal = self.resolve_principalid(principal)
+        if hasattr(principal, 'getGroupId'):
+            return principal.Title() or principal.getGroupId()
+        return (
+            getattr(principal, 'fullname', '') or
+            principal.Title() or
+            principal.getId()
+        )
+
+    @memoize
+    def get_principal_description(self, principal):
+        ''' Get the description for this principal
+        '''
+        if isinstance(principal, basestring):
+            principal = self.resolve_principalid(principal)
+        if not hasattr(principal, 'getGroupId'):
+            return ''
+        group_memberids = set(principal.getGroupMembers())
+        group_groupids = group_memberids.intersection(
+            self.groupids_key_mapping
+        )
+        return _(
+            u"number_of_members",
+            default=u'${no_users} Users / ${no_groups} Groups',
+            mapping={
+                u'no_users': len(group_memberids) - len(group_groupids),
+                u'no_groups': len(group_groupids)
+            }
+        )
+
+    @memoize
+    def get_principal_roles(self, principal):
+        ''' Get the description for this principalid
+        '''
+        adapter = IWorkspace(self.context)
+        if hasattr(principal, 'getGroupId'):
+            groups = adapter.get(principal.getGroupId()).groups
+        else:
+            groups = adapter.get(principal.getId()).groups
+
+        if 'Admins' in groups:
+            return ['Admin']
+
+        # The policies are ordered from the less permissive to the most
+        # permissive. We reverse them
+        for policy in reversed(PARTICIPANT_POLICY):
+            # BBB: code copied from the workspacefolder existing_users function
+            # at 58c758d20a820dcb9f691168a9215bfc9741b00e
+            # not really clear to me why we are skipping the current policy
+            if policy != self.context.participant_policy:
+                if policy.title() in groups:
+                    # According to the design there is at most one extra role
+                    # per user, so we go with the first one we find. This may
+                    # not be enforced in the backend though.
+                    return [PARTICIPANT_POLICY[policy]['title']]
+
+        if groups == {'Guests'}:
+            return ['Guest']
+
+    def principal_sorting_key(self, principal):
+        ''' First we want the groups, the we want alphabetical sorting
+        '''
+        is_group = hasattr(principal, 'getGroupId')
+        return (not is_group, self.get_principal_title(principal))
+
+    @property
+    @memoize
+    def groups_container(self):
+        ''' Returns the group container (if found) or an empty dictionary
+        '''
+        portal = api.portal.get()
+        return portal.get('groups', {})
+
+    @property
+    @memoize
+    def users_container(self):
+        ''' Returns the group container (if found) or an empty dictionary
+        '''
+        portal = api.portal.get()
+        return portal.get('profiles', {})
+
+    @memoize
+    def resolve_principalid(self, principalid):
+        ''' Given a principal id, tries to get him for profile or groups folder
+        and then look for him with pas
+        '''
+        return (
+            self.users_container.get(principalid) or
+            self.groups_container.get(
+                self.groupids_key_mapping.get(principalid)
+            ) or
+            api.user.get(principalid) or
+            api.group.get(principalid)
+        )
+
+    @property
+    @memoize
+    def guest_ids(self):
+        ''' Get the valid member ids through IWorkspace
+        '''
+        adapter = IWorkspace(self.context)
+        return [
+            principalid for principalid in self.member_ids
+            if adapter.get(principalid).groups == {'Guests'}
+        ]
+
+    @property
+    @memoize
+    def member_ids(self):
+        ''' Get the valid member ids through IWorkspace
+        '''
+        principalids = IWorkspace(self.context).members
+        return filter(self.resolve_principalid, principalids)
+
+    @property
+    @memoize
+    def principals(self):
+        ''' Return the list of principals which are assigned to this context
+        '''
+        objs = map(self.resolve_principalid, self.member_ids)
+        return objs
+
+    @memoize
+    def guests(self):
+        ''' Return the list of principals which are guests in this context
+        By design they are assigned through the sharing view
+        '''
+        objs = map(self.resolve_principalid, self.guest_ids)
+        return objs
+
+    @memoize
+    def get_avatar_tag(self, userid):
+        ''' Get's and caches the userprofile
+        '''
+        return pi_api.userprofile.avatar_tag(
+            userid,
+            link_to='profile'
+        )
+
+    @memoize
+    def tasks(self):
+        ''' Get the context tasks
+        '''
+        is_case = self.context.is_case
+        items = defaultdict(list) if is_case else []
+        wft = api.portal.get_tool('portal_workflow')
+        ptype = 'todo'
+        brains = api.content.find(
+            context=self.context,
+            portal_type=ptype,
+            sort_on=['due', 'getObjPositionInParent'],
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            todo = ITodo(obj)
+            assignee = api.user.get(obj.assignee) if obj.assignee else None
+            initiator = api.user.get(obj.initiator) if obj.initiator else None
+            data = {
+                'id': brain.UID,
+                'title': brain.Title,
+                'description': brain.Description,
+                'url': brain.getURL(),
+                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
+                'due': obj.due,
+                'assignee': assignee,
+                'initiator': initiator,
+                'obj': obj,
+                'can_edit': api.user.has_permission(
+                    'Modify portal content', obj=obj),
+            }
+            if is_case:
+                milestone = "unassigned"
+                if obj.milestone not in ["", None]:
+                    milestone = obj.milestone
+                items[milestone].append(data)
+            else:
+                items.append(data)
+        if is_case:
+            for milestone in items.keys():
+                # Show the checked tasks before the unchecked tasks
+                items[milestone].sort(key=lambda x: x['checked'] is False)
+        return items
 
 
 class WorkspaceView(BaseWorkspaceView):
@@ -184,31 +391,71 @@ class AllUsersJSONView(BrowserView):
         return format_users_json(users)
 
 
+class BrainToGroupAdapter(object):
+    ''' Make a brain behave like a group
+    '''
+
+    def __init__(self, context):
+        self.context = context
+
+    def getId(self):
+        ''' Return this group id
+        '''
+        return self.context.getGroupId
+
+    def getProperty(self, key, fallback=''):
+        ''' Mimic getProperty, remapping some keys
+        '''
+        if key == 'state':
+            key = 'review_state'
+        elif key == 'title':
+            key = 'Title'
+        return getattr(self.context, key, fallback)
+
+
 class AllGroupsJSONView(BrowserView):
     """
     Return all groups in JSON for use in picker
     TODO: consolidate AllGroupsJSONView with AllUsersJSONView
     """
+
+    def get_groups(self):
+        ''' Return all the groups
+        '''
+        only_membrane_groups = get_record_from_registry(
+            'ploneintranet.suite.only_membrane_groups',
+            False
+        )
+        if only_membrane_groups:
+            mt = api.portal.get_tool(name='membrane_tool')
+            purl = api.portal.get_tool(name='portal_url')
+            groups = map(
+                BrainToGroupAdapter,
+                mt.unrestrictedSearchResults(
+                    object_implements=(group_ifaces.IGroup.__identifier__),
+                    path=purl.getPortalPath()
+                )
+            )
+        else:
+            groups = api.group.get_groups()
+        return groups
+
     def __call__(self):
         q = self.request.get('q', '').lower()
-        groups = api.group.get_groups()
+
+        groups = self.get_groups()
+
         group_details = []
         ws = IWorkspace(self.context)
         for group in groups:
             groupid = group.getId()
-            if groupid == self.context.id:
-                # don't add group to itself
-                continue
             # XXX Filter out groups representing workspace roles. Review
             # whether we need/want this and/or can do it more efficiently.
-            skip = False
-            for special_group in ws.available_groups:
-                if groupid.startswith('{}:'.format(special_group)):
-                    skip = True
-                    break
-            if group.getProperty('state') == 'secret':
-                skip = True
-            if skip:
+            if (
+                groupid == self.context.id or  # don't add group to itself
+                group.getProperty('state') == 'secret' or
+                groupid.partition(':')[0] in ws.available_groups
+            ):
                 continue
             title = group.getProperty('title') or groupid
             email = group.getProperty('email')
@@ -292,7 +539,7 @@ def format_workspaces_json(workspaces, skip=[]):
         uid = ws.UID
         if uid in skip:
             continue
-        title = safe_unicode(ws.Title)
+        title = safe_unicode(ws['Title'])
         formatted_ws.append({
             'id': uid,
             'text': title,
@@ -309,16 +556,38 @@ class WorkspacesJSONView(BrowserView):
         q = safe_unicode(self.request.get('q', '').strip())
         if not q:
             return ""
-        query = {'SearchableText': u'{0}*'.format(q),
-                 'object_provides':
-                 'collective.workspace.interfaces.IHasWorkspace'}
+        query = {'phrase': u'{0}*'.format(q),
+                 'filters': self.get_filters(),
+                 'step': 50,
+                 }
 
-        catalog = api.portal.get_tool('portal_catalog')
-        workspaces = catalog(query)
+        search_util = getUtility(ISiteSearch)
+        workspaces = search_util.query(**query)
+        workspaces = sorted(workspaces, key=lambda ws: ws['Title'])
+        skip = self.get_skip()
+        return format_workspaces_json(workspaces, skip)
+
+    def get_filters(self):
+        return {
+            'object_provides': 'collective.workspace.interfaces.IHasWorkspace',
+        }
+
+    def get_skip(self):
+        return []
+
+
+class RelatedWorkspacesJSONView(WorkspacesJSONView):
+    """
+    Return a filtered list of workspaces for pat-autosuggest.
+    Current workspace and its related workspaces are excluded.
+    """
+
+    def get_skip(self):
+        skip = []
         if IBaseWorkspaceFolder.providedBy(self.context):
             skip = getattr(self.context, 'related_workspaces', []) or []
             skip.append(self.context.UID())
-        return format_workspaces_json(workspaces, skip)
+        return skip
 
 
 class WorkspaceCalendarView(BaseWorkspaceView):

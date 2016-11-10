@@ -16,7 +16,7 @@
                data-pat-inject="source: #workspaces; target: #workspaces"
                method="POST"
                >
-            <label class="bare pat-select">
+            <label class="bare pat-select" id="filter-option-sorting">
               <select name="sort">
                 <option tal:repeat="o view/sort_options"
                         selected="${o/selected}"
@@ -24,28 +24,28 @@
                       >${o/content}</option>
               </select>
             </label>
-            <label class="bare pat-select">
+            <label class="bare pat-select" id="filter-option-grouping">
               <select name="grouping">
                 <tal:r repeat="o view/grouping_options">
                     <option value="${o/value}" tal:attributes="selected python:request.get('sort')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
                 </tal:r>
               </select>
             </label>
-            <label class="bare pat-select">
+            <label class="bare pat-select" id="filter-option-workspace-types">
                 <select name="workspace_type">
                   <tal:r repeat="o view/workspace_types">
                     <option value="${o/value}" tal:attributes="selected python:request.get('workspace_type')==o['value'] and 'selected' or None" tal:content="o/content" i18n:translate="">Option</option>
                   </tal:r>
                 </select>
             </label>
-            <label class="pat-checklist" title="Show or hide archived workspace" i18n:attributes="title">
+            <label class="pat-checklist" title="Show or hide archived workspace" i18n:attributes="title" id="filter-option-archived">
               <!-- Even though pat-depends is applied on archived workspace tiles, the value of the following checkbox must still be stored on the user object. The actual hiding and showing of the archived workspace tile is handled by pat-depends, but may also be handled server side (be including or not including the tile in the markup) if this offers significant performance advantages -->
               <input type="checkbox"
                      name="archived"
                      checked="${python:request.get('archived') and 'checked' or None}"
                     > <tal:archived i18n:translate="label_show_archived">Archived</tal:archived>
             </label>
-            <label class="pat-checklist" title="Show all workspaces or only workspace you're a member of." i18n:attributes="title">
+            <label class="pat-checklist" title="Show all workspaces or only workspace you're a member of." i18n:attributes="title" id="filter-option-my-workspaces">
               <input type="checkbox"
                      name="member"
                      checked="${python:request.get('member') and 'checked' or None}"

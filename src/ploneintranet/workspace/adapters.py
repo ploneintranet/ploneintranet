@@ -28,6 +28,7 @@ from zope.interface import implements
 import logging
 import persistent
 
+
 logger = logging.getLogger(__name__)
 
 AVAILABLE_GROUPS = {
@@ -297,7 +298,11 @@ class MetroMap(object):
             current_state = wft.getInfoFor(self.context, "review_state")
         finished = True
         sequence = OrderedDict()
-        tasks = self.context.tasks()
+        tasks = api.content.get_view(
+            'view',
+            self.context,
+            self.context.REQUEST,
+        ).tasks()
         for index, wfstep in enumerate(metromap_list):
             state = wfstep['state']
             if state == current_state:
@@ -489,6 +494,8 @@ class GroupingStorage(object):
         """
         uid = IUUID(obj)
         groupings = self.get_groupings()
+        if grouping not in groupings:
+            return
         for value in groupings[grouping].keys():
             if value not in values and uid in groupings[grouping][value]:
                 if len(groupings[grouping][value]) == 1:

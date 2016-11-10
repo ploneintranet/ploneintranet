@@ -7,15 +7,17 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ploneintranet import api as pi_api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.calendar.utils import get_workspaces_of_current_user
+from ploneintranet.calendar.utils import get_writable_workspaces_of_current_user  # noqa: E501
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.library.behaviors.publish import IPublishWidely
 from ploneintranet.workspace.utils import map_content_type
-from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.workspace.utils import parent_app
+from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError  # noqa
-from Products.CMFEditions.utilities import isObjectChanged, maybeSaveVersion
+from Products.CMFEditions.utilities import isObjectChanged
+from Products.CMFEditions.utilities import maybeSaveVersion
 from Products.Five import BrowserView
 from urllib import urlencode
 from zope import component
@@ -201,7 +203,11 @@ class ContentView(BrowserView):
         return sorted(states, key=lambda x: x['title'])
 
     def previews(self):
-        return pi_api.previews.get_preview_urls(self.context, scale="large")
+        return pi_api.previews.get_preview_urls(
+            self.context,
+            scale="large",
+            with_timestamp=True,
+        )
 
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
@@ -421,6 +427,9 @@ class HelperView(BrowserView):
 
     def get_user_workspaces(self):
         return get_workspaces_of_current_user(self.context)
+
+    def get_writable_user_workspaces(self):
+        return get_writable_workspaces_of_current_user(self.context)
 
     def safe_get_workspace(self):
         """ This will safely return a sane element, either a workspace, or

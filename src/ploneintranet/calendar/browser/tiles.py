@@ -1,24 +1,22 @@
 # coding=utf-8
 from AccessControl.security import checkPermission
-
-from datetime import datetime
 from DateTime import DateTime
-
+from datetime import datetime
 from plone import api
 from plone.tiles import Tile
-
-from ploneintranet.calendar.utils import get_calendars
-from ploneintranet.layout.app import apps_container_id
-from ploneintranet.workspace.utils import parent_workspace
-from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-
-from Products.CMFCore.permissions import ModifyPortalContent
-from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.calendar.config import TZ_COOKIE_NAME
 from ploneintranet.calendar.utils import escape_id_to_class
-
+from ploneintranet.calendar.utils import get_calendars
+from ploneintranet.calendar.utils import get_timezone_info
+from ploneintranet.layout.app import apps_container_id
+from ploneintranet.workspace.indexers import timezone as timezone_indexer
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
+from ploneintranet.workspace.utils import parent_workspace
+from Products.CMFCore.permissions import ModifyPortalContent
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
+
+import pytz
 
 
 class FullCalendarTile(Tile):
@@ -59,32 +57,45 @@ class FullCalendarTile(Tile):
                                                         day=day)
         return datestr
 
-    def _format_date_time(self, date_time, is_whole_day):
+    def _format_date_time(self, date_time, is_whole_day, timezone=None):
         if isinstance(date_time, DateTime):
             date_time = date_time.asdatetime()
+        if timezone is not None:
+            date_time = date_time.astimezone(timezone)
         # 2012-02-18T09:00Z
-        date_time_short = date_time.strftime('%Y-%m-%d')
+        format_short = '%Y-%m-%d'
         # 18 February 2012, 9:00
-        date_time_long = date_time.strftime('%d %B %Y')
+        format_long = '%d %B %Y'
 
         if not is_whole_day:
-            short_time = date_time.strftime("%H:%MZ")
-            long_time = date_time.strftime("%H:%M%Z")
-            date_time_short += "T" + short_time  # XXX Handle timezone
-            date_time_long += ", " + long_time
+            format_short = format_short + 'T%H:%M'
+            format_long = format_long + ', %H:%M'
+            if timezone is not None:
+                format_short += '%z'
+                format_long += ' %Z'
+            else:
+                format_short += 'Z'
+        date_time_short = date_time.strftime(format_short)
+        date_time_long = date_time.strftime(format_long)
         return (date_time_short, date_time_long)
 
     def _get_event_date_times(self, event):
         is_whole_day = event.whole_day
+        timezone = event.timezone
+        if isinstance(timezone, bool):
+            # do not break badly if the timezone is not indexed
+            timezone = timezone_indexer(event.getObject())()
+        if timezone is not None:
+            timezone = pytz.timezone(timezone)
         event_dtimes = {}
         if event.start:
             (event_dtimes["start_date_time_short"],
              event_dtimes["start_date_time_long"]) = self._format_date_time(
-                 event.start, is_whole_day)
+                 event.start, is_whole_day, timezone)
         if event.end:
             (event_dtimes["end_date_time_short"],
              event_dtimes["end_date_time_long"]) = self._format_date_time(
-                 event.end, is_whole_day)
+                 event.end, is_whole_day, timezone)
 
         return event_dtimes
 

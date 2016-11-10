@@ -47,8 +47,8 @@
                                                 mm_seq case/mm_seq;
                                                 transition_icons case/view/transition_icons;
                                                 existing_users_by_id case/existing_users_by_id;
-                                                tasks case/tasks;
                                                 case_view nocall:case/view;
+                                                tasks case_view/tasks;
                                                 target string:case;
                                                 workspace nocall:case;
                                                 ">

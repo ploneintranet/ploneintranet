@@ -46,7 +46,7 @@
 
                           <label class="cal-cat-commercial-strategy-team"
                                  tal:define="calclass python:view.id2class(cal.getId())"
-                                 tal:attributes="class string:cal-cat-${calclass}-invited cal-cat-${cal/ws_type}-invited pat-depends checked;">
+                                 tal:attributes="class string:cal-cat-${calclass}-invited ${cal/ws_type}-invited pat-depends checked;">
                               <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
@@ -69,7 +69,7 @@
                         <tal:wscal repeat="cal my_cals">
                           <label class="cal-cat-commercial-strategy-team" 
                                  tal:define="calclass python:view.id2class(cal.getId())"
-                                 tal:attributes="class string:cal-cat-${calclass}-my cal-cat-${cal/ws_type}-my" data-pat-depends="all-cals">
+                                 tal:attributes="class string:cal-cat-${calclass}-my ${cal/ws_type}-my" data-pat-depends="all-cals">
                               <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:translate="">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
@@ -88,7 +88,7 @@
                         <tal:wscal repeat="cal public_cals">
                           <label class="cal-cat-commercial-strategy-team"
                                  tal:define="calclass python:view.id2class(cal.getId())"
-                                 tal:attributes="class string:cal-cat-${calclass}-public cal-cat-${cal/ws_type}-public;">
+                                 tal:attributes="class string:cal-cat-${calclass}-public ${cal/ws_type}-public;">
                               <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
@@ -102,6 +102,10 @@
             </div>
           </div>
         </aside>
+        <p id="toggle-sidebar">
+            <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar">Open sidebar</span>
+            <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document">Close sidebar</span>
+        </p>
       </div>
     </metal:content>
 

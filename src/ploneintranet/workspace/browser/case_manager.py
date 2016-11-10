@@ -1,6 +1,6 @@
 # coding=utf-8
-from datetime import datetime
 from DateTime import DateTime
+from datetime import datetime
 from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
@@ -13,6 +13,7 @@ from urllib import urlencode
 from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
+
 
 logger = getLogger(__name__)
 
@@ -175,7 +176,11 @@ class CaseManagerView(BrowserView):
                 continue
             path_components = item.path.split('/')
             obj = portal.restrictedTraverse(path_components)
-            tasks = obj.tasks()
+            tasks = api.content.get_view(
+                'view',
+                obj,
+                self.request,
+            ).tasks()
             days_running = int(DateTime() - DateTime(item.context['created']))
             recent_modifications = len(
                 pc(

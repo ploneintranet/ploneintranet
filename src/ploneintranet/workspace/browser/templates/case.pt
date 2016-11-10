@@ -18,7 +18,7 @@
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
                                existing_users_by_id workspace/existing_users_by_id;
-                               tasks context/tasks;
+                               tasks view/tasks;
                                target nothing;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">
@@ -114,13 +114,7 @@
                                                  assignee task/assignee;
                                                  assignee_id assignee/getId|nothing"
                                      tal:condition="assignee">
-                                    <a href=""
-                                       class="pat-avatar "
-                                       id="">
-                                      <img src="${portal_url}/@@avatars/${assignee_id}"
-                                           alt="${python:assignee.getProperty('fullname') or assignee_id}"
-                                           title="${assignee/Description}" />
-                                    </a>
+                                    <a tal:replace="structure python:view.get_avatar_tag(assignee_id)" />
                                     <time class="date"
                                           tal:condition="due_date"
                                           tal:attributes="datetime due_date"

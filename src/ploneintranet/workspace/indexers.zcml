@@ -31,5 +31,6 @@
   <adapter name="ws_type" factory=".indexers.ws_type_event" />
 
   <adapter name="location" factory=".indexers.location" />
+  <adapter name="timezone" factory=".indexers.timezone" />
 
 </configure>

@@ -16,6 +16,7 @@ class TestTodos(BaseTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         pwft = api.portal.get_tool("portal_placeful_workflow")
         self.workspaces = api.content.create(
             type='ploneintranet.workspace.workspacecontainer',
@@ -177,6 +178,15 @@ class TestTodos(BaseTestCase):
         api.content.transition(self.case, 'reset')
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')
 
+    def get_tasks(self, obj):
+        ''' Get the tasks for this object
+        '''
+        return api.content.get_view(
+            'view',
+            obj,
+            self.request.clone(),
+        ).tasks()
+
     def test_todo_sorting(self):
         ''' Check if we can effectively sort todos
 
@@ -209,26 +219,26 @@ class TestTodos(BaseTestCase):
             milestone='new',
         )
         self.assertEqual(
-            [todo['title'] for todo in case.tasks()['new']],
+            [todo['title'] for todo in self.get_tasks(case)['new']],
             ['todo1', 'todo2'],
         )
         case.moveObjectsUp(['todo2'])
         self.assertEqual(
-            [todo['title'] for todo in case.tasks()['new']],
+            [todo['title'] for todo in self.get_tasks(case)['new']],
             ['todo2', 'todo1'],
         )
 
         case.todo1.due = datetime.now()
         case.todo1.reindexObject()
         self.assertEqual(
-            [todo['title'] for todo in case.tasks()['new']],
+            [todo['title'] for todo in self.get_tasks(case)['new']],
             ['todo1', 'todo2'],
         )
 
         case.todo2.due = datetime.now() - timedelta(days=1)
         case.todo2.reindexObject()
         self.assertEqual(
-            [todo['title'] for todo in case.tasks()['new']],
+            [todo['title'] for todo in self.get_tasks(case)['new']],
             ['todo2', 'todo1'],
         )
 

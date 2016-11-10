@@ -75,7 +75,7 @@
               <optgroup>
                   <option value="" i18n:translate="">-- Please select a workspace --</option>
               </optgroup>   
-              <tal:repeat repeat="uw here/content_helper_view/get_user_workspaces">
+              <tal:repeat repeat="uw here/content_helper_view/get_writable_user_workspaces">
                   <option tal:content="uw/Title" tal:attributes="value uw/getPath">
                       Workspace Title
                   </option>
