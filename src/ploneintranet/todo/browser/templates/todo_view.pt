@@ -9,7 +9,7 @@
   <body>
     <metal:content fill-slot="content"
                    tal:define="workspace python:view.workspace;
-                               workspace_url python:workspace.absolute_url();
+                               workspace_url workspace/absolute_url;
                                workspace_id python:workspace.id;
                                read_only python:not view.can_edit">
       <div class="application" id="app-space">

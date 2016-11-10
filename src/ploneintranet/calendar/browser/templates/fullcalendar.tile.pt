@@ -89,7 +89,7 @@
                         <a class="url external" tal:attributes="href string:${event/url}#content">
                             <h4 class="title">${event/Title}</h4>
                             <p class="location" tal:condition="event/location|nothing">${event/location|nothing}</p>
-                            <ul class="details" tal:condition="not:event/whole_day">
+                            <ul class="details">
                                 <li>Starts 
                                     <time class="start" datetime="2012-02-18 09:00"
                                           tal:attributes="datetime event/start_date_time_short"

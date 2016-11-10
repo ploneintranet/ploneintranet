@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <body class="stand-alone sidebar-normal gh-collapsed focus-listing  generic application- application- ">
+    <body class="stand-alone sidebar-normal gh-collapsed generic application- application- ">
 
         <fieldset class="pat-inject pat-subform" data-pat-inject="source: #bookmark-workspace; target: #bookmark-workspace" id="bookmark-workspace">
             <button type="submit" formaction="${view/link}" class="pat-inject ${view/icon_class}" data-pat-inject="source: #bookmark-workspace; target: #bookmark-workspace" title="${view/description}">${view/title}</button>

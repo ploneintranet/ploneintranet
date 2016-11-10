@@ -84,7 +84,7 @@
         description="Activates the new invitees index and populates it (Cave: reindexes all events!)"
         source="*"
         destination="0014"
-        handler=".base.import_catalog"
+        handler=".to_0014.activate_invitees"
         profile="ploneintranet.workspace:default"
       />
 
@@ -123,5 +123,42 @@
         handler=".to_0016.workspaces_sort_options"
         profile="ploneintranet.workspace:default"
         />
+
+    <genericsetup:registerProfile
+        name="to_0017"
+        title="Upgrade profile that includes registry record to configure autosave for selected portal types"
+        description=""
+        directory="profiles/to_0017"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile to control autosave for selected portal types"
+        description=""
+        source="*"
+        destination="0017"
+        handler=".to_0017.autosave_portal_types"
+        profile="ploneintranet.workspace:default"
+        />
+
+    <genericsetup:upgradeStep
+        title="Reread catalog config"
+        description="Activates the new timezone index and populates it (Cave: reindexes all events!)"
+        source="*"
+        destination="0018"
+        handler=".to_0018.activate_timezone"
+        profile="ploneintranet.workspace:default"
+      />
+
+    <genericsetup:upgradeStep
+        title="Allow workgroups in workspacecontainers"
+        description="Add the workgroups type to the allowed items in workspacecontainers."
+        source="*"
+        destination="0019"
+        handler=".to_0019.workspacecontainer_contains_workgroups"
+        profile="ploneintranet.workspace:default" />
+      />
+
 
 </configure>

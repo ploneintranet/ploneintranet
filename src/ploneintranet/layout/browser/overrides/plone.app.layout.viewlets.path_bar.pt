@@ -13,7 +13,7 @@
                           title crumb/Title">
           <a tal:condition="not:nolink"
              i18n:domain="ploneintranet"
-             tal:attributes="href url;
+             tal:attributes="href string:${url}/view;
                              class python:is_last and 'current' or '';
                              id string:breadcrumbs-${repeat/crumb/number};"
              >${python:ploneview.cropText(title, 80)}<tal:arc condition="python:is_last and is_archived"> <strong class="icon-archive workspace-state" i18n:translate="icon_archived">Archived</strong></tal:arc></a>

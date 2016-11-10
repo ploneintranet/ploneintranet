@@ -164,7 +164,7 @@ I can see an attachment
 I can follow the profile link for user
     [arguments]  ${user_fullname}
     [Documentation]  We click on the second post item, because we know that Christian Stoney has 2 posts and the 1st post can be hidden by a stupid scroll issue after activating the network filter
-    Click Link  xpath=//div[@id='activity-stream']//div[@class='post item'][2]//div[@class='post-header']//h4[text()='${user_fullname}']/..
+    Click Link  xpath=//div[@id='activity-stream']//div[@class='tile'][2]//div[@class='post item']//div[@class='post-header']//h4[text()='${user_fullname}']/..
 
 I can see updates tagged
     [arguments]  ${tag}
@@ -746,18 +746,26 @@ I can see that the workspace is archived
 
 
 I can archive the current context
-    Click Element  jquery=.quick-functions :contains('Archive')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Archive this document"]
     Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
     Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Page should contain element  jquery=.quick-functions :contains('Unarchive')
+    Page should contain element  jquery=#extra-options [title="Unarchive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
 
 I can unarchive the current context
-    Click Element  jquery=.quick-functions :contains('Unarchive')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=#extra-options [title="Unarchive this document"]
     Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
     Click Element  jquery=.pat-notification-panel :contains('Close')
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
     Wait Until Page Does Not Contain Element  css=.injecting-content
-    Page should contain element  jquery=.quick-functions :contains('Archive')
+    Page should contain element  jquery=#extra-options [title="Archive this document"]
+    Click Element  jquery=.quick-functions [title="Show extra context actions"]
 
 I see the option to create a document
     Click link  Documents
@@ -1084,11 +1092,11 @@ I view the image
 I upload a new image
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
-    Click Button  Close
 
 I browse to a file
     I browse to a workspace
@@ -1101,11 +1109,11 @@ I view the file
 I upload a new file
     Wait Until Page Contains Element  link=Toggle extra metadata
     Click Link  link=Toggle extra metadata
+    Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved.
-    Click Button  Close
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
@@ -1266,20 +1274,14 @@ I select the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
     Select Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
-    ### Without the following sleep statement the 'Wait until' statement that follows it
-    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
-    ### This leads to errors later on when the box is assumed to be checked.
-    sleep  4
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
 
 I unselect the task check box
     [arguments]  ${title}
     Wait until Page Contains Element  xpath=(//label[@class='checked']//a[@title='${title}'])
     Unselect Checkbox  xpath=(//a[@title='${title}'])/preceding-sibling::input[@name="active-tasks:list"]
-    ### Without the following sleep statement the 'Wait until' statement that follows it
-    ### is executed quickly and selenium sometimes leaves the page before autosave can happen.
-    ### This leads to errors later on when the box is assumed to be checked.
-    sleep  4
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait until Page Contains Element  xpath=(//label[@class='unchecked']//a[@title='${title}'])
 
 I see a task is complete
@@ -1350,8 +1352,7 @@ I can open a milestone task panel
 
 I can see the user is a guest
     [arguments]  ${username}
-    Wait until page contains element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_guests']//strong[@class='title' and contains(text(), '${username}')]
-    Page should not contain element  xpath=//form[@id='member-list-items']/fieldset[@id='existing_users']//strong[@class='title' and contains(text(), '${username}')]
+    Wait until page contains element  xpath=//form[@id='member-list-items']//strong[@class='title' and contains(text(), '${username}')]/../../a[contains(text(), 'Guest')]
 
 I write a status update
     [arguments]  ${message}
@@ -1415,6 +1416,7 @@ I can edit the status reply
     [arguments]  ${message1}  ${message2}
     I open the comment action menu  ${message1}
     Click Link  Edit comment
+    Wait Until Element Is Visible  xpath=//textarea[contains(text(), '${message1}')]
     Input Text  xpath=//textarea[contains(text(), '${message1}')]  ${message2}
     Click Button  Save
     Wait Until Page Contains  Edited

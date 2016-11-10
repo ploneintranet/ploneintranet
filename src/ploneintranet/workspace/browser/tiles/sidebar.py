@@ -5,9 +5,9 @@ from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ...utils import map_content_type
+from ...utils import month_name
 from ...utils import parent_workspace
 from ...utils import set_cookie
-from ...utils import month_name
 from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
@@ -25,19 +25,19 @@ from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
 from Products.Archetypes.utils import shasattr
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from slc.mailrouter.utils import store_name
 from zope.component import getAdapter
-from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.publisher.browser import BrowserView
 from zope.schema import getFieldNames
 from zope.schema.interfaces import IVocabularyFactory
+
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -54,10 +54,17 @@ class BaseTile(BrowserView):
 
     @property
     @memoize
-    def current_userid(seelf):
+    def current_user(self):
         ''' Return the current authenticated user id
         '''
-        return api.user.get_current().getId()
+        return api.user.get_current()
+
+    @property
+    @memoize
+    def current_userid(self):
+        ''' Return the current authenticated user id
+        '''
+        return self.current_user.getId()
 
     def render(self):
         return self.index()
@@ -101,6 +108,7 @@ class BaseTile(BrowserView):
             item.id = idnormalizer.normalize(item.message)
         return m
 
+    @memoize
     def workspace(self):
         """ Acquire the workspace of the current context
         """
@@ -192,41 +200,6 @@ class SidebarSettingsMembers(BaseTile):
     """
 
     index = ViewPageTemplateFile('templates/sidebar-settings-members.pt')
-
-    users = []
-    guests = []
-
-    def render(self):
-        self._get_users_and_guests()
-        return self.index()
-
-    def _get_users_and_guests(self):
-        """
-        Get current users and add in any search results.
-        Saves two list of dicts with keys, one for regular members,
-        one for users with the "Guest" role.
-        """
-        users = []
-        guests = []
-        existing_users = self.existing_users()
-        existing_user_ids = [x['id'] for x in existing_users]
-
-        # Only add search results that are not already members
-        sharing = getMultiAdapter((self.workspace(), self.request),
-                                  name='sharing')
-        search_results = sharing.user_search_results()
-        all_users = existing_users + [
-            x for x in search_results if x['id'] not in existing_user_ids]
-        for record in all_users:
-            if record.get('role') == 'Guest':
-                guests.append(record)
-            else:
-                users.append(record)
-
-        users.sort(key=lambda x: safe_unicode(x['title']))
-        guests.sort(key=lambda x: safe_unicode(x['title']))
-        self.users = users
-        self.guests = guests
 
     def existing_users(self):
         return self.workspace().existing_users()
@@ -538,7 +511,7 @@ class Sidebar(BaseTile):
             if self.request.get('groupname'):
                 if grouping == 'date':
                     title = _(u'All Dates')
-                elif grouping == 'label':
+                elif grouping.startswith('label'):
                     title = _(u'All Tags')
                 elif grouping == 'author':
                     title = _(u'All Authors')
@@ -551,6 +524,12 @@ class Sidebar(BaseTile):
                 return dict(title=title, url=workspace.absolute_url())
             else:
                 return
+
+    @memoize
+    def userid_to_user(self, userid):
+        ''' Given a user id, return the user
+        '''
+        return api.user.get(userid=userid)
 
     def _extract_attrs(self, catalog_results):
         """
@@ -609,7 +588,7 @@ class Sidebar(BaseTile):
                 dpi=dpi,
                 dps=dps,
                 url=url,
-                creator=api.user.get(username=r['Creator']),
+                creator=self.userid_to_user(r['Creator']),
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
@@ -696,7 +675,7 @@ class Sidebar(BaseTile):
         # Note: since False==0, it gets sorted before True!
         #
 
-        if self.grouping() != 'date':
+        if self.grouping() not in ['date', 'label_custom']:
             results = sorted(results, key=lambda x: (
                 x['structural_type'] != 'group', x['title'].lower()))
 
@@ -772,7 +751,7 @@ class Sidebar(BaseTile):
         (e.g. label, author, type, first_letter)
         """
         workspace = parent_workspace(self.context)
-        user = api.user.get_current()
+        user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
         if not workspace or not user.has_permission('View', workspace):
@@ -831,14 +810,18 @@ class Sidebar(BaseTile):
 
         # In the grouping storage, all entries are accessible under their
         # respective grouping headers. Fetch them for the selected grouping.
-        headers = storage.get_order_for(
-            grouping,
-            include_archived=self.archives_shown(),
-            alphabetical=True
-        )
+        if grouping.startswith('label'):
+            include_archived = self.archived_tags_shown()
+        else:
+            include_archived = self.archived_documents_shown()
 
-        if grouping == 'label':
+        if grouping.startswith('label'):
             # Show all labels stored in the grouping storage
+            headers = storage.get_order_for(
+                'label',
+                include_archived=include_archived,
+                alphabetical=False
+            )
             for header in headers:
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'tag'
@@ -852,6 +835,11 @@ class Sidebar(BaseTile):
                                 archived=False))
 
         elif grouping == 'author':
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             # Show all authors stored in the grouping storage
 
             # XXX May come soon in UI
@@ -874,6 +862,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'type':
             # Show all types stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
 
             # Document types using mimetypes
             headers.append(dict(title='Other',
@@ -888,6 +881,11 @@ class Sidebar(BaseTile):
 
         elif grouping == 'first_letter':
             # Show all items by first letter stored in the grouping storage
+            headers = storage.get_order_for(
+                grouping,
+                include_archived=include_archived,
+                alphabetical=True
+            )
             for header in headers:
                 header['title'] = header['title'].upper()
                 header['url'] = group_url_tmpl % header['id']
@@ -940,7 +938,7 @@ class Sidebar(BaseTile):
 
         documents = []
 
-        if grouping == 'label':
+        if grouping.startswith('label'):
             # This is a bit of an exception compared to the
             # other groupings.
             # We have to check whether grouping_value is 'Untagged', so we
@@ -1067,20 +1065,22 @@ class Sidebar(BaseTile):
     @memoize
     def show_extra(self):
         cookie_name = '%s-show-extra-%s' % (
-            self.section, api.user.get_current().getId())
+            self.section,
+            self.current_userid
+        )
         return self.request.get(cookie_name, '').split('|')
 
-    def archives_shown(self):
+    def archived_documents_shown(self):
         """
-        Tell if we should show archived items or not
+        Tell if we should show archived documents or not
         """
         return 'archived_documents' in self.show_extra
 
-    # def urlquote(self, value):
-    #     """
-    #     Encodes values to be used as URL pars
-    #     """
-    #     return urllib.quote(value)
+    def archived_tags_shown(self):
+        """
+        Tell if we should show archived tags or not
+        """
+        return 'archived_tags' in self.show_extra
 
     @property
     def page_idx(self):

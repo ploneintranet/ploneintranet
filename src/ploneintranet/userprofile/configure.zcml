@@ -14,6 +14,9 @@
   <adapter name="Title"
            factory=".indexers.Title" />
 
+  <adapter name="workspace_members"
+           factory=".indexers.workspace_members" />
+
   <include package=".browser" />
   <include package=".content" />
   <include package=".upgrades" />
@@ -23,8 +26,9 @@
      factory=".permissions.UserProfileLocalRoleAdapter"
      />
 
-  <!-- Enable sync of user properties via PAS -->
+  <!-- Enable sync of user/group properties via PAS -->
   <adapter factory=".sync.UserPropertyManager" />
+  <adapter factory=".sync.WorkGroupPropertyManager" />
 
   <adapter
       for="*"

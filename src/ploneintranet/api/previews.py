@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 ''' Methods to generate and access preview images on content '''
-from ploneintranet.docconv.client import previews
 from ploneintranet.docconv.client import html_converter
+from ploneintranet.docconv.client import previews
 from zope.globalrequest import getRequest
 
 import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,7 @@ def has_previews(obj):
     return previews.has_previews(obj)
 
 
-def get_preview_urls(obj, scale='normal'):
+def get_preview_urls(obj, scale='normal', with_timestamp=False):
     """Convenience method to get URLs of image previews as these are most
     frequently used
 
@@ -80,10 +81,12 @@ def get_preview_urls(obj, scale='normal'):
     :type obj: A Plone content object
     :param scale: The Plone image scale to get preview images at
     :type scale: str
+    :param with_timestamp: If True add a timestamp to the URLs
+    :type with_timestamp: bool
     :return: List of preview image absolute URLs
     :rtype: list
     """
-    return previews.get_preview_urls(obj, scale)
+    return previews.get_preview_urls(obj, scale, with_timestamp)
 
 
 def fallback_image(obj):

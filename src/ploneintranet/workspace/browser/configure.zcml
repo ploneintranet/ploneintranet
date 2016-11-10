@@ -376,6 +376,14 @@
         />
 
     <browser:page
+        name="workspaces-related.json"
+        for="*"
+        class=".workspace.RelatedWorkspacesJSONView"
+        permission="zope2.View"
+        layer="..interfaces.IPloneintranetWorkspaceLayer"
+        />
+
+    <browser:page
       name="case_workflow_guard"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseWorkflowGuardView"
@@ -485,5 +493,23 @@
         template="templates/archive_link.pt"
         layer="..interfaces.IWorkspaceAppContentLayer"
     />
+
+    <!-- Render the workflow history as a view -->
+    <browser:page
+        for="*"
+        name="contenthistory"
+        template="templates/content_history.pt"
+        class="plone.app.layout.viewlets.content.ContentHistoryView"
+        permission="zope2.View"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+        />
+
+    <browser:view
+        for="*"
+        name="download_file_version"
+        class=".download_file_version.DownloadFileVersion"
+        permission="zope2.View"
+        layer="..interfaces.IWorkspaceAppContentLayer"
+        />
 
 </configure>

@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="cmfeditions">
+
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+           tal:define="size_value context/file/getSize;
+                       content_type context/file/contentType|nothing;
+                       kb python:size_value/1024
+                      ">
+
+        <div id="content-core">
+
+            <em>
+
+              <span tal:condition="not:size_value" i18n:translate="no_file_uploaded">
+                  (No file has been uploaded yet)
+              </span>
+
+              <tal:fileinfo condition="size_value">
+                <span i18n:translate="label_size" i18n:domain="plone">
+                Size
+                </span>
+
+                <span tal:condition="size_value"
+                    tal:content="kb">
+                257</span> KB
+
+                -
+                <span i18n:translate="label_file_type">
+                File type
+                </span>
+
+                <span tal:content="content_type">
+                Content type
+                </span>
+              </tal:fileinfo>
+
+            </em>
+
+            <p tal:condition="size_value">
+                <a href="" class="pat-button"
+                   tal:define="here_url context/absolute_url"
+                   tal:attributes="href string:$here_url/download_file_version?version_id=${version_id}">
+                    <tal:block i18n:translate="">
+                    Download
+                    </tal:block>
+                </a>
+            </p>
+
+
+            <div class="row"
+                 tal:condition="python:test(size_value and content_type.find('text')>-1, 1,0)">
+
+                    <h2 i18n:translate="heading_file_contents" i18n:domain="plone">File contents</h2>
+
+                    <pre tal:content="context/get_data|context/data|nothing">
+                    </pre>
+
+            </div>
+        </div>
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+
+</html>

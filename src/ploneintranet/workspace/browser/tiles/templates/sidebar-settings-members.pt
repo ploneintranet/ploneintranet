@@ -9,7 +9,10 @@
     <div id="sidebar-content"
          tal:define="
            ws view/workspace;
+           workspace_view nocall:ws/view;
            can_manage_roster view/can_manage_roster;
+           principals workspace_view/principals;
+           guests workspace_view/guests;
          ">
       <div id="workspace-settings">
 
@@ -83,49 +86,46 @@
 
                 </div>
 
-                <label class="item user has-no-description"
-                       tal:repeat="user view/users"
-                       tal:attributes="class string:item user ${user/cls}">
-                  <tal:d define="purl here/portal_url; url python:user['typ']=='user' and '%s/profiles/%s' % (purl, user['id']) or '%s/@@workspace-group-view?id=%s' % (purl, user['id'])">
-                    <input name="user_id" type="checkbox" tal:attributes="value user/id" />
-                    <a class="follow pat-inject" href="${url}" data-pat-inject="source: #document-body; target: #document-body">
-                      <img tal:replace="structure python:view.get_avatar_by_userid(user['id'])">
-                      <strong class="title" tal:content="user/title">Adrian White</strong>
-                      <tal:block condition="user/description"><br />
-                      <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
+                <tal:principals repeat="principal principals">
+                  <label class="item ${python: is_group and 'group' or 'user'} ${python: description and 'has-description' or 'has-no-description'} ${python: roles and 'has-label' or ''}"
+                      tal:define="
+                        principalid principal/id;
+                        is_group principal/getGroupId|nothing;
+                        description python:workspace_view.get_principal_description(principal);
+                        roles python:workspace_view.get_principal_roles(principal);
+                      "
+                    >
+                    <input name="user_id"
+                           value="${principal/id}"
+                           type="checkbox"
+                          />
+                    <a class="follow pat-inject"
+                       href="${principal/absolute_url}"
+                       data-pat-inject="source: #document-body; target: #document-body"
+                      >
+                      <img tal:replace="structure python:view.get_avatar_by_userid(principal.id)">
+                      <strong class="title">${python:workspace_view.get_principal_title(principal)}</strong>
+                      <tal:block condition="description"><br />
+                      <dfn class="byline">${description}</dfn></tal:block>
                     </a>
                     <tal:manager condition="can_manage_roster">
-                      <tal:role condition="user/role" define="role user/role">
-                        <a href="${ws/absolute_url}/panel-member-role-actions?user_id=${user/id}&amp;user_role=${user/role}#content" class="label pat-tooltip inactive" data-pat-tooltip="source: ajax">${user/role}</a>
-                      </tal:role>
+                      <a href="${ws/absolute_url}/panel-member-role-actions?user_id=${principalid}&amp;user_role=${role}#content"
+                         class="label pat-tooltip inactive"
+                         data-pat-tooltip="source: ajax"
+                         tal:repeat="role roles"
+                        >${role}</a>
                     </tal:manager>
                     <tal:non_manager condition="not:can_manage_roster">
-                        <a tal:condition="user/role" href="${url}" class="label inactive follow pat-inject"
-                           data-pat-inject="source: #document-body; target: #document-body">${user/role}</a>
+                      <a href="${principal/absolute_url}"
+                         class="label inactive follow pat-inject"
+                         data-pat-inject="source: #document-body; target: #document-body"
+                         tal:repeat="role roles"
+                        >${role}</a>
                     </tal:non_manager>
-                  </tal:d>
-                </label>
-
+                  </label>
+                </tal:principals>
               </fieldset>
-              <tal:guests condition="view/guests">
-                <h3 i18n:translate="">Guests</h3>
-                <fieldset class="checklist pat-checklist users unchecked" id="existing_guests">
-                    <label class="item user has-no-description"
-                           tal:repeat="user view/guests"
-                           tal:attributes="class string:item user ${user/cls}">
-                      <tal:d define="purl here/portal_url; url python:user['typ']=='user' and '%s/profiles/%s' % (purl, user['id']) or '%s/@@workspace-group-view?id=%s' % (purl, user['id'])">
-                        <a class="follow pat-inject" href="${url}" data-pat-inject="source: #document-body; target: #document-body">
-                          <img src="/media/avatar-adrian-white.jpg" alt="" class="avatar" tal:attributes="src user/portrait" tal:condition="user/portrait" />
-                          <strong class="title" tal:content="user/title">Adrian White</strong>
-                          <tal:block condition="user/description"><br />
-                          <dfn class="byline" tal:content="user/description">Lorem ipsum dolor sit amet</dfn></tal:block>
-                        </a>
-                      </tal:d>
-                    </label>
-                </fieldset>
-              </tal:guests>
             </form>
-
 
             <div class="button-bar create-buttons"
                  tal:condition="can_manage_roster">

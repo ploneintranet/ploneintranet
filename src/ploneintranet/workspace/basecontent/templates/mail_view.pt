@@ -12,7 +12,7 @@
   <metal:content metal:fill-slot="content">
     <div id="content"
          tal:define="workspace python:view.workspace;
-            workspace_url python:workspace.absolute_url();
+            workspace_url workspace/absolute_url;
             workspace_id python:workspace.id;
             read_only python:not view.can_edit;
             type workspace/ws_type | string:workspace;
@@ -134,7 +134,7 @@
                 </fieldset>
               </div>
               <div id="document-content">
-                <div class="attachments"
+                <div class="document-attachments"
                      tal:condition="attachments"
                     >
                   <tal:attachments repeat="attachment attachments">

@@ -66,6 +66,7 @@ Member can tag an image
     Then the metadata has the new tag
 
 Member can replace an image
+    [Tags]  noncritical
     Given I am in a workspace as a workspace member
     And I browse to an image
     And I upload a new image
@@ -100,6 +101,7 @@ Member can tag a file
     Then the metadata has the new tag
 
 Member can replace a file
+    [Tags]  noncritical
     Given I am in a workspace as a workspace member
     And I browse to a file
     And I upload a new file

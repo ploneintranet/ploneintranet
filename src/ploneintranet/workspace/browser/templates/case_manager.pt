@@ -5,11 +5,11 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master">
 
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-closed focus-listing application-case-manager">
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-closed application-case-manager">
 
     <metal:content fill-slot="content" i18n:domain="ploneintranet">
         <div id="app-space" class="state-on">
-          <div id="application-body" class="application-case-manager sidebar-left-closed sidebar-right-open">
+          <div id="application-body" class="sidebar-normal application-case-manager focus-listing sidebar-left-closed sidebar-right-open">
             <div id="document-body">
               <div id="document-content" tal:define="cases view/cases">
 
@@ -47,8 +47,8 @@
                                                 mm_seq case/mm_seq;
                                                 transition_icons case/view/transition_icons;
                                                 existing_users_by_id case/existing_users_by_id;
-                                                tasks case/tasks;
                                                 case_view nocall:case/view;
+                                                tasks case_view/tasks;
                                                 target string:case;
                                                 workspace nocall:case;
                                                 ">

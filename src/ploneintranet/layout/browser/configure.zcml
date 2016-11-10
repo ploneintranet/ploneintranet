@@ -152,6 +152,14 @@
       permission="zope2.View"
       />
 
+  <!-- Yes, zope.Public, everybody can call this to set cache headers -->
+  <browser:view
+      for="*"
+      name="http-cache-headers"
+      class=".httpheaders.HTTPHeaders"
+      permission="zope.Public"
+      />
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"

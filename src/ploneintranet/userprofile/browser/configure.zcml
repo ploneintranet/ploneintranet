@@ -17,6 +17,15 @@
       />
 
   <browser:page
+      name="group-view"
+      for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
+      class=".workgroup.WorkGroupView"
+      permission="zope2.View"
+      template="templates/group_view.pt"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
       name="userprofile-view"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".userprofile.UserProfileView"
@@ -146,6 +155,22 @@
      />
 
   <browser:page
+      for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
+      name="sync"
+      class="..sync.WorkGroupPropertySync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+     />
+
+  <browser:page
+      for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
+      name="sync-groups"
+      class="..sync.AllWorkGroupsSync"
+      permission="cmf.ManagePortal"
+      layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
+      />
+
+  <browser:page
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       name="avatars"
       class=".userprofile.AvatarsView"
@@ -178,7 +203,5 @@
       template="templates/group.pt"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
-
-
 
 </configure>

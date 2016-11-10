@@ -113,5 +113,23 @@
         destination="0009"
         handler="..setuphandlers.create_apps"
         profile="ploneintranet.layout:default" />
+
+    <genericsetup:registerProfile
+        name="to_0010"
+        title="Add registry entries to configure portlet expand"
+        description=""
+        directory="profiles/to_0010"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry entries to configure portlet expand"
+        description="num and max items"
+        source="*"
+        destination="0010"
+        handler=".to_0010.add_portlet_configuration"
+        profile="ploneintranet.layout:default" />
+
     
 </configure>

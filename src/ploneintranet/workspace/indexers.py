@@ -146,3 +146,10 @@ def ws_type_event(obj, **kw):
 def location(obj, **kw):
     """Indexes the location"""
     return IEventAccessor(obj).location
+
+
+@indexer(IEvent)
+def timezone(obj):
+    timezone = obj.start.tzinfo
+    if timezone:
+        return timezone.zone

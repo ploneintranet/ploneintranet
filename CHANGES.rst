@@ -1,10 +1,128 @@
 Changelog
 =========
 
-1.2.0a19 (unreleased)
+1.2.0a23 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a22 (2016-11-03)
+---------------------
+
+* Merge pull request #853 from quaive/bookmarking-at-midnight [GitHub]
+* Merge pull request #852 from quaive/search-enhancements [GitHub]
+* Merge pull request #849 from quaive/release-1.2.x [GitHub]
+* remove class [Alexander Pilz]
+* make day not zero padded [Alexander Pilz]
+* Skip test that can fail close to midnight [Alessandro Pisa]
+* Merge pull request #851 from quaive/authenticator-to-workspace [GitHub]
+* Allow to replace the search navigation overriding just one template [Alessandro Pisa]
+* The div is needed for injection, even if we have no results [Alessandro Pisa]
+* Do not try to display a preview if there is not [Alessandro Pisa]
+* Fix batching [Alessandro Pisa]
+* add an authenticator when linking to workspace from stream [Alexander Pilz]
+* Merge pull request #850 from quaive/markup-fixes [GitHub]
+* More markup fixes to fix sidebar positioning on doc and event view [Alexander Pilz]
+* Back to development: 1.2.0a22 [Alexander Pilz]
+
+
+1.2.0a21 (2016-11-01)
+---------------------
+
+* Merge pull request #848 from quaive/expandable-stream [GitHub]
+* adapt test to new dom nesting [Alexander Pilz]
+* Merge pull request #847 from quaive/markup-alignment-proto [GitHub]
+* stream is now collapsible/expandable. Also markup has been aligned with proto [Alexander Pilz]
+* Merge pull request #846 from quaive/versioning-improvements [GitHub]
+* release theme and bump [Alexander Pilz]
+* Disarmed a div.content which leads to a large padding around the comment box. Cornelis wants the div completely gone but we use it to carry an id which is used to inject the new post into the comment stream. And there is no replacement available. So this would mean major refactoring. I take this shortcut in stressful times. [Alexander Pilz]
+* Changes requested in https://github.com/quaive/ploneintranet.prototype/commit/c95a10e63f9b088daab949c72303382bbc8f84e6 [Alexander Pilz]
+* implement revert preview generation [Alexander Pilz]
+* enable file download [Alexander Pilz]
+* Make the CMFEditions template show [Alexander Pilz]
+* fix styling [Alexander Pilz]
+* Merge pull request #845 from quaive/fix-injection-parameter [GitHub]
+* Merge pull request #844 from quaive/release-1.1.x [GitHub]
+* Merge pull request #841 from quaive/release-1.2.x [GitHub]
+* Fix the loading-class syntax [Alexander Pilz]
+* Merge remote-tracking branch 'origin/release-1.2.x' into release-1.1.x [Guido A.J. Stevens]
+* Merge pull request #843 from quaive/show-archived-tags-byline [GitHub]
+* adapt test to changed markup (= the very essence of this PR) [Wolfgang Thomas]
+* Indicate archived status of tags in byline. See https://github.com/quaive/ploneintranet.prototype/issues/350 [Manuel Reinhardt]
+* Merge pull request #842 from quaive/fix_whole_day [GitHub]
+* Load start and end date for whole_day events [Manuel Reinhardt]
+* Back to development: 1.2.0a21 [Alexander Pilz]
+* s/venus/gaia/ [Guido A.J. Stevens]
+* Back to development: 1.1.0rc2 [Guido A.J. Stevens]
+* Preparing release 1.1.0rc1 [Guido A.J. Stevens]
+* Prepare Gaia RC1 [Guido A.J. Stevens]
+* Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
+* Merge pull request #641 from quaive/gaia_hotfix [GitHub]
+* Apply Products.PloneHotfix20160830==1.0 [Guido A.J. Stevens]
+
+
+1.2.0a20 (2016-10-28)
+---------------------
+
+* Merge branch 'master' into release-1.2.x [Alexander Pilz]
+* Merge pull request #838 from quaive/minor-improvements [GitHub]
+* Minor template improvements [Alessandro Pisa]
+* Merge pull request #839 from quaive/450_statusupdate_notifications [GitHub]
+* Properly hook up statusupdate notification views fixes #450 [Alessandro Pisa]
+* Provide StatusUpdate.absolute_url() [Alessandro Pisa]
+* Mark disabled test as skipped [Alessandro Pisa]
+* Merge pull request #837 from quaive/documents-autosave [GitHub]
+* Show the status popup if we are not autosaving [Alessandro Pisa]
+* Merge pull request #836 from quaive/proper-registry-update [GitHub]
+* Merge pull request #835 from quaive/documents-autosave [GitHub]
+* no notifications, save every 20secs and use ISO date [Alexander Pilz]
+* Remove debug statement and bump q.r.ploneintranet [Alexander Pilz]
+* Update registry properly, without reloading everything again [Alexander Pilz]
+* Optional autosave for selected portal_types [Alessandro Pisa]
+* Merge pull request #833 from quaive/expand-portlets [GitHub]
+* Merge pull request #832 from quaive/fix-tags-ordering [GitHub]
+* fake commit [Alexander Pilz]
+* Fix number [Alexander Pilz]
+* Back to development: 1.2.0a110 [Alexander Pilz]
+* Also collaps library portlet [Alexander Pilz]
+* Add expand buttons to portlets [Alexander Pilz]
+* Don't force alphabetical ordering if you have set a custom order [Alexander Pilz]
+
+
+1.2.0a19 (2016-10-27)
+---------------------
+
+* Merge pull request #831 from quaive/markup-regression-fix [GitHub]
+* Regression fix as requested in https://github.com/quaive/ploneintranet.prototype/commit/4d3747c4ac313183741628ae5e23c774702cbe98#commitcomment-19586122 [Alexander Pilz]
+* Merge pull request #830 from quaive/show-archived-tags [GitHub]
+* Merge pull request #824 from quaive/speedup-tooltips [GitHub]
+* Merge pull request #829 from quaive/protect-general-settings [GitHub]
+* Merge pull request #828 from quaive/update-resources [GitHub]
+* Remember grouping when setting filters [Manuel Reinhardt]
+* Activated option show_archived_tags [Manuel Reinhardt]
+* Set cache headers and encoding headers [Alexander Pilz]
+* Hide/disable hero image and global event settings if user can't change them [Manuel Reinhardt]
+* Update quaive.resources.ploneintranet [Alessandro Pisa]
+* Add charset [Alexander Pilz]
+* wrap in proper html tag [Alexander Pilz]
+* Merge pull request #826 from quaive/configurable-docconv-types2 [GitHub]
+* Merge pull request #825 from quaive/tal-optimizations [GitHub]
+* Merge pull request #822 from quaive/userprofile-optimization [GitHub]
+* Fix tests: add fallback value for docconv registry [Cillian de Roiste]
+* Suite testing: remove stray comment [Cillian de Roiste]
+* Fix tests: Move the docconv registry config [Cillian de Roiste]
+* Test setup: configure docconv before creating content [Cillian de Roiste]
+* Configure docconv content types in the registry [Cillian de Roiste]
+* Merge pull request #823 from quaive/776-fix-test [GitHub]
+* Optimize tal templates [Alessandro Pisa]
+* Merge pull request #821 from quaive/feature-flagging-membrane-groups [GitHub]
+* don't render the main template for simple tooltip content. Solves diazo issues and speeds up the display a lot [Alexander Pilz]
+* Adapt the test to the new UI [Alessandro Pisa]
+* Do not call _get_my_groups_and_workspaces if not needed [Alessandro Pisa]
+* Add workgroups without exposing them on the UI [Alessandro Pisa]
+* Merge pull request #820 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a19 [Alexander Pilz]
 
 
 1.2.0a18 (2016-10-24)
@@ -945,10 +1063,73 @@ This should not be released yet. It needs to wait for the new JS API.
 
 - Mars release cycle
 
-1.1.0b5 (unreleased)
---------------------
+1.1.0rc1 (2016-10-27)
+---------------------
 
-- Gaia branch
+- Gaia branch release cycle updates
+
+* Prepare Gaia RC1 [Guido A.J. Stevens]
+* Include tag fetching in release docs [ci skip] [Guido A.J. Stevens]
+* Merge pull request #641 from quaive/gaia_hotfix [GitHub]
+* Apply Products.PloneHotfix20160830==1.0 [Guido A.J. Stevens]
+* Document adding a new behavior with a facet field (#591) [Alexander Pilz]
+* Merge pull request #517 from quaive/testing_docs [GitHub]
+* Update testing docs [ci skip] <- note the irony :-) [Guido A.J. Stevens]
+* Merge pull request #499 from quaive/create_structure_hesienb_gaia [GitHub]
+* Attempt to fix robot heisenbug [Wolfgang Thomas]
+* Merge pull request #496 from quaive/447_gitflow [GitHub]
+* Merge pull request #493 from quaive/448_test_docsplit [GitHub]
+* Document git workflow fixes #447 [Guido A.J. Stevens]
+* Provide 'make test-docsplit' to quickly verify OS dependencies, fixes #448 [Guido A.J. Stevens]
+* ignore slc.mailrouter src [Guido A.J. Stevens]
+* Merge pull request #437 from quaive/plone-505-gaia [GitHub]
+* Merge pull request #467 from quaive/buxfix-update-bundle [GitHub]
+* update bundle [Alexander Pilz]
+* Don't hide which bundle we actionally download [Alexander Pilz]
+* Merge pull request #446 from quaive/prevent-owner-inheritance-via-folders [GitHub]
+* Merge pull request #463 from quaive/fred_nl_translations [GitHub]
+* userprofile tests: do not check for IStreamIterator. [Maurits van Rees]
+* Of course, on a folder outside of a workspace, the local role "Owner" is not taken away [Wolfgang Thomas]
+* Make sure we only remove the Owner local role on a folder in the context of a Workspace [Wolfgang Thomas]
+* sort imports [Wolfgang Thomas]
+* Merge pull request #451 from quaive/bulk-action-without-cart-2 [GitHub]
+* Merge pull request #459 from quaive/backport-remove-docstrings-from-NetworkGraph [GitHub]
+* Remove docstring from NetworkGraph [Alessandro Pisa]
+* Bulk actions: fake the modal markup [Wolfgang Thomas]
+* Wait for injection to finish for bulk modals [Wolfgang Thomas]
+* Since a new div with class pat-modal got introduced in 10465cb, the selectors in the modal for changing membership roles need to become more specific [Wolfgang Thomas]
+* Bulk actions: don't use cart [Wolfgang Thomas]
+* simplyfy test class inheritance [Wolfgang Thomas]
+* Every Contributor shall be able to edit a folder (e.g. to change the title) [Wolfgang Thomas]
+* Fix test: no more Owner role on folder [Wolfgang Thomas]
+* revoke owner role on folder [Wolfgang Thomas]
+* Add test to make sure that the Owner role on a folder is not passed on via inheritance to contained content. Found while evaluating #431 [Wolfgang Thomas]
+* Dutch translations. [Fred van Dijk]
+* Use Plone 5.0.5 and fix one problem with it. [Maurits van Rees]
+* Merged translations from Coen. [Maurits van Rees]
+* Add terminology (woordenlijst) Dutch [Fred van Dijk]
+* Merge pull request #428 from quaive/403-user-group-handling [GitHub]
+* Merge pull request #430 from quaive/update_diazo_gaia [GitHub]
+* Merge pull request #432 from quaive/filter-bulk-actions-by-context [GitHub]
+* Merge pull request #427 from quaive/update_ldap [GitHub]
+* Merge pull request #424 from quaive/upgrade-dcworkflow [GitHub]
+* Bulk actions: call mail-confirm on the context [Cillian de Róiste]
+* update diazo to include latest style fixes and the document browser templates [Guido A.J. Stevens]
+* Work around buildout issue by loading ldap-eggs.cfg directly [Guido A.J. Stevens]
+* Document LDIF cleanup [Guido A.J. Stevens]
+* Upgrade DCWorkflow, to ex/import managed groups [Cillian de Róiste]
+* Cart: only process items in the current folder [Cillian de Róiste]
+* Merge pull request #422 from quaive/release-1.1.x [GitHub]
+* Back to development: 1.1.0b5 [Alexander Pilz]
+* Use new Products.membrane and dexterity.membrane releases. [Maurits van Rees]
+* Use dexterity.membrane master again. [Maurits van Rees]
+* Reverted accidental IMembraneGroup interface change. [Maurits van Rees]
+* Register MembraneWorkspaceGroupsProvider for groups as well. [Maurits van Rees]
+* Write PAS call flow into docstring [Maurits van Rees]
+* Use master branch of Products.membrane, since the branch with the PRs was merged & deleted [Maurits van Rees]
+* Actually, we have a separate jenkins.cfg with our own auto-checkout [Maurits van Rees]
+* switch to HTTPS checkout of git packages, since jenkins does not like SSH [Maurits van Rees]
+* Handle enumeration of users and of the groups of a user better. [Maurits van Rees]
 
 
 1.1.0b4 (2016-07-06)

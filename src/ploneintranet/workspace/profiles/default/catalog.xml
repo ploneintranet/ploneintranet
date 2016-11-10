@@ -7,4 +7,5 @@
   <indexed_attr value="mimetype"/>
  </index>
  <column value="mimetype"/>
+ <column value="timezone"/>
 </object>

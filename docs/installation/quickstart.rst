@@ -19,11 +19,11 @@ Get the installer
 We've prepared a quickinstaller for your with some scripts and files.
 Get it from github::
 
-  git clone https://github.com/ploneintranet/venus.git
+  git clone https://github.com/ploneintranet/gaia.git
 
 Enter the installer directory::
   
-  cd venus
+  cd gaia
 
 
 Prepare the Operating System Environment
@@ -48,7 +48,7 @@ This requires `docker` to be available, see the `Docker installation docs`_.
 
 Build a Docker container with the supplied Plone Intranet environment::
 
-  docker build -t venus .
+  docker build -t gaia .
 
 Now startup and enter the docker container::
 

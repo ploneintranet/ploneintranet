@@ -1,17 +1,15 @@
-from collections import defaultdict
+from .policies import PARTICIPANT_POLICY
 from collective.workspace.interfaces import IWorkspace
 from json import dumps
 from plone import api
 from plone.dexterity.content import Container
+from ploneintranet import api as pi_api
 from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.events import ParticipationPolicyChangedEvent
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
-from ploneintranet import api as pi_api
 from zope.event import notify
 from zope.interface import implementer
-from .policies import PARTICIPANT_POLICY
 
 
 @implementer(IWorkspaceFolder, IAttachmentStoragable)
@@ -88,48 +86,6 @@ class WorkspaceFolder(Container):
         )
         notify(ParticipationPolicyChangedEvent(self, old_policy, new_policy))
 
-    def tasks(self):
-        items = defaultdict(list) if self.is_case else []
-        catalog = api.portal.get_tool('portal_catalog')
-        wft = api.portal.get_tool('portal_workflow')
-        current_path = '/'.join(self.getPhysicalPath())
-        ptype = 'todo'
-        brains = catalog(
-            path=current_path,
-            portal_type=ptype,
-            sort_on=['due', 'getObjPositionInParent'],
-        )
-        for brain in brains:
-            obj = brain.getObject()
-            todo = ITodo(obj)
-            assignee = api.user.get(obj.assignee) if obj.assignee else None
-            initiator = api.user.get(obj.initiator) if obj.initiator else None
-            data = {
-                'id': brain.UID,
-                'title': brain.Title,
-                'description': brain.Description,
-                'url': brain.getURL(),
-                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
-                'due': obj.due,
-                'assignee': assignee,
-                'initiator': initiator,
-                'obj': obj,
-                'can_edit': api.user.has_permission(
-                    'Modify portal content', obj=obj),
-            }
-            if self.is_case:
-                milestone = "unassigned"
-                if obj.milestone not in ["", None]:
-                    milestone = obj.milestone
-                items[milestone].append(data)
-            else:
-                items.append(data)
-        if self.is_case:
-            for milestone in items.keys():
-                # Show the checked tasks before the unchecked tasks
-                items[milestone].sort(key=lambda x: x['checked'] is False)
-        return items
-
     def existing_users(self):
         """
         Look up the full user details for current workspace members
@@ -138,6 +94,7 @@ class WorkspaceFolder(Container):
         gtool = self.portal_groups
         group_names = gtool.listGroupNames()
         info = []
+        portal_url = api.portal.get().absolute_url()
 
         for user_or_group_id, details in members.items():
             user = api.user.get(user_or_group_id)
@@ -151,6 +108,10 @@ class WorkspaceFolder(Container):
                 classes = 'user ' + (description and 'has-description' or
                                      'has-no-description')
                 portrait = pi_api.userprofile.avatar_url(user_or_group_id)
+                obj = user
+                absolute_url = '/'.join(
+                    (portal_url, 'profiles', user.getId())
+                )
             else:
                 typ = 'group'
                 group = api.group.get(user_or_group_id)
@@ -159,7 +120,7 @@ class WorkspaceFolder(Container):
                 # Don't show a secret group, ever
                 if group.getProperty('state') == 'secret':
                     continue
-                title = (group.getProperty('title') or group.getId() or
+                title = (group.getProperty('title') or group.getGroupId() or
                          user_or_group_id)
                 # Resolving all users of a group with nested groups is
                 # ridiculously slow. PAS resolves each member and if it
@@ -183,6 +144,14 @@ class WorkspaceFolder(Container):
                         u'no_groups': groups})
                 classes = 'user-group has-description'
                 portrait = ''
+                obj = group
+                obj.getProperty('object_id') or obj.getId()
+
+                absolute_url = '/'.join((
+                    portal_url,
+                    'groups',
+                    obj.getProperty('object_id') or obj.getId()
+                ))
 
             # User's 'role' is any group they are a member of
             # that is not the default participation policy group
@@ -213,7 +182,9 @@ class WorkspaceFolder(Container):
                     member=True,
                     admin='Admins' in details['groups'],
                     role=role,
-                    typ=typ
+                    typ=typ,
+                    obj=obj,
+                    absolute_url=absolute_url,
                 )
             )
 

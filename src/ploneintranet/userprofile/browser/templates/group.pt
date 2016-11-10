@@ -6,7 +6,7 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ploneintranet">
 
-    <body class="view-secure sidebar-normal gh-collapsed sidebar-left-open focus-listing  generic application-contacts patterns-loaded">
+    <body class="view-secure sidebar-normal gh-collapsed sidebar-left-open generic application-contacts patterns-loaded">
         <metal:content fill-slot="content">
         <div class="application page-type- workspace-type-" id="content">
             <h1 id="workspace-name">
@@ -14,7 +14,7 @@
                 <a href="/open-market-committee"></a>
             </h1>
 
-            <div class="" id="application-body">
+            <div class="sidebar-normal focus-listing application-workspace project page-type-workspace sidebar-left-closed sidebar-right-closed" id="application-body">
 
                 <div id="document-body" class="" tal:define="group_details view/group_details">
                     <div id="document-content">

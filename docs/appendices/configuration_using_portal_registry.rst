@@ -334,3 +334,14 @@ ploneintranet.workspace.sanitize_html
     **type**: plone.registry.field.Bool
 
     **default**: True
+
+ploneintranet.workspace.autosave_portal_types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Autosave portal types
+
+    **description**: Enable autosave for the selected portal types (works for edit forms inside workspaces)
+
+    **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
+
+    **default**: []
