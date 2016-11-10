@@ -1127,3 +1127,21 @@ class Sidebar(BaseTile):
 
     def format_event_date(self, event):
         return format_event_date_for_title(event)
+
+
+class SidebarDocuments(Sidebar):
+    ''' Customized tile that shows only the Documents
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-documents.pt')
+
+
+class SidebarEvents(Sidebar):
+    ''' Customized tile that shows only the Events
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-events.pt')
+
+
+class SidebarTodos(Sidebar):
+    ''' Customized tile that shows only the Todos
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-todos.pt')
