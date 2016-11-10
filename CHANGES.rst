@@ -4,7 +4,7 @@ Changelog
 1.2.0a23 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Back to development: 1.2.0a23 [Alexander Pilz]
 
 
 1.2.0a22 (2016-11-03)
