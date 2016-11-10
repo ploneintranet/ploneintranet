@@ -243,8 +243,6 @@ class BaseWorkspaceView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
-            assignee = api.user.get(obj.assignee) if obj.assignee else None
-            initiator = api.user.get(obj.initiator) if obj.initiator else None
             data = {
                 'id': brain.UID,
                 'title': brain.Title,
@@ -252,8 +250,6 @@ class BaseWorkspaceView(BrowserView):
                 'url': brain.getURL(),
                 'checked': wft.getInfoFor(todo, 'review_state') == u'done',
                 'due': obj.due,
-                'assignee': assignee,
-                'initiator': initiator,
                 'obj': obj,
                 'can_edit': api.user.has_permission(
                     'Modify portal content', obj=obj),

@@ -145,15 +145,27 @@
     />
 
   <plone:tile
-      add_permission="cmf.ManagePortal"
-      class=".events.EventsTile"
-      description="Tile to list upcoming events"
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
-      name="events.tile"
-      permission="zope2.View"
-      template="templates/events.pt"
-      title="Events"
-      />
+    add_permission="cmf.ManagePortal"
+    class=".events.EventsTile"
+    description="Tile to list upcoming events"
+    for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    name="events.tile"
+    permission="zope2.View"
+    template="templates/events.pt"
+    title="Events"
+    />
+
+  <plone:tile
+    add_permission="cmf.ManagePortal"
+    class=".metromap.MetromapTile"
+    description="Tile to display the metromap"
+    for="ploneintranet.workspace.interfaces.IBaseWorkspaceFolder"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    name="metromap"
+    permission="zope2.View"
+    template="templates/metromap.pt"
+    title="Metromap"
+    />
 
 </configure>
