@@ -93,7 +93,7 @@ class BaseWorkspaceView(BrowserView):
             return principal.Title() or principal.getGroupId()
         return (
             getattr(principal, 'fullname', '') or
-            principal.Title() or
+            principal.getProperty('fullname') or
             principal.getId()
         )
 

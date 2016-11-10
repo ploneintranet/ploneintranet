@@ -1,12 +1,12 @@
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IHasWorkspace
+from collective.workspace.interfaces import IWorkspace
 from plone import api
+from ploneintranet.workspace.browser.roster import EditRoster
 from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
-from ploneintranet.workspace.browser.roster import EditRoster
-from zope.component import getMultiAdapter
 from zExceptions import Forbidden
-from collective.workspace.interfaces import IWorkspace
+from zope.component import getMultiAdapter
 
 
 class TestRoster(BaseTestCase):
@@ -103,14 +103,9 @@ class TestEditRoster(BaseTestCase):
             'admin': True,
             'title': 'wsadmin',
             'description': '',
-            'portrait':
-                'http://nohost/plone/@@avatars/wsadmin',
             'cls': 'has-no-description',
         }
-        self.assertIn(
-            wsadmin,
-            users
-        )
+        self.assertIn(wsadmin, users)
 
         wsmember = {
             'id': 'wsmember',
@@ -118,8 +113,6 @@ class TestEditRoster(BaseTestCase):
             'admin': False,
             'title': 'wsmember',
             'description': '',
-            'portrait':
-                'http://nohost/plone/@@avatars/wsmember',
             'cls': 'has-no-description',
         }
         self.assertIn(
