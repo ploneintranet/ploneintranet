@@ -188,19 +188,6 @@ class MetroMap(object):
             if workflow.variables.get("metromap_transitions", False):
                 return workflow
 
-    def get_available_metromap_workflows(self):
-        """Return all globally available workflows with the
-        metromap_transitions variable.
-        """
-        wft = api.portal.get_tool('portal_workflow')
-        metromap_workflows = [
-            i for i in wft.objectValues()
-            if i.variables.get("metromap_transitions", False)
-        ]
-        if metromap_workflows == []:
-            return None
-        return metromap_workflows
-
     @property
     def _metromap_transitions(self):
         """A data structure is stored as a TAL expression on a workflow which
