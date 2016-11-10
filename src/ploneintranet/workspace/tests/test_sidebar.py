@@ -40,11 +40,6 @@ class TestSidebar(BaseTestCase):
 
         IWorkspace(ws).add_to_team(user=user_id)
 
-        # Commenting out because they aren't (yet?) being used.
-        # sidebarSettingsMembers = getMultiAdapter(
-        #     (ws, ws.REQUEST), name=u"sidebarSettingsMember.default")
-        # existing_users = sidebarSettingsMembers.existing_users()
-
         self.assertIn(
             user_id,
             IWorkspace(ws).members,

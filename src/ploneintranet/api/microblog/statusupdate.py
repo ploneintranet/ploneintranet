@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import logging
-import pytz
 from DateTime import DateTime
 from datetime import datetime
 from plone import api
 from ploneintranet.microblog.interfaces import IMicroblogTool
-from ploneintranet.microblog.statusupdate import StatusUpdate
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from zope.component import queryUtility
+
+import logging
+import pytz
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +71,9 @@ def create(
         microblog_context = None
     if IPloneSiteRoot.providedBy(content_context):
         content_context = None
+
+    # Avoid circulat dependencies
+    from ploneintranet.microblog.statusupdate import StatusUpdate
     status_obj = StatusUpdate(
         text=text,
         microblog_context=microblog_context,

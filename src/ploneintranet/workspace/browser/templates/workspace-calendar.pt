@@ -12,9 +12,8 @@
         </metal:statusmessage>
 
         <metal:content fill-slot="content"
-                       tal:define="workspace view/workspace; 
+                       tal:define="workspace view/workspace;
                                    workspace_url workspace/absolute_url;
-                                   related_ws workspace/get_related_workspaces;
                                    is_archived workspace/archival_date;
                                    archived_class python:'workspace-state-archived' if is_archived else ''">
             <div class="application" id="app-space">
@@ -30,7 +29,7 @@
 
                         <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${workspace_url}/@@fullcalendar.tile"></div>
 
-                       </div> 
+                       </div>
                     </div>
                     <aside data-tile="${workspace_url}/@@sidebar.default"
                                tal:condition="view/show_sidebar"></aside>

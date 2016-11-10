@@ -14,6 +14,7 @@ from Products.Five import BrowserView
 from unidecode import unidecode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
 import logging
 import pytz
 import urllib
@@ -121,7 +122,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
             safeWrite(conversation.__parent__, self.request)
 
     def create_conversation(self, new_userid):
-        if not api.user.get(new_userid):
+        if not pi_api.userprofile.get(new_userid):
             raise ValueError("Invalid userid: %s", new_userid)
 
         # maybe this user does not even have an inbox yet
@@ -225,7 +226,8 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
 
     @memoize
     def _fullname(self, userid):
-        return api.user.get(userid).getProperty('fullname')
+        user = pi_api.userprofile.get(userid)
+        return getattr(user, 'fullname', userid)
 
     def _chat_url(self, userid):
         return '{0}/{1}'.format(

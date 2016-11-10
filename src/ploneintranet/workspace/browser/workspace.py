@@ -93,7 +93,7 @@ class BaseWorkspaceView(BrowserView):
             return principal.Title() or principal.getGroupId()
         return (
             getattr(principal, 'fullname', '') or
-            principal.Title() or
+            principal.getProperty('fullname') or
             principal.getId()
         )
 
@@ -266,6 +266,16 @@ class BaseWorkspaceView(BrowserView):
                 # Show the checked tasks before the unchecked tasks
                 items[milestone].sort(key=lambda x: x['checked'] is False)
         return items
+
+    @memoize
+    def get_related_workspaces(self):
+        ''' Resolve the related workspaces brains
+        '''
+        related_workspaces = getattr(self.context, 'related_workspaces', [])
+        if not related_workspaces:
+            return []
+        brains = api.content.find(UID=related_workspaces)
+        return brains
 
 
 class WorkspaceView(BaseWorkspaceView):
@@ -488,15 +498,6 @@ class AllUsersAndGroupsJSONView(BrowserView):
                 'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)
-
-
-class RelatedWorkspacesPicker(BrowserView):
-    """
-    Provides a picker to select related workspaces
-    """
-
-    def get_related_workspaces(self):
-        return self.context.get_related_workspaces()
 
 
 class ReorderTags(BrowserView):
