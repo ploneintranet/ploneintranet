@@ -89,6 +89,9 @@ class WorkspaceFolder(Container):
     def existing_users(self):
         """
         Look up the full user details for current workspace members
+
+        BBB: this has to go away. The workspace view has more performant
+             methods
         """
         members = IWorkspace(self).members
         gtool = self.portal_groups
@@ -252,23 +255,6 @@ class WorkspaceFolder(Container):
             return dumps(prefill)
         else:
             return ''
-
-    def get_related_workspaces(self):
-        if not hasattr(self, 'related_workspaces') or \
-           not self.related_workspaces:
-            return None
-        rw = []
-        for uid in self.related_workspaces:
-            ws = api.content.get(UID=uid)
-            if not ws:
-                continue
-            rw.append(
-                {'UID': uid,
-                 'URL': ws.absolute_url(),
-                 'Title': ws.Title()
-                 }
-            )
-        return rw
 
 
 class IWorkflowWorkspaceFolder(IWorkspaceFolder):
