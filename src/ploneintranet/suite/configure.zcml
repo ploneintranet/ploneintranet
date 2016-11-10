@@ -150,6 +150,21 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0005"
+      profile="ploneintranet.suite:testing"
+      >
+    <genericsetup:upgradeDepends
+        title="Install ploneintranet.news testcontent"
+        import_profile="ploneintranet.news:testing"
+        />
+    <genericsetup:upgradeStep
+        title="Configure news editor access for alice_lindstrom"
+        handler=".setuphandlers.configure_news"
+        />
+  </genericsetup:upgradeSteps>
+  
   
 
 </configure>

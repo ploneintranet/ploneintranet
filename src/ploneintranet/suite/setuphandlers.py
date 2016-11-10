@@ -1019,7 +1019,7 @@ PHRASES = [
 ]
 
 
-def configure_news():
+def configure_news(*args):
     """Give alice_lindstrom full rights on the news app."""
     portal = api.portal.get()
     api.user.grant_roles(username='alice_lindstrom',
