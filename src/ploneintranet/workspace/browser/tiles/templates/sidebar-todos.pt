@@ -58,7 +58,7 @@
                    class="assignee meta-column icon-user pat-inject"
                    title="Assignee"
                    data-pat-inject="source: #document-body; target: #document-body">
-                  ${ws_view.get_principal_title(assignee))}
+                  ${python:ws_view.get_principal_title(assignee)}
                 </a>
                 <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
 
@@ -76,7 +76,7 @@
                    class="initiator meta-column icon-manager pat-inject"
                    data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
                   >
-                  ${ws_view.get_principal_title(assignee))}
+                  ${python:ws_view.get_principal_title(assignee)}
                 </a>
                 <a class="initiator meta-column icon-manager" title="Initiator" tal:condition="not:initiator"/>
               </div>
