@@ -12,6 +12,8 @@ from zope.publisher.browser import BrowserView
 
 from ploneintranet.layout.app import IApp
 
+import json
+
 logger = getLogger(__name__)
 
 
@@ -137,3 +139,11 @@ class AppTile(BrowserView):
 
     def get_class(self):
         return self.context.css_class or self.context.getId()
+
+
+class AppRedirect(BrowserView):
+    """Redirect to a URL specified in the app_parameters"""
+
+    def __call__(self):
+        url = json.loads(self.context.app_parameters).get('url')
+        return self.request.response.redirect(url)
