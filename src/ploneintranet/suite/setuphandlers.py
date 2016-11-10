@@ -723,7 +723,7 @@ def library_spec(context):
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
-                   {'type': 'News Item',
+                   {'type': 'Document',
                     'title': 'Pregnancy',
                     'desciption': 'Expecting a child?'},
                ]},
