@@ -130,4 +130,26 @@
       profile="ploneintranet.suite:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0013"
+      profile="ploneintranet.suite:default"
+      >
+    <genericsetup:upgradeDepends
+        title="Install ploneintranet.news"
+        import_profile="ploneintranet.news:default"
+        />
+    <genericsetup:upgradeDepends
+        title="Activate news portal_tab"
+        import_profile="ploneintranet.layout:default"
+        import_steps="actions"
+        />
+    <genericsetup:upgradeStep
+        title="Sort portal tabs"
+        handler="ploneintranet.layout.setuphandlers.sort_portal_tabs"
+        />
+  </genericsetup:upgradeSteps>
+
+  
+
 </configure>
