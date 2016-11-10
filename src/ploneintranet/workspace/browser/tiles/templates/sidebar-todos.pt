@@ -1,158 +1,154 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      lang="en"
-      i18n:domain="ploneintranet">
-  <body>
-    <div id="workspace-tickets"
-      tal:define="
-       tasks context/tasks;
-       ws view/workspace;
-       ws_view nocall:ws/@@view;
-       token context/@@authenticator/token;
-       can_add view/can_add;
-     ">
-      <div class="button-bar functions" id="tasks-functions">
-        <div class="quick-functions">
-          <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-          <a title="Create new task"
-             class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
-             i18n:attributes="title"
-             tal:attributes="href string:${ws/absolute_url}/add_task"
-             tal:condition="can_add" i18n:translate="">Create task</a>
-        </div>
-      </div>
-      <h3 i18n:translate="">General tasks</h3>
-      <tal:no-tasks condition="python:not ws.is_case and not tasks ">
-        <p i18n:translate="no-task-found">No tasks created yet</p>
-      </tal:no-tasks>
-      <tal:tasks condition="python:ws.is_case or tasks">
-        <form method="post" class="pat-autosubmit pat-inject"
-              tal:define="ws view/workspace"
-              data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
-              tal:attributes="action string:${ws/absolute_url}/@@sidebar.default">
+<div id="workspace-tickets"
+     class="visible"
+     tal:define="
+      ws view/workspace;
+      ws_view nocall:ws/@@view;
+      tasks ws_view/tasks;
+      token context/@@authenticator/token;
+      can_add view/can_add;
+     "
+     i18n:domain="ploneintranet"
+  >
+  <div class="button-bar functions" id="tasks-functions">
+    <div class="quick-functions">
+      <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
+      <a title="Create new task"
+         class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content"
+         i18n:attributes="title"
+         tal:attributes="href string:${ws/absolute_url}/add_task"
+         tal:condition="can_add" i18n:translate="">Create task</a>
+    </div>
+  </div>
+  <h3 i18n:translate="">General tasks</h3>
+  <tal:no-tasks condition="python:not ws.is_case and not tasks ">
+    <p i18n:translate="no-task-found">No tasks created yet</p>
+  </tal:no-tasks>
+  <tal:tasks condition="python:ws.is_case or tasks">
+    <form method="post"
+          class="pat-autosubmit pat-inject"
+          action="${ws/absolute_url}/@@sidebar.todos"
+          tal:define="ws view/workspace"
+          data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
+          >
 
-          <tal:workspace_tasks tal:condition="not: ws/is_case">
-            <fieldset class="object-list tasks pat-checklist">
-              <tal:task repeat="task tasks">
-                <br/>
-                <label>
-                  <input type="checkbox" name="active-tasks:list"
-                         disabled="${python:not task['can_edit'] and 'disabled' or None}"
-                         tal:attributes="value task/id;
-                                         checked python: 'checked' if task['checked'] else ''"
-                         />
-                  <a class="pat-inject follow pat-switch"
-                     data-pat-inject="source: #document-body; target: #document-body"
-                     data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
-                     tal:attributes="title task/title;
-                                     href task/url"
-                     tal:content="task/title"/>
-                  <div metal:define-macro="additional-meta-data"
-                       class="additional-meta-data"
-                       tal:define="assignee task/assignee; initiator task/initiator">
-                    <a tal:condition="assignee"
-                       href="${context/portal_url}/profiles/${assignee/id}#document-body" class="assignee meta-column icon-user pat-inject" title="Assignee" data-pat-inject="source: #document-body; target: #document-body">
-                      ${python:assignee.getProperty("fullname")}
-                    </a>
-                    <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
+      <tal:workspace_tasks tal:condition="not: ws/is_case">
+        <fieldset class="object-list tasks pat-checklist">
+          <tal:task repeat="task tasks">
+            <br/>
+            <label>
+              <input type="checkbox" name="active-tasks:list"
+                     disabled="${python:not task['can_edit'] and 'disabled' or None}"
+                     tal:attributes="value task/id;
+                                     checked python: 'checked' if task['checked'] else ''"
+                     />
+              <a class="pat-inject follow pat-switch"
+                 data-pat-inject="source: #document-body; target: #document-body"
+                 data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                 tal:attributes="title task/title;
+                                 href task/url"
+                 tal:content="task/title"/>
+              <div metal:define-macro="additional-meta-data"
+                   class="additional-meta-data"
+                   tal:define="assignee task/assignee; initiator task/initiator">
+                <a tal:condition="assignee"
+                   href="${context/portal_url}/profiles/${assignee/id}#document-body" class="assignee meta-column icon-user pat-inject" title="Assignee" data-pat-inject="source: #document-body; target: #document-body">
+                  ${python:assignee.getProperty("fullname")}
+                </a>
+                <a class="assignee meta-column icon-user" title="Assignee" tal:condition="not:assignee"/>
 
-                    <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
-                    <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
-                    <a tal:condition="initiator"
-                       href="${context/portal_url}/profiles/${initiator/id}#document-body" class="initiator meta-column icon-manager pat-inject" data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
-                       >
-                      ${python:initiator.getProperty("fullname")}
-                    </a>
-                    <a class="initiator meta-column icon-manager" title="Initiator" tal:condition="not:initiator"/>
-                  </div>
-                  <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
-                </label>
-              </tal:task>
-            </fieldset>
-          </tal:workspace_tasks>
+                <time tal:condition="task/due" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date" datetime="${task/due}"/>
+                <time tal:condition="not:task/due" class="due-date meta-column icon-clock"/>
+                <a tal:condition="initiator"
+                   href="${context/portal_url}/profiles/${initiator/id}#document-body" class="initiator meta-column icon-manager pat-inject" data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
+                   >
+                  ${python:initiator.getProperty("fullname")}
+                </a>
+                <a class="initiator meta-column icon-manager" title="Initiator" tal:condition="not:initiator"/>
+              </div>
+              <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
+            </label>
+          </tal:task>
+        </fieldset>
+      </tal:workspace_tasks>
 
-          <tal:case_tasks condition="ws/is_case"
-                          define="milestones ws_view/metromap_sequence | nothing">
-            <tal:milestone_id repeat="milestone_id milestones">
-            <tal:milestone define="milestone python:milestones[milestone_id];">
+      <tal:case_tasks condition="ws/is_case"
+                      define="milestones ws_view/metromap_sequence | nothing">
+        <tal:milestone_id repeat="milestone_id milestones">
+        <tal:milestone define="milestone python:milestones[milestone_id];">
 
-              <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: session"
-                        tal:define="task_milestone python:view.is_open_task_in_milestone(tasks[milestone_id]);
-                                    is_current python:milestone['is_current'];
-                                    finished python:milestone['finished'];
-                                    state python: is_current and 'current' or finished and 'finished' or 'planned';
-                                    collapsible_status python:(task_milestone or is_current) and 'open' or 'closed'"
-                        tal:attributes="id string:milestone-${milestone_id};
-                                        class python:attrs['class'] + ' ' + collapsible_status;
-                                        data-pat-collapsible python:task_milestone and 'store: none' or 'store: session'">
-                <h4 class="section-label state-finished" tal:content="python:milestone['title']" i18n:translate=""
-                    tal:attributes="class string:section-label state-${state}"/>
-                <tal:task repeat="task python:tasks[milestone_id]">
-                  <label tal:define="read_only not:task/can_edit">
-                    <input type="checkbox" name="active-tasks:list"
-                           tal:attributes="value task/id;
-                                           checked python:'checked' if task['checked'] else '';
-                                           disabled read_only;"
-                           />
-                    <input type="hidden" name="disabled-checked-tasks:list" value="${task/id}" tal:condition="python: read_only and task['checked']" />
-                    <input type="hidden" name="checked-tasks:list" value="${task/id}" tal:condition="python: not read_only and task['checked']" />
-
-
-                    <a class="pat-inject follow pat-switch"
-                       data-pat-inject="source: #document-body; target: #document-body"
-                       data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
-                       tal:attributes="title task/title; href task/url"
-                       tal:content="task/title"/>
-                    <metal:event use-macro="template/macros/additional-meta-data" />
-                    <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
-                  </label>
-                </tal:task>
-                <p class="button-bar">
-                  <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
-                     tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
-                     tal:condition="can_add" i18n:translate="">Create new task</a>
-                  <a class="small icon-stage success button pat-inject"
-                     tal:condition="python:milestone['transition_enabled']"
-                     tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
-                  <a class="small icon-stage success button pat-inject"
-                     tal:condition="python:milestone['reopen_transition']"
-                     tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Reopen milestone</a>
-                  <!-- should be there according to proto, but has offset error when displayed
-                  <button class="small icon-stage success" disabled
-                          tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and finished"
-                          i18n:translate="">Reopen milestone</button>
-                  <button class="small icon-stage success" disabled
-                          tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and not finished"
-                          i18n:translate="">Close milestone</button>
-                  -->
-                </p>
-              </fieldset>
-            </tal:milestone>
-            </tal:milestone_id>
-            <fieldset class="task-list pat-checklist" tal:define="uatasks python:tasks['unassigned']" tal:condition="uatasks">
-              <h3 class="section-label" i18n:translate="">
-                Unassigned
-              </h3>
-              <label tal:repeat="task uatasks">
+          <fieldset class="object-list tasks pat-checklist pat-collapsible" data-pat-collapsible="store: session"
+                    tal:define="task_milestone python:view.is_open_task_in_milestone(tasks[milestone_id]);
+                                is_current python:milestone['is_current'];
+                                finished python:milestone['finished'];
+                                state python: is_current and 'current' or finished and 'finished' or 'planned';
+                                collapsible_status python:(task_milestone or is_current) and 'open' or 'closed'"
+                    tal:attributes="id string:milestone-${milestone_id};
+                                    class python:attrs['class'] + ' ' + collapsible_status;
+                                    data-pat-collapsible python:task_milestone and 'store: none' or 'store: session'">
+            <h4 class="section-label state-finished" tal:content="python:milestone['title']" i18n:translate=""
+                tal:attributes="class string:section-label state-${state}"/>
+            <tal:task repeat="task python:tasks[milestone_id]">
+              <label tal:define="read_only not:task/can_edit">
                 <input type="checkbox" name="active-tasks:list"
                        tal:attributes="value task/id;
-                                       checked python:'checked' if task['checked'] else ''"
+                                       checked python:'checked' if task['checked'] else '';
+                                       disabled read_only;"
                        />
-                <a class="pat-inject" title="${task/title}" data-pat-inject="source: #document-body; target: #document-body; history: record"
-                   tal:content="task/title"
-                   tal:attributes="href task/url"/>
+                <input type="hidden" name="disabled-checked-tasks:list" value="${task/id}" tal:condition="python: read_only and task['checked']" />
+                <input type="hidden" name="checked-tasks:list" value="${task/id}" tal:condition="python: not read_only and task['checked']" />
+
+
+                <a class="pat-inject follow pat-switch"
+                   data-pat-inject="source: #document-body; target: #document-body"
+                   data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                   tal:attributes="title task/title; href task/url"
+                   tal:content="task/title"/>
+                <metal:event use-macro="template/macros/additional-meta-data" />
                 <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
               </label>
-            </fieldset>
+            </tal:task>
+            <p class="button-bar">
+              <a class="icon-plus-circle small button pat-modal" data-pat-modal="class: large" data-pat-inject="source:#content"
+                 tal:attributes="href string:${ws/absolute_url}/add_task?milestone=${milestone_id}"
+                 tal:condition="can_add" i18n:translate="">Create new task</a>
+              <a class="small icon-stage success button pat-inject"
+                 tal:condition="python:milestone['transition_enabled']"
+                 tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['transition_id'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Close milestone</a>
+              <a class="small icon-stage success button pat-inject"
+                 tal:condition="python:milestone['reopen_transition']"
+                 tal:attributes="href python:'{0}/content_status_modify?workflow_action={1}&amp;_authenticator={2}'.format(ws.absolute_url(), milestone['reopen_transition'], token);" data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  &amp;&amp; source:#document-body; target:#document-body" i18n:translate="">Reopen milestone</a>
+              <!-- should be there according to proto, but has offset error when displayed
+              <button class="small icon-stage success" disabled
+                      tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and finished"
+                      i18n:translate="">Reopen milestone</button>
+              <button class="small icon-stage success" disabled
+                      tal:condition="python: not milestone['transition_id'] and not milestone['reopen_transition'] and not finished"
+                      i18n:translate="">Close milestone</button>
+              -->
+            </p>
+          </fieldset>
+        </tal:milestone>
+        </tal:milestone_id>
+        <fieldset class="task-list pat-checklist" tal:define="uatasks python:tasks['unassigned']" tal:condition="uatasks">
+          <h3 class="section-label" i18n:translate="">
+            Unassigned
+          </h3>
+          <label tal:repeat="task uatasks">
+            <input type="checkbox" name="active-tasks:list"
+                   tal:attributes="value task/id;
+                                   checked python:'checked' if task['checked'] else ''"
+                   />
+            <a class="pat-inject" title="${task/title}" data-pat-inject="source: #document-body; target: #document-body; history: record"
+               tal:content="task/title"
+               tal:attributes="href task/url"/>
+            <input type="hidden" name="current-tasks:list" tal:attributes="value task/id"/>
+          </label>
+        </fieldset>
 
-          </tal:case_tasks>
+      </tal:case_tasks>
 
-          <input type="hidden" name="section" value="task"/>
-        </form>
+      <input type="hidden" name="section" value="task"/>
+    </form>
 
-      </tal:tasks>
-    </div>
-  </body>
-</html>
+  </tal:tasks>
+</div>

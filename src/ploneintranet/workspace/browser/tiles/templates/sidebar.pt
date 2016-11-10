@@ -21,24 +21,9 @@
             iinfo context/@@plone_interface_info;
             ws view/workspace;
           ">
-        <div id="workspace-documents">
-          <a href="${here/absolute_url}/sidebar.documents"
-             class="pat-inject"
-             data-pat-inject="trigger: autoload-visible; source: #workspace-documents; target: #workspace-documents"/>
-        </div>
-        <div id="workspace-tickets">
-          <a href="${here/absolute_url}/sidebar.todos"
-             class="pat-inject"
-             data-pat-inject="trigger: autoload-visible; source: #workspace-tickets; target: #workspace-tickets"/>
-        </div>
-
-        <div id="workspace-events">
-          <a href="${here/absolute_url}/sidebar.events"
-             class="pat-inject"
-             data-pat-inject="trigger: autoload-visible; source: #workspace-events; target: #workspace-events"/>
-        </div>
-
-
+        <div id="workspace-documents" tal:replace="structure here/sidebar.documents"></div>
+        <div id="workspace-tickets" tal:replace="structure here/sidebar.todos"></div>
+        <div id="workspace-events" tal:replace="structure here/sidebar.events"></div>
         <div id="workspace-settings">
           <nav class="navigation pat-tabs tabs">
             <a href="/open-market-committee/"
