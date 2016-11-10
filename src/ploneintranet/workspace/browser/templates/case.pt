@@ -17,7 +17,6 @@
                                ws_type workspace/ws_type | string:case;
                                mm_seq view/metromap_sequence;
                                transition_icons view/transition_icons;
-                               existing_users_by_id workspace/existing_users_by_id;
                                tasks view/tasks;
                                target nothing;
                                is_archived workspace/archival_date;
@@ -38,8 +37,8 @@
                             Open Market Committee
                         </h1>
 
-                        <h2 class="byline" tal:define="members here/existing_users">
-                            <tal:r replace="python:len(members)">189</tal:r> <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
+                        <h2 class="byline">
+                            ${python:len(view.member_ids)} <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
                         </h2>
                         <form class="pat-inject buttons">
                             <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
