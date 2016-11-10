@@ -174,9 +174,12 @@ class StatusUpdate(Persistent):
         if mention_ids is None:
             return
         for userid in mention_ids:
-            user = pi_api.userprofile.get(userid)
+            user = pi_api.userprofile.get(userid) or api.user.get(userid)
             if user is not None:
-                self.mentions[userid] = getattr(user, 'fullname', userid)
+                self.mentions[userid] = (
+                    getattr(user, 'fullname', '') or
+                    user.getProperty('fullname')
+                )
 
     @property
     def action_verb(self):
