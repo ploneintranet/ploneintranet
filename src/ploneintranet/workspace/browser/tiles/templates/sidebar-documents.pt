@@ -283,13 +283,21 @@ Supported types include (class names):
               <dfn class="byline" tal:condition="item/archived|nothing"><em>(Archived)</em></dfn>
             </a>
             <div class="additional-meta-data" tal:condition="python: item.get('structural_type', 'group') != 'group'">
-                <a href="/guido-stevens/" class="author meta-column" title="Author of this document" i18n:attributes="title" tal:define="creator item/creator | nothing" tal:condition="item/creator | nothing" tal:content="python:creator.getProperty('fullname') or creator" tal:attributes="href string:${here/portal_url}/author/${creator/getId}">
-                    Creator
-                </a>
-                <a class="author meta-column" tal:condition="not:item/creator" i18n:translate="">User not found</a>
-                <time class="modification-date meta-column" tal:condition="item/modified | nothing" title="Date and time of the latest modification" i18n:attributes="title" tal:content="python:item['modified'].strftime('%d %B %Y, %H:%M')">
-                    {{ doc.date }}
-                </time>
+                <a href="${here/portal_url}/author/${item/creator}"
+                   class="author meta-column"
+                   title="Author of this document"
+                   tal:condition="item/creator|nothing"
+                   i18n:attributes="title"
+                  >${python:ws_view.get_principal_title(item['creator'])}</a>
+                <a class="author meta-column"
+                   tal:condition="not:item/creator"
+                   i18n:translate=""
+                  >User not found</a>
+                <time class="modification-date meta-column"
+                      tal:condition="item/modified | nothing"
+                      title="Date and time of the latest modification"
+                      i18n:attributes="title"
+                    >${python:item['modified'].strftime('%d %B %Y, %H:%M')}</time>
                 <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
                   <a class="tag pat-inject"
                      tal:repeat="subject item/subject"

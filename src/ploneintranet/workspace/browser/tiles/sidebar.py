@@ -525,12 +525,6 @@ class Sidebar(BaseTile):
             else:
                 return
 
-    @memoize
-    def userid_to_user(self, userid):
-        ''' Given a user id, return the user
-        '''
-        return api.user.get(userid=userid)
-
     def _extract_attrs(self, catalog_results):
         """
         The items to show in the sidebar may come from the current folder or
@@ -588,7 +582,7 @@ class Sidebar(BaseTile):
                 dpi=dpi,
                 dps=dps,
                 url=url,
-                creator=self.userid_to_user(r['Creator']),
+                creator=r['Creator'],
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
@@ -751,6 +745,11 @@ class Sidebar(BaseTile):
         (e.g. label, author, type, first_letter)
         """
         workspace = parent_workspace(self.context)
+        workspace_view = api.content.get_view(
+            'view',
+            workspace,
+            self.request,
+        )
         user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
@@ -854,9 +853,8 @@ class Sidebar(BaseTile):
             #                     url=group_url_tmpl % username,
             #                     id=username)]
             for header in headers:
-                username = header['id']
-                header['title'] = api.user.get(username=username)\
-                    .getProperty('fullname') or username  # admin :-(
+                userid = header['id']
+                header['title'] = workspace_view.get_principal_title(userid)
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 
