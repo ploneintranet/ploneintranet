@@ -1,5 +1,7 @@
 <div id="workspace-documents"
      tal:define="
+       ws view/workspace;
+       ws_view nocall:ws/view;
        token context/@@authenticator/token;
        can_add view/can_add;
        can_edit view/can_edit;
