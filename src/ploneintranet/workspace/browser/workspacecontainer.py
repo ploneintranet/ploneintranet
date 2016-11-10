@@ -8,7 +8,6 @@ from plone.tiles import Tile
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.tiles.workspaces import my_workspaces
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.workspacecontainer import IWorkspaceContainer
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from time import time
@@ -17,6 +16,7 @@ from zope.interface import implementer
 from zope.interface import Interface
 from zope.publisher.browser import BrowserView
 from zope.schema.interfaces import IVocabularyFactory
+
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
@@ -205,9 +205,6 @@ class AddView(BrowserView):
     types_with_policy = (
         'ploneintranet.workspace.workspacefolder',
     )
-
-    def workflows(self):
-        return IMetroMap(self.context).get_available_metromap_workflows()
 
     @memoize
     def get_addable_types(self):
