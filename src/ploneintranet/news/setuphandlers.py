@@ -11,7 +11,8 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
-    create_news_app()
+    app = create_news_app()
+    move_all_newsitems_to_app(app)
 
 
 def create_news_app():
@@ -43,6 +44,18 @@ def create_news_app():
         )
         section.indexObject()
     return app_obj
+
+
+def move_all_newsitems_to_app(app):
+    section = app.sections()[0]
+    app_path = '/'.join(app.getPhysicalPath())
+    catalog = api.portal.get_tool('portal_catalog')
+    items = [x for x in catalog(portal_type='News Item')
+             if not x.getPath().startswith(app_path)]
+    for item in items:
+        moved = api.content.move(item.getObject(), app)
+        moved.section = create_relation(section.getPhysicalPath())
+        moved.reindexObject()
 
 
 def setupTestdata(context):
