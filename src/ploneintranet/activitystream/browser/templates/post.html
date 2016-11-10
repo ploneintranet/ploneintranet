@@ -238,6 +238,7 @@
              tal:attributes="href view/content_url;
                              alt content_context/Title">
   	    <img src="${content_context/absolute_url}/@@images/image/large"
+                 tal:condition="content_context/image"
                  alt="" />
   	</a>
   	<figcaption>
