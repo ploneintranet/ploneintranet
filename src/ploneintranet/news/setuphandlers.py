@@ -87,7 +87,7 @@ def create_news_items(context, app, section, i):
     item = api.content.create(
         container=app,
         type='News Item',
-        title=loremipsum.get_sentence(),
+        title=LOREMIPSUM_TITLES.next(),
     )
     item.section = create_relation(section.getPhysicalPath())
     item.description = ' '.join(loremipsum.get_sentences(2))
@@ -102,3 +102,6 @@ def create_news_items(context, app, section, i):
     item.setEffectiveDate('2016/09/{:02d}'.format(seq))
     api.content.transition(item, 'publish')
     item.reindexObject()
+
+
+LOREMIPSUM_TITLES = (x for x in [u'Etiam augue.', u'Fames vitae.', u'Dolor etiam mauris lobortis nibh torquent dis natoque torquent cubilia.', u'Class lacus semper erat laoreet et accumsan gravida aliquet mauris luctus mi eros.', u'Vitae ipsum metus nonummy tempus lorem netus vivamus dui ad cursus leo orci inceptos eni fames.', u'Proin netus.', u'Felis proin senectus quis non est.', u'Massa lacus sociis molestie odio pretium.', u'Class velit dis velit integer.', u'Fusce fames.'])  # noqa
