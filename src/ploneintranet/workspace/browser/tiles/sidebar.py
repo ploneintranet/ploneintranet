@@ -52,6 +52,8 @@ class BaseTile(BrowserView):
     index = None
     form_submitted = False
 
+    general_settings_autoload = 'trigger: autoload-visible;'
+
     @property
     @memoize
     def current_user(self):
@@ -1132,6 +1134,7 @@ class SidebarDocuments(Sidebar):
     ''' Customized tile that shows only the Documents
     '''
     index = ViewPageTemplateFile('templates/sidebar-documents.pt')
+    can_slides = True
 
 
 class SidebarEvents(Sidebar):

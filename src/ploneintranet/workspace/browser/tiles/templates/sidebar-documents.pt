@@ -229,13 +229,24 @@
           </div>
         </div>
         <div class="introduction folder-intro">
+
           <h4 class="folder-title">
-            <tal:block content="context/Title" />
-            <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"
-               tal:condition="view/can_edit"
+            <tal:ancestors repeat="folder context/ancestor_folders"
+                           condition="exists:context/ancestor_folders"
+              >
+              <a class="pat-inject"
+                 href="${folder/absolute_url}#workspace-documents"
+                 data-pat-inject="source: #workspace-documents; target: #workspace-documents"
+                >${folder/title}</a>
+              &gt;
+            </tal:ancestors>
+            ${context/Title}
+            <a href="string:${context/absolute_url}/edit_folder"
                class="icon-pencil iconified pat-modal"
                data-pat-modal="class: large"
-               i18n:translate="">Edit name/description</a>
+               tal:condition="view/can_edit"
+               i18n:translate=""
+              >Edit name/description</a>
           </h4>
           <p class="folder-description"
              tal:content="context/Description|nothing">
@@ -343,7 +354,7 @@ Supported types include (class names):
           <a class="icon-document" href="#" i18n:translate="">Text document</a>
         </li>
 
-        <li>
+        <li tal:condition="view/can_slides">
           <a class="icon-slides" i18n:translate="">Slideshow</a>
         </li>
 
