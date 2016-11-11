@@ -890,7 +890,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.documents']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
     Click link  Documents
     Execute Javascript  jquery=$('#more-menu .panel-content').show()
