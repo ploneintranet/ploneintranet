@@ -1372,6 +1372,7 @@ I submit the status update
 
 I open the post action menu
     [arguments]  ${message}
+    Wait Until Element Is visible  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
     Click Link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
 
 I cannot open the post action menu
