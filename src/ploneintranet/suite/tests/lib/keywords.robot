@@ -857,7 +857,7 @@ I can create a new folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     # On reload the navbar is closed by default - open it
     Click link  Documents
-    Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder']
+    Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.documents']
 
 I can edit the new folder
     Click Element  jquery=.item .title:contains(My Humble Folder)
