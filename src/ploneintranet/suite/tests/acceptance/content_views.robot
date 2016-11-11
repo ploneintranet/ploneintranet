@@ -116,6 +116,7 @@ Member can tag a file with a tag suggestion
     Then the metadata has the new tag
 
 Member cannot see delete button on a read only document
+    [Tags]  noncritical
     Given I am in a Consumers workspace as a workspace member
     Click link  link=Documents
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'test-document')]

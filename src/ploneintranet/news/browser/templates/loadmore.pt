@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <body class="diazo.off">
+    <div id="main">
+      <div id="content">
+	
+    <label tal:repeat="item view/more_items"
+           class="item document type-news has-description">
+      <input name="item-{item/id}" type="checkbox">
+      <a href="${item/absolute_url}/edit.html#document-body"
+         class="pat-inject follow pat-switch"
+         data-pat-switch="body focus-* focus-document"
+         data-pat-inject="target: #document-body; history: record">
+        <h4 class="title">${item/title}
+          <em class="publication-state unpublished"
+              tal:condition="not:item/published"
+              i18n:translate="">Unpublished</em>
+        </h4>
+        <p class="byline">${item/description}</p>
+      </a>
+    </label>
+
+      </div>
+    </div>
+</body></html>

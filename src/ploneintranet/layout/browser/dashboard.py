@@ -6,6 +6,7 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.contenttypes.interfaces import IDocument
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
+from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
 from ploneintranet.layout.utils import get_record_from_registry
@@ -94,34 +95,38 @@ class NewsTile(Tile):
 
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
-    def render(self):
-        return self.index()
+    @memoize
+    def news_items(self):
+        pc = api.portal.get_tool('portal_catalog')
+        return [
+            {'title': item.Title,
+             'description': item.Description,
+             'url': item.getURL(),
+             'has_thumbs': item.has_thumbs}
+            for item in pc(portal_type='News Item',
+                           review_state='published',
+                           sort_on='effective',
+                           sort_order='reverse')
+        ]
 
-    def __call__(self):
-        """
-        Display a list of News items ordered by date.
-        """
+    def can_expand(self):
+        return len(self.news_items()) > self.min_num()
+
+    @memoize
+    def min_num(self):
+        return self.get_record('min_news_items', 3)
+
+    @memoize
+    def max_num(self):
+        return self.get_record('max_news_items', 10)
+
+    def get_record(self, name, default):
+        id = 'ploneintranet.layout.{}'.format(name)
         try:
-            max_num = api.portal.get_registry_record(
-                'ploneintranet.layout.max_news_items'
-            )
+            return api.portal.get_registry_record(id)
         except api.exc.InvalidParameterError:
             # fallback if registry entry is not there
-            max_num = 5
-
-        pc = api.portal.get_tool('portal_catalog')
-        news = pc(portal_type='News Item',
-                  sort_on='effective',
-                  sort_order='reverse')
-        self.news_items = []
-        for item in news[:max_num]:
-            self.news_items.append({
-                'title': item.Title,
-                'description': item.Description,
-                'url': item.getURL(),
-                'has_thumbs': item.has_thumbs
-            })
-        return self.render()
+            return default
 
 
 class TasksTile(Tile):

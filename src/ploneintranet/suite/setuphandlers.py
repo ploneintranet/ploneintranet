@@ -115,6 +115,11 @@ def testing(context):
     create_messages()
     commit()
 
+    # ploneintranet.news test content is setup by news:testing
+    log.info("Grant editor access to news app")
+    configure_news()
+    commit()
+
     log.info("done.")
 
 
@@ -718,7 +723,7 @@ def library_spec(context):
                     'title': 'Sick Leave',
                     'desciption': ("You're not feeling too well, "
                                    "here's what to do")},
-                   {'type': 'News Item',
+                   {'type': 'Document',
                     'title': 'Pregnancy',
                     'desciption': 'Expecting a child?'},
                ]},
@@ -1012,3 +1017,11 @@ PHRASES = [
     "I just want a nice, easy life. What's wrong with that?",
     "I'm ready to try again, if you are?",
 ]
+
+
+def configure_news(*args):
+    """Give alice_lindstrom full rights on the news app."""
+    portal = api.portal.get()
+    api.user.grant_roles(username='alice_lindstrom',
+                         obj=portal.news,
+                         roles=['Contributor', 'Editor', 'Reviewer'])

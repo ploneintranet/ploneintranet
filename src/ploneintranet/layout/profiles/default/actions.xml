@@ -23,20 +23,18 @@
       <property name="permissions"/>
       <property name="visible">True</property>
     </object>
-<!--    
     <object name="news" meta_type="CMF Action">
       <property name="title" i18n:translate="">News</property>
       <property name="i18n_domain">ploneintranet</property>
-      <property name="description">News Module</property>
+      <property name="description">News Magazine</property>
       <property
-          name="url_expr">string:${globals_view/navigationRootUrl}/news.html</property>
+          name="url_expr">string:${globals_view/navigationRootUrl}/news</property>
       <property name="link_target"></property>
       <property name="icon_expr"></property>
       <property name="available_expr"></property>
       <property name="permissions"/>
       <property name="visible">True</property>
     </object>
--->
     <object name="workspaces" meta_type="CMF Action">
       <property name="title" i18n:translate="">Workspaces</property>
       <property name="i18n_domain">ploneintranet</property>

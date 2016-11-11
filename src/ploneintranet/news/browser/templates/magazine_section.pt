@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+    <metal:content fill-slot="content">
+      
+      <div id="portal-content" class="container">
+        
+        <!-- XXX Implement Channel support -->
+        <nav class="canvas-subnav">
+          <a tal:repeat="section view/sections"
+             href="${section/absolute_url}"
+             class="${section/css_class}">${section/title}</a>
+        </nav>
+
+        <article class="pat-rich canvas-intro"
+                 tal:condition="context/description_visible">
+          <h1>${context/title}</h1>
+          <p class="description">${context/description|nothing}</p>
+        </article>
+        
+        <div class="news-feed row pat-masonry"
+             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .item;">
+          <div class="grid-sizer four columns"></div>
+          
+          <!-- First item -->
+          <article tal:repeat="item python: view.news_items()[0:1]"
+                   class="item item-${item/counter} twelve columns">
+            <tal:item replace="structure item/obj/@@feeditem" />
+          </article>
+          
+          <!-- Items 2-... -->
+          <article tal:repeat="item python:view.news_items()[1:]"
+                   class="item item-${item/counter} four columns">
+            <tal:item replace="structure item/obj/@@feeditem" />
+          </article>
+          
+        </div>
+        
+        <style type="text/css">
+          strong.category {display: none !important; }
+        </style>
+        
+      </div>
+
+      
+    </metal:content>
+  </body>
+</html>

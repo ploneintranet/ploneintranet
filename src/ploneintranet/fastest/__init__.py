@@ -206,11 +206,18 @@ def whatchanged(commitid, baseid=None, verbose=True):
     shared_ancestors = []
     commit_history_exhausted = base_history_exhausted = False
     # dig up some history to improve detection of already-merged commits
-    for i in xrange(100):
+    for i in xrange(1000):
         try:
             base_and_parents.append(next(base_parent_generator))
         except StopIteration:
             base_history_exhausted = True
+    # do the same on HEAD to detect older feature branch changes
+    # even if master got merged into branch meanwhile
+    for i in xrange(1000):
+        try:
+            commit_and_parents.append(next(commit_parent_generator))
+        except StopIteration:
+            commit_history_exhausted = True
     # walk back both branches one step here, one step there
     while not commit_history_exhausted or not base_history_exhausted:
         if not commit_history_exhausted:
