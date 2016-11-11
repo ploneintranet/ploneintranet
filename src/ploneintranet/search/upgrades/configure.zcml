@@ -52,6 +52,14 @@
       handler=".to0006.update_registry_filter_fields_0006"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:upgradeStep
+      title="Update registry configuration"
+      description="Update filter_fields registry record with the outdated field"
+      source="*"
+      destination="0007"
+      handler=".to0007.add_outdated_filter_field"
+      profile="ploneintranet.search:default" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>

@@ -15,6 +15,7 @@
       <element>path</element>
       <element>review_state</element>
       <element>is_division</element>
+      <element>outdated</element>
       <element>is_archived</element>
       <element>division</element>
       <element>UID</element>

@@ -580,7 +580,7 @@ class Sidebar(BaseTile):
             results.append(dict(
                 title=r['Title'],
                 description=r['Description'],
-                id=r.getId,
+                id=r['id'],
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
