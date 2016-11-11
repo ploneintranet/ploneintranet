@@ -21,6 +21,7 @@ from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
@@ -627,7 +628,6 @@ class Sidebar(BaseTile):
         It returns the items based on the selected grouping (and later may
         take sorting, archiving etc into account)
         """
-        catalog = api.portal.get_tool("portal_catalog")
         current_path = '/'.join(self.context.getPhysicalPath())
         sidebar_search = self.request.get('sidebar-search', None)
         query = {}
@@ -648,11 +648,14 @@ class Sidebar(BaseTile):
         if sidebar_search:
             # User has typed a search query
 
+            sitesearch = getUtility(ISiteSearch)
+            query['path'] = current_path
             # XXX plone only allows * as postfix.
             # With solr we might want to do real substr
-            query['SearchableText'] = '%s*' % sidebar_search
-            query['path'] = current_path
-            results = self._extract_attrs(catalog.searchResults(query))
+            response = sitesearch.query(phrase='%s*' % sidebar_search,
+                                        filters=query,
+                                        step=99999)
+            results = self._extract_attrs(response)
 
         elif self.request.get('groupname'):
             # User has clicked on a specific group header
