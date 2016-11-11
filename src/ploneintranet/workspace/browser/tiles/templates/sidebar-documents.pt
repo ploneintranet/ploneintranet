@@ -12,12 +12,11 @@
     <div class="button-bar functions pat-bumper sticky-supported" id="selector-functions">
       <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
         <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-        <a href="/open-market-committee"
+        <a href="${parent/url}/@@sidebar.documents"
            class="button icon-left-open pat-inject"
            data-pat-inject="source: #workspace-documents; target: #workspace-documents"
            tal:condition="parent"
-           tal:attributes="href parent/url"
-           tal:content="parent/title">Open Market Committee</a>
+          >${parent/title}</a>
         <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.documents#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post" tal:condition="not:parent">
           <input tal:replace="structure context/@@authenticator/authenticator"/>
           <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
@@ -235,7 +234,7 @@
                            condition="exists:context/ancestor_folders"
               >
               <a class="pat-inject"
-                 href="${folder/absolute_url}#workspace-documents"
+                 href="${folder/absolute_url}/@@sidebar.documents#workspace-documents"
                  data-pat-inject="source: #workspace-documents; target: #workspace-documents"
                 >${folder/title}</a>
               &gt;
