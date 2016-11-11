@@ -558,6 +558,7 @@ class Sidebar(BaseTile):
                 )
                 # Do we switch the view (unexpand the sidebar)?
                 dps = None
+                url = "%s/@@sidebar.documents" % url
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
