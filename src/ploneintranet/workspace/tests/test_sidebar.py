@@ -90,7 +90,7 @@ class TestSidebar(BaseTestCase):
 
         expected_url = (
             'http://nohost/plone/workspace-container/'
-            'example-workspace/myfolder'
+            'example-workspace/myfolder/@@sidebar.documents'
         )
         self.assertIn(
             expected_url,
