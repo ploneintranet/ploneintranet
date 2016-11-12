@@ -64,7 +64,7 @@
 
                 <time tal:condition="task/due"
                       class="due-date meta-column icon-clock pat-display-time"
-                      data-pat-display-time="from-now: true"
+                      data-pat-display-time="from-now: true; locale: ${here/plone_portal_state/language}"
                       title="Due date"
                       datetime="${task/due}"
                     />

@@ -12,12 +12,11 @@
     <div class="button-bar functions pat-bumper sticky-supported" id="selector-functions">
       <div class="contextual buttons float-before" id="selector-contextual-functions" tal:define="parent view/logical_parent">
         <!-- The following grouping option is only available for document mode and on the root level of the instance. Default is 'folder'. When another mode is selected, the folder groupings are replaced by groupings of that type. -->
-        <a href="/open-market-committee"
+        <a href="${parent/url}/@@sidebar.documents"
            class="button icon-left-open pat-inject"
            data-pat-inject="source: #workspace-documents; target: #workspace-documents"
            tal:condition="parent"
-           tal:attributes="href parent/url"
-           tal:content="parent/title">Open Market Committee</a>
+          >${parent/title}</a>
         <form action="./#items" tal:define="grouping view/grouping;" class="pat-inject pat-autosubmit" tal:attributes="action string:${context/absolute_url}/@@sidebar.documents#workspace-documents" data-pat-inject="source: #workspace-documents; target: #workspace-documents" method="post" tal:condition="not:parent">
           <input tal:replace="structure context/@@authenticator/authenticator"/>
           <label class="pat-select bare"><span tal:omit-tag="" i18n:translate="">Group by</span>
@@ -40,7 +39,11 @@
       <div class="quick-functions">
         <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
 
-        <div class="pat-collapsible context-menu align-right closed" data-pat-collapsible="close-trigger: *:not(#more-menu)" id="more-menu">
+        <div id="more-menu"
+             class="pat-collapsible context-menu align-right closed"
+             data-pat-collapsible="close-trigger: *:not(#more-menu)"
+             tal:condition="python:can_add or can_edit"
+            >
           <strong class="label iconfified more-menu-trigger collapsible-closed" i18n:translate="">More...</strong>
           <form class="pat-autosubmit pat-inject" action="${context/absolute_url}/sidebar.documents#workspace-documents" method="post"
                             tal:define="show_extra view/show_extra">
@@ -225,13 +228,24 @@
           </div>
         </div>
         <div class="introduction folder-intro">
+
           <h4 class="folder-title">
-            <tal:block content="context/Title" />
-            <a href="@@edit_folder" tal:attributes="href string:${context/absolute_url}/edit_folder"
-               tal:condition="view/can_edit"
+            <tal:ancestors repeat="folder context/ancestor_folders"
+                           condition="exists:context/ancestor_folders"
+              >
+              <a class="pat-inject"
+                 href="${folder/absolute_url}/@@sidebar.documents#workspace-documents"
+                 data-pat-inject="source: #workspace-documents; target: #workspace-documents"
+                >${folder/title}</a>
+              &gt;
+            </tal:ancestors>
+            ${context/Title}
+            <a href="${context/absolute_url}/edit_folder"
                class="icon-pencil iconified pat-modal"
                data-pat-modal="class: large"
-               i18n:translate="">Edit name/description</a>
+               tal:condition="view/can_edit"
+               i18n:translate=""
+              >Edit name/description</a>
           </h4>
           <p class="folder-description"
              tal:content="context/Description|nothing">
@@ -339,7 +353,7 @@ Supported types include (class names):
           <a class="icon-document" href="#" i18n:translate="">Text document</a>
         </li>
 
-        <li>
+        <li tal:condition="view/can_slides">
           <a class="icon-slides" i18n:translate="">Slideshow</a>
         </li>
 
