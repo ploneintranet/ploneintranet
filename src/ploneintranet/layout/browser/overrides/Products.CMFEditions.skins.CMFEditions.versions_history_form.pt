@@ -31,7 +31,7 @@
                       "<span i18n:name="title" tal:replace="context/title_or_id">title</span>"
                 </h1>
 
-                <p><em class="byline"><div tal:replace="structure provider:plone.belowcontenttitle" /></em></p>
+                <p><em class="byline"><span tal:replace="structure provider:plone.belowcontenttitle" /></em></p>
               </article>
               <article class="rich pat-rich">
                   <table id="sortable"
@@ -166,7 +166,7 @@
                                                i18n:attributes="value label_revert"
                                                value="Revert to this revision" /></form>
                                   </tal:c>
-                              
+
                             </td>
                           </tr>
                           </tal:block>
@@ -214,13 +214,13 @@
 
 
                   <a name="version_preview" style="color: #222; text-decoration: none" tal:condition="version_id">
-                    <h1>   
+                    <h1>
                         <span tal:omit-tag="" i18n:translate="label_preview_version">
                       Preview of Revision <span i18n:name="version_id" tal:replace="version_id">0</span></span>:
                       ${vdata/object/Title}
                     </h1>
                   </a>
-                
+
                   <em class="byline"><div tal:replace="structure provider:plone.belowcontenttitle" /></em>
 
                   <p class="description" tal:content="vdata/object/Description" tal:condition="vdata/object/Description"></p>

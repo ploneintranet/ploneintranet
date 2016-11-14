@@ -518,7 +518,7 @@ Supported types include (class names):
           <div class="button-bar functions" id="-functions">
             <div class="quick-functions">
               <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event" i18n:translate="">Create event</a>
+              <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event" i18n:translate="" i18n:attributes="title">Create event</a>
             </div>
           </div>
           <div class="content">

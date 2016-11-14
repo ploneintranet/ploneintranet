@@ -21,8 +21,8 @@
 	      <div class="application-welcome-info">
 		<article class="pat-rich" id="boilerplate-library-introduction">
                   <p>
-                    <strong>Thank you for using Messages!</strong>
-                    Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.
+                    <strong i18n:translate="">Thank you for using Messages!</strong>
+                    <span tal:omit-tag="" i18n:translate="">Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.</span>
                   </p>
 		</article>
                 <article class="pat-rich">
@@ -93,11 +93,11 @@
                   <form class="search-box pat-inject pat-autosubmit" action="${view/url}#selector-items">
                     <label>
                       <input name="search" type="search" placeholder="Search" ${view/search_disabled} />
-                      <button type="submit">Search</button>
+                      <button type="submit" i18n:translate="">Search</button>
                     </label>
                   </form>
                   <div class="quick-functions">
-                    <a title="Start a new conversation" href="${view/app_base_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+                    <a title="Start a new conversation" href="${view/app_base_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large" i18n:translate="">New conversation</a>
                   </div>
                 </div><!-- /button-bar -->
 
