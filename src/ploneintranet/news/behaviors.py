@@ -44,7 +44,7 @@ class INewsMeta(form.Schema):
     magazine_home = schema.Bool(
         title=_(
             u'label_magazine_home',
-            default=u'Visible on news landing page.'
+            default=u'Visible on news landing page'
         ),
         required=False,
         default=True,
@@ -54,7 +54,7 @@ class INewsMeta(form.Schema):
     allow_comments = schema.Bool(
         title=_(
             u'label_allow_comments',
-            default=u'Allow comments.'
+            default=u'Allow comments'
         ),
         required=False,
         default=True,

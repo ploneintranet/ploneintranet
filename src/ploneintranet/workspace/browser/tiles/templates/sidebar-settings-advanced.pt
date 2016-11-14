@@ -18,7 +18,7 @@
                 <aside tal:condition="python:request.method == 'POST'" id="sidebar-statusmessage">
                     <tal:message tal:content="structure provider:plone.globalstatusmessage"/>
                 </aside>
-                <form action="#" 
+                <form action="#"
                       method="post"
                       class="pat-inject pat-autosubmit"
                       data-pat-inject="source: #workspace-settings > .tabs-content ; target: #workspace-settings > .tabs-content"
@@ -116,9 +116,9 @@
                                 <li>
                                     <a class="icon-workspace pat-modal"
                                        href="${ws/absolute_url}/panel-related-workspaces#document-content"
-                                       data-pat-inject="source: #document-content" 
-                                       i18n:translate="" 
-                                       i18n:attributes="title" 
+                                       data-pat-inject="source: #document-content"
+                                       i18n:translate=""
+                                       i18n:attributes="title"
                                        title="Set related workspaces">Set related workspaces</a>
 
                                 </li>
@@ -126,9 +126,9 @@
                                 <a class="icon-tags pat-modal"
                                    href="${ws/absolute_url}/panel-reorder-tags#document-content"
                                    data-pat-inject="source: #document-content"
-                                   title="Set related workspaces"
+                                   title="Change custom order of tags"
                                    tal:condition="can_manage_workspace"
-                                   i18n:translate="" 
+                                   i18n:translate=""
                                    i18n:attributes="title">Change custom order of tags</a>
                                 </li>
                                 <!-- <li>
@@ -138,11 +138,11 @@
                                     <a class="pat-modal" href="/feedback/panel-related-workspaces.html">Tracking log</a>
                                 </li> -->
                                 <li tal:condition="view/can_delete_workspace">
-                                    <a class="icon-trash pat-modal" 
-                                       title="Delete workspace" 
-                                       href="${ws/absolute_url}/delete_confirmation#content" 
-                                       i18n:attributes="title" 
-                                       i18n:translate="" 
+                                    <a class="icon-trash pat-modal"
+                                       title="Delete workspace"
+                                       href="${ws/absolute_url}/delete_confirmation#content"
+                                       i18n:attributes="title"
+                                       i18n:translate=""
                                        data-pat-inject="source: #content">Delete workspace</a>
                                 </li>
                             </ul>

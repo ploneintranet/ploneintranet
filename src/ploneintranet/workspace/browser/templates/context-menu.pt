@@ -1,9 +1,9 @@
 <div id="content">
     <div id="extra-options">
-        <ul class="menu"> 
+        <ul class="menu" i18n:domain="ploneintranet">
             <li tal:condition="python: path('context/externalEditorEnabled/available') and view.can_edit">
                 <a href="${context/absolute_url}/external_edit"
-                     class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>                    
+                     class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>
             </li>
             <li>
                 <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-modal="class: large" data-pat-inject="source: #content; target: body:after" title="Version history" i18n:attributes="title" i18n:translate="">
@@ -25,7 +25,7 @@
                 >Delete</a>
             </li>
             <li>
-                <tal:archiving replace="structure here/@@archive-link-iconified" />                
+                <tal:archiving replace="structure here/@@archive-link-iconified" />
             </li>
             <li>
                 <tal:pinning replace="structure here/@@pinning-link-iconified|nothing"></tal:pinning>
@@ -36,6 +36,6 @@
               </tal:history>
             </li>
 
-        </ul>  
+        </ul>
     </div>
 </div>
