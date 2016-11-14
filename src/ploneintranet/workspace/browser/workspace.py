@@ -88,7 +88,10 @@ class BaseWorkspaceView(BrowserView):
         ''' Get the title for this principal
         '''
         if isinstance(principal, basestring):
+            principalid = principal
             principal = self.resolve_principalid(principal)
+            if principal is None:
+                return principalid
         if hasattr(principal, 'getGroupId'):
             return principal.Title() or principal.getGroupId()
         return (
