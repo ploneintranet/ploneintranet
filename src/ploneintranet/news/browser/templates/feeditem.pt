@@ -3,20 +3,20 @@
     <img class="illustration"
          tal:condition="context/image"
          style="background-image: url(${context/absolute_url}/@@images/image/large)"
-         src="${view/portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png" alt="">                      
+         src="${view/portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png" alt="">
   </figure>
   <div class="teaser">
     <h3 class="title">
       <strong class="category">${view/category}</strong>
-      
+
       <em class="comment-count"
           tal:condition="nothing">6</em>
-      
+
       <tal:title replace="context/title">Item Title</tal:title>
     </h3>
     <p class="byline"><time datetime="${view/date}">${view/date}</time></p>
     <p class="description">${view/description}
-      <strong i18n:translate="">Read more…</strong>
+      <strong i18n:translate="">Read more...</strong>
     </p>
   </div>
 </a>

@@ -14,7 +14,7 @@
                          class="item item-${item/counter} level-2 four columns">
                   <tal:item replace="structure item/obj/@@feeditem" />
                 </article>
-                  
+
               </div>
 
               <article tal:repeat="item python:view.news_items()[4:]"
@@ -34,10 +34,10 @@
                        class="item item-${item/counter}">
                   <tal:item replace="structure item/obj/@@feeditem" />
               </article>
-                  
+
               <p class="more"
                  tal:condition="view/trending_hasmore">
-                <a href="#" i18n:translate="">More trending…</a>
+                <a href="#" i18n:translate="">More trending...</a>
               </p>
             </div>
           </div>
