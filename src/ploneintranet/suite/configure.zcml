@@ -19,6 +19,7 @@
   <include package="ploneintranet.microblog"/>
   <include package="ploneintranet.microblog" file="subscribers.zcml"/>
   <include package="ploneintranet.network"/>
+  <include package="ploneintranet.news"/>
   <include package="ploneintranet.userprofile"/>
   <include package="ploneintranet.search"/>
   <include package="ploneintranet.library"/>
@@ -128,5 +129,42 @@
       handler=".upgrades.import_portal_registry"
       profile="ploneintranet.suite:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0013"
+      profile="ploneintranet.suite:default"
+      >
+    <genericsetup:upgradeDepends
+        title="Install ploneintranet.news"
+        import_profile="ploneintranet.news:default"
+        />
+    <genericsetup:upgradeDepends
+        title="Activate news portal_tab"
+        import_profile="ploneintranet.layout:default"
+        import_steps="actions"
+        />
+    <genericsetup:upgradeStep
+        title="Sort portal tabs"
+        handler="ploneintranet.layout.setuphandlers.sort_portal_tabs"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0005"
+      profile="ploneintranet.suite:testing"
+      >
+    <genericsetup:upgradeDepends
+        title="Install ploneintranet.news testcontent"
+        import_profile="ploneintranet.news:testing"
+        />
+    <genericsetup:upgradeStep
+        title="Configure news editor access for alice_lindstrom"
+        handler=".setuphandlers.configure_news"
+        />
+  </genericsetup:upgradeSteps>
+  
+  
 
 </configure>

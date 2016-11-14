@@ -1,11 +1,11 @@
 # coding=utf-8
 from collective.workspace.interfaces import IWorkspace
 from plone import api
-from ploneintranet.workspace.tests.base import BaseTestCase
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from zope.event import notify
+from ploneintranet.workspace.tests.base import BaseTestCase
 from zope.annotation import IAnnotations
 from zope.component import getAdapter
+from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
 
@@ -39,11 +39,6 @@ class TestSidebar(BaseTestCase):
         self.assertNotIn(user_id, IWorkspace(ws).members, "Id already present")
 
         IWorkspace(ws).add_to_team(user=user_id)
-
-        # Commenting out because they aren't (yet?) being used.
-        # sidebarSettingsMembers = getMultiAdapter(
-        #     (ws, ws.REQUEST), name=u"sidebarSettingsMember.default")
-        # existing_users = sidebarSettingsMembers.existing_users()
 
         self.assertIn(
             user_id,
@@ -95,7 +90,7 @@ class TestSidebar(BaseTestCase):
 
         expected_url = (
             'http://nohost/plone/workspace-container/'
-            'example-workspace/myfolder'
+            'example-workspace/myfolder/@@sidebar.documents'
         )
         self.assertIn(
             expected_url,
@@ -314,7 +309,7 @@ class TestSidebar(BaseTestCase):
             title='Archivable Document'
         )
         sidebar = api.content.get_view(
-            'sidebar.default',
+            'sidebar.documents',
             ws, self.request.clone()
         )
         self.assertIn(
@@ -354,7 +349,7 @@ class TestSidebar(BaseTestCase):
         request = self.request.clone()
         request.form['grouping'] = 'label'
         sidebar = api.content.get_view(
-            'sidebar.default',
+            'sidebar.documents',
             ws, request
         )
         self.assertIn(

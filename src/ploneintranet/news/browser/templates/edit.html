@@ -1,0 +1,177 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+    <!-- prototype/_layouts/news-cms.html 
+         prototype/apps/news/edit.html -->
+    
+    <metal:content fill-slot="content">
+      <div id="application-body" class="sidebar-normal application-news-cms application-news-cms sidebar-left-open sidebar-right-closed">
+
+        <!-- right column: the magazine front page / news item editor-->
+        <div id="document-body" tal:define="read_only python: not view.can_edit">
+
+          <form class="document pat-inject" id="news-edit-form"
+                method="post"
+                action="${context/absolute_url}/edit.html#sidebar-content"
+                enctype="multipart/form-data">
+            <div class="metadata pat-bumper">
+              <div class="meta-bar">
+                <label class="tags float-before">
+                  <input type="text"
+                         name="subjects" placeholder="Tags"
+                         i18n:domain="plone" i18n:attributes="placeholder"
+                         value="${python:','.join(context.subject)}"
+                         tal:attributes="disabled read_only"
+                         class="pat-autosuggest"
+                         data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
+                  
+                </label>
+
+                <div class="quick-functions">
+                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
+                    Delete
+                  </a>
+                  <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item">
+                    Preview
+                  </a>
+                  <fieldset id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
+                            tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/edit.html;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/edit.html;; source: #application-body;; target: #application-body">
+                        <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
+                          <select name="workflow_action" id="workflow_action"
+                                  tal:attributes="disabled view/can_review">
+                            <option tal:repeat="state view/get_workflow_transitions"
+                                    tal:attributes="title state/title; value state/action; selected state/selected|nothing"
+                                    tal:content="state/title">Workflow State</option>
+                          </select>
+                        </label>
+                        <span tal:replace="structure context/@@authenticator/authenticator"/>
+                      </fieldset>
+                  <button type="submit" class="pat-button icon-floppy" title="Save this document" tal:condition="not: read_only">Save</button>
+                  <a class="icon-down-open meta-data-toggle iconified pat-toggle collapsible-closed" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields">
+                    Toggle extra metadata
+                </a>                  
+                </div>
+              </div>
+              <div class="bar summary-hero">
+                <fieldset class="row" >
+                  <label class="nine columns">
+                    <textarea name="description" rows="4" title="Description" placeholder="Summary" tal:attributes="disabled read_only">${context/description}</textarea>
+                  </label>
+                  <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject"
+                         data-pat-inject="url: ${context/absolute_url}/edit.html#hero-upload"
+                         title="Upload a new hero image that may be displayed in the news overview pages."
+                         tal:define="has_image context/image">
+                    <img src="${context/absolute_url}/@@images/image/preview" alt=""
+                         tal:condition="has_image"/>
+                    <span class="pat-button upload-button"
+                          tal:condition="has_image"
+                          i18n:translate="label_replace_image">Replace image</span>
+                    <span class="pat-button upload-button"
+                          tal:condition="not: has_image"
+                          i18n:translate="label_upload_image">Upload image</span>
+                    <input type="file" name="image"
+                           tal:attributes="disabled read_only"/> 
+                  </label>
+                </fieldset> 
+              </div>
+              <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                <fieldset class="bar pat-checklist">
+                  <label>
+                    <input name="article_image" type="checkbox" value="selected"
+                           tal:attributes="checked python:getattr(context, 'article_image', 0); disabled read_only" />
+                    <input name="article_image-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_article_image">
+                      Image visible as hero image on the news article page.
+                    </span>
+                  </label>
+                  <label>
+                    <input name="magazine_image" type="checkbox" value="selected"
+                           tal:attributes="checked python:getattr(context, 'magazine_image', 0); disabled read_only"/>
+                    <input name="magazine_image-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_magazine_image">
+                      Image visible on news overview pages.
+                      </span>
+                  </label>
+                </fieldset>
+                <label class="bar">
+                  Section 
+                  <select name="section" tal:attributes="disabled read_only">
+                    <option tal:repeat="section view/sections"
+                            value="${section/uuid}"
+                            tal:attributes="selected section/current">${section/title}</option>
+                  </select>
+                </label>
+                <!-- commenting not implemented yet -->
+                <div class="bar" tal:condition="nothing">
+                  <label class="pat-checklist">
+                    <input type="checkbox" value="selected"
+                           name="allow_comments"
+                           tal:attributes="checked python:getattr(context, 'allow_comments', 0); disabled read_only" />
+                    <input name="allow_comments-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_allow_comments">
+                      Allow comments
+                      </span>
+                  </label>
+                </div>
+                <div class="bar">
+                  <label class="pat-checklist">
+                    <input type="checkbox"
+                           name="magazine_home" value="selected"
+                           tal:attributes="checked python:getattr(context, 'magazine_home', 0); disabled read_only"/>
+                    <input name="magazine_home-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_magazine_home">
+                      Visible on news landing page
+                      </span>
+                  </label>
+                </div>
+                <fieldset class="bar">                
+                  <label class="">
+                    Publication date
+                    <input class="pat-date-picker" type="date"
+                           name="effective"
+                           tal:attributes="value view/effective; disabled read_only" />
+                  </label>, 
+                  <label class="">
+                    Expiration date
+                    <input class="pat-date-picker" type="date"
+                           name="expires"
+                           tal:attributes="value view/expires; disabled read_only" />
+                  </label>
+                </fieldset>
+              </fieldset>
+              <div id="editor-toolbar" class="bar redactor"
+                   tal:condition="not:read_only">
+                <p class="loader">Loading…</p>
+              </div>
+            </div>
+            <div id="document-content">
+              <article class="document rich">
+		<hgroup id="title-block">
+	          <h1 id="document-title">${context/title}</h1>
+		  <textarea type="text" name="title" placeholder="Title of news item" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" value="">${context/title|nothing}</textarea>
+		</hgroup>
+                <textarea name="text" placeholder="Write your body text here…" class="pat-redactor" data-allow="p-ul-ol-h1-h2-h3" data-pat-redactor="imageupload: @@star-quickupload; imagegetjson: /feedback/images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: bufferbuttons,alignment,table,source,video,imagemanager,romanlisting">${context/text/output|nothing}</textarea>
+              </article>
+            </div>
+          </form>          
+        </div>
+
+        <!-- left column: news cms navigation -->
+        <div tal:replace="structure view/sidebar" />
+        
+      </div><!-- /application-body -->
+      
+    </metal:content>
+  </body>
+</html>

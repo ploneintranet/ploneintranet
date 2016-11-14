@@ -1,16 +1,16 @@
+from ..policies import PARTICIPANT_POLICY
 from AccessControl import Unauthorized
-from Products.CMFCore.utils import _checkPermission as checkPermission
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.memoize.instance import clearafter
-from plone.protect import CheckAuthenticator, PostOnly
+from plone.protect import CheckAuthenticator
+from plone.protect import PostOnly
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from zope.component import getMultiAdapter
 from ploneintranet.workspace.browser.workspace import BaseWorkspaceView
-from ploneintranet.workspace.utils import existing_users
-from ..policies import PARTICIPANT_POLICY
+from Products.CMFCore.utils import _checkPermission as checkPermission
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getMultiAdapter
 
 
 class EditRoster(BaseWorkspaceView):
@@ -92,6 +92,8 @@ class EditRoster(BaseWorkspaceView):
          - id
          - title
         :rtype: list
+
+        BBB: check if we can use some optimized methods from the workspace view
         """
         existing_users = self.existing_users()
         existing_user_ids = [x['id'] for x in existing_users]
@@ -107,7 +109,29 @@ class EditRoster(BaseWorkspaceView):
         return users
 
     def existing_users(self):
-        return existing_users(self.context)
+        ''' The existing users
+
+        BBB: check if we can use some optimized methods from the workspace view
+        '''
+        members = IWorkspace(self.context).members
+        info = []
+
+        for userid, details in members.items():
+            title = self.get_principal_title(userid)
+            # XXX tbd, we don't know what a persons description is, yet
+            description = ''
+            classes = description and 'has-description' or 'has-no-description'
+            info.append(
+                dict(
+                    id=userid,
+                    title=title,
+                    description=description,
+                    cls=classes,
+                    member=True,
+                    admin='Admins' in details['groups'],
+                )
+            )
+        return info
 
     def can_manage_workspace(self):
         """

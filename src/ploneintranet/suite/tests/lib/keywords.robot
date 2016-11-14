@@ -857,7 +857,7 @@ I can create a new folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     # On reload the navbar is closed by default - open it
     Click link  Documents
-    Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder']
+    Page Should Contain Element  css=a.pat-inject[href$='/open-market-committee/my-humble-folder/@@sidebar.documents']
 
 I can edit the new folder
     Click Element  jquery=.item .title:contains(My Humble Folder)
@@ -890,7 +890,7 @@ I can create a structure
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
-    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder']
+    Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.documents']
     Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
     Click link  Documents
     Execute Javascript  jquery=$('#more-menu .panel-content').show()
@@ -1372,6 +1372,7 @@ I submit the status update
 
 I open the post action menu
     [arguments]  ${message}
+    Wait Until Element Is visible  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
     Click Link  xpath=//section[@class='post-content']//p[contains(text(), '${message}')]/../..//a[contains(@class, 'icon-cog')]
 
 I cannot open the post action menu

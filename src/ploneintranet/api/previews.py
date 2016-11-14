@@ -233,3 +233,16 @@ def events_enable(request=None):
         return
     for event_key in event_keys:
         request[event_key] = True
+
+
+def purge_previews(obj):
+    '''
+    Purge the previews from obj
+
+    :param obj: The Plone content object for which we want to purge
+                the previews
+    :type obj: A Plone content object
+    :return: Does not return anything.
+    :rtype: None
+    '''
+    return previews.purge_previews(obj)

@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+      <metal:content fill-slot="content">
+        <div id="portal-content" class="container">
+
+        <nav class="canvas-subnav">
+          <a tal:repeat="section view/sections"
+             href="${section/absolute_url}"
+             class="${section/css_class}">${section/title}</a>
+        </nav>
+
+        <article class="news-article pat-rich">
+	  <p class="page-function-bar">
+	    <!-- The word 'Press release' below is to be replaced with the relevant section name of the respective article. The same is true for the link.  -->
+	    <a class="back"
+               tal:condition="view/section"
+               href="${view/section/absolute_url}">
+              ${view/section/title}</a>
+	    <a href="#" class="share icon-share"
+               tal:condition="nothing">Share</a>
+	  </p>
+          
+	  <h1 class="title">${context/title}</h1>
+          
+	  <figure class="hero"
+                  tal:condition="context/article_image">
+	    <img src="${context/absolute_url}/@@images/image" alt=""
+                 tal:condition="context/image"/>
+	  </figure>
+          
+	  <p class="summary">
+	    <time class="date" datetime="${view/date}">${view/date}</time>
+            <tal:description>${context/description}</tal:description>
+	  </p>
+          
+	  <div class="main-content"
+               tal:condition="context/text"
+               tal:content="structure context/text/output">
+            text
+	  </div>
+        </article>
+
+        </div>
+      </metal:content>
+  </body>
+</html>
+

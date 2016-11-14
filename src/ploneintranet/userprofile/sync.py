@@ -18,11 +18,30 @@ from zope.interface import Interface
 import logging
 import time
 
+
 NO_VALUE = object()
 PROP_SHEET_MAP_KEY = 'ploneintranet.userprofile.property_sheet_mapping'
 PRI_EXT_USERS_KEY = 'ploneintranet.userprofile.primary_external_user_source'
 
 logger = logging.getLogger(__name__)
+
+
+def purge_all_caches():
+    ''' Purge everything, we want fresh data
+    '''
+    # purge the acl_users cache
+    acl_users = api.portal.get_tool('acl_users')
+    if acl_users.ZCacheable_enabled():
+        acl_users.ZCacheable_invalidate()
+
+    ldap_key = api.portal.get_registry_record(PRI_EXT_USERS_KEY)
+    au = api.portal.get_tool('acl_users')
+    if ldap_key not in au:
+        return
+    try:
+        au[ldap_key].acl_users.manage_reinit()
+    except AttributeError:
+        logger.warning('Cannot find a specific method to purge LDAP cache')
 
 
 def record_last_sync(context):
@@ -77,6 +96,10 @@ class UserPropertyManager(object):
 
         logger.info('Updating info for {0.username}'.format(self.context))
         member = api.user.get(username=self.context.username)
+        if not member:
+            logger.info('Cannot find {0.username}'.format(self.context))
+            return
+
         property_sheet_mapping = {
             sheet.getId(): sheet
             for sheet in member.getOrderedPropertySheets()
@@ -106,6 +129,7 @@ class UserPropertySync(BrowserView):
 
     def __call__(self):
         """Sync a single user profile with external property providers"""
+        purge_all_caches()
         alsoProvides(self.request, IDisableCSRFProtection)
         userprofile = self.context
         IUserProfileManager(userprofile).sync()
@@ -143,6 +167,7 @@ class AllUsersPropertySync(BrowserView):
         """Sync properties from PAS into the membrane object for
         all users across the application.
         """
+        purge_all_caches()
         alsoProvides(self.request, IDisableCSRFProtection)
 
         users = self._get_users_to_sync()
@@ -181,6 +206,7 @@ class AllUsersSync(BrowserView):
     """
 
     def __call__(self):
+        purge_all_caches()
         alsoProvides(self.request, IDisableCSRFProtection)
         self._sync()
         return 'User sync complete.'
@@ -306,6 +332,7 @@ class WorkGroupPropertySync(BrowserView):
 
     def __call__(self):
         """Sync a single user profile with external property providers"""
+        purge_all_caches()
         alsoProvides(self.request, IDisableCSRFProtection)
         group = self.context
         IWorkGroupManager(group).sync()
@@ -347,6 +374,7 @@ class AllWorkGroupsSync(BrowserView):
     """
 
     def __call__(self):
+        purge_all_caches()
         alsoProvides(self.request, IDisableCSRFProtection)
         self._sync()
         return 'Group sync complete.'

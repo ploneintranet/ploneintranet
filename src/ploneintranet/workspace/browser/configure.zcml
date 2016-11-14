@@ -315,7 +315,7 @@
       name="panel-related-workspaces"
       for="ploneintranet.workspace.workspacefolder.IWorkspaceFolder"
       permission="ploneintranet.workspace.ManageWorkspace"
-      class=".workspace.RelatedWorkspacesPicker"
+      class=".workspace.BaseWorkspaceView"
       template="templates/panel-related-workspaces.pt"
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />

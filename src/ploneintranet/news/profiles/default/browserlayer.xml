@@ -1,0 +1,10 @@
+<layers>
+  <layer
+    name="ploneintranet.news.browser"
+    interface="ploneintranet.news.browser.interfaces.INewsLayer"
+  />
+  <layer
+    name="ploneintranet.news.browser.content"
+    interface="ploneintranet.news.browser.interfaces.INewsContentLayer"
+  />
+</layers>

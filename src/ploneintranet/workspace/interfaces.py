@@ -125,16 +125,6 @@ class IMetroMap(Interface):
     """Methods required to display a metromap
     """
 
-    def get_available_metromap_workflows():
-        """In order to display the metromap for Case Workspaces, a workflow
-        with a "metromap_transitions" variable must be in the workflow chain.
-
-        Since a metromap is linear, we need a sequence of workflow
-        transitions to represent the lifecycle of a Case. A comma separated
-        string variable ("metromap_transitions") is stored on the
-        workflow. Extract this and return the transitions as a list.
-        """
-
     def metromap_sequence():
         """An ordered dict with the structure required for displaying tasks in
         the metromap and in the sidebar of a Case item. This is used to

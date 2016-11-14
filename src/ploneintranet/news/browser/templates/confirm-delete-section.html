@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure diazo.off">
+
+    <!-- Proto links to nonexisting template. Instead, derived from
+         prototype/_site/feedback/confirmation-remove-special-role.html -->
+    
+
+      <div id="main">
+	<div id="content" class="modal">
+	  <div id="document-content" class="pat-modal ">
+            <h1>
+              <span i18n:translate="">Delete news section</span>
+              "${context/title}"
+            </h1>
+            
+            <form method="post" action="${view/url}"
+                  class="wizard-box pat-inject "
+                  data-pat-inject="">
+              
+              <div class="panel-body">
+                <article i18n:translate="help_delete_newssection_empty">
+                  This news section is empty and can be safely removed.
+                </article>
+              </div>
+              
+              <div class="buttons panel-footer">
+                <button type="submit" class="close-panel icon-ok-circle"
+                        i18n:translate="label_delete_newssection_confirm">
+                  Delete section now</button>
+                <button type="button" class="close-panel icon-cancel-circle"
+                        i18n:translate="">Cancel</button>
+              </div>
+              
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>

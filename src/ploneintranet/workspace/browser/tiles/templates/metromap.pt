@@ -1,0 +1,67 @@
+<ul id="timeline"
+    class="timeline pat-equaliser"
+    metal:define-macro="timeline"
+    tal:define="
+      task_number python:0;
+      portal_url here/portal_url;
+    "
+    i18n:domain="ploneintranet"
+  >
+  <tal:milestone repeat="milestone view/milestones">
+    <li class="section actioned state-${milestone/finished}"
+        title="${milestone/title}"
+        >
+      <tal:state_index define="global task_number python:task_number + repeat['milestone'].index">
+        <h3 class="section-label"
+            i18n:translate=""
+          >${milestone/title}</h3>
+        <ul>
+          <li id="item-${python:task_number + 1}"
+              class="step-background"
+              tal:condition="python:(repeat['milestone'].start or repeat['milestone'].end) and not milestone['tasks']"
+            >
+            <p class="step-label icon" />
+          </li>
+          <tal:tasks repeat="task milestone/tasks">
+            <tal:task_number define="global task_number python:task_number + 1">
+              <li id="item-${task_number}"
+                  class="step-background state-${python:'closed' if task['checked'] else 'open'}">
+                <p class="step-label icon icon-help-circled">
+                  <span class="link">
+                    <a class="label-text"
+                       title="${task/title}"
+                       href="${task/url}#workspace-tickets"
+                      >${task/title}</a>
+
+                    <tal:history tal:condition="exists:task/obj/@@app-audit-mm-button">
+                      <a tal:replace="structure task/obj/@@app-audit-mm-button" />
+                    </tal:history>
+                  </span>
+                </p>
+                <p class="step-assignee"
+                   tal:define="
+                    due_date task/due;
+                    assignee task/obj/assignee;
+                   "
+                   tal:condition="assignee">
+                  <a tal:replace="structure python:view.get_avatar_tag(assignee)" />
+                  <time class="date"
+                        tal:condition="due_date"
+                        datetime="${due_date}"
+                      >${python:due_date.strftime('%d %b')}</time>
+                </p>
+              </li>
+            </tal:task_number>
+          </tal:tasks>
+        </ul>
+        <p class="action icon ${milestone/icon}"
+           tal:condition="not:repeat/milestone/end"
+          >
+          <a class="link"
+             i18n:translate=""
+            >${milestone/transition_title}</a>
+        </p>
+      </tal:state_index>
+    </li>
+  </tal:milestone>
+</ul>

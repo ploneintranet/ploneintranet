@@ -41,13 +41,3 @@ fastest1:
 fastest2:
   script:
     - DISPLAY=:99 bin/fastest --run 2
-
-robot:
-  script:
-    - DISPLAY=:99 bin/test -t 'robot'
-
-norobot:
-  script:
-    - bin/code-analysis
-    - bin/test -t '!robot'
-    - ASYNC_ENABLED=true bin/test -s ploneintranet.async

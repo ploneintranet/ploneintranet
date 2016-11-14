@@ -12,6 +12,7 @@ from logging import getLogger
 from plone import api
 from ploneintranet.docconv.client.html_converter import generate_pdf
 from urllib import urlencode
+from zope.annotation import IAnnotations
 from zope.site.hooks import getSite
 
 
@@ -368,3 +369,17 @@ def generate_previews(obj, event=None):
         if not converter.can_convert:
             return
         converter()
+
+
+def purge_previews(obj):
+    '''
+    Purge the previews from obj
+
+    :param obj: The Plone content object for which we want to purge
+                the previews
+    :type obj: A Plone content object
+    :return: Does not return anything.
+    :rtype: None
+    '''
+    IAnnotations(obj).pop('collective.documentviewer', {})
+    Settings(obj)

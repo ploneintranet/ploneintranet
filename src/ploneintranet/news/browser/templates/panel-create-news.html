@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+    <!-- prototype/_site/feedback/panel-create-news.html -->
+    
+    <metal:content fill-slot="content">
+
+      <div id="main">
+	<div id="content" class="modal">
+	  <div id="document-content" class="pat-modal ">
+            <h1 i18n:translate="">Create news</h1>
+            
+            <form method="post"
+                  action="${view/app_url}"
+                  class="wizard-box pat-inject " data-pat-inject="">
+              <input type="hidden" name="form.id" value="create" />
+              
+              <div class="panel-body">
+                <fieldset class="icon-tabs">
+                  <label class="icon-newspaper">
+                    <input checked="checked" name="type" value="item" type="radio">
+                    <span i18n:translate="label_news_item">News item</span>
+                  </label>
+                  <label class="icon-squares">
+                    <input name="type" value="section" type="radio">
+                    <span i18n:translate="label_news_section">News section</span>
+                  </label>
+                </fieldset>
+                <fieldset class="vertical">
+	          <fieldset class="group">
+	            <input type="text" name="item_title" placeholder="News item title"
+                           class="pat-depends" data-pat-depends="type=item" autofocus/>                    
+	            <input type="text" name="section_title" placeholder="Section title"
+                           class="pat-depends" data-pat-depends="type=section" />                    
+	            <textarea name="item_description"
+                              rows="6" placeholder="Item summary (Optional)" class="pat-depends" data-pat-depends="type=item"></textarea>
+	            <textarea name="section_description"
+                              rows="6" placeholder="Section description (Optional)" class="pat-depends" data-pat-depends="type=section"></textarea>
+                  </fieldset>
+                  <label class="pat-depends pat-checklist" data-pat-depends="type=section">
+    	            <input type="checkbox" checked
+                           name="section-description-visible"/>
+                    
+                    <span i18n:translate="label_newssection_description_visible">
+                      Make the section description visible for visitors on the section page
+                    </span>
+                  </label>
+                  <label class="pat-depends pat-checklist" data-pat-depends="type=section">
+                    <input type="checkbox" checked
+                           name="section-visible"/>
+                    <span i18n:translate="label_newssection_visible">
+                      Show this section in the news subnavigation
+                    </span>
+                  </label>
+                  <fieldset class="pat-depends pat-checklist radio" data-pat-depends="type=item">
+    	            <label>
+    		      <input type="radio" value="both" name="item_visibility" checked />
+                      <span i18n:translate="label_newsitem_visibility_both">
+                        Show on both news landing page and section page
+                      </span>
+    	            </label>
+    	            <label>
+    		      <input type="radio" value="section" name="item_visibility" />
+                      <span i18n:translate="label_newsitem_visibility_page">
+                        Show on section page only
+                      </span>
+    	            </label>
+                  </fieldset>
+                </fieldset>
+
+              </div>
+              
+              <div class="buttons panel-footer">
+                <button type="submit" class="close-panel icon-ok-circle"
+                        i18n:translate="">Create</button>
+                <button type="button" class="close-panel icon-cancel-circle"
+                        i18n:translate="">Cancel</button>
+              </div>
+              
+            </form>
+            
+          </div>
+        </div>
+      </div>
+      
+    </metal:content>
+  </body>
+</html>

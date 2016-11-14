@@ -52,6 +52,11 @@ class TestViews(IntegrationTestCase):
                 'app': 'robots.txt',
                 'condition': 'python:False',
             },
+            {
+                'title': 'Redirect App',
+                'app': '@@app-redirect-to-url',
+                'app_parameters': '{"url": "https://www.example.com"}',
+            },
         ]:
             api.content.create(
                 self.portal.apps,
@@ -180,6 +185,10 @@ class TestViews(IntegrationTestCase):
         # This is a testing app with parameters that return the parameters
         app_view = self.get_app_view('app-with-parameters')
         self.assertDictEqual(app_view(), {u'foo': u'bar'})
+
+    def test_app_redirect(self):
+        app_view = self.get_app_view('redirect-app')
+        self.assertEquals(app_view(), 'https://www.example.com')
 
     def get_app_view(self, app_id):
         ''' Return the app view for the given app_id
