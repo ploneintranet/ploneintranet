@@ -7,7 +7,8 @@ from Products.CMFPlone.utils import safe_unicode
 from unidecode import unidecode
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 logger = getLogger(__name__)
@@ -54,7 +55,7 @@ class PersonalizedKeywordsVocabulary(object):
         # return vocabulary
 
         graph = api.portal.get_tool("ploneintranet_network")
-        uuid = IUUID(context)
+        uuid = IUUID(context, '')
         userid = api.user.get_current().id
         blacklist = []
         tags = []
