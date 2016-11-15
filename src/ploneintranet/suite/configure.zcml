@@ -103,6 +103,20 @@
     factory=".hiddenprofiles.HiddenProfiles"
     name="ploneintranet" />
 
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0005"
+      profile="ploneintranet.suite:testing"
+      >
+    <genericsetup:upgradeDepends
+        title="Install ploneintranet.news testcontent"
+        import_profile="ploneintranet.news:testing"
+        />
+    <genericsetup:upgradeStep
+        title="Configure news editor access for alice_lindstrom"
+        handler=".setuphandlers.configure_news"
+        />
+  </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep
       title="Enable barceloneta specific workspace layer"
@@ -150,21 +164,12 @@
         />
   </genericsetup:upgradeSteps>
 
-  <genericsetup:upgradeSteps
+  <genericsetup:upgradeStep
+      title="Filter out news app layers in CMS"
       source="*"
-      destination="0005"
-      profile="ploneintranet.suite:testing"
-      >
-    <genericsetup:upgradeDepends
-        title="Install ploneintranet.news testcontent"
-        import_profile="ploneintranet.news:testing"
-        />
-    <genericsetup:upgradeStep
-        title="Configure news editor access for alice_lindstrom"
-        handler=".setuphandlers.configure_news"
-        />
-  </genericsetup:upgradeSteps>
-  
-  
+      destination="0014"
+      profile="ploneintranet.suite:default"
+      handler=".upgrades.filter_news_layer"
+    />
 
 </configure>
