@@ -54,6 +54,9 @@
                       Open web page in new window
                     </a>
 
+                    <a href="${context/absolute_url}/external_edit"
+                       class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate="">Open in External Editor</a>                    
+
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
 
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
