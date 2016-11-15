@@ -891,7 +891,7 @@ I can create a structure
     Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
     Click Element  css=a.pat-inject[href$='/open-market-committee/another-folder/@@sidebar.documents']
-    Wait Until Page Contains Element  css=a.pat-inject[href$='/open-market-committee']
+    Wait Until Page Contains Element  css=#selector a.pat-inject[href$='/open-market-committee/@@sidebar.documents']
     Click link  Documents
     Execute Javascript  jquery=$('#more-menu .panel-content').show()
     Click link  Create document
