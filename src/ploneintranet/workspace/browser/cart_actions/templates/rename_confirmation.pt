@@ -36,6 +36,7 @@
               <tal:unmodifiable repeat="item not_modifiable">
                 <label>
 		          <input type="text" placeholder="${item/title}" disabled="disabled"/>
+                  <dfn class="pat-message notice">You cannot rename this item.</dfn>
 	            </label>
               </tal:unmodifiable>
 

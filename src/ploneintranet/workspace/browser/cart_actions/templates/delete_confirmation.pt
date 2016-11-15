@@ -53,6 +53,7 @@
               <tal:not_deleteable repeat="item not_deleteable">
                 <label>
                   <input type="checkbox" name="uids:list" value="${item/UID}" disabled="disabled"/> ${item/Title}
+                  <dfn class="pat-message notice">You cannot delete this item.</dfn>
                 </label>
                 <br />
               </tal:not_deleteable>
