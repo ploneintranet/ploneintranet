@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneintranet">
+
+  <body class="view-secure">
+
+    <!-- prototype/_layouts/news-cms.html -->
+    
+    <metal:content fill-slot="content">
+      <div id="application-body" class="sidebar-normal application-news-cms application-news-cms sidebar-left-open sidebar-right-closed">
+
+        <!-- right column: the magazine front page / news item editor-->
+        <div id="document-body">
+          <div id="document-content" class="news-feed">
+            <div class="row" tal:replace="structure context/newsfeed" />
+          </div>
+        </div>
+
+        <!-- left column: news cms navigation -->
+        <div tal:replace="structure view/sidebar" />
+        
+      </div><!-- /application-body -->
+      
+    </metal:content>
+  </body>
+</html>

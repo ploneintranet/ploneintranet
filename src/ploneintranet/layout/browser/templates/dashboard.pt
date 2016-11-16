@@ -34,7 +34,8 @@
           <div tal:repeat="tile view/activity_tiles" data-tile="${tile}"/>
           <div class="portlet span-2 state-expanded stamp right" id="portlet-activity-stream">
             <div class="content">
-              <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar">
+              <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
+              <form class="state-toggle pat-inject xpat-autosubmit" action="#">
                   <label class="show-more pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-expanded">
                       <input type="radio" name="portlet-activity-stream-state-expanded"> 
                       Show more

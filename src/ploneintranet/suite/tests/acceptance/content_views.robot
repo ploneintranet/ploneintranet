@@ -118,8 +118,9 @@ Member can tag a file with a tag suggestion
 Member cannot see delete button on a read only document
     Given I am in a Consumers workspace as a workspace member
     Click link  link=Documents
-    Wait Until Page Contains Element  xpath=//a[contains(@href, 'test-document')]
-    Click Element  xpath=//a[contains(@href, 'test-document')]
+    Wait Until Page Contains Element  jquery=#items .item.document .title:contains("Test Document")
+    Click Element  jquery=#items .item.document .title:contains("Test Document")
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait Until Page Contains  Published
     Element should not be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
 

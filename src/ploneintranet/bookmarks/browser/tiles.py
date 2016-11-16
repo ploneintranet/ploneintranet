@@ -91,13 +91,13 @@ class WorkspaceBookmarkTile(Tile, BookmarkActionView, View):
                          u'You have unbookmarked this item.')
 
         if self.is_bookmarked:
-            self.title = 'Bookmarked'
+            self.title = _('Bookmarked')
             self.icon_class = 'icon-bookmark'
             self.description = \
                 _(u'Remove this workspace from your bookmarks')
             self.link = addTokenToUrl(self.url + '?unbookmark=1')
         else:
-            self.title = 'Bookmark'
+            self.title = _(u'Bookmark')
             self.icon_class = 'icon-bookmark-empty'
             self.description = \
                 _(u'Add this workspace to your bookmarks.')

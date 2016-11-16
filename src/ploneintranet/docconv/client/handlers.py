@@ -1,20 +1,22 @@
+from plone import api
+from plone.api.exc import InvalidParameterError
+from ploneintranet import api as pi_api
+from ploneintranet.async.celeryconfig import ASYNC_ENABLED
+from ploneintranet.async.tasks import GeneratePreview
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.utils import IAttachmentStorage
+
 import logging
 import transaction
 
-from plone import api
-from plone.api.exc import InvalidParameterError
-from ploneintranet.attachments.attachments import IAttachmentStoragable
-from ploneintranet.attachments.utils import IAttachmentStorage
-from ploneintranet import api as pi_api
-
-from ploneintranet.async.celeryconfig import ASYNC_ENABLED
-from ploneintranet.async.tasks import GeneratePreview
 
 log = logging.getLogger(__name__)
 
 
-def generate_previews_async(obj, event=None):
+def generate_previews_async(obj, event=None, purge=False):
     """ Generates the previews by dispatching them to the async service
+
+    If purge is True, remove old previews before creating the new ones
     """
     try:
         file_types = api.portal.get_registry_record(
@@ -33,6 +35,8 @@ def generate_previews_async(obj, event=None):
 
     # Need a commit to make sure the content is there
     if ASYNC_ENABLED:
+        if purge:
+            pi_api.previews.purge_previews(obj)
         transaction.commit()
         log.debug('generate_previews_async - async mode')
         generator = GeneratePreview(obj, obj.REQUEST)
@@ -99,7 +103,7 @@ def content_edited_in_workspace(obj, event):
             log.debug("%s disabled", event_key)
             return
 
-        generate_previews_async(obj)
+        generate_previews_async(obj, purge=True)
 
 
 # def attachmentstoragable_added(obj, event):

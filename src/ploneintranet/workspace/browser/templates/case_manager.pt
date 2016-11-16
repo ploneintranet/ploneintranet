@@ -19,14 +19,26 @@
                     </tal:nocases>
 
                     <tal:cases repeat="case cases">
-                      <tal:is_archived define="archived_class python:'state-archived' if case.get('is_archived') else '';">
+                      <tal:is_archived define="
+                          archived_class python:'state-archived' if case.get('is_archived') else '';
+                          obj nocall:case/obj;
+                        ">
                         <div class="case-mat ${archived_class} workspace-type">
                           <article class="summary row">
                             <h2 class="case-title twelve columns">
-                              <a target="case" href="${case/url}">${case/title}<tal:archived condition="python:case.get('is_archived')"> <strong class="icon-archive workspace-state archived" i18n:translate="icon_archived">Archived</strong></tal:archived></a>
+                              <a target="case"
+                                 href="${obj/absolute_url}"
+                                >
+                                ${obj/title}
+                                <tal:archived condition="python:case.get('is_archived')">
+                                  <strong class="icon-archive workspace-state archived"
+                                          i18n:translate="icon_archived"
+                                    >Archived</strong>
+                                </tal:archived>
+                              </a>
                             </h2>
                             <p class="description four columns">
-                              ${case/description}
+                              ${obj/description}
                             </p>
                             <div class="eight columns stats">
                               <p class="stat">
@@ -43,17 +55,7 @@
                               </p>
                             </div>
                           </article>
-                          <tal:timeline define="workspace_url case/url;
-                                                mm_seq case/mm_seq;
-                                                transition_icons case/view/transition_icons;
-                                                existing_users_by_id case/existing_users_by_id;
-                                                case_view nocall:case/view;
-                                                tasks case_view/tasks;
-                                                target string:case;
-                                                workspace nocall:case;
-                                                ">
-                            <metal:timeline use-macro="case_view/macros/timeline" />
-                          </tal:timeline>
+                          <div tal:replace="structure case/obj/@@metromap" />
                         </div>
                       </tal:is_archived>
                     </tal:cases>
@@ -62,7 +64,7 @@
                       <!-- FIXME: needs to be designed -->
                       <a href="${view/next_batch_url}"
                          class="infinite-scrolling-trigger pat-inject"
-                         data-pat-inject="trigger: autoload-visible; source: #case-mats; target: #load-more::element"
+                         data-pat-inject="trigger: autoload-visible; source: #document-content; target: #load-more::element"
                          i18n:translate=""
                          >Next</a>
                     </div>
@@ -71,13 +73,19 @@
               <aside class="sidebar right"
                      tal:condition="not:request/called_myself | nothing"
                     >
-                <form class="pat-inject pat-autosubmit" action="${context/absolute_url}/case-manager#case-mats"
-                      tal:define="sidebar_tile nocall:context/sidebar.settings.advanced">
+                <form class="pat-inject pat-autosubmit"
+                      action="${context/absolute_url}/case-manager#document-content"
+                      >
                       <input type="hidden" name="called_myself" value="indeed"/>
                   <fieldset class="vertical">
                     <label>
                       <tal:trans i18n:domain="plone" i18n:translate="">Search</tal:trans>
-                      <input type="search" name="SearchableText" placeholder="Search in title and description" i18n:attributes="placeholder" value="${request/SearchableText|nothing}"/>
+                      <input type="search"
+                             name="SearchableText"
+                             placeholder="Search in title and description"
+                             value="${request/SearchableText|nothing}"
+                             i18n:attributes="placeholder"
+                            />
                     </label>
                     <!-- To be defined -->
                     <!-- <label> -->

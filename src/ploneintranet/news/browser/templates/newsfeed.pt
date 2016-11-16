@@ -1,0 +1,44 @@
+<div class="row">
+          <div class="eight columns">
+            <div class="news-feed">
+              <!-- First item -->
+              <article tal:repeat="item python: view.news_items()[0:1]"
+                       class="item item-${item/counter}">
+                <tal:item replace="structure item/obj/@@feeditem" />
+              </article>
+              <div class="row pat-equaliser"
+                   tal:define="second_batch python:view.news_items()[1:4]"
+                   tal:condition="second_batch">
+                <!-- Item 2-4 -->
+                <article tal:repeat="item second_batch"
+                         class="item item-${item/counter} level-2 four columns">
+                  <tal:item replace="structure item/obj/@@feeditem" />
+                </article>
+
+              </div>
+
+              <article tal:repeat="item python:view.news_items()[4:]"
+                       class="item item-${item/counter} level-3">
+                  <tal:item replace="structure item/obj/@@feeditem" />
+              </article>
+            </div>
+          </div>
+
+          <div class="four columns"
+               tal:condition="view/trending_items">
+            <div class="news-feed pat-well">
+              <h2 i18n:translate="">
+                Trending
+              </h2>
+              <article tal:repeat="item view/trending_top5"
+                       class="item item-${item/counter}">
+                  <tal:item replace="structure item/obj/@@feeditem" />
+              </article>
+
+              <p class="more"
+                 tal:condition="view/trending_hasmore">
+                <a href="#" i18n:translate="">More trending...</a>
+              </p>
+            </div>
+          </div>
+        </div>

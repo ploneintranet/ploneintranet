@@ -21,6 +21,7 @@ from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
+from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
 from ploneintranet.workspace.events import WorkspaceRosterChangedEvent
@@ -51,6 +52,8 @@ class BaseTile(BrowserView):
 
     index = None
     form_submitted = False
+
+    general_settings_autoload = 'trigger: autoload-visible;'
 
     @property
     @memoize
@@ -525,12 +528,6 @@ class Sidebar(BaseTile):
             else:
                 return
 
-    @memoize
-    def userid_to_user(self, userid):
-        ''' Given a user id, return the user
-        '''
-        return api.user.get(userid=userid)
-
     def _extract_attrs(self, catalog_results):
         """
         The items to show in the sidebar may come from the current folder or
@@ -564,6 +561,7 @@ class Sidebar(BaseTile):
                 )
                 # Do we switch the view (unexpand the sidebar)?
                 dps = None
+                url = "%s/@@sidebar.documents" % url
             else:
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
@@ -582,13 +580,13 @@ class Sidebar(BaseTile):
             results.append(dict(
                 title=r['Title'],
                 description=r['Description'],
-                id=r.getId,
+                id=r['id'],
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
                 dps=dps,
                 url=url,
-                creator=self.userid_to_user(r['Creator']),
+                creator=r['Creator'],
                 modified=r['modified'],
                 subject=r['Subject'],
                 UID=r['UID'],
@@ -630,7 +628,6 @@ class Sidebar(BaseTile):
         It returns the items based on the selected grouping (and later may
         take sorting, archiving etc into account)
         """
-        catalog = api.portal.get_tool("portal_catalog")
         current_path = '/'.join(self.context.getPhysicalPath())
         sidebar_search = self.request.get('sidebar-search', None)
         query = {}
@@ -651,11 +648,14 @@ class Sidebar(BaseTile):
         if sidebar_search:
             # User has typed a search query
 
+            sitesearch = getUtility(ISiteSearch)
+            query['path'] = current_path
             # XXX plone only allows * as postfix.
             # With solr we might want to do real substr
-            query['SearchableText'] = '%s*' % sidebar_search
-            query['path'] = current_path
-            results = self._extract_attrs(catalog.searchResults(query))
+            response = sitesearch.query(phrase='%s*' % sidebar_search,
+                                        filters=query,
+                                        step=99999)
+            results = self._extract_attrs(response)
 
         elif self.request.get('groupname'):
             # User has clicked on a specific group header
@@ -751,6 +751,11 @@ class Sidebar(BaseTile):
         (e.g. label, author, type, first_letter)
         """
         workspace = parent_workspace(self.context)
+        workspace_view = api.content.get_view(
+            'view',
+            workspace,
+            self.request,
+        )
         user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
@@ -854,9 +859,8 @@ class Sidebar(BaseTile):
             #                     url=group_url_tmpl % username,
             #                     id=username)]
             for header in headers:
-                username = header['id']
-                header['title'] = api.user.get(username=username)\
-                    .getProperty('fullname') or username  # admin :-(
+                userid = header['id']
+                header['title'] = workspace_view.get_principal_title(userid)
                 header['url'] = group_url_tmpl % header['id']
                 header['content_type'] = 'user'
 
@@ -1127,3 +1131,22 @@ class Sidebar(BaseTile):
 
     def format_event_date(self, event):
         return format_event_date_for_title(event)
+
+
+class SidebarDocuments(Sidebar):
+    ''' Customized tile that shows only the Documents
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-documents.pt')
+    can_slides = True
+
+
+class SidebarEvents(Sidebar):
+    ''' Customized tile that shows only the Events
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-events.pt')
+
+
+class SidebarTodos(Sidebar):
+    ''' Customized tile that shows only the Todos
+    '''
+    index = ViewPageTemplateFile('templates/sidebar-todos.pt')

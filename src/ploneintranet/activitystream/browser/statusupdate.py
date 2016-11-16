@@ -2,6 +2,7 @@
 from plone import api
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
+from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
@@ -269,6 +270,11 @@ class StatusUpdateView(BrowserView):
     def is_content_downloadable(self):
         return (self.is_content_image_update or
                 self.is_content_file_update)
+
+    @property
+    def content_has_leadimage(self):
+        return (self.content_context and
+                ILeadImage.providedBy(self.content_context))
 
     def content_has_previews(self):
         if not self.is_content_update:

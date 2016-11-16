@@ -7,7 +7,6 @@ from plone.memoize.view import memoize
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISearchResponse
 from ploneintranet.search.interfaces import ISiteSearch
-from ploneintranet.workspace.interfaces import IMetroMap
 from Products.CMFPlone.PloneBatch import Batch
 from urllib import urlencode
 from zope.component import getUtility
@@ -119,14 +118,11 @@ class CaseManagerView(BrowserView):
 
     @memoize
     def cases(self):
-        pc = api.portal.get_tool('portal_catalog')
-        form = self.request.form
-
         portal = api.portal.get()
         ws_folder = portal.get("workspaces")
         ws_path = "/".join(ws_folder.getPhysicalPath())
 
-        sort_by = 'modified'
+        form = self.request.form
 
         query = {
             'object_provides': 'ploneintranet.workspace.case.ICase',
@@ -144,6 +140,7 @@ class CaseManagerView(BrowserView):
         if case_status in states:
             query['review_state'] = case_status
 
+        pc = api.portal.get_tool('portal_catalog')
         valid_indexes = tuple(pc.indexes())
         for field in valid_indexes:
             if form.get(field):
@@ -161,6 +158,7 @@ class CaseManagerView(BrowserView):
         response = solr_query.execute()
         results = [i for i in ISearchResponse(response)]
 
+        sort_by = 'modified'
         if sort_by == 'modified':
             results.sort(key=lambda item: item.modified, reverse=True)
         else:
@@ -174,8 +172,8 @@ class CaseManagerView(BrowserView):
             if item is None or idx < b_start or idx > b_start + b_size:
                 cases.append(None)
                 continue
-            path_components = item.path.split('/')
-            obj = portal.restrictedTraverse(path_components)
+
+            obj = item.getObject()
             tasks = api.content.get_view(
                 'view',
                 obj,
@@ -189,20 +187,11 @@ class CaseManagerView(BrowserView):
                 )
             )
             cases.append({
-                'uid': item.context['UID'],
-                'title': item.title,
-                'description': item.description,
-                'url': item.url,
-                'created': item.context['created'],
-                'modified': item.context['modified'],
-                'mm_seq': IMetroMap(obj).metromap_sequence,
-                'tasks': tasks,
                 'percent_complete': percent_complete(tasks),
                 'recent_modifications': recent_modifications,
                 'days_running': days_running,
-                'existing_users_by_id': obj.existing_users_by_id(),
-                'view': obj.restrictedTraverse('view'),
                 'is_archived': item.is_archived,
+                'obj': obj,
             })
 
         return Batch(cases, b_size, b_start)

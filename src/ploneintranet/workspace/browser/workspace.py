@@ -88,12 +88,15 @@ class BaseWorkspaceView(BrowserView):
         ''' Get the title for this principal
         '''
         if isinstance(principal, basestring):
+            principalid = principal
             principal = self.resolve_principalid(principal)
+            if principal is None:
+                return principalid
         if hasattr(principal, 'getGroupId'):
             return principal.Title() or principal.getGroupId()
         return (
             getattr(principal, 'fullname', '') or
-            principal.Title() or
+            principal.getProperty('fullname') or
             principal.getId()
         )
 
@@ -243,8 +246,6 @@ class BaseWorkspaceView(BrowserView):
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
-            assignee = api.user.get(obj.assignee) if obj.assignee else None
-            initiator = api.user.get(obj.initiator) if obj.initiator else None
             data = {
                 'id': brain.UID,
                 'title': brain.Title,
@@ -252,8 +253,6 @@ class BaseWorkspaceView(BrowserView):
                 'url': brain.getURL(),
                 'checked': wft.getInfoFor(todo, 'review_state') == u'done',
                 'due': obj.due,
-                'assignee': assignee,
-                'initiator': initiator,
                 'obj': obj,
                 'can_edit': api.user.has_permission(
                     'Modify portal content', obj=obj),
@@ -270,6 +269,16 @@ class BaseWorkspaceView(BrowserView):
                 # Show the checked tasks before the unchecked tasks
                 items[milestone].sort(key=lambda x: x['checked'] is False)
         return items
+
+    @memoize
+    def get_related_workspaces(self):
+        ''' Resolve the related workspaces brains
+        '''
+        related_workspaces = getattr(self.context, 'related_workspaces', [])
+        if not related_workspaces:
+            return []
+        brains = api.content.find(UID=related_workspaces)
+        return brains
 
 
 class WorkspaceView(BaseWorkspaceView):
@@ -492,15 +501,6 @@ class AllUsersAndGroupsJSONView(BrowserView):
                 'text': u'{0} <{1}>'.format(fullname, email),
             })
         return dumps(results)
-
-
-class RelatedWorkspacesPicker(BrowserView):
-    """
-    Provides a picker to select related workspaces
-    """
-
-    def get_related_workspaces(self):
-        return self.context.get_related_workspaces()
 
 
 class ReorderTags(BrowserView):

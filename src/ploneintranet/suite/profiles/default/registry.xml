@@ -17,6 +17,8 @@
         <element>ploneintranet.library.interfaces.IPloneintranetLibraryLayer</element>
         <element>ploneintranet.library.interfaces.ILibraryContentLayer</element>
         <element>ploneintranet.workspace.interfaces.IThemedWorkspaceLayer</element>
+        <element>ploneintranet.news.browser.interfaces.INewsLayer</element>
+        <element>ploneintranet.news.browser.interfaces.INewsContentLayer</element>
       </value>
       <value key="fallback_enabled_bundles"></value>
       <value key="fallback_disabled_bundles">
@@ -43,6 +45,7 @@
         <element>ploneintranet.library.app</element>
         <element>ploneintranet.library.folder</element>
         <element>ploneintranet.library.section</element>
+        <element>ploneintranet.news.app</element>
       </value>
     </record>
     <record name="ploneintranet.userprofile.primary_external_user_source">

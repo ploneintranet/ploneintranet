@@ -21,8 +21,8 @@
 	      <div class="application-welcome-info">
 		<article class="pat-rich" id="boilerplate-library-introduction">
                   <p>
-                    <strong>Thank you for using Messages!</strong>
-                    Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.
+                    <strong i18n:translate="">Thank you for using Messages!</strong>
+                    <span i18n:translate="" tal:omit-tag="">Messages makes it easy to stay in touch with your co-workers and anyone else who's using the intranet.</span>
                   </p>
 		</article>
                 <article class="pat-rich">
@@ -80,7 +80,7 @@
                   id="chat-bar" method="post" action="${view/app_base_url}/@@app-messaging-new-message"
                   class="pat-inject discrete-injection" data-pat-inject="source: #chat; target: #end-of-conversation::element && source: #chat-bar; target: #chat-bar && source: #new-content; target: #selector .current .byline">
               <input type="hidden" name="recipient" value="${view/userid}">
-	      <input autofocus type="text" name="message" placeholder="Write a message" />
+	      <input autofocus type="text" name="message" i18n:attributes="placeholder" placeholder="Write a message" />
             </form>
 
           </div><!-- /document-body -->
@@ -92,12 +92,12 @@
                 <div class="button-bar functions buttons-1" id="selector-functions">
                   <form class="search-box pat-inject pat-autosubmit" action="${view/url}#selector-items">
                     <label>
-                      <input name="search" type="search" placeholder="Search" ${view/search_disabled} />
-                      <button type="submit">Search</button>
+                      <input name="search" type="search" placeholder="Search" i18n:attributes="placeholder" tal:attributes="disabled view/search_disabled|nothing" />
+                      <button type="submit" i18n:translate="">Search</button>
                     </label>
                   </form>
                   <div class="quick-functions">
-                    <a title="Start a new conversation" href="${view/app_base_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large">New conversation</a>
+                    <a title="Start a new conversation" href="${view/app_base_url}/@@app-messaging-new-chat#document-content" class="new-chat pat-modal icon-edit" data-pat-modal="class: large" i18n:translate="" i18n:attributes="title">New conversation</a>
                   </div>
                 </div><!-- /button-bar -->
 
@@ -111,7 +111,7 @@
                            id="selector-item-${conversation/userid}"
                            class="item chat has-description ${conversation/status}">
                             <input name="userid" type="radio" value="${conversation/userid}" />
-                            <a class="follow" href="${conversation/chat_url}">
+                            <a class="follow pat-switch pat-inject" data-pat-switch="#application-body focus-* focus-document && body sidebar-large sidebar-normal" data-pat-inject="source: #document-body::element; target: #document-body::element && source: #selector-items; target: #selector-items; && source: #messages-link; target: #messages-link; history: record" href="${conversation/chat_url}">
                                 <img src="${conversation/avatar_url}" alt="${conversation/fullname}" class="avatar" />
                                 <strong class="title">${conversation/fullname}</strong>
                                 <br>
@@ -126,7 +126,10 @@
 
             </div><!-- /sidebar-content -->
           </aside><!-- /sidebar -->
-
+          <p id="toggle-sidebar">
+              <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar">Open sidebar</span>
+              <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document">Close sidebar</span>
+          </p>
 <!-- to be removed when quaive.resources.ploneintranet contains these fixes:
 https://github.com/quaive/ploneintranet.prototype/commit/e09fa9e300d3fd84fdaae139a885d42fa09f5913
 https://github.com/quaive/ploneintranet.prototype/commit/aae8f9960e45589f9883bb1bc61ee1c8a62f2757

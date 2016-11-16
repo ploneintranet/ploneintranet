@@ -41,8 +41,8 @@ def only_if_installed(f):
             pass
         except:
             logger.exception(
-                'Problem understading id ploneintranet.search '
-                'is instaled'
+                'Problem understanding if ploneintranet.search '
+                'is installed'
             )
     return decorated
 

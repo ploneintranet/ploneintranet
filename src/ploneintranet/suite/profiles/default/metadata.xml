@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0012</version>
+  <version>0014</version>
   <!-- load :full if you want the theme also -->
   <dependencies>
     <dependency>profile-ploneintranet.docconv.client:default</dependency>
@@ -24,6 +24,7 @@
     <dependency>profile-ploneintranet.messaging:default</dependency>
     <dependency>profile-ploneintranet.search:default</dependency>
     <dependency>profile-ploneintranet.library:default</dependency>
+    <dependency>profile-ploneintranet.news:default</dependency>
     <dependency>profile-slc.mailrouter:default</dependency>
     <dependency>profile-slc.outdated:default</dependency>
   </dependencies>

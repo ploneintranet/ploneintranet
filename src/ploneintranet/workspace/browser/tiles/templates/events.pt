@@ -13,7 +13,7 @@
         <form class="search-box pat-inject pat-autosubmit" action="${here/absolute_url}/@@events.tile#events-search-items">
     			<fieldset class="vertical">
     	            <label>
-    	                <input name="SearchableText" type="search" placeholder="Search events">
+    	                <input name="SearchableText" type="search" i18n:attributes="placeholder" placeholder="Search events">
     	                <button hidden type="submit" i18n:translate="">Find events</button>
     	            </label>
     			</fieldset>

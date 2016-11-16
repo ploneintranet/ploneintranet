@@ -1,0 +1,128 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet.notifications">
+
+  <include package="ploneintranet.layout" file="permissions.zcml" />
+
+
+  <!-- ======== MAGAZINE VIEWS =============== -->
+  
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="view"
+      class=".magazine.NewsMagazine"
+      template="templates/magazine.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <!-- the "inner magazine" is used in both magazine and publisher -->
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="newsfeed"
+      class=".magazine.NewsMagazine"
+      template="templates/newsfeed.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="view"
+      class=".magazine.NewsSectionView"
+      template="templates/magazine_section.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsLayer"
+      />
+  
+
+  <browser:page
+      name="feeditem"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".magazine.FeedItem"
+      template="templates/feeditem.pt"
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      />
+  
+  <browser:page
+      name="newsitem_view"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".magazine.NewsItemView"
+      template="templates/news-item.html"
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      />
+
+  <!-- ======== PUBLISHER VIEWS =============== -->
+  
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="publisher"
+      class=".publisher.NewsPublisher"
+      template="templates/publisher.pt"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="loadmore"
+      class=".publisher.SectionMore"
+      template="templates/loadmore.pt"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+  
+  <browser:page
+      for="ploneintranet.news.content.INewsApp"
+      name="panel-create-news.html"
+      class=".publisher.NewsPublisher"
+      template="templates/panel-create-news.html"
+      permission="cmf.AddPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="panel-edit-news-section-info.html"
+      class=".publisher.SectionEdit"
+      template="templates/panel-edit-news-section-info.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.news.content.INewsSection"
+      name="confirm-delete-section.html"
+      class=".publisher.SectionDelete"
+      template="templates/confirm-delete-section.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  <!-- Workflow changes might cause you to lose 'modify'
+       so 'view' is the safer permission.
+       The template and backend are locked down.
+  -->
+  <browser:page
+      name="edit.html"
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      class=".publisher.NewsItemEdit"
+      template="templates/edit.html"
+      permission="zope2.View"
+      layer=".interfaces.INewsContentLayer"
+      />
+
+  <browser:page
+      for="plone.app.contenttypes.interfaces.INewsItem"
+      name="confirm-delete-item.html"
+      class=".publisher.NewsItemDelete"
+      template="templates/confirm-delete-item.html"
+      permission="cmf.ModifyPortalContent"
+      layer=".interfaces.INewsLayer"
+      />
+
+  
+</configure>

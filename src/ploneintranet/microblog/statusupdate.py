@@ -7,18 +7,21 @@ from persistent import Persistent
 from plone import api
 from plone.app.uuid.utils import uuidToObject
 from plone.uuid.interfaces import IUUID
-from ploneintranet.attachments.attachments import (IAttachmentStoragable,
-                                                   IAttachmentStorage)
-from ploneintranet.attachments.utils import (create_attachment,
-                                             add_attachments)
+from ploneintranet import api as pi_api
+from ploneintranet.attachments.attachments import IAttachmentStoragable
+from ploneintranet.attachments.attachments import IAttachmentStorage
+from ploneintranet.attachments.utils import add_attachments
+from ploneintranet.attachments.utils import create_attachment
 from ploneintranet.microblog.interfaces import IMicroblogTool
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAttributeAnnotatable
-from zope.component.hooks import getSite
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.interface import implements
+
 import logging
 import time
+
 
 logger = logging.getLogger('ploneintranet.microblog')
 
@@ -171,9 +174,12 @@ class StatusUpdate(Persistent):
         if mention_ids is None:
             return
         for userid in mention_ids:
-            user = api.user.get(userid)
+            user = pi_api.userprofile.get(userid) or api.user.get(userid)
             if user is not None:
-                self.mentions[userid] = user.getProperty('fullname')
+                self.mentions[userid] = (
+                    getattr(user, 'fullname', '') or
+                    user.getProperty('fullname')
+                )
 
     @property
     def action_verb(self):

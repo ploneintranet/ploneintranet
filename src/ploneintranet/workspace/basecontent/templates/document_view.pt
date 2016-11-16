@@ -39,7 +39,7 @@
                   data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
-                  <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
+                  <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="#application-body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
                   <span class="title-group">
                     <h1 class="doc-title" id="document-title">${context/title}</h1>
                     <textarea name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title">${context/title}</textarea>
@@ -53,6 +53,13 @@
                     <a tal:condition="python:context.portal_type == 'Link'" href="${context/remoteUrl}" class="icon-globe iconified" target="External" title="Open web page in new window">
                       Open web page in new window
                     </a>
+
+                    <tal:external_editor define="ee_view nocall:context/external_edit | nothing">
+                      <a href="${context/absolute_url}/external_edit"
+                         class="${view/icon_class} iconified" title="Open in External Editor" i18n:attributes="title" i18n:translate=""
+                         tal:condition="python:ee_view and ee_view.isEnabledOnThisContentType()"
+                         >Open in External Editor</a>
+                    </tal:external_editor>
 
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
 
@@ -104,21 +111,21 @@
                             <span tal:replace="structure context/@@authenticator/authenticator"/>
 
                             <label class="pat-checklist">
-                              <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /> Save a new version
+                              <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /><span tal:omit-tag="" i18n:translate="">Save a new version</span>
                             </label>
                             <fieldset class="condensed pat-depends new-version-details pat-inject" data-pat-depends="cmfeditions_save_new_version">
                                 <label tal:condition="python: context.portal_type == 'File'">
-                                    Upload a new file <input type="file" class="file" name="file"/>
+                                    <span tal:omit-tag="" i18n:translate="">Upload a new file</span> <input type="file" class="file" name="file"/>
                                 </label>
                                 <label tal:condition="python: context.portal_type == 'Image'">
-                                    Upload a new image <input type="file" class="image" name="image"/>
+                                    <span tal:omit-tag="" i18n:translate="">Upload a new image</span> <input type="file" class="image" name="image"/>
                                 </label>
 
                                 <label>
-                                    <textarea placeholder="Change notes" tal:condition="view/is_versionable" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4" tal:attributes="value request/form/cmfeditions_version_comment | nothing"></textarea>
+                                    <textarea placeholder="Change notes" tal:condition="view/is_versionable" name="cmfeditions_version_comment" id="cmfeditions_version_comment" cols="80" rows="4" i18n:attributes="placeholder" tal:attributes="value request/form/cmfeditions_version_comment | nothing"></textarea>
                                 </label>
 
-                                <button type="submit" name="submit" value="submit" class="submit">Save this version</button>
+                                <button type="submit" name="submit" value="submit" class="submit" i18n:translate="">Save this version</button>
                                 <input type="hidden" name="redirect" tal:attributes="value string:${context/absolute_url}/view" />
                             </fieldset>
                         </fieldset>

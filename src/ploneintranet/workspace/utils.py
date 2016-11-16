@@ -3,23 +3,22 @@ from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_chain
 from BTrees.OOBTree import OOBTree
 from collective.workspace.pas import purge_workspace_pas_cache
-from ploneintranet.workspace.interfaces import IWorkspaceFolder
-from ploneintranet.layout.app import IApp
-from Products.CMFCore.interfaces import ISiteRoot
 from plone import api
 from plone.dexterity.utils import iterSchemata
 from plone.rfc822.interfaces import IPrimaryField
-
+from ploneintranet.layout.app import IApp
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
+from Products.CMFCore.interfaces import ISiteRoot
+from urllib2 import urlparse
 from zope.annotation import IAnnotations
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
 from zope.schema import getFieldsInOrder
 
-from collective.workspace.interfaces import IWorkspace
-from urllib2 import urlparse
 import config
-import mimetypes
 import logging
+import mimetypes
+
 
 pl_message = MessageFactory('plonelocales')
 log = logging.getLogger(__name__)
@@ -98,39 +97,6 @@ def parent_app(context):
 
 def in_app(context):
     return IApp.providedBy(parent_workspace(context))
-
-
-def existing_users(context):
-    """
-    Look up the full user details for current workspace members
-    """
-    members = IWorkspace(context).members
-    info = []
-    for userid, details in members.items():
-        user = api.user.get(userid)
-        if user is None:
-            continue
-        user = user.getUser()
-        title = user.getProperty('fullname') or user.getId() or userid
-        # XXX tbd, we don't know what a persons description is, yet
-        description = ''
-        classes = description and 'has-description' or 'has-no-description'
-        portal = api.portal.get()
-        portrait = '%s/@@avatars/%s' % \
-                   (portal.absolute_url(), userid)
-        info.append(
-            dict(
-                id=userid,
-                title=title,
-                description=description,
-                portrait=portrait,
-                cls=classes,
-                member=True,
-                admin='Admins' in details['groups'],
-            )
-        )
-
-    return info
 
 
 def set_cookie(request, cookie_name, value):
