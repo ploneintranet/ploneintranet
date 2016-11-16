@@ -1,6 +1,9 @@
 # coding=utf-8
 from plone import api
+from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
+
 import logging
+
 
 default_profile = 'profile-ploneintranet.suite:default'
 logger = logging.getLogger(__file__)
@@ -35,3 +38,34 @@ def to_0009(context):
     pq = api.portal.get_tool('portal_quickinstaller')
     if not pq.isProductInstalled('ploneintranet.bookmarks'):
         pq.installProduct('ploneintranet.bookmarks')
+
+
+def filter_news_layer(context):
+    ''' Filter the news layer when the PI theme is switched off
+    '''
+    try:
+        filter_list = api.portal.get_registry_record(
+            interface=IThemeSwitcherSettings,
+            name='browserlayer_filterlist',
+        )
+    except api.exc.InvalidParameterError:
+        # record not there => nothing to update
+        return
+
+    new_ifaces = [
+        iface for iface in (
+            'ploneintranet.news.browser.interfaces.INewsLayer',
+            'ploneintranet.news.browser.interfaces.INewsContentLayer',
+        )
+        if iface not in filter_list
+    ]
+    if not new_ifaces:
+        # no ifaces to add => nothing to update
+        return
+
+    filter_list.extend(new_ifaces)
+    api.portal.set_registry_record(
+        interface=IThemeSwitcherSettings,
+        name='browserlayer_filterlist',
+        value=tuple(filter_list),
+    )
