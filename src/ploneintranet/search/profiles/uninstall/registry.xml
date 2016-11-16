@@ -5,4 +5,5 @@
   <record name="ploneintranet.search.filter_fields" remove="true" />
   <record name="ploneintranet.search.solr.phrase_field_boosts" remove="true" />
   <record name="ploneintranet.search.solr.spellchecker.accuracy" remove="true" />
+  <record name="ploneintranet.search.solr.disabled" remove="true" />
 </records>

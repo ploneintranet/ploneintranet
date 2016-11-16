@@ -111,4 +111,12 @@
     <value>False</value>
   </record>
 
+  <record name="ploneintranet.search.solr.disabled">
+    <field type="plone.registry.field.Bool">
+      <title>Allow to disable solr</title>
+      <description></description>
+    </field>
+    <value>False</value>
+  </record>
+
 </records>

@@ -60,6 +60,14 @@
       handler=".to0007.add_outdated_filter_field"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:upgradeStep
+      title="Update registry configuration"
+      description="Create solr.disabled field"
+      source="*"
+      destination="0008"
+      handler=".to0008.add_solr_disabled_field"
+      profile="ploneintranet.search:default" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>
