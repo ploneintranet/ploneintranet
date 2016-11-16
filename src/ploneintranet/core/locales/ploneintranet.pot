@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-16 11:39+0000\n"
+"POT-Creation-Date: 2016-11-16 11:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1278,8 +1278,8 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:224
-msgid "Last saved <time class=\"modification-date pat-display-time\" data-pat-display-time=\"from-now: true; locale: ${context/plone_portal_state/language}\" datetime=\"${here/ModificationDate}\">${last_modified}</time>"
+#: ../workspace/browser/templates/content_macros.pt:228
+msgid "Last saved"
 msgstr ""
 
 #: ../bookmarks/browser/app.py:191
