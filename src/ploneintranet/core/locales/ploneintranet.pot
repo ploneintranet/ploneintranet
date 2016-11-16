@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-14 10:26+0000\n"
+"POT-Creation-Date: 2016-11-16 11:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,6 +233,10 @@ msgstr ""
 msgid "All bookmarks"
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:43
+msgid "All calendars"
+msgstr ""
+
 #: ../workspace/browser/tiles/events.py:37
 msgid "All day"
 msgstr ""
@@ -373,6 +377,7 @@ msgstr ""
 msgid "BCC"
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:32
 #: ../workspace/browser/tiles/sidebar.py:526
 msgid "Back"
 msgstr ""
@@ -522,6 +527,10 @@ msgstr ""
 msgid "Close milestone"
 msgstr ""
 
+#: ../calendar/browser/templates/app.pt:107
+msgid "Close sidebar"
+msgstr ""
+
 #: ../todo/browser/templates/todo_view.pt:79
 msgid "Closed"
 msgstr ""
@@ -640,6 +649,10 @@ msgstr ""
 msgid "Date range"
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:40
+msgid "Day"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:50
 msgid "Days running"
 msgstr ""
@@ -711,6 +724,10 @@ msgstr ""
 #: ../workspace/browser/templates/add_folder.pt:15
 #: ../workspace/browser/templates/add_form.pt:23
 msgid "Description for search results (Optional)"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:43
+msgid "Deselect all"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:36
@@ -885,6 +902,10 @@ msgstr ""
 msgid "Events"
 msgstr ""
 
+#: ../calendar/browser/templates/app.pt:38
+msgid "Events I'm invited to"
+msgstr ""
+
 msgid "Excel 2007 spreadsheet"
 msgstr ""
 
@@ -976,6 +997,10 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:23
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:34
+msgid "Forward"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:102
@@ -1253,6 +1278,10 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:228
+msgid "Last saved"
+msgstr ""
+
 #: ../bookmarks/browser/app.py:191
 #: ../layout/browser/grouped_search.py:64
 msgid "Last week"
@@ -1437,6 +1466,14 @@ msgstr ""
 msgid "Modifications past 7 days"
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:38
+msgid "Month"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:38
+msgid "More info"
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile.pt:92
 msgid "More information about"
 msgstr ""
@@ -1467,6 +1504,10 @@ msgstr ""
 
 #: ../todo/behaviors.py:20
 msgid "Must read"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:58
+msgid "My calendars"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:23
@@ -1679,8 +1720,16 @@ msgstr ""
 msgid "Open in External Editor"
 msgstr ""
 
-#: ../calendar/browser/templates/app.pt:73
+#: ../calendar/browser/templates/app.pt:106
+msgid "Open sidebar"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:50
 msgid "Open workspace calendar"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:50
+msgid "Open workspace calendar in a new window"
 msgstr ""
 
 #: ../news/browser/templates/publisher-sidebar.pt:41
@@ -1975,7 +2024,7 @@ msgstr ""
 msgid "Remove this workspace from your bookmarks"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:45
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:46
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:220
 msgid "Rename"
 msgstr ""
@@ -2095,9 +2144,9 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
+#: ../calendar/browser/templates/app.pt:42
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:139
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:58
 msgid "Select all"
 msgstr ""
 
@@ -2153,6 +2202,10 @@ msgstr ""
 
 #: ../workspace/basecontent/templates/document_view.pt:57
 msgid "Share this document"
+msgstr ""
+
+#: ../calendar/browser/templates/app.pt:81
+msgid "Shared events"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/events.pt:56
@@ -2244,6 +2297,10 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:192
 msgid "Subscribe"
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:74
+msgid "Subscribe to calendar"
 msgstr ""
 
 #: ../calendar/browser/configure.zcml:37
@@ -2439,6 +2496,10 @@ msgstr ""
 msgid "There are no downloadable items in your cart."
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:86
+msgid "There are no events to be displayed"
+msgstr ""
+
 #: ../workspace/browser/tiles/sidebar.py:98
 msgid "There was a problem updating the content: %s."
 msgstr ""
@@ -2530,8 +2591,8 @@ msgid "To"
 msgstr ""
 
 #: ../bookmarks/browser/app.py:189
+#: ../calendar/browser/templates/fullcalendar.tile.pt:33
 #: ../layout/browser/grouped_search.py:62
-#: ../workspace/browser/tiles/sidebar.py:787
 msgid "Today"
 msgstr ""
 
@@ -2692,6 +2753,10 @@ msgstr ""
 msgid "Upload or Select Image"
 msgstr ""
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:81
+msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
+msgstr ""
+
 #: ../workspace/behaviors/configure.zcml:55
 msgid "Use this content as a membrane group"
 msgstr ""
@@ -2731,6 +2796,10 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:366
 msgid "Weblink"
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:39
+msgid "Week"
 msgstr ""
 
 #: ../workspace/subscribers.py:152
@@ -2831,6 +2900,7 @@ msgstr ""
 msgid "Workspaces"
 msgstr ""
 
+#: ../messaging/browser/templates/chat.html:83
 #: ../messaging/browser/templates/new-message.html:42
 msgid "Write a message"
 msgstr ""
@@ -2887,6 +2957,14 @@ msgstr ""
 #: ../bookmarks/browser/templates/bookmark.pt:17
 #: ../bookmarks/browser/templates/unbookmark.pt:17
 msgid "You can find your bookmarks in the"
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:56
+msgid "You cannot delete this item."
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:39
+msgid "You cannot rename this item."
 msgstr ""
 
 #: ../workspace/browser/tiles/sidebar.py:212
@@ -3631,6 +3709,11 @@ msgstr ""
 msgid "label_show_archived"
 msgstr ""
 
+#. Default: "Learn how this works"
+#: ../calendar/browser/templates/fullcalendar.tile.pt:81
+msgid "label_subscribe_to_calendar"
+msgstr ""
+
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
 msgid "label_tags"
@@ -3732,7 +3815,7 @@ msgid "num_items_can_be_retagged"
 msgstr ""
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:112
+#: ../workspace/browser/workspace.py:115
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr ""

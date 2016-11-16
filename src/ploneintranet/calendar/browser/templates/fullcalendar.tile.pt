@@ -1,4 +1,4 @@
-<div class="pat-calendar fc fc-ltr" 
+<div class="pat-calendar fc fc-ltr"
      id="calendar-app"
      tal:define="default_view request/default_view|string:month;
                  ws view/workspace;
@@ -17,8 +17,9 @@
                         drag-and-drop: true;
                         drop-external-events: true;
                         external-event-selector: .cal-event;
-                        store: local" 
-     data-pat-calendar-tooltip="height: max; source: ajax; url: ${new_event_url}; class: event wizard;">
+                        store: local"
+     data-pat-calendar-tooltip="height: max; source: ajax; url: ${new_event_url}; class: event wizard;"
+     i18n:domain="ploneintranet">
 
     <tal:all_events define="events view/get_events;
                             tz request/timezone|nothing;
@@ -28,18 +29,18 @@
         <h1 class="cal-title" tal:content="view/today">saturday, 10 sept 2016</h1>
         <div class="canvas-toolbar">
             <fieldset class="cal-nav cal-controls button-cluster">
-                <button class="jump-prev" title="Back" type="button" i18n:attributes="title">&lt;</button> 
+                <button class="jump-prev" title="Back" type="button" i18n:attributes="title">&lt;</button>
                 <button class="jump-today active" title="Today" type="button" i18n:translate="" i18n:attributes="title">Today</button>
                 <button class="jump-next" title="Forward" type="button" i18n:attributes="title">&gt;</button>
             </fieldset>
             <div class="cal-controls cal-categories">
                 <fieldset class="button-cluster float-before">
-                    <button class="view-month" type="button">Month</button> 
-                    <button class="view-week active" type="button">Week</button> 
-                    <button class="view-day" type="button">Day</button>
+                    <button class="view-month" type="button" i18n:translate="">Month</button>
+                    <button class="view-week active" type="button" i18n:translate="">Week</button>
+                    <button class="view-day" type="button" i18n:translate="">Day</button>
                 </fieldset>
                 <label tal:condition="in_workspace" class="pat-checklist toggle alien-calendars cal-cat-alien float-before unchecked">
-                    <input type="checkbox"> All calendars
+                    <input type="checkbox"> <tal:t i18n:translate="">All calendars</tal:t>
                 </label>
                 <!-- This can be activated on workspaces.
                 <a href="#more-menu" data-pat-tooltip="source: ajax; position: tr" class="icon iconified icon-ellipsis dropdown pat-tooltip float-after inactive">More</a>
@@ -50,12 +51,12 @@
                         </li>
                     </ul>
                 </div>
-                
+
                 -->
                 <input tal:condition="in_workspace" type="checkbox" name="workspaces:list" value="${context/UID}" checked hidden class="cal-cat-${python:view.id2class(ws.getId())}">
                 <form class="float-after pat-autosubmit" action="@@set-timezone-cookie" method="POST">
                   <label class="timezone float-after pat-select bare">
-                
+
                     <select name="timezone" class="timezone">
                       <tal:timezone repeat="zone view/get_timezone_data" >
                         <option data-timezone-id="${zone/id}" gmt-adjustment="${zone/offset}" data-use-daylight-time="${zone/daylight_saving}" value="${zone/zone}"
@@ -90,7 +91,7 @@
                             <h4 class="title">${event/Title}</h4>
                             <p class="location" tal:condition="event/location|nothing">${event/location|nothing}</p>
                             <ul class="details">
-                                <li>Starts 
+                                <li>Starts
                                     <time class="start" datetime="2012-02-18 09:00"
                                           tal:attributes="datetime event/start_date_time_short"
                                           tal:content="event/start_date_time_long">18 February 2012, 9:00</time>
