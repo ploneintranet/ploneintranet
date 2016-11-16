@@ -76,7 +76,7 @@
                    class="initiator meta-column icon-manager pat-inject"
                    data-pat-inject="source: #document-body; target: #document-body" title="Initiator"
                   >
-                  ${python:ws_view.get_principal_title(assignee)}
+                  ${python:ws_view.get_principal_title(initiator)}
                 </a>
                 <a class="initiator meta-column icon-manager" title="Initiator" tal:condition="not:initiator"/>
               </div>
