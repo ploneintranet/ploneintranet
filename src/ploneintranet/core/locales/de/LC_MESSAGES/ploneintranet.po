@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-11-14 10:26+0000\n"
+"POT-Creation-Date: 2016-11-16 11:39+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -235,6 +235,10 @@ msgstr "Alle Aktivitäten"
 msgid "All bookmarks"
 msgstr "Alle Lesezeichen"
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:43
+msgid "All calendars"
+msgstr "Alle Kalender"
+
 #: ../workspace/browser/tiles/events.py:37
 msgid "All day"
 msgstr "Alle Tage"
@@ -375,6 +379,7 @@ msgstr "Verfügbare Felder/Spalten"
 msgid "BCC"
 msgstr "BCC"
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:32
 #: ../workspace/browser/tiles/sidebar.py:526
 msgid "Back"
 msgstr "Zurück"
@@ -524,6 +529,10 @@ msgstr "Schliessen"
 msgid "Close milestone"
 msgstr "Meilenstein schliessen"
 
+#: ../calendar/browser/templates/app.pt:107
+msgid "Close sidebar"
+msgstr "Sidebar schliessen"
+
 #: ../todo/browser/templates/todo_view.pt:79
 msgid "Closed"
 msgstr "Abschluss"
@@ -642,6 +651,10 @@ msgstr "Datum und Zeit der letzten Änderung"
 msgid "Date range"
 msgstr "Zeitraum"
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:40
+msgid "Day"
+msgstr "Tag"
+
 #: ../workspace/browser/templates/case_manager.pt:50
 msgid "Days running"
 msgstr "Tage laufend"
@@ -714,6 +727,10 @@ msgstr "Beschreibung"
 #: ../workspace/browser/templates/add_form.pt:23
 msgid "Description for search results (Optional)"
 msgstr "Beschreibung für die Suchergebnisse (optional)"
+
+#: ../calendar/browser/templates/app.pt:43
+msgid "Deselect all"
+msgstr "Alles abwählen"
 
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:140
@@ -887,6 +904,10 @@ msgstr "Titel des Termins"
 msgid "Events"
 msgstr "Termine"
 
+#: ../calendar/browser/templates/app.pt:38
+msgid "Events I'm invited to"
+msgstr "Termine, zu denen ich eingeladen bin"
+
 msgid "Excel 2007 spreadsheet"
 msgstr "Excel"
 
@@ -979,6 +1000,10 @@ msgstr "Folge ich ${num_following}"
 #: ../workspace/browser/tiles/templates/sidebar-settings-security.pt:23
 msgid "For cases, security is managed by the case workflow. You cannot configure it here like in workspaces. Instead please just assign the correct roles to users and groups in the \"Members\" tab."
 msgstr "Für Geschäfte wird die Sicherheit durch den geschäftseigenen Arbeitsablauf bestimmt. Deshalb können Sie diese hier nicht wie in Arbeitsräumen konfigurieren. Bitte weisen Sie stattdessen Benutzern und Gruppen einfach die passenden Rollen unter dem \"Mitglieder\" Reiter zu."
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:34
+msgid "Forward"
+msgstr "Weiter"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:102
 msgid "Freeze case"
@@ -1255,6 +1280,10 @@ msgstr "Letzten Monat"
 msgid "Last name"
 msgstr "Nachname"
 
+#: ../workspace/browser/templates/content_macros.pt:224
+msgid "Last saved <time class=\"modification-date pat-display-time\" data-pat-display-time=\"from-now: true; locale: ${context/plone_portal_state/language}\" datetime=\"${here/ModificationDate}\">${last_modified}</time>"
+msgstr ""
+
 #: ../bookmarks/browser/app.py:191
 #: ../layout/browser/grouped_search.py:64
 msgid "Last week"
@@ -1439,6 +1468,14 @@ msgstr "Moderieren"
 msgid "Modifications past 7 days"
 msgstr "Änderungen der letzten 7 Tage"
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:38
+msgid "Month"
+msgstr "Monat"
+
+#: ../calendar/browser/templates/app.pt:38
+msgid "More info"
+msgstr "Mehr Info"
+
 #: ../userprofile/browser/templates/userprofile.pt:92
 msgid "More information about"
 msgstr "Mehr über…"
@@ -1470,6 +1507,10 @@ msgstr "Bewegen"
 #: ../todo/behaviors.py:20
 msgid "Must read"
 msgstr "Muss gelesen werden"
+
+#: ../calendar/browser/templates/app.pt:58
+msgid "My calendars"
+msgstr "Meine Kalender"
 
 #: ../workspace/browser/tiles/templates/events.pt:23
 msgid "My events"
@@ -1681,9 +1722,17 @@ msgstr "Offene Gesellschaft"
 msgid "Open in External Editor"
 msgstr "In Externem Editor öffnen"
 
-#: ../calendar/browser/templates/app.pt:73
+#: ../calendar/browser/templates/app.pt:106
+msgid "Open sidebar"
+msgstr "Sidebar öffnen"
+
+#: ../calendar/browser/templates/app.pt:50
 msgid "Open workspace calendar"
 msgstr "Kalender des Arbeitsbereichs öffnen"
+
+#: ../calendar/browser/templates/app.pt:50
+msgid "Open workspace calendar in a new window"
+msgstr "Kalender des Arbeitsbereichs in neuem Fenster öffnen"
 
 #: ../news/browser/templates/publisher-sidebar.pt:41
 #: ../search/browser/templates/all_results.pt:123
@@ -1977,7 +2026,7 @@ msgstr "Dieses Objekt aus Ihren Lesezeichen entfernen"
 msgid "Remove this workspace from your bookmarks"
 msgstr "Diesen Arbeitsbereich aus Ihren Lesezeichen entfernen."
 
-#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:45
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:46
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:220
 msgid "Rename"
 msgstr "Umbenennen"
@@ -2097,9 +2146,9 @@ msgstr "Sicherheit"
 msgid "Select"
 msgstr "Auswählen"
 
+#: ../calendar/browser/templates/app.pt:42
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:139
-#: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:58
 msgid "Select all"
 msgstr "Alles anwählen"
 
@@ -2156,6 +2205,10 @@ msgstr "Teilen"
 #: ../workspace/basecontent/templates/document_view.pt:57
 msgid "Share this document"
 msgstr "Dieses Dokument teilen"
+
+#: ../calendar/browser/templates/app.pt:81
+msgid "Shared events"
+msgstr "Geteilte Termine"
 
 #: ../workspace/browser/tiles/templates/events.pt:56
 msgid "Show all events"
@@ -2247,6 +2300,10 @@ msgstr "Statusänderung von ${fullname}:"
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:192
 msgid "Subscribe"
 msgstr "Abonnieren"
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:74
+msgid "Subscribe to calendar"
+msgstr "Diesen Kalender abonnieren"
 
 #: ../calendar/browser/configure.zcml:37
 msgid "THe fullcalendar used in app and workspace"
@@ -2441,6 +2498,10 @@ msgstr "Es gibt ${num_comments} Kommentar(e) zu ${num_shares} Aktivität(en)"
 msgid "There are no downloadable items in your cart."
 msgstr "Sie haben keine Objekte ausgewählt, die heruntergeladen werden können."
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:86
+msgid "There are no events to be displayed"
+msgstr "Keine Termine vorhanden"
+
 #: ../workspace/browser/tiles/sidebar.py:98
 msgid "There was a problem updating the content: %s."
 msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
@@ -2532,8 +2593,8 @@ msgid "To"
 msgstr "An"
 
 #: ../bookmarks/browser/app.py:189
+#: ../calendar/browser/templates/fullcalendar.tile.pt:33
 #: ../layout/browser/grouped_search.py:62
-#: ../workspace/browser/tiles/sidebar.py:787
 msgid "Today"
 msgstr "Heute"
 
@@ -2694,6 +2755,10 @@ msgstr "Dateien hochladen"
 msgid "Upload or Select Image"
 msgstr "Bild hochladen oder auswählen"
 
+#: ../calendar/browser/templates/fullcalendar.tile.pt:81
+msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
+msgstr "Benutzen Sie die URL oben um den Kalender dieses Arbeitsplatzes in Ihrem Outlook Kalender anzeigen zu lassen."
+
 #: ../workspace/behaviors/configure.zcml:55
 msgid "Use this content as a membrane group"
 msgstr "Diesen Inhalt als Membrane Gruppe verwenden"
@@ -2734,6 +2799,10 @@ msgstr "Bild ansehen"
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:366
 msgid "Weblink"
 msgstr "Weblink"
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:39
+msgid "Week"
+msgstr "Woche"
 
 #: ../workspace/subscribers.py:152
 msgid "Welcome to our family, Stranger"
@@ -2833,6 +2902,7 @@ msgstr "Titel"
 msgid "Workspaces"
 msgstr "Arbeitsräume"
 
+#: ../messaging/browser/templates/chat.html:83
 #: ../messaging/browser/templates/new-message.html:42
 msgid "Write a message"
 msgstr "Kurznachricht schreiben"
@@ -2890,6 +2960,14 @@ msgstr "Sie können ein Mitglied dieses Arbeitsraums werden."
 #: ../bookmarks/browser/templates/unbookmark.pt:17
 msgid "You can find your bookmarks in the"
 msgstr "Sie können Ihre Lesezeichen finden in der"
+
+#: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:56
+msgid "You cannot delete this item."
+msgstr ""
+
+#: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:39
+msgid "You cannot rename this item."
+msgstr ""
 
 #: ../workspace/browser/tiles/sidebar.py:212
 msgid "You do not have permission to change the workspace policy"
@@ -3655,6 +3733,11 @@ msgstr "Senden"
 msgid "label_show_archived"
 msgstr "Archiviert"
 
+#. Default: "Learn how this works"
+#: ../calendar/browser/templates/fullcalendar.tile.pt:81
+msgid "label_subscribe_to_calendar"
+msgstr "Erfahren Sie hier, wie das funktioniert"
+
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
 msgid "label_tags"
@@ -3756,7 +3839,7 @@ msgid "num_items_can_be_retagged"
 msgstr "${num_modifiable} Dokumente können umgetagged werden."
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:112
+#: ../workspace/browser/workspace.py:115
 #: ../workspace/workspacefolder.py:142
 #, fuzzy
 msgid "number_of_members"
