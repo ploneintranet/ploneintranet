@@ -1,49 +1,56 @@
 # -*- coding: utf-8 -*-
 """Index Plone contnet in Solr."""
-import datetime
-import logging
-import threading
-from Acquisition import aq_inner, aq_parent
-from OFS.interfaces import IOrderedContainer
-from urllib import urlencode
+from .interfaces import IConnection
+from .interfaces import IConnectionConfig
+from .interfaces import IContentAdder
+from .solr_search import prepare_data
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from collective.indexing.interfaces import IIndexQueueProcessor
-from Products.CMFCore.utils import getToolByName
+from OFS.interfaces import IOrderedContainer
+from plone import api
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer import indexer
 from plone.indexer.interfaces import IIndexableObject
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from zope.component import adapter, queryMultiAdapter, queryUtility
-from zope.interface import implementer, Interface
+from ploneintranet.async.tasks import ReindexObject
+from ploneintranet.layout.utils import get_record_from_registry
+from Products.CMFCore.utils import getToolByName
+from urllib import urlencode
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapter
+from zope.component import queryMultiAdapter
+from zope.component import queryUtility
+from zope.globalrequest import getRequest
+from zope.interface import implementer
+from zope.interface import Interface
+
+import datetime
+import logging
 import lxml.etree as etree
 import requests
-from plone import api
-from ploneintranet.async.tasks import ReindexObject
-from zope.annotation.interfaces import IAnnotations
-from zope.globalrequest import getRequest
-
-from .interfaces import IContentAdder, IConnectionConfig, IConnection
-from .solr_search import prepare_data
+import threading
 
 
 logger = logging.getLogger(__name__)
 solr_indexing_enabled_key = 'ploneintranet.search.solr.index'
 
 
-def only_if_installed(f):
+def is_solr_enabled(f):
     ''' Use this as a decorator to execute f only if a product is installed
     '''
     def decorated(*args, **kwargs):
         try:
             qi = api.portal.get_tool('portal_quickinstaller')
-            if qi.isProductInstalled('ploneintranet.search'):
-                return f(*args, **kwargs)
         except api.exc.CannotGetPortalError:
-            pass
-        except:
-            logger.exception(
-                'Problem understanding if ploneintranet.search '
-                'is installed'
-            )
+            return
+        if not qi.isProductInstalled('ploneintranet.search'):
+            return
+        if get_record_from_registry(
+            'ploneintranet.search.solr.disabled', False
+        ):
+            return
+        return f(*args, **kwargs)
     return decorated
 
 
@@ -334,22 +341,22 @@ class ContentIndexer(object):
             self._connection = IConnection(self._solr_conf)
         return self._connection
 
-    @only_if_installed
+    @is_solr_enabled
     def abort(self):
         self._solr.rollback()
 
-    @only_if_installed
+    @is_solr_enabled
     def begin(self):
         pass
 
-    @only_if_installed
+    @is_solr_enabled
     def commit(self):
         self._solr.commit(waitSearcher=None, expungeDeletes=True)
         # Optimize: Too expensive to do this every time.
         # Instead, call the solr-optimize browser view regularly (cron?)
         # self._solr.optimize(waitSearcher=None)
 
-    @only_if_installed
+    @is_solr_enabled
     def index(self, obj, attributes=None):
         """Index the object.
 
@@ -369,11 +376,11 @@ class ContentIndexer(object):
                 adder = ContentAdder(obj, self._solr)
             adder.add(data)
 
-    @only_if_installed
+    @is_solr_enabled
     def reindex(self, obj, attributes=None):
         self.index(obj, attributes)
 
-    @only_if_installed
+    @is_solr_enabled
     def unindex(self, obj):
         if hasattr(obj, 'context'):
             obj = obj.context
