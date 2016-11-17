@@ -57,7 +57,7 @@
                         <p class="message notice">
                             <span i18n:translate="" tal:omit-tag="">If you use this workspace, you might also be interested in</span>
                             <tal:r repeat="rw related_ws">
-                                <a class="icon-workspace" href="${rw/URL}">${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">, </tal:separator></tal:r>.
+                                <a class="icon-workspace" href="${rw/getURL}">${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">, </tal:separator></tal:r>.
                         </p>
                     </div>
 
