@@ -34,7 +34,7 @@
 
           <a tal:repeat="tile view/activity_tiles"
              id="custom-tile-${repeat/tile/index}"
-             href="${tile}"
+             href="${here/absolute_url}/${tile}"
              class="pat-inject span-1"
              hidden
              data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
@@ -45,11 +45,11 @@
               <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
               <form class="state-toggle pat-inject xpat-autosubmit" action="#">
                   <label class="show-more pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-expanded">
-                      <input type="radio" name="portlet-activity-stream-state-expanded"> 
+                      <input type="radio" name="portlet-activity-stream-state-expanded">
                       Show more
                   </label>
                   <label class="show-less pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-collapsed">
-                      <input type="radio" name="portlet-activity-stream-state-collapsed"> 
+                      <input type="radio" name="portlet-activity-stream-state-collapsed">
                       Show less
                   </label>
               </form>
@@ -66,7 +66,7 @@
           <div class="grid-sizer four columns"></div>
           <a tal:repeat="tile view/task_tiles"
              id="custom-tile-${repeat/tile/index}"
-             href="${tile}"
+             href="${here/absolute_url}/${tile}"
              class="pat-inject span-1"
              hidden
              data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
