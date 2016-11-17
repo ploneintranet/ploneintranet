@@ -40,8 +40,9 @@ def generate_previews_async(obj, event=None, purge=False):
         transaction.commit()
         log.debug('generate_previews_async - async mode')
         generator = GeneratePreview(obj, obj.REQUEST)
-        log.info('starting preview generation with a delay of 5 secs')
-        generator(countdown=5)
+        log.info('starting preview generation with a delay of 10 secs')
+
+        generator(countdown=10)
     else:
         log.debug('generate_previews_async - sync mode')
         pi_api.previews.generate_previews(obj)

@@ -35,7 +35,7 @@
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="document-form"
-                  data-pat-autosubmit="${python:autosave_enabled and 'delay: 20000ms' or None}"
+                  data-pat-autosubmit="${python:autosave_enabled and 'delay: 2000ms' or None}"
                   data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">

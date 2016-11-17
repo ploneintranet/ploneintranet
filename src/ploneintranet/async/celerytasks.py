@@ -19,6 +19,7 @@ from celery import Celery
 from ploneintranet.async import celeryconfig
 from ploneintranet.async.core import dispatch
 from ploneintranet.async.core import DispatchError
+from ploneintranet.async.core import _key_for_task
 
 broker = os.environ.get('BROKER_URL', 'redis://localhost:6379/0')
 backend = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
@@ -81,7 +82,16 @@ def generate_and_add_preview(self, url, data={}, headers={}, cookies={}):
     - http://docs.celeryproject.org/en/latest/faq.html#faq-acks-late-vs-retry
     - http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying
     """
+    logger.debug("Preview Debounce Init")
+    conn = app.backend
+    key = _key_for_task(url=url, task=self.name)
+    counter = conn.client.decr(key)
+    logger.debug("Preview Debounce Key %s decreased to %s " % (key, counter))
+    if counter > 0:
+        logger.debug("Preview Debounce Return")
+        return
     try:
+        logger.debug("Preview Debounce Dispatch")
         dispatch(url, data, headers, cookies)
     except DispatchError as exc:
         raise self.retry(exc=exc)
