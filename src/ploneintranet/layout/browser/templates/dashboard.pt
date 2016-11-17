@@ -31,7 +31,15 @@
              data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet; stamp: .stamp;"
              tal:condition="python: dashboard == 'activity'">
           <div class="grid-sizer four columns"></div>
-          <div tal:repeat="tile view/activity_tiles" data-tile="${tile}"/>
+
+          <a tal:repeat="tile view/activity_tiles"
+             id="custom-tile-${repeat/tile/index}"
+             href="${tile}"
+             class="pat-inject span-1"
+             hidden
+             data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
+            >${tile}</a>
+
           <div class="portlet span-2 state-expanded stamp right" id="portlet-activity-stream">
             <div class="content">
               <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
@@ -56,7 +64,13 @@
              data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;stamp: .stamp;"
              tal:condition="python: dashboard == 'task'">
           <div class="grid-sizer four columns"></div>
-          <div tal:repeat="tile view/task_tiles" data-tile="${tile}"/>
+          <a tal:repeat="tile view/task_tiles"
+             id="custom-tile-${repeat/tile/index}"
+             href="${tile}"
+             class="pat-inject span-1"
+             hidden
+             data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
+            >${tile}</a>
         </div>
       </tal:dashboard>
     </metal:content>
