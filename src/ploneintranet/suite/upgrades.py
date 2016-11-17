@@ -1,7 +1,7 @@
 # coding=utf-8
 from plone import api
 from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
-
+from Products.CMFPlone.utils import safe_unicode
 import logging
 
 
@@ -64,8 +64,9 @@ def filter_news_layer(context):
         return
 
     filter_list.extend(new_ifaces)
+    filter_list = [safe_unicode(iface) for iface in filter_list]
     api.portal.set_registry_record(
         interface=IThemeSwitcherSettings,
         name='browserlayer_filterlist',
-        value=tuple(filter_list),
+        value=filter_list,
     )
