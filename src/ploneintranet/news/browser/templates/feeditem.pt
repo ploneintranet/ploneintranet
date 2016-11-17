@@ -3,7 +3,7 @@
     <img class="illustration"
          tal:condition="context/image"
          style="background-image: url(${context/absolute_url}/@@images/image/large)"
-         src="${view/portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png" alt="">
+         src="${view/portal_url}/++theme++ploneintranet.layout/placeholder-16x9.png" alt="">
   </figure>
   <div class="teaser">
     <h3 class="title">
