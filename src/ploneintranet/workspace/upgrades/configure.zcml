@@ -160,5 +160,13 @@
         profile="ploneintranet.workspace:default" />
       />
 
+    <genericsetup:upgradeStep
+        title="Setup default grouping"
+        description=""
+        source="*"
+        destination="0020"
+        handler=".to_0020.setup_default_grouping"
+        profile="ploneintranet.workspace:default" />
+      />
 
 </configure>
