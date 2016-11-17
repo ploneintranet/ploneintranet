@@ -241,7 +241,7 @@ msgstr "Alle Kalender"
 
 #: ../workspace/browser/tiles/events.py:37
 msgid "All day"
-msgstr "Alle Tage"
+msgstr "Ganztägig"
 
 #: ../workspace/browser/templates/content_macros.pt:130
 msgid "All day event"
