@@ -2,10 +2,11 @@
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
+from ploneintranet.news.content import INewsApp
 from z3c.relationfield.relation import create_relation
 
-import loremipsum
 import logging
+import loremipsum
 import os
 log = logging.getLogger(__name__)
 
@@ -17,6 +18,10 @@ def setupVarious(context):
 
 def create_news_app():
     portal = api.portal.get()
+    if 'news' in portal:
+        app_obj = portal.news
+        if not INewsApp.providedBy(app_obj):
+            api.content.delete(obj=app_obj, check_linkintegrity=False)
     if 'news' not in portal:
         api.content.create(
             container=portal,
