@@ -1,17 +1,19 @@
 # coding=utf-8
 from AccessControl import Unauthorized
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
+from plone.dexterity.utils import safe_unicode
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
 from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.userprofile.content.userprofile import IUserProfile
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 import logging
+import urllib
 
 logger = logging.getLogger(__name__)
 
@@ -237,5 +239,6 @@ class TagStream(StreamBase, BrowserView):
     @property
     def url(self):
         return "{}/@@tagstream/{}".format(
-            self.context.absolute_url(), self.tag
+            self.context.absolute_url(),
+            urllib.quote(safe_unicode(self.tag).encode('utf8'))
         )
