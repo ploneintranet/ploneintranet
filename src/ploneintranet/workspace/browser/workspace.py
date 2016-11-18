@@ -19,6 +19,7 @@ from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.membrane.interfaces import group as group_ifaces
+from Products.PlonePAS.interfaces.group import IGroupData
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
@@ -92,6 +93,8 @@ class BaseWorkspaceView(BrowserView):
             principal = self.resolve_principalid(principal)
             if principal is None:
                 return principalid
+        if IGroupData.providedBy(principal):
+            return principal.getGroupName()
         if hasattr(principal, 'getGroupId'):
             return principal.Title() or principal.getGroupId()
         return (
@@ -99,6 +102,18 @@ class BaseWorkspaceView(BrowserView):
             principal.getProperty('fullname') or
             principal.getId()
         )
+
+    def get_principal_url(self, principal):
+        ''' Get a suitable URL for viewing this principal
+        '''
+        if isinstance(principal, basestring):
+            principal = self.resolve_principalid(principal)
+        if IGroupData.providedBy(principal):
+            portal = api.portal.get()
+            p_url = portal.absolute_url()
+            return "{0}/workspace-group-view?id={1}".format(
+                p_url, principal.getId())
+        return principal.absolute_url()
 
     @memoize
     def get_principal_description(self, principal):
