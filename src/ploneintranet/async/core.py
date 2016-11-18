@@ -106,11 +106,14 @@ class AbstractPost(object):
             # loaded here to avoid circular imports
             from ploneintranet.async.celerytasks import app
             conn = app.backend
+            # Self healing
+            if conn.client.get(key) < 0:
+                conn.client[key] = 0
             val = conn.client.incr(key)
-            logger.debug("Debounce key %s incr to %s" % (key, val))
-            logger.debug("Debounce Increment %s(%s, ...)", self.task.name, url)
+            logger.info("generate_and_add_preview: Debouncing:" +
+                        " key %s incremented to %s" % (key, val))
 
-        logger.info("Calling %s(%s, ...)", self.task.name, url)
+        logger.info("Dispatching async: %s(%s, ...)", self.task.name, url)
         # calling code should handle redis.exceptions.ConnectionError
         return self.task.apply_async(
             (url, self.data, self.headers, self.cookies),
