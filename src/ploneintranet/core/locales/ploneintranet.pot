@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-16 11:58+0000\n"
+"POT-Creation-Date: 2016-11-18 17:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,7 +84,7 @@ msgstr ""
 msgid "A dictionary of facets and available values"
 msgstr ""
 
-#: ../userprofile/content/workgroup.py:134
+#: ../userprofile/content/workgroup.py:140
 msgid "A group with this id already exists"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Activity centric view"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:37
+#: ../layout/browser/templates/dashboard.pt:45
 msgid "Activity stream"
 msgstr ""
 
@@ -348,12 +348,12 @@ msgid "Attach a file (or create a picture)"
 msgstr ""
 
 #: ../workspace/basecontent/templates/mail_view.pt:68
-#: ../workspace/browser/templates/context-menu.pt:14
+#: ../workspace/browser/templates/context-menu.pt:10
 msgid "Attach documents"
 msgstr ""
 
 #: ../workspace/basecontent/templates/mail_view.pt:68
-#: ../workspace/browser/templates/context-menu.pt:14
+#: ../workspace/browser/templates/context-menu.pt:10
 msgid "Attachments"
 msgstr ""
 
@@ -464,7 +464,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../userprofile/content/workgroup.py:30
+#: ../userprofile/content/workgroup.py:31
 msgid "Canonical Group ID (may contain spaces)"
 msgstr ""
 
@@ -487,7 +487,7 @@ msgstr ""
 msgid "Change folder title and description"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:118
+#: ../workspace/basecontent/templates/document_view.pt:125
 msgid "Change notes"
 msgstr ""
 
@@ -507,7 +507,7 @@ msgstr ""
 
 #: ../news/browser/templates/edit.html:46
 #: ../todo/browser/templates/todo_view.pt:61
-#: ../workspace/basecontent/templates/document_view.pt:63
+#: ../workspace/basecontent/templates/document_view.pt:70
 msgid "Change the workflow state"
 msgstr ""
 
@@ -672,7 +672,7 @@ msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:38
 #: ../workspace/basecontent/templates/mail_view.pt:58
-#: ../workspace/browser/templates/context-menu.pt:19
+#: ../workspace/browser/templates/context-menu.pt:15
 msgid "Delete"
 msgstr ""
 
@@ -697,7 +697,7 @@ msgid "Delete post"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:38
-#: ../workspace/browser/templates/context-menu.pt:19
+#: ../workspace/browser/templates/context-menu.pt:15
 msgid "Delete this document"
 msgstr ""
 
@@ -714,7 +714,7 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
-#: ../userprofile/content/workgroup.py:42
+#: ../userprofile/content/workgroup.py:45
 #: ../workspace/basecontent/templates/mail_view.pt:125
 #: ../workspace/browser/templates/content_macros.pt:15
 msgid "Description"
@@ -777,7 +777,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:198
+#: ../workspace/basecontent/templates/document_view.pt:205
 msgid "Download as"
 msgstr ""
 
@@ -849,7 +849,7 @@ msgid "Edited"
 msgstr ""
 
 #: ../userprofile/content/userprofile.py:45
-#: ../userprofile/content/workgroup.py:48
+#: ../userprofile/content/workgroup.py:52
 msgid "Email"
 msgstr ""
 
@@ -923,7 +923,7 @@ msgstr ""
 msgid "Extension profile for ploneintranet.calendar."
 msgstr ""
 
-#: ../layout/configure.zcml:40
+#: ../layout/configure.zcml:47
 msgid "Extension profile for ploneintranet.layout."
 msgstr ""
 
@@ -1338,7 +1338,7 @@ msgstr ""
 msgid "Loading more search results&hellip;"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:84
+#: ../workspace/basecontent/templates/document_view.pt:91
 msgid "Loading..."
 msgstr ""
 
@@ -1415,7 +1415,7 @@ msgstr ""
 msgid "Member(s) removed"
 msgstr ""
 
-#: ../userprofile/content/workgroup.py:57
+#: ../userprofile/content/workgroup.py:62
 #: ../workspace/browser/templates/case.pt:41
 #: ../workspace/browser/templates/workspace.pt:38
 msgid "Members"
@@ -1611,7 +1611,7 @@ msgstr ""
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:166
+#: ../workspace/basecontent/templates/document_view.pt:173
 msgid "No preview available"
 msgstr ""
 
@@ -1716,7 +1716,7 @@ msgstr ""
 msgid "Open community"
 msgstr ""
 
-#: ../workspace/browser/templates/context-menu.pt:5
+#: ../workspace/basecontent/templates/document_view.pt:58
 msgid "Open in External Editor"
 msgstr ""
 
@@ -1852,11 +1852,11 @@ msgstr ""
 msgid "Plone Intranet: -- [Calendar]"
 msgstr ""
 
-#: ../layout/configure.zcml:49
+#: ../layout/configure.zcml:56
 msgid "Plone Intranet: -- [Layout uninstall]"
 msgstr ""
 
-#: ../layout/configure.zcml:40
+#: ../layout/configure.zcml:47
 msgid "Plone Intranet: -- [Layout]"
 msgstr ""
 
@@ -1919,7 +1919,7 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:165
+#: ../workspace/basecontent/templates/document_view.pt:172
 msgid "Preview being generated"
 msgstr ""
 
@@ -1927,7 +1927,7 @@ msgstr ""
 msgid "Primary location"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:201
+#: ../workspace/basecontent/templates/document_view.pt:208
 msgid "Print"
 msgstr ""
 
@@ -1967,7 +1967,7 @@ msgstr ""
 msgid "Publish"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:204
+#: ../workspace/basecontent/templates/document_view.pt:211
 msgid "Publish to library"
 msgstr ""
 
@@ -2072,7 +2072,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:107
+#: ../workspace/basecontent/templates/document_view.pt:114
 msgid "Save a new version"
 msgstr ""
 
@@ -2080,7 +2080,7 @@ msgstr ""
 msgid "Save this document"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:121
+#: ../workspace/basecontent/templates/document_view.pt:128
 msgid "Save this version"
 msgstr ""
 
@@ -2196,11 +2196,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:57
+#: ../workspace/basecontent/templates/document_view.pt:64
 msgid "Share"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:57
+#: ../workspace/basecontent/templates/document_view.pt:64
 msgid "Share this document"
 msgstr ""
 
@@ -2234,7 +2234,7 @@ msgid "Show extra context actions"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:52
-#: ../workspace/basecontent/templates/document_view.pt:79
+#: ../workspace/basecontent/templates/document_view.pt:86
 #: ../workspace/basecontent/templates/mail_view.pt:79
 msgid "Show extra metadata fields"
 msgstr ""
@@ -2577,7 +2577,7 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: ../userprofile/content/workgroup.py:36
+#: ../userprofile/content/workgroup.py:38
 msgid "Title"
 msgstr ""
 
@@ -2600,7 +2600,7 @@ msgid "Todo"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:52
-#: ../workspace/basecontent/templates/document_view.pt:79
+#: ../workspace/basecontent/templates/document_view.pt:86
 #: ../workspace/basecontent/templates/mail_view.pt:79
 msgid "Toggle extra metadata"
 msgstr ""
@@ -2733,11 +2733,11 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:111
+#: ../workspace/basecontent/templates/document_view.pt:118
 msgid "Upload a new file"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:114
+#: ../workspace/basecontent/templates/document_view.pt:121
 msgid "Upload a new image"
 msgstr ""
 
@@ -2781,7 +2781,7 @@ msgstr ""
 msgid "Various"
 msgstr ""
 
-#: ../workspace/browser/templates/context-menu.pt:9
+#: ../workspace/browser/templates/context-menu.pt:5
 msgid "Version history"
 msgstr ""
 
@@ -2909,7 +2909,7 @@ msgstr ""
 msgid "Write a message to the recipient(s)..."
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:145
+#: ../workspace/basecontent/templates/document_view.pt:152
 msgid "Write your text here"
 msgstr ""
 
@@ -3565,7 +3565,7 @@ msgid "label_magazine_image"
 msgstr ""
 
 #. Default: "ID of a member"
-#: ../userprofile/content/workgroup.py:54
+#: ../userprofile/content/workgroup.py:59
 msgid "label_member_id"
 msgstr ""
 
@@ -3737,6 +3737,11 @@ msgstr ""
 #. Default: "Calendar visible in central calendar"
 #: ../workspace/interfaces.py:65
 msgid "label_workspace_calendar_visibility"
+msgstr ""
+
+#. Default: "Workspace default grouping"
+#: ../workspace/profiles/default/registry.xml
+msgid "label_workspace_default_grouping"
 msgstr ""
 
 #. Default: "Belongs to this Division"
