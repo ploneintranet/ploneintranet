@@ -120,7 +120,7 @@ class WorkGroup(Container):
             'id': self.canonical,
             'title': self.title.encode('utf8'),
             'description': (self.description or u'').encode('utf8'),
-            'email': self.mail.encode('utf8'),
+            'email': (self.mail or u'').encode('utf8'),
             'canonical': self.canonical.encode('utf8'),
             'object_id': self.id,
         }
