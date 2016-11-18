@@ -82,18 +82,23 @@ def generate_and_add_preview(self, url, data={}, headers={}, cookies={}):
     - http://docs.celeryproject.org/en/latest/faq.html#faq-acks-late-vs-retry
     - http://docs.celeryproject.org/en/latest/userguide/tasks.html#retrying
     """
-    logger.debug("Preview Debounce Init")
+    logger.info("START: generate_and_add_preview called.")
     conn = app.backend
     key = _key_for_task(url=url, task=self.name)
+    counter = conn.client.get(key)
+    if counter < 1:  # behave
+        conn.client[key] = 1
     counter = conn.client.decr(key)
-    logger.debug("Preview Debounce Key %s decreased to %s " % (key, counter))
+    logger.info("generate_and_add_preview: " +
+                "I just decreased my key %s to %s " % (key, counter))
     if counter > 0:
-        logger.debug("Preview Debounce Return")
+        logger.info("generate_and_add_preview: Counter > 0, aborting")
         return
     try:
-        logger.debug("Preview Debounce Dispatch")
+        logger.info("generate_and_add_preview: Counter is 0, generating now")
         dispatch(url, data, headers, cookies)
     except DispatchError as exc:
+        counter = conn.client.incr(key)
         raise self.retry(exc=exc)
 
 
