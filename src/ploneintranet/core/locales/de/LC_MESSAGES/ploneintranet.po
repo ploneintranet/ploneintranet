@@ -3848,7 +3848,7 @@ msgstr "${num_modifiable} Dokumente können umgetagged werden."
 #: ../workspace/browser/workspace.py:115
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
-msgstr "${no_members} Mitglieder / ${no_groups} Gruppen"
+msgstr "${no_users} Mitglieder / ${no_groups} Gruppen"
 
 #. Default: "Participant policy"
 #: ../workspace/browser/tiles/sidebar.py:274
