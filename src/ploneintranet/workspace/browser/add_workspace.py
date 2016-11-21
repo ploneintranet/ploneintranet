@@ -76,6 +76,8 @@ class AddWorkspace(AddBase):
             for x in self.templates_folder.objectValues()
         }
         _blocked.add(self.default_fti)
+        # A workgroup will never be added inside the workspaces folder
+        _blocked.add('ploneintranet.userprofile.workgroup')
 
         allowed_ftis = [
             fti for fti in self.context.allowedContentTypes()

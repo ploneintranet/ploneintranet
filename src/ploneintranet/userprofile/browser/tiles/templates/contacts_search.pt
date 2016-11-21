@@ -30,7 +30,9 @@
                     <label class="item user">
                         <input name="" type="checkbox" />
                         <a href="${result/url}" class="follow">
-                        <img tal:replace="structure python:view.get_avatar_by_userid(result.getId(), link_to=None)" />
+                        <img tal:condition="result/getId|nothing"
+                             tal:replace="structure python:view.get_avatar_by_userid(result.getId(), link_to=None)"
+                          />
                         <strong class="title">${result/title}</strong>
                         <br/>
                         <dfn class="byline" tal:content="python: True and result.contact_telephone or '&nbsp;'"/>

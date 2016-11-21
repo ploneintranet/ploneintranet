@@ -203,6 +203,7 @@ def create(
         title = groupid
 
     norm_id = idnormalizer.normalize(groupid or title)
+    norm_id = norm_id.lstrip('_')
     if norm_id in groups_container:
         return groups_container[norm_id]
 

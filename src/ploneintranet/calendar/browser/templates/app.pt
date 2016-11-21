@@ -10,7 +10,7 @@
 
   <metal:content fill-slot="content">
     <div id="app-space" class="state-on">
-      <div id="application-body" 
+      <div id="application-body"
            class="sidebar-normal application- application-calendar sidebar-left-open sidebar-right-closed">
 
         <div id="document-body">
@@ -18,7 +18,7 @@
 
             <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${context/absolute_url}/@@fullcalendar.tile"></div>
 
-           </div> 
+           </div>
         </div>
         <aside class="sidebar left" id="sidebar">
           <div class="sidebar-content" id="sidebar-content">
@@ -32,45 +32,45 @@
                 <fieldset class="cal-categories"
                           tal:define="calendars view/get_calendars">
 
-                  
+
 
                   <div class="pat-collapsible object-list open" id="calendar-invited-events" tal:condition="calendars/invited">
-                    <h4 class="collapsible-open">Events I'm invited to <a href="tooltip-help.html#invited-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
+                    <h4 class="collapsible-open"><tal:t i18n:translate="">Events I'm invited to</tal:t> <a href="tooltip-help.html#invited-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax" i18n:translate="">More info</a></h4>
                     <div class="panel-content">
                       <fieldset class="pat-checklist cal-categories checklist checked" tal:define="invited_cals calendars/invited">
                         <div class="toggles list-functions button-cluster" tal:condition="python:len(invited_cals) > 1">
-                            <button class="small select-all">Select all</button>
-                            <button class="small deselect-all">Deselect all</button>
+                            <button class="small select-all" i18n:translate="">Select all</button>
+                            <button class="small deselect-all" i18n:translate="">Deselect all</button>
                         </div>
                         <tal:wscal repeat="cal invited_cals">
 
                           <label class="cal-cat-commercial-strategy-team"
                                  tal:define="calclass python:view.id2class(cal.getId())"
                                  tal:attributes="class string:cal-cat-${calclass}-invited ${cal/ws_type}-invited pat-depends checked;">
-                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-invited-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:attributes="title" i18n:translate="">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
                       </fieldset>
                     </div>
                   </div>
-                  
+
                   <div class="pat-collapsible object-list open" id="calendar-my-calendars" tal:condition="calendars/my">
-                    <h4 class="collapsible-open">My calendars <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
-                     
+                    <h4 class="collapsible-open"><tal:t i18n:translate="">My calendars</tal:t> <a href="tooltip-help.html#my-calendars" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax" i18n:translate="">More info</a></h4>
+
                     <div class="panel-content">
                       <fieldset class="pat-checklist cal-categories checklist checked" tal:define="my_cals calendars/my">
                           <!-- The next button cluster is only shown if there is more than one item in the checklist. -->
                         <div class="toggles list-functions button-cluster">
-                          <button class="small select-all" disabled="">Select all</button>
-                          <button class="small deselect-all" disabled="">Deselect all</button>
+                          <button class="small select-all" disabled="" i18n:translate="">Select all</button>
+                          <button class="small deselect-all" disabled="" i18n:translate="">Deselect all</button>
                         </div>
                         <!--label class="cal-cat-personal-calendar checked"><input type="checkbox" checked="checked" name="personal-calendar" id="calendar-my-calendars-personal-calendar"> Personal calendar</label-->
 
                         <tal:wscal repeat="cal my_cals">
-                          <label class="cal-cat-commercial-strategy-team" 
+                          <label class="cal-cat-commercial-strategy-team"
                                  tal:define="calclass python:view.id2class(cal.getId())"
                                  tal:attributes="class string:cal-cat-${calclass}-my ${cal/ws_type}-my" data-pat-depends="all-cals">
-                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:translate="">Open workspace calendar</a>
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-my-calendars-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:attributes="title" i18n:translate="">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
                       </fieldset>
@@ -78,33 +78,33 @@
                   </div>
 
                   <div class="pat-collapsible object-list open" id="calendar-shared-events"  tal:condition="calendars/public">
-                    <h4 class="collapsible-open">Shared events <a href="tooltip-help.html#shared-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax">More info</a></h4>
+                    <h4 class="collapsible-open"><tal:t i18n:translate="">Shared events</tal:t> <a href="tooltip-help.html#shared-events" class="iconified icon-info-circle help pat-tooltip" title="" data-pat-tooltip="trigger: click; source: ajax" i18n:translate="">More info</a></h4>
                     <div class="panel-content">
                       <fieldset class="pat-checklist cal-categories checklist checked" tal:define="public_cals calendars/public">
                         <div class="toggles list-functions button-cluster" tal:condition="python:len(public_cals) > 0">
-                            <button class="small select-all">Select all</button>
-                            <button class="small deselect-all">Deselect all</button>
+                            <button class="small select-all" i18n:translate="">Select all</button>
+                            <button class="small deselect-all" i18n:translate="">Deselect all</button>
                         </div>
                         <tal:wscal repeat="cal public_cals">
                           <label class="cal-cat-commercial-strategy-team"
                                  tal:define="calclass python:view.id2class(cal.getId())"
                                  tal:attributes="class string:cal-cat-${calclass}-public ${cal/ws_type}-public;">
-                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events">Open workspace calendar</a>
+                              <input type="checkbox" tal:attributes="value cal/UID; id string:calendar-shared-events-${cal/UID}" checked="checked" name="workspaces:list" /> ${cal/Title} <a href="workspace-calendar.html" class="iconified icon-right-circle" title="Open workspace calendar in a new window" target="_blank" tal:attributes="href string:${cal/getURL}/@@workspace-calendar#workspace-events" i18n:attributes="title" i18n:translate="">Open workspace calendar</a>
                           </label>
                         </tal:wscal>
                       </fieldset>
                     </div>
                   </div>
 
-                  
+
                 </fieldset>
               </form>
             </div>
           </div>
         </aside>
         <p id="toggle-sidebar">
-            <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar">Open sidebar</span>
-            <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document">Close sidebar</span>
+            <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar" i18n:translate="">Open sidebar</span>
+            <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document" i18n:translate="">Close sidebar</span>
         </p>
       </div>
     </metal:content>

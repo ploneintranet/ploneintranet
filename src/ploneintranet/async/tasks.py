@@ -51,11 +51,11 @@ class GeneratePreview(AbstractPost):
 
     Mind the final call parentheses.
 
-    INCOMPLETE:  @@generate-previews view needs to be implemented.
     """
 
     task = celerytasks.generate_and_add_preview
     url = '/@@generate-previews'
+    debounce = True
 
 
 @implementer(IAsyncTask)

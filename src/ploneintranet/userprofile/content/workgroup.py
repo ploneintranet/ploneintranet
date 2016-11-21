@@ -24,30 +24,35 @@ class IWorkGroup(IGroup, IMembraneGroupProperties, form.Schema):
     dexteritytextindexer.searchable('id')
     id = schema.TextLine(
         title=_(u"ID"),
-        required=True
+        required=True,
+        missing_value=u'',
     )
     canonical = schema.TextLine(
         title=_(u"Canonical Group ID (may contain spaces)"),
         required=False,
         default=u'',
+        missing_value=u'',
     )
     dexteritytextindexer.searchable('title')
     title = schema.TextLine(
         title=_(u"Title"),
         required=False,
         default=u'',
+        missing_value=u'',
     )
     dexteritytextindexer.searchable('description')
     description = schema.TextLine(
         title=_(u"Description"),
         required=False,
         default=u'',
+        missing_value=u'',
     )
     dexteritytextindexer.searchable('mail')
     mail = schema.TextLine(
         title=_(u"Email"),
         required=False,
         default=u'',
+        missing_value=u'',
     )
     members = schema.List(
         value_type=schema.ASCIILine(
@@ -56,7 +61,8 @@ class IWorkGroup(IGroup, IMembraneGroupProperties, form.Schema):
             default=''),
         title=_(u"Members"),
         required=False,
-        default=[]
+        default=[],
+        missing_value=[],
     )
 
 
@@ -114,7 +120,7 @@ class WorkGroup(Container):
             'id': self.canonical,
             'title': self.title.encode('utf8'),
             'description': (self.description or u'').encode('utf8'),
-            'email': self.mail.encode('utf8'),
+            'email': (self.mail or u'').encode('utf8'),
             'canonical': self.canonical.encode('utf8'),
             'object_id': self.id,
         }

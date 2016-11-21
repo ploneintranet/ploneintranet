@@ -37,6 +37,7 @@ libreoffice/
 local/
 node_modules/
 .pki/
+.pip/
 parts/
 Patterns/
 /prototype

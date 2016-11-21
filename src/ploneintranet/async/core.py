@@ -9,8 +9,11 @@ from BeautifulSoup import BeautifulSoup
 import requests
 
 from ploneintranet.async.interfaces import IAsyncTask
-
 logger = logging.getLogger(__name__)
+
+
+def _key_for_task(**kwargs):
+    return '-'.join(sorted([str(x) for x in kwargs.values()]))
 
 
 class DispatchError(Exception):
@@ -40,6 +43,11 @@ class AbstractPost(object):
 
     task = None  # set this in your concrete subclass
     url = None
+    # set this to true and the dispatcher will use redis to keep a counter
+    # in redis and the task is first executed if the counter is back to 0
+    # the method to calculate a unique key currently uses the url and the
+    # task.name to identify tasks that can be debounced.
+    debounce = False
 
     def __init__(self, context, request):
         """Extract credentials."""
@@ -91,7 +99,21 @@ class AbstractPost(object):
         self.data.update(data)
         self.headers.update(headers)
         self.cookies.update(cookies)
-        logger.info("Calling %s(%s, ...)", self.task.name, url)
+
+        if self.debounce is True:
+            # Debounce the call
+            key = _key_for_task(url=url, task=self.task.name)
+            # loaded here to avoid circular imports
+            from ploneintranet.async.celerytasks import app
+            conn = app.backend
+            # Self healing
+            if conn.client.get(key) < 0:
+                conn.client[key] = 0
+            val = conn.client.incr(key)
+            logger.info("generate_and_add_preview: Debouncing:" +
+                        " key %s incremented to %s" % (key, val))
+
+        logger.info("Dispatching async: %s(%s, ...)", self.task.name, url)
         # calling code should handle redis.exceptions.ConnectionError
         return self.task.apply_async(
             (url, self.data, self.headers, self.cookies),

@@ -12,7 +12,7 @@
              id="content"
              tal:define="
                groups view/groups;
-               users view/users;
+               userids view/userids;
              "
             >
             <h1 id="workspace-name">
@@ -28,7 +28,7 @@
                                 <img class="group-badge" src="${here/portal_url}/++theme++ploneintranet.theme/generated/media/icon-group.svg" alt="Group logo">
 
                                 <h1 class="group-title">${here/title}</h1>
-                                <p class="byline">${python:len(users)} Users / ${python:len(groups)} Groups
+                                <p class="byline">${python:len(userids)} Users / ${python:len(groups)} Groups
                                 </p>
 
                                 <section class="introduction">
@@ -61,24 +61,35 @@
                             </ul>
                             </tal:cond>
 
-                            <tal:cond condition="users">
+                            <tal:cond condition="userids">
                             <h2 i18n:translate=""> Member users </h2>
-
-                            <div class="row user-table pat-equaliser">
-                                <!-- The last anchor tag in this list should always get a class 'last' to avoid that the item will float to the right. -->
-                                <tal:repeat repeat="user users">
-
-                                    <a href="${user/absolute_url}"
-                                       class="two columns pat-inject equalised ${lastcls}"
-                                       data-pat-inject="source: #document-content; target: #document-content"
-                                       tal:define="last repeat/user/end; lastcls python:last == 1 and 'last' or ''">
-                                      <figure>
-                                          <img tal:replace="structure python:view.get_avatar_tag(user.id)" >
-                                          <figcaption>${user/fullname}<br>
-                                          (<em>${user/title}</em>)</figcaption>
-                                      </figure>
-                                    </a>
+                            <div id="autoload-users"
+                                 class="row user-table pat-equaliser"
+                                 tal:define="
+                                   batch view/batch;
+                                   next_url view/next_page_url;
+                                 "
+                                >
+                                <tal:repeat repeat="user batch">
+                                  <a href="${user/getURL}"
+                                     class="two columns pat-inject equalised ${lastcls}"
+                                     data-pat-inject="source: #document-content; target: #document-content"
+                                     tal:define="last repeat/user/end; lastcls python:last == 1 and 'last' or ''">
+                                    <figure>
+                                        <img tal:replace="structure python:view.get_avatar_tag(user.getId)" >
+                                        <figcaption>${user/Title}<br>
+                                        (<em>${user/getId}</em>)</figcaption>
+                                    </figure>
+                                  </a>
                                 </tal:repeat>
+
+                                <a href="${next_url}"
+                                   class="pat-inject"
+                                   id="autoload-user-target"
+                                   data-pat-inject="trigger: autoload-visible; source: #autoload-users; target: #autoload-user-target::element"
+                                   tal:condition="next_url"
+                                   i18n:translate=""
+                                   >More &hellip;</a>
                             </div>
                             </tal:cond>
                         </article>

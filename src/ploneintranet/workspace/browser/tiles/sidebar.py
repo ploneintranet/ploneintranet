@@ -580,7 +580,7 @@ class Sidebar(BaseTile):
             results.append(dict(
                 title=r['Title'],
                 description=r['Description'],
-                id=r['id'],
+                id=r['getId'],
                 structural_type=structural_type,
                 content_type=content_type,
                 dpi=dpi,
@@ -1049,13 +1049,23 @@ class Sidebar(BaseTile):
             return self.request.get(cookie_name)
         return default
 
+    @memoize
+    def get_default_grouping(self):
+        ''' Get the default grouping for document navigation in the sidebar
+        '''
+        return get_record_from_registry(
+            'ploneintranet.workspace.default_grouping',
+            'folder',
+        )
+
     def grouping(self):
         """
         Return the user selected grouping
         """
         cookie_name = '%s-grouping-%s' % (self.section, self.current_userid)
         return self.get_from_request_or_cookie(
-            "grouping", cookie_name, "folder")
+            "grouping", cookie_name, self.get_default_grouping(),
+        )
 
     def sorting(self):
         """
