@@ -135,6 +135,18 @@
                       </span>
                   </label>
                 </div>
+                <div class="bar">
+                  <label class="pat-checklist">
+                    <input type="checkbox"
+                           name="must_read" value="selected"
+                           tal:attributes="checked python:getattr(context, 'must_read', 0); disabled read_only"/>
+                    <input name="must_read-empty-marker" type="hidden" value="1" />
+                    <span tal:omit-tag=""
+                          i18n:translate="label_must_read">
+                      All users must read this
+                      </span>
+                  </label>
+                </div>
                 <fieldset class="bar">                
                   <label class="">
                     Publication date
