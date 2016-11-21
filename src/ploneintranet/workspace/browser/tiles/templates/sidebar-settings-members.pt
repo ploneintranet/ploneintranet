@@ -100,7 +100,7 @@
                            type="checkbox"
                           />
                     <a class="follow pat-inject"
-                       href="${principal/absolute_url}"
+                       href="${python:workspace_view.get_principal_url(principal)}"
                        data-pat-inject="source: #document-body; target: #document-body"
                       >
                       <img tal:replace="structure python:view.get_avatar_by_userid(principal.id)">
