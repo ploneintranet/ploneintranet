@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser import BrowserView
 from plone import api
+from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
 
@@ -113,3 +114,7 @@ class NewsItemView(NewsMagazine):
 
     def date(self):
         return self.context.effective().strftime('%B %d, %Y')
+
+    def __call__(self):
+        MarkRead(self.context, self.request)()
+        return super(NewsItemView, self).__call__()
