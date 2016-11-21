@@ -116,3 +116,11 @@ def reindex_object(self, url, data={}, headers={}, cookies={}):
         dispatch(url, data, headers, cookies)
     except DispatchError as exc:
         raise self.retry(exc=exc)
+
+
+@app.task(bind=True, acks_late=True, default_retry_delay=2, max_retries=5)
+def mark_read(self, url, data={}, headers={}, cookies={}):
+    try:
+        dispatch(url, data, headers, cookies)
+    except DispatchError as exc:
+        raise self.retry(exc=exc)
