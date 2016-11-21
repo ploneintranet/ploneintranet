@@ -9,6 +9,7 @@ from plone.app.contenttypes.interfaces import IImage
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
+from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
@@ -95,6 +96,13 @@ class NewsTile(Tile):
 
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
+    def __call__(self):
+        if 'hit_uid' in self.request.form.keys():
+            uid = self.request.form['hit_uid']
+            item = api.content.get(UID=uid)
+            MarkRead(item, self.request)()
+        return super(NewsTile, self).__call__()
+
     @memoize
     def news_items(self):
         pc = api.portal.get_tool('portal_catalog')
@@ -102,12 +110,13 @@ class NewsTile(Tile):
             {'title': item.Title,
              'description': item.Description,
              'url': item.getURL(),
+             'uid': item.UID,
              'has_thumbs': item.has_thumbs}
             for item in pc(portal_type='News Item',
                            review_state='published',
                            sort_on='effective',
                            sort_order='reverse')
-        ]
+        ]  # FIXME: filter out read items
 
     def can_expand(self):
         return len(self.news_items()) > self.min_num()
