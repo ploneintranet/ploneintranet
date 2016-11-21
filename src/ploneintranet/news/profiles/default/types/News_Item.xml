@@ -4,5 +4,7 @@
    i18n:domain="ploneintranet">
   <property name="behaviors" purge="False">
     <element value="ploneintranet.news.behaviors.INewsMeta"/>
+    <element value="collective.mustread.behaviors.track.ITrackReadEnabled"/>
+    <element value="collective.mustread.behaviors.maybe.IMaybeMustRead"/>
   </property>
  </object>

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from collective.mustread.db import getSession
+from collective.mustread.interfaces import IMustReadSettings
+from collective.mustread.models import Base
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
@@ -12,8 +15,27 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
+    initialize_mustread_db()
     app = create_news_app()
     move_all_newsitems_to_app(app)
+
+
+def initialize_mustread_db(*args):
+    try:
+        record = api.portal.get_registry_record(
+            'connectionstring', interface=IMustReadSettings)
+    except api.exc.InvalidParameterError:
+        record = ''
+    if not record or 'memory' in record:
+        dbpath = '%s/var/mustread.db' % os.getcwd()
+        log.warn('SQL storage not properly configured. Creating file db: %s',
+                 dbpath)
+        api.portal.set_registry_record(
+            'connectionstring', u'sqlite:///%s' % dbpath,
+            interface=IMustReadSettings)
+    log.info('Initializing SQL db')
+    session = getSession()
+    Base.metadata.create_all(session.bind.engine)
 
 
 def create_news_app():

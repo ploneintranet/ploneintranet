@@ -45,5 +45,26 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler="ploneintranet.news.setuphandlers.setupTestdata"
       />
-  
+
+  <genericsetup:upgradeSteps
+      source="*"
+      destination="0006"
+      profile="ploneintranet.news:default">
+
+    <genericsetup:upgradeDepends
+        title="Install collective.mustread"
+        import_profile="collective.mustread:default"
+        />
+    <genericsetup:upgradeStep
+        title="Initialize mustread db"
+        handler=".setuphandlers.initialize_mustread_db"
+        />
+    <genericsetup:upgradeDepends
+        title="Activate mustread behaviors on news items"
+        import_profile="ploneintranet.news:default"
+        import_steps="typeinfo"
+        />
+
+  </genericsetup:upgradeSteps>
+    
 </configure>
