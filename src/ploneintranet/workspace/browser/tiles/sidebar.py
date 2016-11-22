@@ -622,6 +622,7 @@ class Sidebar(BaseTile):
             query['outdated'] = False
 
     @property
+    @memoize
     def root(self):
         """ The root object for the sidebar, typically a workspace, but the
         sidebar can also be used for apps, e.g. quaive.app.slides.
