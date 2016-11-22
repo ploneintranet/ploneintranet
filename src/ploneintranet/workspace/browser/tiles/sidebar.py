@@ -502,7 +502,7 @@ class Sidebar(BaseTile):
         needed to get one step back.
         """
         grouping = self.grouping()
-        workspace = parent_workspace(self.context)
+        workspace = self.root
 
         if grouping == 'folder':
             if self.context != workspace:
@@ -621,6 +621,14 @@ class Sidebar(BaseTile):
         if 'archived_documents' not in show_extra:
             query['outdated'] = False
 
+    @property
+    @memoize
+    def root(self):
+        """ The root object for the sidebar, typically a workspace, but the
+        sidebar can also be used for apps, e.g. quaive.app.slides.
+        """
+        return parent_workspace(self.context)
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -645,6 +653,7 @@ class Sidebar(BaseTile):
         # * the top level of a selected grouping
         # * or the items for a selected group item
 
+        root = self.root
         if sidebar_search:
             # User has typed a search query
 
@@ -665,8 +674,7 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
-        workspace = parent_workspace(self.context)
-        results = [i for i in results if i.get('UID') != workspace.UID()]
+        results = [i for i in results if i.get('UID') != root.UID()]
 
         #
         # 2. Prepare the results for display in the sidebar
@@ -750,20 +758,20 @@ class Sidebar(BaseTile):
         Return the entries according to a particular grouping
         (e.g. label, author, type, first_letter)
         """
-        workspace = parent_workspace(self.context)
+        root = self.root
         workspace_view = api.content.get_view(
             'view',
-            workspace,
+            root,
             self.request,
         )
         user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
-        if not workspace or not user.has_permission('View', workspace):
+        if not root or not user.has_permission('View', root):
             return []
 
         grouping = self.grouping()
-        group_url_tmpl = workspace.absolute_url() + \
+        group_url_tmpl = root.absolute_url() + \
             '/@@sidebar.default?groupname=%s#workspace-documents'
 
         if grouping == 'folder':
@@ -811,7 +819,7 @@ class Sidebar(BaseTile):
 
         # All other groupings come from the grouping storage,
         # so retrieve that now.
-        storage = getAdapter(workspace, IGroupingStorage)
+        storage = getAdapter(root, IGroupingStorage)
 
         # In the grouping storage, all entries are accessible under their
         # respective grouping headers. Fetch them for the selected grouping.
@@ -919,7 +927,7 @@ class Sidebar(BaseTile):
         field corresponding to $grouping.
         """
         catalog = api.portal.get_tool(name='portal_catalog')
-        workspace = parent_workspace(self.context)
+        workspace = self.root
         # workspace_uid = IUUID(workspace)
         criteria = {
             'path': '/'.join(workspace.getPhysicalPath()),
@@ -1116,7 +1124,7 @@ class Sidebar(BaseTile):
         to be shown in the events section of the sidebar
         """
         catalog = api.portal.get_tool('portal_catalog')
-        workspace = parent_workspace(self.context)
+        workspace = self.root
         workspace_path = '/'.join(workspace.getPhysicalPath())
         now = localized_now()
 
