@@ -1,26 +1,17 @@
 # -*- coding: utf-8 -*-
-import os
-import pytz
-import logging
-from Products.CMFCore.permissions import AddPortalContent
-from collections import defaultdict
+from .config import DEFAULT_TZ_ID
 from datetime import datetime
-from datetime import timedelta
-from plone.memoize import ram
 from plone import api
-from plone.app.contenttypes.interfaces import IEvent
-from plone.app.event.base import localized_now
-
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
-
-from scorched.dates import solr_date
-from time import time
+from Products.CMFCore.permissions import AddPortalContent
 from vocabularies import timezone_list
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 
-from .config import DEFAULT_TZ_ID
+import logging
+import pytz
+
 
 logger = logging.getLogger(__name__)
 
@@ -270,107 +261,3 @@ def get_writable_workspaces_of_current_user(context):
         ws for ws in workspaces
         if pm.checkPermission(AddPortalContent, ws.getObject())]
     return writable_workspaces
-
-
-def get_events_of_current_user(context):
-    """ Load events from solr """
-    # We only provide a history of 30 days, otherwise, fullcalendar has
-    # too much to render. This could be made more flexible
-    user = api.user.get_current()
-    if not user:
-        return []
-    key = "get_events_of_current_user" + user.getId()
-    cache = IAnnotations(context.REQUEST)
-    data = cache.get(key, None)
-    if data is None:
-        evt_date = localized_now() - timedelta(30)
-        query = dict(object_provides=IEvent.__identifier__,
-                     end__gt=solr_date(evt_date))
-        query['is_archived'] = False
-
-        sitesearch = getUtility(ISiteSearch)
-        data = sitesearch.query(filters=query, step=99999)
-        cache[key] = data
-
-    # XXX we'll need to turn this into a dict to make it cacheable in memcached
-    return data
-
-
-# This cache is simply there to avoid multiple calculation when being
-# called from tiles which have their own request. Therefore request
-# caching is not helpful here
-
-@ram.cache(lambda *args: time() // 5)
-def get_calendars(context):
-
-    # Get all the users workspaces
-    # Get all the users events
-    # sort the workspaces depending on events available and the users
-    # rights within the workspaces and invitee status on the event
-
-    my = defaultdict(list)
-    invited = defaultdict(list)
-    public = defaultdict(list)
-    personal = defaultdict(list)
-    other = defaultdict(list)
-
-    user = api.user.get_current()
-    groups = [
-        x.getId() for x in api.group.get_groups(username=user.getId())
-        if x is not None]
-
-    groups.append(user.getId())
-
-    all_workspaces = get_workspaces_of_current_user(context)
-    w_by_path = {}
-    for w in all_workspaces:
-        ws_path = w.getPath()
-        w_by_path[ws_path] = w
-
-    all_events = get_events_of_current_user(context)
-    event_by_cal = defaultdict(list)
-    event_by_workspace = defaultdict(list)
-
-    for e in all_events:
-        ws_path = os.path.dirname(e.getPath())
-        logger.debug('Event url: ' + e.url)
-        if ws_path not in w_by_path:
-            # The immediate parent of this is event is not a workspace:
-            # should not happen, we ignore it
-            continue
-        event_by_workspace[ws_path].append(e)
-
-        is_invited = (e.invitees and
-                      set(groups).intersection(set(e.invitees)))
-
-        is_public = e.context.get('globalEvent', False)
-
-        logger.debug(
-            'Event metadata: Public %s, invited %s' % (is_public, is_invited))
-
-        # Actually I can see all calendars which I have access to.
-        # Plus I get a special section with calendars that have events I'm
-        # invited to.
-        # The concepts of public, personal and other seems deprecated
-        if is_invited:
-            invited[ws_path] = w_by_path[ws_path]
-            event_by_cal['invited'].append(e)
-        elif is_public:
-            public[ws_path] = w_by_path[ws_path]
-            event_by_cal['public'].append(e)
-        else:
-            # Everything I can see
-            my[ws_path] = w_by_path[ws_path]
-            event_by_cal['my'].append(e)
-
-    return dict(
-        workspaces=event_by_workspace,
-        events=event_by_cal,
-        calendars={
-            'my': my.values(),
-            'invited': invited.values(),
-            'public': public.values(),
-            'personal': personal.values(),
-            'other': other.values(),
-        }
-    )

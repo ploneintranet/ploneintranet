@@ -1,12 +1,12 @@
 # coding=utf-8
-from AccessControl.security import checkPermission
+from collections import defaultdict
 from DateTime import DateTime
 from datetime import datetime
 from plone import api
+from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet.calendar.config import TZ_COOKIE_NAME
 from ploneintranet.calendar.utils import escape_id_to_class
-from ploneintranet.calendar.utils import get_calendars
 from ploneintranet.calendar.utils import get_timezone_info
 from ploneintranet.layout.app import apps_container_id
 from ploneintranet.workspace.indexers import timezone as timezone_indexer
@@ -16,12 +16,14 @@ from Products.CMFCore.permissions import ModifyPortalContent
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
+import os
 import pytz
 
 
 class FullCalendarTile(Tile):
     '''FullCalendar as a tile, used in cal app and workspace calendar'''
 
+    @memoize
     def workspace(self):
         return parent_workspace(self.context)
 
@@ -99,6 +101,12 @@ class FullCalendarTile(Tile):
 
         return event_dtimes
 
+    @memoize
+    def can_edit(self):
+        ''' Check edit permission on this context
+        '''
+        return api.user.has_permission(ModifyPortalContent, obj=self.context)
+
     def _get_event_class(self, event, calendar=None):
         """take the classes and add alien if appropriate in context"""
 
@@ -111,8 +119,6 @@ class FullCalendarTile(Tile):
         path = event.url
         workspace_id = path.split('/')[-2]
         classes.add("cal-cat-{0}".format(workspace_id))
-        if calendar:
-            classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
 
         is_whole_day = event.whole_day
         if is_whole_day:
@@ -120,23 +126,58 @@ class FullCalendarTile(Tile):
 
         classes.add("cal-cat-{0}".format(event.ws_type))
         if calendar:
+            classes.add("cal-cat-{0}-{1}".format(workspace_id, calendar))
             classes.add("cal-cat-{0}-{1}".format(event.ws_type, calendar))
 
-        current_ws = parent_workspace(self.context)
+        current_ws = self.workspace()
         if current_ws is not None and \
            IBaseWorkspaceFolder.providedBy(current_ws):
             if current_ws.id != workspace_id:
                 classes.add('cal-cat-alien')
 
-        if checkPermission(ModifyPortalContent, self.context):
+        if self.can_edit():
             classes.add('editable')
 
         return " ".join(classes)
 
     def get_events(self):
         """ get events for calendar, provide proper classes """
-        events = []
-        calendars = get_calendars(self.context)
+        # Get all the users workspaces
+        # Get all the users events
+        # sort the workspaces depending on events available and the users
+        # rights within the workspaces and invitee status on the event
+        app_view = api.content.get_view(
+            self.app.app.lstrip('@'),
+            self.app,
+            self.request
+        )
+
+        groups = set(app_view.get_authenticated_groupids())
+        w_by_path = {w.getPath(): w for w in app_view.get_workspaces()}
+        all_events = app_view.get_authenticated_events()
+        events_by_calendar = defaultdict(list)
+
+        for e in all_events:
+            ws_path = os.path.dirname(e.getPath())
+            if ws_path not in w_by_path:
+                # The immediate parent of this is event is not a workspace:
+                # should not happen, we ignore it
+                continue
+
+            is_invited = groups.intersection(set(e.invitees or []))
+            is_public = e.context.get('globalEvent', False)
+
+            # Actually I can see all calendars which I have access to.
+            # Plus I get a special section with calendars that have events I'm
+            # invited to.
+            # The concepts of public, personal and other seems deprecated
+            if is_invited:
+                events_by_calendar['invited'].append(e)
+            elif is_public:
+                events_by_calendar['public'].append(e)
+            else:
+                # Everything I can see
+                events_by_calendar['my'].append(e)
 
         def enrich(event, calendar=None):
             classes = self._get_event_class(event, calendar)
@@ -153,7 +194,7 @@ class FullCalendarTile(Tile):
             edict.update(self._get_event_date_times(event))
             return edict
 
-        events_by_calendar = calendars['events']
+        events = []
         for calendar in events_by_calendar:
             ev_by_cal = events_by_calendar[calendar]
             for event in ev_by_cal:

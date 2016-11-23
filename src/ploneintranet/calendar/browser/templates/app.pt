@@ -15,10 +15,8 @@
 
         <div id="document-body">
           <div id="document-content">
-
-            <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${context/absolute_url}/@@fullcalendar.tile"></div>
-
-           </div>
+            <div id="calendar-app" tal:replace="structure here/@@fullcalendar.tile" />
+          </div>
         </div>
         <aside class="sidebar left" id="sidebar">
           <div class="sidebar-content" id="sidebar-content">
