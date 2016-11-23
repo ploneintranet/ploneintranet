@@ -1,50 +1,49 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/main_template/macros/master"
-    i18n:domain="ploneintranet">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ploneintranet">
 
-<body>
-
-  <metal:content metal:fill-slot="content">
-    <div id="content"
-         tal:define="workspace python:view.workspace;
-            workspace_url workspace/absolute_url;
-            workspace_id python:workspace.id;
-            read_only python:not view.can_edit;
-            type workspace/ws_type | string:workspace;
-            attachments here/listFolderContents;
-            token context/@@authenticator/token;
-          "
-         tal:attributes="class string:application page-type-${type} workspace-type-${type}">
-      <div id="application-body"
-           class="sidebar-normal application-workspace application- sidebar-left-closed sidebar-right-closed  workspace-type-${type}"
-          >
-        <h1 id="workspace-name">
-            <!-- Next link is to lead to landing state of current workspace -->
+  <body>
+        <metal:statusmessage fill-slot="statusmessage" tal:define="suppress_message python:request.get('suppress_message', False)">
+          <metal:macro tal:condition="not:suppress_message" use-macro="context/main_template/macros/statusmessage" />
+        </metal:statusmessage>
+    <metal:content fill-slot="content"
+                   tal:define="workspace python:view.workspace;
+                               here_url context/absolute_url;
+                               workspace_url workspace/absolute_url;
+                               workspace_id python:workspace.id;
+                               read_only python:not view.can_edit;
+                               attachments here/listFolderContents;
+                               token context/@@authenticator/token">
+      <div class="application" id="app-space">
+        <div id="application-body"
+             class="sidebar-normal application-workspace application- page-type-${type} workspace-type-${type} sidebar-left-closed"
+             tal:define="
+               type workspace/ws_type | string:workspace;
+               autosave_enabled view/autosave_enabled|nothing;
+               form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
+               read_only python:not view.can_edit;
+             "
+            >
+          <h1 id="workspace-name">
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
-        </h1>
-
-        <div class="${workspace_id}">
+          </h1>
           <div id="document-body">
-            <form id="${view/form_id}"
-                  class="document pat-inject pat-validation"
-                  action="${context/absolute_url}/view#document-body"
+            <form class="document pat-inject ${python:autosave_enabled and 'pat-autosubmit' or ''} document-type-${view/portal_type_to_class}"
                   method="POST"
-                  data-pat-inject="${view/form_pat_inject_options}"
-                >
-              <div id="meta"
-                   class="metadata pat-bumper"
-                  >
+                  action="${context/absolute_url}/view"
+                  enctype="multipart/form-data"
+                  id="${view/form_id}"
+                  data-pat-autosubmit="${python:autosave_enabled and 'delay: 2000ms' or None}"
+                  data-pat-inject="${view/form_pat_inject_options}">
+              <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
-                  <button class="pat-switch back-to-parent icon-left-open"
-                          data-pat-switch="body focus-* focus-sidebar"
-                        >${python:context.__parent__.title}</button>
+                  <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="#application-body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
                   <span class="title-group">
-                    <h1 id="document-title" class="doc-title">${context/title}</h1>
+                    <h1 class="doc-title" id="document-title">${context/title}</h1>
                     <textarea type="text"
                               name="title"
                               maxlength="70"
@@ -54,7 +53,10 @@
                               data-pat-content-mirror="target: #document-title"
                             >${context/title}</textarea>
                   </span>
+
                   <div class="quick-functions">
+                    <a class="icon-ellipsis iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Show extra context actions" i18n:attributes="title" i18n:translate="" href="${context/absolute_url}/context-menu#content">Show extra context actions</a>
+                    <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
                     <a tal:condition="view/can_edit"
                        href="${view/delete_url}"
                        class="pat-modal icon-trash iconified"
@@ -65,6 +67,7 @@
                        >
                         Delete
                     </a>
+                    <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a tal:condition="attachments"
                        href="#attachment-menu"
                        class="icon-attach iconified pat-tooltip"
@@ -74,15 +77,31 @@
                        i18n:translate="">
                         Attachments
                     </a>
+                    <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
-                    <tal:history replace="structure here/@@app-audit-button|nothing" />
-                    <a class="icon-info-circle meta-data-toggle iconified"
-                       title="Show extra metadata fields"
-                       i18n:attributes="title"
-                       i18n:translate=""
-                      >Toggle extra metadata</a>
-                  </div>
-                </div>
+
+                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
+                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
+                      <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
+                        <select name="workflow_action" id="workflow_action">
+                          <option tal:repeat="state view/get_workflow_transitions"
+                                  tal:attributes="title state/title; value state/action; selected state/selected|nothing"
+                                  tal:content="state/title">Workflow State</option>
+                        </select>
+                      </label>
+                      <span tal:replace="structure context/@@authenticator/authenticator"/>
+                    </fieldset>
+                    <tal:autosaveon condition="autosave_enabled">
+                      <metal:macro use-macro="context/content_macros/saving_badge" />
+                    </tal:autosaveon>
+                    <tal:autosaveoff condition="not:autosave_enabled">
+                      <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
+                    </tal:autosaveoff>
+                    <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
+
+
+                  </div><!-- quick-functions -->
+                </div> <!-- #meta-bar -->
                 <fieldset id="meta-extra"
                           class="pat-collapsible closed meta-extra"
                           data-pat-collapsible="trigger: .meta-data-toggle"
@@ -186,8 +205,9 @@
                          tal:content="structure here/mail_body/raw|nothing">
                 </article>
               </div> <!-- #document-content -->
+              <input type="hidden" name="form.submitted" value="1" />
             </form>
-          </div>
+          </div><!-- #document-body -->
 
           <div id="attachment-menu"
                hidden
@@ -206,11 +226,28 @@
                 >Copy all attachments as individual files to this workspace.</a>
             </p>
           </div>
-          <aside tal:condition="view/show_sidebar" data-tile="${context/absolute_url}/@@sidebar.default" />
+          <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+          <aside data-tile="${container/absolute_url}/@@sidebar.default"
+                 tal:define="container context/@@plone_context_state/folder"
+                 tal:condition="view/show_sidebar"></aside>
+          <div id="share-panel" hidden style="display:none">
+            <ul class="menu">
+              <li tal:condition="python:context.portal_type in ('File', 'Image')">
+                <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
+              </li>
+              <li>
+                <a class="icon-print" href="javascript:window.print()" i18n:translate="">Print</a>
+              </li>
+              <li tal:condition="view/can_publish_widely">
+                <a class="icon-feather pat-modal"
+                   href="${context/absolute_url}/panel-publish-to-library#document-content"
+                   i18n:translate="">Publish to library</a>
+                </li>
+            </ul>
+          </div>
+
+        </div>
       </div>
-      <nav data-tile="${workspace_url}/@@workspace.tabs.tile" />
-    </div>
-  </div>
-  </metal:content>
-</body>
+    </metal:content>
+  </body>
 </html>
