@@ -68,6 +68,22 @@
       handler=".to0008.add_solr_disabled_field"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:registerProfile
+      name="to_0009"
+      title="Add registry entry for solr function query boost"
+      description=""
+      directory="profiles/to_0009"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+  <genericsetup:upgradeStep
+      title="Add registry entry for solr function query boost"
+      description="ploneintranet.search.solr.function_query_boost"
+      source="*"
+      destination="0009"
+      handler=".to0009.add_query_boost_configuration"
+      profile="ploneintranet.search:default" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>

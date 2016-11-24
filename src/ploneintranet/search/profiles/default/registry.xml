@@ -70,6 +70,16 @@
     </value>
   </record>
 
+  <record name="ploneintranet.search.solr.function_query_boost">
+    <field type="plone.registry.field.TextLine">
+      <title>Function query for boosting the main query</title>
+      <description>Solr function query that will be interpreted by the solr BoostQParserPlugin and applied to the main query ('q') of a search object.</description>
+      <required>False</required>
+      <default></default>
+    </field>
+    <value></value>
+  </record>
+
   <record name="ploneintranet.search.solr.spellchecker.accuracy">
     <field type="plone.registry.field.Dict">
       <title>Solr spellchecking settings</title>

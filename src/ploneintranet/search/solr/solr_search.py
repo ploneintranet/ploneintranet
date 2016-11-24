@@ -1,23 +1,22 @@
-import collections
-import logging
-import urlparse
-
+from .. import base
+from ..interfaces import ISiteSearch
+from .interfaces import IConnection
+from .interfaces import IConnectionConfig
+from .interfaces import IMaintenance
+from .interfaces import IQuery
+from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_base
 from plone import api
-import scorched.search
+from Products.CMFPlone.utils import safe_unicode
 from scorched.exc import SolrError
 from scorched.search import LuceneQuery
 from zope.component import getUtility
 from zope.interface import implementer
-from AccessControl.SecurityManagement import getSecurityManager
-from Products.CMFPlone.utils import safe_unicode
 
-from .. import base
-from ..interfaces import ISiteSearch
-from .interfaces import IConnectionConfig
-from .interfaces import IConnection
-from .interfaces import IMaintenance
-from .interfaces import IQuery
+import collections
+import logging
+import scorched.search
+import urlparse
 
 
 logger = logging.getLogger(__name__)
@@ -68,6 +67,8 @@ class SpellcheckOptions(scorched.search.Options):
 
 
 class Search(scorched.search.SolrSearch):
+    function_query_boost = base.RegistryProperty('function_query_boost',
+                                                 prefix=__package__)
 
     def _init_common_modules(self):
         super(Search, self)._init_common_modules()
@@ -81,6 +82,22 @@ class Search(scorched.search.SolrSearch):
             kw['q'] = query.encode('utf-8')
         spellchecker.update(**kw)
         return newself
+
+    def execute(self, constructor=None):
+        """ Override the execute method of scorched so that
+        we can prepend our boosting. Only boost when doing fulltext search.
+        """
+        options = self.options()
+        boost_query = self.function_query_boost
+        if boost_query and 'SearchableText' in options['q']:
+            boost = u"{{!boost b={boost_query}}}".format(
+                boost_query=boost_query
+            )
+            options['q'] = boost + options['q']
+        ret = self.interface.search(**options)
+        if constructor:
+            ret = self.constructor(ret, constructor)
+        return ret
 
     def __str__(self):
         return "{}: {} && {}".format(
