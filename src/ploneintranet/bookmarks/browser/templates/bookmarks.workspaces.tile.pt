@@ -36,7 +36,7 @@
           <div class="row tiles workspaces pat-masonry" data-pat-masonry="column-width: .grid-sizer-bookmarked-workspaces; gutter: 0; item-selector: .tile;">
             <div class="grid-sizer-bookmarked-workspaces"></div>
             <tal:repeat repeat="workspace bookmarks">
-              <tal:app define="workspace workspace/getObject" replace="structure workspace/@@workspace.tile" />
+              <tal:app define="workspace workspace/getObject" replace="structure workspace/@@workspace.tile.small" />
             </tal:repeat>
           </div>
         </div>
