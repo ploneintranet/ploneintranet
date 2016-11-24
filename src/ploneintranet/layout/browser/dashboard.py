@@ -1,5 +1,6 @@
 # coding=utf-8
 from collective.mustread.interfaces import ITracker
+from collective.mustread.behaviors.maybe import IMaybeMustRead
 from logging import getLogger
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
@@ -116,18 +117,25 @@ class NewsTile(Tile):
         # supplement async tracker with sync hidden state propagation
         read_uids = set(tracker.uids_read()).union(set(self.just_read_uids))
         pc = api.portal.get_tool('portal_catalog')
-        return [
+        items = [
             {'title': item.Title,
              'description': item.Description,
              'url': item.getURL(),
              'uid': item.UID,
-             'has_thumbs': item.has_thumbs}
+             'has_thumbs': item.has_thumbs,
+             'getObject': item.getObject}
             for item in pc(portal_type='News Item',
                            review_state='published',
                            sort_on='effective',
                            sort_order='reverse')
             if item.UID not in read_uids
         ]
+        # delay getObject call to resolve only unread items
+        for item in items:
+            item['must_read'] = IMaybeMustRead(item['getObject']()).must_read
+        # sort must-read, then on effective
+        return sorted(items, key=lambda x: x['must_read'],
+                      reverse=True)
 
     def can_expand(self):
         return len(self.news_items()) > self.min_num()
