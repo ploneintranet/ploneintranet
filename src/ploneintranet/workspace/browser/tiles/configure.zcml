@@ -46,6 +46,17 @@
     />
 
   <plone:tile
+    for="*"
+    name="workspace.tile.small"
+    title="Workspace tile (small version for bookmarks portlet)"
+    description="A display of workspaces for the bookmarks portlet"
+    class=".workspaces.WorkspaceTileSmall"
+    add_permission="cmf.ManagePortal"
+    permission="zope2.View"
+    layer="ploneintranet.workspace.interfaces.IPloneintranetWorkspaceLayer"
+    />
+
+  <plone:tile
     name="workspace.tabs.tile"
     title="Workspace Tabs"
     description="This tile shows the workspace tabs"

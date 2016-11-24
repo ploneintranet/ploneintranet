@@ -154,6 +154,10 @@ class WorkspaceTile(Tile):
         return ' '.join(classes)
 
 
+class WorkspaceTileSmall(WorkspaceTile):
+    index = ViewPageTemplateFile("templates/workspace.tile.small.pt")
+
+
 def my_workspaces(context,
                   request={},
                   workspace_types=[],
