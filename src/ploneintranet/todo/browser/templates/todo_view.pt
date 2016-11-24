@@ -15,7 +15,7 @@
       <div class="application" id="app-space">
         <div id="application-body"
              tal:define="type workspace/ws_type | string:workspace;"
-             tal:attributes="class string:application-${type} project page-type-${type} workspace-type-${type} sidebar-left-closed">
+             tal:attributes="class string:sidebar-normal application-workspace application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed">
 
           <h1 id="workspace-name">
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
