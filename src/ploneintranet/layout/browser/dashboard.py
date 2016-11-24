@@ -1,4 +1,5 @@
 # coding=utf-8
+from collective.mustread.interfaces import ITracker
 from logging import getLogger
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
@@ -13,6 +14,7 @@ from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
+from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
@@ -97,14 +99,22 @@ class NewsTile(Tile):
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
     def __call__(self):
+        # minimal state propagation via hidden input
+        self.just_read_uids = self.request.get('just_read_uids', [])
         if 'hit_uid' in self.request.form.keys():
             uid = self.request.form['hit_uid']
             item = api.content.get(UID=uid)
+            # async write on-disk state
             MarkRead(item, self.request)()
+            # sync update in-memory state
+            self.just_read_uids.append(uid)
         return super(NewsTile, self).__call__()
 
     @memoize
     def news_items(self):
+        tracker = getUtility(ITracker)
+        # supplement async tracker with sync hidden state propagation
+        read_uids = set(tracker.uids_read()).union(set(self.just_read_uids))
         pc = api.portal.get_tool('portal_catalog')
         return [
             {'title': item.Title,
@@ -116,7 +126,8 @@ class NewsTile(Tile):
                            review_state='published',
                            sort_on='effective',
                            sort_order='reverse')
-        ]  # FIXME: filter out read items
+            if item.UID not in read_uids
+        ]
 
     def can_expand(self):
         return len(self.news_items()) > self.min_num()
