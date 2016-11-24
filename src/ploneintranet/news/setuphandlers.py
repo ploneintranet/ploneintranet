@@ -28,12 +28,11 @@ def initialize_mustread_db(*args):
         record = ''
     if not record or 'memory' in record:
         dbpath = '%s/var/mustread.db' % os.getcwd()
-        log.warn('SQL storage not properly configured. Creating file db: %s',
-                 dbpath)
+        record = u'sqlite://%s' % dbpath
+        log.warn('SQL storage not properly configured. Forcing: %s', record)
         api.portal.set_registry_record(
-            'connectionstring', u'sqlite:///%s' % dbpath,
-            interface=IMustReadSettings)
-    log.info('Initializing SQL db')
+            'connectionstring', record, interface=IMustReadSettings)
+    log.info('Initializing SQL db: %s' % record)
     session = getSession()
     Base.metadata.create_all(session.bind.engine)
 
