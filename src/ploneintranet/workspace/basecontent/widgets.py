@@ -1,21 +1,23 @@
+# coding=utf-8
 from datetime import datetime
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
-from ploneintranet.workspace.behaviors.image import IImageField
+from ploneintranet.layout.interfaces import IPloneintranetFormLayer
+from ploneintranet.network.behaviors.metadata import IDublinCore as pi_IDublinCore  # noqa
 from ploneintranet.workspace.behaviors.file import IFileField
+from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
-from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from pytz import timezone
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IWidget
-from z3c.form.interfaces import NOT_CHANGED
 from z3c.form.interfaces import NO_VALUE
+from z3c.form.interfaces import NOT_CHANGED
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
@@ -26,9 +28,6 @@ from zope.interface import implementer_only
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import ITuple
-
-from ploneintranet.network.behaviors.metadata import IDublinCore \
-    as pi_IDublinCore
 
 
 class ICommaSeparatedWidget(IWidget):
@@ -106,7 +105,7 @@ class PatDatePickerWidget(Widget):
 
         # pytz "does not work" with datetime tzinfo. Use localize instead
         # Symptoms are times in "LMT" format which are off a few minutes.
-        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python  # noqa
         tz = timezone(timezone_name)
         date = tz.localize(date)
         return date
@@ -120,21 +119,22 @@ class DateCheckboxWidget(Widget):
     """
     def extract(self, default=NO_VALUE):
         value = self.request.get(self.name, default)
-        if value == default:
+        if (
+            value == default or
+            not value or
+            not isinstance(value, basestring)
+        ):
             return None
-        elif value[0] == u'':
-            # It's either an empty string or list with no date
-            return None
-        elif isinstance(value, basestring):
-            # Date only
-            date = datetime.strptime(value, '%Y-%m-%d')
+
+        date = datetime.strptime(value, '%Y-%m-%d')
+
         timezone_name = default_timezone(self.context)
         if isinstance(timezone_name, unicode):
             timezone_name.encode('utf8')
 
         # pytz "does not work" with datetime tzinfo. Use localize instead
         # Symptoms are times in "LMT" format which are off a few minutes.
-        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python
+        # http://stackoverflow.com/questions/24856643/unexpected-results-converting-timezones-in-python  # noqa
         tz = timezone(timezone_name)
         date = tz.localize(date)
         return date
