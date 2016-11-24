@@ -19,7 +19,7 @@
 		  </fieldset>
         </form>
         <div id="contact-search-items" tal:define="search_response context/@@search_people/search_people" metal:define-macro="contact-search-items">
-            <nav class="user-cloud pat-auto-scale" tal:condition="not:request/SearchableText|nothing">
+            <nav class="user-cloud" tal:condition="not:request/SearchableText|nothing">
                 <a tal:repeat="user view/recent_contacts" tal:replace="structure python:view.get_avatar_by_userid(user.username)" />
             </nav>
             <div class="item-selector mode-follow"
