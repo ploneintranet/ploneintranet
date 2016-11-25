@@ -21,6 +21,9 @@ def setupVarious(context):
 
 
 def initialize_mustread_db(*args):
+    if api.env.test_mode() or 'robot-server' in os.environ.get('_', ''):
+        # tests provide own tempDb
+        return
     try:
         record = api.portal.get_registry_record(
             'connectionstring', interface=IMustReadSettings)
@@ -125,6 +128,8 @@ def create_news_items(context, app, section, i):
     img_data = context.openDataFile(img_path).read()
     item.image = NamedBlobImage(data=img_data,
                                 filename=img_name.decode('utf-8'))
+    if i % 2:
+        item.must_read = True
     item.setEffectiveDate('2016/09/{:02d}'.format(seq))
     api.content.transition(item, 'publish')
     item.reindexObject()

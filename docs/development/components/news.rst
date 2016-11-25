@@ -27,7 +27,7 @@ The mustread implementation takes care to not step on the toes of auditlog, and 
 by re-using the same database connector if possible.
 
 The default connector for both ``collective.mustread`` and ``collective.auditlog`` is a memory database,
-which is great for testing but obviously unsuitable for production since it gets wiped on process restart.
+which is obviously unsuitable for production since it gets wiped on process restart.
 
 ``ploneintranet.news`` provides an upgrade step to initialize the database. If you don't provide your own
 database connection string, it will fall back to a sqlite file store and avoid a in-memory database.
