@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-11-18 17:21+0000\n"
+"POT-Creation-Date: 2016-11-22 08:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1470,6 +1470,10 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
+#: ../userprofile/browser/templates/group_view.pt:86
+msgid "More &hellip;"
+msgstr ""
+
 #: ../calendar/browser/templates/app.pt:38
 msgid "More info"
 msgstr ""
@@ -1824,7 +1828,7 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: ../workspace/browser/add_workspace.py:207
+#: ../workspace/browser/add_workspace.py:209
 msgid "Please specify which Case Template to use"
 msgstr ""
 
@@ -3820,7 +3824,7 @@ msgid "num_items_can_be_retagged"
 msgstr ""
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:115
+#: ../workspace/browser/workspace.py:130
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr ""
