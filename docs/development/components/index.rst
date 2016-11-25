@@ -11,6 +11,7 @@ Component Packages
     microblogstream
     messaging
     notifications
+    news
     workspace
     case-management
     mailin
