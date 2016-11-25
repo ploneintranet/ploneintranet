@@ -134,4 +134,7 @@ class EmailInvitees(BrowserView):
                 self.request,
                 'error'
             )
-        self.request.response.redirect(self.context.absolute_url())
+        # self.request.response.redirect(self.context.absolute_url())
+        msg = ViewPageTemplateFile('templates/globalstatusmessage.pt')
+        return msg(self)
+
