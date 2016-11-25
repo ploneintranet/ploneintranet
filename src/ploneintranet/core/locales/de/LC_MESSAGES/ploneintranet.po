@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-11-18 17:21+0000\n"
+"POT-Creation-Date: 2016-11-22 08:25+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -424,7 +424,7 @@ msgstr "Meine Dokumente"
 
 #: ../bookmarks/browser/templates/bookmarks.workspaces.tile.pt:25
 msgid "Bookmarked Workspaces"
-msgstr "Meine Arbeitsbereiche"
+msgstr "Meine Arbeitsräume"
 
 #: ../bookmarks/browser/templates/bookmarks.tile.pt:18
 msgid "Bookmarks"
@@ -1473,6 +1473,10 @@ msgstr "Änderungen der letzten 7 Tage"
 msgid "Month"
 msgstr "Monat"
 
+#: ../userprofile/browser/templates/group_view.pt:86
+msgid "More &hellip;"
+msgstr ""
+
 #: ../calendar/browser/templates/app.pt:38
 msgid "More info"
 msgstr "Mehr Info"
@@ -1827,7 +1831,7 @@ msgstr ""
 msgid "Planned"
 msgstr "Geplant"
 
-#: ../workspace/browser/add_workspace.py:207
+#: ../workspace/browser/add_workspace.py:209
 msgid "Please specify which Case Template to use"
 msgstr "Bitte geben Sie eine Vorlage an"
 
@@ -3845,7 +3849,7 @@ msgid "num_items_can_be_retagged"
 msgstr "${num_modifiable} Dokumente können umgetagged werden."
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:115
+#: ../workspace/browser/workspace.py:130
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr "${no_users} Mitglieder / ${no_groups} Gruppen"
