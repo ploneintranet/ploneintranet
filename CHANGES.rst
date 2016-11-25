@@ -1,10 +1,38 @@
 Changelog
 =========
 
-1.2.0a27 (unreleased)
+1.2.0a28 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a27 (2016-11-25)
+---------------------
+
+* Merge pull request #954 from quaive/fix-event-add-time-column [GitHub]
+* Merge pull request #953 from quaive/fix-contacts-portlet-rescale [GitHub]
+* Merge pull request #952 from quaive/update-portlets [GitHub]
+* fix sizes [Alexander Pilz]
+* Remove the pat-autoscale as it doesn't resize the portlet anymore. [Alexander Pilz]
+* Add expander to tasks and event portlets, align workspaces bookmark portlet with proto (no bookmarking nor description) [Alexander Pilz]
+* Merge pull request #951 from quaive/fix-markup-todo [GitHub]
+* fix classes on todo view, refs #14486 [Alexander Pilz]
+* Merge pull request #906 from quaive/solr-boosting [GitHub]
+* Merge pull request #949 from quaive/fix-extract-data [GitHub]
+* Merge pull request #945 from quaive/workaround-piprototype-407 [GitHub]
+* Override execute method to add boosting [Alessandro Pisa]
+* Workaround for quaive/ploneintranet.prototype#407 [Alessandro Pisa]
+* Merge pull request #948 from quaive/calendar-wip [GitHub]
+* Merge pull request #947 from quaive/mail-template [GitHub]
+* Fix extract method for dates [Alessandro Pisa]
+* First optimizations to make calendar faster [Alessandro Pisa]
+* Update the mail template [Alessandro Pisa]
+* Merge pull request #946 from quaive/sidebar-outside-workspace [GitHub]
+* Sidebar: memoize root() [Cillian de Roiste]
+* Sidebar: Allow to be used outside workspaces [Cillian de Roiste]
+* Merge pull request #943 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a27 [Alexander Pilz]
 
 
 1.2.0a26 (2016-11-21)
