@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a27 (unreleased)
+1.2.0a27 (2016-11-25)
 ---------------------
 
 * Merge pull request #954 from quaive/fix-event-add-time-column [GitHub]
