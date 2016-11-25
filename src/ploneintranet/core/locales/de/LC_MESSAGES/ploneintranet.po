@@ -159,7 +159,7 @@ msgstr "Fügen Sie dieses Object zu Ihren Lesezeichen hinzu."
 
 #: ../bookmarks/browser/tiles.py:103
 msgid "Add this workspace to your bookmarks."
-msgstr "Arbeitsbereich zu den Lesezeichen hinzufügen"
+msgstr "Arbeitsraum zu den Lesezeichen hinzufügen"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:38
 msgid "Add user"
@@ -319,7 +319,7 @@ msgstr "Dokument archivieren"
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:86
 msgid "Archive workspace"
-msgstr "Arbeitsbereich archivieren"
+msgstr "Arbeitsraum archivieren"
 
 #: ../workspace/browser/templates/case_manager.pt:115
 msgid "Archived"
@@ -1733,11 +1733,11 @@ msgstr "Sidebar öffnen"
 
 #: ../calendar/browser/templates/app.pt:50
 msgid "Open workspace calendar"
-msgstr "Kalender des Arbeitsbereichs öffnen"
+msgstr "Kalender des Arbeitsraums öffnen"
 
 #: ../calendar/browser/templates/app.pt:50
 msgid "Open workspace calendar in a new window"
-msgstr "Kalender des Arbeitsbereichs in neuem Fenster öffnen"
+msgstr "Kalender des Arbeitsraums in neuem Fenster öffnen"
 
 #: ../news/browser/templates/publisher-sidebar.pt:41
 #: ../search/browser/templates/all_results.pt:123
@@ -2029,7 +2029,7 @@ msgstr "Dieses Objekt aus Ihren Lesezeichen entfernen"
 
 #: ../bookmarks/browser/tiles.py:97
 msgid "Remove this workspace from your bookmarks"
-msgstr "Diesen Arbeitsbereich aus Ihren Lesezeichen entfernen."
+msgstr "Diesen Arbeitsraum aus Ihren Lesezeichen entfernen."
 
 #: ../workspace/browser/cart_actions/templates/rename_confirmation.pt:46
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:220
@@ -2221,7 +2221,7 @@ msgstr "Alle Termine anzeigen"
 
 #: ../workspace/browser/templates/workspaces.pt:48
 msgid "Show all workspaces or only workspace you're a member of."
-msgstr "Alle Arbeitsbereiche anzeigen oder nur Arbeitsbereiche bei denen Sie Mitglied sind"
+msgstr "Alle Arbeitsräume anzeigen oder nur Arbeitsräume bei denen Sie Mitglied sind"
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:76
 msgid "Show archived documents"
@@ -2850,7 +2850,7 @@ msgstr "Verzeichnis für Arbeitsräume"
 
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:18
 msgid "Workspace calendar"
-msgstr "Kalender des Arbeitsraumes"
+msgstr "Kalender des Arbeitsraums"
 
 #: ../workspace/browser/templates/add_workspace.pt:24
 #: ../workspace/browser/templates/workspace-add.pt:26
@@ -2935,7 +2935,7 @@ msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsraums."
 
 #: ../workspace/browser/templates/panel-change-role.pt:33
 msgid "You are about to change the role of the following <strong>${num_users}</strong> members of this workspace. Are you sure? (un-tick to exclude from this role change)"
-msgstr "Sie sind dabei, die Rolle der folgenden <strong>${num_users}</strong> Mitglieder dieses Arbeitsraumes zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
+msgstr "Sie sind dabei, die Rolle der folgenden <strong>${num_users}</strong> Mitglieder dieses Arbeitsraums zu ändern. Sind Sie sicher? (Auswahl entfernen, um Benutzer von der Änderung auszuschließen)"
 
 #: ../layout/browser/templates/delete_confirmation.pt:55
 msgid "You are about to delete this ${contenttype}. Are you sure?"
@@ -3867,7 +3867,7 @@ msgstr "Gruppen ${num_groups}"
 #. Default: "Workspaces ${num_workspaces}"
 #: ../userprofile/browser/templates/userprofile.pt:191
 msgid "person-workspaces"
-msgstr "Arbeitsbereiche ${num_workspaces}"
+msgstr "Arbeitsräume ${num_workspaces}"
 
 #: ../notifications/browser/notifications.pt:24
 #: ../workspace/browser/tiles/workspaces.py:309
