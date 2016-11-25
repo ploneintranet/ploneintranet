@@ -9,6 +9,7 @@ from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.async.testing import FunctionalTestCase
 import os
 import transaction
+import unittest
 
 TEST_MIME_TYPE = 'application/vnd.oasis.opendocument.text'
 TEST_FILENAME = u'test.odt'
@@ -17,6 +18,7 @@ TEST_FILENAME = u'test.odt'
 class TestTasks(FunctionalTestCase):
     """Extra task tests, separate from the async framework tests."""
 
+    @unittest.skip("https://github.com/quaive/ploneintranet/issues/944")
     def test_preview(self):
         """Verify async preview generation"""
 
