@@ -193,6 +193,10 @@ def folder_added_to_workspace(obj, event):
     for item in aq_chain(obj)[1:]:
         if IBaseWorkspaceFolder.providedBy(item):
             user = api.user.get_current()
+            pmt = api.portal.get_tool('portal_membership')
+            wrapped_user = pmt.getMemberById(user.getId())
+            if not wrapped_user:
+                return
             api.user.revoke_roles(user=user, obj=obj, roles=['Owner'])
             obj.reindexObjectSecurity()
             break
