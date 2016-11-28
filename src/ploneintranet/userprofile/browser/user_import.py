@@ -6,17 +6,18 @@ import itertools
 import logging
 import transaction
 
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from ploneintranet import api as pi_api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.userprofile import exc as custom_exc
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.namedfile.file import NamedBlobImage
-from zope.component import getUtility
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.userprofile import exc as custom_exc
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import schema
+from zope.component import getUtility
 
 
 USER_PORTAL_TYPE = "ploneintranet.userprofile.userprofile"
@@ -125,9 +126,12 @@ class CSVImportView(BrowserView):
         """Process the input file, validate and
         create the users.
         """
+        # Remove empty lines
+        csvdata = u"\n".join(
+            [line for line in safe_unicode(csvfile).split('\n') if line])
         data = tablib.Dataset()
         try:
-            data.csv = csvfile
+            data.csv = csvdata.encode('utf-8')
         except tablib.core.InvalidDimensions:
             return self._show_message_redirect(
                 _("File incorrectly formatted.")
