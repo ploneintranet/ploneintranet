@@ -31,7 +31,7 @@ def initialize_mustread_db(*args):
         record = ''
     if not record or 'memory' in record:
         dbpath = '%s/var/mustread.db' % os.getcwd()
-        record = u'sqlite://%s' % dbpath
+        record = u'sqlite:///%s' % dbpath
         log.warn('SQL storage not properly configured. Forcing: %s', record)
         api.portal.set_registry_record(
             'connectionstring', record, interface=IMustReadSettings)
