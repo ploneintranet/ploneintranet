@@ -16,8 +16,8 @@ log = logging.getLogger(__name__)
 
 def setupVarious(context):
     initialize_mustread_db()
-    app = create_news_app()
-    move_all_newsitems_to_app(app)
+    create_news_app()
+    move_all_newsitems_to_app()
 
 
 def initialize_mustread_db(*args):
@@ -75,16 +75,28 @@ def create_news_app():
     return app_obj
 
 
-def move_all_newsitems_to_app(app):
+def move_all_newsitems_to_app(*args):
+    app = api.portal.get().news
     section = app.sections()[0]
     app_path = '/'.join(app.getPhysicalPath())
     catalog = api.portal.get_tool('portal_catalog')
     items = [x for x in catalog(portal_type='News Item')
              if not x.getPath().startswith(app_path)]
+    i = 0
+    j = 0
     for item in items:
-        moved = api.content.move(item.getObject(), app)
-        moved.section = create_relation(section.getPhysicalPath())
-        moved.reindexObject()
+        log.info("Moving legacy news item: %s", item.getPath())
+        try:
+            moved = api.content.move(item.getObject(), app)
+            moved.section = create_relation(section.getPhysicalPath())
+            moved.reindexObject()
+            i += 1
+        except Exception:  # https://github.com/quaive/ploneintranet/issues/950
+            log.error("Could not move legacy news item: %s", item.getPath())
+            j += 1
+    log.info("Moved %s legacy news items into app.", i)
+    if j:
+        log.error("Failed to move %s news items.", j)
 
 
 def setupTestdata(context):
