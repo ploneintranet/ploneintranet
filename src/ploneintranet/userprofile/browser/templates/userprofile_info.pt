@@ -20,7 +20,6 @@
                 Name
               </dt>
               <dd>
-                <em class="title" tal:condition="context/person_title|nothing" tal:content="context/person_title"/>
                 <span tal:replace="context/fullname"/>
               </dd>
               <tal:field repeat="field fields">
