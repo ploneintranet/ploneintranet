@@ -188,10 +188,13 @@ class CSVImportView(BrowserView):
         :rtype: bool
         """
         # check for core user fields
+        core_fields = schema.getFields(self.core_user_schema).values()
         required_core_user_fields = set(
-            [x.getName() for x in
-             schema.getFields(self.core_user_schema).values()
-             if x.required]
+            [x.getName() for x in core_fields if x.required]
+        )
+        optional_core_user_fields = set(
+            [x.getName() for x in core_fields
+             if x.getName() not in required_core_user_fields]
         )
 
         file_headers = filedata.headers
@@ -216,6 +219,7 @@ class CSVImportView(BrowserView):
         all_user_fields = set()
         all_user_fields |= set(additional_fields)
         all_user_fields |= required_core_user_fields
+        all_user_fields |= optional_core_user_fields
         if not headers <= all_user_fields:
             extra = headers - all_user_fields
             raise custom_exc.ExtraneousFields(
