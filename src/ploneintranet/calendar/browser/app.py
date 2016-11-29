@@ -29,6 +29,9 @@ class View(BrowserView):
     """ The (global) calendar app view """
 
     app_name = 'calendar'
+    _group_types = [
+        'ploneintranet.userprofile.workgroup',
+    ]
 
     def get_workspaces_query_string(self):
         workspaces = self.request.get('workspaces', [])
@@ -59,10 +62,14 @@ class View(BrowserView):
             False,
         )
         if only_membrane_groups:
+            mt = api.portal.get_tool('membrane_tool')
             groups = [
-                group.getGroupId()
-                for group in self.groups_container.listFolderContents()
-                if userid in getattr(group, 'members', [])
+                b.getGroupId
+                for b in mt.unrestrictedSearchResults(
+                    workspace_members=userid,
+                    portal_type=self._group_types,
+                )
+                if b.getGroupId
             ]
         else:
             groups = [
