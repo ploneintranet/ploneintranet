@@ -39,6 +39,13 @@ Use the Barceloneta admin UI on ``yoursite/news/@@sharing``
 to share ``Contributor``, ``Editor`` and ``Reviewer`` access with the
 users that ought to manage news items in the *News Publisher App*.
 
+async routing
+-------------
+
+Database writes registering each view on a news item are handled asynchronously via a
+call to the ``@@mustread-hit`` view on news items. You may want to configure your load
+balancer to route requests matching that URL part to a dedicated async worker.
+
 
 User stories
 ============
@@ -115,7 +122,11 @@ Tests
 
 - ``collective.mustread`` has a very extensive test suite on the view tracking backend.
 
-- Robot tests for news live in ``ploneintranet.suite``.
+- ``ploneintranet.news`` has some basic smoke tests on behaviors and views.
+
+.. warning::
+   
+   Robot tests are lacking, because of threading issues with the sqlalchemy ORM in test mode.
 
 
 Publisher app, magazine and dashboard tile
