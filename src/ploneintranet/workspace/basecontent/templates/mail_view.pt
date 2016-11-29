@@ -70,7 +70,6 @@
                        >
                         Delete
                     </a>
-                    <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <a tal:condition="attachments"
                        href="#attachment-menu"
                        class="icon-attach iconified pat-tooltip"
