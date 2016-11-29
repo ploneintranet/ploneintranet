@@ -17,7 +17,6 @@ log = logging.getLogger(__name__)
 def setupVarious(context):
     initialize_mustread_db()
     create_news_app()
-    move_all_newsitems_to_app()
 
 
 def initialize_mustread_db(*args):
@@ -75,6 +74,7 @@ def create_news_app():
     return app_obj
 
 
+# this upgrade step is disabled
 def move_all_newsitems_to_app(*args):
     app = api.portal.get().news
     section = app.sections()[0]

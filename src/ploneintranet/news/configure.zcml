@@ -66,12 +66,12 @@
         />
   </genericsetup:upgradeSteps>
 
-  <genericsetup:upgradeStep
+  <!--genericsetup:upgradeStep
       source="0006"
       destination="0007"
       profile="ploneintranet.news:default"
       title="Move legacy news items to news app"
       handler=".setuphandlers.move_all_newsitems_to_app"
-      />
+      /-->
 
 </configure>
