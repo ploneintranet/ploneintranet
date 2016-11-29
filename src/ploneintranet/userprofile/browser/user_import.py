@@ -6,17 +6,18 @@ import itertools
 import logging
 import transaction
 
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from ploneintranet import api as pi_api
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.userprofile import exc as custom_exc
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.namedfile.file import NamedBlobImage
-from zope.component import getUtility
+from ploneintranet import api as pi_api
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.userprofile import exc as custom_exc
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import schema
+from zope.component import getUtility
 
 
 USER_PORTAL_TYPE = "ploneintranet.userprofile.userprofile"
@@ -125,9 +126,12 @@ class CSVImportView(BrowserView):
         """Process the input file, validate and
         create the users.
         """
+        # Remove empty lines
+        csvdata = u"\n".join(
+            [line for line in safe_unicode(csvfile).split('\n') if line])
         data = tablib.Dataset()
         try:
-            data.csv = csvfile
+            data.csv = csvdata.encode('utf-8')
         except tablib.core.InvalidDimensions:
             return self._show_message_redirect(
                 _("File incorrectly formatted.")
@@ -188,10 +192,13 @@ class CSVImportView(BrowserView):
         :rtype: bool
         """
         # check for core user fields
+        core_fields = schema.getFields(self.core_user_schema).values()
         required_core_user_fields = set(
-            [x.getName() for x in
-             schema.getFields(self.core_user_schema).values()
-             if x.required]
+            [x.getName() for x in core_fields if x.required]
+        )
+        optional_core_user_fields = set(
+            [x.getName() for x in core_fields
+             if x.getName() not in required_core_user_fields]
         )
 
         file_headers = filedata.headers
@@ -216,6 +223,7 @@ class CSVImportView(BrowserView):
         all_user_fields = set()
         all_user_fields |= set(additional_fields)
         all_user_fields |= required_core_user_fields
+        all_user_fields |= optional_core_user_fields
         if not headers <= all_user_fields:
             extra = headers - all_user_fields
             raise custom_exc.ExtraneousFields(
