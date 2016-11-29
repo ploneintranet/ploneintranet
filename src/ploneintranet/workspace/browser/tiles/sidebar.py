@@ -772,7 +772,7 @@ class Sidebar(BaseTile):
 
         grouping = self.grouping()
         group_url_tmpl = root.absolute_url() + \
-            '/@@sidebar.default?groupname=%s#workspace-documents'
+            '/@@sidebar.documents?groupname=%s#workspace-documents'
 
         if grouping == 'folder':
             # Group by Folder - use list contents
