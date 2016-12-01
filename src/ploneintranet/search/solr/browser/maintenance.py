@@ -7,6 +7,7 @@ from collective.indexing.indexer import getOwnIndexMethod
 from datetime import datetime
 from logging import getLogger
 from plone.memoize import ram
+from plone.protect.interfaces import IDisableCSRFProtection
 from ploneintranet.search.solr.indexers import ContentAdder
 from ploneintranet.search.solr.indexers import ContentIndexer
 from ploneintranet.search.solr.interfaces import ICheckIndexable
@@ -24,6 +25,7 @@ from zope.component import adapts
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component import queryUtility
+from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
 
@@ -112,6 +114,11 @@ class SolrMaintenanceView(BrowserView):
                 logger.info(msg)
         return log
 
+    def disable_csrf(self):
+        ''' Disable CSRF protection because we are also wriuting on the catalog
+        '''
+        alsoProvides(self.request, IDisableCSRFProtection)
+
     def optimize(self):
         """ optimize solr indexes """
         # This is probably too simple, we must pass in a higher timeout
@@ -131,6 +138,8 @@ class SolrMaintenanceView(BrowserView):
                 index_fulltext=False):
         """ find all contentish objects (meaning all objects derived from one
             of the catalog mixin classes) and (re)indexes them """
+
+        self.disable_csrf()
 
         if ignore_portal_types and only_portal_types:
             raise ValueError("It is not possible to combine "
@@ -257,6 +266,8 @@ class SolrMaintenanceView(BrowserView):
         in the catalog but not in Solr will be indexed and records not
         contained in the catalog will be removed.
         """
+        self.disable_csrf()
+
         conn = IConnection(getUtility(IConnectionConfig))
         key = conn.schema['uniqueKey']
         CI = ContentIndexer()
