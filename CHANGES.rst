@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a28 (unreleased)
+1.2.0a28 (2016-12-01)
 ---------------------
 
 * Merge pull request #973 from quaive/wrong-registry-key [GitHub]
