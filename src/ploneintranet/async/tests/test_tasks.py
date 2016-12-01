@@ -97,7 +97,7 @@ class TestMustreadTask(MustReadFunctionalTestCase):
         self.assertEqual(self.db.reads, [])
         # schedule the hit
         result = tasks.MarkRead(self.page, self.request)()
-        self.waitfor(result)
+        self.waitfor(result, timeout=15.0)
         # we need to commit in order to see the other transaction
         transaction.commit()
         # check that our view was tracked
