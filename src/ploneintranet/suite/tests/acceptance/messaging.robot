@@ -21,7 +21,7 @@ ${MESSAGE3}    Why would you say that?
 
 Allan can access messaging via the topbar
     Given I am logged in as the user allan_neece
-     Then I can see my unread message count is  6
+     Then I can see my unread message count is  3
      When I click the message counter
      Then I can see an unread conversation with  guy_hackey
      When I open the conversation with  guy_hackey
@@ -31,7 +31,7 @@ Allan can access messaging via the topbar
 Allan can access messaging via the apps section
     Given I am logged in as the user allan_neece
      When I go to the apps section
-      And The messaging app indicates unread messages  6
+      And The messaging app indicates unread messages  3
      When I click the messaging app
      Then I can see an unread conversation with  guy_hackey
 
@@ -72,7 +72,7 @@ Guido can search his inbox
 
 I can see my unread message count is
     [arguments]  ${count}
-    Element Should Be Visible  xpath=//a[@id="messages-link"]/sup[contains(text(), '${count}')]
+    Element Should Contain  xpath=//a[@id="messages-link"]/sup  ${count}
 
 I click the message counter
     Click Link  css=#messages-link
@@ -82,7 +82,7 @@ I go to the apps section
 
 The messaging app indicates unread messages
     [arguments]  ${count}
-    Element Should Be Visible  xpath=//div[contains(@class, "app-messages")]//sup[contains(text(), '${count}')]
+    Element Should Contain  xpath=//div[contains(@class, "app-messages")]//sup  ${count}
 
 I click the messaging app
     Click Link  css=div.app-messages a.link
