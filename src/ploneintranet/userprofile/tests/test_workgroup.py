@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from unittest import TestCase
 from plone import api
 from ploneintranet.userprofile.testing import PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING  # noqa
+from unittest import TestCase
 
 
 class TestWorkgroupBase(TestCase):
@@ -37,23 +37,23 @@ class TestWorkgroupBase(TestCase):
         # Membrane is aware of it
         self.assertListEqual(
             [g._id for g in self.portal.acl_users.membrane_groups.getGroups()],
-            ['test group canonical name'],
+            ['Test group canonical name'],
         )
         # Also plone api (i.e. portal_groups.listGroups())
         self.assertIn(
-            'test group canonical name',
+            'Test group canonical name',
             [g.id for g in api.group.get_groups()]
         )
         # We can also get the group
         self.assertEqual(
-            api.group.get('test group canonical name').id,
-            'test group canonical name',
+            api.group.get('Test group canonical name').id,
+            'Test group canonical name',
         )
 
     def test_workgroup_properties(self):
         ''' Test we can pick up the properties as expected
         '''
-        group = api.group.get('test group canonical name')
+        group = api.group.get('Test group canonical name')
         self.assertEqual(
             group.getGroupTitleOrName(),
             'Test group'
