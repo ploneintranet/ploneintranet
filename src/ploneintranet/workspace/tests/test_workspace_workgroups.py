@@ -32,7 +32,7 @@ class TestWorkspaceWorkgroups(TestCase):
             username='johndoe@doe.com',
             email='johndoe@doe.com',
         )
-        IWorkspace(self.workspace).add_to_team('test workgroup')
+        IWorkspace(self.workspace).add_to_team(self.workgroup.canonical)
 
     def test_workgroup_security(self):
         ''' Check if that a workgroup assigned to a workspace allows his
@@ -41,7 +41,7 @@ class TestWorkspaceWorkgroups(TestCase):
         group = IGroup(self.workspace)
         self.assertSetEqual(
             set(group.getGroupMembers()),
-            {'test_user_1_', 'test workgroup'},
+            {'test_user_1_', 'Test workgroup'},
         )
         self.assertTrue(
             api.user.has_permission(

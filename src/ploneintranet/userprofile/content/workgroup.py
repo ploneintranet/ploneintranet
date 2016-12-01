@@ -93,7 +93,7 @@ class WorkGroup(Container):
         """
         return the group id
         """
-        return (self.canonical or self.id).lower()
+        return self.canonical or self.id
 
     def getGroupName(self):
         return self.context.title
