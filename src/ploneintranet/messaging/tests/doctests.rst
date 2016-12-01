@@ -82,12 +82,14 @@ real list. So we iterate over the messages to get the content
     created: 2013-01-01 00:00:00+00:00
     new: True
 
+Messages are automatically marked read for the sender of the message.
+
     >>> print_messages(inboxes[bob][dave])
     sender: Bob
     recipient: Dave
     text: Hi Dave
     created: 2013-01-01 00:00:00+00:00
-    new: True
+    new: False
 
 The last message received by Dave is directly accessible on the conversation.
 
@@ -104,15 +106,6 @@ Now let Dave read his mail.
    created: 2013-01-01 00:00:00+00:00
    new: False
 
-In Bob's inbox the message is still unread.
-
-   >>> print_messages(inboxes[bob][dave])
-   sender: Bob
-   recipient: Dave
-   text: Hi Dave
-   created: 2013-01-01 00:00:00+00:00
-   new: True
-
 Dave now answers Bob. His message will show up in
 the conversation.
 
@@ -128,7 +121,7 @@ the conversation.
    recipient: Bob
    text: Thanks Bob
    created: 2013-01-02 00:00:00+00:00
-   new: True
+   new: False
 
 Now Dave's own message shows up as 'last'
 
@@ -148,7 +141,7 @@ Even then Bob still has the conversation with Dave in his inbox:
    recipient: Dave
    text: Hi Dave
    created: 2013-01-01 00:00:00+00:00
-   new: True
+   new: False
    sender: Dave
    recipient: Bob
    text: Thanks Bob

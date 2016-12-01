@@ -143,13 +143,16 @@ class Conversation(BTreeDictBase):
     def get_messages(self):
         return self.data.values()
 
-    def mark_read(self):
-        # use update function to update inbox too
-        self.update_new_messages_count(self.new_messages_count * -1)
-
-        # update messages
-        for message in self.data.values():
+    def mark_read(self, message=None):
+        if message:
             message.new = False
+            self.update_new_messages_count(-1)
+        else:
+            # use update function to update inbox too
+            self.update_new_messages_count(self.new_messages_count * -1)
+            # mark all messages as read
+            for message in self.data.values():
+                message.new = False
 
     def update_new_messages_count(self, difference):
         count = self.new_messages_count
@@ -271,8 +274,8 @@ class Inboxes(BTreeDictBase):
         elif created.tzinfo != pytz.utc:
             created = created.astimezone(pytz.utc)
 
-        for pair in ((sender_inbox, recipient, False),
-                     (recipient_inbox, sender, True)):
+        for pair in ((sender_inbox, recipient, True, False),
+                     (recipient_inbox, sender, False, True)):
             inbox = pair[0]
             conversation_user = pair[1]
             if conversation_user not in inbox:
@@ -281,7 +284,10 @@ class Inboxes(BTreeDictBase):
             conversation = inbox[conversation_user]
             message = Message(sender, recipient, text, created)
             conversation.add_message(message)
-            send_event = pair[2]
+            mark_read = pair[2]
+            if mark_read:
+                conversation.mark_read(message)
+            send_event = pair[3]
             if send_event:
                 event = MessageSendEvent(message)
                 notify(event)
