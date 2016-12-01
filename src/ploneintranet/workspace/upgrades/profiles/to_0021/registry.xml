@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.sidebar.folderish_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_workspace_sidebar_folderish_types">Types that are considered as containers in the document sidebar</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>Folder</element>
+    </value>
+  </record>
+  <record name="ploneintranet.workspace.sidebar.blacklisted_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_workspace_sidebar_blacklisted_types">Types that are blacklisted in the document sidebar</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>Event</element>
+      <element>todo</element>
+    </value>
+  </record>
+</registry>
