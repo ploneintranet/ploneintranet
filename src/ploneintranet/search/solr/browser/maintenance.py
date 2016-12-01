@@ -1,33 +1,32 @@
 # -*- coding: utf-8 -*-
 """ This code heavily relies on the maintenance code of collective.solr and
     strives to provide a similar service """
-from logging import getLogger
-
-from datetime import datetime
-from time import time, clock, strftime
 from Acquisition import aq_base
-
 from BTrees.IIBTree import IITreeSet
-from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView
-from zope.interface import implements
-from zope.component import queryMultiAdapter
-from zope.component import getUtility
-from zope.component import queryUtility
 from collective.indexing.indexer import getOwnIndexMethod
-
-from ploneintranet.search.solr.interfaces import ISolrMaintenanceView
-from ploneintranet.search.solr.interfaces import IConnectionConfig
-from ploneintranet.search.solr.interfaces import IConnection
-from ploneintranet.search.solr.interfaces import ICheckIndexable
+from datetime import datetime
+from logging import getLogger
+from plone.memoize import ram
 from ploneintranet.search.solr.indexers import ContentAdder
 from ploneintranet.search.solr.indexers import ContentIndexer
-
-from plone.memoize import ram
-from zope.component import adapts
-from zope.interface import Interface
+from ploneintranet.search.solr.interfaces import ICheckIndexable
+from ploneintranet.search.solr.interfaces import IConnection
+from ploneintranet.search.solr.interfaces import IConnectionConfig
+from ploneintranet.search.solr.interfaces import ISolrMaintenanceView
 from Products.Archetypes.CatalogMultiplex import CatalogMultiplex
 from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
+from time import clock
+from time import strftime
+from time import time
+from zope.component import adapts
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.component import queryUtility
+from zope.interface import implements
+from zope.interface import Interface
+
 
 logger = getLogger('ploneintranet.search.maintenance')
 MAX_ROWS = 1000000000
@@ -186,54 +185,64 @@ class SolrMaintenanceView(BrowserView):
             log('indexing only {0} \n'.format(idxs))
 
         for path, obj in findObjects(self.context):
-            if ICheckIndexable(obj)():
+            try:
+                if ICheckIndexable(obj)():
 
-                if getOwnIndexMethod(obj, 'indexObject') is not None:
-                    log('skipping indexing of %r via private method.\n' % obj)
-                    continue
-
-                count += 1
-                if count <= skip:
-                    continue
-
-                if ignore_portal_types:
-                    if obj.portal_type in ignore_portal_types:
+                    if getOwnIndexMethod(obj, 'indexObject') is not None:
+                        log(
+                            'skipping indexing of %r via private method.\n',
+                            obj
+                        )
                         continue
 
-                if only_portal_types:
-                    if obj.portal_type not in only_portal_types:
+                    count += 1
+                    if count <= skip:
                         continue
 
-                attributes = None
-                if atomic:
-                    attributes = idxs
+                    if ignore_portal_types:
+                        if obj.portal_type in ignore_portal_types:
+                            continue
 
-                # For atomic updates to work the uniqueKey must be present
-                # in *every* update operation.
-                if attributes and key not in attributes:
-                    attributes.append(key)
+                    if only_portal_types:
+                        if obj.portal_type not in only_portal_types:
+                            continue
 
-                data = CI._get_data(obj, attributes=attributes)
+                    attributes = None
+                    if atomic:
+                        attributes = idxs
 
-                missing = False   # Do we have that in scorched?
-                if not missing or atomic:
-                    value = data.get(key, None)
-                    if value is not None:
-                        log('indexing %r\n' % obj)
+                    # For atomic updates to work the uniqueKey must be present
+                    # in *every* update operation.
+                    if attributes and key not in attributes:
+                        attributes.append(key)
 
-                        pt = data.get('portal_type', 'default')
-                        adder = queryMultiAdapter((obj, conn), name=pt)
-                        if adder is None:
-                            adder = ContentAdder(obj, conn)
-                        data['_solr_adder'] = adder
-                        # Do not boost, c.solr only feature
-                        updates[value] = data
-                        processed += 1
-                        cpi.next()
-                else:
-                    log('missing data, skipping indexing of %r.\n' % obj)
-                if limit and count >= (skip + limit):
-                    break
+                    data = CI._get_data(obj, attributes=attributes)
+
+                    missing = False   # Do we have that in scorched?
+                    if not missing or atomic:
+                        value = data.get(key, None)
+                        if value is not None:
+                            log('indexing %r\n' % obj)
+
+                            pt = data.get('portal_type', 'default')
+                            adder = queryMultiAdapter((obj, conn), name=pt)
+                            if adder is None:
+                                adder = ContentAdder(obj, conn)
+                            data['_solr_adder'] = adder
+                            # Do not boost, c.solr only feature
+                            updates[value] = data
+                            processed += 1
+                            cpi.next()
+                    else:
+                        log('missing data, skipping indexing of %r.\n' % obj)
+                    if limit and count >= (skip + limit):
+                        break
+            except:
+                logger.exception(
+                    'Failed reindexing: %r (%s)',
+                    obj,
+                    path,
+                )
 
         checkPoint()
         conn.commit()
