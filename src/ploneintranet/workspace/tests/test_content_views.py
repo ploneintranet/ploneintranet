@@ -9,6 +9,7 @@ from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.textfield.value import RichTextValue
 from ploneintranet.theme.interfaces import IThemeSpecific
+from ploneintranet.layout.interfaces import INoBarcelonetaLayer
 from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.interfaces import IPloneintranetContentLayer
 from ploneintranet.todo.behaviors import ITodo
@@ -71,6 +72,7 @@ class TestContentViews(BaseTestCase):
         self.workspace = workspace_folder
         self.request = self.layer['request']
         alsoProvides(self.request, IThemeSpecific)
+        alsoProvides(self.request, INoBarcelonetaLayer)
         alsoProvides(self.request, IPloneintranetLayoutLayer)
         alsoProvides(self.request, IPloneintranetContentLayer)
         alsoProvides(self.request, IWorkspaceAppContentLayer)

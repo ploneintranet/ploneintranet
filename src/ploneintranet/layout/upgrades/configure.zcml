@@ -121,5 +121,11 @@
         handler=".to_0010.add_portlet_configuration"
         profile="ploneintranet.layout:default" />
 
+    <genericsetup:upgradeDepends
+        source="*"
+        destination="0011"
+        profile="ploneintranet.layout:default"
+        title="Install INoBarceletaLayer"
+        import_steps="browserlayer" />
     
 </configure>

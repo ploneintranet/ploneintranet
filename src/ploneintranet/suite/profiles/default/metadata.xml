@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0014</version>
+  <version>0015</version>
   <!-- load :full if you want the theme also -->
   <dependencies>
     <dependency>profile-ploneintranet.docconv.client:default</dependency>

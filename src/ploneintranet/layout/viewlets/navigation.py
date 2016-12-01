@@ -5,7 +5,7 @@ from Products.CMFPlone.browser.interfaces import INavigationBreadcrumbs
 from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 from Products.Five import BrowserView
 from plone.app.layout.navigation.root import getNavigationRoot
-from ploneintranet.theme.interfaces import IThemeSpecific
+from ploneintranet.layout.interfaces import INoBarcelonetaLayer
 from zope.component import getMultiAdapter
 from zope.interface import implements
 
@@ -17,7 +17,7 @@ class OneLevelBreadcrumbs(BrowserView):
     implements(INavigationBreadcrumbs)
 
     def breadcrumbs(self):
-        if not IThemeSpecific.providedBy(self.request):
+        if not INoBarcelonetaLayer.providedBy(self.request):
             # We are in the CMS, so we want the default.
             view = getMultiAdapter(
                 (self.context, self.request), name='orig_breadcrumbs_view')

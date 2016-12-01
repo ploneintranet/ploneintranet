@@ -4,9 +4,10 @@ from ploneintranet.layout.testing import FunctionalTestCase
 from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.viewlets.resources import PIScriptsView
 from ploneintranet.layout.viewlets.resources import PIStylesView
-from ploneintranet.theme.interfaces import IThemeSpecific
+from ploneintranet.layout.interfaces import INoBarcelonetaLayer
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
 
 
 class TestBreadcrumbs(IntegrationTestCase):
@@ -29,12 +30,16 @@ class TestBreadcrumbs(IntegrationTestCase):
     def _add_browser_layer(self, layer):
         alsoProvides(self.request, layer)
 
+    def _remove_browser_layer(self, layer):
+        noLongerProvides(self.request, layer)
+
     def _get_breadcrumbs(self, context):
         view = getMultiAdapter(
             (context, self.request), name='breadcrumbs_view')
         return view.breadcrumbs()
 
     def test_breadcrumbs_cms(self):
+        self._remove_browser_layer(INoBarcelonetaLayer)
         self.assertEqual(self._get_breadcrumbs(self.portal), ())
         self.assertEqual(self._get_breadcrumbs(self.folder),
                          ({'absolute_url': self.folder.absolute_url(),
@@ -46,7 +51,7 @@ class TestBreadcrumbs(IntegrationTestCase):
                            'Title': 'Sub folder'}))
 
     def test_breadcrumbs_theme(self):
-        self._add_browser_layer(IThemeSpecific)
+        self._add_browser_layer(INoBarcelonetaLayer)
         self.assertEqual(self._get_breadcrumbs(self.portal), ())
         self.assertEqual(self._get_breadcrumbs(self.folder),
                          ({'absolute_url': self.folder.absolute_url(),

@@ -3,6 +3,9 @@
   <layer name="ploneintranet.layout"
          interface="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
          remove="True" />
+  <layer name="ploneintranet.nobarceloneta"
+         interface="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+         remove="True"/>
   <layer name="ploneintranet.content"
          interface="ploneintranet.layout.interfaces.IPloneintranetContentLayer"
          remove="True" />
