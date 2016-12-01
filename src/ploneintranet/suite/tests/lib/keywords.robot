@@ -593,10 +593,10 @@ Task is read only for user
     [arguments]  ${name}
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Click Link  link=Tasks
-    Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
-    Click Element  css=a[title="Ciao ${name}"]
-    Wait Until Page Contains  This is for you ${name}
-    Element Should Be Visible  jquery=input:disabled[name=due]
+    Wait Until Element is Visible  jquery=#workspace-tickets a[title="Ciao ${name}"]
+    Click Element  jquery=#workspace-tickets a[title="Ciao ${name}"]
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Element Should Be Visible  jquery=#document-content input:disabled[name=due]
 
 # workspace member sidebar
 I can enable user selection

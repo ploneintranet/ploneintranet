@@ -191,11 +191,12 @@ class TestSidebar(BaseTestCase):
             ws,
             {'grouping': 'author', 'groupname': 'admin'},
         )
+        # we are grouping by author, folders are excluded
         items = sidebar.items()
-        self.assertEqual(len(items), 3)
+        self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument', 'myfolder']))
+            sorted(['example-document', 'example-subdocument']))
 
         self.assertEqual(
             sidebar.logical_parent()['title'],
@@ -216,11 +217,13 @@ class TestSidebar(BaseTestCase):
             ws,
             {'grouping': 'date', 'groupname': 'today'},
         )
+
+        # we are grouping by date, folders are excluded
         items = sidebar.items()
-        self.assertEqual(len(items), 3)
+        self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument', 'myfolder']))
+            sorted(['example-document', 'example-subdocument']))
 
         self.assertEqual(
             sidebar.logical_parent()['title'],
@@ -242,10 +245,10 @@ class TestSidebar(BaseTestCase):
             {'grouping': 'first_letter', 'groupname': 'a'},
         )
         items = sidebar.items()
-        self.assertEqual(len(items), 2)
+        self.assertEqual(len(items), 1)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-subdocument', 'myfolder']))
+            sorted(['example-subdocument']))
 
         self.assertEqual(
             sidebar.logical_parent()['title'],

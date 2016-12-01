@@ -169,4 +169,22 @@
         profile="ploneintranet.workspace:default" />
       />
 
+    <genericsetup:registerProfile
+        name="to_0021"
+        title="Upgrade profile that includes registry record for filtering the documents in the sidebar"
+        description=""
+        directory="profiles/to_0021"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile that includes registry record for filtering the documents in the sidebar"
+        description=""
+        source="*"
+        destination="0021"
+        handler=".to_0021.create_sidebar_registry_records"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>

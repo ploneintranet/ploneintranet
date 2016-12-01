@@ -18,6 +18,7 @@ from plone.app.event.base import localized_now
 from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
@@ -42,9 +43,6 @@ import logging
 
 log = logging.getLogger(__name__)
 
-
-FOLDERISH_TYPES = ['Folder']
-BLACKLISTED_TYPES = ['Event', 'todo']
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 
@@ -540,12 +538,8 @@ class Sidebar(BaseTile):
         results = []
         view_types = api.portal.get_registry_record(
             'plone.types_use_view_action_in_listings')
+        folderish_types = self.folderish_types
         for r in catalog_results:
-            if r['portal_type'] in FOLDERISH_TYPES:
-                structural_type = 'group'
-            else:
-                structural_type = 'document'
-
             # If it is a file, we have to check the mime type as well
             # And the filename is not enough, we need to guess on the content
             # But that information is not available in the catalog
@@ -553,7 +547,8 @@ class Sidebar(BaseTile):
             content_type = map_content_type(r.mimetype, r.portal_type)
 
             url = r.getURL()
-            if r['portal_type'] in FOLDERISH_TYPES:
+            if r['portal_type'] in folderish_types:
+                structural_type = 'group'
                 # What exactly do we need to inject, and where?
                 dpi = (
                     "source: #workspace-documents; "
@@ -563,6 +558,7 @@ class Sidebar(BaseTile):
                 dps = None
                 url = "%s/@@sidebar.documents" % url
             else:
+                structural_type = 'document'
                 # Plone specific:
                 # Does it need to be called with a /view postfix?
                 if r['portal_type'] in view_types:
@@ -629,6 +625,43 @@ class Sidebar(BaseTile):
         """
         return parent_workspace(self.context)
 
+    @property
+    @memoize_contextless
+    def folderish_types(self):
+        ''' The portal_types considered as foldersish for the sidebar
+        The email type, e.g., is folderish but is threated by the UI
+        as a non folderish one.
+        '''
+        portal_types = get_record_from_registry(
+            'ploneintranet.workspace.sidebar.folderish_types',
+            ('Folder',)
+        )
+        return portal_types
+
+    @property
+    @memoize_contextless
+    def blacklisted_item_types(self):
+        ''' The portal_types that will not be included in the document sidebar
+        because they have their own sidebar
+        '''
+        portal_types = get_record_from_registry(
+            'ploneintranet.workspace.sidebar.blacklisted_types',
+            ('Event', 'todo', )
+        )
+        if self.grouping() != u'folder':
+            portal_types += self.folderish_types
+        return portal_types
+
+    @property
+    @memoize_contextless
+    def portal_types_filter(self):
+        ''' Some contents are threated differently, e.g. todo and events
+        We want to include folderish types only if we are grouping by folder
+        '''
+        all_types = set(api.portal.get_tool('portal_types'))
+        all_types.difference_update(self.blacklisted_item_types)
+        return list(all_types)
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -639,9 +672,7 @@ class Sidebar(BaseTile):
         current_path = '/'.join(self.context.getPhysicalPath())
         sidebar_search = self.request.get('sidebar-search', None)
         query = {}
-        allowed_types = [i for i in api.portal.get_tool('portal_types')
-                         if i not in BLACKLISTED_TYPES]
-        query['portal_type'] = allowed_types
+        query['portal_type'] = self.portal_types_filter
         self.update_with_show_extra(query)
 
         #
@@ -739,9 +770,7 @@ class Sidebar(BaseTile):
         grouping = self.grouping()
         sorting = self.sorting()
         grouping_value = self.request.get('groupname')
-        filter = self.request.get('filter')
-        children = self.get_group_children(grouping, grouping_value, filter,
-                                           sorting)
+        children = self.get_group_children(grouping, grouping_value, sorting)
         if page_idx is None:
             page_idx = self.page_idx
         page_size = self.page_size
@@ -753,69 +782,70 @@ class Sidebar(BaseTile):
             batch = children[page_idx * page_size:]
         return batch
 
+    def group_url(self, groupname):
+        ''' Return the url for this group
+        '''
+        return (
+            '{context_url}/@@sidebar.documents?'
+            'groupname={groupname}#workspace-documents'
+        ).format(
+            context_url=self.root.absolute_url(),
+            groupname=groupname,
+        )
+
     def get_headers_for_group(self):
         """
         Return the entries according to a particular grouping
         (e.g. label, author, type, first_letter)
         """
         root = self.root
-        workspace_view = api.content.get_view(
-            'view',
-            root,
-            self.request,
-        )
-        user = self.current_user
         # if the user may not view the workspace, don't bother with
         # getting groups
+        user = self.current_user
         if not root or not user.has_permission('View', root):
             return []
 
         grouping = self.grouping()
-        group_url_tmpl = root.absolute_url() + \
-            '/@@sidebar.documents?groupname=%s#workspace-documents'
 
         if grouping == 'folder':
             # Group by Folder - use list contents
-            query = {}
-            allowed_types = [i for i in api.portal.get_tool('portal_types')
-                             if i not in BLACKLISTED_TYPES]
-            query['portal_type'] = allowed_types
-            query['sort_on'] = 'sortable_title'
-            query['path'] = {
-                'query': '/'.join(self.context.getPhysicalPath()),
-                'depth': 1,
+            query = {
+                'sort_on': 'sortable_title',
+                'path': {
+                    'query': '/'.join(self.context.getPhysicalPath()),
+                    'depth': 1,
+                },
+                'portal_type': self.portal_types_filter,
             }
-            self.update_with_show_extra(query)
+            return self._extract_attrs(self.query_items(query))
 
-            pc = api.portal.get_tool('portal_catalog')
-            return self._extract_attrs(pc.searchResults(query))
-
-        elif grouping == 'date':
+        if grouping == 'date':
             # Group by Date, this is a manual list
             return [dict(title=_(u'Today'),
                          description=_(u'Items modified today'),
                          id='today',
                          structural_type='group',
                          content_type='date',
-                         url=group_url_tmpl % 'today'),
+                         url=self.group_url('today')),
                     dict(title=_(u'Last Week'),
                          description=_(u'Items modified last week'),
                          id='week',
                          structural_type='group',
                          content_type='date',
-                         url=group_url_tmpl % 'week'),
+                         url=self.group_url('week')),
                     dict(title=_(u'Last Month'),
                          description=_(u'Items modified last month'),
                          id='month',
                          structural_type='group',
                          content_type='date',
-                         url=group_url_tmpl % 'month'),
+                         url=self.group_url('month')),
                     dict(title=_(u'All Time'),
                          description=_(u'Older'),
                          id='ever',
                          structural_type='group',
                          content_type='date',
-                         url=group_url_tmpl % 'ever')]
+                         url=self.group_url('ever')),
+                    ]
 
         # All other groupings come from the grouping storage,
         # so retrieve that now.
@@ -836,14 +866,14 @@ class Sidebar(BaseTile):
                 alphabetical=False
             )
             for header in headers:
-                header['url'] = group_url_tmpl % header['id']
+                header['url'] = self.group_url(header['id'])
                 header['content_type'] = 'tag'
             # In case of grouping by label, we also must show all
             # unlabeled entries
             headers.append(dict(title='Untagged',
                                 description='All items without tags',
                                 id='untagged',
-                                url=group_url_tmpl % 'Untagged',
+                                url=self.group_url('Untagged'),
                                 content_type='tag',
                                 archived=False))
 
@@ -866,10 +896,15 @@ class Sidebar(BaseTile):
             #                     content_type='user',
             #                     url=group_url_tmpl % username,
             #                     id=username)]
+            workspace_view = api.content.get_view(
+                'view',
+                root,
+                self.request,
+            )
             for header in headers:
                 userid = header['id']
                 header['title'] = workspace_view.get_principal_title(userid)
-                header['url'] = group_url_tmpl % header['id']
+                header['url'] = self.group_url(header['id'])
                 header['content_type'] = 'user'
 
         elif grouping == 'type':
@@ -888,7 +923,7 @@ class Sidebar(BaseTile):
                 content_type = map_content_type(header['id'])
                 header['title'] = (content_type and content_type or
                                    header['title']).capitalize()
-                header['url'] = group_url_tmpl % header['id']
+                header['url'] = self.group_url(header['id'])
                 header['content_type'] = content_type
 
         elif grouping == 'first_letter':
@@ -900,14 +935,14 @@ class Sidebar(BaseTile):
             )
             for header in headers:
                 header['title'] = header['title'].upper()
-                header['url'] = group_url_tmpl % header['id']
+                header['url'] = self.group_url(header['id'])
                 header['content_type'] = 'none'
 
         else:
             # The exception case. Should not happen.
             headers = [dict(title='Ungrouped',
                             description='Other',
-                            url=group_url_tmpl % '',
+                            url=self.group_url(''),
                             content_type='none',
                             id='none')]
 
@@ -917,126 +952,178 @@ class Sidebar(BaseTile):
 
         return headers
 
+    def get_groupings(self):
+        ''' Return the whole grouping storage
+        '''
+        gs = IGroupingStorage(self.root)
+        groupings = gs.get_groupings()
+        return groupings
+
+    def get_grouping_by_name(self, name=None):
+        ''' Get the grouping from the grouping storage given a name
+        If no name is given default to the one returned by self.get_groupings()
+        '''
+        if name is None:
+            name = self.groupings()
+        groupings = self.get_groupings()
+        grouping = groupings.get(name, {})
+        return grouping
+
+    def uids_in_grouping(self, name, value):
+        ''' Get the values in grouping
+
+        name is something like: 'label', 'author', ...
+        value is something like 'tag1', 'john.doe', ...
+        '''
+        grouping = self.get_grouping_by_name(name)
+        return list(grouping.get(value, []))
+
+    def get_base_query(self):
+        ''' This is the base query for searching inside a workspace
+        '''
+        sorting = self.sorting()
+        sort_order = sorting == 'modified' and 'descending' or 'ascending'
+        query = {
+            'path': '/'.join(self.root.getPhysicalPath()),
+            'sort_on': sorting,
+            'sort_order': sort_order,
+            'portal_type': self.portal_types_filter
+        }
+        show_extra = self.show_extra
+        if 'my_documents' in show_extra:
+            query['Creator'] = self.current_userid
+        if 'archived_documents' not in show_extra:
+            query['outdated'] = False
+        return query
+
+    def query_items(self, additional_query={}):
+        ''' Return all the documents in the group for the given query
+        '''
+        query = self.get_base_query()
+        query.update(additional_query)
+        catalog = api.portal.get_tool(name='portal_catalog')
+        return catalog(**query)
+
+    def get_group_children_by_label(
+        self,
+        grouping,
+        grouping_value,
+        sorting='modified'
+    ):
+        ''' Get the children from the given label
+        '''
+        if grouping_value != 'Untagged':
+            uids = self.uids_in_grouping('label', grouping_value)
+            if not uids:
+                return []
+            return self.query_items({'UID': uids})
+
+        def is_untagged(doc):
+            ''' BBB: This is a temporary compatibility method to make this
+            function work with brains and ISiteSearch results.
+            For a brain we want to get the Subject attribute,
+            for an ISiteSearch result, Subject is a method.
+            '''
+            subject = doc.Subject
+            if callable(subject):
+                subject = subject()
+            return not(subject)
+
+        return filter(is_untagged, self.query_items())
+
+    def get_group_children_by_date(
+        self,
+        grouping,
+        grouping_value,
+        sorting='modified'
+    ):
+        # Show the results grouped by today, the last week,
+        # the last month,
+        # all time. For every grouping, we exclude the previous one. So,
+        # last week won't again include today and all time would exclude
+        # the last month.
+        today_start = DateTime(DateTime().Date())
+        today_end = today_start + 1
+        week_start = today_start - 6
+        # FIXME: Last month should probably be the last literal month,
+        # not the last 30 days.
+        month_start = today_start - 30
+
+        if grouping_value == 'today':
+            modified = {
+                'range': 'min:max',
+                'query': (today_start, today_end),
+            }
+        elif grouping_value == 'week':
+            modified = {
+                'range': 'min:max',
+                'query': (week_start, today_start)
+            }
+        elif grouping_value == 'month':
+            modified = {
+                'range': 'min:max',
+                'query': (month_start, week_start)
+            }
+        elif grouping_value == 'ever':
+            modified = {
+                'range': 'max',
+                'query': month_start
+            }
+        else:
+            modified = ''
+        return self.query_items({'modified': modified})
+
+    def get_group_children_by_type(
+        self,
+        grouping,
+        grouping_value,
+        sorting='modified'
+    ):
+        if grouping_value != 'other':
+            uids = self.uids_in_grouping(grouping, grouping_value)
+            if not uids:
+                return []
+            return self.query_items({'UID': uids})
+        brains = self.query_items()
+        return [
+            brain for brain in brains
+            if not map_content_type(brain.mimetype)
+        ]
+
     def get_group_children(self,
                            grouping,
                            grouping_value,
-                           filter=None,
                            sorting='modified'):
         """
         Return all the items that have a value $grouping_value for a
         field corresponding to $grouping.
         """
-        catalog = api.portal.get_tool(name='portal_catalog')
-        workspace = self.root
-        # workspace_uid = IUUID(workspace)
-        criteria = {
-            'path': '/'.join(workspace.getPhysicalPath()),
-            'fl': 'score Creator Title UID Subject modified outdated '
-                  'path_string portal_type getthumb review_state '
-                  'sortable_title documentType path_string getIcon '
-                  'Description',
-            'hl': 'false',
-            'sort_on': sorting,
-            'sort_order':
-            sorting == 'modified' and 'descending' or 'ascending',
-        }
-        self.update_with_show_extra(criteria)
-
-        def values_in_grouping(name, value):
-            gs = IGroupingStorage(workspace)
-            groupings = gs.get_groupings()
-            grouping = groupings.get(name, dict())
-            return [x for x in grouping.get(value, list())]
-
-        documents = []
-
         if grouping.startswith('label'):
-            # This is a bit of an exception compared to the
-            # other groupings.
-            # We have to check whether grouping_value is 'Untagged', so we
-            # query the catalog here and not at the end of the method.
-            if grouping_value != 'Untagged':
-                criteria['UID'] = values_in_grouping('label', grouping_value)
+            return self.get_group_children_by_label(
+                grouping,
+                grouping_value,
+                sorting,
+            )
 
-            brains = catalog(**criteria)
-            for brain in brains:
-                if grouping_value == 'Untagged' and brain.Subject:
-                    continue
-                documents.append(brain)
+        if grouping == 'date':
+            return self.get_group_children_by_date(
+                grouping,
+                grouping_value,
+                sorting,
+            )
 
-        elif grouping == 'author':
-            # XXX This is not yet exposed in the UI, but might be soon.
-            # if 'my_documents' in self.show_extra and \
-            #         criteria.get('Creator') != grouping_value:
-            #     # If the filter is "Documents by me" and the groupingvalue is
-            #     # not the current user, we don't return any documents.
-            #     return []
-            criteria['UID'] = values_in_grouping('author', grouping_value)
-            # criteria['Creator'] = grouping_value
-            brains = catalog(**criteria)
-            for brain in brains:
-                documents.append(brain)
+        if grouping == 'type':
+            return self.get_group_children_by_type(
+                grouping,
+                grouping_value,
+                sorting,
+            )
 
-        elif grouping == 'date':
-            # Show the results grouped by today, the last week,
-            # the last month,
-            # all time. For every grouping, we exclude the previous one. So,
-            # last week won't again include today and all time would exclude
-            # the last month.
-            today_start = DateTime(DateTime().Date())
-            today_end = today_start + 1
-            week_start = today_start - 6
-            # FIXME: Last month should probably be the last literal month,
-            # not the last 30 days.
-            month_start = today_start - 30
-
-            if grouping_value == 'today':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (today_start, today_end)}
-            elif grouping_value == 'week':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (week_start, today_start)}
-            elif grouping_value == 'month':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (month_start, week_start)}
-            elif grouping_value == 'ever':
-                criteria['modified'] = {'range': 'max', 'query': month_start}
-
-            brains = catalog(**criteria)
-            for brain in brains:
-                if brain.portal_type == \
-                   'ploneintranet.workspace.workspacefolder':
-                    continue
-                documents.append(brain)
-
-        elif grouping == 'type':
-            if grouping_value != 'other':
-                criteria['mimetype'] = grouping_value
-                brains = catalog(**criteria)
-                for brain in brains:
-                    if brain.portal_type == \
-                       'ploneintranet.workspace.workspacefolder':
-                        continue
-                    documents.append(brain)
-            else:
-                brains = catalog(**criteria)
-                for brain in brains:
-                    if brain.portal_type == \
-                       'ploneintranet.workspace.workspacefolder':
-                        continue
-
-                    if map_content_type(brain.mimetype):
-                        continue
-                    documents.append(brain)
-
-        elif grouping == 'first_letter':
-            criteria['UID'] = values_in_grouping('first_letter',
-                                                 grouping_value)
-            brains = catalog(**criteria)
-            for brain in brains:
-                documents.append(brain)
-
-        return documents
+        # When no fancy things are needed, this should be enough
+        uids = self.uids_in_grouping(grouping, grouping_value)
+        if not uids:
+            return []
+        return self.query_items({'UID': uids})
 
     def set_grouping_cookie(self):
         """
