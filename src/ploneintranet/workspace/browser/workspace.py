@@ -448,7 +448,7 @@ class AllGroupsJSONView(BrowserView):
         ''' Return all the groups
         '''
         only_membrane_groups = get_record_from_registry(
-            'ploneintranet.suite.only_membrane_groups',
+            'ploneintranet.userprofile.only_membrane_groups',
             False
         )
         if only_membrane_groups:
