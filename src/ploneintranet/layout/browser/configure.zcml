@@ -120,7 +120,7 @@
       name="delete_confirmation"
       class=".actions.PIDeleteConfirmationForm"
       permission="zope2.DeleteObjects"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 
   <browser:page

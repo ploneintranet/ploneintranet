@@ -88,14 +88,14 @@
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
-  <!-- This edit page is linked to the ploneintranet.theme layer,
-       so that CMS editors get the default edit page -->
+  <!-- This edit page is linked to the INoBarcelonetaLayer
+       so that CMS editors get the default edit page instead -->
   <browser:page
       name="edit"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       class=".forms.UserProfileEditView"
       permission="cmf.ModifyPortalContent"
-      layer="ploneintranet.theme.interfaces.IThemeSpecific"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 
   <browser:page
