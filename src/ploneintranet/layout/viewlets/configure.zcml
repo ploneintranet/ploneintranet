@@ -7,7 +7,7 @@
         manager="plone.app.layout.viewlets.interfaces.IGlobalStatusMessage"
         class=".globalstatusmessage.GlobalStatusMessage"
         permission="zope2.View"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
         />
 
     <browser:viewlet
@@ -16,7 +16,7 @@
         class=".common.GlobalSectionsViewlet"
         permission="zope2.View"
         template="sections.pt"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
         />
 
     <browser:viewlet
@@ -24,7 +24,7 @@
         manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".common.LogoViewlet"
         permission="zope2.View"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
         />
 
     <browser:viewlet
@@ -32,7 +32,7 @@
         manager="plone.app.layout.viewlets.interfaces.IToolbar"
         class=".personalbar.PersonalBarViewlet"
         permission="zope2.View"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 
     <browser:viewlet
@@ -41,7 +41,7 @@
         class=".zopeuser.WarningViewlet"
         template="zopeuser_warning.pt"
         permission="zope2.View"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 
     <!-- 
@@ -54,7 +54,7 @@
         class=".navigation.OneLevelBreadcrumbs"
         permission="zope.Public"
         allowed_attributes="breadcrumbs"
-        layer="ploneintranet.theme.interfaces.IThemeSpecific"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
         />
 
     <!-- 

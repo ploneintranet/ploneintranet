@@ -170,6 +170,15 @@
       destination="0014"
       profile="ploneintranet.suite:default"
       handler=".upgrades.filter_news_layer"
-    />
+      />
+
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0015"
+      profile="ploneintranet.suite:default"
+      title="Disable INoBarceletaLayer in Barceloneta"
+      import_steps="plone.app.registry"
+      />
+  
 
 </configure>

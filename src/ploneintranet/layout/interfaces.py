@@ -12,6 +12,10 @@ class IPloneintranetLayoutLayer(Interface):
     """Marker interface for ploneintranet.layout installed"""
 
 
+class INoBarcelonetaLayer(Interface):
+    """Layer that is not active in Barceloneta"""
+
+
 class IPloneintranetContentLayer(IPloneAppContenttypesLayer,
                                  IPloneAppEventLayer):
     """ Subclass the browserlayer of p.a.c and p.a.e to override the views.

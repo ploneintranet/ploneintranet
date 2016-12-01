@@ -40,8 +40,9 @@ def dbconfig(event):
     when it is available
     """
     if conf is None:
-        log.info('No product config found. Configuration will not be set')
+        log.info('No buildout config override found. Using registry.')
         return
+    log.info('Buildout config found, this will override any registry config.')
 
     db = Zope2.DB
     connection = db.open()
