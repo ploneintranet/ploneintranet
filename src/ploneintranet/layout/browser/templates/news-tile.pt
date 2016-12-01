@@ -33,9 +33,14 @@
                 <em i18n:translate="read-more">Read more...</em>
               </p>
             </a>
-            <!--form action="/feedback/news-portlet.html#portlet-news" class="functions pat-inject">
+            <form action="${view/url}#portlet-news"
+                  method="post"
+                  class="functions pat-inject">
+              <input type="hidden" name="hit_uid" value="${news/uid}" />
+              <input type="hidden" name="list:just_read_uids"
+                     value="${view/just_read_uids}" />
                 <button type="submit" class="icon-ok">Mark read</button>
-                </form-->
+            </form>
           </article>
         </div>
       </div>

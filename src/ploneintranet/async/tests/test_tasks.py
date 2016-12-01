@@ -7,6 +7,8 @@ from ploneintranet import api as pi_api
 from ploneintranet.async import tasks
 from ploneintranet.async.celeryconfig import ASYNC_ENABLED
 from ploneintranet.async.testing import FunctionalTestCase
+from ploneintranet.async.testing import MustReadFunctionalTestCase
+
 import os
 import transaction
 import unittest
@@ -79,3 +81,24 @@ class TestTasks(FunctionalTestCase):
         transaction.commit()
         # check that our modification was indexed
         self.assertTrue(context.title in [x.Title for x in catalog()])
+
+
+class TestMustreadTask(MustReadFunctionalTestCase):
+
+    def test_mark_read(self):
+        """Verify mustread view tracking"""
+        if not self.redis_running():
+            self.fail("requires redis")
+            return
+
+        # we need to commit to make the test page visible for async
+        transaction.commit()
+        # verify that the document is not read yet
+        self.assertEqual(self.db.reads, [])
+        # schedule the hit
+        result = tasks.MarkRead(self.page, self.request)()
+        self.waitfor(result, timeout=15.0)
+        # we need to commit in order to see the other transaction
+        transaction.commit()
+        # check that our view was tracked
+        self.assertTrue(self.tracker.has_read(self.page))

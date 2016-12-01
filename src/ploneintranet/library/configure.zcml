@@ -49,4 +49,13 @@
       import_steps="typeinfo" />
   />
 
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0003"
+      profile="ploneintranet.library:default"
+      title="Close library for adding news items, should use the news app instead.
+             This is implicitly taken from the profile this upgradeStep is defined for."
+      import_steps="typeinfo" />
+  />
+  
 </configure>

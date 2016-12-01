@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from collective.mustread.interfaces import ITracker
 from Products.Five.browser import BrowserView
 from plone import api
+from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import shorten
 from plone.memoize.view import memoize
+from zope.component import getUtility
 
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from .utils import obj2dict
@@ -39,26 +42,38 @@ class NewsMagazine(BrowserView):
     @memoize
     def news_items(self):
         items = []
-        i = 0
         for item in self.app.news_items(self.section):
             if api.content.get_state(item) != 'published':
                 continue
             if not item.magazine_home and not self.section:
                 continue
-            i += 1
-            items.append(obj2dict(item, counter=i))
+            items.append(obj2dict(item, counter=len(items)))
         return items
 
     @memoize
-    def trending_items(self):
-        all_trending = self.news_items()
-        return [x for x in all_trending if x not in self.news_items()[0:4]]
+    def trending_items(self, limit=None):
+        news_objs = [x['obj'] for x in self.news_items()]
+        leading = news_objs[:4]
+        tracker = getUtility(ITracker)
+        trending = []
+        for item in tracker.most_read(days=14):  # sorted by most read desc
+            # re-use effective/workflow/display filters of self.news_items
+            if item not in news_objs:
+                continue
+            # do not show 4 topmost magazine items twice
+            if item in leading:
+                continue
+            trending.append(obj2dict(item, counter=len(trending)))
+            if len(trending) == limit:
+                break
+        return trending
 
     def trending_top5(self):
-        return self.trending_items()[0:5]
+        return self.trending_items(5)
 
     def trending_hasmore(self):
         # return bool(self.trending_items()[5:6])
+        # design is incomplete, not implemented
         return False
 
 
@@ -113,3 +128,7 @@ class NewsItemView(NewsMagazine):
 
     def date(self):
         return self.context.effective().strftime('%B %d, %Y')
+
+    def __call__(self):
+        MarkRead(self.context, self.request)()
+        return super(NewsItemView, self).__call__()

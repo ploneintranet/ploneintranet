@@ -13,7 +13,6 @@
   <property name="allowed_content_types">
    <element value="ploneintranet.library.folder"/>
    <element value="Document"/>
-   <element value="News Item"/>
    <element value="Link"/>
    <element value="Image"/>
    <element value="File"/>

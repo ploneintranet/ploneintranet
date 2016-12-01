@@ -72,3 +72,19 @@ class ReindexObject(AbstractPost):
 
     task = celerytasks.reindex_object
     url = '/@@reindex_object'
+
+
+@implementer(IAsyncTask)
+class MarkRead(AbstractPost):
+    """Asynchronously perform a hit on @@mustread-hit.
+
+    Usage:
+
+      from ploneintranet.async.tasks import MarkRead
+      MarkRead(self.context, self.request)()
+
+    Mind the final call parentheses.
+    """
+
+    task = celerytasks.mark_read
+    url = '@@mustread-hit'

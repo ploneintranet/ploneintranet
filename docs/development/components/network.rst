@@ -35,8 +35,8 @@ Implementation Status
 
 The backend is fully realized and under test.
 
-The frontend is only realized for 'like' functionality.
-You can use that as a template to realize 'following' and 'endorsements'
+The frontend is realized for 'like', 'follow user' and 'follow tag' functionality.
+Not yet implemented: 'follow workspace', 'follow document', and 'endorsements'
 (endorsements are tags placed on users by other users).
 
 Implementation Details

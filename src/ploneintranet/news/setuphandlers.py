@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from collective.mustread.db import getSession
+from collective.mustread.interfaces import IMustReadSettings
+from collective.mustread.models import Base
 from plone import api
 from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
@@ -12,8 +15,28 @@ log = logging.getLogger(__name__)
 
 
 def setupVarious(context):
-    app = create_news_app()
-    move_all_newsitems_to_app(app)
+    initialize_mustread_db()
+    create_news_app()
+
+
+def initialize_mustread_db(*args):
+    if api.env.test_mode() or 'robot-server' in os.environ.get('_', ''):
+        # tests provide own tempDb
+        return
+    try:
+        record = api.portal.get_registry_record(
+            'connectionstring', interface=IMustReadSettings)
+    except api.exc.InvalidParameterError:
+        record = ''
+    if not record or 'memory' in record:
+        dbpath = '%s/var/mustread.db' % os.getcwd()
+        record = u'sqlite:///%s' % dbpath
+        log.warn('SQL storage not properly configured. Forcing: %s', record)
+        api.portal.set_registry_record(
+            'connectionstring', record, interface=IMustReadSettings)
+    log.info('Initializing SQL db: %s' % record)
+    session = getSession()
+    Base.metadata.create_all(session.bind.engine)
 
 
 def create_news_app():
@@ -51,16 +74,29 @@ def create_news_app():
     return app_obj
 
 
-def move_all_newsitems_to_app(app):
+# this upgrade step is disabled
+def move_all_newsitems_to_app(*args):
+    app = api.portal.get().news
     section = app.sections()[0]
     app_path = '/'.join(app.getPhysicalPath())
     catalog = api.portal.get_tool('portal_catalog')
     items = [x for x in catalog(portal_type='News Item')
              if not x.getPath().startswith(app_path)]
+    i = 0
+    j = 0
     for item in items:
-        moved = api.content.move(item.getObject(), app)
-        moved.section = create_relation(section.getPhysicalPath())
-        moved.reindexObject()
+        log.info("Moving legacy news item: %s", item.getPath())
+        try:
+            moved = api.content.move(item.getObject(), app)
+            moved.section = create_relation(section.getPhysicalPath())
+            moved.reindexObject()
+            i += 1
+        except Exception:  # https://github.com/quaive/ploneintranet/issues/950
+            log.error("Could not move legacy news item: %s", item.getPath())
+            j += 1
+    log.info("Moved %s legacy news items into app.", i)
+    if j:
+        log.error("Failed to move %s news items.", j)
 
 
 def setupTestdata(context):
@@ -104,6 +140,8 @@ def create_news_items(context, app, section, i):
     img_data = context.openDataFile(img_path).read()
     item.image = NamedBlobImage(data=img_data,
                                 filename=img_name.decode('utf-8'))
+    if i % 2:
+        item.must_read = True
     item.setEffectiveDate('2016/09/{:02d}'.format(seq))
     api.content.transition(item, 'publish')
     item.reindexObject()

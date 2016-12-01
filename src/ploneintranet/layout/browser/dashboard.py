@@ -1,4 +1,6 @@
 # coding=utf-8
+from collective.mustread.interfaces import ITracker
+from collective.mustread.behaviors.maybe import IMaybeMustRead
 from logging import getLogger
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
@@ -9,9 +11,11 @@ from plone.app.contenttypes.interfaces import IImage
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
+from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
+from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
 
@@ -95,19 +99,43 @@ class NewsTile(Tile):
 
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
+    def __call__(self):
+        # minimal state propagation via hidden input
+        self.just_read_uids = self.request.get('just_read_uids', [])
+        if 'hit_uid' in self.request.form.keys():
+            uid = self.request.form['hit_uid']
+            item = api.content.get(UID=uid)
+            # async write on-disk state
+            MarkRead(item, self.request)()
+            # sync update in-memory state
+            self.just_read_uids.append(uid)
+        return super(NewsTile, self).__call__()
+
     @memoize
     def news_items(self):
+        tracker = getUtility(ITracker)
+        # supplement async tracker with sync hidden state propagation
+        read_uids = set(tracker.uids_read()).union(set(self.just_read_uids))
         pc = api.portal.get_tool('portal_catalog')
-        return [
+        items = [
             {'title': item.Title,
              'description': item.Description,
              'url': item.getURL(),
-             'has_thumbs': item.has_thumbs}
+             'uid': item.UID,
+             'has_thumbs': item.has_thumbs,
+             'getObject': item.getObject}
             for item in pc(portal_type='News Item',
                            review_state='published',
                            sort_on='effective',
                            sort_order='reverse')
+            if item.UID not in read_uids
         ]
+        # delay getObject call to resolve only unread items
+        for item in items:
+            item['must_read'] = IMaybeMustRead(item['getObject']()).must_read
+        # sort must-read, then on effective
+        return sorted(items, key=lambda x: x['must_read'],
+                      reverse=True)
 
     def can_expand(self):
         return len(self.news_items()) > self.min_num()

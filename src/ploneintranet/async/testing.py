@@ -8,6 +8,8 @@ import sys
 import time
 import unittest
 
+from collective.mustread.testing import FunctionalBaseTestCase as MustReadCase
+from collective.mustread.testing import TestingAssignable
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -24,6 +26,7 @@ from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 
 from ploneintranet.async.celerytasks import app
+from zope.component import provideAdapter
 
 # /app/parts/test/../../bin => /app/bin
 _BUILDOUT_BIN_DIR = os.path.abspath(
@@ -132,12 +135,29 @@ class PloneintranetAsyncLayer(PloneSandboxLayer):
         pass
 
 
+class AsyncMustreadLayer(PloneintranetAsyncLayer):
+
+    def setUpZope(self, app, configurationContext):
+        super(AsyncMustreadLayer, self).setUpZope(app, configurationContext)
+        import collective.mustread
+        self.loadZCML(package=collective.mustread)
+        provideAdapter(TestingAssignable)
+
+    def setUpPloneSite(self, portal):
+        super(AsyncMustreadLayer, self).setUpPloneSite(portal)
+        applyProfile(portal, 'collective.mustread:default')
+
+
 FIXTURE = PloneintranetAsyncLayer()
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE,), name="PloneintranetAsyncLayer:Integration")
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE, z2.ZSERVER_FIXTURE),  # NB ZServer enabled!
     name="PloneintranetAsyncLayer:Functional")
+MUSTREAD_FIXTURE = AsyncMustreadLayer()
+MUSTREAD_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(MUSTREAD_FIXTURE, z2.ZSERVER_FIXTURE),  # NB ZServer enabled!
+    name="AsyncMustreadLayer:Functional")
 
 
 class BaseTestCase(unittest.TestCase):
@@ -183,3 +203,12 @@ class FunctionalTestCase(BaseTestCase):
     """Base class for functional tests."""
 
     layer = FUNCTIONAL_TESTING
+
+
+class MustReadFunctionalTestCase(BaseTestCase, MustReadCase):
+
+    layer = MUSTREAD_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        MustReadCase.setUp(self)
