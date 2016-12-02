@@ -1,10 +1,77 @@
 Changelog
 =========
 
-1.2.0a28 (unreleased)
+1.2.0a29 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a28 (2016-12-02)
+---------------------
+
+* Merge pull request #973 from quaive/wrong-registry-key [GitHub]
+* Merge pull request #971 from quaive/875_barceloneta_viewlets_disable [GitHub]
+* Merge pull request #969 from quaive/solr-maintenance-csrf-free [GitHub]
+* In the test, explicitly remove INoBarcelonetaLayer from the request when emulating the CMS. [Wolfgang Thomas]
+* Merge pull request #972 from quaive/remove-canonical-lower [GitHub]
+* Skip CSRF protection for the solr-maintenance view [Alessandro Pisa]
+* Merge pull request #963 from quaive/mustread [GitHub]
+* Fix wrong registry key [Alessandro Pisa]
+* There is no reason to lowercase the canonical name [Alessandro Pisa]
+* Replace all usage of IThemeSpecific outside of ploneintranet.theme with INoBarcelonetaLayer [Guido A.J. Stevens]
+* Disable ploneintranet layout viewlets in Barceloneta fixes #875. Probably there is a difference between a IThemeSpecific and a normal browser layer? Because the viewlets were active even though they were bound to an inactive IThemeSpecific layer. [Guido A.J. Stevens]
+* Merge pull request #970 from quaive/791_dont_notify_self [GitHub]
+* Merge pull request #967 from quaive/solr-reindex-resistant [GitHub]
+* Merge pull request #966 from quaive/reload-only-sidebar-documents [GitHub]
+* Mark own sent messages as 'read' fixes #791 [Guido A.J. Stevens]
+* Up async timeout to see if that makes Jenkins happy [Guido A.J. Stevens]
+* Add upgrade step to lock down library against new news items [Guido A.J. Stevens]
+* Solr reindex is more resistant [Alessandro Pisa]
+* Merge pull request #965 from quaive/master_hotfix [GitHub]
+* Reload only the documents [Alessandro Pisa]
+* add Products.PloneHotfix20161129 [Wolfgang Thomas]
+* Merge pull request #961 from quaive/optimize-get_authenticated_groupids [GitHub]
+* Merge pull request #964 from quaive/remove-duplicate-share-button [GitHub]
+* Remove duplicate share button [Alessandro Pisa]
+* Update news docs [Guido A.J. Stevens]
+* Disable legacy newsitem migration [Guido A.J. Stevens]
+* Optimize get_authenticated_groupids [Alessandro Pisa]
+* Merge pull request #960 from quaive/user-fixes [GitHub]
+* make user import more robus: Don't choke on empty lines [Wolfgang Thomas]
+* Fix user import: allow non-required fields like person_title [Wolfgang Thomas]
+* the "person_title" is already part of the "fullname". Therefore we must not additionally show it separately here [Wolfgang Thomas]
+* Robustify and reactivate legacy news item migration [Guido A.J. Stevens]
+* Disallow creating news items in library from now on [Guido A.J. Stevens]
+* Fix sqlalchemy fallback URI [Guido A.J. Stevens]
+* Add a bit of extra view test coverage for news [Guido A.J. Stevens]
+* Work around sqlalchemy/ZServer threading issues by doing lxml functional tests [Guido A.J. Stevens]
+* Show "mark read" button also for items that are not "must read", so users can clear the portlet if they want to [Guido A.J. Stevens]
+* Document news functionality [Guido A.J. Stevens]
+* Reorganize component doc index for readability, update network status description. [Guido A.J. Stevens]
+* Use freshly released collective.mustread egg [Guido A.J. Stevens]
+* Implement "trending news" [Guido A.J. Stevens]
+* Sort must-read items on top in news tile [Guido A.J. Stevens]
+* Filter news tile to only show unread items. Supplement async mark-read writes with sync state propagation via hidden input [Guido A.J. Stevens]
+* Improve db init upgrade step [Guido A.J. Stevens]
+* Mark news item read from portlet [Guido A.J. Stevens]
+* Auto-mark newsitem as read on full view [Guido A.J. Stevens]
+* Hook up async mark_read task [Guido A.J. Stevens]
+* Expose must_read checkbox in news publisher [Guido A.J. Stevens]
+* Base integration of collective.mustread package [Guido A.J. Stevens]
+* Merge pull request #959 from quaive/allow-all-poweerful-oz [GitHub]
+* Don't choke if a user cannot be wrapped. This might happen during content import for "all powerful Oz" [Wolfgang Thomas]
+* Merge pull request #956 from quaive/fix-feedback-inject [GitHub]
+* damned flake :) [Alexander Pilz]
+* Merge pull request #957 from quaive/skip_preview_test [GitHub]
+* Fix the response, instead of rendering the context completely, only return statusmessage [Alexander Pilz]
+* Skip broken test for now [Guido A.J. Stevens]
+* Merge pull request #955 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a28 [Alexander Pilz]
+* removed fuzzy tags [Angela Steinhardt]
+* forgot updated .pot file [Angela Steinhardt]
+* changed all occurances of arbeitsbereich in arbeitsraum [Angela Steinhardt]
+* corrected translation of portlet header for bookmarked workspaces [Angela Steinhardt]
 
 
 1.2.0a27 (2016-11-25)
