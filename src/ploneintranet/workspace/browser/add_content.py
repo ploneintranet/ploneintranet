@@ -2,7 +2,6 @@
 from DateTime import DateTime
 from plone import api
 from plone.app.event.base import default_timezone
-from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
@@ -45,7 +44,7 @@ class AddBase(BrowserView):
 
         chooser = INameChooser(container)
         new_id = chooser.chooseName(
-            idnormalizer.normalize(request_id or title),
+            request_id or title,
             container
         )
         return new_id
