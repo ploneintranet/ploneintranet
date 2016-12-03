@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
+from plone import api
+from plone.memoize.view import memoize
+from ploneintranet.layout.utils import shorten
+from Products.CMFPlone import PloneMessageFactory as _pmf
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
-from ploneintranet.layout.utils import shorten
-from plone.memoize.view import memoize
+from z3c.relationfield import RelationValue
 from zope import component
 from zope.intid.interfaces import IIntIds
-from z3c.relationfield import RelationValue
 
 from ploneintranet.workspace.basecontent import baseviews
 from .utils import obj2dict
@@ -242,4 +244,9 @@ class NewsItemDelete(NewsItemEdit):
 
     def update(self):
         log.info("Deleting {}".format(self.context))
+        title = safe_unicode(self.context.Title())
         api.content.delete(obj=self.context, check_linkintegrity=False)
+        api.portal.show_message(
+            _pmf(u'${title} has been deleted.', mapping={u'title': title}),
+            request=self.request
+        )
