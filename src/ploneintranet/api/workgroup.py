@@ -214,7 +214,7 @@ def create(
         container=groups_container,
         type='ploneintranet.userprofile.workgroup',
         id=norm_id,
-        canonical=groupid.lower(),
+        canonical=groupid,
         title=title,
         description=description,
         email=email,

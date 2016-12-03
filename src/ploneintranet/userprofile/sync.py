@@ -397,10 +397,10 @@ class AllWorkGroupsSync(BrowserView):
         acl_users = api.portal.get_tool(name='acl_users')
         plugin = acl_users[plugin_id]
         if plugin_id != 'membrane_groups':
-            return [x['id'].lower() for x in plugin.enumerateGroups()]
+            return [x['id'] for x in plugin.enumerateGroups()]
         groups_container = self.get_groups_container()
         return [
-            x.getGroupId().lower() for x in groups_container.objectValues()
+            x.canonical for x in groups_container.objectValues()
         ]
 
     @property
