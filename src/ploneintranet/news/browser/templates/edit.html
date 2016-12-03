@@ -8,9 +8,9 @@
 
   <body class="view-secure">
 
-    <!-- prototype/_layouts/news-cms.html 
+    <!-- prototype/_layouts/news-cms.html
          prototype/apps/news/edit.html -->
-    
+
     <metal:content fill-slot="content">
       <div id="application-body" class="sidebar-normal application-news-cms application-news-cms sidebar-left-open sidebar-right-closed">
 
@@ -31,11 +31,12 @@
                          tal:attributes="disabled read_only"
                          class="pat-autosuggest"
                          data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
-                  
+
                 </label>
 
                 <div class="quick-functions">
-                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document">
+                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document"
+                    data-pat-modal="class: large">
                     Delete
                   </a>
                   <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item">
@@ -56,7 +57,7 @@
                   <button type="submit" class="pat-button icon-floppy" title="Save this document" tal:condition="not: read_only">Save</button>
                   <a class="icon-down-open meta-data-toggle iconified pat-toggle collapsible-closed" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields">
                     Toggle extra metadata
-                </a>                  
+                </a>
                 </div>
               </div>
               <div class="bar summary-hero">
@@ -77,9 +78,9 @@
                           tal:condition="not: has_image"
                           i18n:translate="label_upload_image">Upload image</span>
                     <input type="file" name="image"
-                           tal:attributes="disabled read_only"/> 
+                           tal:attributes="disabled read_only"/>
                   </label>
-                </fieldset> 
+                </fieldset>
               </div>
               <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                 <fieldset class="bar pat-checklist">
@@ -103,7 +104,7 @@
                   </label>
                 </fieldset>
                 <label class="bar">
-                  Section 
+                  Section
                   <select name="section" tal:attributes="disabled read_only">
                     <option tal:repeat="section view/sections"
                             value="${section/uuid}"
@@ -147,13 +148,13 @@
                       </span>
                   </label>
                 </div>
-                <fieldset class="bar">                
+                <fieldset class="bar">
                   <label class="">
                     Publication date
                     <input class="pat-date-picker" type="date"
                            name="effective"
                            tal:attributes="value view/effective; disabled read_only" />
-                  </label>, 
+                  </label>,
                   <label class="">
                     Expiration date
                     <input class="pat-date-picker" type="date"
@@ -176,14 +177,14 @@
                 <textarea name="text" placeholder="Write your body text here…" class="pat-redactor" data-allow="p-ul-ol-h1-h2-h3" data-pat-redactor="imageupload: @@star-quickupload; imagegetjson: /feedback/images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: bufferbuttons,alignment,table,source,video,imagemanager,romanlisting">${context/text/output|nothing}</textarea>
               </article>
             </div>
-          </form>          
+          </form>
         </div>
 
         <!-- left column: news cms navigation -->
         <div tal:replace="structure view/sidebar" />
-        
+
       </div><!-- /application-body -->
-      
+
     </metal:content>
   </body>
 </html>
