@@ -15,26 +15,26 @@
             <h1>
               <span i18n:translate="">Delete news item</span>
             </h1>
-            
+
             <form method="post" action="${view/url}"
                   class="wizard-box "
                   >
-              
+
               <div class="panel-body">
                 <article i18n:translate="sorry_dont_know_how_to_i18n_this">
                   You are about to delete <strong>"${context/title}"</strong>.
                   Are you sure?
                 </article>
               </div>
-              
+
               <div class="buttons panel-footer">
-                <button type="submit" class="close-panel icon-ok-circle"
+                <button type="submit" class="icon-ok-circle"
                         i18n:translate="label_delete_newsitem_confirm">
                   I am sure, delete now</button>
                 <button type="button" class="close-panel icon-cancel-circle"
                         i18n:translate="">Cancel</button>
               </div>
-              
+
             </form>
 
           </div>
