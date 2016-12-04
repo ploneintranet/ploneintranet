@@ -4,7 +4,25 @@ Changelog
 1.2.0a29 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge pull request #981 from quaive/fix-group-sync [GitHub]
+* Merge pull request #980 from quaive/fix-news-delete [GitHub]
+* Don't lower the group ids for canonicals [Alexander Pilz]
+* Merge pull request #978 from quaive/840-uemlaute [GitHub]
+* re-ran i18n sync & fixed DE translation of delete confirmation [Wolfgang Thomas]
+* properly i18n the delete confirmation [Wolfgang Thomas]
+* The delete conformation modal needs to be large, since the buttons contain lots of text, and in translations such as DE it can become even longer. [Wolfgang Thomas]
+* Add status message about deletion to be in line with the rest of our content [Wolfgang Thomas]
+* A button that submits a form in a modal must never have `close-panel`, since that just closes the modal... [Wolfgang Thomas]
+* For whatever reason we were using namechooser and idnormalizer. I think to remember that I did this back then to be extra safe.  namechooser alone is the canonical plone behavior. So that changes back to it now. [Alexander Pilz]
+* Merge pull request #975 from quaive/require-pysqlite [GitHub]
+* Merge pull request #976 from quaive/update-cmfnotification [GitHub]
+* Update Products.CMFNotification [Alessandro Pisa]
+* Require pysqlite [Alessandro Pisa]
+* Merge pull request #974 from quaive/release-1.2.x [GitHub]
+* Merge pull request #968 from quaive/sidebar-refactoring [GitHub]
+* Back to development: 1.2.0a29 [Alexander Pilz]
+* Preparing release 1.2.0a28 [Alexander Pilz]
+* Sidebar refactoring [Alessandro Pisa]
 
 
 1.2.0a28 (2016-12-02)
