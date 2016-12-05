@@ -1,16 +1,22 @@
+# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
-from Products.Five.browser import BrowserView
+from Acquisition import aq_inner
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.content.browser.file import FileUploadView as BaseFileUploadView
 from plone.app.dexterity.interfaces import IDXFileFactory
+from plone.app.layout.viewlets.content import ContentHistoryView as BaseContentHistoryView  # noqa
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.protect.authenticator import createToken
 from plone.uuid.interfaces import IUUID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-import mimetypes
+from Products.CMFCore.utils import _checkPermission
+from Products.CMFEditions.Permissions import AccessPreviousVersions
+from Products.Five.browser import BrowserView
 import json
+import mimetypes
 
 
 class JoinView(BrowserView):
@@ -158,3 +164,86 @@ class FileUploadView(BaseFileUploadView):
             'filename': filename
         })
         return result
+
+
+class ContentHistoryView(BaseContentHistoryView):
+    """
+        Customised so that we can provide more info about the revisions in our
+        history.
+    """
+
+    def revisionHistory(self):
+        context = aq_inner(self.context)
+        if not _checkPermission(AccessPreviousVersions, context):
+            return []
+
+        rt = api.portal.get_tool("portal_repository")
+        if rt is None or not rt.isVersionable(context):
+            return []
+
+        context_url = context.absolute_url()
+        history = rt.getHistoryMetadata(context)
+
+        # XXX Hardcoded: diff is not supported
+        can_diff = False
+        can_revert = _checkPermission(
+            'CMFEditions: Revert to previous versions', context)
+
+        def morphVersionDataToHistoryFormat(vdict, version_id):
+            meta = vdict["metadata"]["sys_metadata"]
+            userid = meta["principal"]
+            token = createToken()
+            # XXX For Files, link to the download view
+            if context.portal_type in ('File',):
+                preview_url = "{0}/download_file_version?version_id={1}&_authenticator={2}".format(  # noqa
+                    context_url, version_id, token)
+            else:
+                preview_url = \
+                    "%s/versions_history_form?version_id=%s&_authenticator=%s#version_preview" % (  # noqa
+                        context_url,
+                        version_id,
+                        token
+                    )
+            info = dict(
+                type='versioning',
+                action=_(u"Edited"),
+                transition_title=_(u"Edited"),
+                actorid=userid,
+                time=meta["timestamp"],
+                comments=meta['comment'],
+                version_id=version_id,
+                preview_url=preview_url,
+            )
+            up_to_date = rt.isUpToDate(context, version_id)
+            if can_diff:
+                if version_id > 0:
+                    info["diff_previous_url"] = (
+                        "%s/@@history?one=%s&two=%s&_authenticator=%s" %
+                        (context_url, version_id, version_id - 1, token)
+                    )
+                if not up_to_date:
+                    info["diff_current_url"] = (
+                        "%s/@@history?one=current&two=%s&_authenticator=%s" %
+                        (context_url, version_id, token)
+                    )
+            if can_revert and not up_to_date:
+                info["revert_url"] = "%s/revertversion" % context_url
+            else:
+                info["revert_url"] = None
+            info.update(self.getUserInfo(userid))
+            return info
+
+        # History may be an empty list
+        if not history:
+            return history
+
+        version_history = []
+        # Count backwards from most recent to least recent
+        for i in xrange(history.getLength(countPurged=False) - 1, -1, -1):
+            vdict = history.retrieve(i, countPurged=False)
+            version_id = history.getVersionId(i, countPurged=False)
+            morphed_data = morphVersionDataToHistoryFormat(
+                vdict, version_id)
+            version_history.append(morphed_data)
+
+        return version_history

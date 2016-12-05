@@ -9,6 +9,8 @@
         <tbody>
             <tr class="odd">
                 <th class="nosort"
+                    i18n:translate="abbreviation_number">No.</th>
+                <th class="nosort"
                     i18n:translate="">What</th>
                 <th class="nosort"
                     i18n:translate="">View</th>
@@ -30,6 +32,7 @@
                         effective item/effective_date|nothing;
                         effectiveDate python:effective and view.toLocalizedTime(item['effective_date'],long_format=True);
                         isVersion python:item['type']=='versioning'">
+                <td valign="top">${item/version_id}</td>
                 <td>
                     <span class="historyByLine">
                         <tal:action i18n:translate="history_action">
@@ -43,9 +46,10 @@
                                 tal:content="actor_name"> runyaga </a>
                              <span tal:condition="not: actor_home"
                                    tal:replace="actor_name"/>
+                            <br/>
                             </tal:actor>
                             on
-                            <span i18n:translate=""  i18n:name="time" tal:content="python:view.toLocalizedTime(item['time'],long_format=True)" class="pat-moment" data-pat-moment="format:relative;"/>
+                            <span i18n:translate="" i18n:name="time" tal:content="python:context.toLocalizedTime(item['time'],long_format=True)" class="pat-moment" data-pat-moment="format:relative;"/>
                         </tal:action>
                         <tal:effective tal:condition="effective|nothing">
                             (<span i18n:translate="label_publishing_effective" tal:omit-tag="">effective</span>:
@@ -85,7 +89,6 @@
                     <form action="" method="post" tal:condition="item/revert_url" tal:attributes="action item/revert_url">
                         <input type="hidden" name="version_id" value="" tal:attributes="value item/version_id" />
                         <input class="destructive" type="submit" i18n:attributes="value title_revert_revision"
-                                tal:condition="exists:item/diff_current_url"
                                 value="Revert to this revision" />
                     </form>
                     </span>

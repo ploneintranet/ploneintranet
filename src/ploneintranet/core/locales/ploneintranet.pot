@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-12-03 17:55+0000\n"
+"POT-Creation-Date: 2016-12-05 17:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -601,7 +601,7 @@ msgstr ""
 msgid "Create folder"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:137
+#: ../workspace/browser/add_content.py:136
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:63
 msgid "Create link"
 msgstr ""
@@ -846,6 +846,7 @@ msgstr ""
 
 #: ../activitystream/browser/templates/comment.html:37
 #: ../activitystream/browser/templates/post.html:72
+#: ../workspace/browser/views.py:209
 msgid "Edited"
 msgstr ""
 
@@ -1219,7 +1220,7 @@ msgstr ""
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:90
+#: ../workspace/browser/add_content.py:89
 msgid "Item created."
 msgstr ""
 
@@ -1327,7 +1328,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:139
+#: ../workspace/browser/add_content.py:138
 msgid "Link name"
 msgstr ""
 
@@ -2057,7 +2058,7 @@ msgstr ""
 msgid "Resetting your own password is not supported."
 msgstr ""
 
-#: ../workspace/browser/templates/content_history.pt:19
+#: ../workspace/browser/templates/content_history.pt:21
 msgid "Revert"
 msgstr ""
 
@@ -2518,7 +2519,7 @@ msgstr ""
 msgid "There was a problem:"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:98
+#: ../workspace/browser/add_content.py:97
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr ""
@@ -2796,7 +2797,7 @@ msgid "Version history"
 msgstr ""
 
 #: ../activitystream/browser/templates/post.html:260
-#: ../workspace/browser/templates/content_history.pt:13
+#: ../workspace/browser/templates/content_history.pt:15
 msgid "View"
 msgstr ""
 
@@ -2816,7 +2817,7 @@ msgstr ""
 msgid "Welcome to our family, Stranger"
 msgstr ""
 
-#: ../workspace/browser/templates/content_history.pt:11
+#: ../workspace/browser/templates/content_history.pt:13
 msgid "What"
 msgstr ""
 
@@ -2864,7 +2865,7 @@ msgstr ""
 msgid "Workspace for PloneIntranet"
 msgstr ""
 
-#: ../workspace/browser/views.py:23
+#: ../workspace/browser/views.py:29
 msgid "Workspace join policy doesn't allow self join"
 msgstr ""
 
@@ -2932,7 +2933,7 @@ msgstr ""
 msgid "YYYY-MM-DD"
 msgstr ""
 
-#: ../workspace/browser/views.py:32
+#: ../workspace/browser/views.py:38
 msgid "You are a member of this workspace now"
 msgstr ""
 
@@ -3007,6 +3008,11 @@ msgid "Your changes have been saved."
 msgstr ""
 
 msgid "Zip archive"
+msgstr ""
+
+#. Default: "No."
+#: ../workspace/browser/templates/content_history.pt:11
+msgid "abbreviation_number"
 msgstr ""
 
 #. Default: "What are you doing?"
@@ -3176,7 +3182,7 @@ msgid "date"
 msgstr ""
 
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:191
+#: ../workspace/browser/add_content.py:190
 msgid "dates_hijacked"
 msgstr ""
 
@@ -3366,7 +3372,7 @@ msgid "help_workspace_types_css_mapping"
 msgstr ""
 
 #. Default: "${action} - ${actor} on ${time}"
-#: ../workspace/browser/templates/content_history.pt:48
+#: ../workspace/browser/templates/content_history.pt:52
 msgid "history_action"
 msgstr ""
 
@@ -3647,7 +3653,7 @@ msgid "label_no_events_available"
 msgstr ""
 
 #. Default: "effective"
-#: ../workspace/browser/templates/content_history.pt:51
+#: ../workspace/browser/templates/content_history.pt:55
 msgid "label_publishing_effective"
 msgstr ""
 
@@ -3954,7 +3960,7 @@ msgid "title_follow"
 msgstr ""
 
 #. Default: "Revert to this revision"
-#: ../workspace/browser/templates/content_history.pt:87
+#: ../workspace/browser/templates/content_history.pt:91
 msgid "title_revert_revision"
 msgstr ""
 
@@ -3964,7 +3970,7 @@ msgid "title_unfollow"
 msgstr ""
 
 #. Default: "View"
-#: ../workspace/browser/templates/content_history.pt:60
+#: ../workspace/browser/templates/content_history.pt:64
 msgid "title_view_revision"
 msgstr ""
 

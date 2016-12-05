@@ -499,7 +499,7 @@
         for="*"
         name="contenthistory"
         template="templates/content_history.pt"
-        class="plone.app.layout.viewlets.content.ContentHistoryView"
+        class=".views.ContentHistoryView"
         permission="zope2.View"
         layer="..interfaces.IWorkspaceAppContentLayer"
         />
