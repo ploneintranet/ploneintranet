@@ -49,7 +49,7 @@
               </div>
             </div>
 
-            <form class="search-result users pat-inject" data-pat-inject="target: body::after" action="/panel-change-role#content" id="member-list-items" method="POST">
+            <form class="search-result users pat-inject" data-pat-inject="target: body::after" action="${ws/absolute_url}/panel-change-role#content" id="member-list-items" method="POST">
               <fieldset class="checklist pat-checklist users " id="existing_users">
 
                 <div class="batch-functions pat-bumper sticky-supported" data-pat-bumper="margin: 35; side: top" tal:condition="can_manage_roster">
@@ -87,16 +87,16 @@
                 </div>
 
                 <tal:principals repeat="principal principals">
-                  <label class="item ${python: is_group and 'group' or 'user'} ${python: description and 'has-description' or 'has-no-description'} ${python: roles and 'has-label' or ''}"
+                  <label class="item ${python: groupid and 'group' or 'user'} ${python: description and 'has-description' or 'has-no-description'} ${python: roles and 'has-label' or ''}"
                       tal:define="
                         principalid principal/id;
-                        is_group principal/getGroupId|nothing;
+                        groupid principal/getGroupId|nothing;
                         description python:workspace_view.get_principal_description(principal);
                         roles python:workspace_view.get_principal_roles(principal);
                       "
                     >
                     <input name="user_id"
-                           value="${principal/id}"
+                           value="${python: groupid or principalid}"
                            type="checkbox"
                           />
                     <a class="follow pat-inject"
