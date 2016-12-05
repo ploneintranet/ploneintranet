@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-12-03 17:55+0000\n"
+"POT-Creation-Date: 2016-12-05 17:17+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -604,7 +604,7 @@ msgstr "Termin anlegen"
 msgid "Create folder"
 msgstr "Verzeichnis erstellen"
 
-#: ../workspace/browser/add_content.py:137
+#: ../workspace/browser/add_content.py:136
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:63
 msgid "Create link"
 msgstr "Link erstellen"
@@ -849,6 +849,7 @@ msgstr "Profil bearbeiten"
 
 #: ../activitystream/browser/templates/comment.html:37
 #: ../activitystream/browser/templates/post.html:72
+#: ../workspace/browser/views.py:209
 msgid "Edited"
 msgstr "Bearbeitet"
 
@@ -1222,7 +1223,7 @@ msgstr "Lade Benutzer in diesen Arbeitsraum ein (per E-Mail)"
 msgid "Invitees"
 msgstr "Eingeladen"
 
-#: ../workspace/browser/add_content.py:90
+#: ../workspace/browser/add_content.py:89
 msgid "Item created."
 msgstr "Element angelegt."
 
@@ -1330,7 +1331,7 @@ msgstr "Like"
 msgid "Link"
 msgstr "Link"
 
-#: ../workspace/browser/add_content.py:139
+#: ../workspace/browser/add_content.py:138
 msgid "Link name"
 msgstr "Link Name"
 
@@ -2060,7 +2061,7 @@ msgstr "Filter zurücksetzen"
 msgid "Resetting your own password is not supported."
 msgstr "Eigenes Passwort zurücksetzen wird nicht unterstützt."
 
-#: ../workspace/browser/templates/content_history.pt:19
+#: ../workspace/browser/templates/content_history.pt:21
 msgid "Revert"
 msgstr "Wiederherstellen"
 
@@ -2521,7 +2522,7 @@ msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 msgid "There was a problem:"
 msgstr "Es ist ein Problem aufgetreten:"
 
-#: ../workspace/browser/add_content.py:98
+#: ../workspace/browser/add_content.py:97
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr "Es ist ein Problem aufgetreten: %s."
@@ -2799,7 +2800,7 @@ msgid "Version history"
 msgstr "Versionen ansehen"
 
 #: ../activitystream/browser/templates/post.html:260
-#: ../workspace/browser/templates/content_history.pt:13
+#: ../workspace/browser/templates/content_history.pt:15
 msgid "View"
 msgstr "Ansehen"
 
@@ -2819,7 +2820,7 @@ msgstr "Woche"
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
 
-#: ../workspace/browser/templates/content_history.pt:11
+#: ../workspace/browser/templates/content_history.pt:13
 msgid "What"
 msgstr "Was"
 
@@ -2867,7 +2868,7 @@ msgstr "Beschreibung"
 msgid "Workspace for PloneIntranet"
 msgstr "PloneIntranet Arbeitsraum"
 
-#: ../workspace/browser/views.py:23
+#: ../workspace/browser/views.py:29
 msgid "Workspace join policy doesn't allow self join"
 msgstr "Die Richtlinie zur Aufnahme in diesen Arbeitsraum erlaubt es nicht, sich selbst zu registrieren."
 
@@ -2935,7 +2936,7 @@ msgstr "Falscher Typ für {} in Zeile {}."
 msgid "YYYY-MM-DD"
 msgstr "JJJJ-MM-TT"
 
-#: ../workspace/browser/views.py:32
+#: ../workspace/browser/views.py:38
 msgid "You are a member of this workspace now"
 msgstr "Sie sind jetzt ein Mitglied dieses Arbeitsraums."
 
@@ -3011,6 +3012,11 @@ msgstr "Die Änderungen wurden gespeichert."
 
 msgid "Zip archive"
 msgstr "Zip"
+
+#. Default: "No."
+#: ../workspace/browser/templates/content_history.pt:11
+msgid "abbreviation_number"
+msgstr "Nr."
 
 #. Default: "What are you doing?"
 #: ../microblog/browser/update_social.py:262
@@ -3182,7 +3188,7 @@ msgstr "Datum"
 
 #. time to: ${date}"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:191
+#: ../workspace/browser/add_content.py:190
 msgid "dates_hijacked"
 msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
@@ -3386,7 +3392,7 @@ msgid "help_workspace_types_css_mapping"
 msgstr ""
 
 #. Default: "${action} - ${actor} on ${time}"
-#: ../workspace/browser/templates/content_history.pt:48
+#: ../workspace/browser/templates/content_history.pt:52
 msgid "history_action"
 msgstr "${action} - ${actor} am ${time}"
 
@@ -3671,7 +3677,7 @@ msgid "label_no_events_available"
 msgstr "Keine Termine verfügbar"
 
 #. Default: "effective"
-#: ../workspace/browser/templates/content_history.pt:51
+#: ../workspace/browser/templates/content_history.pt:55
 msgid "label_publishing_effective"
 msgstr "effektiv"
 
@@ -3978,7 +3984,7 @@ msgid "title_follow"
 msgstr "Klicken Sie hier, um ${fullname} zu folgen"
 
 #. Default: "Revert to this revision"
-#: ../workspace/browser/templates/content_history.pt:87
+#: ../workspace/browser/templates/content_history.pt:91
 msgid "title_revert_revision"
 msgstr "Diese Version wiederherstellen"
 
@@ -3988,7 +3994,7 @@ msgid "title_unfollow"
 msgstr "Sie folgen ${fullname}. Klicken Sie hier, um ${fullname} nicht weiter zu folgen"
 
 #. Default: "View"
-#: ../workspace/browser/templates/content_history.pt:60
+#: ../workspace/browser/templates/content_history.pt:64
 msgid "title_view_revision"
 msgstr "Ansehen"
 
