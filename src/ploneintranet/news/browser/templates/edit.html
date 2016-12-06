@@ -46,7 +46,7 @@
                             tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${context/absolute_url}/edit.html;; source: #global-statusmessage &amp;&amp; url: ${context/absolute_url}/edit.html;; source: #application-body;; target: #application-body">
                         <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
                           <select name="workflow_action" id="workflow_action"
-                                  tal:attributes="disabled view/can_review">
+                                  tal:attributes="disabled not:view/can_review">
                             <option tal:repeat="state view/get_workflow_transitions"
                                     tal:attributes="title state/title; value state/action; selected state/selected|nothing"
                                     tal:content="state/title">Workflow State</option>
