@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a30 (unreleased)
+1.2.0a30 (2016-12-06)
 ---------------------
 
 * Merge pull request #986 from quaive/979-news-publishing [GitHub]
