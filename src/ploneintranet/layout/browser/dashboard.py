@@ -1,8 +1,7 @@
 # coding=utf-8
-from collective.mustread.interfaces import ITracker
 from collective.mustread.behaviors.maybe import IMaybeMustRead
+from collective.mustread.interfaces import ITracker
 from logging import getLogger
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.contenttypes.interfaces import IDocument
@@ -13,8 +12,9 @@ from plone.tiles import Tile
 from ploneintranet import api as pi_api
 from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import get_record_from_registry
-from ploneintranet.workspace.utils import parent_workspace
 from ploneintranet.todo.utils import update_task_status
+from ploneintranet.workspace.utils import parent_workspace
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
@@ -99,23 +99,43 @@ class NewsTile(Tile):
 
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
-    def __call__(self):
-        # minimal state propagation via hidden input
-        self.just_read_uids = self.request.get('just_read_uids', [])
-        if 'hit_uid' in self.request.form.keys():
-            uid = self.request.form['hit_uid']
-            item = api.content.get(UID=uid)
+    @memoize
+    @property
+    def just_read_uids(self):
+        ''' Try hard to get a just_read_uids parameter from the request
+        and makle a list of it
+
+        Append to the list also
+        '''
+
+        just_read_uids = self.request.get('just_read_uids')
+        if not just_read_uids:
+            just_read_uids = []
+        elif isinstance(just_read_uids, basestring):
+            just_read_uids = [just_read_uids]
+        elif not isinstance(just_read_uids, list):
+            just_read_uids = list(just_read_uids)
+
+        hit_uid = self.request.form.get('hit_uid')
+
+        if hit_uid and isinstance(hit_uid, basestring):
+            item = api.content.get(UID=hit_uid)
             # async write on-disk state
             MarkRead(item, self.request)()
             # sync update in-memory state
-            self.just_read_uids.append(uid)
-        return super(NewsTile, self).__call__()
+            just_read_uids.append(hit_uid)
+
+        return just_read_uids
 
     @memoize
     def news_items(self):
         tracker = getUtility(ITracker)
         # supplement async tracker with sync hidden state propagation
-        read_uids = set(tracker.uids_read()).union(set(self.just_read_uids))
+        read_uids = set(tracker.uids_read() or [])
+        read_uids.update(self.just_read_uids)
+        if not read_uids:
+            return []
+
         pc = api.portal.get_tool('portal_catalog')
         items = [
             {'title': item.Title,
@@ -123,16 +143,15 @@ class NewsTile(Tile):
              'url': item.getURL(),
              'uid': item.UID,
              'has_thumbs': item.has_thumbs,
-             'getObject': item.getObject}
+             'obj': item.getObject()}
             for item in pc(portal_type='News Item',
                            review_state='published',
                            sort_on='effective',
-                           sort_order='reverse')
-            if item.UID not in read_uids
+                           sort_order='reverse',
+                           UID=read_uids)
         ]
-        # delay getObject call to resolve only unread items
         for item in items:
-            item['must_read'] = IMaybeMustRead(item['getObject']()).must_read
+            item['must_read'] = IMaybeMustRead(item['obj']()).must_read
         # sort must-read, then on effective
         return sorted(items, key=lambda x: x['must_read'],
                       reverse=True)
