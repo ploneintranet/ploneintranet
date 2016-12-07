@@ -1,10 +1,23 @@
 Changelog
 =========
 
-1.2.0a31 (unreleased)
+1.2.0a32 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a31 (2016-12-07)
+---------------------
+
+* Merge pull request #991 from quaive/fix-metromap-tile [GitHub]
+* Merge pull request #990 from quaive/fix-delete-todos [GitHub]
+* Merge pull request #989 from quaive/news-tile-improvements [GitHub]
+* Merge pull request #988 from quaive/release-1.2.x [GitHub]
+* Calculate better if a milestone is closed [Alessandro Pisa]
+* Fix delete todos popup [Alessandro Pisa]
+* Fix broken improvements [Alessandro Pisa]
+* Back to development: 1.2.0a31 [Alexander Pilz]
 
 
 1.2.0a30 (2016-12-06)
