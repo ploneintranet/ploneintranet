@@ -1,10 +1,24 @@
 Changelog
 =========
 
-1.2.0a30 (unreleased)
+1.2.0a31 (unreleased)
 ---------------------
 
 - Nothing changed yet.
+
+
+1.2.0a30 (2016-12-06)
+---------------------
+
+* Merge pull request #986 from quaive/979-news-publishing [GitHub]
+* fix logic for showing workflow dropdown in news publisher, fixes #979 [Wolfgang Thomas]
+* Merge pull request #984 from quaive/simplify-versioning [GitHub]
+* Merge pull request #983 from quaive/use-groupid [GitHub]
+* Added DE translation for historypopup [Wolfgang Thomas]
+* Customise the method that aggregates the revision history. Reason: In case we're viewing the history of a File, we want to link directly to the download URL, since the history details page gives no further useful information. Also, slightly improve the look of the history popup [Wolfgang Thomas]
+* Use groupid when principal is a group [Alessandro Pisa]
+* Merge pull request #982 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.0a30 [Alexander Pilz]
 
 
 1.2.0a29 (2016-12-04)
