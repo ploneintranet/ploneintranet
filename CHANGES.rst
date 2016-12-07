@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a31 (unreleased)
+1.2.0a31 (2016-12-07)
 ---------------------
 
 * Merge pull request #991 from quaive/fix-metromap-tile [GitHub]
