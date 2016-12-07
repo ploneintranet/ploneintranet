@@ -138,25 +138,24 @@ class MetromapTile(Tile):
         review_state = api.content.get_state(self.context)
         # We start from the end and declare that the transition is unfinished
         finished = 'unfinished'
-        for milestone in reversed(milestones):
-            milestone['all_tasks_completed'] = (
-                self.tasks_are_all_completed(milestone['tasks'])
+        for idx, milestone in enumerate(reversed(milestones)):
+            is_last = idx == 0
+            is_current = milestone['state'] == review_state
+            all_tasks_completed = self.tasks_are_all_completed(
+                milestone['tasks']
             )
-            if milestone['state'] == review_state:
-                # When we find the current transition,
-                # we check if it has open tasks before deciding to toggle the
-                # value of the finish variable
-                milestone['is_current'] = True
-                if milestone['all_tasks_completed']:
-                    finished = 'finished'
-                    milestone['finished'] = finished
-                else:
-                    milestone['finished'] = finished
-                    finished = 'finished'
-            else:
-                # otherwise we just continue
-                milestone['is_current'] = False
-                milestone['finished'] = finished
+            if is_current and is_last and all_tasks_completed:
+                # if we are at the end of the journey, everything is finished
+                finished = 'finished'
+
+            milestone['is_current'] = is_current
+            milestone['finished'] = finished
+            milestone['all_tasks_completed'] = all_tasks_completed
+
+            if is_current:
+                # if we are at this point,
+                # the other milestones have been completed
+                finished = 'finished'
 
     @property
     @memoize
