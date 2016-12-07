@@ -99,8 +99,8 @@ class NewsTile(Tile):
 
     index = ViewPageTemplateFile("templates/news-tile.pt")
 
-    @memoize
     @property
+    @memoize
     def just_read_uids(self):
         ''' Try hard to get a just_read_uids parameter from the request
         and makle a list of it
@@ -143,15 +143,16 @@ class NewsTile(Tile):
              'url': item.getURL(),
              'uid': item.UID,
              'has_thumbs': item.has_thumbs,
-             'obj': item.getObject()}
+             'item': item}
             for item in pc(portal_type='News Item',
                            review_state='published',
                            sort_on='effective',
-                           sort_order='reverse',
-                           UID=read_uids)
+                           sort_order='reverse')
+            if item.UID not in read_uids
         ]
         for item in items:
-            item['must_read'] = IMaybeMustRead(item['obj']()).must_read
+            obj = item['item'].getObject()
+            item['must_read'] = IMaybeMustRead(obj).must_read
         # sort must-read, then on effective
         return sorted(items, key=lambda x: x['must_read'],
                       reverse=True)
