@@ -133,8 +133,6 @@ class NewsTile(Tile):
         # supplement async tracker with sync hidden state propagation
         read_uids = set(tracker.uids_read() or [])
         read_uids.update(self.just_read_uids)
-        if not read_uids:
-            return []
 
         pc = api.portal.get_tool('portal_catalog')
         items = [
