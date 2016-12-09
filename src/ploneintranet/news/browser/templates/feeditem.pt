@@ -1,4 +1,4 @@
-<a class="follow" href="${context/absolute_url}">
+<a class="follow" href="${context/absolute_url}" i18n:domain="ploneintranet">
   <figure class="branded" tal:condition="context/magazine_image">
     <img class="illustration"
          tal:condition="context/image"
@@ -16,7 +16,7 @@
     </h3>
     <p class="byline"><time datetime="${view/date}">${view/date}</time></p>
     <p class="description">${view/description}
-      <strong i18n:translate="">Read more...</strong>
+      <strong i18n:translate="read-more">Read more...</strong>
     </p>
   </div>
 </a>
