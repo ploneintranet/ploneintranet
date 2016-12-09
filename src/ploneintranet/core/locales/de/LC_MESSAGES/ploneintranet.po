@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-12-09 12:04+0000\n"
+"POT-Creation-Date: 2016-12-09 18:13+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -248,7 +248,7 @@ msgstr "Ganztägig"
 msgid "All day event"
 msgstr "Ganztägiger Termin"
 
-#: ../news/browser/magazine.py:27
+#: ../news/browser/magazine.py:28
 msgid "All news"
 msgstr "Alle Nachrichten"
 
@@ -3216,6 +3216,10 @@ msgstr "erstellt"
 msgid "date"
 msgstr "Datum"
 
+#. Define our own long date format
+msgid "date_format_long"
+msgstr "${d}. ${B} ${Y}"
+
 #. time to: ${date}"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
 #: ../workspace/browser/add_content.py:190
@@ -3607,9 +3611,10 @@ msgstr "Publikationsdatum"
 msgid "label_event_global_default"
 msgstr ""
 
-#. Default: "Expiration date"
+#. Default: "Expiration Date"
 #: ../network/behaviors/metadata.py:218
 #: ../news/browser/templates/edit.html:159
+#, fuzzy
 msgid "label_expiration_date"
 msgstr "Ablaufdatum"
 
@@ -3707,8 +3712,9 @@ msgstr "Diesen Bereich in der Subnavigation der Nachrichten anzeigen"
 msgid "label_no_events_available"
 msgstr "Keine Termine verfügbar"
 
-#. Default: "Publication date"
+#. Default: "Publication Date"
 #: ../news/browser/templates/edit.html:153
+#, fuzzy
 msgid "label_publication_date"
 msgstr "Veröffentlichungsdatum"
 
