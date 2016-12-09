@@ -35,11 +35,11 @@
                 </label>
 
                 <div class="quick-functions">
-                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document"
+                  <a href="${context/absolute_url}/confirm-delete-item.html#document-content" class="pat-modal icon-trash iconified" title="Delete this document" i18n:attributes="title"
                     data-pat-modal="class: large">
                     Delete
                   </a>
-                  <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item">
+                  <a href="${context/absolute_url}" class="icon-eye iconified" target="Preview" title="Preview this news item" i18n:attributes="title">
                     Preview
                   </a>
                   <fieldset id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
@@ -49,12 +49,12 @@
                                   tal:attributes="disabled not:view/can_review">
                             <option tal:repeat="state view/get_workflow_transitions"
                                     tal:attributes="title state/title; value state/action; selected state/selected|nothing"
-                                    tal:content="state/title">Workflow State</option>
+                                    tal:content="state/title" i18n:translate="">Workflow State</option>
                           </select>
                         </label>
                         <span tal:replace="structure context/@@authenticator/authenticator"/>
                       </fieldset>
-                  <button type="submit" class="pat-button icon-floppy" title="Save this document" tal:condition="not: read_only">Save</button>
+                  <button type="submit" class="pat-button icon-floppy" title="Save this document" i18n:attributes="title" tal:condition="not: read_only" i18n:translate="label_save">Save</button>
                   <a class="icon-down-open meta-data-toggle iconified pat-toggle collapsible-closed" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields">
                     Toggle extra metadata
                 </a>
@@ -63,7 +63,7 @@
               <div class="bar summary-hero">
                 <fieldset class="row" >
                   <label class="nine columns">
-                    <textarea name="description" rows="4" title="Description" placeholder="Summary" tal:attributes="disabled read_only">${context/description}</textarea>
+                    <textarea name="description" rows="4" title="Description" placeholder="Item summary (Optional)" i18n:attributes="placeholder" tal:attributes="disabled read_only">${context/description}</textarea>
                   </label>
                   <label id="hero-upload" class="three columns image-uploader pat-subform pat-autosubmit pat-inject"
                          data-pat-inject="url: ${context/absolute_url}/edit.html#hero-upload"
@@ -104,7 +104,7 @@
                   </label>
                 </fieldset>
                 <label class="bar">
-                  Section
+                  <tal:translate i18n:translate="">Section</tal:translate>
                   <select name="section" tal:attributes="disabled read_only">
                     <option tal:repeat="section view/sections"
                             value="${section/uuid}"
@@ -150,13 +150,13 @@
                 </div>
                 <fieldset class="bar">
                   <label class="">
-                    Publication date
+                    <tal:translate i18n:translate="label_publication_date">Publication date</tal:translate>
                     <input class="pat-date-picker" type="date"
                            name="effective"
                            tal:attributes="value view/effective; disabled read_only" />
                   </label>,
                   <label class="">
-                    Expiration date
+                    <tal:translate i18n:translate="label_expiration_date">Expiration date</tal:translate>
                     <input class="pat-date-picker" type="date"
                            name="expires"
                            tal:attributes="value view/expires; disabled read_only" />

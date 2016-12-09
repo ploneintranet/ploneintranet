@@ -9,19 +9,19 @@
   <body class="view-secure">
 
     <!-- prototype/_site/feedback/panel-create-news.html -->
-    
+
     <metal:content fill-slot="content">
 
       <div id="main">
 	<div id="content" class="modal">
 	  <div id="document-content" class="pat-modal ">
             <h1 i18n:translate="">Create news</h1>
-            
+
             <form method="post"
                   action="${view/app_url}"
                   class="wizard-box pat-inject " data-pat-inject="">
               <input type="hidden" name="form.id" value="create" />
-              
+
               <div class="panel-body">
                 <fieldset class="icon-tabs">
                   <label class="icon-newspaper">
@@ -35,19 +35,19 @@
                 </fieldset>
                 <fieldset class="vertical">
 	          <fieldset class="group">
-	            <input type="text" name="item_title" placeholder="News item title"
-                           class="pat-depends" data-pat-depends="type=item" autofocus/>                    
-	            <input type="text" name="section_title" placeholder="Section title"
-                           class="pat-depends" data-pat-depends="type=section" />                    
-	            <textarea name="item_description"
+	            <input type="text" name="item_title" placeholder="News item title" i18n:attributes="placeholder"
+                           class="pat-depends" data-pat-depends="type=item" autofocus/>
+	            <input type="text" name="section_title" placeholder="Section title" i18n:attributes="placeholder"
+                           class="pat-depends" data-pat-depends="type=section" />
+	            <textarea name="item_description" i18n:attributes="placeholder"
                               rows="6" placeholder="Item summary (Optional)" class="pat-depends" data-pat-depends="type=item"></textarea>
-	            <textarea name="section_description"
+	            <textarea name="section_description" i18n:attributes="placeholder"
                               rows="6" placeholder="Section description (Optional)" class="pat-depends" data-pat-depends="type=section"></textarea>
                   </fieldset>
                   <label class="pat-depends pat-checklist" data-pat-depends="type=section">
     	            <input type="checkbox" checked
                            name="section-description-visible"/>
-                    
+
                     <span i18n:translate="label_newssection_description_visible">
                       Make the section description visible for visitors on the section page
                     </span>
@@ -76,20 +76,20 @@
                 </fieldset>
 
               </div>
-              
+
               <div class="buttons panel-footer">
                 <button type="submit" class="close-panel icon-ok-circle"
                         i18n:translate="">Create</button>
                 <button type="button" class="close-panel icon-cancel-circle"
                         i18n:translate="">Cancel</button>
               </div>
-              
+
             </form>
-            
+
           </div>
         </div>
       </div>
-      
+
     </metal:content>
   </body>
 </html>
