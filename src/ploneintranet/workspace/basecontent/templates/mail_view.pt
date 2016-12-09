@@ -238,7 +238,7 @@
                 <a href="${context/absolute_url}/download" class="icon-file-word" tal:attributes="class view/icon_class"><tal:label i18n:translate="">Download as</tal:label> <tal:type replace="view/content_type_name"/></a>
               </li>
               <li>
-                <a class="icon-print" href="javascript:window.print()" i18n:translate="">Print</a>
+                <a class="icon-print" onclick="window.print();return false;" i18n:translate="">Print</a>
               </li>
               <li tal:condition="view/can_publish_widely">
                 <a class="icon-feather pat-modal"
