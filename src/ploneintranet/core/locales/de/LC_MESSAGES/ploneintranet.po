@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2016-12-05 17:17+0000\n"
+"POT-Creation-Date: 2016-12-09 12:04+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -509,7 +509,7 @@ msgid "Change role of member"
 msgstr "Rolle des Benutzers ändern"
 
 #: ../news/browser/templates/edit.html:47
-#: ../todo/browser/templates/todo_view.pt:62
+#: ../todo/browser/templates/todo_view.pt:66
 #: ../workspace/basecontent/templates/document_view.pt:73
 msgid "Change the workflow state"
 msgstr "Workflow status ändern"
@@ -534,7 +534,7 @@ msgstr "Meilenstein schliessen"
 msgid "Close sidebar"
 msgstr "Sidebar schliessen"
 
-#: ../todo/browser/templates/todo_view.pt:80
+#: ../todo/browser/templates/todo_view.pt:84
 msgid "Closed"
 msgstr "Abschluss"
 
@@ -699,6 +699,7 @@ msgstr "Nachrichtenbereich löschen"
 msgid "Delete post"
 msgstr "Beitrag löschen"
 
+#: ../news/browser/templates/edit.html:38
 #: ../todo/browser/templates/todo_view.pt:39
 #: ../workspace/browser/templates/context-menu.pt:15
 msgid "Delete this document"
@@ -771,7 +772,7 @@ msgstr "Inhaltstypen"
 msgid "Documents"
 msgstr "Dokumente"
 
-#: ../todo/browser/templates/todo_view.pt:85
+#: ../todo/browser/templates/todo_view.pt:89
 msgid "Done"
 msgstr "Erledigt"
 
@@ -1231,6 +1232,11 @@ msgstr "Element angelegt."
 msgid "Item edited."
 msgstr "Element bearbeitet."
 
+#: ../news/browser/templates/edit.html:66
+#: ../news/browser/templates/panel-create-news.html:42
+msgid "Item summary (Optional)"
+msgstr "Zusammenfassung (optional)"
+
 #: ../workspace/browser/cart_actions/paste.py:31
 msgid "Item(s) pasted"
 msgstr "Objekt(e) eingefügt."
@@ -1565,6 +1571,10 @@ msgstr "Nachricht"
 msgid "News Section"
 msgstr "Nachrichtenbereich"
 
+#: ../news/browser/templates/panel-create-news.html:38
+msgid "News item title"
+msgstr "Titel der Nachricht"
+
 #: ../layout/browser/configure.zcml:191
 msgid "News tile showing news on the dashboard"
 msgstr "Nachichtenkachel für die Startseite"
@@ -1715,7 +1725,7 @@ msgstr "Nur meine Arbeitsräume"
 msgid "Only people and things I follow"
 msgstr "Nur Personen und Inhalte, denen ich folge"
 
-#: ../todo/browser/templates/todo_view.pt:78
+#: ../todo/browser/templates/todo_view.pt:82
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr "Offen"
@@ -1777,6 +1787,9 @@ msgstr "Einfügen"
 msgid "Paste document(s)"
 msgstr "Dokumente einfügen"
 
+msgid "Pending review"
+msgstr "Warten auf Prüfung"
+
 #: ../bookmarks/browser/templates/app.pt:22
 #: ../search/browser/templates/search_tabs.pt:9
 msgid "People"
@@ -1829,7 +1842,7 @@ msgstr ""
 msgid "Pinned"
 msgstr ""
 
-#: ../todo/browser/templates/todo_view.pt:79
+#: ../todo/browser/templates/todo_view.pt:83
 msgid "Planned"
 msgstr "Geplant"
 
@@ -1932,6 +1945,10 @@ msgstr "Vorschau"
 msgid "Preview being generated"
 msgstr "Vorschau wird erzeugt"
 
+#: ../news/browser/templates/edit.html:42
+msgid "Preview this news item"
+msgstr "Vorschau der Nachricht öffnen"
+
 #: ../userprofile/content/userprofile.py:90
 msgid "Primary location"
 msgstr "Hauptsitz"
@@ -1985,6 +2002,9 @@ msgstr ""
 #: ../library/behaviors/configure.zcml:13
 msgid "Publish widely"
 msgstr ""
+
+msgid "Published"
+msgstr "Veröffentlicht"
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:213
 msgid "Re-tag"
@@ -2040,7 +2060,7 @@ msgstr "Diesen Arbeitsraum aus Ihren Lesezeichen entfernen."
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: ../todo/browser/templates/todo_view.pt:86
+#: ../todo/browser/templates/todo_view.pt:90
 msgid "Reopen"
 msgstr "Wiedereröffnen"
 
@@ -2078,7 +2098,7 @@ msgid "Roster updated."
 msgstr "Mitgliederliste aktualisiert"
 
 #: ../news/browser/templates/panel-edit-news-section-info.html:58
-#: ../todo/browser/templates/todo_view.pt:92
+#: ../todo/browser/templates/todo_view.pt:96
 #: ../userprofile/browser/templates/userprofile-edit.pt:47
 msgid "Save"
 msgstr "Sichern"
@@ -2087,6 +2107,7 @@ msgstr "Sichern"
 msgid "Save a new version"
 msgstr "Neue Version speichern"
 
+#: ../news/browser/templates/edit.html:57
 #: ../workspace/basecontent/templates/event_view.pt:58
 msgid "Save this document"
 msgstr "Dokument speichern"
@@ -2142,8 +2163,17 @@ msgid "Secret"
 msgstr "Verborgen"
 
 #: ../news/behaviors.py:20
+#: ../news/browser/templates/edit.html:107
 msgid "Section"
 msgstr "Bereich"
+
+#: ../news/browser/templates/panel-create-news.html:44
+msgid "Section description (Optional)"
+msgstr "Beschreibung des Bereichs (optional)"
+
+#: ../news/browser/templates/panel-create-news.html:40
+msgid "Section title"
+msgstr "Titel des Bereichs"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:40
 msgid "Security"
@@ -2247,7 +2277,7 @@ msgstr "Archivierte Arbeitsräume anzeigen"
 msgid "Show extra context actions"
 msgstr "Weitere Aktionen für dieses Objekt anzeigen"
 
-#: ../todo/browser/templates/todo_view.pt:53
+#: ../todo/browser/templates/todo_view.pt:57
 #: ../workspace/basecontent/templates/document_view.pt:89
 #: ../workspace/basecontent/templates/mail_view.pt:102
 msgid "Show extra metadata fields"
@@ -2613,7 +2643,7 @@ msgstr "Heute"
 msgid "Todo"
 msgstr "Aufgabe"
 
-#: ../todo/browser/templates/todo_view.pt:53
+#: ../todo/browser/templates/todo_view.pt:57
 #: ../workspace/basecontent/templates/document_view.pt:89
 #: ../workspace/basecontent/templates/mail_view.pt:102
 msgid "Toggle extra metadata"
@@ -3487,7 +3517,7 @@ msgstr "Archiviert"
 #: ../news/behaviors.py:27
 #: ../news/browser/templates/edit.html:91
 msgid "label_article_image"
-msgstr ""
+msgstr "Das Bild ist als Hero-Image sichtbar auf der Artikelseite"
 
 #. Default: "Autosave portal types"
 #: ../workspace/profiles/default/registry.xml
@@ -3577,8 +3607,9 @@ msgstr "Publikationsdatum"
 msgid "label_event_global_default"
 msgstr ""
 
-#. Default: "Expiration Date"
+#. Default: "Expiration date"
 #: ../network/behaviors/metadata.py:218
+#: ../news/browser/templates/edit.html:159
 msgid "label_expiration_date"
 msgstr "Ablaufdatum"
 
@@ -3607,7 +3638,7 @@ msgstr "Sichtbar auf der Starseite der Nachrichten"
 #: ../news/behaviors.py:36
 #: ../news/browser/templates/edit.html:100
 msgid "label_magazine_image"
-msgstr "Bild ist sichtbar auf Nachrichtenübersichten"
+msgstr "Das Bild ist sichtbar auf Nachrichtenübersichten"
 
 #. Default: "ID of a member"
 #: ../userprofile/content/workgroup.py:59
@@ -3617,7 +3648,7 @@ msgstr ""
 #. Default: "All users must read this"
 #: ../news/browser/templates/edit.html:145
 msgid "label_must_read"
-msgstr ""
+msgstr "Alle Nutzer müssen diesen Artikel lesen"
 
 #. Default: "My workspace sorting."
 #: ../workspace/profiles/default/registry.xml
@@ -3676,6 +3707,11 @@ msgstr "Diesen Bereich in der Subnavigation der Nachrichten anzeigen"
 msgid "label_no_events_available"
 msgstr "Keine Termine verfügbar"
 
+#. Default: "Publication date"
+#: ../news/browser/templates/edit.html:153
+msgid "label_publication_date"
+msgstr "Veröffentlichungsdatum"
+
 #. Default: "effective"
 #: ../workspace/browser/templates/content_history.pt:55
 msgid "label_publishing_effective"
@@ -3699,7 +3735,7 @@ msgstr ""
 #. Default: "Save"
 #: ../activitystream/browser/templates/panel-edit-comment.html:39
 #: ../activitystream/browser/templates/panel-edit-post.html:30
-#: ../workspace/browser/templates/roster-edit.pt:152
+#: ../news/browser/templates/edit.html:57
 msgid "label_save"
 msgstr "Speichern"
 
@@ -3910,6 +3946,7 @@ msgstr "abgeschickt"
 #. Default: "Read more..."
 #: ../layout/browser/templates/news-tile.pt:33
 #: ../library/browser/templates/library.html:143
+#: ../news/browser/templates/feeditem.pt:19
 msgid "read-more"
 msgstr "Mehr..."
 

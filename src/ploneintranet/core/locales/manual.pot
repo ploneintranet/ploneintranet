@@ -110,3 +110,9 @@ msgstr ""
 
 msgid "Make secret"
 msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Pending review"
+msgstr ""
