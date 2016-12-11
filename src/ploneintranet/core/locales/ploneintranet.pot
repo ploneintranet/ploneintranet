@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-12-09 12:04+0000\n"
+"POT-Creation-Date: 2016-12-09 18:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -245,7 +245,7 @@ msgstr ""
 msgid "All day event"
 msgstr ""
 
-#: ../news/browser/magazine.py:27
+#: ../news/browser/magazine.py:28
 msgid "All news"
 msgstr ""
 
@@ -3211,6 +3211,10 @@ msgstr ""
 msgid "date"
 msgstr ""
 
+# Define our own long date format
+msgid "date_format_long"
+msgstr ""
+
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
 #: ../workspace/browser/add_content.py:190
 msgid "dates_hijacked"
@@ -3583,7 +3587,7 @@ msgstr ""
 msgid "label_event_global_default"
 msgstr ""
 
-#. Default: "Expiration date"
+#. Default: "Expiration Date"
 #: ../network/behaviors/metadata.py:218
 #: ../news/browser/templates/edit.html:159
 msgid "label_expiration_date"
@@ -3683,7 +3687,7 @@ msgstr ""
 msgid "label_no_events_available"
 msgstr ""
 
-#. Default: "Publication date"
+#. Default: "Publication Date"
 #: ../news/browser/templates/edit.html:153
 msgid "label_publication_date"
 msgstr ""

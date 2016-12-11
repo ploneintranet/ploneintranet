@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from collective.mustread.interfaces import ITracker
-from Products.Five.browser import BrowserView
 from plone import api
+from plone.memoize.view import memoize
 from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import shorten
-from plone.memoize.view import memoize
+from Products.Five.browser import BrowserView
 from zope.component import getUtility
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from .utils import obj2dict
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.core.i18nl10n import ulocalized_time
 
 
 class NewsMagazine(BrowserView):
@@ -105,7 +106,9 @@ class FeedItem(BrowserView):
         return shorten(self.context.description, desc_len)
 
     def date(self):
-        return self.context.effective().strftime('%B %d, %Y')
+        return ulocalized_time(
+            self.context.effective(), long_format=1,
+            formatstring_domain='ploneintranet', context=self.context)
 
     def category(self):
         try:
@@ -127,7 +130,9 @@ class NewsItemView(NewsMagazine):
         return self.context.section.to_object
 
     def date(self):
-        return self.context.effective().strftime('%B %d, %Y')
+        return ulocalized_time(
+            self.context.effective(), long_format=1,
+            formatstring_domain='ploneintranet', context=self.context)
 
     def __call__(self):
         MarkRead(self.context, self.request)()

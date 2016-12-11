@@ -116,3 +116,7 @@ msgstr ""
 
 msgid "Pending review"
 msgstr ""
+
+#Define our own long date format
+msgid "date_format_long"
+msgstr ""
