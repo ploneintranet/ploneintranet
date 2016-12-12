@@ -74,4 +74,12 @@
       handler=".setuphandlers.move_all_newsitems_to_app"
       /-->
 
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0008"
+      title="Allow supporting images for news"
+      profile="ploneintranet.news:default"
+      import_steps="typeinfo"
+      />
+  
 </configure>
