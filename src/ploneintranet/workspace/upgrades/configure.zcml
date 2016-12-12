@@ -242,5 +242,25 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0025"
+        title="Upgrade profile that includes registry record for phase due dates"
+        description=""
+        directory="profiles/to_0025"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeSteps
+        source="0024"
+        destination="0025"
+        profile="ploneintranet.workspace:default">
+
+      <genericsetup:upgradeDepends
+          title="registry records for phase due dates"
+          import_profile="ploneintranet.workspace.upgrades:to_0025"
+          run_deps="True"/>
+
+    </genericsetup:upgradeSteps>
 
 </configure>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.use_phase_due_dates">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <description i18n:translate="help_use_phase_due_dates">If set to True, cases will expose the due date management functionality. You need to have the quaive.app.milestones package installed.</description>
+      <required>False</required>
+      <title i18n:translate="label_use_phase_due_dates">Use phase due dates?</title>
+    </field>
+    <value purge="false">False</value>
+  </record>
+  <record name="ploneintranet.workspace.phase_due_dates_default">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <description i18n:translate="help_use_phase_due_dates">If set to True, workspaces will be created with due date support turned on by default. You need to have the quaive.app.milestones package installed.</description>
+      <required>False</required>
+      <title i18n:translate="label_use_phase_due_dates">Default Value for Phase Due Dates.</title>
+    </field>
+    <value purge="false">False</value>
+  </record>
+</registry>
