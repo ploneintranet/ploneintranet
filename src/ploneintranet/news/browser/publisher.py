@@ -180,6 +180,9 @@ class NewsItemEdit(baseviews.ContentView):
     def app(self):
         return self.context.aq_parent
 
+    def app_url(self):
+        return self.app.absolute_url()
+
     def sidebar(self):
         publisher = api.content.get_view('publisher', self.app, self.request)
         return publisher.sidebar()
