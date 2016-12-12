@@ -13,6 +13,7 @@
   <property name="allowed_content_types">
     <element value="ploneintranet.news.section"/>
     <element value="News Item" />
+    <element value="Image" />
  </property>
  <property name="klass">ploneintranet.news.content.NewsApp</property>
  <property name="add_permission">cmf.ManagePortal</property>
