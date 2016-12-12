@@ -4,6 +4,7 @@
     tal:define="
       task_number python:0;
       portal_url here/portal_url;
+      duedate_view nocall:ws/duedate-view | nothing;
     "
     i18n:domain="ploneintranet"
   >
@@ -60,6 +61,9 @@
           <a class="link"
              i18n:translate=""
             >${milestone/transition_title}</a>
+        </p>
+        <p class="due-date" tal:condition="duedate_view">
+          <span tal:replace="python:duedate_view.milestone_due_date(milestone)">23 mar 2017</span>   
         </p>
       </tal:state_index>
     </li>

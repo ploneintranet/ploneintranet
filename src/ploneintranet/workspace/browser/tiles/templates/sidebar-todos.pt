@@ -5,6 +5,7 @@
        tasks ws_view/tasks;
        token context/@@authenticator/token;
        can_add view/can_add;
+       duedate_view nocall:ws/duedate-view | nothing;
      "
      i18n:domain="ploneintranet"
 >
@@ -27,6 +28,14 @@
          i18n:attributes="title"
          i18n:translate=""
       >Create task</a>
+      <a class="edit-settings pat-modal icon-cog"
+         href="/feedback/panel-workspace-tasks-settings.html#document-content"
+         title="Settings"
+         tal:condition="duedate_view"
+         i18n:attributes="title"
+         i18n:translate=""
+         tal:attributes="href string:${ws/absolute_url}/panel-workspace-tasks-settings#document-content"
+         data-pat-modal="class: small">Settings</a>
     </div>
   </div>
   <h3 i18n:translate="">General tasks</h3>
@@ -86,13 +95,20 @@
                    data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body"
                    tal:condition="python:milestone['transition_enabled']"
                    i18n:translate=""
-                >Close milestone</a>
+                >Close</a>
                 <a class="small icon-stage success button pat-inject"
                    href="${ws/absolute_url}/content_status_modify?workflow_action=${milestone/reopen_transition}&amp;_authenticator=${token}"
                    data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  &amp;&amp; source:#document-body; target:#document-body"
                    tal:condition="python:milestone['reopen_transition']"
                    i18n:translate=""
-                >Reopen milestone</a>
+                >Reopen</a>
+                <a class="small pat-button pat-modal float-after icon-cog"
+                   href="/feedback/panel-milestone-settings.html#document-content"
+                   data-pat-modal="class: large"
+                   tal:condition="duedate_view"
+                   tal:attributes="href python:'{0}/panel-milestone-settings.html#document-content'.format(ws.absolute_url());"
+                   i18n:translate=""
+                >Settings</a>
               </p>
             </fieldset>
           </tal:milestone>
