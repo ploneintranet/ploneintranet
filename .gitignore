@@ -23,6 +23,7 @@
 .ssh/
 .Python
 .DS_Store
+.settings/
 pip-selfcheck.json
 .*.sw[op]
 bin/
@@ -43,12 +44,7 @@ Patterns/
 /prototype
 /share/
 release/
-/src/collective.*
-/src/dexterity.membrane
-/src/Products.membrane
-/src/quaive.app.*
-/src/quaive.resources.*
-/src/slc.*
+/src-extras/
 src/sphinx.themes.plone/
 stamp-bower
 stamp-npm
