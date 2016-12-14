@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="ploneintranet.userprofile.portlet_contacts_recent">
+    <field type="plone.registry.field.Bool">
+      <title>Show recent contacts in the contacts portlet</title>
+    </field>
+    <value>True</value>
+  </record>
+</registry>

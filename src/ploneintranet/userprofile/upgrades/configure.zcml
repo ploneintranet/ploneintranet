@@ -87,4 +87,22 @@
     profile="ploneintranet.userprofile:default"
     />
 
+  <genericsetup:registerProfile
+    name="to_0008"
+    title="Update profile to initialize ploneintranet.userprofile.portlet_contacts_recent"
+    description=""
+    directory="profiles/to_0008"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:upgradeStep
+    title="Initialize ploneintranet.userprofile.portlet_contacts_recent"
+    description=""
+    source="*"
+    destination="8"
+    handler=".to_0008.portlet_contacts_recent_registry_record"
+    profile="ploneintranet.userprofile:default"
+    />
+
 </configure>
