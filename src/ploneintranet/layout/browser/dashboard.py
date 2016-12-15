@@ -135,6 +135,14 @@ class NewsTile(Tile):
         read_uids.update(self.just_read_uids)
 
         pc = api.portal.get_tool('portal_catalog')
+        query = dict(portal_type='News Item',
+                     sort_on='effective',
+                     sort_order='reverse'
+                     )
+        if api.portal.get_registry_record(
+           'ploneintranet.layout.filter_news_by_published_state') is True:
+            query.update(review_state='published')
+        results = pc(query)
         items = [
             {'title': item.Title,
              'description': item.Description,
@@ -142,10 +150,7 @@ class NewsTile(Tile):
              'uid': item.UID,
              'has_thumbs': item.has_thumbs,
              'item': item}
-            for item in pc(portal_type='News Item',
-                           review_state='published',
-                           sort_on='effective',
-                           sort_order='reverse')
+            for item in results
             if item.UID not in read_uids
         ]
         for item in items:

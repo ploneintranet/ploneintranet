@@ -127,5 +127,22 @@
         profile="ploneintranet.layout:default"
         title="Install INoBarceletaLayer"
         import_steps="browserlayer" />
+
+    <genericsetup:registerProfile
+        name="to_0012"
+        title="Add registry entries to configure news portlet filter"
+        description=""
+        directory="profiles/to_0012"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry entries to configure news portlet filter"
+        description="num and max items"
+        source="*"
+        destination="0012"
+        handler=".to_0012.add_news_portlet_configuration"
+        profile="ploneintranet.layout:default" />
     
 </configure>

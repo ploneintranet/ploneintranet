@@ -30,7 +30,7 @@ ploneintranet.layout.dashboard_activity_tiles
 ploneintranet.layout.dashboard_task_tiles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    tilte: List of dashboard activity tiles
+    title: List of dashboard activity tiles
 
     **description**: This is the list of the tiles the user will see on the "Task centric view" dashboard.
 
@@ -47,7 +47,7 @@ ploneintranet.layout.dashboard_task_tiles
 ploneintranet.layout.dashboard_default
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    tilte: Name of the default dashboard
+    title: Name of the default dashboard
 
     **description**: This is the name of the dashboard type that should be shown by default. Pick the values from the dropdown on the dashboard.
 
@@ -59,13 +59,26 @@ ploneintranet.layout.dashboard_default
 ploneintranet.layout.login_spash
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    tilte: Splash image for the login form
+    title: Splash image for the login form
 
     **description**: This is the path, relative to the portal url, used to customize the login_form splash image
 
     **type**: plone.registry.field.TextLine
 
     **default**: ++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square-dp.svg
+
+
+ploneintranet.layout.filter_news_by_published_state
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: Filter news in portlet by published state
+
+    **description**: When set to true (default), the news portlet will only search for items in workflow state published. You can turn that off to become more flexible in controlling the search by actual view permissions. This can come in handy when you use different published states.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: True
+
 
 
 ploneintranet.search
