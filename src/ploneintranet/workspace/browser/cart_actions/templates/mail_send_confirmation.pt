@@ -15,6 +15,8 @@
               data-pat-validation="disable-selector: #form-buttons-send" 
               tal:define="attachable_objs view/attachable_objs">
 
+          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
+
           <div class="panel-body">
 
             <article class="pat-rich">

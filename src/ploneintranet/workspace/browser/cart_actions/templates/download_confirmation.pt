@@ -13,6 +13,8 @@
               action="cart-download" 
               class="wizard-box">
 
+          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
+
           <div class="panel-body"
                tal:define="items view/downloadable_items;
                            files items/files;

@@ -14,6 +14,7 @@ from ploneintranet.api import previews
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 from ploneintranet.workspace.utils import parent_workspace
+from urllib import urlencode
 
 import logging
 
@@ -105,7 +106,12 @@ class MailView(BaseCartView):
             request=self.request,
             type="info",
         )
-        self.request.response.redirect(self.context.absolute_url())
+        params = {
+            'groupname': self.request.get('groupname', ''),
+        }
+        self.request.response.redirect(
+            '{0}?{1}'.format(
+                self.context.absolute_url(), urlencode(params)))
 
     def attachable_objs(self):
         """
