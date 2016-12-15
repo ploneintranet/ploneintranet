@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
 
 
 class ContactsSearch(Tile):
+
+    def is_show_recent_contacts(self):
+        portlet_contacts_recent = api.portal.get_registry_record(
+            'ploneintranet.userprofile.portlet_contacts_recent')
+        query = self.request.get('SearchableText', '')
+        return portlet_contacts_recent and not query
 
     def recent_contacts(self):
         profile = pi_api.userprofile.get_current()
