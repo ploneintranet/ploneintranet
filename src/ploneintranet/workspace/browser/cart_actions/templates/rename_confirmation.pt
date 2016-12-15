@@ -22,6 +22,8 @@
                           has_not_modifiable python:len_not_modifiable > 0;
                           none_modifiable python:has_not_modifiable and not(has_modifiable); ">
 
+          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
+
           <div class="panel-body">
 
             <fieldset class="vertical rename">

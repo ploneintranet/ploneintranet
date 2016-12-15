@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
+from urllib import urlencode
 
 
 class DeleteView(BaseCartView):
@@ -41,7 +42,12 @@ class DeleteView(BaseCartView):
                 type="info",
             )
 
-        self.request.response.redirect(self.context.absolute_url())
+        params = {
+            'groupname': self.request.get('groupname', ''),
+        }
+        self.request.response.redirect(
+            '{0}?{1}'.format(
+                self.context.absolute_url(), urlencode(params)))
 
     def items_by_permission(self):
         pm = api.portal.get_tool('portal_membership')

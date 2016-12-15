@@ -68,7 +68,7 @@
                         <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
                     </p>
                 </div>
-                <aside data-tile="${workspace_url}/@@sidebar.default"
+                <aside data-tile="${workspace_url}/@@sidebar.default?groupname=${request/groupname|nothing}"
                        tal:condition="view/show_sidebar"></aside>
 
                 <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />

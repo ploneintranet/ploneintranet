@@ -8,6 +8,7 @@ from plone import api
 from plone.api.exc import InvalidParameterError
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
+from urllib import urlencode
 
 import zipfile
 
@@ -96,4 +97,9 @@ class DownloadView(BaseCartView):
                 message=_(u"There are no downloadable items in your cart."),
                 request=self.request,
                 type="warning")
-            self.request.response.redirect(self.context.absolute_url())
+            params = {
+                'groupname': self.request.get('groupname', ''),
+            }
+            self.request.response.redirect(
+                '{0}?{1}'.format(
+                    self.context.absolute_url(), urlencode(params)))

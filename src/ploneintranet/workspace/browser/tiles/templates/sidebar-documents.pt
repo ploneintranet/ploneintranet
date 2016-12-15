@@ -134,6 +134,7 @@
       <fieldset class="checklist pat-checklist docs ">
 
         <div class="batch-functions pat-bumper sticky-supported" data-pat-bumper="margin: 35; side: top">
+          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
           <div class="button-bar">
             <span class="float-before button-cluster select-buttons">
               <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>

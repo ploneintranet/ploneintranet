@@ -23,6 +23,8 @@
                           none_modifiable python:has_not_modifiable and not(has_modifiable);
                           workspace nocall:view/workspace;">
 
+          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
+
           <div class="panel-body">
 
             <fieldset>
