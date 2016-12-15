@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a32 (unreleased)
+1.2.0a32 (2016-12-15)
 ---------------------
 
 * Merge pull request #1004 from quaive/make-news-filter-optional [GitHub]
