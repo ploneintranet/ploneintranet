@@ -4,7 +4,33 @@ Changelog
 1.2.0a32 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Merge pull request #1004 from quaive/make-news-filter-optional [GitHub]
+* Make filtering by published state optional in the news portlet. This leaves it to the integrator to do a gradual transition to the news app [Alexander Pilz]
+* Merge pull request #1002 from quaive/cart-propagate-groupname [GitHub]
+* Propagate the groupname parameter in cart actions that inject the sidebar. This makes sure we stay at the same navigation level when grouping is not by folder. [Manuel Reinhardt]
+* Merge pull request #1001 from quaive/portlet_contacts_recent [GitHub]
+* Added registry record to toggle display of recent contacts in the contacts portlet. refs https://github.com/quaive/ploneintranet.prototype/pull/416 [Manuel Reinhardt]
+* Merge pull request #999 from quaive/995_news_images [GitHub]
+* Hook up proper inline image support for Redactor in news publisher [Guido A.J. Stevens]
+* Make supporting view for Redactor images generally available and remove legacy Raptor view for that [Guido A.J. Stevens]
+* Allow supporting images in news app [Guido A.J. Stevens]
+* Merge pull request #998 from quaive/proper-date-translation [GitHub]
+* Merge pull request #997 from quaive/fix-collapsible-booklet-portlet [GitHub]
+* Merge pull request #994 from quaive/print-with-onclick [GitHub]
+* Use our new ulocalized_time util method to properly get correct long date [Wolfgang Thomas]
+* streamline default translations [Wolfgang Thomas]
+* Add nationally correct versions for long_date_format [Wolfgang Thomas]
+* Define our own long date format [Wolfgang Thomas]
+* overwrite ulocalized_time from CMFCore, so that we can use a separate translation domain for the formatring than for the translation of the month and week-day names [Wolfgang Thomas]
+* Merge pull request #996 from quaive/news-trans [GitHub]
+* Fix collapsible behavior of the workspace bookmarks portlet [Alessandro Pisa]
+* re-run i18n sync, add DE translations for News [Wolfgang Thomas]
+* add several missing i18n statements [Wolfgang Thomas]
+* Use onclick to trigger window [Alessandro Pisa]
+* Merge pull request #993 from quaive/portlet-optimisation-fix [GitHub]
+* Merge pull request #992 from quaive/release-1.2.x [GitHub]
+* @ale-rt I had to remove these two lines on production again. If there is no read_uids, it only means a user has never read a news item. Then no news portlet is shown. He will never be able to read anything... [Alexander Pilz]
+* Back to development: 1.2.0a32 [Alexander Pilz]
 
 
 1.2.0a31 (2016-12-07)
