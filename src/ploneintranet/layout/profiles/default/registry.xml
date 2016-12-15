@@ -103,4 +103,13 @@
       </field>
       <value>20</value>
   </record>
-</registry>
+  <record name="ploneintranet.layout.filter_news_by_published_state">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <title>Filter news by published state</title>
+      <description>If true, the catalog query to retrieve news for the portlet filters by review_state=published</description>
+      <required>False</required>
+    </field>
+    <value purge="false">True</value>
+  </record>
+  </registry>
