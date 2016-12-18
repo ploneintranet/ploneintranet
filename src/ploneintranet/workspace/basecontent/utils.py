@@ -17,6 +17,7 @@ from z3c.form.interfaces import NOT_CHANGED
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
+from zope.schema import TextLine
 import json
 import logging
 
@@ -97,6 +98,13 @@ def dexterity_update(obj, request=None):
                         'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
                             name, obj.absolute_url()))
                     raw = sanitized
+            if isinstance(field, TextLine):
+                # TextLines must not contain line breaks (field contraint)
+                # To prevent a ConstraintNotSatisfied error in `toFieldValue`,
+                # gracefully strip line breaks. First try the `\r\n` combo,
+                # then try the 2 characters separately.
+                raw = raw.replace('\r\n', ' ').replace('\r', ' ').replace('\n', ' ')  # noqa
+                raw = raw.strip()
 
             try:
                 value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
