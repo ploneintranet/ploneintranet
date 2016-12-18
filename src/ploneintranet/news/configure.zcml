@@ -81,5 +81,13 @@
       profile="ploneintranet.news:default"
       import_steps="typeinfo"
       />
-  
+
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0009"
+      title="Remove workflow from News Section"
+      profile="ploneintranet.news:default"
+      import_steps="workflow"
+      />
+
 </configure>
