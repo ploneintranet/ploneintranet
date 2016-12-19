@@ -763,7 +763,7 @@ class Sidebar(BaseTile):
 
         return items
 
-    def get_items_in_group(self, page_idx=None):
+    def get_items_in_group(self):
         """
         Return the children for a certain grouping_value
         """
@@ -771,16 +771,7 @@ class Sidebar(BaseTile):
         sorting = self.sorting()
         grouping_value = self.request.get('groupname')
         children = self.get_group_children(grouping, grouping_value, sorting)
-        if page_idx is None:
-            page_idx = self.page_idx
-        page_size = self.page_size
-        if page_size < 0:
-            return children
-        try:
-            batch = children[page_idx * page_size:(page_idx + 1) * page_size]
-        except IndexError:
-            batch = children[page_idx * page_size:]
-        return batch
+        return children
 
     def group_url(self, groupname):
         ''' Return the url for this group
@@ -1190,20 +1181,6 @@ class Sidebar(BaseTile):
         Tell if we should show archived tags or not
         """
         return 'archived_tags' in self.show_extra
-
-    @property
-    def page_idx(self):
-        """
-        Helper to return the desired page idx
-        """
-        return int(self.request.form.get('page_idx', 0))
-
-    @property
-    def page_size(self):
-        """
-        Helper to return the desired page page_size
-        """
-        return int(self.request.form.get('page_size', 18))
 
     def events(self):
         """
