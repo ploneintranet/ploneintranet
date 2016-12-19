@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<records>
+  <record name="ploneintranet.calendar.fullcalendar_day_span">
+      <field type="plone.registry.field.Int">
+          <title>Number of days the fullcalendar view will span</title>
+          <description></description>
+          <min>10</min>
+      </field>
+      <value>30</value>
+  </record>
+</records>
