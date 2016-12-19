@@ -1,21 +1,23 @@
-from Products.CMFPlone.utils import safe_unicode
-from plone import api
+# -*- coding: utf-8 -*-
 from collections import defaultdict
+from plone import api
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.value import RichTextValue
-from plone.dexterity.utils import getAdditionalSchemata
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import getAdditionalSchemata
 from plone.z3cform.z2 import processInputs
 from ploneintranet.workspace.html_cleaners import sanitize_html
+from Products.CMFPlone.utils import safe_unicode
 from z3c.form.error import MultipleErrors
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IDataManager
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import NOT_CHANGED
 from z3c.form.interfaces import NO_VALUE
+from z3c.form.interfaces import NOT_CHANGED
 from zope import component
 from zope.schema import getFieldNames
 from zope.schema import interfaces
+from zope.schema import TextLine
 import json
 import logging
 
@@ -96,6 +98,10 @@ def dexterity_update(obj, request=None):
                         'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
                             name, obj.absolute_url()))
                     raw = sanitized
+            if isinstance(field, TextLine):
+                # textLines must not contain line breaks (field contraint)
+                # to prevent a ConstraintNotSatisfied error in `toFieldValue`
+                raw = " ".join(raw.splitlines())
 
             try:
                 value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
