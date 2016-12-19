@@ -4,6 +4,7 @@ from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
+from ploneintranet.layout.interfaces import IAppLayer
 from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from ploneintranet.network.behaviors.metadata import IDublinCore as pi_IDublinCore  # noqa
 from ploneintranet.workspace.behaviors.file import IFileField
@@ -63,7 +64,7 @@ class CommaSeparatedConverter(BaseDataConverter):
 
 
 # plone intranet uses a dublincore override
-@adapter(getSpecification(pi_IDublinCore['subjects']), IWorkspaceAppFormLayer)
+@adapter(getSpecification(pi_IDublinCore['subjects']), IAppLayer)
 @implementer(IFieldWidget)
 def CommaSeparatedFieldWidget(field, request):
     return FieldWidget(field, CommaSeparatedWidget(request))
