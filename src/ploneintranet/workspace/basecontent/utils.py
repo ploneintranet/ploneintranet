@@ -99,12 +99,9 @@ def dexterity_update(obj, request=None):
                             name, obj.absolute_url()))
                     raw = sanitized
             if isinstance(field, TextLine):
-                # TextLines must not contain line breaks (field contraint)
-                # To prevent a ConstraintNotSatisfied error in `toFieldValue`,
-                # gracefully strip line breaks. First try the `\r\n` combo,
-                # then try the 2 characters separately.
-                raw = raw.replace('\r\n', ' ').replace('\r', ' ').replace('\n', ' ')  # noqa
-                raw = raw.strip()
+                # textLines must not contain line breaks (field contraint)
+                # to prevent a ConstraintNotSatisfied error in `toFieldValue`
+                raw = " ".join(raw.splitlines())
 
             try:
                 value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
