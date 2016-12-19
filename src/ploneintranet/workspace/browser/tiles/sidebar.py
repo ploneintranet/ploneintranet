@@ -694,7 +694,8 @@ class Sidebar(BaseTile):
             # With solr we might want to do real substr
             response = sitesearch.query(phrase='%s*' % sidebar_search,
                                         filters=query,
-                                        step=99999)
+                                        step=99999,
+                                        restricted_filters=False)
             results = self._extract_attrs(response)
 
         elif self.request.get('groupname'):
