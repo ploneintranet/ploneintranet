@@ -98,10 +98,11 @@ def dexterity_update(obj, request=None):
                         'The HTML content of field "{}" on {} was sanitised.'.format(  # noqa
                             name, obj.absolute_url()))
                     raw = sanitized
+
             if isinstance(field, TextLine):
                 # textLines must not contain line breaks (field contraint)
                 # to prevent a ConstraintNotSatisfied error in `toFieldValue`
-                raw = " ".join(raw.splitlines())
+                raw = u" ".join(safe_unicode(raw).splitlines())
 
             try:
                 value = IDataConverter(widget).toFieldValue(safe_unicode(raw))
