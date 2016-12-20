@@ -12,4 +12,21 @@
         profile="ploneintranet.calendar:default"
       />
 
+    <genericsetup:registerProfile
+        name="to0003"
+        title="Fullcalendar day span configurable"
+        description=""
+        directory="profiles/to0003"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+    <genericsetup:upgradeStep
+        title="Fullcalendar day span configurable"
+        description=""
+        source="*"
+        destination="0003"
+        handler=".to0003.add_registry_record"
+        profile="ploneintranet.calendar:default"
+      />
+
 </configure>
