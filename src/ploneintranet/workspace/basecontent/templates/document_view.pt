@@ -22,6 +22,7 @@
              tal:define="
                type workspace/ws_type | string:workspace;
                autosave_enabled view/autosave_enabled|nothing;
+               autosave_delay view/autosave_delay|nothing;
                form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
                read_only python:not view.can_edit;
              "
@@ -30,12 +31,11 @@
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
           <div id="document-body">
-            <form class="document pat-inject ${python:autosave_enabled and 'pat-autosubmit' or ''} document-type-${view/portal_type_to_class}"
+            <form class="document pat-inject document-type-${view/portal_type_to_class}"
                   method="POST"
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="document-form"
-                  data-pat-autosubmit="${python:autosave_enabled and 'delay: 2000ms' or None}"
                   data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
@@ -45,7 +45,15 @@
                         id="document-title"
                         style="min-height: 1.5em"
                       >${context/title}</h1>
-                    <textarea name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title">${context/title}</textarea>
+                    <fieldset class="pat-subform pat-autosubmit pat-inject"
+                              data-pat-autosubmit="delay: ${autosave_delay}"
+                              data-pat-inject="source: #saving-badge; target: #saving-badge"
+                              tal:omit-tag="not:autosave_enabled"
+                    >
+                      <textarea name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title">${context/title}</textarea>
+                      <input tal:condition="autosave_enabled"
+                             tal:replace="structure context/@@authenticator/authenticator" />
+                    </fieldset>
                   </span>
 
                   <div class="quick-functions">
@@ -93,7 +101,14 @@
                 </div> <!-- #meta-bar -->
                 <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader" i18n:translate="">Loading...</p></div>
 
-                <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
+                <fieldset class="pat-collapsible closed meta-extra ${python:'pat-autosubmit' if autosave_enabled else ''}"
+                          data-pat-collapsible="trigger: .meta-data-toggle"
+                          data-pat-autosubmit="${python: None if not autosave_enabled else 'delay: ' + autosave_delay}"
+                          id="meta-extra"
+                      >
+                    <input tal:condition="autosave_enabled"
+                           tal:replace="structure context/@@authenticator/authenticator" />
+
                     <div class="panel-content" style="display:none">
                         <fieldset class="bar">
                           <input type="text"
@@ -152,14 +167,22 @@
               <div id="document-content">
                 <article class="document rich"
                          tal:condition="python: context.portal_type == 'Document'">
-                  <textarea tal:condition="not:read_only"
-                            name="text"
-                            class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
-                            data-pat-redactor="imageupload: ${workspace_url}/fileUpload; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
-                            placeholder="Write your text here"
-                            i18n:attributes="placeholder;"
-                       >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
-                  <span tal:condition="python:read_only and context.text and hasattr(context.text, 'raw')" tal:replace="structure context/text/output" />
+                  <fieldset class="pat-subform pat-autosubmit pat-inject"
+                            data-pat-autosubmit="delay: ${autosave_delay}"
+                            data-pat-inject="source: #saving-badge; target: #saving-badge"
+                            tal:omit-tag="not:autosave_enabled"
+                  >
+                    <input tal:condition="autosave_enabled"
+                           tal:replace="structure context/@@authenticator/authenticator" />
+                    <textarea tal:condition="not:read_only"
+                              name="text"
+                              class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
+                              data-pat-redactor="imageupload: ${workspace_url}/fileUpload; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
+                              placeholder="Write your text here"
+                              i18n:attributes="placeholder;"
+                         >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
+                    <span tal:condition="python:read_only and context.text and hasattr(context.text, 'raw')" tal:replace="structure context/text/output" />
+                  </fieldset>
                 </article>
 
                 <tal:c condition="python: context.portal_type == 'File'">

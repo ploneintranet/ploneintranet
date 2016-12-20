@@ -71,6 +71,13 @@ class ContentView(BrowserView):
         )
         return self.context.portal_type in autosave_portal_types
 
+    @property
+    @memoize
+    def autosave_delay(self):
+        ''' The delay before triggering the autosave injection
+        '''
+        return u'2000ms'
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
