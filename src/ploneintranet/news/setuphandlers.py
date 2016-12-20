@@ -113,10 +113,6 @@ def setupTestdata(context):
         id='press-mentions',
         safe_id=False,
     )
-    api.content.transition(company_news, 'publish')
-    company_news.reindexObject()
-    api.content.transition(press_mentions, 'publish')
-    press_mentions.reindexObject()
     for i in range(5):
         create_news_items(context, news, company_news, i)
     for i in range(5, 10):
