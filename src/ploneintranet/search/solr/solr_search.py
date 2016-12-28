@@ -241,7 +241,7 @@ class SiteSearch(base.SiteSearch):
         return query
 
     def _apply_facets(self, query):
-        return query.facet_by(fields=self.facet_fields)
+        return query.facet_by(fields=self.facet_fields, limit=-1)
 
     def _apply_date_range(self, query, start_date, end_date):
         filter_query = query.filter
