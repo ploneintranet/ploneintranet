@@ -18,6 +18,10 @@ ldapvi is not required, but it may come in handy. On Ubuntu you can install it b
 
 If you use the provided development Dockerfile, all that this is auto-installed for you.
 
+You need to create a data directory for the LDAP server or you'll suffer ``internal error (cannot stat parent dir)`` when loading users::
+
+    mkdir -p {buildout:directory}/ldap/data
+
 The slapd.conf file requires the ldap schema files to be present inside the ldap/schema folder in your buildout directory. You can either create a link to the schema directory of your openldap installation::
 
     cd {buildout:directory}/ldap
@@ -29,6 +33,7 @@ or you can change the respective entries in the slapd.conf file to point to the 
 
    The provided `ldap/slapd.conf` is just a working example.
    You **must** change the suffix, rootdn and rootpw before deploying into production!
+
 
 Setting up LDAP
 ---------------
