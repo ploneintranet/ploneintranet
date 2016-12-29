@@ -15,6 +15,7 @@ from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from sqlalchemy.exc import OperationalError
 from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
@@ -130,8 +131,12 @@ class NewsTile(Tile):
     @memoize
     def news_items(self):
         tracker = getUtility(ITracker)
+        try:
+            read_uids = set(tracker.uids_read() or [])
+        except OperationalError:  # sqlite not supported in robot tests
+            read_uids = set()
+            logger.error('Cannot query read tracker, will assume news unread.')
         # supplement async tracker with sync hidden state propagation
-        read_uids = set(tracker.uids_read() or [])
         read_uids.update(self.just_read_uids)
 
         pc = api.portal.get_tool('portal_catalog')
