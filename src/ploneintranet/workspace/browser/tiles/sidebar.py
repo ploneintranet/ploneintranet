@@ -51,7 +51,7 @@ class BaseTile(BrowserView):
     index = None
     form_submitted = False
 
-    general_settings_autoload = 'trigger: autoload-visible;'
+    general_settings_autoload = 'trigger: autoload;'
 
     @property
     @memoize
