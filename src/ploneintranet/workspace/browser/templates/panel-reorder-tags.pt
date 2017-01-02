@@ -20,7 +20,7 @@
     	        <p class="button-cluster">
     		      <button class="sortable-button-up small pat-button" type="submit">Up</button> 
     		      <button class="sortable-button-down small pat-button" type="submit">down</button>
-                  <input type="hidden" name="tags_order:list" style="display:none" value="${tag}" />
+                  <input type="hidden" name="tags_order:list" style="display:none" value="${tag/id}" />
 
     	        </p>
               </li>
