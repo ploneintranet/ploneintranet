@@ -479,7 +479,7 @@ class ReorderTags(BrowserView):
         except ComponentLookupError:
             return u"Could not get adapter for context: %s"  \
                 % context.absolute_url()
-        self.tags = [tag['id'] for tag in gs.get_order_for('label')]
+        self.tags = [tag for tag in gs.get_order_for('label')]
         if self.request.get('batch-function') == 'save':
             myorder = self.request.get('tags_order')
             if myorder is None:
