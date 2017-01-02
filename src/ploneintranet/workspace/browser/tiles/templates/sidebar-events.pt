@@ -26,7 +26,7 @@
             <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
               <a class="pat-inject follow pat-switch"
                    data-pat-inject="source: #document-body; target: #document-body"
-                   data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                   data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
                    tal:attributes="href string:${event/getURL}#document-body">
                 <h4 class="title">
                   ${python:view.format_event_date(event)} — ${event/Title}
