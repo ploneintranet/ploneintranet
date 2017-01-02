@@ -124,7 +124,7 @@ Member can mark a new task complete on dashboard
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete
-     Then I go to the dashboard
+     Then I reload the dashboard
      Then I select the task centric view
      Then I do not see the completed task is not listed
 
