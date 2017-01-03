@@ -1259,7 +1259,15 @@ I can delete a template case
     Wait Until Page Contains    has been deleted
 
 I go to the dashboard
-    Go To  ${PLONE_URL}
+    [Documentation]  This used to be "Go To  ${PLONE_URL}". However, in some tests, after a new task got added, this lead to a CSRF error. Therefore we switch to replicating the click path a normal user would take.
+    Click link    xpath=//a[contains(@class, 'stand-alone suite-logo')]
+    Wait until element is visible  xpath=//a[contains(@class, 'section-dashboard')]
+    Click link    Dashboard
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I reload the dashboard
+    Click link    Dashboard
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I select the task centric view
     Select From List  dashboard  Task centric view

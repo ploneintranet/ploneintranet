@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0a32 (unreleased)
+1.2.32 (unreleased)
 ---------------------
 
 - Nothing changed yet.
