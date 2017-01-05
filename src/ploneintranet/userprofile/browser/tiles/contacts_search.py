@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
 
@@ -27,10 +28,9 @@ class ContactsSearch(Tile):
             link_to=link_to,
         )
 
+    @memoize_contextless
     def get_byline_fieldname(self):
-        try:
-            portlet_contacts_byline_field = api.portal.get_registry_record(
-                'ploneintranet.userprofile.portlet_contacts_byline_field')
-        except api.exc.InvalidParameterError:
-            portlet_contacts_byline_field = 'contact_telephone'
+        portlet_contacts_byline_field = api.portal.get_registry_record(
+            'ploneintranet.userprofile.portlet_contacts_byline_field',
+            default='contact_telephone')
         return portlet_contacts_byline_field

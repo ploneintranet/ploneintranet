@@ -25,7 +25,7 @@
             <div class="item-selector mode-follow"
                     tal:condition="request/SearchableText|nothing">
                 <form class="search-result users">
-                <fieldset class="checklist pat-checklist">
+                <fieldset class="checklist pat-checklist" tal:define="byline_fieldname view/get_byline_fieldname">
                     <tal:result repeat="result search_response">
                     <label class="item user">
                         <input name="" type="checkbox" />
@@ -35,7 +35,7 @@
                           />
                         <strong class="title">${result/title}</strong>
                         <br/>
-                        <dfn class="byline" tal:define="fieldname view/get_byline_fieldname" tal:content="python: True and result.get(fieldname, '&nbsp;') or '&nbsp;'"/>
+                        <dfn class="byline" tal:content="python: True and result.get(byline_fieldname, '&nbsp;') or '&nbsp;'"/>
                         </a>
                     </label>
                     </tal:result>
