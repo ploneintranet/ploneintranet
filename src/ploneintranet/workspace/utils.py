@@ -30,7 +30,7 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 TYPE_MAP = {
     'Event': 'event',
     'Folder': 'folder',
-    'Document': 'rich',
+    'Document': 'rich document',
     'todo': 'task',
     'ploneintranet.workspace.mail': 'email',
     'ploneintranet.workspace.workspacefolder': 'workspace',
@@ -160,7 +160,7 @@ def map_content_type(mimetype, portal_type=''):
             content_type = 'news'
 
         elif major == 'text':
-            content_type = 'rich'
+            content_type = 'rich document'
         elif major == 'audio':
             content_type = 'sound'
         elif major == 'video':
