@@ -35,7 +35,7 @@
                           />
                         <strong class="title">${result/title}</strong>
                         <br/>
-                        <dfn class="byline" tal:content="python: True and result.contact_telephone or '&nbsp;'"/>
+                        <dfn class="byline" tal:define="fieldname view/get_byline_fieldname" tal:content="python: True and result.get(fieldname, '&nbsp;') or '&nbsp;'"/>
                         </a>
                     </label>
                     </tal:result>

@@ -26,3 +26,11 @@ class ContactsSearch(Tile):
             username=userid,
             link_to=link_to,
         )
+
+    def get_byline_fieldname(self):
+        try:
+            portlet_contacts_byline_field = api.portal.get_registry_record(
+                'ploneintranet.userprofile.portlet_contacts_byline_field')
+        except api.exc.InvalidParameterError:
+            portlet_contacts_byline_field = 'contact_telephone'
+        return portlet_contacts_byline_field
