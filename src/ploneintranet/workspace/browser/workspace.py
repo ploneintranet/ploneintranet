@@ -481,13 +481,14 @@ class ReorderTags(BrowserView):
                 % context.absolute_url()
         self.tags = [tag for tag in gs.get_order_for('label')]
         if self.request.get('batch-function') == 'save':
-            myorder = self.request.get('tags_order')
-            if myorder is None:
-                myorder = []
+            myorder = self.request.get('tags_order') or []
             if 'Untagged' in myorder:
                 myorder.remove('Untagged')
 
             gs.set_order_for('label', myorder)
+            return self.request.response.redirect(
+                self.context.absolute_url() + '/@@sidebar.documents'
+            )
         else:
             return self.index()
 

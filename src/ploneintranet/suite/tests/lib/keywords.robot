@@ -462,6 +462,7 @@ I can swap Tag1 with Tag2
     Execute javascript  $('[value=Tag2]').attr('value', 'Tag1')
     Execute javascript  $('[value=Tag2temp]').attr('value', 'Tag2')
     Click button  xpath=//button[@name='batch-function']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 The tags are reordered
     # The first tag is now Tag2
