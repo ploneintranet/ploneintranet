@@ -40,6 +40,15 @@ class BaseWorkspaceView(BrowserView):
 
     @property
     @memoize
+    def include_clicktracker(self):
+        """Is inclusion of slcclicktracker element enabled in the registry?"""
+        include_slcclicktracker = get_record_from_registry(
+            'ploneintranet.workspace.include_slcclicktracker',
+            False)
+        return include_slcclicktracker
+
+    @property
+    @memoize
     def show_sidebar(self):
         ''' Should we show the sidebar?
         '''

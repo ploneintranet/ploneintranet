@@ -67,6 +67,11 @@
                     <p id="scroll-to-workspace-top" hidden="">
                         <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
                     </p>
+
+                    <div id="slcclicktracker"
+                         tal:condition="view/include_clicktracker|nothing"
+                         tal:attributes="request_url request/getURL;
+                                         path python:'/'.join(context.getPhysicalPath())" />
                 </div>
                 <aside data-tile="${workspace_url}/@@sidebar.default?groupname=${request/groupname|nothing}"
                        tal:condition="view/show_sidebar"></aside>

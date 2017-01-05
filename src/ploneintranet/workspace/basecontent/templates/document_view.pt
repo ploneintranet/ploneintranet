@@ -220,6 +220,11 @@
               implementation is in ploneintranet.activitystream
             </div>
 
+            <div id="slcclicktracker"
+                 tal:condition="view/include_clicktracker|nothing"
+                 tal:attributes="request_url request/getURL;
+                                 path python:'/'.join(context.getPhysicalPath())" />
+
             </div><!-- #document-body -->
             <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
             <aside data-tile="${container/absolute_url}/@@sidebar.default"

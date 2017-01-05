@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.include_slcclicktracker">
+    <field type="plone.registry.field.Bool">
+      <title i18n:translate="label_include_slcclicktracker">Include an slcclicktracker element in the content default view templates</title>
+      <default>False</default>
+    </field>
+    <value purge="false">False</value>
+  </record>
+</registry>
