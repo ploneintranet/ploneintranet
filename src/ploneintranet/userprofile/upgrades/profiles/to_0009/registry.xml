@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<registry>
+  <record name="ploneintranet.userprofile.portlet_contacts_byline_field">
+    <field type="plone.registry.field.TextLine">
+      <title>Field to show in contacts portlet search result byline</title>
+    </field>
+    <value>contact_telephone</value>
+  </record>
+</registry>
