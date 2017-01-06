@@ -59,3 +59,8 @@ PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEINTRANET_USERPROFILE_FIXTURE,),
     name="PloneintranetuserprofileLayer:Functional"
 )
+
+PLONEINTRANET_USERPROFILE_BROWSER_TESTING = FunctionalTesting(
+    bases=(PLONEINTRANET_USERPROFILE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name="PloneintranetuserprofileLayer:Browser"
+)
