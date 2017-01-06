@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """A Cart Action for changing the workflow state of all items listed in cart"""
 
+from Acquisition import aq_inner
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
@@ -19,17 +20,36 @@ class ChangeWorkflowView(BaseCartView):
         return index(self)
 
     def get_transitions(self):
-        transitions = []
+        """
+            Following the paradigm for workflow menues, we need to show the
+            title of the intended new state instead of the transition name.
+        """
+        states = []
         pworkflow = api.portal.get_tool('portal_workflow')
+        workflows = set()
         for obj in self.items:
-            for transition in pworkflow.getTransitionsFor(obj):
-                tdata = {
-                    'id': transition['id'],
-                    'title': transition['name']
-                }
-                if tdata not in transitions:
-                    transitions.append(tdata)
-        return transitions
+            workflows = workflows.union(
+                {wf for wf in pworkflow.getWorkflowsFor(aq_inner(obj))})
+        available_states = {}
+        for wf in workflows:
+            for id, state in wf.states.objectItems():
+                available_states[id] = state
+
+        for obj in self.items:
+            for action in pworkflow.listActionInfos(object=obj):
+                if action['category'] != 'workflow':
+                    continue
+                new_state = action['transition'].new_state_id
+                # Only target states are shown in the UI. If two transitions
+                # lead to the same state we want to show the state only once.
+                if new_state not in [item['new_state'] for item in states]:
+                    title = available_states[new_state].title
+                    states.append(dict(
+                        action=action['id'],
+                        title=title,
+                        new_state=new_state,
+                    ))
+        return states
 
     def change_workflow(self):
         """ Attempt to change the workflow of selected items

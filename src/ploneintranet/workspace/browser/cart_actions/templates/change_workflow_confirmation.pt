@@ -29,8 +29,8 @@
                     <select name="transition">
                       <option value="" i18n:translate="">-- Please select --</option>
                       <option tal:repeat="trans transitions"
-                        tal:attributes="value trans/id"
-                        tal:content="trans/title">transition</option>
+                        tal:attributes="value trans/action"
+                        tal:content="trans/title" i18n:translate="">transition</option>
                     </select>
                 </label>
                 <label>
