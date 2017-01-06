@@ -13,6 +13,9 @@ from ploneintranet.userprofile.browser.userprofile import MyProfileView
 from ploneintranet.userprofile.browser.userprofile import UserProfileView
 from ploneintranet.userprofile.browser.userprofile import default_avatar
 from ploneintranet.userprofile.tests.base import BaseTestCase
+from ploneintranet.userprofile.testing import \
+    PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING
+
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 
@@ -23,38 +26,34 @@ TEST_AVATAR_FILENAME = u'test_avatar.jpg'
 
 class TestUserProfileBase(BaseTestCase):
 
+    layer = PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING
+
     def setUp(self):
         super(TestUserProfileBase, self).setUp()
         self.login_as_portal_owner()
         username1 = 'johndoe'
-        if username1 in self.profiles:
-            self.profile1 = self.profiles[username1]
-        else:
-            self.profile1 = api.content.create(
-                container=self.profiles,
-                type='ploneintranet.userprofile.userprofile',
-                id=username1,
-                username=username1,
-                first_name='John',
-                last_name='Doe',
-            )
-            api.content.transition(self.profile1, 'approve')
-            self.profile1.reindexObject()
+        self.profile1 = api.content.create(
+            container=self.profiles,
+            type='ploneintranet.userprofile.userprofile',
+            id=username1,
+            username=username1,
+            first_name='John',
+            last_name='Doe',
+        )
+        api.content.transition(self.profile1, 'approve')
+        self.profile1.reindexObject()
 
         username2 = 'janedoe'
-        if username2 in self.profiles:
-            self.profile2 = self.profiles[username2]
-        else:
-            self.profile2 = api.content.create(
-                container=self.profiles,
-                type='ploneintranet.userprofile.userprofile',
-                id=username2,
-                username=username2,
-                first_name='Jane',
-                last_name='Doe',
-            )
-            api.content.transition(self.profile2, 'approve')
-            self.profile2.reindexObject()
+        self.profile2 = api.content.create(
+            container=self.profiles,
+            type='ploneintranet.userprofile.userprofile',
+            id=username2,
+            username=username2,
+            first_name='Jane',
+            last_name='Doe',
+        )
+        api.content.transition(self.profile2, 'approve')
+        self.profile2.reindexObject()
 
         self.logout()
 

@@ -56,6 +56,6 @@ PLONEINTRANET_USERPROFILE_INTEGRATION_TESTING = IntegrationTesting(
     name="PloneintranetuserprofileLayer:Integration"
 )
 PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONEINTRANET_USERPROFILE_FIXTURE, z2.ZSERVER_FIXTURE),
+    bases=(PLONEINTRANET_USERPROFILE_FIXTURE,),
     name="PloneintranetuserprofileLayer:Functional"
 )
