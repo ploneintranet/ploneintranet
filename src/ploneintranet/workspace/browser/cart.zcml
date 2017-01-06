@@ -45,14 +45,20 @@
     <browser:page name="cart-retag-confirm" attribute="confirm"/>
   </browser:pages>
 
-
-
   <browser:pages
       for="*"
       permission="zope2.View"
       class=".cart_actions.download.DownloadView">
     <browser:page name="cart-download" attribute="download"/>
     <browser:page name="cart-download-confirm" attribute="confirm"/>
+  </browser:pages>
+
+  <browser:pages
+      for="*"
+      permission="zope2.View"
+      class=".cart_actions.change_workflow.ChangeWorkflowView">
+    <browser:page name="cart-change-workflow" attribute="change_workflow"/>
+    <browser:page name="cart-change-workflow-confirm" attribute="confirm"/>
   </browser:pages>
 
   <browser:page
