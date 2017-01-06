@@ -164,6 +164,37 @@ A member can't bulk download a folder
      then I cannot download items
 
 
+A member can bulk publish documents
+    Given I am logged in as the user christian_stoney
+      and I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      When I open the document  Customer satisfaction survey
+      then I can see the item is in state  Draft
+      When I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Terms and conditions
+      and I add an item to the cart  Customer satisfaction survey
+      and I choose to change the workflow state of the items to  Published
+      Then I go to the Service Announcements Workspace
+      and I open the sidebar documents tile
+      When I open the document  Customer satisfaction survey
+      then I can see the item is in state  Published
+
+
+A member can bulk publish documents in a subfolder
+      Given I am logged in as the user christian_stoney
+      and I go to the Open Market Committee Workspace
+      When I browse to a file
+      then I can see the item is in state  Draft
+      Then I go to the Open Market Committee Workspace
+      and I open the sidebar documents tile
+      and I toggle the bulk action controls
+      and I add an item to the cart  Manage Information
+      and I add an item to the cart  Files for application 2837
+      and I choose to change the workflow state of the items and subitems to  Published
+      When I browse to a file
+      then I can see the item is in state  Published
+
 *** Keywords ***
 
 I toggle the bulk action controls
@@ -249,6 +280,25 @@ I choose to archive the items in the cart
 I choose to download the items in the cart
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Download']
+
+I choose to change the workflow state of the items to
+    [arguments]  ${transition}
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change workflow']
+    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch change workflow"]
+    Select From List  css=select[name=transition]  Published
+    Click button  form-buttons-send
+    Wait until page contains  The workflow state of the following items has been changed:
+
+I choose to change the workflow state of the items and subitems to
+    [arguments]  ${transition}
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change workflow']
+    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch change workflow"]
+    Select From List  css=select[name=transition]  Published
+    Select checkbox  xpath=//input[@name='recursive']
+    Click button  form-buttons-send
+    Wait until page contains  The workflow state of the following items has been changed:
 
 I send the items
     Click button  xpath=//button[@id='form-buttons-send']
