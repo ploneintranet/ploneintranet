@@ -21,6 +21,8 @@ class IUserProfile(form.Schema):
     Most of the plone intranet UI relies on these fields.
     """
 
+    # NB this is actually the userid not the login name
+    # a confusion also present in the upstream membrane code
     dexteritytextindexer.searchable('username')
     username = schema.TextLine(
         title=_(u"Username"),

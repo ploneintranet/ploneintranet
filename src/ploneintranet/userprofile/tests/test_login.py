@@ -117,12 +117,19 @@ class TestLoginUserid(TestLoginBase):
         self.assertFalse(loggedin)
         self.assertFalse(self.browser_is_loggedin('smith'))
 
+    def test_setup_Members(self):
+        members = api.user.get_users(groupname='Members')
+        self.assertEqual(sorted([x.id for x in members]),
+                         [self.userid2, self.userid1])
+
 
 class TestLoginEmail(TestLoginBase):
     """Test logging in on email.
     """
 
     def setUp(self):
+        # Set config before user creation.
+        # If you do it afterward, you need to reindex the users
         self.use_email_as_username()
         super(TestLoginEmail, self).setUp()
 
@@ -141,6 +148,11 @@ class TestLoginEmail(TestLoginBase):
     def test_setup_username(self):
         self.assertEqual(self.profile1.username, self.userid1)
 
+    def test_setup_Members(self):
+        members = api.user.get_users(groupname='Members')
+        self.assertEqual(sorted([x.id for x in members]),
+                         [self.userid2, self.userid1])
+
     def test_login_email_matches_userid(self):
         loggedin = self.browser_login(self.userid2)  # == email2
         self.assertTrue(loggedin)
@@ -154,15 +166,3 @@ class TestLoginEmail(TestLoginBase):
         loggedin = self.browser_login(self.email1)
         self.assertTrue(loggedin)
         self.assertTrue(self.browser_is_loggedin(self.userid1))
-
-
-class TestLoginEmail2(TestLoginEmail):
-    """Test logging in on email.
-    When switching the config after user creation, reindexing is required.
-    """
-
-    def setUp(self):
-        TestLoginBase.setUp(self)
-        self.use_email_as_username()
-        self.profile1.reindexObject()
-        commit()
