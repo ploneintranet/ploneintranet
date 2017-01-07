@@ -56,7 +56,7 @@
                   <div class="button-bar">
                     <span class="float-before button-cluster select-buttons">
                       <button type="button" class="select-all" title="Select all" i18n:translate="select_all" i18n:attributes="title">All</button>
-                      <button type="button" class="deselect-all" title="Deslect all" i18n:translate="select_none" i18n:attributes="title">None</button>
+                      <button type="button" class="deselect-all" title="Deselect all" i18n:translate="select_none" i18n:attributes="title">None</button>
                     </span>
                     <button type="button" class="pat-toggle float-before icon-cancel"
                         data-pat-toggle="selector: #member-list; value: mode-select mode-follow"

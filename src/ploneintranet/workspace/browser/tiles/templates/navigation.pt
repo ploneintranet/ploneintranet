@@ -33,7 +33,7 @@
           <button class="select icon-check-on float-after pat-toggle" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="" i18n:attributes="title">Select</button>
           <span class="button-cluster select-buttons float-after select-buttons">
             <button class="select-all" title="Select all" i18n:translate="" i18n:attributes="title">All</button>
-            <button class="deselect-all" title="Deslect all" disabled="" i18n:translate="" i18n:attributes="title">None</button>
+            <button class="deselect-all" title="Deselect all" disabled="" i18n:translate="" i18n:attributes="title">None</button>
           </span>
         </div>
         <form class="search-box pat-inject pat-autosubmit" action="/feedback/#items">
