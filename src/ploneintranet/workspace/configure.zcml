@@ -155,6 +155,12 @@
       zope.lifecycleevent.IObjectModifiedEvent"
     handler=".subscribers.workspace_groupbehavior_toggled" />
 
+  <subscriber
+      for="plone.dexterity.interfaces.IDexterityContent
+          OFS.interfaces.IObjectClonedEvent"
+      handler=".subscribers.handle_content_copied"
+  />
+
   <utility
     component=".vocabularies.DivisionsVocabularyFactory"
     name="ploneintranet.workspace.vocabularies.Divisions"

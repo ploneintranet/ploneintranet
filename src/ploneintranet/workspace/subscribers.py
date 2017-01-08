@@ -2,26 +2,31 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_chain
+from Acquisition import aq_parent
 from collective.workspace.interfaces import IWorkspace
 from OFS.CopySupport import cookie_path
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from plone import api
 from plone.api.exc import PloneApiError
+from plone.app.content.interfaces import INameFromTitle
+from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace import workspacefolder
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.utils import in_workspace
 from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
 from zExceptions import BadRequest
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from zope.container.interfaces import INameChooser
 from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
@@ -329,3 +334,19 @@ def workspace_groupbehavior_toggled(obj, event):
         workspace = result.getObject()
         workspace.reindexObject()
         membrane_catalog.reindexObject(workspace)
+
+
+def handle_content_copied(obj, event):
+    if not in_workspace(obj):
+        return
+    orig_id = obj.getId()
+    name = INameFromTitle(obj).title
+    normalized_name = IUserPreferredURLNormalizer(obj.REQUEST).normalize(name)
+    if orig_id == normalized_name:
+        # We already have the desired id, do nothing
+        return
+    container = aq_parent(obj)
+    chooser = INameChooser(container)
+    new_id = chooser.chooseName(normalized_name, container)
+    if new_id != orig_id:
+        api.content.rename(obj, new_id)
