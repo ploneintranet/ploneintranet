@@ -341,6 +341,9 @@ def handle_content_copied(obj, event):
         return
     orig_id = obj.getId()
     name = INameFromTitle(obj).title
+    if not name:
+        # No title present, no point in changing the id
+        return
     normalized_name = IUserPreferredURLNormalizer(obj.REQUEST).normalize(name)
     if orig_id == normalized_name:
         # We already have the desired id, do nothing
