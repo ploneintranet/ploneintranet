@@ -44,22 +44,23 @@
               </p>
               <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
               </a>
-
-              <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
-              <!--form tal:condition="python:view.can_delete(event)"
-                  class="pat-modal pat-inject"
-                  action="${event/getURL}/delete_confirmation#content">
-                <input type="hidden" name="pat-inject"
-                       value="
-                           source:#document-body; target:#document-body;
-                           &amp;&amp;
-                           source:#workspace-events; target:#workspace-events
-                           &amp;&amp;
-                           target: #global-statusmessage; source: #global-statusmessage
-                       " />
-                <input type="hidden" name="pat-modal" value="true" />
-                <button class="iconified icon-trash" type="submit">Delete event</button>
-              </form-->
+              <tal:comment condition="nothing">
+                <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
+                <!--form tal:condition="python:view.can_delete(event)"
+                    class="pat-modal pat-inject"
+                    action="${event/getURL}/delete_confirmation#content">
+                  <input type="hidden" name="pat-inject"
+                         value="
+                             source:#document-body; target:#document-body;
+                             &amp;&amp;
+                             source:#workspace-events; target:#workspace-events
+                             &amp;&amp;
+                             target: #global-statusmessage; source: #global-statusmessage
+                         " />
+                  <input type="hidden" name="pat-modal" value="true" />
+                  <button class="iconified icon-trash" type="submit">Delete event</button>
+                </form-->
+              </tal:comment>
             </li>
           </metal:event>
         </tal:events>
