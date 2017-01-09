@@ -340,7 +340,8 @@ def handle_content_copied(obj, event):
     if not in_workspace(obj):
         return
     orig_id = obj.getId()
-    name = INameFromTitle(obj).title
+    title_adapter = INameFromTitle(obj, None)
+    name = title_adapter and title_adapter.title
     if not name:
         # No title present, no point in changing the id
         return
@@ -350,6 +351,6 @@ def handle_content_copied(obj, event):
         return
     container = aq_parent(obj)
     chooser = INameChooser(container)
-    new_id = chooser.chooseName(normalized_name, container)
-    if new_id != orig_id:
+    new_id = chooser and chooser.chooseName(normalized_name, container)
+    if new_id and new_id != orig_id:
         api.content.rename(obj, new_id)
