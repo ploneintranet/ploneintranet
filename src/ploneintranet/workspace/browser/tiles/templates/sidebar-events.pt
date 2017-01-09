@@ -4,6 +4,7 @@
       ws_view nocall:ws/@@view;
       events view/events;
       can_add view/can_add;
+      date2month_name nocall:here/@@proto/date2month_name;
      "
      i18n:domain="ploneintranet"
  >
@@ -23,7 +24,7 @@
       <ul class="event-list">
         <tal:events repeat="event events/upcoming">
           <metal:event define-macro="eventdetails">
-            <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
+            <li class="event">
               <a class="pat-inject follow pat-switch"
                    data-pat-inject="source: #document-body; target: #document-body"
                    data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
@@ -36,7 +37,7 @@
               </p>
               <p class="date">
                 <time class="calendar-medium"
-                      tal:define="month_name python:view.month_name(event.start)">
+                      tal:define="month_name python:date2month_name(event.start)">
                   <strong class="day">${python:event.start.day}</strong>
                   <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
                   <strong class="year">${python:event.start.year}</strong>

@@ -6,19 +6,22 @@
       i18n:domain="ploneintranet">
   <body>
     <div id="portlet-events" class="portlet events span-1 state-collapsed"
-         tal:define="events view/upcoming_events;
-                     num_events python:len(list(events.results))">
+         tal:define="
+           events view/upcoming_events;
+           num_events python:len(list(events.results));
+           date2month_name nocall:here/@@proto/date2month_name;
+         ">
       <div class="content">
   	    <h2 class="portlet-title">
   			 <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/" i18n:translate="">Events</a>
   		  </h2>
         <form class="state-toggle pat-inject pat-autosubmit" action="/dashboard.html#user-avatar">
             <label class="show-more pat-switch" data-pat-switch="selector: #portlet-events; remove: state-*; add: state-expanded">
-                <input type="radio" name="portlet-events-state-expanded"> 
+                <input type="radio" name="portlet-events-state-expanded">
                 Show more
             </label>
             <label class="show-less pat-switch" data-pat-switch="selector: #portlet-events; remove: state-*; add: state-collapsed">
-                <input type="radio" name="portlet-events-state-collapsed"> 
+                <input type="radio" name="portlet-events-state-collapsed">
                 Show less
             </label>
         </form>
@@ -49,7 +52,7 @@
 
                     <p class="date">
                       <time class="calendar-medium pat-auto-scale"
-                            tal:define="month_name python:view.month_name(event['start'])">
+                            tal:define="month_name python:date2month_name(event['start'])">
                         <strong class="day">${python:event['start'].day}</strong>
                         <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
                         <strong class="year">${python:event['start'].year}</strong>
