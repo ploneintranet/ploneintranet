@@ -5,7 +5,6 @@ from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ...utils import map_content_type
-from ...utils import month_name
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from .events import format_event_date_for_title
@@ -175,12 +174,6 @@ class BaseTile(BrowserView):
         return get_record_from_registry(
             'ploneintranet.workspace.allow_bulk_subscribe', False
         )
-
-    def month_name(self, date):
-        """
-        Return the full month name in the appropriate language
-        """
-        return month_name(self, date)
 
 
 class SidebarSettingsGeneral(BaseTile):

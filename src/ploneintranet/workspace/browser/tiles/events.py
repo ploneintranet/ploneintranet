@@ -7,7 +7,6 @@ from ploneintranet.search.interfaces import ISiteSearch
 from scorched.dates import solr_date
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
-from ploneintranet.workspace.utils import month_name
 
 
 pl_message = MessageFactory('plonelocales')
@@ -72,9 +71,3 @@ class EventsTile(Tile):
 
     def format_event_date(self, event):
         return format_event_date_for_title(event)
-
-    def month_name(self, date):
-        """
-        Return the full month name in the appropriate language
-        """
-        return month_name(self, date)
