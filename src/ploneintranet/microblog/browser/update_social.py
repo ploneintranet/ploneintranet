@@ -196,7 +196,7 @@ class UpdateSocialView(UpdateSocialBase):
         """ Set up a token used in the attachment form
         """
         member = api.user.get_current()
-        userid = member.getUserId()
+        userid = member.getId()
         return "{0}-{1}".format(
             userid,
             datetime.utcnow().strftime('%Y%m%d%H%M%S%f')

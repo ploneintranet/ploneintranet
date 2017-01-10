@@ -144,7 +144,7 @@ def invitation_accepted(event):
         for userid in ws.members:  # collective.workspace uses userids
             member = api.user.get(userid=userid)
             if member is not None:
-                if member.getUserId() == userid:
+                if member.getId() == userid:
                     api.portal.show_message(
                         _('Oh boy, oh boy, you are already a member'),
                         request,

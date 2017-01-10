@@ -26,7 +26,7 @@ class ToggleFollowUser(BrowserView):
         self.util = getUtility(INetworkTool)
         self.followed_id = self.context.username
         self.follow_type = 'user'
-        self.follower = plone_api.user.get_current().getUserId()
+        self.follower = plone_api.user.get_current().getId()
 
         self.is_followed = self.util.is_followed(
             self.follow_type, self.followed_id, self.follower)

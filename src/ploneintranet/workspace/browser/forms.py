@@ -145,7 +145,7 @@ class InviteForm(form.SchemaForm):
         for name in ws.members:
             member = api.user.get(userid=name)
             if member is not None:
-                if member.getUserId() == given_userid:
+                if member.getId() == given_userid:
                     raise WidgetActionExecutionError(
                         'user',
                         Invalid("User is already a member of this workspace"))
@@ -162,7 +162,7 @@ class InviteForm(form.SchemaForm):
         current_user = api.user.get_current()
         inviter = current_user.getProperty("fullname", None)
         if not inviter:
-            inviter = current_user.getUserId()
+            inviter = current_user.getId()
         inviter = safe_unicode(inviter)
 
         msg_header = u"You have been invited to join %s by %s" % (

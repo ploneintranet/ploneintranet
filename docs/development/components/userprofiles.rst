@@ -25,7 +25,9 @@ The following key design decisions were made to fit the use cases of Plone Intra
 User identifier versus login name, oh my
 ========================================
 
-TL;DR:  ``id == getUserId() == username == getUserName()`` except when logging in by email, in which case: ``id == getUserId() == username != getUserName() == email``
+TL;DR:  Of all the possible user-identifierish attributes and accessors: use ``getId()`` by default. Unless you need an actual login name for authentication, in which case you should use ``.getUserName()``.
+
+The problem: for our membrane userprofiles ``id == getId() == getUserId() == username == getUserName()`` except when logging in by email, in which case: ``id == getId() == getUserId() == username != getUserName() == email``. Non-membrane acl_users like admin and test users behave differently again.
 
 In Plone, semantically the username is the login name the user inputs in the login form. The userid is a stable user identifier the code uses to refer to a user object.
 
@@ -39,20 +41,20 @@ As a solution I offer you the following meditation on syntax versus semantics:
 
 - A ``userprofile.id`` is the content object's id in the userprofiles folder. This will be the same as the userid, and the assumption that the two are identical plays out in our code base. One might wish to relax that assumption and change user profile content ids, hence user profiles vanity urls, without changing the actual userid.
 
-- A ``userprofile`` does not have a ``userid`` attribute. The dx.membrane behaviors do provide a ``.getId()`` accessor but this returns the ``username``.
+- A ``userprofile`` does not have a ``userid`` attribute. The dx.membrane behaviors do provide ``.getId()`` and ``.getUserId()`` accessors but these returns the ``username`` attribute which is actually used to store the userid.
 
 - A user profile's ``username`` hence is the real userid. This confusion derives from poor upstream design decisions. Normally this is not a problem, because normally the login name is the username is the userid.
 
-- A user profile also has an ``email`` attribute. Here it gets interesting. If you enable ``use_email_as_username``, the actual login name is the email address as returned by ``getUserName()``. And this may, for some users, be an updated email address different from the ``username`` (the stable userid) they were created with.
+- A user profile also has an ``email`` attribute. Here it gets interesting. If you enable ``use_email_as_username``, the actual login name is the email address as returned by ``getUserName()`` - which is only available on a behavior, not directly on a userprofile. And this may, for some users, be an updated email address different from the ``username`` (the stable userid) they were created with.
 
-- A acl_users member is a different thing again. It does not have the ``getUserId()`` and ``getUserName()`` accessors provided by dx.membrane. Here be dragons.
+- A acl_users member is a different thing again. It has a ``getUserName()`` accessor, and sometimes it has a working ``getUserId()`` accessor (when it's backed by a membrane user) and sometimes it doesn't (e.g. admin acl_user)
 
 Dos and donts
 -------------
 
 - When working with authentication code, use ``getUserName()`` instead of ``username`` to get the actual login name, as opposed to the user identifier.
 
-- In all other code paths, user references typically are user ids. For clarity, it's best to use ``getUserId()`` but for legacy compatibility ``username`` is also fine. Just remember that ``username`` syntax is userid semantics, not the login name.
+- In all other code paths, user references typically are user ids. For clarity, it's best to use ``getId()``, which is safer than ``getUserId()`` but for legacy compatibility ``username`` is also fine. Just remember that ``username`` syntax is userid semantics, not the login name.
 
 - Never use ``getUserName()`` syntax for userid semantics. It will appear to work, until you toggle ``use_email_as_username`` and then you're in a world of pain, where only those users whose email address is different from their user id suffer obscure bugs.
 

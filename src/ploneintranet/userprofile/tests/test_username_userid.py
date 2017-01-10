@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from zExceptions.unauthorized import Unauthorized
+from Products.membrane.interfaces import IMembraneUserObject
 from dexterity.membrane.behavior.settings import IDexterityMembraneSettings
 from plone import api
 from plone.app.testing import logout
@@ -8,6 +9,8 @@ from plone.testing import z2
 
 from ploneintranet.userprofile.testing import \
     PLONEINTRANET_USERPROFILE_BROWSER_TESTING
+from ploneintranet.userprofile.testing import \
+    PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING
 
 from transaction import commit
 import unittest
@@ -166,3 +169,114 @@ class TestLoginEmail(TestLoginBase):
         loggedin = self.browser_login(self.email1)
         self.assertTrue(loggedin)
         self.assertTrue(self.browser_is_loggedin(self.userid1))
+
+
+class TestUserAPI(unittest.TestCase):
+    """Document the membrane versus acl_users API results"""
+
+    layer = PLONEINTRANET_USERPROFILE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.request = self.portal.REQUEST
+        self.membrane_tool = api.portal.get_tool('membrane_tool')
+        self.profiles = self.portal.profiles
+        self.setup_profiles()
+
+    def setup_profiles(self):
+        z2.login(self.app['acl_users'], SITE_OWNER_NAME)
+        self.userid1 = 'john@example.id'
+        self.email1 = 'john@example.name'
+        self.profile1 = api.content.create(
+            container=self.profiles,
+            type='ploneintranet.userprofile.userprofile',
+            id=self.userid1,
+            username=self.userid1,
+            email=self.email1,
+            first_name='John',
+            last_name='Doe',
+            password='secret',
+            confirm_password='secret',
+        )
+        api.content.transition(self.profile1, 'approve')
+        self.profile1.reindexObject()
+        self.member1 = api.user.get(userid=self.userid1)
+        self.member2 = api.user.get_current()
+
+    def test_membrane_id(self):
+        self.assertEquals(self.profile1.id, self.userid1)
+
+    def test_membrane_getId(self):
+        self.assertEquals(self.profile1.getId(), self.userid1)
+
+    def test_membrane_getUserId(self):
+        with self.assertRaises(AttributeError):
+            self.profile1.getUserId()
+        adapted = IMembraneUserObject(self.profile1)
+        self.assertEquals(adapted.getUserId(), self.userid1)
+
+    def test_membrane_username(self):
+        self.assertEquals(self.profile1.username, self.userid1)
+
+    def test_membrane_getUserName(self):
+        with self.assertRaises(AttributeError):
+            self.profile1.getUserName()
+        adapted = IMembraneUserObject(self.profile1)
+        self.assertEquals(adapted.getUserName(), self.userid1)
+
+    def test_member_id(self):
+        self.assertEquals(self.member1.id, self.userid1)
+        self.assertEquals(self.member2.id, SITE_OWNER_NAME)
+
+    def test_member_getId(self):
+        self.assertEquals(self.member1.getId(), self.userid1)
+        self.assertEquals(self.member2.getId(), SITE_OWNER_NAME)
+
+    def test_member_getUserId(self):
+        """
+        Members backed by a membrane object have getUserId().
+        Pure acl users have not.
+        """
+        self.assertEquals(self.member1.getUserId(), self.userid1)
+        with self.assertRaises(AttributeError):
+            self.member2.getUserId()
+
+    def test_member_username(self):
+        with self.assertRaises(AttributeError):
+            self.member1.username
+        with self.assertRaises(AttributeError):
+            self.member2.username
+
+    def test_member_getUserName(self):
+        self.assertEquals(self.member1.getUserName(), self.userid1)
+        self.assertEquals(self.member2.getUserName(), SITE_OWNER_NAME)
+
+
+class TestUserAPIEmail(TestUserAPI):
+    """Performs all the same tests via inheritance, but now in
+    a use_email_as_username scenario.
+
+    Differences are documented by test method overrides below.
+    """
+
+    def setUp(self):
+        # Set config before user creation.
+        # If you do it afterward, you need to reindex the users
+        self.use_email_as_username()
+        super(TestUserAPIEmail, self).setUp()
+
+    def use_email_as_username(self):
+        api.portal.set_registry_record('use_email_as_username', True,
+                                       IDexterityMembraneSettings)
+        commit()
+
+    def test_membrane_getUserName(self):
+        with self.assertRaises(AttributeError):
+            self.profile1.getUserName()
+        adapted = IMembraneUserObject(self.profile1)
+        self.assertEquals(adapted.getUserName(), self.email1)
+
+    def test_member_getUserName(self):
+        self.assertEquals(self.member1.getUserName(), self.email1)
+        self.assertEquals(self.member2.getUserName(), SITE_OWNER_NAME)

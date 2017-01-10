@@ -165,8 +165,6 @@ def get(userid):
     """
     # try first of all to get the user from the profiles folder
     portal = plone_api.portal.get()
-    # this assumes that profile.id == profile.getUserId()
-    # which is true now but we might want to remove that assumption later
     user = portal.unrestrictedTraverse(
         'profiles/{}'.format(userid),
         None
