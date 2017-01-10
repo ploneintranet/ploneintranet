@@ -15,7 +15,7 @@ class UnrestrictedUser(BaseUnrestrictedUser):
     def getId(self):
         """Return the ID of the user.
         """
-        return self.getUserId()
+        return self.getId()
 
 
 def execute_as_manager(function, *args, **kwargs):

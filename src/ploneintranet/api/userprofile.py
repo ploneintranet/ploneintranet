@@ -193,7 +193,8 @@ def get_current():
         return None
 
     current_member = plone_api.user.get_current()
-    userid = current_member.getUserId()
+    # non-membrane users (e.g. admin) have getUserName() but not getUserId()
+    userid = current_member.getId()
     return get(userid)
 
 
