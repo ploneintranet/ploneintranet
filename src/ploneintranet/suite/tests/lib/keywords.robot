@@ -947,13 +947,13 @@ I cannot create a new event
     Element Should Be Visible  jquery=#form-buttons-create:disabled
 
 I can edit an event
-    [arguments]  ${title}  ${start}  ${end}  ${timezone}
+    [arguments]  ${start}  ${end}  ${timezone}
     Wait Until Page Contains Element  xpath=//h3[text()='Older events']
     Click Element  xpath=//h3[text()='Older events']
-    Wait until element is visible  jquery=.event-list a:contains("${title}")
-    Click Element  jquery=.event-list a:contains("${title}")
+    Wait until element is visible  jquery=.event-list a:contains("Christmas")
+    Click Element  jquery=.event-list a:contains("Christmas")
     Wait Until Page Contains Element  css=div.event-details
-    Input Text  css=.meta-bar textarea[name=title]  text=${title} (updated)
+    Input Text  css=.meta-bar textarea[name=title]  text=Christmas (updated)
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Click Element   css=input[name='location']
@@ -965,7 +965,7 @@ I can edit an event
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
-    Element should contain  css=#workspace-events [href$="open-market-committee/christmas#document-body"]  ${title} (updated)
+    Element should contain  css=#workspace-events [href$="open-market-committee/christmas-updated#document-body"]  Christmas (updated)
 
 I cannot edit an event because of validation
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
