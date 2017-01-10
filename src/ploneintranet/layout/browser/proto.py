@@ -1,7 +1,12 @@
 # coding=utf-8
 from logging import getLogger
 from plone.memoize import forever
+from plone.memoize.view import memoize_contextless
 from Products.Five import BrowserView
+from zope.i18nmessageid import MessageFactory
+
+
+pl_message = MessageFactory('plonelocales')
 
 logger = getLogger(__name__)
 
@@ -129,3 +134,17 @@ class ProtoView(BrowserView):
 
         logger.warn('Cannot assign an icon class for: %s', value)
         return 'icon-document'
+
+    @memoize_contextless
+    def translate_short_month_name(self, short_month_name):
+        ''' Translate the short month name using plonelocales
+        '''
+        msg_id = 'month_{}'.format(short_month_name)
+        return self.context.translate(pl_message(msg_id))
+
+    def date2month_name(self, date):
+        """
+        Return the full month name in the appropriate language
+        """
+        short_month_name = date.strftime('%b').lower()  # jan
+        return self.translate_short_month_name(short_month_name)

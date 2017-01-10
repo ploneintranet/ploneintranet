@@ -171,15 +171,6 @@ def map_content_type(mimetype, portal_type=''):
     return content_type
 
 
-def month_name(self, date):
-    """
-    Return the full month name in the appropriate language
-    """
-    translate = self.context.translate
-    short_month_name = date.strftime('%b').lower()  # jan
-    return translate(pl_message('month_{}'.format(short_month_name)))
-
-
 def purge_and_refresh_security_manager():
     """ This is necessary in case you have a cache on your acl_users folder.
 
