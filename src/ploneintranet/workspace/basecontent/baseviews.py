@@ -62,6 +62,15 @@ class ContentView(BrowserView):
 
     @property
     @memoize
+    def include_clicktracker(self):
+        """Is inclusion of slcclicktracker element enabled in the registry?"""
+        include_slcclicktracker = get_record_from_registry(
+            'ploneintranet.workspace.include_slcclicktracker',
+            False)
+        return include_slcclicktracker
+
+    @property
+    @memoize
     def autosave_enabled(self):
         ''' Look up the registry to check if autosave should be enabled
         for this portal_type

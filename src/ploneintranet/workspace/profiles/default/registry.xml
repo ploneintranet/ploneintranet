@@ -102,6 +102,13 @@
     </field>
     <value purge="false">True</value>
   </record>
+  <record name="ploneintranet.workspace.include_slcclicktracker">
+    <field type="plone.registry.field.Bool">
+      <title i18n:translate="label_include_slcclicktracker">Include an slcclicktracker element in the content default view templates</title>
+      <default>False</default>
+    </field>
+    <value purge="false">False</value>
+  </record>
   <record name="ploneintranet.workspace.default_grouping">
     <field type="plone.registry.field.TextLine">
       <title i18n:translate="label_workspace_default_grouping">Workspace default grouping</title>
