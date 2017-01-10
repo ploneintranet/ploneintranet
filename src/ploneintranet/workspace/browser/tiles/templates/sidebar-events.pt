@@ -23,7 +23,7 @@
       <ul class="event-list">
         <tal:events repeat="event events/upcoming">
           <metal:event define-macro="eventdetails">
-            <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
+            <li class="event">
               <a class="pat-inject follow pat-switch"
                    data-pat-inject="source: #document-body; target: #document-body"
                    data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
