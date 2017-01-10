@@ -1272,7 +1272,7 @@ I reload the dashboard
 
 I select the task centric view
     Select From List  dashboard  Task centric view
-    Wait Until Page Contains  Tasks
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I mark a new task complete
     Wait until element is visible  xpath=(//a[@title='Todo soon'])
