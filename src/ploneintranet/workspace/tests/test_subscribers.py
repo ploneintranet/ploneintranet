@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-from ploneintranet.workspace.tests.base import BaseTestCase
-from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
-from plone import api
 from collective.workspace.interfaces import IWorkspace
+from plone import api
+from ploneintranet.workspace.basecontent.utils import dexterity_update
+from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.tests.base import BaseTestCase
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
 class TestSubscribers(BaseTestCase):
@@ -149,3 +152,71 @@ class TestContentPaste(BaseTestCase):
         self.subfolder.manage_pasteObjects(cp)
         # ...then it gets pasted with the freshly generated id from the title.
         self.assertEquals(self.subfolder.objectIds(), ['my-document'])
+
+
+class TestTitleFromID(BaseTestCase):
+    """
+        Tests that when content is pasted in the context of a workspace,
+        the id will be generated based on the content's title, thus avoiding
+        ids like `copy_of_`
+    """
+
+    def setUp(self):
+        super(TestTitleFromID, self).setUp()
+        self.login_as_portal_owner()
+        workspace_folder = api.content.create(
+            self.workspace_container,
+            'ploneintranet.workspace.workspacefolder',
+            'example-workspace')
+        self.workspace = workspace_folder
+
+        self.doc1 = api.content.create(
+            container=self.workspace,
+            type='Document',
+            title=u'My Døcümént',
+        )
+        self.subfolder = api.content.create(
+            container=self.workspace,
+            type='Folder',
+            title=u'This is a subfolder',
+        )
+
+    def test_change_doc_title(self):
+        self.doc1.REQUEST.form = {'title': u'My Døcümént olé'}
+        modified, errors = dexterity_update(self.doc1)
+        self.assertEqual(errors, [])
+        notify(ObjectModifiedEvent(self.doc1))
+        self.assertEquals(self.doc1.getId(), 'my-document-ole')
+
+    def test_change_doc_long_title(self):
+        self.doc1.REQUEST.form = dict(
+            title=u"The quick brown fox jumps over the very lazy dog's back "
+                  "after having stared at it undecidedly for hours.")
+        modified, errors = dexterity_update(self.doc1)
+        self.assertEqual(errors, [])
+        notify(ObjectModifiedEvent(self.doc1))
+        self.assertEquals(
+            self.doc1.getId(),
+            'the-quick-brown-fox-jumps-over-the-very-lazy-dogs-back-after-having'  # noqa
+        )
+
+    def test_file_title_does_not_change_id(self):
+        file_obj = api.content.create(
+            container=self.workspace,
+            type='File',
+            title=u'My File',
+        )
+        self.assertEquals(file_obj.getId(), 'my-file')
+        file_obj.REQUEST.form = {'title': u'My süper File'}
+        modified, errors = dexterity_update(file_obj)
+        self.assertEqual(errors, [])
+        notify(ObjectModifiedEvent(file_obj))
+        self.assertEquals(file_obj.Title(), 'My s\xc3\xbcper File')
+        self.assertEquals(file_obj.getId(), 'my-file')
+
+    def test_change_folder_title(self):
+        self.subfolder.REQUEST.form = {'title': u'My fäntästic Folder'}
+        modified, errors = dexterity_update(self.subfolder)
+        self.assertEqual(errors, [])
+        notify(ObjectModifiedEvent(self.subfolder))
+        self.assertEquals(self.subfolder.getId(), 'my-fantastic-folder')
