@@ -46,7 +46,7 @@ class TestAuth(BaseTestCase):
         user = api.user.get_current()
         self.assertEqual(
             profile.username,
-            user.getUserName())
+            user.getUserId())
 
         self.logout()
         with self.assertRaises(ValueError):

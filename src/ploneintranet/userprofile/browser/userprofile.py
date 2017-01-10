@@ -137,8 +137,9 @@ class UserProfileView(UserProfileViewForm):
 
     def is_me(self):
         """Does this user profile belong to the current user"""
+        # .username is actually the userid see #1043
         return self.context.username == \
-            plone_api.user.get_current().getUserName()
+            plone_api.user.get_current().getUserId()
 
     def following(self):
         """Users this profile is following"""

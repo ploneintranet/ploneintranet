@@ -17,9 +17,9 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.utils import get_storage, send_email
 
 
-def user_has_email(username):
+def user_has_email(userid):
     """ make sure, that given user has an email associated """
-    user = api.user.get(username=username)
+    user = api.user.get(userid=userid)
     if not user.getProperty("email"):
         msg = _(
             "This user doesn't have an email associated "
@@ -84,18 +84,18 @@ class TransferMembershipForm(form.SchemaForm):
         other_ws = IWorkspace(api.content.get(UID=other_ws_id))
         move = data.get("move", False)
         removable = []
-        for member in ws.members:
-            user = api.user.get(username=member)
+        for userid in ws.members:
+            user = api.user.get(userid=userid)
             if user is not None:
                 user_id = user.getId()
                 other_ws.add_to_team(user=user_id)
-            removable.append(member)
+            removable.append(userid)
 
         if move:
-            for member in removable:
+            for userid in removable:
                 factory = ws.membership_factory(
                     ws,
-                    {"user": member}
+                    {"user": userid}
                 )
                 factory.remove_from_team()
 
@@ -111,7 +111,7 @@ class IInviteForm(form.Schema):
     form.widget(user=AutocompleteFieldWidget)
     user = schema.Choice(
         title=u'User',
-        source=UsersSource,
+        source=UsersSource,  # userid iterator
         constraint=user_has_email,
     )
 
@@ -134,35 +134,35 @@ class InviteForm(form.SchemaForm):
     @button.buttonAndHandler(u"Ok")
     def handleApply(self, action):
         data = self.extractData()[0]
-        given_username = data.get("user", "").strip()
+        given_userid = data.get("user", "").strip()
         given_message = data.get("message", "") or ""
         given_message = given_message.strip()
         workspace_title = safe_unicode(self.context.title)
-        if not given_username:
+        if not given_userid:
             return
 
         ws = IWorkspace(self.context)
         for name in ws.members:
-            member = api.user.get(username=name)
+            member = api.user.get(userid=name)
             if member is not None:
-                if member.getUserName() == given_username:
+                if member.getUserId() == given_userid:
                     raise WidgetActionExecutionError(
                         'user',
                         Invalid("User is already a member of this workspace"))
 
-        user = api.user.get(username=given_username)
+        user = api.user.get(userid=given_userid)
         email = user.getProperty("email")
 
         token_util = getUtility(ITokenUtility)
         token_id, token_url = token_util.generate_new_token(
             redirect_path="resolveuid/%s" % (ws.context.UID(),))
         storage = get_storage()
-        storage[token_id] = (ws.context.UID(), given_username)
+        storage[token_id] = (ws.context.UID(), given_userid)
 
         current_user = api.user.get_current()
         inviter = current_user.getProperty("fullname", None)
         if not inviter:
-            inviter = current_user.getUserName()
+            inviter = current_user.getUserId()
         inviter = safe_unicode(inviter)
 
         msg_header = u"You have been invited to join %s by %s" % (

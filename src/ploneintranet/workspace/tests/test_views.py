@@ -119,40 +119,40 @@ class TestSharingView(BaseViewTest):
 
     def test_member_is_added_to_user_title_if_user_is_a_member(self):
         self.login_as_portal_owner()
-        IWorkspace(self.workspace).add_to_team(user=self.user.getUserName())
+        IWorkspace(self.workspace).add_to_team(user=self.user.getUserId())
         self.request.form = {'form.button.Search': 'Search',
                              'search_term': 'demo'}
         view = SharingView(self.workspace, self.request)
-        self.assertIn('%s [member]' % (self.user.getUserName(),), view())
+        self.assertIn('%s [member]' % (self.user.getUserId(),), view())
 
     def test_member_is_not_added_if_user_is_not_a_member(self):
         self.login_as_portal_owner()
         self.request.form = {'form.button.Search': 'Search',
                              'search_term': 'demo'}
         view = SharingView(self.workspace, self.request)
-        self.assertNotIn('%s [member]' % (self.user.getUserName(),), view())
+        self.assertNotIn('%s [member]' % (self.user.getUserId(),), view())
 
     def test_administrator_is_added_to_administrator(self):
         """ Test that [administrator] is added to the workspace
         administrator """
         self.login_as_portal_owner()
         IWorkspace(self.workspace).add_to_team(
-            user=self.user.getUserName(),
+            user=self.user.getUserId(),
             groups=set(["Admins"]))
         self.request.form = {'form.button.Search': 'Search',
                              'search_term': 'demo'}
         view = SharingView(self.workspace, self.request)
         self.assertIn(
-            '%s [administrator]' % (self.user.getUserName(),),
+            '%s [administrator]' % (self.user.getUserId(),),
             view())
-        self.assertNotIn("%s [member]" % (self.user.getUserName(),), view())
+        self.assertNotIn("%s [member]" % (self.user.getUserId(),), view())
 
     def test_acquired_roles_from_policy_settings(self):
         self.login_as_portal_owner()
         policy = "moderators"
         self.workspace.participant_policy = policy
         ws = IWorkspace(self.workspace)
-        ws.add_to_team(user=self.user.getUserName())
+        ws.add_to_team(user=self.user.getUserId())
         roles = ws.available_groups.get(policy.title())
         self.request.form = {'form.button.Search': 'Search',
                              'search_term': 'demo'}

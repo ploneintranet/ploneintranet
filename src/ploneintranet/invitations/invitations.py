@@ -82,6 +82,11 @@ def accept_invitation(event):
     """
     Event handler for :class:`AcceptToken` event fired by invitation framework
 
+    FIXME #1047: this creates a acl user, not a ploneintranet userprofile
+
+    Additionally, this code makes the heroic assumption that
+    email == username == userid which is very brittle, see #1043.
+
     :param event: The event object
     :type event: :class:`AcceptToken`
     :return:

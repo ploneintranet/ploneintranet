@@ -403,36 +403,36 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.assertEqual(
             sorted([x.getUserId for x in usergen]), ['bobdoe', ])
 
-    def test_get_users_exactgetusername(self):
+    def test_get_users_exactgetuserid(self):
         usergen = pi_api.userprofile.get_users(
             full_objects=True,
-            exact_getUserName=['janedoe', 'bobdoe'])
+            exact_getUserId=['janedoe', 'bobdoe'])
         found = [x for x in usergen]
         self.assertEqual(len(found), 2)
         self.assertIn(self.profile1, found)
         self.assertIn(self.profile2, found)
 
-    def test_get_users_context_exactgetusername_1(self):
-        """Specifiying both a context and exact_getUserName
+    def test_get_users_context_exactgetuserid_1(self):
+        """Specifiying both a context and exact_getUserId
         returns the intersection of both results
         """
         usergen = pi_api.userprofile.get_users(
             context=self.folder,
             full_objects=True,
-            exact_getUserName=['janedoe', 'bobdoe'])
+            exact_getUserId=['janedoe', 'bobdoe'])
         found = [x for x in usergen]
         self.assertEqual(len(found), 1)
         self.assertNotIn(self.profile1, found)
         self.assertIn(self.profile2, found)
 
-    def test_get_users_context_exactgetusername_2(self):
-        """Specifiying both a context and exact_getUserName
+    def test_get_users_context_exactgetuserid_2(self):
+        """Specifiying both a context and exact_getUserId
         returns the intersection of both results
         """
         usergen = pi_api.userprofile.get_users(
             context=self.folder,
             full_objects=True,
-            exact_getUserName=['janedoe'])
+            exact_getUserId=['janedoe'])
         found = [x for x in usergen]
         self.assertEqual(len(found), 0)
         self.assertNotIn(self.profile1, found)

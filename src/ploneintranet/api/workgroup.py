@@ -41,16 +41,17 @@ def get_groups(
                 group = acl_users.getGroupById(id)
                 if group:
                     members.remove(id)
+                    # these are not membrane profiles but acl members
                     members = members.union(set(
                         [user.getId() for user in group.getGroupMembers()]))
             # both context and query: calculate intersection
-            if 'exact_getUserName' in kwargs:
+            if 'exact_getUserId' in kwargs:
                 _combi = list(
                     members.intersection(
-                        set(kwargs['exact_getUserName'])))
-                kwargs['exact_getUserName'] = _combi
+                        set(kwargs['exact_getUserId'])))
+                kwargs['exact_getUserId'] = _combi
             else:
-                kwargs['exact_getUserName'] = list(members)
+                kwargs['exact_getUserId'] = list(members)
         except TypeError:
             # could not adapt to IMemberGroup
             pass

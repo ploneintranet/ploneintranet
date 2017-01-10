@@ -8,9 +8,7 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content">
-      <tal:dashboard define="dashboard view/default_dashboard;
-                             current_user context/portal_membership/getAuthenticatedMember;
-                             user_name current_user/getUserName">
+      <tal:dashboard define="dashboard view/default_dashboard;">
 
         <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/dashboard.html#dashboard" method="GET">
           <label class="bare pat-select">
