@@ -26,6 +26,8 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConf
 from zExceptions import BadRequest
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from zope.component import getMultiAdapter
+from zope.container.interfaces import IContainerModifiedEvent
 from zope.container.interfaces import INameChooser
 from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
@@ -35,6 +37,7 @@ import logging
 log = logging.getLogger(__name__)
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
+MAX_ID_FROM_TITLE_LENGTH = 70
 
 
 def workspace_state_changed(ob, event):
@@ -213,6 +216,7 @@ def content_object_added_to_workspace(obj, event):
 
 def content_object_edited_in_workspace(obj, event):
     _update_workspace_groupings(obj, event)
+    create_title_from_id(obj, event)
 
 
 def content_object_removed_from_workspace(obj, event):
@@ -336,8 +340,17 @@ def workspace_groupbehavior_toggled(obj, event):
         membrane_catalog.reindexObject(workspace)
 
 
-def handle_content_copied(obj, event):
+def create_title_from_id(obj, event):
+    if IContainerModifiedEvent.providedBy(event):
+        # The container modified event gets triggered during the creation
+        # of a folder. We must not change the id before an item as been
+        # properly created.
+        return
+    if IBaseWorkspaceFolder.providedBy(obj):
+        # Don't change the ID of a workspace
+        return
     if not in_workspace(obj):
+        # Don't handle content outside of a workspace
         return
     orig_id = obj.getId()
     title_adapter = INameFromTitle(obj, None)
@@ -345,6 +358,9 @@ def handle_content_copied(obj, event):
     if not name:
         # No title present, no point in changing the id
         return
+    if len(name) > MAX_ID_FROM_TITLE_LENGTH:
+        plone_view = getMultiAdapter((obj, obj.REQUEST), name='plone')
+        name = plone_view.cropText(name, MAX_ID_FROM_TITLE_LENGTH, ellipsis="")
     normalized_name = IUserPreferredURLNormalizer(obj.REQUEST).normalize(name)
     if orig_id == normalized_name:
         # We already have the desired id, do nothing

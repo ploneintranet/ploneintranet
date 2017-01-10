@@ -158,7 +158,7 @@
   <subscriber
       for="plone.dexterity.interfaces.IDexterityContent
           OFS.interfaces.IObjectClonedEvent"
-      handler=".subscribers.handle_content_copied"
+      handler=".subscribers.create_title_from_id"
   />
 
   <utility
