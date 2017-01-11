@@ -252,6 +252,30 @@ class TestUserAPI(unittest.TestCase):
         self.assertEquals(self.member1.getUserName(), self.userid1)
         self.assertEquals(self.member2.getUserName(), SITE_OWNER_NAME)
 
+    def test_membrane_edit_username_id_accessors(self):
+        self.profile1.username = 'new_username'
+        self.assertEquals(self.profiles.objectIds(), [self.userid1])
+        self.assertEquals(self.profile1.getId(), self.userid1)
+        adapted = IMembraneUserObject(self.profile1)
+        self.assertEquals(adapted.getUserId(), self.userid1)
+        members = api.user.get_users(groupname='Members')
+        self.assertEquals([x.getId() for x in members], [self.userid1])
+
+    @unittest.expectedFailure
+    def test_membrane_move_id_accessors(self):
+        """Moving membrane profiles will not work"""
+        newid = 'my_new_vanity_url'
+        # just reassigning the id is not enough, have to actually move it
+        api.content.move(self.profile1, id=newid)
+        self.assertEquals(self.profiles.objectIds(), [newid])
+        self.assertEquals(self.profile1.getId(), newid)
+        adapted = IMembraneUserObject(self.profile1)
+        self.assertEquals(adapted.getUserId(), newid)
+        # with or without reindex, this ultimately fails
+        self.profile1.reindexObject()
+        members = api.user.get_users(groupname='Members')
+        self.assertEquals([x.getId() for x in members], [newid])  # FAILS
+
 
 class TestUserAPIEmail(TestUserAPI):
     """Performs all the same tests via inheritance, but now in
