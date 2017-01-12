@@ -141,8 +141,9 @@ def invitation_accepted(event):
     brain = catalog.unrestrictedSearchResults(UID=ws_uid)[0]
     with api.env.adopt_roles(["Manager"]):
         ws = IWorkspace(brain.getObject())
-        for userid in ws.members:  # collective.workspace uses userids
-            member = api.user.get(userid=userid)
+        # collective.workspace .members returns userid iterator
+        for member_id in ws.members:  # don't clobber userid variable
+            member = api.user.get(userid=member_id)
             if member is not None:
                 if member.getId() == userid:
                     api.portal.show_message(
