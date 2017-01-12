@@ -21,8 +21,10 @@ class IUserProfile(form.Schema):
     Most of the plone intranet UI relies on these fields.
     """
 
-    # NB this is actually the userid not the login name
-    # a confusion also present in the upstream membrane code
+    # username == context.getId() == userid
+    # username should never be changed because it's used as an alias for userid
+    # if you need different login names, switch on use_email_as_username
+    # see changeset and docs in quaive/ploneintranet#1043
     dexteritytextindexer.searchable('username')
     username = schema.TextLine(
         title=_(u"Username"),
