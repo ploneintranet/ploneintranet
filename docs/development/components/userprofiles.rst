@@ -96,23 +96,16 @@ If you'd like to provide users with a different login name, the only supported o
 .. code-block:: xml
 
   <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_email_as_username">
-    <field type="plone.registry.field.Bool">
-    </field>
     <value>True</value>
   </record>
 
 If you're changing this in an existing site, you then need to either reindex the ``exact_getUserName`` and ``getUserName`` indexes in ``membrane_tool``.
 
-In addition to the dexterity setting, there's a plone setting you should switch as well. This mainly impacts texts presented on the login and password reset pages.
+.. warning::
 
-.. code-block:: xml
+   In addition to the dexterity ``use_email_as_username`` setting, there's a plone setting ``use_email_as_login`` as well. You should not touch this when using LDAP: it has an event handler which is not LDAP aware and will error out trying to update non-existant ZODB acl_users.
 
-  <record name="plone.use_email_as_login" interface="Products.CMFPlone.interfaces.controlpanel.ISecuritySchema" field="use_email_as_login">
-    <field type="plone.registry.field.Bool">
-    </field>
-    <value>True</value>
-  </record>
-
+Our login and password page overrides retrieve the dexterity setting, not the plone setting to determine whether logging in by email is enabled. This will result in some textual adjustments on those pages.
 
 
 External authentication and/or data sources (e.g. AD/LDAP)
