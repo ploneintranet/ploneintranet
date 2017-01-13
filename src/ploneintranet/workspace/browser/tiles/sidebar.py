@@ -741,6 +741,10 @@ class Sidebar(BaseTile):
 
             item['cls'] = cls
             item['mime-type'] = ''
+            # Work around a solr-quirk: We might end up with "/view" being
+            # appended twice to the URL. See #1056
+            if item['url'].endswith('/view/view'):
+                item['url'] = item['url'][:-5]
 
             # default to sidebar injection
             if 'dpi' not in item:
