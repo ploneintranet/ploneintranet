@@ -24,7 +24,6 @@ def on_user_login(event):
 
 def on_user_transition(ob, event):
     """Make sure all enabled users are added to a members group"""
-    username = event.object.username
     if event.new_state.id == 'enabled':
         # Add all users to a root members group
         members = plone_api.group.get(groupname='Members')
@@ -35,4 +34,4 @@ def on_user_transition(ob, event):
                 roles=['Member', ],
             )
         plone_api.group.add_user(groupname='Members',
-                                 username=username)
+                                 user=event.object)

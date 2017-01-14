@@ -27,7 +27,7 @@ class JoinViewlet(ViewletBase):
 
         user = api.user.get_current()
         workspace = IWorkspace(self.context.acquire_workspace())
-        if user.getUserName() in workspace.members:
+        if user.getId() in workspace.members:
             return False
 
         return True

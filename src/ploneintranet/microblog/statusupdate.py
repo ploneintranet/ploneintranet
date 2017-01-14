@@ -131,7 +131,7 @@ class StatusUpdate(Persistent):
     def _init_creator(self):
         portal_membership = getToolByName(getSite(), 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
-        self.creator = member.getUserName()
+        self.creator = member.getId()
 
     # for unittest subclassing
     def _init_microblog_context(self, thread_id,

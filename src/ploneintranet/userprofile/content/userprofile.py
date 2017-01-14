@@ -21,6 +21,10 @@ class IUserProfile(form.Schema):
     Most of the plone intranet UI relies on these fields.
     """
 
+    # username == context.getId() == userid
+    # username should never be changed because it's used as an alias for userid
+    # if you need different login names, switch on use_email_as_username
+    # see changeset and docs in quaive/ploneintranet#1043
     dexteritytextindexer.searchable('username')
     username = schema.TextLine(
         title=_(u"Username"),
@@ -130,13 +134,18 @@ class UserProfile(Container):
 
 class UsernameValidator(validator.SimpleFieldValidator):
 
-    """Two users can't have the same username."""
+    """Two users can't have the same username.
+
+    Because of #1043 it's possible that .username != .getUserName()
+    so instead we rely on .username == .getUserId() which holds true
+    since we don't do use_uuid_as_userid.
+    """
 
     def validate(self, value, force=False):
         membrane_tool = plone_api.portal.get_tool('membrane_tool')
-        usernames = membrane_tool._catalog.uniqueValuesFor('exact_getUserName')
+        usernames = membrane_tool._catalog.uniqueValuesFor('exact_getUserId')
         if value in usernames:
-            brains = membrane_tool.searchResults(exact_getUserName=value)
+            brains = membrane_tool.searchResults(exact_getUserId=value)
             if brains and self.context != brains[0].getObject():
                 raise Invalid(_("A user with this username already exists"))
 

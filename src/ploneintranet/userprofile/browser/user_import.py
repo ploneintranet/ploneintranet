@@ -60,7 +60,14 @@ class ImportAvatarsView(BrowserView):
 
 
 class CSVImportView(BrowserView):
-    """Add user profiles based on a supplied csv"""
+    """Add user profiles based on a supplied csv.
+
+    This directly relies on the IUserProfile schema which defines
+    `username` as the field to store the userid - hence in our code
+    here we use `username` instead of `userid` throughout, even
+    in the ploneintranet.api.userprofile.create call which suffers
+    the same confusion.
+    """
 
     index = ViewPageTemplateFile('templates/user_import_form.pt')
 

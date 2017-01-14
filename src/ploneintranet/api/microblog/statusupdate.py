@@ -89,7 +89,7 @@ def create(
         user = api.user.get(userid=userid)
     if user is not None:
         status_obj.userid = user.getId()
-        status_obj.creator = user.getUserName()
+        status_obj.creator = user.getId()
 
     # By default the post happens now
     # Passing a time (as a datetime-object) the id and the date can be set

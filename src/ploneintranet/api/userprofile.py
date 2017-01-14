@@ -47,16 +47,17 @@ def get_users(
                 group = acl_users.getGroupById(id)
                 if group:
                     members.remove(id)
+                    # these are not membrane profiles but acl members
                     members = members.union(set(
                         [user.getId() for user in group.getGroupMembers()]))
             # both context and query: calculate intersection
-            if 'exact_getUserName' in kwargs:
+            if 'exact_getUserId' in kwargs:
                 _combi = list(
                     members.intersection(
-                        set(kwargs['exact_getUserName'])))
-                kwargs['exact_getUserName'] = _combi
+                        set(kwargs['exact_getUserId'])))
+                kwargs['exact_getUserId'] = _combi
             else:
-                kwargs['exact_getUserName'] = list(members)
+                kwargs['exact_getUserId'] = list(members)
         except TypeError:
             # could not adapt to IMemberGroup
             pass
@@ -153,18 +154,19 @@ def get_users_from_userids_and_groupids(ids=None):
     return users.values()
 
 
-def get(username):
-    """Get a Plone Intranet user profile by username
+def get(userid):
+    """Get a Plone Intranet user profile by userid.
+    userid == username, but username != getUsername(), see #1043.
 
-    :param username: Username of the user profile to be found
-    :type username: string
-    :returns: User profile matching the given username
+    :param userid: Usernid of the user profile to be found
+    :type userid: string
+    :returns: User profile matching the given userid
     :rtype: `ploneintranet.userprofile.content.userprofile.UserProfile` object
     """
     # try first of all to get the user from the profiles folder
     portal = plone_api.portal.get()
     user = portal.unrestrictedTraverse(
-        'profiles/{}'.format(username),
+        'profiles/{}'.format(userid),
         None
     )
     if user is not None:
@@ -172,7 +174,7 @@ def get(username):
 
     # If we can't find the user there let's ask the membrane catalog
     # and return the first result
-    for profile in get_users(exact_getUserName=username):
+    for profile in get_users(exact_getUserId=userid):
         return profile
     # If we cannot find any match we will give up and return None
     return None
@@ -189,8 +191,9 @@ def get_current():
         return None
 
     current_member = plone_api.user.get_current()
-    username = current_member.getUserName()
-    return get(username)
+    # non-membrane users (e.g. admin) have getUserName() but not getUserId()
+    userid = current_member.getId()
+    return get(userid)
 
 
 def create(
@@ -202,11 +205,10 @@ def create(
 ):
     """Create a Plone Intranet user profile.
 
+    :param username: [required] The userid for the new user. WTF? see #1043.
+    :type username: string
     :param email: [required] Email for the new user.
     :type email: string
-    :param username: Username for the new user. This is required if email
-        is not used as a username.
-    :type username: string
     :param password: Password for the new user. If it's not set we generate
         a random 12-char alpha-numeric one.
     :type password: string
@@ -292,7 +294,7 @@ def avatar_tag(username=None, link_to=None):
     :returns: HTML for the avatar tag
     :rtype: string
     """
-    profile = get(username=username)
+    profile = get(username)
     if not profile:
         return ''
 
