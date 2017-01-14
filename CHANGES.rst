@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.33 (unreleased)
+1.2.33 (2017-01-14)
 -------------------
 
 * Update changelog [Guido A.J. Stevens]
