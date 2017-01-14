@@ -126,7 +126,7 @@ class TestCSVImportView(BaseTestCase):
             "Users not created correctly",
         )
         user = self.membrane_tool.searchResults(
-            getUserName='foo')
+            getUserId='foo')
         self.assertEqual(
             user[0].getObject().email,
             email,

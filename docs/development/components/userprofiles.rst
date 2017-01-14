@@ -20,6 +20,10 @@ The following key design decisions were made to fit the use cases of Plone Intra
 
    The default membrane implementation uses UUIDs as the unique id that Plone uses to grant roles and permissions (userid). We use the username instead, to ensure compatibility with external authentication sources such as AD/LDAP which have no knowledge of Plone's UUIDs.
 
+   This means that userprofile.username is and always should be equal to the userid userprofile.getId(). Neither should ever be changed. Profiles should never get a new content id, this is not supported and will trigger bugs. Note that ``getUserName()`` will return a value different from ``.username`` in case logging in by email is enabled. See 'Login by email' below and developer notes further down.
+
+   The default membrane implementation uses email addresses as login names. We default to using the userid as stored in the username field, as login name. It is possible to configure your site to do login-by-email, see below.
+
 .. _dexterity.membrane: https://pypi.python.org/pypi/dexterity.membrane/
 
 User Management
@@ -81,6 +85,27 @@ After creating users with bulk upload, you can add avatar images as follows:
 
 - Run ``http://portal_url/avatars/@@import-avatars``
 
+
+Login by email
+==============
+
+By default, the userid is the username is the login name.
+
+If you'd like to provide users with a different login name, the only supported option is to enable logging in by email address. Any change to the ``email`` attribute on a userprofile, will then result in a different login name for the user on the login page. To enable login by email, change the following dexterity.membrane registry setting in ``registry.xml`` from the ploneintranet default ``False`` to ``True``:
+
+.. code-block:: xml
+
+  <record name="dexterity.membrane.behavior.settings.IDexterityMembraneSettings.use_email_as_username">
+    <value>True</value>
+  </record>
+
+If you're changing this in an existing site, you then need to either reindex the ``exact_getUserName`` and ``getUserName`` indexes in ``membrane_tool``.
+
+.. warning::
+
+   In addition to the dexterity ``use_email_as_username`` setting, there's a plone setting ``use_email_as_login`` as well. You should not touch this when using LDAP: it has an event handler which is not LDAP aware and will error out trying to update non-existant ZODB acl_users.
+
+Our login and password page overrides retrieve the dexterity setting, not the plone setting to determine whether logging in by email is enabled. This will result in some textual adjustments on those pages.
 
 
 External authentication and/or data sources (e.g. AD/LDAP)
@@ -398,6 +423,49 @@ own LDAP schema.
     </registry>
 
 There's a gotcha: ``fullname`` is a calculated property, so don't try to set that directly.
+
+User identifier versus login name, oh my
+========================================
+
+TL;DR:  Of all the possible user-identifierish attributes and accessors: use ``getId()`` by default. Unless you need an actual login name for authentication, in which case you should use ``.getUserName()``.
+
+The problem: for our membrane userprofiles ``id == getId() == getUserId() == username == getUserName()`` except when logging in by email, in which case: ``id == getId() == getUserId() == username != getUserName() == email``. Non-membrane acl_users like admin and test users behave differently again.
+
+In Plone, semantically the username is the login name the user inputs in the login form. The userid is a stable user identifier the code uses to refer to a user object.
+
+If you set ``dexterity.membrane.settings.IDexterityMembraneSettings.use_email_as_username`` to True, then it becomes possible for users to change email addresses, hence login names as returned by ``getUserName()`` - and in this scenario you want to keep the userid unchanges so you retain user profile history. Note that in this scenario ``getUserName()`` will be different from ``username`` which must remain equal to ``userid``.
+
+The confusion between username and userid is endemic throughout the Plone stack, including the ploneintranet code base. In many many instances ``username`` syntax is use for what semantically is a ``userid``. It's impossible to search-and-replace that, since the upstream API's of e.g. dexterity.membrane and plone.api already hardcode the mistake.
+
+To make this even more of a mission impossible, much of our code and test code mixes membrane user profiles with addressing acl_users members. Which are different beasts, with different APIs, even though they're facets of the same actual user profile object.
+
+As a solution I offer you the following meditation on syntax versus semantics:
+
+- A ``userprofile.id`` is the content object's id in the userprofiles folder. This will be the same as the userid - see ``ploneintranet.api.userprofile.create``, and the assumption that the two are identical plays out in our code base. Changing content ids of userprofiles later on is not possible, see the tests in ``ploneintranet.userprofile`` that try to do that.
+
+- A ``userprofile`` does not have a ``userid`` attribute. The dx.membrane behaviors do provide ``.getId()`` and ``.getUserId()`` accessors. These are identical.
+
+- A ``userprofile`` has a ``.username`` attribute. The value of this will be identical to the user id, since this is what ``ploneintranet.api.userprofile.create`` does on creating the profile. DO NOT CHANGE THE USERNAME. This attribute is used as an alias for userid throughout our code base, never mind that the name does not match the meaning. Changing the username invites disaster.
+
+- A user profile also has an ``email`` attribute. Here it gets interesting. If you enable ``use_email_as_username``, the actual login name is the email address as returned by ``getUserName()`` - which is only available on a behavior, not directly on a userprofile. And this may, for some users, be an updated email address different from the ``username`` they were created with.
+
+- A acl_users member is a different thing again. It has a ``getUserName()`` accessor, and sometimes it has a working ``getUserId()`` accessor (when it's backed by a membrane user) and sometimes it doesn't (e.g. admin acl_user). It always has a ``getId()`` accessor and that's what we're using.
+
+Further reading:
+
+- https://github.com/collective/dexterity.membrane/pull/27
+
+- ploneintranet/src/ploneintranet/userprofile/tests/test_username_userid.py
+
+Dos and donts
+-------------
+
+- When working with authentication code, use ``getUserName()`` instead of ``username`` to get the actual login name, as opposed to the user identifier.
+
+- In all other code paths, user references typically are user ids. For clarity, it's best to use ``getId()``, which is safer than ``getUserId()`` but for legacy compatibility ``username`` is also fine, because that should always match the userid. Just remember that ``username`` syntax is userid semantics, not the login name.
+
+- Never use ``getUserName()`` syntax for userid semantics. It will appear to work, until you toggle ``use_email_as_username`` and then you're in a world of pain, where only those users whose email address is different from their user id suffer obscure bugs.
+
 
 User Profile API
 ================

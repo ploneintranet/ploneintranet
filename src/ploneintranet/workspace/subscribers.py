@@ -117,37 +117,43 @@ def workspace_added(ob, event):
 
 def invitation_accepted(event):
     """
-    When an invitation is accepted, add the user to the team
+    When an invitation is accepted, add the user to the team.
+    This apparently is NOT a ploneintranet.invitations invitation,
+    but by ploneintranet.workspace.browser.forms.InviteForm.
     """
     request = getRequest()
     storage = get_storage()
     if event.token_id not in storage:
         return
 
-    ws_uid, username = storage[event.token_id]
-    storage[event.token_id]
+    ws_uid, userid = storage[event.token_id]
+    # in a email_as_login setting (see #1043)
+    # .userid == .username but .username != .getUserName() ... :-(
+    username = api.user.get(userid=userid).getUserName()
     acl_users = api.portal.get_tool('acl_users')
     acl_users.updateCredentials(
         request,
         request.response,
-        username,
+        username,  # the login, not the userid
         None
     )
     catalog = api.portal.get_tool(name="portal_catalog")
     brain = catalog.unrestrictedSearchResults(UID=ws_uid)[0]
     with api.env.adopt_roles(["Manager"]):
         ws = IWorkspace(brain.getObject())
-        for name in ws.members:
-            member = api.user.get(username=name)
+        # collective.workspace .members returns userid iterator
+        for member_id in ws.members:  # don't clobber userid variable
+            member = api.user.get(userid=member_id)
             if member is not None:
-                if member.getUserName() == username:
+                if member.getId() == userid:
                     api.portal.show_message(
                         _('Oh boy, oh boy, you are already a member'),
                         request,
                     )
                     break
         else:
-            ws.add_to_team(user=username)
+            # 'user' in this API is actually userid
+            ws.add_to_team(user=userid)
             api.portal.show_message(
                 _('Welcome to our family, Stranger'),
                 request,

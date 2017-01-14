@@ -66,7 +66,7 @@ class TestStatusUpdateIntegration(unittest.TestCase):
 
     def test_creator(self):
         su = StatusUpdate('foo bar')
-        self.assertEqual(su.creator, 'test-user')
+        self.assertEqual(su.creator, TEST_USER_ID)
 
     def test_microblog_context_is_not_IMicroblogContext(self):
         mockcontext = object()
