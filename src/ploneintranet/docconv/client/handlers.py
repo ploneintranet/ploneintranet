@@ -96,7 +96,7 @@ def content_edited_in_workspace(obj, event):
        obj.REQUEST.form.get('form.widgets.IFileField.file') or\
        obj.REQUEST.form.get('text') or\
        obj.REQUEST.get('method') == 'PUT' or\
-       obj.REQUEST.URL.endswith('revertversion'):
+       obj.REQUEST.getURL().endswith('revertversion'):
 
         event_key = 'ploneintranet.previews.content_edited_in_workspace'
         enabled = obj.REQUEST.get(event_key, True)  # default is enabled
