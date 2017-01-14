@@ -462,6 +462,7 @@ I can swap Tag1 with Tag2
     Execute javascript  $('[value=Tag2]').attr('value', 'Tag1')
     Execute javascript  $('[value=Tag2temp]').attr('value', 'Tag2')
     Click button  xpath=//button[@name='batch-function']
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 The tags are reordered
     # The first tag is now Tag2
@@ -1259,11 +1260,19 @@ I can delete a template case
     Wait Until Page Contains    has been deleted
 
 I go to the dashboard
-    Go To  ${PLONE_URL}
+    [Documentation]  This used to be "Go To  ${PLONE_URL}". However, in some tests, after a new task got added, this lead to a CSRF error. Therefore we switch to replicating the click path a normal user would take.
+    Click link    xpath=//a[contains(@class, 'stand-alone suite-logo')]
+    Wait until element is visible  xpath=//a[contains(@class, 'section-dashboard')]
+    Click link    Dashboard
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
+I reload the dashboard
+    Click link    Dashboard
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I select the task centric view
     Select From List  dashboard  Task centric view
-    Wait Until Page Contains  Tasks
+    Wait Until Page Does Not Contain Element  css=.injecting-content
 
 I mark a new task complete
     Wait until element is visible  xpath=(//a[@title='Todo soon'])

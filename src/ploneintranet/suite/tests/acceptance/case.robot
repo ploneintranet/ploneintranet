@@ -118,13 +118,14 @@ Member can close an unassigned task from the sidebar
      Then I see a task is complete  Unassigned task
 
 Member can mark a new task complete on dashboard
+    [Tags]  Heisenbug
     Given I am in a case workspace as a workspace member
      Then I can go to the sidebar tasks tile of my case
      Then I can add a new task  Todo soon  Neece  prepare
      Then I go to the dashboard
      Then I select the task centric view
      Then I mark a new task complete
-     Then I go to the dashboard
+     Then I reload the dashboard
      Then I select the task centric view
      Then I do not see the completed task is not listed
 

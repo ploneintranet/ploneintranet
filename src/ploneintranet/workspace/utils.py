@@ -30,7 +30,7 @@ ANNOTATION_KEY = "ploneintranet.workspace.invitation_storage"
 TYPE_MAP = {
     'Event': 'event',
     'Folder': 'folder',
-    'Document': 'rich',
+    'Document': 'rich document',
     'todo': 'task',
     'ploneintranet.workspace.mail': 'email',
     'ploneintranet.workspace.workspacefolder': 'workspace',
@@ -160,7 +160,7 @@ def map_content_type(mimetype, portal_type=''):
             content_type = 'news'
 
         elif major == 'text':
-            content_type = 'rich'
+            content_type = 'rich document'
         elif major == 'audio':
             content_type = 'sound'
         elif major == 'video':
@@ -169,15 +169,6 @@ def map_content_type(mimetype, portal_type=''):
             content_type = 'image'
 
     return content_type
-
-
-def month_name(self, date):
-    """
-    Return the full month name in the appropriate language
-    """
-    translate = self.context.translate
-    short_month_name = date.strftime('%b').lower()  # jan
-    return translate(pl_message('month_{}'.format(short_month_name)))
 
 
 def purge_and_refresh_security_manager():

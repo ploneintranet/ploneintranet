@@ -178,7 +178,7 @@ class SolrMaintenanceView(BrowserView):
 
         def checkPoint():
             for data in updates.values():
-                adder = data.pop('_solr_adder')
+                adder = data.pop('_solr_adder', set([]))
                 adder.add(data)
             updates.clear()
             msg = 'intermediate commit (%d items processed, ' \

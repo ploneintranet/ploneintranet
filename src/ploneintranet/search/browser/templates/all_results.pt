@@ -80,7 +80,7 @@
                              class="pat-date-picker"
                              placeholder="Created after&hellip;"
                              value="${python:request.get('created_after')}"
-                             data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
+                             data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
                              i18n:attributes="placeholder label_created_after;" />
                     </label>
                     <label>
@@ -89,7 +89,7 @@
                              class="pat-date-picker"
                              placeholder="Created before&hellip;"
                              value="${request/created_before|nothing}"
-                             data-pat-date-picker="behaviour: polyfill; show: date; i18n: ${portal_url}/@@date-picker-i18n.json"
+                             data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
                              i18n:attributes="placeholder label_created_before;" />
                     </label>
                   </fieldset>

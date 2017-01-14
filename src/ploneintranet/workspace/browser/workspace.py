@@ -40,6 +40,15 @@ class BaseWorkspaceView(BrowserView):
 
     @property
     @memoize
+    def include_clicktracker(self):
+        """Is inclusion of slcclicktracker element enabled in the registry?"""
+        include_slcclicktracker = get_record_from_registry(
+            'ploneintranet.workspace.include_slcclicktracker',
+            False)
+        return include_slcclicktracker
+
+    @property
+    @memoize
     def show_sidebar(self):
         ''' Should we show the sidebar?
         '''
@@ -479,15 +488,16 @@ class ReorderTags(BrowserView):
         except ComponentLookupError:
             return u"Could not get adapter for context: %s"  \
                 % context.absolute_url()
-        self.tags = [tag['id'] for tag in gs.get_order_for('label')]
+        self.tags = [tag for tag in gs.get_order_for('label')]
         if self.request.get('batch-function') == 'save':
-            myorder = self.request.get('tags_order')
-            if myorder is None:
-                myorder = []
+            myorder = self.request.get('tags_order') or []
             if 'Untagged' in myorder:
                 myorder.remove('Untagged')
 
             gs.set_order_for('label', myorder)
+            return self.request.response.redirect(
+                self.context.absolute_url() + '/@@sidebar.documents'
+            )
         else:
             return self.index()
 

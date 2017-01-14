@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0021</version>
+  <version>0022</version>
   <dependencies>
     <dependency>profile-ploneintranet.docconv.client:default</dependency>
     <dependency>profile-Products.membrane:default</dependency>

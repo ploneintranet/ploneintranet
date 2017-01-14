@@ -4,13 +4,20 @@
       ws_view nocall:ws/@@view;
       events view/events;
       can_add view/can_add;
+      date2month_name nocall:here/@@proto/date2month_name;
      "
      i18n:domain="ploneintranet"
  >
   <div class="button-bar functions" id="-functions">
     <div class="quick-functions">
       <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-normal sidebar-large" title="expand/reduce sidebar" i18n:attributes="title" i18n:translate="">Expand sidebar</a>
-      <a tal:condition="can_add" title="Create new event" href="/panel-create-event.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large" data-pat-inject="source:#content" tal:attributes="href string:${ws/absolute_url}/add_event" i18n:translate="">Create event</a>
+      <a class="create-document pat-modal icon-doc-text"
+         title="Create new event"
+         href="${ws/absolute_url}/add_event#document-content"
+         data-pat-modal="class: large"
+         tal:condition="can_add"
+         i18n:translate=""
+      >Create event</a>
     </div>
   </div>
   <div class="content">
@@ -23,10 +30,10 @@
       <ul class="event-list">
         <tal:events repeat="event events/upcoming">
           <metal:event define-macro="eventdetails">
-            <li class="event" tal:define="toLocalizedtime nocall:here/@@plone/toLocalizedTime">
+            <li class="event">
               <a class="pat-inject follow pat-switch"
                    data-pat-inject="source: #document-body; target: #document-body"
-                   data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                   data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
                    tal:attributes="href string:${event/getURL}#document-body">
                 <h4 class="title">
                   ${python:view.format_event_date(event)} — ${event/Title}
@@ -36,7 +43,7 @@
               </p>
               <p class="date">
                 <time class="calendar-medium"
-                      tal:define="month_name python:view.month_name(event.start)">
+                      tal:define="month_name python:date2month_name(event.start)">
                   <strong class="day">${python:event.start.day}</strong>
                   <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
                   <strong class="year">${python:event.start.year}</strong>
@@ -44,22 +51,23 @@
               </p>
               <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
               </a>
-
-              <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
-              <!--form tal:condition="python:view.can_delete(event)"
-                  class="pat-modal pat-inject"
-                  action="${event/getURL}/delete_confirmation#content">
-                <input type="hidden" name="pat-inject"
-                       value="
-                           source:#document-body; target:#document-body;
-                           &amp;&amp;
-                           source:#workspace-events; target:#workspace-events
-                           &amp;&amp;
-                           target: #global-statusmessage; source: #global-statusmessage
-                       " />
-                <input type="hidden" name="pat-modal" value="true" />
-                <button class="iconified icon-trash" type="submit">Delete event</button>
-              </form-->
+              <tal:comment condition="nothing">
+                <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
+                <!--form tal:condition="python:view.can_delete(event)"
+                    class="pat-modal pat-inject"
+                    action="${event/getURL}/delete_confirmation#content">
+                  <input type="hidden" name="pat-inject"
+                         value="
+                             source:#document-body; target:#document-body;
+                             &amp;&amp;
+                             source:#workspace-events; target:#workspace-events
+                             &amp;&amp;
+                             target: #global-statusmessage; source: #global-statusmessage
+                         " />
+                  <input type="hidden" name="pat-modal" value="true" />
+                  <button class="iconified icon-trash" type="submit">Delete event</button>
+                </form-->
+              </tal:comment>
             </li>
           </metal:event>
         </tal:events>

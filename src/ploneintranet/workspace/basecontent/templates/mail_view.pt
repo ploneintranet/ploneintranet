@@ -209,6 +209,11 @@
               </div> <!-- #document-content -->
               <input type="hidden" name="form.submitted" value="1" />
             </form>
+
+            <div id="slcclicktracker"
+                 tal:condition="view/include_clicktracker|nothing"
+                 tal:attributes="request_url request/getURL;
+                                 path python:'/'.join(context.getPhysicalPath())" />
           </div><!-- #document-body -->
 
           <div id="attachment-menu"

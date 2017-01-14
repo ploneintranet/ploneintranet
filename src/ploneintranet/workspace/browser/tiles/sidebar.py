@@ -5,7 +5,6 @@ from ...policies import EXTERNAL_VISIBILITY
 from ...policies import JOIN_POLICY
 from ...policies import PARTICIPANT_POLICY
 from ...utils import map_content_type
-from ...utils import month_name
 from ...utils import parent_workspace
 from ...utils import set_cookie
 from .events import format_event_date_for_title
@@ -51,7 +50,7 @@ class BaseTile(BrowserView):
     index = None
     form_submitted = False
 
-    general_settings_autoload = 'trigger: autoload-visible;'
+    general_settings_autoload = 'trigger: autoload;'
 
     @property
     @memoize
@@ -175,12 +174,6 @@ class BaseTile(BrowserView):
         return get_record_from_registry(
             'ploneintranet.workspace.allow_bulk_subscribe', False
         )
-
-    def month_name(self, date):
-        """
-        Return the full month name in the appropriate language
-        """
-        return month_name(self, date)
 
 
 class SidebarSettingsGeneral(BaseTile):
@@ -694,7 +687,8 @@ class Sidebar(BaseTile):
             # With solr we might want to do real substr
             response = sitesearch.query(phrase='%s*' % sidebar_search,
                                         filters=query,
-                                        step=99999)
+                                        step=99999,
+                                        restricted_filters=False)
             results = self._extract_attrs(response)
 
         elif self.request.get('groupname'):
@@ -747,6 +741,10 @@ class Sidebar(BaseTile):
 
             item['cls'] = cls
             item['mime-type'] = ''
+            # Work around a solr-quirk: We might end up with "/view" being
+            # appended twice to the URL. See #1056
+            if item['url'].endswith('/view/view'):
+                item['url'] = item['url'][:-5]
 
             # default to sidebar injection
             if 'dpi' not in item:
@@ -763,7 +761,7 @@ class Sidebar(BaseTile):
 
         return items
 
-    def get_items_in_group(self, page_idx=None):
+    def get_items_in_group(self):
         """
         Return the children for a certain grouping_value
         """
@@ -771,16 +769,7 @@ class Sidebar(BaseTile):
         sorting = self.sorting()
         grouping_value = self.request.get('groupname')
         children = self.get_group_children(grouping, grouping_value, sorting)
-        if page_idx is None:
-            page_idx = self.page_idx
-        page_size = self.page_size
-        if page_size < 0:
-            return children
-        try:
-            batch = children[page_idx * page_size:(page_idx + 1) * page_size]
-        except IndexError:
-            batch = children[page_idx * page_size:]
-        return batch
+        return children
 
     def group_url(self, groupname):
         ''' Return the url for this group
@@ -1190,20 +1179,6 @@ class Sidebar(BaseTile):
         Tell if we should show archived tags or not
         """
         return 'archived_tags' in self.show_extra
-
-    @property
-    def page_idx(self):
-        """
-        Helper to return the desired page idx
-        """
-        return int(self.request.form.get('page_idx', 0))
-
-    @property
-    def page_size(self):
-        """
-        Helper to return the desired page page_size
-        """
-        return int(self.request.form.get('page_size', 18))
 
     def events(self):
         """

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+
+  <bindings>
+    <type type_id="ploneintranet.news.section">
+      <bound-workflow workflow_id="" />
+    </type>
+  </bindings>
+
+</object>

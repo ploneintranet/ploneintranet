@@ -5,11 +5,15 @@ from plone.memoize.view import memoize
 from ploneintranet.async.tasks import MarkRead
 from ploneintranet.layout.utils import shorten
 from Products.Five.browser import BrowserView
+from sqlalchemy.exc import OperationalError
 from zope.component import getUtility
 
 from .utils import obj2dict
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.core.i18nl10n import ulocalized_time
+
+import logging
+log = logging.getLogger(__name__)
 
 
 class NewsMagazine(BrowserView):
@@ -57,7 +61,13 @@ class NewsMagazine(BrowserView):
         leading = news_objs[:4]
         tracker = getUtility(ITracker)
         trending = []
-        for item in tracker.most_read(days=14):  # sorted by most read desc
+        try:
+            # raises only on iterating generator
+            most_read = [x for x in tracker.most_read(days=14)]
+        except OperationalError:  # db error. happens in tests.
+            log.error('Cannot retrieve trending items. Skipping.')
+            most_read = []
+        for item in most_read:  # sorted by most read desc
             # re-use effective/workflow/display filters of self.news_items
             if item not in news_objs:
                 continue

@@ -187,4 +187,22 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0022"
+        title="Upgrade profile that includes registry record for inclusion of an slcclicktracker element in the content default view templates"
+        description=""
+        directory="profiles/to_0022"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile that includes registry record for inclusion of an slcclicktracker element in the content default view templates"
+        description=""
+        source="*"
+        destination="0022"
+        handler=".to_0022.create_clicktracker_registry_record"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>

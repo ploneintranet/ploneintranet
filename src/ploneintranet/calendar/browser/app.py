@@ -88,7 +88,11 @@ class View(BrowserView):
         if not user:
             return []
 
-        evt_date = localized_now() - timedelta(30)
+        fullcalendar_day_span = api.portal.get_registry_record(
+            'ploneintranet.calendar.fullcalendar_day_span',
+            default=30,
+        )
+        evt_date = localized_now() - timedelta(fullcalendar_day_span)
         query = dict(
             object_provides=IEvent.__identifier__,
             end__gt=solr_date(evt_date)

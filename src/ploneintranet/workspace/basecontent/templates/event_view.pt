@@ -32,13 +32,7 @@
                   <form class="document pat-inject pat-validation"
                         id="${formid}"
                         data-pat-validation="disable-selector: #save-event"
-                        data-pat-inject="
-                            source: #document-body; target: #document-body;
-                            &amp;&amp;
-                            source:#workspace-events; target: #workspace-events; loading-class: '';
-                            &amp;&amp;
-                            source: #global-statusmessage; target: #global-statusmessage; loading-class: '';
-                        "
+                        data-pat-inject="source: #document-body; target: #document-body; &amp;&amp; source:#workspace-events; target: #workspace-events; loading-class: ''; &amp;&amp; source: #global-statusmessage; target: #global-statusmessage; loading-class: '';"
                         method="POST" action="${context/absolute_url}/view#document-body">
                       <div class="metadata pat-bumper" id="meta">
                           <div class="meta-bar">
@@ -59,8 +53,6 @@
 
                               </div>
                           </div>
-                          <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
-                          </fieldset>
                       </div>
                       <div id="document-content">
                         <div class="document event-details">
@@ -70,6 +62,11 @@
                         </div>
                       </div>
                   </form>
+
+                  <div id="slcclicktracker"
+                       tal:condition="view/include_clicktracker|nothing"
+                       tal:attributes="request_url request/getURL;
+                                       path python:'/'.join(context.getPhysicalPath())" />
               </div>
               <aside data-tile="${container/absolute_url}/@@sidebar.default"
                      tal:define="container context/@@plone_context_state/folder"

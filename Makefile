@@ -74,7 +74,7 @@ docker-build: .ssh/known_hosts dockerignore  ## Create docker container
 # re-uses ssh agent
 # also loads your standard .bashrc
 docker-run:  ## Start docker container
-	docker run -i -t \
+	docker run --rm -i -t \
                 --net=host \
                 -v /var/tmp:/var/tmp \
                 -v $(SSH_AUTH_SOCK):/tmp/auth.sock \

@@ -737,7 +737,7 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:140
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:59
-msgid "Deslect all"
+msgid "Deselect all"
 msgstr "Alles deselecteren"
 
 #: ../search/browser/templates/all_results.pt:159

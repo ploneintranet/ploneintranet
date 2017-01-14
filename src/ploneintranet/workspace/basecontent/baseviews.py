@@ -62,6 +62,15 @@ class ContentView(BrowserView):
 
     @property
     @memoize
+    def include_clicktracker(self):
+        """Is inclusion of slcclicktracker element enabled in the registry?"""
+        include_slcclicktracker = get_record_from_registry(
+            'ploneintranet.workspace.include_slcclicktracker',
+            False)
+        return include_slcclicktracker
+
+    @property
+    @memoize
     def autosave_enabled(self):
         ''' Look up the registry to check if autosave should be enabled
         for this portal_type
@@ -70,6 +79,13 @@ class ContentView(BrowserView):
             'ploneintranet.workspace.autosave_portal_types'
         )
         return self.context.portal_type in autosave_portal_types
+
+    @property
+    @memoize
+    def autosave_delay(self):
+        ''' The delay before triggering the autosave injection
+        '''
+        return u'2000ms'
 
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""

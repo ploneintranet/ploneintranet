@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.0a33 (unreleased)
----------------------
+1.2.33 (unreleased)
+-------------------
 
 - Nothing changed yet.
 
