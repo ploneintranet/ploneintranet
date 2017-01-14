@@ -51,10 +51,15 @@ def upgrade_to_0005(context):
     ''' Apps are now objects, so we want to update the bookmark storage
     '''
     ng = api.portal.get_tool('ploneintranet_network')
-    # We have some bookmarked apps as paths
-    paths = set(ng._bookmarked.get('apps'))
+    # We may have some bookmarked apps as paths
+    try:
+        paths = set(ng._bookmarked.get('apps'))
+    except TypeError:
+        # no old-style apps bookmarked, nothing to upgrade
+        logger.info("No old-style apps bookmarks found, move on folks.")
+        return
 
-    # and we now have some apps
+    # we now have some apps
     create_apps()
     portal = api.portal.get()
     apps = [app for app in portal.apps.objectValues() if app.app]
