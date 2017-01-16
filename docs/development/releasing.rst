@@ -12,7 +12,7 @@ We maintain two egg distributions:
 2. Ploneintranet community edition on pypi.python.org
 
 Each of those is managed on a separate release branch.
-Quaive is currently on branch 1.1.x, Community is on 1.0.x.
+Quaive is currently on branch 1.2.x, Community is on 1.0.x.
 
 These branches are needed so changes made during the release process
 are QA controlled via the normal pull request process.
@@ -23,17 +23,17 @@ we depend on the pacakge `quaive.resources.ploneintranet`.
 Creating a release
 ==================
 
-This shows how to cut a private 1.1.x release from master::
+This shows how to cut a private 1.2.x release from master::
 
     user@host:~$ git checkout master
     user@host:~$ git pull
-    user@host:~$ git checkout release-1.1.x
+    user@host:~$ git checkout release-1.2.x
     user@host:~$ git pull
     user@host:~$ git merge master
     user@host:~$ git fetch --tags  # pull doesn't refresh tag info    
     user@host:~$ git tag --list
     user@host:~$ # select right tag for command below
-    user@host:~$ git log --pretty='* %s [%cn]' 1.1.0a2.. > /tmp/changes
+    user@host:~$ git log --pretty='* %s [%cn]' 1.2.32.. > /tmp/changes
     user@host:~$ sed -i '/- Nothing changed yet./ r /tmp/changes' CHANGES.rst
     user@host:~$ sed -i '/- Nothing changed yet./d' CHANGES.rst
     user@host:~$ git commit -am 'Update changelog'
@@ -44,18 +44,18 @@ This shows how to cut a private 1.1.x release from master::
     INFO: Starting prerelease.
     Run pyroma on the package before tagging? (Y/n)? Y
     Do you want to run check-manifest? (Y/n)? Y
-    Enter version [1.1.0a3]:
+    Enter version [1.2.33]:
     OK to commit this (Y/n)? Y
     INFO: Starting release.
     Tag needed to proceed, you can use the following command:
-    git tag 1.1.0a3 -m "Tagging 1.1.0a3"
+    git tag 1.2.33 -m "Tagging 1.2.33"
     Run this command (Y/n)? Y
     Check out the tag (for tweaks or pypi/distutils server upload) (Y/n)? Y
     Register and upload to pypi (Y/n)? n
     Register and upload to quaive (Y/n)? Y
     Register and upload to cosent (Y/n)? n
     INFO: Starting postrelease.
-    Enter new development version ('.dev0' will be appended) [1.1.0a4]:
+    Enter new development version ('.dev0' will be appended) [1.2.34]:
     OK to commit this (Y/n)? Y
     OK to push commits to the server? (Y/n)? Y
 
@@ -95,8 +95,8 @@ a new version pinning, or a new solr field, copy all the buildout.d configs to g
 Now go to `gaia`, update the `ploneintranet` pin::
 
   cd ../gaia  # or wherever your gaia build lives
-  sed -i 's/ploneintranet = .*/ploneintranet = 1.1.0a5/' buildout.cfg
-  git commit -am 'Release 1.1.0a5'
+  sed -i 's/ploneintranet = .*/ploneintranet = 1.2.35/' buildout.cfg
+  git commit -am 'Release 1.2.35'
 
 Obviously you're supposed to change the release number to match the actual release
 you created above!
