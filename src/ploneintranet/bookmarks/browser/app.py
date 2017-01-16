@@ -23,6 +23,7 @@ class View(BookmarkView):
 
     app_types = [
         'ploneintranet.layout.app',
+        'ploneintranet.news.app',
     ]
     document_types = [
         'Document', 'File', 'Image'
