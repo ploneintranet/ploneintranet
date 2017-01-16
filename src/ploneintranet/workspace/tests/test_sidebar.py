@@ -60,6 +60,10 @@ class TestSidebar(BaseTestCase):
         example_document = getattr(ws, 'example-document')
         example_document.setSubject((u'foo', u'bar'))
         notify(ObjectModifiedEvent(example_document))
+        # item was modified, therefore the id was created from the title
+        self.assertEquals(
+            example_document.getId(),
+            'some-example-rich-text')
 
         api.content.create(
             ws,
@@ -77,6 +81,10 @@ class TestSidebar(BaseTestCase):
         example_subdocument = getattr(myfolder, 'example-subdocument')
         example_subdocument.setSubject((u'bar', u'baz'))
         notify(ObjectModifiedEvent(example_subdocument))
+        # item was modified, therefore the id was created from the title
+        self.assertEquals(
+            example_subdocument.getId(),
+            'another-example-nested-rich-text')
 
         sidebar = self.get_sidebar_default(ws)
         items = sidebar.items()
@@ -107,7 +115,7 @@ class TestSidebar(BaseTestCase):
                       classes,
                       "No such Classes found in sidebar navigation")
         ids = [x['id'] for x in items]
-        self.assertNotIn('example-subdocument',
+        self.assertNotIn('another-example-nested-rich-text',
                          ids,
                          "No such IDs found in sidebar navigation")
 
@@ -115,7 +123,7 @@ class TestSidebar(BaseTestCase):
 
         subitems = subsidebar.items()
         ids = [x['id'] for x in subitems]
-        self.assertIn('example-subdocument',
+        self.assertIn('another-example-nested-rich-text',
                       ids,
                       "No such IDs found in sidebar navigation")
 
@@ -152,7 +160,7 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument']))
+            sorted(['some-example-rich-text', 'another-example-nested-rich-text']))  # noqa
         self.assertEqual(
             sidebar.logical_parent()['title'],
             'All Tags')
@@ -172,7 +180,7 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument']))
+            sorted(['some-example-rich-text', 'another-example-nested-rich-text']))  # noqa
 
         # …and step into type 'text/html'
         self.assertEqual(
@@ -196,7 +204,7 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument']))
+            sorted(['some-example-rich-text', 'another-example-nested-rich-text']))  # noqa
 
         self.assertEqual(
             sidebar.logical_parent()['title'],
@@ -223,7 +231,7 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(len(items), 2)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-document', 'example-subdocument']))
+            sorted(['some-example-rich-text', 'another-example-nested-rich-text']))  # noqa
 
         self.assertEqual(
             sidebar.logical_parent()['title'],
@@ -248,7 +256,7 @@ class TestSidebar(BaseTestCase):
         self.assertEqual(len(items), 1)
         self.assertEqual(
             sorted([k['id'] for k in items]),
-            sorted(['example-subdocument']))
+            sorted(['another-example-nested-rich-text']))
 
         self.assertEqual(
             sidebar.logical_parent()['title'],

@@ -2,26 +2,33 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_chain
+from Acquisition import aq_parent
 from collective.workspace.interfaces import IWorkspace
 from OFS.CopySupport import cookie_path
 from OFS.interfaces import IObjectWillBeRemovedEvent
 from plone import api
 from plone.api.exc import PloneApiError
+from plone.app.content.interfaces import INameFromTitle
+from plone.i18n.normalizer.interfaces import IUserPreferredURLNormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace import workspacefolder
 from ploneintranet.workspace.behaviors.group import IMembraneGroup
 from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStoragable
 from ploneintranet.workspace.interfaces import IGroupingStorage
-from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import get_storage
+from ploneintranet.workspace.utils import in_workspace
 from ploneintranet.workspace.utils import parent_workspace
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
 from zExceptions import BadRequest
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getAdapter
+from zope.component import getMultiAdapter
+from zope.container.interfaces import IContainerModifiedEvent
+from zope.container.interfaces import INameChooser
 from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
@@ -30,6 +37,7 @@ import logging
 log = logging.getLogger(__name__)
 
 WORKSPACE_INTERFACE = 'collective.workspace.interfaces.IHasWorkspace'
+MAX_ID_FROM_TITLE_LENGTH = 70
 
 
 def workspace_state_changed(ob, event):
@@ -214,6 +222,7 @@ def content_object_added_to_workspace(obj, event):
 
 def content_object_edited_in_workspace(obj, event):
     _update_workspace_groupings(obj, event)
+    create_title_from_id(obj, event)
 
 
 def content_object_removed_from_workspace(obj, event):
@@ -335,3 +344,35 @@ def workspace_groupbehavior_toggled(obj, event):
         workspace = result.getObject()
         workspace.reindexObject()
         membrane_catalog.reindexObject(workspace)
+
+
+def create_title_from_id(obj, event):
+    if IContainerModifiedEvent.providedBy(event):
+        # The container modified event gets triggered during the creation
+        # of a folder. We must not change the id before an item as been
+        # properly created.
+        return
+    if IBaseWorkspaceFolder.providedBy(obj):
+        # Don't change the ID of a workspace
+        return
+    if not in_workspace(obj):
+        # Don't handle content outside of a workspace
+        return
+    orig_id = obj.getId()
+    title_adapter = INameFromTitle(obj, None)
+    name = title_adapter and title_adapter.title
+    if not name:
+        # No title present, no point in changing the id
+        return
+    if len(name) > MAX_ID_FROM_TITLE_LENGTH:
+        plone_view = getMultiAdapter((obj, obj.REQUEST), name='plone')
+        name = plone_view.cropText(name, MAX_ID_FROM_TITLE_LENGTH, ellipsis="")
+    normalized_name = IUserPreferredURLNormalizer(obj.REQUEST).normalize(name)
+    if orig_id == normalized_name:
+        # We already have the desired id, do nothing
+        return
+    container = aq_parent(obj)
+    chooser = INameChooser(container)
+    new_id = chooser and chooser.chooseName(normalized_name, container)
+    if new_id and new_id != orig_id:
+        api.content.rename(obj, new_id)
