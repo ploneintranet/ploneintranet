@@ -136,8 +136,10 @@ class TestViews(IntegrationTestCase):
             view.activity_tiles(),
             (
                 u'./@@contacts_search.tile',
-                u'./@@bookmarks.tile?id_suffix=-dashboard',
                 u'./@@news.tile',
+                u'./@@bookmarks.workspaces.tile',
+                u'./@@bookmarks.apps.tile',
+                u'./@@bookmarks.tile?id_suffix=-dashboard',
                 u'./@@my_documents.tile',
             )
         )
