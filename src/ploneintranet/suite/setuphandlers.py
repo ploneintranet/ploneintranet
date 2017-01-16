@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
-from datetime import timedelta
 from datetime import datetime
+from datetime import timedelta
 from plone import api
 from plone.app.event.base import localized_now
 from plone.app.textfield.value import RichTextValue
@@ -12,6 +12,7 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.migration import discuss_older_docs
 from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.news.content import INewsApp
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from zope.component import getUtility, queryUtility
 from zope.interface import Invalid
@@ -44,6 +45,17 @@ def default(context):
     casetemplates = case_templates_spec(context)
     # TEMPLATES_FOLDER is already created by ploneintranet.workspace
     create_caseworkspaces(casetemplates, container=TEMPLATES_FOLDER)
+    log.info("publish top-level portal sections / apps")
+    portal = api.portal.get()
+    pwt = api.portal.get_tool('portal_workflow')
+    to_publish = ('news', 'library', 'apps', 'profiles')
+    for id in to_publish:
+        obj = getattr(portal, id, None)
+        if obj and api.content.get_state(obj) != 'published':
+            try:
+                pwt.doActionFor(obj, 'publish')
+            except:
+                log.exception('Cannot publish the top-level item: %r', obj)
     commit()
 
     log.info("default setup: done.")
@@ -63,7 +75,7 @@ def testing(context):
     """
     Important!
     We do not want to have users with global roles such as Editor or
-    Contributor in out test setup.
+    Contributor in our test setup.
     """
     log.info("testcontent setup")
     context = context._getImportContext(
@@ -129,7 +141,12 @@ def cleanup_default_content(context):
 
     log.info('cleanup Plone default content')
     portal = api.portal.get()
-    delete_ids = ['front-page', 'news', 'events', 'Members']
+    delete_ids = ['front-page', 'events', 'Members']
+    # if the News App has already been created, don't delete it here again
+    if 'news' in portal:
+        app_obj = portal.news
+        if not INewsApp.providedBy(app_obj):
+            delete_ids.append('news')
     default_content = [portal.get(c) for c in delete_ids
                        if c in portal.objectIds()]
     api.content.delete(objects=default_content)
