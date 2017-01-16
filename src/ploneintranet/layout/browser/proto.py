@@ -20,6 +20,8 @@ class ProtoView(BrowserView):
         name that fits the prototype conventions
         '''
         value = value.lower()
+        if 'app' in value:
+            return 'app'
         if 'word' in value or 'odt document' in value:
             return 'word'
         if 'excel' in value or 'ods spreadsheet' in value:
@@ -78,8 +80,6 @@ class ProtoView(BrowserView):
         # that would become 'library-item
         if 'superspace' in value:
             return 'superspace'
-        if 'app' in value:
-            return 'app'
         if 'email' in value or 'e-mail' in value:
             return 'email'
         if 'profile' in value or 'person' in value:
