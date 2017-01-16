@@ -188,6 +188,18 @@ class TestTitleFromID(BaseTestCase):
         notify(ObjectModifiedEvent(self.doc1))
         self.assertEquals(self.doc1.getId(), 'my-document-ole')
 
+    def test_change_doc_title_updates_catalog(self):
+        catalog = api.portal.get_tool('portal_catalog')
+        self.assertEquals(len(catalog(getId='my-document')), 1)
+        self.doc1.REQUEST.form = {'title': u'My totally renamed doc'}
+        modified, errors = dexterity_update(self.doc1)
+        self.assertEqual(errors, [])
+        notify(ObjectModifiedEvent(self.doc1))
+        self.assertEquals(self.doc1.getId(), 'my-totally-renamed-doc')
+        self.assertEquals(len(catalog(getId='my-document')), 0)
+        self.assertEquals(len(catalog(getId='my-totally-renamed-doc')), 1)
+        self.assertEquals(len(catalog(Title='My totally renamed doc')), 1)
+
     def test_change_doc_long_title(self):
         self.doc1.REQUEST.form = dict(
             title=u"The quick brown fox jumps over the very lazy dog's back "
