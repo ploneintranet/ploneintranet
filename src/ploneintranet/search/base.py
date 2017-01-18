@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """Abstract basis for search implementations."""
-import abc
-import collections
-import logging
-
-from Products.Archetypes.utils import shasattr
+from .interfaces import ISearchResponse
+from .interfaces import ISearchResult
 from plone import api
 from plone.api.validation import at_least_one_of
+from plone.memoize import instance
 from ploneintranet import api as pi_api
+from Products.Archetypes.utils import shasattr
 from scorched.search import LuceneQuery
 from zope import globalrequest
 
-from .interfaces import ISearchResult
-from .interfaces import ISearchResponse
+import abc
+import collections
+import logging
 
 
 logger = logging.getLogger(__name__)
@@ -78,7 +78,6 @@ class SearchResult(object):
     the ISearchResponse when necessary.
     """
 
-    preview_image_path = None
     highlighted_summary = FEATURE_NOT_IMPLEMENTED
 
     def __init__(self, context, response):
@@ -111,21 +110,24 @@ class SearchResult(object):
         except KeyError:
             self.archival_date = None
 
-        if context['has_thumbs']:  # indexer in docconv
+    @property
+    @instance.memoize
+    def preview_image_path(self):
+        ''' Lazy load preview urls
+        '''
+        if self.portal_type == 'Image':
+            return '{.path}/@@images/image/preview'.format(self)
+        if self.portal_type == 'ploneintranet.userprofile.userprofile':
+            return '{.path}/@@avatar.jpg'.format(self)
+        if self.context.get('has_thumbs'):
             # can occur in workspaces AND library
-            if self.portal_type in ('Image', 'Document', 'News Item'):
-                self.preview_image_path = \
-                    '{.path}/@@images/image/preview'.format(self)
-            else:
-                self.preview_image_path = \
-                    pi_api.previews.get_thumbnail_url_by_uid(self.UID,
-                                                             relative=True)
-
-        elif self.portal_type == 'Image':
-            self.preview_image_path = '{.path}/@@images/image/preview'.format(
-                self)
-        elif self.portal_type == 'ploneintranet.userprofile.userprofile':
-            self.preview_image_path = '{.path}/@@avatar.jpg'.format(self)
+            if self.portal_type in ('Document', 'News Item'):
+                return '{.path}/@@images/image/preview'.format(self)
+            return pi_api.previews.get_thumbnail_url_by_uid(
+                self.UID,
+                relative=True,
+            )
+        return ''
 
     def __repr__(self):
         clsnam = type(self).__name__
