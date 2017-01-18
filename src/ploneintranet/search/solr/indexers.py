@@ -121,7 +121,7 @@ class BinaryAdder(ContentAdder):
                 threading.current_thread().ident)
 
         # initial entry point, dispatch async reindex for handling above
-        else:
+        elif 'SearchableText' in data:
             logger.info("Dispatch reindex of SearchableText async <%s>",
                         threading.current_thread().ident)
             # mutex limits open async index jobs to 1 per object per thread
@@ -222,7 +222,7 @@ class ContentIndexer(object):
         """Retrive the set of attribute names that should be index.
 
         The attributes returned will be used to get values from
-        the (indexble-wrapped) Plone content object.
+        the (indexable-wrapped) Plone content object.
 
         :param schema: The SOLR schema mapping.
         :type schema: collections.MutableMapping

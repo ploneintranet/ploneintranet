@@ -78,7 +78,10 @@ def checkpointIterator(function, interval=100):
     while True:
         counter += 1
         if counter % interval == 0:
-            function()
+            try:
+                function()
+            except:
+                logger.exception('Error executing %r' % function)
         yield None
 
 
@@ -171,7 +174,7 @@ class SolrMaintenanceView(BrowserView):
         cpu = timer(clock)      # cpu time
         processed = 0
 
-        key = conn.schema['uniqueKey']
+        uniqueKey = conn.schema['uniqueKey']
         updates = {}            # list to hold data to be updated
 
         flush = notimeout(lambda: conn.commit(softCommit=True))
@@ -222,14 +225,14 @@ class SolrMaintenanceView(BrowserView):
 
                     # For atomic updates to work the uniqueKey must be present
                     # in *every* update operation.
-                    if attributes and key not in attributes:
-                        attributes.append(key)
+                    if attributes and uniqueKey not in attributes:
+                        attributes.append(uniqueKey)
 
                     data = CI._get_data(obj, attributes=attributes)
 
                     missing = False   # Do we have that in scorched?
                     if not missing or atomic:
-                        value = data.get(key, None)
+                        value = data.get(uniqueKey, None)
                         if value is not None:
                             log('indexing %r\n' % obj)
 
