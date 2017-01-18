@@ -13,6 +13,40 @@ the ploneintranet packages
 ploneintranet.layout
 --------------------
 
+ploneintranet.layout.splashpage_enabled
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Turn on the display of a first time splash page
+
+    **description**: If the user logs in for the first time, he will see a splash page overlay which can contain introductory information stored in splashpage_content.
+
+    **type**: plone.registry.field.Bool 
+
+    **default**: False
+
+ploneintranet.layout.splashpage_uid
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Configure a unique identifier for the splash page
+
+    **description**: This UID is used to store the information in the user's browser if the splashpage has been shown already. If you want to make the splashpage reappear for all users, change the UID.
+
+    **type**: plone.registry.field.TextLine 
+
+    **default**: ''
+
+ploneintranet.layout.splashpage_content
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Content of the splashpage
+
+    **description**: This is the complete html markup used to render the splashpage.
+
+    **type**: plone.registry.field.Text
+
+    **default**: ''
+
+
 ploneintranet.layout.dashboard_activity_tiles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
