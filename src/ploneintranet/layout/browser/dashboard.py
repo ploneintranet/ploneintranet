@@ -35,6 +35,27 @@ class Dashboard(BrowserView):
 
     implements(IBlocksTransformEnabled)
 
+    def splashpage_config(self):
+        ''' Splash page config
+        '''
+        enabled = get_record_from_registry(
+            'ploneintranet.layout.splashpage_enabled',
+            fallback=False
+        )
+
+        uid = get_record_from_registry(
+            'ploneintranet.layout.splashpage_uid',
+            fallback=''
+        )
+
+        content = get_record_from_registry(
+            'ploneintranet.layout.splashpage_content',
+            fallback=''
+        )
+        return dict(enabled=enabled,
+                    uid=uid,
+                    content=content)
+
     def activity_tiles(self):
         ''' This is a list of tiles taken
         '''

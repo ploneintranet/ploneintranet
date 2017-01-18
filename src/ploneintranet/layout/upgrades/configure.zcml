@@ -144,5 +144,22 @@
         destination="0012"
         handler=".to_0012.add_news_portlet_configuration"
         profile="ploneintranet.layout:default" />
+
+    <genericsetup:registerProfile
+        name="to_0013"
+        title="Add registry entries to configure splash page"
+        description=""
+        directory="profiles/to_0013"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry entries to configure splash page"
+        description=""
+        source="*"
+        destination="0013"
+        handler=".to_0013.add_splash_page_configuration"
+        profile="ploneintranet.layout:default" />
     
 </configure>
