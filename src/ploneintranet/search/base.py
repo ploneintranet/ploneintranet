@@ -147,10 +147,10 @@ class SearchResult(object):
         """
         Generate an absolute url from a physical path
         """
-        if physical_path is not None:
-            request = globalrequest.getRequest()
-            return request.physicalPathToURL(physical_path)
-        return None
+        if not physical_path:
+            return None
+        request = globalrequest.getRequest()
+        return request.physicalPathToURL(physical_path)
 
     @property
     def path(self):
@@ -190,7 +190,8 @@ class SearchResult(object):
         :returns: The absolute URL to the preview image
         :rtype: str
         """
-        return self._path_to_url(self.preview_image_path) or ''
+        path = self.preview_image_path
+        return path and self._path_to_url(path) or ''
 
     def __getitem__(self, key):
         if shasattr(self, key) and callable(getattr(self, key)):
