@@ -47,6 +47,14 @@
         />
 
     <genericsetup:registerProfile
+        name="testing"
+        title="Plone Intranet: -- [Layout testing]"
+        directory="profiles/testing"
+        description="Extension profile for ploneintranet.layout."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
         name="uninstall"
         title="Plone Intranet: -- [Layout uninstall]"
         directory="profiles/uninstall"

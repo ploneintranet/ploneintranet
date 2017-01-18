@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-ploneintranet.suite:full</dependency>
     <dependency>profile-ploneintranet.news:testing</dependency>
+    <dependency>profile-ploneintranet.layout:testing</dependency>
   </dependencies>
 </metadata>
