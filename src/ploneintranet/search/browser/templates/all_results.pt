@@ -231,7 +231,7 @@
                             <tal:preview_file tal:case="string:file">
                               <a href="${result_url}"
                                  class="preview ${preview_class}"
-                                 tal:condition="result/preview_image_url"
+                                 tal:condition="result/preview_image_path"
                                  >
                                 <img src="${result/preview_image_url}"
                                      alt="${result/title}"/>
