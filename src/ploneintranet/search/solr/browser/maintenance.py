@@ -78,7 +78,10 @@ def checkpointIterator(function, interval=100):
     while True:
         counter += 1
         if counter % interval == 0:
-            function()
+            try:
+                function()
+            except:
+                logger.exception('Error executing %r' % function)
         yield None
 
 
