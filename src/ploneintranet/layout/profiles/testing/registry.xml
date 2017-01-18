@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+
+  <record name="ploneintranet.layout.splashpage_enabled">
+    <field type="plone.registry.field.Bool">
+      <default>False</default>
+      <title>Turn off the display of a first time splash page for testing</title>
+      <description>If the user logs in for the first time, he will see a splash page overlay which can contain introductory information stored in splashpage_content.</description>
+      <required>False</required>
+    </field>
+    <value purge="true">False</value>
+  </record>
+</registry>
