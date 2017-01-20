@@ -461,11 +461,13 @@ class AllUsersAndGroupsJSONView(BrowserView):
             return ""
         acl_users = api.portal.get_tool('acl_users')
         results = []
-        groups = acl_users.searchGroups(id=q)
+        groups = {x['id']: x['title'] for x in acl_users.searchGroups(id=q)}
+        groups.update(
+            {x['id']: x['title'] for x in acl_users.searchGroups(name=q)})
         if groups:
-            for group in groups:
-                text = group['title'] or group['id']
-                results.append({'id': group['id'], 'text': text})
+            for id, title in groups.items():
+                text = title or id
+                results.append({'id': id, 'text': text})
         query = {'SearchableText': u'{0}*'.format(safe_unicode(q))}
         users = pi_api.userprofile.get_users(full_objects=False, **query)
         for user in users:

@@ -44,7 +44,9 @@ class TestAllUsersAndGroupsWidgets(unittest.TestCase):
         results = loads(self.view())
         user_ids = [i['id'] for i in results]
         self.assertTrue('johndoe' in user_ids)
-        self.assertEqual(len(results), 1)
+        # The length of the results is 2, since the group "All intranet users"
+        # is always returned
+        self.assertEqual(len(results), 2)
 
     def test_workspace_prefill(self):
         self.login_as_portal_owner()
