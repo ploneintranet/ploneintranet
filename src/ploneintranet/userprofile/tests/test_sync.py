@@ -9,6 +9,7 @@ external user source.
 """
 import io
 from datetime import datetime
+import unittest
 
 from Products.PlonePAS.Extensions.Install import activatePluginInterfaces
 from Products.PlonePAS.plugins.property import ZODBMutablePropertyProvider
@@ -21,6 +22,7 @@ from ploneintranet.userprofile.sync import IUserProfileManager
 from ploneintranet.userprofile.sync import NO_VALUE
 from ploneintranet.userprofile.sync import get_last_sync
 from ploneintranet.userprofile.sync import record_last_sync
+from ploneintranet.userprofile.sync import undouble_unicode_escape
 from ploneintranet.userprofile.tests.base import BaseTestCase
 
 TESTING_PLUGIN_ID = 'mock_ldap'
@@ -231,3 +233,23 @@ class TestAllUsersSync(SyncBaseTestCase):
         self.assertIsNotNone(profile)
         self.assertEqual(api.content.get_state(obj=profile), 'enabled')
         self.assertIsNone(get_last_sync(profile))
+
+
+class TestUndoubleEscape(unittest.TestCase):
+
+    def test_double_unicode(self):
+        garbled = u'K\xc4\xb1l\xc4\xb1\xc3\xa7aslan'
+        goodname = u'K\u0131l\u0131\xe7aslan'
+        self.assertEquals(undouble_unicode_escape(garbled), goodname)
+
+    def test_normal_unicode(self):
+        goodname = u'K\u0131l\u0131\xe7aslan'
+        self.assertEquals(undouble_unicode_escape(goodname), goodname)
+
+    def test_string(self):
+        goodstring = 'K\xc3\x84\xc2\xb1l\xc3\x84\xc2\xb1\xc3\x83\xc2\xa7aslan'
+        self.assertEquals(undouble_unicode_escape(goodstring), goodstring)
+
+    def test_object(self):
+        NO_VALUE = object()
+        self.assertEquals(undouble_unicode_escape(NO_VALUE), NO_VALUE)

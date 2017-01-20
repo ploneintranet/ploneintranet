@@ -110,6 +110,7 @@ class UserPropertyManager(object):
                 continue
             sheet = property_sheet_mapping[pas_plugin_id]
             value = sheet.getProperty(property_name, default=NO_VALUE)
+            value = undouble_unicode_escape(value)
             current_value = getattr(self.context, property_name, None)
             if value is not NO_VALUE and value != current_value:
                 setattr(self.context, property_name, value)
@@ -470,3 +471,20 @@ class AllWorkGroupsSync(BrowserView):
                 )
                 api.content.transition(obj=self.context[groupid],
                                        transition='disable')
+
+
+def undouble_unicode_escape(value):
+    """Work around a unicode bug somewhere in the PloneLDAP stack
+    that results in some values being doubly unicode encoded.
+    """
+    if isinstance(value, str):
+        return value
+    try:
+        # doubly escaped
+        return value.encode('raw_unicode_escape').decode('utf-8')
+    except UnicodeDecodeError:
+        # normal unicode
+        return value
+    except Exception:
+        # object, whatever
+        return value
