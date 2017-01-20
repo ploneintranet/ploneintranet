@@ -4,7 +4,37 @@ Changelog
 1.2.34 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1064 from quaive/splashpage [GitHub]
+* load testing profile to deactivate splash [Alexander Pilz]
+* Merge branch 'master' into splashpage [Alexander Pilz]
+* Merge pull request #1063 from quaive/solr-fixes [GitHub]
+* revert accidental change [Alexander Pilz]
+* Turn off splashpage for testing [Alexander Pilz]
+* added code to display a splashpage on first visit [Alexander Pilz]
+* Dispatch the SearchableText reindex only if it is in data [Alessandro Pisa]
+* Use a more explicite variable name [Alessandro Pisa]
+* Do not break when function fails [Alessandro Pisa]
+* Small optimizations [Alessandro Pisa]
+* Lazy load previews [Alessandro Pisa]
+* Merge pull request #1061 from quaive/improve-install-story [GitHub]
+* Add Products.PloneHotfix20170117 [GitHub]
+* Merge pull request #1062 from quaive/1055-news-as-app-in-bookmarks [GitHub]
+* Merge pull request #1052 from quaive/proto397-rename-after-paste [GitHub]
+* update test to reflect the new default dashboard tiles [Wolfgang Thomas]
+* in our convenience method translate_friendly_type, make sure "app" comes before "news" so that 'ploneintranet.news.app' is recognized as app [Wolfgang Thomas]
+* let the news app also be an app type in the bookmarks [Wolfgang Thomas]
+* Provide more portlets on the dashboard by default to give a richer experience [Wolfgang Thomas]
+* Allthough ploneintranet.news already publishes the NewsApp, here in suite we exchange the portal's default workflow. Therefore the NewsApp gets set to private again. In a fresh installation, we want the following Apps published: news, apps, profiles and library Fixes #1053 [Wolfgang Thomas]
+* Add a test that proves that no extra reindexObject is needed, since that is handled via event notifiation from OFS's manage_renameObject [Wolfgang Thomas]
+* Merge pull request #1060 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.34 [Guido A.J. Stevens]
+* fix robot test: when the title changes, also the id of the event will change [Wolfgang Thomas]
+* Fix test: the id now comes from the title [Wolfgang Thomas]
+* Add more tests for id-from-title [Wolfgang Thomas]
+* Call the event handler for setting the id every time an item gets modified. Add extra checks to prevent unnecessary or harmful actions [Wolfgang Thomas]
+* Be more defensive: not all content types can be adapted to INameFromTitle (files) [Wolfgang Thomas]
+* fix bug exposed by test: if no title is present, do not attempt to rename the id based on title [Wolfgang Thomas]
+* Implementation of quaive/ploneintranet.prototype#397 - When items are pasted in the context of a workspace, make sure their ids are generated from the titles [Wolfgang Thomas]
 
 
 1.2.33 (2017-01-14)
