@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.34 (unreleased)
+1.2.34 (2017-01-20)
 -------------------
 
 * Merge pull request #1064 from quaive/splashpage [GitHub]
