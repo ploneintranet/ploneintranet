@@ -16,6 +16,7 @@ from collective.documentviewer.interfaces import IFileWrapper
 from collective.documentviewer.interfaces import IOCRLanguage
 from plone import api
 from ploneintranet.docconv.client.html_converter import generate_pdf
+from Products.MimetypesRegistry.common import MimeTypeException
 from urllib import urlencode
 from zope.annotation import IAnnotations
 from zope.site.hooks import getSite
@@ -237,8 +238,15 @@ def is_allowed_document_type(obj):
     """
     site = getPortal(obj)
     gsettings = GlobalSettings(site)
-
-    return allowedDocumentType(obj, gsettings.auto_layout_file_types)
+    try:
+        return allowedDocumentType(obj, gsettings.auto_layout_file_types)
+    except MimeTypeException as e:
+        log.warning(
+            'Mimetype issue for %r: %s',
+            obj,
+            e,
+        )
+        return False
 
 
 def converting(obj):

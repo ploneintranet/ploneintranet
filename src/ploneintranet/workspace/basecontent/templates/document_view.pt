@@ -192,11 +192,15 @@
                     </tal:previews>
                   </article>
                   <article class="document preview" tal:condition="not:view/is_available">
-                    <p class="message no-preview">
+                    <p class="message no-preview"
+                       tal:define="
+                         is_allowed_document_type view/is_allowed_document_type;
+                       "
+                    >
                           <strong class="title" tal:content="context/Title">projection-material.doc</strong>
                           <!-- If a preview CANNOT be generated due to a server error or an unsupported file format, then display the following text in the below byline "No preview available". -->
-                          <em class="byline" tal:condition="view/is_allowed_document_type" i18n:translate="">Preview being generated</em>
-                          <em class="byline" tal:condition="not:view/is_allowed_document_type" i18n:translate="">No preview available</em>
+                          <em class="byline" tal:condition="is_allowed_document_type" i18n:translate="">Preview being generated</em>
+                          <em class="byline" tal:condition="not:is_allowed_document_type" i18n:translate="">No preview available</em>
                     </p>
                   </article>
                 </tal:c>
