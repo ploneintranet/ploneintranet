@@ -13,6 +13,7 @@ from ploneintranet.userprofile.browser.forms import UserProfileViewForm
 from ploneintranet.workspace.adapters import AVAILABLE_GROUPS
 from Products.CMFPlone.browser.author import AuthorView as BaseAuthorView
 from Products.Five import BrowserView
+from webdav.common import rfc1123_date
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.interface import implements
@@ -352,6 +353,8 @@ def stream_avatar_data(profile, size, request):
 
     if scale is not None:
         data = scale.data
+        mtime = rfc1123_date(profile._p_mtime)
+        response.setHeader('Last-Modified', mtime)
         from plone.namedfile.utils import set_headers, stream_data
         set_headers(data, response)
         return stream_data(data)
