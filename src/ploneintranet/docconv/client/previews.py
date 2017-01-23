@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import shutil
 from collective.documentviewer import storage
 from collective.documentviewer.convert import Converter as DVConverter
 from collective.documentviewer.convert import DUMP_FILENAME
@@ -9,6 +11,9 @@ from collective.documentviewer.utils import allowedDocumentType
 from collective.documentviewer.utils import getPortal
 from datetime import datetime
 from logging import getLogger
+from collective.documentviewer.convert import DocSplitSubProcess
+from collective.documentviewer.interfaces import IFileWrapper
+from collective.documentviewer.interfaces import IOCRLanguage
 from plone import api
 from ploneintranet.docconv.client.html_converter import generate_pdf
 from urllib import urlencode
@@ -19,6 +24,57 @@ from zope.site.hooks import getSite
 log = getLogger(__name__)
 
 PREVIEW_URL = '++theme++ploneintranet.theme/generated/media/logos/plone-intranet-square.svg'  # noqa
+
+
+class PIDocSplitSubProcess(DocSplitSubProcess):
+    """
+    idea of how to handle this shamelessly
+    stolen from ploneformgen's gpg calls
+    """
+
+    if os.name == 'nt':
+        bin_name = 'docsplit.exe'
+    else:
+        bin_name = 'docsplit'
+
+    def dump_images(self, filepath, output_dir, sizes, format, lang='eng'):
+        # docsplit images pdf.pdf --size 700x,300x,50x
+        # --format gif --output
+        limit = api.portal.get_registry_record(
+            'ploneintranet.docconv.num_previews',
+            default=20)
+        pages = self.get_num_pages(filepath)
+        if pages < limit:
+            limit = pages
+        cmd = [
+            self.binary, "images", filepath,
+            '--language', lang,
+            '--size', ','.join([str(s[1]) + 'x' for s in sizes]),
+            '--format', format,
+            '--rolling',
+            '--output', output_dir,
+            '--pages', '1-%s' % limit]
+        if lang != 'eng':
+            # cf https://github.com/documentcloud/docsplit/issues/72
+            # the cleaning functions are only suited for english
+            cmd.append('--no-clean')
+
+        self._run_command(cmd)
+
+        # now, move images to correctly named folders
+        for name, size in sizes:
+            dest = os.path.join(output_dir, name)
+            if os.path.exists(dest):
+                shutil.rmtree(dest)
+
+            source = os.path.join(output_dir, '%ix' % size)
+            shutil.move(source, dest)
+
+try:
+    docsplit = PIDocSplitSubProcess()
+except IOError:
+    log.exception("No docsplit installed. pi.preview generation will not work")
+    docsplit = None
 
 
 class Converter(DVConverter):
@@ -32,6 +88,30 @@ class Converter(DVConverter):
         Deactivate the layout setting part of documentviewer as we want our own
         """
         pass
+
+    def run_conversion(self):
+        """ override to run our own docsplit process """
+        context = self.context
+        gsettings = self.gsettings
+        fw = IFileWrapper(context)
+        filename = fw.filename
+        language = IOCRLanguage(context).getLanguage()
+        args = dict(sizes=(('large', gsettings.large_size),
+                           ('normal', gsettings.normal_size),
+                           ('small', gsettings.thumb_size)),
+                    enable_indexation=self.isIndexationEnabled(),
+                    ocr=gsettings.ocr,
+                    detect_text=gsettings.detect_text,
+                    format=gsettings.pdf_image_format,
+                    converttopdf=self.doc_type.requires_conversion,
+                    language=language,
+                    filename=filename)
+        if self.blob_filepath is None:
+            args['filedata'] = str(fw.file.data)
+        else:
+            args['inputfilepath'] = self.blob_filepath
+
+        return docsplit.convert(self.storage_dir, **args)
 
 
 def _backward_map(scale):
@@ -140,9 +220,10 @@ def get(obj, scale='normal'):
     if settings.blob_files and settings.num_pages:
         ext = settings.pdf_image_format
         scale = _backward_map(scale)
-        for i in range(settings.num_pages):
+        for i in range(len(settings.blob_files)):
             preview = '%s/dump_%s.%s' % (scale, str(i + 1), ext)
-            previews.append(settings.blob_files[preview])
+            if settings.blob_files.get(preview, False):
+                previews.append(settings.blob_files[preview])
     return previews
 
 
@@ -211,6 +292,14 @@ def get_preview_urls(obj, scale='normal', with_timestamp=False):
     :rtype: list
     """
     dv_data = _get_dv_data(obj)
+    settings = Settings(obj)
+    previews = []
+    ext = settings.pdf_image_format
+    for i in range(len(settings.blob_files)):
+        preview = '%s/dump_%s.%s' % (scale, str(i + 1), ext)
+        if settings.blob_files.get(preview, False):
+            previews.append(settings.blob_files[preview])
+
     number_of_previews = dv_data['pages']
 
     # If there aren't any previews, return the placeholder url
@@ -219,7 +308,7 @@ def get_preview_urls(obj, scale='normal', with_timestamp=False):
     scale = _backward_map(scale)
     urls = [
         dv_data['resources']['page']['image'].format(size=scale, page=page)
-        for page in range(1, number_of_previews + 1)
+        for page in range(1, len(previews) + 1)
     ]
     if with_timestamp:
         try:
