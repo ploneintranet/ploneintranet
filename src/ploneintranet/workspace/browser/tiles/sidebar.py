@@ -29,6 +29,7 @@ from Products.Archetypes.utils import shasattr
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from slc.mailrouter.utils import store_name
+from urllib import quote
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.event import notify
@@ -779,7 +780,7 @@ class Sidebar(BaseTile):
             'groupname={groupname}#workspace-documents'
         ).format(
             context_url=self.root.absolute_url(),
-            groupname=groupname,
+            groupname=quote(groupname),
         )
 
     def get_headers_for_group(self):
