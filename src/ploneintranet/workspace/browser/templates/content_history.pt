@@ -32,7 +32,7 @@
                         effective item/effective_date|nothing;
                         effectiveDate python:effective and view.toLocalizedTime(item['effective_date'],long_format=True);
                         isVersion python:item['type']=='versioning'">
-                <td valign="top">${item/version_id}</td>
+                <td valign="top">${item/version_id|string:-}</td>
                 <td>
                     <span class="historyByLine">
                         <tal:action i18n:translate="history_action">
