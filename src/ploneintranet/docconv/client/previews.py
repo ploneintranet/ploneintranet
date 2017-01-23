@@ -300,6 +300,7 @@ def get_preview_urls(obj, scale='normal', with_timestamp=False):
     :rtype: list
     """
     dv_data = _get_dv_data(obj)
+    scale = _backward_map(scale)
     settings = Settings(obj)
     if not settings or settings.blob_files is None:
         return [fallback_image_url(obj)]
@@ -315,7 +316,6 @@ def get_preview_urls(obj, scale='normal', with_timestamp=False):
     # If there aren't any previews, return the placeholder url
     if number_of_previews < 1:
         return [fallback_image_url(obj)]
-    scale = _backward_map(scale)
     urls = [
         dv_data['resources']['page']['image'].format(size=scale, page=page)
         for page in range(1, len(previews) + 1)

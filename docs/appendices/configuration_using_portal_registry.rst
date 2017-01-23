@@ -90,7 +90,7 @@ ploneintranet.layout.dashboard_default
     **default**: activity
 
 
-ploneintranet.layout.login_spash
+ploneintranet.layout.login_splash
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     title: Splash image for the login form
