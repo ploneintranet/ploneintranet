@@ -302,7 +302,7 @@ def get_preview_urls(obj, scale='normal', with_timestamp=False):
     dv_data = _get_dv_data(obj)
     settings = Settings(obj)
     if not settings or settings.blob_files is None:
-        return []
+        return [fallback_image_url(obj)]
     previews = []
     ext = settings.pdf_image_format
     for i in range(len(settings.blob_files)):
