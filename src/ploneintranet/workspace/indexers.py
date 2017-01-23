@@ -1,4 +1,5 @@
 # coding=utf-8
+from .browser.event import get_invitees
 from .case import ICase
 from datetime import datetime
 from plone.app.contenttypes.interfaces import IDocument
@@ -9,11 +10,10 @@ from plone.app.contenttypes.interfaces import ILink
 from plone.app.contenttypes.interfaces import INewsItem
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import datify
+from plone.event.interfaces import IEventAccessor
 from plone.indexer.decorator import indexer
 from ploneintranet.workspace.workspacefolder import IWorkspaceFolder
 from utils import guess_mimetype
-from .browser.event import get_invitee_details
-from plone.event.interfaces import IEventAccessor
 
 
 @indexer(IDocument)
@@ -119,8 +119,7 @@ def division(obj, **kw):
 @indexer(IEvent)
 def invitees(obj, **kw):
     """Indexes the invitees as a list"""
-    details = get_invitee_details(obj)
-    return [x['uid'] for x in details]
+    return [invitee.getId() for invitee in get_invitees(obj)]
 
 
 @indexer(IEvent)
