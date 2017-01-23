@@ -228,6 +228,7 @@ class ContentView(BrowserView):
     def is_available(self):
         return pi_api.previews.has_previews(self.context)
 
+    @memoize
     def is_allowed_document_type(self):
         return pi_api.previews.is_allowed_document_type(self.context)
 
