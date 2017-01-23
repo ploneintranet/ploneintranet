@@ -1,44 +1,67 @@
 # -*- coding: utf-8 -*-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 
 import logging
+import re
+
 
 logger = logging.getLogger(__name__)
 
 
-def get_invitee_details(context):
-    """invitees is stored as a comma separated string of user ids.
+def get_invitees(context):
+    '''invitees is stored as a comma separated string of user ids
+    or emails addresses.
+
+    This function transforms them into users
+    '''
+    invitees = context.invitees
+    if not invitees or not isinstance(invitees, basestring):
+        return []
+    invitees = invitees.split(',')
+    principalids = set()
+    # BBB: we may want to think to a better regexp to extract principalid
+    # when the invitee looks like "John Doe <john.doe@example.net>"
+    pattern = re.compile(r'(.*)<(.*)>')
+    for invitee in invitees:
+        match = pattern.match(invitee)
+        if match:
+            principalids.add(match.groups()[-1])
+        else:
+            principalids.add(invitee)
+
+    return pi_api.userprofile.get_users_from_userids_and_groupids(principalids)
+
+
+def get_invitee_details(context, skip_no_emails=True):
+    """invitees is stored as a comma separated string of user ids
+    or emails addresses.
 
     :rtype list of dicts: [{
         'id': 'user_id', 'name' 'user_title', 'email': 'user_email'}]
     """
-    invitees = context.invitees
-    if not invitees or not isinstance(invitees, basestring):
-        return []
-    users = pi_api.userprofile.get_users_from_userids_and_groupids(
-        ids=invitees.split(',')
-    )
     details = []
-    for user in users:
-        u_id = user.getId()
-        name = user.getProperty('fullname') or user.getId() or u_id
-        if not user.getProperty('email'):
+    invitees = get_invitees(context)
+    for invitee in invitees:
+        email = getattr(invitee, 'email', u'')
+        if not email and skip_no_emails:
             continue
+        userid = invitee.getId()
+        name = invitee.fullname or userid
         details.append({
-            'id': user,
+            'id': invitee,
             'name': name,
-            'email': user.getProperty('email'),
-            'uid': u_id
+            'email': email,
+            'uid': userid
         })
     return details
 

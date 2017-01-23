@@ -1,16 +1,17 @@
-import collections
-import re
 from AccessControl import AuthEncoding
-from zope.interface import Invalid
-from zope.interface import directlyProvides
 from plone import api as plone_api
 from plone.namedfile import NamedBlobImage
-from ploneintranet.api.testing import IntegrationTestCase
 from ploneintranet import api as pi_api
+from ploneintranet.api.testing import IntegrationTestCase
+from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.userprofile.content.userprofile import UserProfile
 from ploneintranet.userprofile.interfaces import IMemberGroup
-from ploneintranet.network.interfaces import INetworkTool
 from zope.component import queryUtility
+from zope.interface import directlyProvides
+from zope.interface import Invalid
+
+import collections
+import re
 
 
 class TestUserProfile(IntegrationTestCase):
@@ -278,6 +279,7 @@ class TestUserProfile(IntegrationTestCase):
         group1.addMember(profile2.getId())
         users = pi_api.userprofile.get_users_from_userids_and_groupids(
             ids=['janedoe', 'group1'])
+        self.assertIsInstance(users[0], UserProfile)
         user_ids = [i.getId() for i in users]
         self.assertIn(profile1.getId(), user_ids)
         self.assertIn(profile2.getId(), user_ids)

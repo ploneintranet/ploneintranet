@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-import string
-import random
-
-from Products.CMFPlone.utils import safe_unicode
-from zope.component import getMultiAdapter
-from z3c.form.interfaces import IValidator
+from dexterity.membrane.behavior.password import IProvidePasswordsSchema
+from itertools import imap
 from plone import api as plone_api
 from plone.api.exc import InvalidParameterError
-from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.network.graph import decode
+from ploneintranet.network.interfaces import INetworkTool
+from ploneintranet.userprofile.content.userprofile import IUserProfile
+from ploneintranet.userprofile.interfaces import IMemberGroup
+from Products.CMFPlone.utils import safe_unicode
+from z3c.form.interfaces import IValidator
+from zope.component import getMultiAdapter
 from zope.component import queryUtility
 
-from ploneintranet.userprofile.interfaces import IMemberGroup
-from ploneintranet.userprofile.content.userprofile import IUserProfile
-from dexterity.membrane.behavior.password import IProvidePasswordsSchema
+import random
+import string
 
 
 def get_users(
@@ -136,22 +136,33 @@ def get_users_from_userids_and_groupids(ids=None):
     """
     Given a list of userids and groupids return the set of users
 
-    FIXME this has to be folded into get_users once all groups
-    are represented as workspaces.
+    FIXME this has to be folded into get_users
     """
     acl_users = plone_api.portal.get_tool('acl_users')
-    users = {}
-    for id in ids:
-        group = acl_users.getGroupById(id)
-        if group:
-            for user in group.getGroupMembers():
-                user_ob = acl_users.getUserById(user.getId())
-                users[user_ob.getProperty('email')] = user_ob
+    userids = set([])
+    portal = plone_api.portal.get()
+    groups_container = portal.get('groups', {})
+
+    # BBB userprofile and workprofile should be in the same module
+    # to avoid circular imports
+    if groups_container:
+        mapping = {
+            group.getGroupId(): key
+            for key, group in groups_container.objectItems()
+        }
+    else:
+        mapping = {}
+    for principalid in ids:
+        if principalid in mapping:
+            group = groups_container[mapping[principalid]]
         else:
-            user_ob = acl_users.getUserById(id)
-            if user_ob:
-                users[user_ob.getProperty('email')] = user_ob
-    return users.values()
+            group = acl_users.getGroupById(principalid)
+
+        if group:
+            userids.update(group.getGroupMembers())
+        else:
+            userids.add(principalid)
+    return [user for user in imap(get, userids) if user]
 
 
 def get(userid):
