@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.35 (unreleased)
+1.2.35 (2017-01-24)
 -------------------
 
 * Merge pull request #1074 from quaive/limit-previews [GitHub]
