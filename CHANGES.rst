@@ -4,7 +4,31 @@ Changelog
 1.2.35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1074 from quaive/limit-previews [GitHub]
+* fix [Alexander Pilz]
+* Merge pull request #1075 from quaive/fix-invitees [GitHub]
+* Merge pull request #1077 from quaive/avatar-image-caching [GitHub]
+* fix exception state [Alexander Pilz]
+* Add the Last-Modified header for avatar images [Cillian de Roiste]
+* Fix event invitees calculations [Alessandro Pisa]
+* another check [Alexander Pilz]
+* Merge branch 'master' into limit-previews [Alexander Pilz]
+* quit if no previews available [Alexander Pilz]
+* limit preview generation to a sane amount of 20, configurable in registry [Alexander Pilz]
+* Merge pull request #1071 from quaive/handle_mimetype_registry_error [GitHub]
+* Merge pull request #1070 from quaive/fix_version_id [GitHub]
+* Merge pull request #1069 from quaive/quote-sidebar-groups [GitHub]
+* Optimize is_allowed_document_type [Alessandro Pisa]
+* version_id can be missing [Manuel Reinhardt]
+* Handle exception that come from a broken mimetype [Alessandro Pisa]
+* Quote groupname when making the URL in the sidebar. It can contain all kinds of characters that make trouble, like '&'. [Manuel Reinhardt]
+* Merge pull request #1068 from quaive/ldap_sync_unicode [GitHub]
+* Merge pull request #1066 from quaive/search-groups-by-name-and-id [GitHub]
+* Merge pull request #1067 from quaive/release-1.2.x [GitHub]
+* Work around a string/unicode confusion hidden somewhere in PloneLDAP [Guido A.J. Stevens]
+* Back to development: 1.2.35 [Alexander Pilz]
+* For some reasons our intranet plugin always returns the group "All intranet users" [Wolfgang Thomas]
+* When searching for groups, don't only search by id, but also by name [Wolfgang Thomas]
 
 
 1.2.34 (2017-01-20)
