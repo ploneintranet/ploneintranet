@@ -15,6 +15,8 @@ from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from Products.CMFCore.utils import _checkPermission
 from Products.CMFEditions.Permissions import AccessPreviousVersions
 from Products.Five.browser import BrowserView
+from zope.event import notify
+from zope.lifecycleevent import ObjectCreatedEvent
 import json
 import mimetypes
 
@@ -134,6 +136,7 @@ class FileUploadView(BaseFileUploadView):
 
         if IDexterityFTI.providedBy(getattr(pt, type_)):
             obj = IDXFileFactory(context)(filename, content_type, filedata)
+            notify(ObjectCreatedEvent(obj))
             if hasattr(obj, 'file'):
                 size = obj.file.getSize()
                 content_type = obj.file.contentType
