@@ -305,7 +305,7 @@ class WorkGroupPropertyManager(object):
         groups = ext_source.enumerateGroups(id=self.context.canonical,
                                             exact_match=True)
         if len(groups) != 1:
-            raise
+            return
         group = groups[0]
 
         def safe_set(data, key):
@@ -414,8 +414,7 @@ class AllWorkGroupsSync(BrowserView):
         local_groupids = set(self._plugin_groupids('membrane_groups'))
         self._disable_groups(local_groupids, external_groupids)
         self._create_groups(local_groupids, external_groupids)
-        local_groupids = list(self._plugin_groupids('membrane_groups'))
-        sync_many_groups(self.context, local_groupids)
+        sync_many_groups(self.context, self.context.objectValues())
 
     def _create_groups(self, local_groupids, external_groupids):
         """Create user profiles for any external user
