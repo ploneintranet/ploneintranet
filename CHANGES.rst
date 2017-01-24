@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.36 (unreleased)
+1.2.36 (2017-01-24)
 -------------------
 
 * Merge pull request #1080 from quaive/fix-sync-groups [GitHub]
