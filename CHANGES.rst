@@ -4,7 +4,7 @@ Changelog
 1.2.37 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* fix the group sync properly [Alexander Pilz]
 
 
 1.2.36 (2017-01-24)
