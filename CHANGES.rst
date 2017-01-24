@@ -4,7 +4,12 @@ Changelog
 1.2.36 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1080 from quaive/fix-sync-groups [GitHub]
+* sync everything, not only the new ones [Alessandro Pisa]
+* Merge pull request #1078 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1079 from quaive/notify-on-upload [GitHub]
+* Emit event in file upload view. This is necessary e.g. for CMFNotification. [Manuel Reinhardt]
+* Back to development: 1.2.36 [Alexander Pilz]
 
 
 1.2.35 (2017-01-24)
