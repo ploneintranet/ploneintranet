@@ -413,8 +413,9 @@ class AllWorkGroupsSync(BrowserView):
             self.canonical_plugin_id))
         local_groupids = set(self._plugin_groupids('membrane_groups'))
         self._disable_groups(local_groupids, external_groupids)
-        to_sync = self._create_groups(local_groupids, external_groupids)
-        sync_many_groups(self.context, list(to_sync))
+        self._create_groups(local_groupids, external_groupids)
+        local_groupids = list(self._plugin_groupids('membrane_groups'))
+        sync_many_groups(self.context, local_groupids)
 
     def _create_groups(self, local_groupids, external_groupids):
         """Create user profiles for any external user
