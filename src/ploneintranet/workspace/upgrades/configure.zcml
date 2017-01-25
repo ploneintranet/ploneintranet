@@ -205,4 +205,22 @@
         profile="ploneintranet.workspace:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0023"
+        title="Upgrade profile that includes registry record to disallow the automatic rename of objects after the title has changed"
+        description=""
+        directory="profiles/to_0023"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile that includes registry record to disallow the automatic rename of objects after the title has changed"
+        description=""
+        source="*"
+        destination="0023"
+        handler=".to_0023.create_autorename_record"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>

@@ -136,4 +136,13 @@
       <element>todo</element>
     </value>
   </record>
+  <record name="ploneintranet.workspace.rename_after_title_changed">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <title>Rename the content after the title changes</title>
+      <description>If checked, the id of the document will be renamed after the title changes</description>
+      <required>False</required>
+    </field>
+    <value purge="false">True</value>
+  </record>
 </registry>
