@@ -4,7 +4,12 @@ Changelog
 1.2.38 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1083 from quaive/auto-rename-registry-dependent [GitHub]
+* Merge pull request #1082 from quaive/document-sidebar-after-save [GitHub]
+* Disable autorename based on a registry record [Alessandro Pisa]
+* Merge pull request #1081 from quaive/release-1.2.x [GitHub]
+* Reinject document sidebar after save [Alessandro Pisa]
+* Back to development: 1.2.38 [Alexander Pilz]
 
 
 1.2.37 (2017-01-24)
