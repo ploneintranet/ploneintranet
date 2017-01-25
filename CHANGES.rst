@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.38 (unreleased)
+1.2.38 (2017-01-25)
 -------------------
 
 * Merge pull request #1083 from quaive/auto-rename-registry-dependent [GitHub]
