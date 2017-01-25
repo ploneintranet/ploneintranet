@@ -32,7 +32,9 @@ from zope.container.interfaces import INameChooser
 from zope.globalrequest import getRequest
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
+
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -347,6 +349,11 @@ def workspace_groupbehavior_toggled(obj, event):
 
 
 def create_title_from_id(obj, event):
+    if not api.portal.get_registry_record(
+        'ploneintranet.workspace.rename_after_title_changed',
+        default=True,
+    ):
+        return
     if IContainerModifiedEvent.providedBy(event):
         # The container modified event gets triggered during the creation
         # of a folder. We must not change the id before an item as been
