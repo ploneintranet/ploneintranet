@@ -36,7 +36,7 @@
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="document-form"
-                  data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #sidebar; target: #sidebar; loading-class: ''">
+                  data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #workspace-documents; target: #workspace-documents; loading-class: ''">
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
                   <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="#application-body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
