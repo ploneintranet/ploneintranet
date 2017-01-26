@@ -11,6 +11,7 @@ from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
+from itertools import ifilter
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
@@ -700,7 +701,11 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
-        results = [i for i in results if i.get('UID') != root.UID()]
+        root_uid = root.UID()
+        results = ifilter(
+            lambda result: result.get('UID') != root_uid,
+            results
+        )
 
         #
         # 2. Prepare the results for display in the sidebar
