@@ -253,7 +253,7 @@
           </p>
         </div>
 
-
+        <tal:comment condition="nothing">
         <!-- Each document has a class name on the label element that indicates the document type.
 
 Supported types include (class names):
@@ -279,7 +279,7 @@ Supported types include (class names):
         <!-- Each group has a class 'group'. The following class — which is prefixed by 'type-' is dynamic. If the grouping of the items selector is on date for instance, the class becomes 'type-date'. If the grouping is by user, then it's 'type-user' and the user avatar is there as an image. In case the grouping is by document type, then each group gets the icon of the document type it represents. For intance the group with PowerPoint files gets 'type-powerpoint' and a rich document gets 'type-rich'. The same type-* class names are supported as for a document.
         -->
         <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
-
+        </tal:comment>
         <tal:block repeat="item view/items">
           <label class="${item/cls}">
             <input name="items:list" type="checkbox" tal:define="uid python: item.get('UID', '')" tal:condition="uid" value="${uid}"/>
