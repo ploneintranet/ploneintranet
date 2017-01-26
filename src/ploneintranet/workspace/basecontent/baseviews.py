@@ -54,11 +54,23 @@ class ContentView(BrowserView):
             return True
         if 'hide_sidebar' in form:
             return False
-        if self.request.method == 'POST':
-            return True
         if self.is_ajax:
             return False
         return True
+
+    def make_sidebar_items(self):
+        ''' Make the equivalent of the sidebar items
+        '''
+        # First we pretend to mimic a sidebar result
+        sidebar = api.content.get_view(
+            'sidebar.documents',
+            self.context,
+            self.request,
+        )
+        pc = api.portal.get_tool(name='portal_catalog')
+        brains = pc(UID=self.context.UID())
+        results = sidebar._extract_attrs(brains)
+        return map(sidebar.result2item, results)
 
     @property
     @memoize
