@@ -21,4 +21,13 @@
     permission="zope2.View"
     />
 
+  <browser:page
+    name="workflow_menu"
+    for="..content.todo.ITodo"
+    layer=".interfaces.IPloneintranetTodoLayer"
+    template="templates/workflow_menu.pt"
+    class=".todo_view.TodoWorkflowMenu"
+    permission="zope2.View"
+    />
+
 </configure>

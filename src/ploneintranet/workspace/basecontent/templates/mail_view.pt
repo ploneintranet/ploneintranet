@@ -81,18 +81,8 @@
                     </a>
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
+                    <tal:workflow replace="structure here/@@workflow_menu|nothing" />
 
-                    <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
-                              tal:attributes="data-pat-inject string:target: #global-statusmessage;; url: ${here_url}/view;; source: #global-statusmessage &amp;&amp; url: ${here_url}/view;; source: #application-body;; target: #application-body">
-                      <label class="pat-select bare workflow" title="Change the workflow state" i18n:attributes="title">
-                        <select name="workflow_action" id="workflow_action">
-                          <option tal:repeat="state view/get_workflow_transitions"
-                                  tal:attributes="title state/title; value state/action; selected state/selected|nothing"
-                                  tal:content="state/title">Workflow State</option>
-                        </select>
-                      </label>
-                      <span tal:replace="structure context/@@authenticator/authenticator"/>
-                    </fieldset>
                     <tal:autosaveon condition="autosave_enabled">
                       <metal:macro use-macro="context/content_macros/saving_badge" />
                     </tal:autosaveon>
