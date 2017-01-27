@@ -68,9 +68,19 @@
                        tal:attributes="request_url request/getURL;
                                        path python:'/'.join(context.getPhysicalPath())" />
               </div>
-              <aside data-tile="${container/absolute_url}/@@sidebar.default"
-                     tal:define="container context/@@plone_context_state/folder"
-                     tal:condition="view/show_sidebar"></aside>
+              <tal:sidebar define="
+                                    container context/@@plone_context_state/folder;
+                                    show_sidebar view/show_sidebar;
+                                    show_sidebar_events python:not show_sidebar and request.method == 'POST';
+                                  "
+              >
+                <aside data-tile="${container/absolute_url}/@@sidebar.default"
+                       tal:condition="show_sidebar"
+                />
+                <aside data-tile="${container/absolute_url}/@@sidebar.events"
+                       tal:condition="show_sidebar_events"
+                />
+              </tal:sidebar>
           </div>
 
           <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />

@@ -965,7 +965,7 @@ I can edit an event
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}
-    Element should contain  css=#workspace-events [href$="open-market-committee/christmas-updated#document-body"]  Christmas (updated)
+    Element should contain  css=#workspace-events [href$="open-market-committee/christmas-updated"]  Christmas (updated)
 
 I cannot edit an event because of validation
     [arguments]  ${title}  ${start}  ${end}  ${timezone}
