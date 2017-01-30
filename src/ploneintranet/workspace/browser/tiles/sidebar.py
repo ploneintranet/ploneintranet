@@ -11,6 +11,7 @@ from .events import format_event_date_for_title
 from AccessControl import Unauthorized
 from collective.workspace.interfaces import IWorkspace
 from DateTime import DateTime
+from itertools import ifilter
 from plone import api
 from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
@@ -656,6 +657,48 @@ class Sidebar(BaseTile):
         all_types.difference_update(self.blacklisted_item_types)
         return list(all_types)
 
+    def result2item(self, result):
+        ''' Make a result out of an item
+        '''
+        # BBB: For the time being item is a dictionary that contains everything
+        # this should change
+        item = result
+
+        # Do checks to set the right classes for icons and candy
+
+        # Does the item have a description?
+        # If so, signal that with a class.
+        cls_desc = (
+            'has-description' if item.get('description')
+            else 'has-no-description'
+        )
+
+        ctype = self.item2ctype(item)
+        cls = 'item %s %s %s' % (
+            item.get('structural_type', 'group'), ctype, cls_desc)
+
+        item['cls'] = cls
+        item['mime-type'] = ''
+        # Work around a solr-quirk: We might end up with "/view" being
+        # appended twice to the URL. See #1056
+        if item['url'].endswith('/view/view'):
+            item['url'] = item['url'][:-5]
+
+        # default to sidebar injection
+        if 'dpi' in item:
+            return item
+
+        if item.get('structural_type', 'item') == 'group':
+            item['dpi'] = ("source: #workspace-documents; "
+                           "target: #workspace-documents; "
+                           "url: %s" % item['url'])
+        else:
+            item['dpi'] = ("source: #document-documents; "
+                           "target: #document-documents; "
+                           "history: record;"
+                           "url: %s" % item['url'])
+        return item
+
     def items(self):
         """
         This is called in the template and returns a list of dicts of items in
@@ -700,7 +743,11 @@ class Sidebar(BaseTile):
             # User has selected a grouping and now gets the headers for that
             results = self.get_headers_for_group()
 
-        results = [i for i in results if i.get('UID') != root.UID()]
+        root_uid = root.UID()
+        results = ifilter(
+            lambda result: result.get('UID') != root_uid,
+            results
+        )
 
         #
         # 2. Prepare the results for display in the sidebar
@@ -724,43 +771,7 @@ class Sidebar(BaseTile):
         #   * dpi is the config that must go into the data-pat-inject attribute
         #     for proper injection
         #   * url is the url that should be called with all params and anchors
-
-        items = []
-        for item in results:
-            # Do checks to set the right classes for icons and candy
-
-            # Does the item have a description?
-            # If so, signal that with a class.
-            cls_desc = (
-                'has-description' if item.get('description')
-                else 'has-no-description'
-            )
-
-            ctype = self.item2ctype(item)
-            cls = 'item %s %s %s' % (
-                item.get('structural_type', 'group'), ctype, cls_desc)
-
-            item['cls'] = cls
-            item['mime-type'] = ''
-            # Work around a solr-quirk: We might end up with "/view" being
-            # appended twice to the URL. See #1056
-            if item['url'].endswith('/view/view'):
-                item['url'] = item['url'][:-5]
-
-            # default to sidebar injection
-            if 'dpi' not in item:
-                if item.get('structural_type', 'item') == 'group':
-                    item['dpi'] = ("source: #workspace-documents; "
-                                   "target: #workspace-documents; "
-                                   "url: %s" % item['url'])
-                else:
-                    item['dpi'] = ("source: #document-documents; "
-                                   "target: #document-documents; "
-                                   "history: record;"
-                                   "url: %s" % item['url'])
-            items.append(item)
-
-        return items
+        return map(self.result2item, results)
 
     def get_items_in_group(self):
         """

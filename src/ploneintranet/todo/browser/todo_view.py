@@ -1,11 +1,15 @@
+# coding=utf-8
 from ..interfaces import ITodoUtility
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.baseviews import ContentView
+from ploneintranet.workspace.basecontent.baseviews import WorkflowMenu
 from zope.component import getUtility
 from zope.interface import implementer
+
 
 log = getLogger(__name__)
 
@@ -38,3 +42,32 @@ class TodoView(BaseView):
                 'Changes applied'), request=self.request,
                 type="success")
         super(TodoView, self).update()
+
+
+class TodoWorkflowMenu(WorkflowMenu):
+    ''' Customize the workflow menu for todos
+    '''
+    _done_states = (
+        'done',
+    )
+
+    @memoize
+    def is_done(self):
+        ''' Check if this todo is done
+        '''
+        return self.get_workflow_state() in self._done_states
+
+    def form_pat_inject_options(self):
+        ''' Return the data-path-inject options we want to use
+
+        Adds the todo-${here/UID} element as an injection target
+        '''
+        template = ' && '.join((
+            'url: {url}; source: #global-statusmessage; target: #global-statusmessage;',  # noqa
+            'url: {url}; source: #workflow-menu; target: #workflow-menu;',
+            'url: {url}; source: #todo-{uid}-replacement; target: #todo-{uid}; loading-class: \'\'',  # noqa
+        ))
+        return template.format(
+            url=self.injection_url,
+            uid=self.context.UID(),
+        )

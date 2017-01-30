@@ -1,0 +1,23 @@
+<fieldset class="pat-subform pat-autosubmit pat-inject"
+          id="workflow-menu"
+          data-pat-inject="${view/form_pat_inject_options}"
+          tal:condition="view/has_workflow"
+>
+  <label class="pat-select bare workflow"
+         title="Change the workflow state"
+         i18n:attributes="title"
+  >
+    <select id="workflow_action"
+            name="workflow_action"
+            disabled="${python: None if view.can_review else ''}"
+    >
+      <option
+        title="${state/title}"
+        value="${state/action}"
+        selected="${state/selected|nothing}"
+        tal:repeat="state view/get_workflow_transitions"
+      >${state/title}</option>
+    </select>
+  </label>
+  <span tal:replace="structure here/@@authenticator/authenticator"/>
+</fieldset>

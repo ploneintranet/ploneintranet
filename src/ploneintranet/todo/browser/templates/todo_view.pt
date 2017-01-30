@@ -8,17 +8,21 @@
 
   <body>
     <metal:content fill-slot="content"
-                   tal:define="workspace python:view.workspace;
-                               workspace_url workspace/absolute_url;
-                               workspace_id python:workspace.id;
-                               read_only python:not view.can_edit">
+                   tal:define="
+                     workspace python:view.workspace;
+                     workspace_url workspace/absolute_url;
+                     workspace_id python:workspace.id;
+                     read_only python:not view.can_edit;
+                     disabled python: None if view.can_edit else 'disabled';
+                     workflow_menu nocall:here/@@workflow_menu|nothing;
+                   ">
       <div class="application" id="app-space">
-        <div id="application-body"
+        <div class="sidebar-normal application-workspace application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed"
+             id="application-body"
              tal:define="type workspace/ws_type | string:workspace;"
-             tal:attributes="class string:sidebar-normal application-workspace application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed">
-
+        >
           <h1 id="workspace-name">
-            <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
+            <a href="${workspace_url}">${workspace/Title}</a>
           </h1>
 
           <div class="${workspace_id}" id="project-body">
@@ -33,7 +37,12 @@
                           id="document-title"
                           style="min-height: 1.5em"
                         >${context/title}</h1>
-                      <textarea name="title" tal:attributes="disabled read_only" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title" tal:content="context/title" />
+                      <textarea name="title"
+                                disabled="${disabled}"
+                                placeholder="Document title"
+                                class="doc-title pat-content-mirror"
+                                data-pat-content-mirror="target: #document-title"
+                      >${context/title}</textarea>
                     </span>
                     <div class="quick-functions">
                       <a tal:condition="not: read_only"
@@ -57,49 +66,23 @@
                       <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">
                         Toggle extra metadata
                       </a>
-                      <fieldset tal:condition="view/has_workflow" id="workflow-menu" class="pat-subform pat-autosubmit pat-inject"
-                        data-pat-inject="
-                              source: #global-statusmessage; target: #global-statusmessage  &amp;&amp;
-                              source: #workspace-tickets; target: #workspace-tickets &amp;&amp;
-                              source: #workflow-menu; target: #workflow-menu
-                          ">
-                        <label class="pat-select bare" title="Change the workflow state" i18n:attributes="title">
-                          <select name="task_action" id="workflow_action"
-                                  tal:define="wf_state view/get_workflow_state"
-                                  tal:attributes="disabled read_only">
-
-                            <tal:comment replace="nothing">
-                              There are three possible workflow states for a task: open, planned and done.
-
-                              Whether it is "open" or "planned" depends on the workflow state of the Case
-                              and the Milestone of the task. It is updated by an event handler, so it
-                              doesn't make sense to allow a user to manually switch between "open" and
-                              "planned". A user can only "close" or "reopen" a task.
-
-
-                              Show the currently selected state:
-                            </tal:comment>
-                            <option title="Open" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'open'">Open</option>
-                            <option title="Planned" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'planned'">Planned</option>
-                            <option title="Closed" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Closed</option>
-
-                            <tal:comment replace="nothing">
-                              Show the available transition:
-                            </tal:comment>
-                            <option title="Done" value="close" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state in ['open', 'planned']">Done</option>
-                            <option title="Reopen" value="reopen" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'done'">Reopen</option>
-
-                          </select>
-                        </label>
-                        <span tal:replace="structure context/@@authenticator/authenticator"/>
-                      </fieldset>
+                      <tal:workflow replace="structure workflow_menu|nothing" />
                       <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
 
                     </div>
                   </div>
                   <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
                     <fieldset class="bar">
-                      <input type="text" tal:attributes="disabled read_only" class="pat-autosuggest" name="subjects" placeholder="Tags" i18n:domain="plone" i18n:attributes="placeholder" value="${python:','.join(context.subject)}" data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
+                      <input type="text"
+                             disabled="${disabled}"
+                             class="pat-autosuggest"
+                             name="subjects"
+                             placeholder="Tags"
+                             i18n:domain="plone"
+                             i18n:attributes="placeholder"
+                             value="${python:','.join(context.subject)}"
+                             data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"
+                      />
                     </fieldset>
 
                   </fieldset>
@@ -119,8 +102,47 @@
 
             <aside data-tile="${workspace_url}/@@sidebar.default"
                    tal:condition="view/show_sidebar"></aside>
+            <aside tal:condition="not:view/show_sidebar"
+                   tal:define="
+                     done workflow_menu/is_done;
+                   "
+              >
+              <label id="todo-${here/UID}-replacement"
+                     tal:condition="request/task_action|nothing"
+              >
+                <?python locals().update(econtext); import ipdb; ipdb.set_trace() ?>
+                <input type="checkbox" name="active-tasks:list"
+                  value="${here/UID};"
+                  checked="${python: 'checked' if done else None}"
+                  disabled="${disabled}"
+                />
+                <input type="hidden"
+                  name="disabled-checked-tasks:list"
+                  value="${here/UID}"
+                  tal:condition="python: disabled and done"
+                />
+                <input type="hidden"
+                  name="checked-tasks:list"
+                  value="${here/UID}"
+                  tal:condition="python: not disabled and done"
+                />
+                <a class="pat-inject follow pat-switch"
+                  title="${here/title}"
+                  href="${here/absolute_url}"
+                  data-pat-inject="source: #document-body; target: #document-body"
+                  data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+                  >${here/title}</a>
+                <input type="hidden"
+                  name="current-tasks:list"
+                  value="${here/UID}"
+                />
+              </label>
+            </aside>
           </div>
-          <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
+          <nav class="navigation workspace-tabs"
+               id="workspace-tabs"
+               data-tile="${workspace_url}/@@workspace.tabs.tile"
+          />
         </div>
       </div>
     </metal:content>

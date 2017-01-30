@@ -1,0 +1,46 @@
+<tal:menu define="
+                   wf_state view/get_workflow_state;
+                   done python: wf_state == 'done';
+                   disabled python:None if view.can_review else 'disabled';
+                 "
+>
+  <fieldset class="pat-subform pat-autosubmit pat-inject"
+            id="workflow-menu"
+            data-pat-inject="${view/form_pat_inject_options}"
+            tal:condition="view/has_workflow"
+  >
+    <label class="pat-select bare workflow"
+           title="Change the workflow state"
+           i18n:attributes="title"
+    >
+      <select name="task_action"
+              id="workflow_action"
+              disabled="${disabled}"
+      >
+        <tal:comment replace="nothing">
+          There are three possible workflow states for a task: open, planned and done.
+
+          Whether it is "open" or "planned" depends on the workflow state of the Case
+          and the Milestone of the task. It is updated by an event handler, so it
+          doesn't make sense to allow a user to manually switch between "open" and
+          "planned". A user can only "close" or "reopen" a task.
+
+
+          Show the currently selected state:
+        </tal:comment>
+
+        <option title="Open" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'open'">Open</option>
+        <option title="Planned" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state == 'planned'">Planned</option>
+        <option title="Closed" selected="selected" i18n:attributes="title" i18n:translate="" tal:condition="done">Closed</option>
+
+        <tal:comment replace="nothing">
+          Show the available transition:
+        </tal:comment>
+        <option title="Done" value="close" i18n:attributes="title" i18n:translate="" tal:condition="python: wf_state in ['open', 'planned']">Done</option>
+        <option title="Reopen" value="reopen" i18n:attributes="title" i18n:translate="" tal:condition="done">Reopen</option>
+
+      </select>
+    </label>
+    <span tal:replace="structure here/@@authenticator/authenticator"/>
+  </fieldset>
+</tal:menu>

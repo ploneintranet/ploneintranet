@@ -35,7 +35,7 @@
         <fieldset class="object-list tasks pat-checklist">
           <tal:task repeat="task tasks">
             <br/>
-            <label>
+            <label id="todo-${task/id}">
               <input type="checkbox" name="active-tasks:list"
                      disabled="${python:not task['can_edit'] and 'disabled' or None}"
                      tal:attributes="value task/id;
@@ -103,7 +103,8 @@
             <h4 class="section-label state-finished" tal:content="python:milestone['title']" i18n:translate=""
                 tal:attributes="class string:section-label state-${state}"/>
             <tal:task repeat="task python:tasks[milestone_id]">
-              <label tal:define="read_only not:task/can_edit">
+              <label id="todo-${task/id}"
+                     tal:define="read_only not:task/can_edit">
                 <input type="checkbox" name="active-tasks:list"
                        tal:attributes="value task/id;
                                        checked python:'checked' if task['checked'] else '';
@@ -147,7 +148,8 @@
           <h3 class="section-label" i18n:translate="">
             Unassigned
           </h3>
-          <label tal:repeat="task uatasks">
+          <label id="todo-${task/id}"
+                 tal:repeat="task uatasks">
             <input type="checkbox" name="active-tasks:list"
                    tal:attributes="value task/id;
                                    checked python:'checked' if task['checked'] else ''"

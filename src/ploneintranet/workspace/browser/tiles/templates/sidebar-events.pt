@@ -32,24 +32,25 @@
           <metal:event define-macro="eventdetails">
             <li class="event">
               <a class="pat-inject follow pat-switch"
-                   data-pat-inject="source: #document-body; target: #document-body"
-                   data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
-                   tal:attributes="href string:${event/getURL}#document-body">
+                 href="${event/getURL}"
+                 data-pat-inject="source: #document-body; target: #document-body"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >
                 <h4 class="title">
                   ${python:view.format_event_date(event)} — ${event/Title}
                 </h4>
-              <p class="byline" tal:define="location event/location" tal:condition="location">
-                <tal:location replace="location" />
-              </p>
-              <p class="date">
-                <time class="calendar-medium"
-                      tal:define="month_name python:date2month_name(event.start)">
-                  <strong class="day">${python:event.start.day}</strong>
-                  <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
-                  <strong class="year">${python:event.start.year}</strong>
-                </time>
-              </p>
-              <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+                <p class="byline" tal:define="location event/location" tal:condition="location">
+                  <tal:location replace="location" />
+                </p>
+                <p class="date">
+                  <time class="calendar-medium"
+                        tal:define="month_name python:date2month_name(event.start)">
+                    <strong class="day">${python:event.start.day}</strong>
+                    <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
+                    <strong class="year">${python:event.start.year}</strong>
+                  </time>
+                </p>
+                <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
               </a>
               <tal:comment condition="nothing">
                 <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
