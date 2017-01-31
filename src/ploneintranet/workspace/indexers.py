@@ -149,6 +149,8 @@ def location(obj, **kw):
 
 @indexer(IEvent)
 def timezone(obj):
+    if obj.start is None:
+        return
     timezone = obj.start.tzinfo
     if timezone:
         return timezone.zone
