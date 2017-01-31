@@ -4,7 +4,17 @@ Changelog
 1.2.39 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1089 from quaive/fix-delete-confirmation [GitHub]
+* Do not post when clicking cancel on a modal form [Alessandro Pisa]
+* Merge pull request #1087 from quaive/fix-sidebar-behavior [GitHub]
+* Added a workflow_menu log helper view [Alessandro Pisa]
+* Fix event sidebar [Alessandro Pisa]
+* Do not inject the whole sidebar after save, but only the part we care about [Alessandro Pisa]
+* Make the returned item customizable [Alessandro Pisa]
+* Use itertools ifilter to optimize the sidebar [Alessandro Pisa]
+* Do not render the comment [Alessandro Pisa]
+* Merge pull request #1085 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.39 [Alexander Pilz]
 
 
 1.2.38 (2017-01-25)
