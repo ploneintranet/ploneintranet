@@ -347,6 +347,14 @@ class ContentView(BrowserView):
         except TypeError:
             return False
 
+    def copied_to_library_url(self):
+        try:
+            publish_adapter = IPublishWidely(self.context)
+        except TypeError:
+            return False
+        target = publish_adapter.target()
+        return target and target.absolute_url() or None
+
 
 class ContainerView(ContentView):
     ''' For the container we always return the sidebar
