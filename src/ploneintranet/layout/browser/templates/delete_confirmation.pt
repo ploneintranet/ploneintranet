@@ -111,7 +111,10 @@
 
           <div class="buttons panel-footer" tal:condition="view/actions/values|nothing">
             <tal:block repeat="action view/actions/values">
-              <button type="submit" name="${action/name}" class="${action/klass}">${action/title}</button>
+              <button type="${action/type|string:submit}"
+                      name="${action/name}"
+                      class="${action/klass}"
+              >${action/title}</button>
             </tal:block>
           </div>
           <tal:block tal:condition="view/enableCSRFProtection" tal:replace="structure context/@@authenticator/authenticator" />
