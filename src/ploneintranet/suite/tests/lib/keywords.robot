@@ -1000,6 +1000,10 @@ Then I can delete an event
 The file appears in the sidebar
     Wait until Page contains Element  xpath=//fieldset/label/a/strong[text()[contains(., 'bärtige_flößer.odt')]]
 
+I open the file detail view
+    Click link  bärtige_flößer.odt
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 The upload appears in the stream
     Wait until Page contains Element  xpath=//a[@href='activity-stream']//section[contains(@class, 'preview')]//img[contains(@src, 'bärtige_flößer.odt')]
 
