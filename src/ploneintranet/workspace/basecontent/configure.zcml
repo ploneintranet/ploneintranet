@@ -59,6 +59,15 @@
   />
 
   <browser:page
+    name="workflow_menu"
+    for="plone.app.contenttypes.interfaces.IFile"
+    layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
+    template="templates/workflow_menu.pt"
+    class=".baseviews.WorkflowMenu"
+    permission="zope2.View"
+  />
+
+  <browser:page
     name="file_view"
     for="plone.app.contenttypes.interfaces.IFile"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
