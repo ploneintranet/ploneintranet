@@ -1,8 +1,8 @@
 # coding=utf-8
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.content.browser.actions import DeleteConfirmationForm
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from zope.component import getMultiAdapter
 
@@ -51,6 +51,7 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
         if self.request.get('pat-modal'):
             self.actions['Delete'].klass = 'close-panel icon-ok-circle'
             self.actions['Cancel'].klass = 'close-panel icon-cancel-circle'
+            self.actions['Cancel'].type = 'button'
         else:
             self.actions['Delete'].klass = 'icon-ok-circle'
             self.actions['Cancel'].klass = 'icon-cancel-circle'
