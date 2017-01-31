@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.39 (unreleased)
+1.2.39 (2017-01-31)
 -------------------
 
 * Merge pull request #1089 from quaive/fix-delete-confirmation [GitHub]
