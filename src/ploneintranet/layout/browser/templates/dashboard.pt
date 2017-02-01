@@ -7,6 +7,10 @@
       i18n:domain="ploneintranet">
 
   <body class="view-secure">
+    <metal:content fill-slot="body_top">
+      <div tal:define="config view/splashpage_config" tal:condition="config/enabled" class="pat-collapsible splash-message open" data-pat-collapsible="store: local; trigger: .splash-trigger" id="splash-message-uid-${config/uid}" tal:content="structure config/content"></div>
+    </metal:content>
+
     <metal:content fill-slot="content">
       <tal:dashboard define="dashboard view/default_dashboard;">
 
@@ -71,7 +75,6 @@
             >${tile}</a>
         </div>
       </tal:dashboard>
-      <div tal:define="config view/splashpage_config" tal:condition="config/enabled" class="pat-collapsible splash-message open" data-pat-collapsible="store: local; trigger: .splash-trigger" id="splash-message-uid-${config/uid}" tal:content="structure config/content"></div>
     </metal:content>
   </body>
 </html>

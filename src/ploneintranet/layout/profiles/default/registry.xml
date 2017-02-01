@@ -140,8 +140,8 @@
       <description>This is the complete html markup used to render the splashpage.</description>
       <required>False</required>
     </field>
-    <value purge="false">&lt;div class=&quot;panel-content&quot;&gt;
-    &lt;hr class=&quot;trigger splash-trigger collapsible-open&quot;&gt;
+    <value purge="false">
+    &lt;hr class=&quot;trigger splash-trigger&quot;&gt;
     &lt;div class=&quot;content pat-stacks&quot;&gt;
         &lt;article id=&quot;introduce&quot; class=&quot;container has-image visible&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-mobile.png)&quot;&gt;
             &lt;h1&gt;Welcome back!&lt;/h1&gt;
@@ -217,7 +217,7 @@
         &lt;a href=&quot;#search&quot;&gt;Search&lt;/a&gt;
         &lt;a href=&quot;#enjoy&quot;&gt;Enjoy!&lt;/a&gt;
     &lt;/nav&gt;
-&lt;/div&gt;</value>
+    </value>
   </record>
 
 </registry>
