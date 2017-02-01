@@ -26,6 +26,7 @@
                autosave_delay view/autosave_delay|nothing;
                form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
                read_only python:not view.can_edit;
+               disabled python:'disabled' if read_only else None;
              "
             >
           <h1 id="workspace-name">
@@ -51,7 +52,14 @@
                               data-pat-inject="source: #saving-badge; target: #saving-badge"
                               tal:omit-tag="not:autosave_enabled"
                     >
-                      <textarea name="title" tal:attributes="disabled read_only" type="text" maxlength="70" placeholder="Document title" class="doc-title pat-content-mirror" data-pat-content-mirror="target: #document-title">${context/title}</textarea>
+                      <textarea class="doc-title pat-content-mirror"
+                                disabled="${disabled}"
+                                maxlength="70"
+                                name="title"
+                                placeholder="Document title"
+                                type="text"
+                                data-pat-content-mirror="target: #document-title"
+                      >${context/title}</textarea>
                       <input tal:condition="autosave_enabled"
                              tal:replace="structure context/@@authenticator/authenticator" />
                     </fieldset>
@@ -106,13 +114,13 @@
                                  name="subjects" placeholder="Tags"
                                  i18n:domain="plone" i18n:attributes="placeholder"
                                  value="${python:','.join(context.subject)}"
-                                 tal:attributes="disabled read_only"
+                                 disabled="${disabled}"
                                  class="pat-autosuggest"
                                  data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${context/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"/>
                         </fieldset>
 
                         <fieldset class="bar description">
-                          <textarea disabled="${read_only}"
+                          <textarea disabled="${disabled}"
                                     name="description"
                                     placeholder="Description"
                                     rows="8"
