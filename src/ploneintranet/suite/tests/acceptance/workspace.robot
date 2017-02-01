@@ -262,11 +262,10 @@ Member cannot publish a document in a Producers workspace
 Member can publish a file in a Publishers workspace
     Given I am in a workspace as a workspace member
       And I open the sidebar documents tile
-      And I select a file to upload
-     Then the file appears in the sidebar
-     When I open the file detail view
+      And I browse to a file
      Then I submit the content item
-     And I can publish the content item
+      And I can publish the content item
+      And I retract the content item
 
 Member cannot create content in a Consumers workspace
     Given I am in a Consumers workspace as a workspace member
