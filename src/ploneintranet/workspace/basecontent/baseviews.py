@@ -2,6 +2,7 @@
 from .utils import dexterity_update
 from Acquisition import aq_inner
 from plone import api
+from plone.api.exc import InvalidParameterError
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
@@ -487,11 +488,11 @@ class WorkflowMenu(BrowserView):
         '''
         context = aq_inner(self.context)
         # This check for locked state was copied from star - unclear if needed
-        locking_info = api.content.get_view(
-            'plone_lock_info',
-            self.context,
-            self.request,
-        )
+        try:
+            locking_info = api.content.get_view(
+                'plone_lock_info', self.context, self.request)
+        except InvalidParameterError:
+            locking_info = None
         if locking_info and locking_info.is_locked_for_current_user():
             return []
 

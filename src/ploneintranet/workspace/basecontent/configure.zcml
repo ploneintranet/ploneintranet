@@ -51,7 +51,7 @@
 
   <browser:page
     name="workflow_menu"
-    for="plone.app.contenttypes.interfaces.IDocument"
+    for="*"
     layer="ploneintranet.workspace.interfaces.IWorkspaceAppContentLayer"
     template="templates/workflow_menu.pt"
     class=".baseviews.WorkflowMenu"
