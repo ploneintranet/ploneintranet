@@ -225,11 +225,22 @@ class AddEvent(AddBase):
         loading-class: ''"""
 
     def redirect(self, url):
+        ''' Try to find the proper redirect context.
+        '''
+        workspace = parent_workspace(self.context)
         if self.request.get('app'):
-            url = self.context.absolute_url() + '/@@app-calendar'
+            # This means the event is created using the fullcalendar tile
+            if workspace:
+                # Go to the workspace calendar
+                # BBB: activate multicalendar view if
+                # self.request.get('container') is different from the workspace
+                url = workspace.absolute_url() + '/@@workspace-calendar'
+            else:
+                # if not render the app view
+                url = self.context.absolute_url() + '/@@app-calendar'
         else:
-            target = parent_workspace(self.context)
-            url = target.absolute_url() + '?show_sidebar#workspace-events'
+            # This is an event created on a workspace
+            url = workspace.absolute_url() + '?show_sidebar#workspace-events'
         return self.request.response.redirect(url)
 
     def default_start(self):

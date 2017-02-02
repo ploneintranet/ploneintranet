@@ -71,16 +71,18 @@
       <input type="hidden" name="app" value="${request/app | nothing}" />
       <label class="calendar" tal:condition="request/app | nothing">
                 <span tal:omit-tag="" i18n:translate="">Calendar</span>
-          <select name="container" required="required">
-              <optgroup>
-                  <option value="" i18n:translate="">-- Please select a workspace --</option>
-              </optgroup>
-              <tal:repeat repeat="uw here/content_helper_view/get_writable_user_workspaces">
-                  <option tal:content="uw/Title" tal:attributes="value uw/getPath">
-                      Workspace Title
-                  </option>
-              </tal:repeat>
-
+          <select name="container"
+                  required="required"
+                  tal:define="
+                    workspaceuid workspace/UID;
+                  "
+          >
+            <option value="" i18n:translate="">-- Please select a workspace --</option>
+            <tal:repeat repeat="uw here/content_helper_view/get_writable_user_workspaces">
+                <option selected="${python: 'selected' if workspaceuid == uw.UID else None}"
+                        value="${uw/getPath}"
+                >${uw/Title}</option>
+            </tal:repeat>
           </select>
       </label>
       <fieldset
