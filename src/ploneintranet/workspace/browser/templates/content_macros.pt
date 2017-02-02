@@ -200,7 +200,7 @@
           </fieldset>
         </fieldset>
 
-        <label class="timezone" tal:condition="not:hide_timezone|nothing"><span tal:omit-tag="" i18n:translate="">Timezone</span>
+        <label class="timezone" tal:condition="not:view/hide_timezone|nothing"><span tal:omit-tag="" i18n:translate="">Timezone</span>
             <select class="timezone" name="timezone" tal:attributes="disabled read_only">
                 <option tal:repeat="tz here/content_helper_view/get_tz_options;"
                     data-timezone-id="${tz/id}"
