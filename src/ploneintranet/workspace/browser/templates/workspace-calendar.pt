@@ -27,8 +27,9 @@
                     <div id="document-body">
                       <div id="document-content">
 
-                        <div id="calendar-app" data-tile="./@@fullcalendar.tile" tal:attributes="data-tile string:${workspace_url}/@@fullcalendar.tile"></div>
-
+                        <div id="calendar-app"
+                             data-tile="${workspace_url}/@@fullcalendar.tile?all_calendars=${request/all_calendars|nothing}"
+                        ></div>
                        </div>
                     </div>
                     <aside data-tile="${workspace_url}/@@sidebar.default"
