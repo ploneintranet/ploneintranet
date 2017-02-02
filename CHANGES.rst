@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.40 (unreleased)
+1.2.40 (2017-02-02)
 -------------------
 
 * Merge pull request #1104 from quaive/all-calendars-controlled-by-request [GitHub]
