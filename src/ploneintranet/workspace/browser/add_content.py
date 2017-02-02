@@ -2,6 +2,7 @@
 from DateTime import DateTime
 from plone import api
 from plone.app.event.base import default_timezone
+from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
@@ -22,6 +23,12 @@ class AddBase(BrowserView):
         'source: #document-body; target: #document-body',
         'source: #workspace-documents; target: #workspace-documents',
     ))
+
+    @memoize
+    def form_timestamp(self):
+        ''' Return a timestamp, used in the form to create unique selectors
+        '''
+        return DateTime().strftime('%s')
 
     def redirect(self, url):
         """

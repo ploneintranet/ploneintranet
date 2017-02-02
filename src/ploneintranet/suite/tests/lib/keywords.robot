@@ -925,7 +925,7 @@ I can create a new event
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
-    Click Button  css=#form-buttons-create
+    Click Button  jquery=button[name='form.buttons.create']
     Wait Until Page Contains  Item created
     Click Button  Close
 
@@ -944,7 +944,7 @@ I cannot create a new event
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
-    Element Should Be Visible  jquery=#form-buttons-create:disabled
+    Element Should Be Visible  jquery=button[name='form.buttons.create']:disabled
 
 I can edit an event
     [arguments]  ${start}  ${end}  ${timezone}
