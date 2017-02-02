@@ -1,10 +1,43 @@
 Changelog
 =========
 
-1.2.40 (unreleased)
+1.2.41 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.40 (2017-02-02)
+-------------------
+
+* Merge pull request #1104 from quaive/all-calendars-controlled-by-request [GitHub]
+* Merge pull request #1103 from quaive/add_event-sane-defaults [GitHub]
+* Merge pull request #1102 from quaive/timestamped-add-event-form [GitHub]
+* Merge pull request #1099 from quaive/add-event-in-ws-calendar [GitHub]
+* Understand the request parameter all_calendars [Alessandro Pisa]
+* Saner defaults for the add_event form [Alessandro Pisa]
+* Add a timestamp to the form to allow the creation of multiple events [Alessandro Pisa]
+* Merge pull request #1098 from quaive/translate-placeholder [GitHub]
+* Fix adding an event from the workspace calendar [Alessandro Pisa]
+* Fix disabled attribute [Alessandro Pisa]
+* Translate placeholder [Alessandro Pisa]
+* Merge pull request #1097 from quaive/update-proto-fix-splash [GitHub]
+* undo sources again [Alexander Pilz]
+* updating proto and replicating Cornelis' style fixes for the splash page [Alexander Pilz]
+* Merge pull request #1093 from quaive/1090-wf-menu-on-files [GitHub]
+* Merge pull request #1095 from quaive/defensive-indexer [GitHub]
+* Every content can have the workflow_menu view [Alessandro Pisa]
+* Use an existing file [Alessandro Pisa]
+* Merge pull request #1094 from quaive/1088-library-copy-hint [GitHub]
+* Merge pull request #1092 from quaive/1084-permission-check-on-roster [GitHub]
+* Merge pull request #1091 from quaive/release-1.2.x [GitHub]
+* start dates can actually be none [Alexander Pilz]
+* Generally display the information that a document is available as copy in the library. Fixes #1088 [Wolfgang Thomas]
+* Explicitly make the workflow_menu available for Files #1090 [Wolfgang Thomas]
+* the locking view is not available for all content types [Wolfgang Thomas]
+* Add a robot test that checks if workflow is active for Files #1090 [Wolfgang Thomas]
+* Back to development: 1.2.40 [Alexander Pilz]
+* Since all entries in the "more" menu (Select, Add User) are already being shown only if the user can_manage_roster elsewhere on this View, we also need to apply this permission check for the more-menu. Refs #1084 [Wolfgang Thomas]
 
 
 1.2.39 (2017-01-31)
