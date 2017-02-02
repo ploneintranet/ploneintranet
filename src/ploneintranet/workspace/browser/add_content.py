@@ -250,26 +250,39 @@ class AddEvent(AddBase):
             url = workspace.absolute_url() + '?show_sidebar#workspace-events'
         return self.request.response.redirect(url)
 
+    @property
+    @memoize
+    def default_datetime(self):
+        ''' Return the default date (the requested one or now)
+        '''
+        requested_date = self.request.get('date')
+        if requested_date:
+            requested_date += ' 08:00'
+        try:
+            date = DateTime(requested_date)
+        except SyntaxError:
+            date = DateTime()
+        return date
+
     def default_start(self):
-        now = DateTime()
-        date = now.Date()
-        time = self.round_minutes(now.TimeMinutes())
-        result = DateTime(date + " " + time)
+        dt = self.default_datetime
+        time = self.round_minutes(dt.TimeMinutes())
+        result = DateTime(dt.Date() + " " + time)
         return result
 
     def default_end(self):
-        now = DateTime()
-        date = now.Date()
-        time = self.round_minutes(now.TimeMinutes())
+        dt = self.default_datetime
+        time = self.round_minutes(dt.TimeMinutes())
         parts = time.split(":")
         parts[0] = str((int(parts[0]) + 1) % 24)
-        result = DateTime(date + " " + parts[0] + ":" + parts[1])
+        result = DateTime(dt.Date() + " " + parts[0] + ":" + parts[1])
         return result
 
     def round_minutes(self, time):
         hours, minutes = time.split(":")
-        quarters = int(minutes) / 15 + 1
-        minutes = str(quarters * 15)
+        if minutes != "00":
+            quarters = int(minutes) / 15 + 1
+            minutes = str(quarters * 15)
         if minutes == "60":
             minutes = "00"
         return hours + ":" + minutes
