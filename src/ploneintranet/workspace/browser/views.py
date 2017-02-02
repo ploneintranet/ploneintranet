@@ -8,15 +8,19 @@ from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.app.layout.viewlets.content import ContentHistoryView as BaseContentHistoryView  # noqa
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.memoize.view import memoize
 from plone.protect.authenticator import createToken
 from plone.uuid.interfaces import IUUID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
+from ploneintranet.workspace.subscribers import _update_workspace_groupings
 from Products.CMFCore.utils import _checkPermission
 from Products.CMFEditions.Permissions import AccessPreviousVersions
 from Products.Five.browser import BrowserView
+from urllib import urlencode
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
+
 import json
 import mimetypes
 
@@ -98,13 +102,30 @@ class SharingView(BaseSharingView):
 class FileUploadView(BaseFileUploadView):
     """Redirect to the workspace view so we can inject."""
 
+    @property
+    @memoize
+    def groupname(self):
+        ''' Return the groupname
+        '''
+        groupname = self.request.get('groupname')
+        if groupname and groupname != 'Untagged':
+            return groupname
+
     def __call__(self):
         result = self.process_request()
         if self.request.get_header('HTTP_ACCEPT') == 'application/json':
             self.request.response.setHeader("Content-type", "application/json")
             return json.dumps(result)
-        else:
-            self.request.response.redirect(self.context.absolute_url())
+        target = self.context.absolute_url() + '/@@sidebar.documents'
+        groupname = self.groupname
+        if groupname:
+            target = '{url}?{qs}'.format(
+                url=target,
+                qs=urlencode({
+                    'groupname': groupname,
+                })
+            )
+        self.request.response.redirect(target)
 
     def process_request(self):
         # XXX: We don't support the TUS resumable file upload protocol.
@@ -122,6 +143,14 @@ class FileUploadView(BaseFileUploadView):
                 result.append(output)
         return result
 
+    def post_factory(self, obj):
+        ''' Things to do after the object has been created in this form
+        '''
+        groupname = self.groupname
+        if groupname:
+            obj.setSubject(groupname)
+            _update_workspace_groupings(obj, None)
+
     def create_file_from_request(self, name):
         context = self.context
         filedata = self.request.form.get(name, None)
@@ -136,6 +165,7 @@ class FileUploadView(BaseFileUploadView):
 
         if IDexterityFTI.providedBy(getattr(pt, type_)):
             obj = IDXFileFactory(context)(filename, content_type, filedata)
+            self.post_factory(obj)
             notify(ObjectCreatedEvent(obj))
             if hasattr(obj, 'file'):
                 size = obj.file.getSize()
@@ -152,6 +182,7 @@ class FileUploadView(BaseFileUploadView):
         else:
             from Products.ATContentTypes.interfaces import IATCTFileFactory
             obj = IATCTFileFactory(context)(filename, content_type, filedata)
+            self.post_factory(obj)
             try:
                 size = obj.getSize()
             except AttributeError:

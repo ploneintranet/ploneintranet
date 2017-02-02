@@ -14,7 +14,8 @@ from ploneintranet.network.behaviors.metadata import IDublinCore
 from ploneintranet.network.interfaces import INetworkTool
 from ploneintranet.news.content import INewsApp
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
-from zope.component import getUtility, queryUtility
+from zope.component import getUtility
+from zope.component import queryUtility
 from zope.interface import Invalid
 
 import copy
@@ -27,6 +28,7 @@ import pytz
 import random
 import re
 import time
+
 
 log = logging.getLogger(__name__)
 
@@ -297,7 +299,9 @@ def workspaces_spec(context):
                    [{'title': 'Preparation of Records',
                      'description': 'How to prepare records',
                      'state': 'published',
-                     'type': 'File'},
+                     'subject': 'Read carefully',
+                     'type': 'File',
+                     },
                     {'title': 'Public bodies reform',
                      'description': 'Making arrangements for the transfer of '
                                     'information, records and knowledge is a '

@@ -5,6 +5,7 @@
        token context/@@authenticator/token;
        can_add view/can_add;
        can_edit view/can_edit;
+       request_headers context/@@http-cache-headers;
      "
      i18n:domain="ploneintranet"
   >
@@ -328,7 +329,7 @@ Supported types include (class names):
     </form>
 
     <tal:can_add condition="can_add">
-      <form action="${context/absolute_url}/workspaceFileUpload"
+      <form action="${view/bulk_upload_url}"
             method="POST"
             class="pat-inject"
             data-pat-inject="#items"

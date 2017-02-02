@@ -19,6 +19,7 @@ from plone.behavior.interfaces import IBehaviorAssignable
 from plone.i18n.normalizer import idnormalizer
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
+from plone.protect.authenticator import createToken
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
@@ -31,6 +32,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from slc.mailrouter.utils import store_name
 from urllib import quote
+from urllib import urlencode
 from zope.component import getAdapter
 from zope.component import getUtility
 from zope.event import notify
@@ -1230,6 +1232,41 @@ class SidebarDocuments(Sidebar):
     '''
     index = ViewPageTemplateFile('templates/sidebar-documents.pt')
     can_slides = True
+
+    @property
+    @memoize
+    def current_label(self):
+        ''' Return the label (aka tag or subject) that we are exploring
+        '''
+        if not self.grouping().startswith('label'):
+            return
+        groupname = self.request.get('groupname')
+        if not groupname:
+            return
+        if groupname == 'Untagged':
+            return
+        return groupname
+
+    @property
+    @memoize
+    def autotag_bulk_uploaded(self):
+        ''' Check if we should activate the autotag feature
+        on the bulk uploaded files
+        '''
+        return self.current_label
+
+    @property
+    @memoize
+    def bulk_upload_url(self):
+        params = {
+            '_authenticator': createToken(),
+        }
+        if self.autotag_bulk_uploaded:
+            params['groupname'] = self.current_label
+        return '{url}/workspaceFileUpload?{qs}'.format(
+            url=self.context.absolute_url(),
+            qs=urlencode(params),
+        )
 
 
 class SidebarEvents(Sidebar):
