@@ -40,7 +40,11 @@
                     <button class="view-day" type="button" i18n:translate="">Day</button>
                 </fieldset>
                 <label tal:condition="in_workspace" class="pat-checklist toggle alien-calendars cal-cat-alien float-before unchecked">
-                    <input type="checkbox"> <tal:t i18n:translate="">All calendars</tal:t>
+                    <input type="checkbox"
+                           name="all_calendars"
+                           checked="${python:'checked' if request.get('all_calendars') else None}"
+                           value="1"
+                    > <tal:t i18n:translate="">All calendars</tal:t>
                 </label>
                 <!-- This can be activated on workspaces.
                 <a href="#more-menu" data-pat-tooltip="source: ajax; position: tr" class="icon iconified icon-ellipsis dropdown pat-tooltip float-after inactive">More</a>
