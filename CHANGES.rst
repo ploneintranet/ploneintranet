@@ -1,10 +1,34 @@
 Changelog
 =========
 
-1.2.41 (unreleased)
+1.2.43 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.42 (2017-02-03)
+-------------------
+
+* Merge branch 'master' into release-1.2.x [Alexander Pilz]
+* Back to development: 1.2.42 [Alexander Pilz]
+* Merge pull request #1111 from quaive/fix-module-name [GitHub]
+* Merge pull request #1110 from quaive/fix-add-event-url [GitHub]
+* mv context-menu.py -> context_menu.py [Alessandro Pisa]
+* Make the add_event URL always absolute [Alessandro Pisa]
+* Merge pull request #1109 from quaive/fix-undefined-hide_timezone [GitHub]
+* Merge pull request #1106 from quaive/fix-injection-add-event [GitHub]
+* Merge pull request #1108 from quaive/upload-and-autotag [GitHub]
+* Upload and autotag the files [Alessandro Pisa]
+* Fix undefined timezone [Alessandro Pisa]
+* Merge pull request #1105 from quaive/release-1.2.x [GitHub]
+* Fix add_event injection [Alessandro Pisa]
+
+
+1.2.41 (2017-02-03)
+-------------------
+
+* Back to development: 1.2.41 [Alexander Pilz]
 
 
 1.2.40 (2017-02-02)
