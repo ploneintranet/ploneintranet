@@ -1083,6 +1083,15 @@ I browse to a document
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'repurchase-agreements')]
     Click Link  xpath=//a[contains(@href, 'repurchase-agreements')]
 
+I list the documents with the tag
+    [arguments]  ${tag}
+    I open the sidebar documents tile
+    Wait Until Page Contains Element  jquery=#selector-contextual-functions [name='grouping'] option:contains(tag)
+    Select from List  grouping  label
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+    Click Element  jquery=.group.type-tag > a >strong:contains('${tag}')
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I view the document
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
 
