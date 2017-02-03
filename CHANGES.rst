@@ -4,7 +4,7 @@ Changelog
 1.2.41 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Back to development: 1.2.41 [Alexander Pilz]
 
 
 1.2.40 (2017-02-02)
