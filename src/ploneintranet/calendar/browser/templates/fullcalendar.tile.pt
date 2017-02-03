@@ -1,9 +1,11 @@
 <div class="pat-calendar fc fc-ltr"
      id="calendar-app"
-     tal:define="default_view request/default_view|string:month;
-                 ws view/workspace;
-                 in_workspace python:ws is not None;
-                 new_event_url string:add_event?app=1#document-content"
+     tal:define="
+                  default_view request/default_view|string:month;
+                  ws view/workspace;
+                  in_workspace python:ws is not None;
+                  new_event_url string:${here/absolute_url}/add_event?app=1#document-content;
+                "
      data-pat-calendar="default-view: ${default_view};
                         start-date: ${view/get_start_date};
                         first-hour: 8;
