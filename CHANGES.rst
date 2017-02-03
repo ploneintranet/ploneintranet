@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.42 (unreleased)
+1.2.42 (2017-02-03)
 -------------------
 
 * Merge branch 'master' into release-1.2.x [Alexander Pilz]
