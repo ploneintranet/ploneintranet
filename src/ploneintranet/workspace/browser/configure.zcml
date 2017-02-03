@@ -413,7 +413,7 @@
         name="context-menu"
         for="*"
         permission="zope2.View"
-        class=".context-menu.ContextMenuView"
+        class=".context_menu.ContextMenuView"
         template="templates/context-menu.pt"
         layer="..interfaces.IWorkspaceAppContentLayer"
     />

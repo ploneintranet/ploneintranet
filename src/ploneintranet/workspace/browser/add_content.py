@@ -239,9 +239,16 @@ class AddEvent(AddBase):
             # This means the event is created using the fullcalendar tile
             if workspace:
                 # Go to the workspace calendar
-                # BBB: activate multicalendar view if
-                # self.request.get('container') is different from the workspace
-                url = workspace.absolute_url() + '/@@workspace-calendar'
+                container = self.request.get('container')
+                if (
+                    container and
+                    container != u'/'.join(workspace.getPhysicalPath())
+                ):
+                    url = '%s/@@workspace-calendar?all_calendars=1'
+
+                else:
+                    url = '%s/@@workspace-calendar'
+                url = url % workspace.absolute_url()
             else:
                 # if not render the app view
                 url = self.context.absolute_url() + '/@@app-calendar'

@@ -204,6 +204,12 @@ Member can upload a file
       And I select a file to upload
      Then the file appears in the sidebar
 
+Member can upload and autotag file
+    Given I am in a workspace as a workspace member
+      And I list the documents with the tag  Read carefully
+      And I select a file to upload
+     Then the file appears in the sidebar
+
 Member can submit a document
     Given I am in a workspace as a workspace member
      When I can create a new document    My awesome document
