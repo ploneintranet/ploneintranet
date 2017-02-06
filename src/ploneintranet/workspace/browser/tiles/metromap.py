@@ -131,16 +131,32 @@ class MetromapTile(Tile):
                 return False
         return True
 
+    @property
+    @memoize
+    def metromap_state(self):
+        ''' This is the state reached in the metromap journey
+
+        It may be different from the actual review state if the case is frozen
+        '''
+        # If the case is frozen, render the MetroMap for the pre-frozen state
+        freeze_view = api.content.get_view(
+            'freeze-view',
+            self.context,
+            self.request,
+        )
+        return freeze_view.metromap_state
+
     def set_milestone_states(self, milestones):
         ''' Check if the transition is finished or not and set this as state
         in the milestone
         '''
-        review_state = api.content.get_state(self.context)
+        metromap_state = self.metromap_state
+
         # We start from the end and declare that the transition is unfinished
         finished = 'unfinished'
         for idx, milestone in enumerate(reversed(milestones)):
             is_last = idx == 0
-            is_current = milestone['state'] == review_state
+            is_current = milestone['state'] == metromap_state
             all_tasks_completed = self.tasks_are_all_completed(
                 milestone['tasks']
             )

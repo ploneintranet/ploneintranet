@@ -1,3 +1,4 @@
+# coding=utf-8
 from plone import api
 from plone.memoize.view import memoize
 from ploneintranet.workspace.browser.workspace import WorkspaceView
@@ -94,6 +95,15 @@ class FreezeView(BrowserView):
         wft = api.portal.get_tool('portal_workflow')
         return wft.getInfoFor(self.context, 'frozen_state', None)
 
+    @property
+    def metromap_state(self):
+        ''' Return the state of the metromap (actual or before freezing)
+        '''
+        if self.is_frozen():
+            return self.pre_frozen_state
+        else:
+            return api.content.get_state(self.context)
+
     def can_be_frozen(self):
         """
         An item can only be frozen if the assigned workflow has a workflow
@@ -102,8 +112,7 @@ class FreezeView(BrowserView):
         return bool(self.frozen_state)
 
     def is_frozen(self):
-        wft = api.portal.get_tool('portal_workflow')
-        review_state = wft.getInfoFor(self.context, 'review_state')
+        review_state = api.content.get_state(self.context)
         return review_state == self.frozen_state
 
     def frozen_date(self):
@@ -111,12 +120,6 @@ class FreezeView(BrowserView):
         ts = api.portal.get_tool('translation_service')
         frozen_date = wft.getInfoFor(self.context, 'time')
         return ts.toLocalizedTime(frozen_date)
-
-
-class UnfreezeView(BrowserView):
-    """
-    Return to the workflow state that the item was at before being frozen.
-    """
 
     @property
     def pre_frozen_state(self):
@@ -126,7 +129,9 @@ class UnfreezeView(BrowserView):
         previous_wf = history[-2]
         return previous_wf.get('review_state')
 
-    def __call__(self):
+    def unfreeze(self):
+        ''' Unfreeze the context
+        '''
         previous_state = self.pre_frozen_state
         if previous_state:
             api.content.transition(self.context, to_state=previous_state)
@@ -135,4 +140,15 @@ class UnfreezeView(BrowserView):
         # If we don't explicitly reindex the Case, the solr query for the
         # workspaces view won't find it.
         self.context.reindexObject()
+
+
+class UnfreezeView(FreezeView):
+    """
+    Return to the workflow state that the item was at before being frozen.
+    """
+
+    def __call__(self):
+        ''' Unfreeze the context and redirect to its view
+        '''
+        self.unfreeze()
         self.request.response.redirect(self.context.absolute_url())
