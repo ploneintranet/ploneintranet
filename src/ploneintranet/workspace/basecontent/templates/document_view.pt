@@ -49,7 +49,7 @@
                       >${context/title}</h1>
                     <fieldset class="pat-subform pat-autosubmit pat-inject"
                               data-pat-autosubmit="delay: ${autosave_delay}"
-                              data-pat-inject="source: #saving-badge; target: #saving-badge"
+                              data-pat-inject="source: #saving-badge; target: #saving-badge; &amp;&amp; source: #item-${here/UID}-replacement; target: #item-${here/UID};"
                               tal:omit-tag="not:autosave_enabled"
                     >
                       <textarea class="doc-title pat-content-mirror"
@@ -62,6 +62,11 @@
                       >${context/title}</textarea>
                       <input tal:condition="autosave_enabled"
                              tal:replace="structure context/@@authenticator/authenticator" />
+                      <input name="autosave_title"
+                             type="hidden"
+                             value="1"
+                             tal:condition="autosave_enabled"
+                      />
                     </fieldset>
                   </span>
 
@@ -252,7 +257,7 @@
                  href="${item/url}"
                  data-pat-inject="${item/dpi|nothing}"
                  data-pat-switch="${item/dps|nothing}"
-                 tal:condition="request/form.submitted|nothing"
+                 tal:condition="request/form.submitted|request/autosave_title|nothing"
                  tal:repeat="item view/make_sidebar_items"
               >
                 <strong class="title">
