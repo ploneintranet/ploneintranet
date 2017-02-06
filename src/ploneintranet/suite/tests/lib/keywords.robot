@@ -818,9 +818,12 @@ I can edit the new link
     [arguments]  ${title}
     Click Link  jquery=.type-link a:contains('${title}')
     Wait Until Page Does Not Contain Element  css=.injecting-content
+    Wait Until Page Contains Element  link=Toggle extra metadata
+    Click Link  link=Toggle extra metadata
+    Wait Until Element is Visible  meta-extra
     Input Text  remoteUrl  http://quaive.net#
-    Wait Until Page Does Not Contain Element  css=.injecting-content
     Click button   Save
+    Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait Until Element Is Visible  css=div.pat-notification-panel.success
     Wait Until Page Contains  Your changes have been saved.
     Click button  Close
@@ -839,7 +842,7 @@ I can see the new link
     Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
     Click Link  jquery=.type-link a:contains('${title}')
     Wait Until Page Contains Element  jquery=#document-title:contains('${title}')
-    Page Should Contain Element  jquery=#document-content article a:contains('http')
+    Page Should Contain Element  jquery=#meta-extra .link a:contains('http')
 
 I cannot create a new document
     Click link  Documents
