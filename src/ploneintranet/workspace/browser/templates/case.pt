@@ -55,6 +55,21 @@
                         </form>
                     </div>
                 </div>
+                <div id="workspace-messages"
+                     tal:condition="related_ws"
+                >
+                  <p class="message notice">
+                    <span tal:omit-tag=""
+                          i18n:translate=""
+                    >If you use this workspace, you might also be interested in</span>
+                    <tal:r repeat="rw related_ws">
+                      <a class="icon-workspace"
+                         href="${rw/getURL}"
+                      >${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">,
+                      </tal:separator></tal:r>.
+                  </p>
+                </div>
+
               <div class="workspace-header"
                    tal:define="freeze_view nocall:workspace/freeze-view;
                                is_frozen freeze_view/is_frozen;">
@@ -78,20 +93,6 @@
                        i18n:translate="">Unfreeze</a>
                   </p>
                 </div>
-              </div>
-              <div id="workspace-messages"
-                   tal:condition="related_ws"
-              >
-                <p class="message notice">
-                  <span tal:omit-tag=""
-                        i18n:translate=""
-                  >If you use this workspace, you might also be interested in</span>
-                  <tal:r repeat="rw related_ws">
-                    <a class="icon-workspace"
-                       href="${rw/getURL}"
-                    >${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">,
-                    </tal:separator></tal:r>.
-                </p>
               </div>
 
               <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
