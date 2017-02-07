@@ -14,6 +14,7 @@
                    i18n:domain="ploneintranet"
                    tal:define="workspace view/workspace;
                                workspace_url workspace/absolute_url;
+                               related_ws view/get_related_workspaces;
                                ws_type workspace/ws_type | string:case;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">
@@ -78,6 +79,20 @@
                   </p>
                 </div>
               </div>
+              <div id="workspace-messages"
+                   tal:condition="related_ws"
+              >
+                <p class="message notice">
+                  <span tal:omit-tag=""
+                        i18n:translate=""
+                  >If you use this workspace, you might also be interested in</span>
+                  <tal:r repeat="rw related_ws">
+                    <a class="icon-workspace"
+                       href="${rw/getURL}"
+                    >${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">,
+                    </tal:separator></tal:r>.
+                </p>
+              </div>
 
               <!-- Careful. I integrate the newpostbox tile from dashboard here, but the markup is different from the one on a workspace, so this still needs to get fixed -->
               <form tal:condition="view/can_add_status_updates" id="new-post-box" data-tile="./@@newpostbox.tile" tal:attributes="data-tile string:${workspace_url}/@@newpostbox.tile"></form>
@@ -85,8 +100,15 @@
               <p id="scroll-to-workspace-top" hidden="">
                   <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
               </p>
+              <div id="slcclicktracker"
+                   tal:condition="view/include_clicktracker|nothing"
+                   tal:attributes="
+                     request_url request/getURL;
+                     path python:'/'.join(context.getPhysicalPath());
+                   "
+              ></div>
             </div>
-            <aside data-tile="${workspace_url}/@@sidebar.default"
+            <aside data-tile="${workspace_url}/@@sidebar.default?groupname=${request/groupname|nothing}"
                    tal:condition="view/show_sidebar"></aside>
 
             <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
