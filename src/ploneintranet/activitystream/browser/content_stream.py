@@ -1,8 +1,9 @@
 # coding=utf-8
-import logging
-from Products.Five.browser import BrowserView
 from plone import api
 from ploneintranet import api as pi_api
+from Products.Five.browser import BrowserView
+
+import logging
 
 
 logger = logging.getLogger('ploneintranet.activitystream')
@@ -66,3 +67,12 @@ class ContentStreamView(BrowserView):
     def _statusupdates_all(self):
         container = pi_api.microblog.get_microblog()
         return container.content_values(self.context)
+
+    def __call__(self):
+        ''' On the content stream we want all the comments,
+        because the "Show older comments" feature implemented in
+        ploneintranet.prototype#390
+        it is still not style for the content stream
+        '''
+        self.request.form['all_comments'] = 1
+        return super(ContentStreamView, self).__call__()

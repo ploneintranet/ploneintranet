@@ -766,7 +766,25 @@
         "microblog_context": "workspaces/open-market-committee",
         "text": "@fernando_poulter @esmeralda_claassen @jorge_primavera @jamie_jacko there will be a #meeting on Monday 06 September in Dufour with the guys from Foucher to discuss laudantium eum et aut pariatur eveniet est similique aliquid",
         "timestamp": 0,
-        "user": "christian_stoney"
+        "user": "christian_stoney",
+        "replies": [
+            {
+                "author": "fernando_poulter",
+                "text": "Well done!"
+            },
+            {
+                "author": "esmeralda_claassen",
+                "text": "I was really waiting for this!"
+            },
+            {
+                "author": "jorge_primavera",
+                "text": "Thanks!"
+            },
+            {
+                "author": "jamie_jacko",
+                "text": "Amazing!"
+            }
+        ]
     },
     {
         "microblog_context": "workspaces/parliamentary-papers-guidance",

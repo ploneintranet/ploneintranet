@@ -12,8 +12,10 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
 import logging
 import urllib
+
 
 logger = logging.getLogger(__name__)
 
@@ -119,6 +121,13 @@ class StreamBase(object):
         The activity are sorted by reverse chronological order
         '''
         container = piapi.microblog.get_microblog()
+        post_id = self.request.get('post_id')
+        if post_id:
+            try:
+                return [container.get(post_id)]
+            except KeyError:
+                return []
+
         stream_filter = self.request.get('stream_filter')
         if self.microblog_context:
             # support ploneintranet.workspace integration

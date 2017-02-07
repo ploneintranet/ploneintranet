@@ -9,11 +9,14 @@
   </tal:comment>
 <div class="tile">
   <div i18n:domain="ploneintranet"
-       tal:define="thread_id context/getId;"
+       tal:define="
+         thread_id context/getId;
+         portal_url view/portal_url;
+       "
        class="post item"
        tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
     <div class="post-header">
-      <a href="${view/portal_url}/author/${here/userid}">
+      <a href="${portal_url}/author/${here/userid}">
           <img tal:replace="structure view/avatar">
           <h4 class="name">${python:view.fullname or '&nbsp;'}</h4>
       </a>
@@ -333,9 +336,38 @@
 
     <div class="comments"
          id="${string:comments-${thread_id}}">
-      <div tal:attributes="id string:comment-trail-${thread_id}">
+      <div id="comment-trail-${thread_id}"
+           tal:define="
+             replies view/replies;
+             comment_views view/comment_views;
+           "
+      >
+        <p class="older-comments"
+           id="older-comments"
+           tal:condition="view/has_older_replies"
+        >
+          <tal:old_replies_link tal:define="
+            total_replies python: len(replies);
+            older_replies python: total_replies  - view.fresh_reply_limit;
+            plural python:older_replies > 1;
+          ">
+            <a href="${portal_url}/@@activitystream.tile?post_id=${thread_id}&amp;all_comments=1#comment-trail-${thread_id}"
+               class="pat-inject"
+               data-pat-inject="source: #comment-trail-${thread_id}::element; target: #comment-trail-${thread_id}::element"
+               i18n:translate=""
+            >
+              <tal:singular condition="not:plural"
+                            i18n:translate=""
+              >Show <tal:n i18n:name="count">${older_replies}</tal:n> older comment</tal:singular>
+              <tal:plural condition="plural"
+                          i18n:translate=""
+              >Show <tal:n i18n:name="count">${older_replies}</tal:n> older comments</tal:plural>
+            </a>
+            <span class="counter">${view/fresh_reply_limit} of ${total_replies}</span>
+          </tal:old_replies_link>
+        </p>
         <tal:loop
-            tal:repeat="comment view/comment_views"
+            tal:repeat="comment python:comment_views"
             tal:content="structure comment"
         />
       </div>
