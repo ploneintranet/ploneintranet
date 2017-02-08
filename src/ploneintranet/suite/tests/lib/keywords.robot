@@ -265,6 +265,18 @@ Both replies are visible after a reload
     The reply is visible as a comment  ${message}  ${reply_message1}
     The reply is visible as a comment  ${message}  ${reply_message2}
 
+I can read the comment
+    [arguments]  ${text}
+    Page Should Contain Element  jquery= .comment-content :contains(${text})
+
+I cannot read the comment
+    [arguments]  ${text}
+    Page Should Not Contain Element  jquery= .comment-content :contains(${text})
+
+I expand the older comments
+    Click Element  jquery=.post .older-comments > a
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 I can add a tag
     [arguments]  ${tag}
     Click link    link=Add tags

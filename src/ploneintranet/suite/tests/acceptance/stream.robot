@@ -33,6 +33,14 @@ Allan can see attachments in the stream
     when I open the Dashboard
     then I can see an attachment  report.xlsx
 
+Allan can see comments in the stream
+    Given I am logged in as the user allan_neece
+     When I open the Dashboard
+     Then I can read the comment  Amazing!
+      And I cannot read the comment  Well done!
+     When I expand the older comments
+     Then I can read the comment  Well done!
+
 Allan can open his user filter stream and see only people he is following
     Given I am logged in as the user allan_neece
     when I open the Dashboard
@@ -88,7 +96,7 @@ Neil can view the tag stream
     and I write a status update    ${MESSAGE1}
     and I can add a tag    ${TAG1}
     and I submit the status update
-    when I open the Dashboard    
+    when I open the Dashboard
     and I write a status update    ${MESSAGE2}
     and I can add a tag    ${TAG2}
     and I submit the status update
@@ -129,4 +137,3 @@ Neil can follow and unfollow tags from the tagstream
 
 
 *** Keywords ***
-

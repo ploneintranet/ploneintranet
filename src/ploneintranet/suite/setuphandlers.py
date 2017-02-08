@@ -888,6 +888,15 @@ def create_stream(context, stream, files_dir):
                     user_id=user_id,
                     item_id=str(status_obj.id),
                 )
+        for idx, reply in enumerate(status.get('replies', [])):
+            pi_api.microblog.statusupdate.create(
+                text=reply['text'],
+                microblog_context=m_context_obj,
+                userid=reply['author'],
+                time=_time + timedelta(microseconds=idx),
+                thread_id=status_obj.id,
+            )
+
     microblog.ASYNC = _orig_async
 
 

@@ -1,8 +1,8 @@
 # coding=utf-8
 from plone import api
+from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
-from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
@@ -33,6 +33,17 @@ class StatusUpdateView(BrowserView):
 
     newpostbox_placeholder = _(u'leave_a_comment',
                                default=u'Leave a comment...')
+
+    @property
+    @memoize_contextless
+    def fresh_reply_limit(self):
+        ''' How many replies are considered fresh?
+        0 means "infinite"
+        '''
+        if not self.request.get('all_comments'):
+            return 3
+        else:
+            return 0
 
     @property
     @memoize
@@ -187,18 +198,35 @@ class StatusUpdateView(BrowserView):
         items = storage.values()
         return map(self.item2attachments, items)
 
+    @property
     @memoize
-    def comment_views(self):
-        ''' Return the way we can reply to this activity
+    def replies(self):
+        ''' Get the replies for this statusupdate
         '''
         replies = list(self.context.replies())
         replies.reverse()
+        return replies
+
+    @property
+    def has_older_replies(self):
+        ''' Check if we have oilder replies that we may want to hide
+        '''
+        if not self.fresh_reply_limit:
+            return False
+        return len(self.replies) > self.fresh_reply_limit
+
+    @memoize
+    def comment_views(self):
+        ''' Return the html views of the replies to this comment
+        '''
         replies_rendered = [
             api.content.get_view(
                 'comment.html',
                 reply,
-                self.request)
-            for reply in replies]
+                self.request
+            )
+            for reply in self.replies[-self.fresh_reply_limit:]
+        ]
         return replies_rendered
 
     # ----------- actions (edit, delete) ----------------
