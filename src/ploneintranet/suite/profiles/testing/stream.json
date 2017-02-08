@@ -744,7 +744,25 @@
         "text": "On Wednesday 24 May there will be a #meeting with Fernandes S.A. to discuss illo dicta qui enim. @jamie_jacko you'll get further details from #hr for your travel to Badalzungen",
         "timestamp": 0,
         "user": "jorge_primavera",
-        "likes": ["neil_wichmann", "francois_gast"]
+        "likes": ["neil_wichmann", "francois_gast"],
+        "replies": [
+            {
+                "author": "fernando_poulter",
+                "text": "Well done!"
+            },
+            {
+                "author": "esmeralda_claassen",
+                "text": "I was really waiting for this!"
+            },
+            {
+                "author": "jorge_primavera",
+                "text": "Thanks!"
+            },
+            {
+                "author": "jamie_jacko",
+                "text": "Amazing!"
+            }
+        ]
     },
     {
         "microblog_context": "workspaces/parliamentary-papers-guidance",
@@ -766,25 +784,7 @@
         "microblog_context": "workspaces/open-market-committee",
         "text": "@fernando_poulter @esmeralda_claassen @jorge_primavera @jamie_jacko there will be a #meeting on Monday 06 September in Dufour with the guys from Foucher to discuss laudantium eum et aut pariatur eveniet est similique aliquid",
         "timestamp": 0,
-        "user": "christian_stoney",
-        "replies": [
-            {
-                "author": "fernando_poulter",
-                "text": "Well done!"
-            },
-            {
-                "author": "esmeralda_claassen",
-                "text": "I was really waiting for this!"
-            },
-            {
-                "author": "jorge_primavera",
-                "text": "Thanks!"
-            },
-            {
-                "author": "jamie_jacko",
-                "text": "Amazing!"
-            }
-        ]
+        "user": "christian_stoney"
     },
     {
         "microblog_context": "workspaces/parliamentary-papers-guidance",
