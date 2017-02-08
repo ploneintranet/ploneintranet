@@ -15,10 +15,6 @@
                    tal:define="workspace view/workspace;
                                workspace_url workspace/absolute_url;
                                ws_type workspace/ws_type | string:case;
-                               mm_seq view/metromap_sequence;
-                               transition_icons view/transition_icons;
-                               tasks view/tasks;
-                               target nothing;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">
       <div class="application" id="app-space">
@@ -41,6 +37,7 @@
                             ${python:len(view.member_ids)} <tal:t i18n:translate="">Members</tal:t> <!-- | 223 Followers -->
                         </h2>
                         <form class="pat-inject buttons">
+                          <tal:comment condition="nothing">
                             <!-- <a href="/feedback/workspace-settings-members.html#workspace-settings" class="pat-modal iconified icon-cog" data-pat-modal="class: large">Settings</a> -->
 
 <!--                                     <fieldset class="pat-inject pat-subform" data-pat-inject="source: #content; target: #follow-workspace" id="follow-workspace">
@@ -52,7 +49,9 @@
                                     <button type="submit" formaction="/feedback/bookmark-workspace-removed.html" class="icon-bookmark active" title="Remove this workspace from your bookmarks">Bookmarked</button>
 
                             </fieldset>
--->                                </form>
+-->
+                          </tal:comment>
+                        </form>
                     </div>
                 </div>
               <div class="workspace-header"
