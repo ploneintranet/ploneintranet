@@ -30,6 +30,7 @@ from zope.component import getMultiAdapter
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.container.interfaces import INameChooser
 from zope.globalrequest import getRequest
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
 from zope.lifecycleevent.interfaces import IObjectCopiedEvent
 from zope.lifecycleevent.interfaces import IObjectRemovedEvent
 
@@ -268,6 +269,12 @@ def update_todo_state(obj, event):
     # Do nothing on copy
     if IObjectCopiedEvent.providedBy(event):
         return
+
+    if IObjectAddedEvent.providedBy(event):
+        # This attribute is set when copying from a template
+        # handle_case_workflow_state_changed will take care of everything
+        if getattr(event.newParent, '_v_skip_update_todo_state', None):
+            return
     obj.set_appropriate_state()
     obj.reindexObject()
     parent = parent_workspace(obj)
