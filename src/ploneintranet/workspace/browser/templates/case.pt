@@ -14,6 +14,7 @@
                    i18n:domain="ploneintranet"
                    tal:define="workspace view/workspace;
                                workspace_url workspace/absolute_url;
+                               related_ws view/get_related_workspaces;
                                ws_type workspace/ws_type | string:case;
                                is_archived workspace/archival_date;
                                archived_class python:'workspace-state-archived' if is_archived else ''">
@@ -54,6 +55,21 @@
                         </form>
                     </div>
                 </div>
+                <div id="workspace-messages"
+                     tal:condition="related_ws"
+                >
+                  <p class="message notice">
+                    <span tal:omit-tag=""
+                          i18n:translate=""
+                    >If you use this workspace, you might also be interested in</span>
+                    <tal:r repeat="rw related_ws">
+                      <a class="icon-workspace"
+                         href="${rw/getURL}"
+                      >${rw/Title}</a><tal:separator condition="python: not repeat['rw'].end">,
+                      </tal:separator></tal:r>.
+                  </p>
+                </div>
+
               <div class="workspace-header"
                    tal:define="freeze_view nocall:workspace/freeze-view;
                                is_frozen freeze_view/is_frozen;">
@@ -85,8 +101,15 @@
               <p id="scroll-to-workspace-top" hidden="">
                   <a href="#top" class="pat-scroll pat-scroll-animated" data-pat-scroll="trigger: auto" i18n:translate="">Scroll back to top</a>
               </p>
+              <div id="slcclicktracker"
+                   tal:condition="view/include_clicktracker|nothing"
+                   tal:attributes="
+                     request_url request/getURL;
+                     path python:'/'.join(context.getPhysicalPath());
+                   "
+              ></div>
             </div>
-            <aside data-tile="${workspace_url}/@@sidebar.default"
+            <aside data-tile="${workspace_url}/@@sidebar.default?groupname=${request/groupname|nothing}"
                    tal:condition="view/show_sidebar"></aside>
 
             <nav class="navigation workspace-tabs" id="workspace-tabs" data-tile="./@@workspace.tabs.tile" tal:attributes="data-tile string:${workspace_url}/@@workspace.tabs.tile" />
