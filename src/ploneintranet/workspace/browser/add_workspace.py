@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
 from datetime import datetime
+from logging import getLogger
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.memoize.view import memoize
@@ -13,7 +14,7 @@ from ploneintranet.workspace.utils import purge_and_refresh_security_manager
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
-from logging import getLogger
+
 
 vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 log = getLogger(__name__)
@@ -217,11 +218,18 @@ class AddWorkspace(AddBase):
         pi_api.previews.events_disable(self.request)
         pi_api.microblog.events_disable(self.request)
         pi_api.events.disable_solr_indexing(self.request)
+
+        # avoid calling too many times an expensive event
+        # the updates are anyway handled in the subscriber
+        # handle_case_workflow_state_changed
+        container._v_skip_update_todo_state = True
+
         new = api.content.copy(
             source=template,
             target=container,
             safe_id=False,
         )
+
         # We must not let api's `copy` method do the renaming. If the
         # acl_users folder is cached, then AccessControl checks will not
         # realise that the current user has the required permissions on
@@ -235,6 +243,7 @@ class AddWorkspace(AddBase):
         new.creation_date = datetime.now()
         # Now that the new workspace has been created, re-index it (async)
         # using the solr-maintenance convenience method.
+        container._v_skip_update_todo_state = False
         pi_api.events.enable_solr_indexing(self.request)
         try:
             solr_maintenance = api.content.get_view(
