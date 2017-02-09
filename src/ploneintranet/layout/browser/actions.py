@@ -49,7 +49,7 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
         super(PIDeleteConfirmationForm, self).updateActions()
 
         if self.request.get('pat-modal'):
-            self.actions['Delete'].klass = 'close-panel icon-ok-circle'
+            self.actions['Delete'].klass = 'icon-ok-circle'
             self.actions['Cancel'].klass = 'close-panel icon-cancel-circle'
             self.actions['Cancel'].type = 'button'
         else:
