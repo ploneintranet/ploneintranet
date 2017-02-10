@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.43 (unreleased)
+1.2.43 (2017-02-10)
 -------------------
 
 * Merge pull request #1125 from quaive/remove-close-panel [GitHub]
