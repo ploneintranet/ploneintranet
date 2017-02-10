@@ -92,11 +92,16 @@ def content_added_in_workspace(obj, event):
 def content_edited_in_workspace(obj, event):
     if not hasattr(obj.REQUEST, 'form'):
         return
+    # XXX: Why can this even happen?
+    try:
+        request_url = obj.REQUEST.getURL()
+    except AttributeError:
+        request_url = ''
     if obj.REQUEST.form.get('file') or \
        obj.REQUEST.form.get('form.widgets.IFileField.file') or\
        obj.REQUEST.form.get('text') or\
        obj.REQUEST.get('method') == 'PUT' or\
-       obj.REQUEST.getURL().endswith('revertversion'):
+       request_url.endswith('revertversion'):
 
         event_key = 'ploneintranet.previews.content_edited_in_workspace'
         enabled = obj.REQUEST.get(event_key, True)  # default is enabled
