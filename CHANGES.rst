@@ -4,7 +4,27 @@ Changelog
 1.2.43 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1125 from quaive/remove-close-panel [GitHub]
+* Removed close-panel class from submit button. This was causing a problem on Windows machines where the modal would close but the form not be submitted. [Manuel Reinhardt]
+* added vcl provided by Paul [Alexander Pilz]
+* Merge pull request #1122 from quaive/fix-case-view-3 [GitHub]
+* Merge pull request #1121 from quaive/show-older-comments [GitHub]
+* Merge pull request #1120 from quaive/fix-case-view-2 [GitHub]
+* Merge pull request #1119 from quaive/fix-case-view [GitHub]
+* Merge pull request #1116 from quaive/609-fix-broken-test [GitHub]
+* Merge pull request #1123 from quaive/speed-up-copy-from-template [GitHub]
+* Avoid calling uneeded expensive event while copying a template [Alessandro Pisa]
+* Move replies to another objects to not interfere with previous tests [Alessandro Pisa]
+* Move related workspaces to the proper place [Alessandro Pisa]
+* Backport [Alessandro Pisa]
+* Implement the "Show N older comments" link [Alessandro Pisa]
+* Introduce the concept of metromap state [Alessandro Pisa]
+* Remove unused defines and drop commented html [Alessandro Pisa]
+* Update the test to match the template changes [Alessandro Pisa]
+* Merge pull request #1113 from quaive/improve-autosave [GitHub]
+* Merge pull request #1112 from quaive/release-1.2.x [GitHub]
+* Improve autosave [Alessandro Pisa]
+* Back to development: 1.2.43 [Alexander Pilz]
 
 
 1.2.42 (2017-02-03)
