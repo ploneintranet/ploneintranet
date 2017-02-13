@@ -27,6 +27,7 @@ Transifex as the translators workbench tool
 The translations of Plone Intranet are not managed by editing plain .po files. Instead we use the professional translation platform Transifex that is free for open source projects <https://www.transifex.com/projects/p/plone-intranet/>`_.
 
 Transifex provides:
+
 - Accounts for non-developer translators as team members
 - Management and creation of .pot and .po files from a web interface without knowledge of git etc.
 - Comments that can be treated optional as issues to be resolved by others.
@@ -167,3 +168,12 @@ Check translations in context
 `Postar <https://gist.github.com/allcaps/a2d5001499e894001bfb>`_ is a small script that converts all translation stings into asterisks.
 It is created to quickly identify (un)translated stings in context and can be used in parallel to i18ndude --find-untranslated.
 An temporarily translation to only asterisks also helps to differentiate between translatable stings and content.
+
+Additional hints to use Transifex with Sphinx based documentation
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Sphinx is used for the creation of the Quaive end user manual. To streamline the translation workflow take a look at the Python based transifex-client module until a certain workflow is defined.
+
+* `Using transifex service for team translation <http://www.sphinx-doc.org/en/stable/intl.html#using-transifex-service-for-team-translation>`__
+
+* See also `Transifex Client documentation <http://docs.transifex.com/developer/client/>`__
