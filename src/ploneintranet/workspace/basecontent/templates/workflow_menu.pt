@@ -2,6 +2,7 @@
           id="workflow-menu"
           data-pat-inject="${view/form_pat_inject_options}"
           tal:condition="view/has_workflow"
+          i18n:domain="ploneintranet"
 >
   <label class="pat-select bare workflow"
          title="Change the workflow state"
@@ -16,6 +17,7 @@
         value="${state/action}"
         selected="${state/selected|nothing}"
         tal:repeat="state view/get_workflow_transitions"
+        i18n:translate=""
       >${state/title}</option>
     </select>
   </label>
