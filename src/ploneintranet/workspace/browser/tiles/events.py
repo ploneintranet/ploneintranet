@@ -12,17 +12,6 @@ from zope.i18nmessageid import MessageFactory
 pl_message = MessageFactory('plonelocales')
 
 
-def is_single_day(event):
-    start = event.start
-    end = event.end
-    if not end:
-        return True
-    elif start.day == end.day and (end - start).days < 1:
-        return True
-    else:
-        return False
-
-
 def format_event_date_for_title(event):
     """
     We need to show only the starting time, or in case of an all day event
@@ -32,15 +21,16 @@ def format_event_date_for_title(event):
     """
     # whole_day isn't a metadata field (yet)
     event_obj = event.getObject()
-    if is_single_day(event_obj) and event_obj.whole_day:
-        return _(u'All day')
-    elif is_single_day(event_obj):
-        return event_obj.start.strftime('%H:%M')
-    else:  # multi day event
+    start = event_obj.start
+    end = event_obj.end
+    if not (start and end) or (start.date() != end.date()):
         return '{} - {}'.format(
-            event_obj.start.strftime('%Y-%m-%d'),
-            event_obj.end.strftime('%Y-%m-%d'),
+            start.strftime('%Y-%m-%d') if start else '',
+            end.strftime('%Y-%m-%d') if end else '',
         )
+    if event_obj.whole_day:
+        return _(u'All day')
+    return start.strftime('%H:%M')
 
 
 class EventsTile(Tile):
