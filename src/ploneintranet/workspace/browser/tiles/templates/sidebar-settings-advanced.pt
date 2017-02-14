@@ -122,14 +122,13 @@
                                        title="Set related workspaces">Set related workspaces</a>
 
                                 </li>
-                                <li>
-                                <a class="icon-tags pat-modal"
-                                   href="${ws/absolute_url}/panel-reorder-tags#document-content"
-                                   data-pat-inject="source: #document-content"
-                                   title="Change custom order of tags"
-                                   tal:condition="can_manage_workspace"
-                                   i18n:translate=""
-                                   i18n:attributes="title">Change custom order of tags</a>
+                                <li tal:condition="can_manage_workspace">
+                                  <a class="icon-tags pat-modal"
+                                     href="${ws/absolute_url}/panel-reorder-tags#document-content"
+                                     data-pat-inject="source: #document-content"
+                                     title="Change custom order of tags"
+                                     i18n:translate=""
+                                     i18n:attributes="title">Change custom order of tags</a>
                                 </li>
                                 <!-- <li>
                                     <a class="pat-modal" href="/feedback/panel-related-workspaces.html">Set tracking</a>
