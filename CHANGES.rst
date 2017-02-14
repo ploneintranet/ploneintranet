@@ -4,7 +4,31 @@ Changelog
 1.2.44 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1044 from quaive/proto420-bulk-workflow [GitHub]
+* fix bulk workflow tests [Wolfgang Thomas]
+* Add German trnslations for batch workflow change [Wolfgang Thomas]
+* change label [Wolfgang Thomas]
+* replace Windows dash with ASCII-dash, since i18n extract pukes [Wolfgang Thomas]
+* Always perform bulk-workflow change revursively [Wolfgang Thomas]
+* changed icon name to corrent one [Wolfgang Thomas]
+* add 2 robot tests for bulk workflow change [Wolfgang Thomas]
+* Don't show the transition names, but the titles of the new states [Wolfgang Thomas]
+* First basic implementation of bulk-action Change workflow, see quaive/ploneintranet.prototype#420 note: not styled yet! [Wolfgang Thomas]
+* Merge pull request #1138 from quaive/fix_wf_translations [GitHub]
+* Merge pull request #1129 from quaive/fix-artifact [GitHub]
+* Merge pull request #1136 from quaive/1135-workflow-menu [GitHub]
+* Add missing i18n:domain, so that workflow transitions on ToDos can be translated [Wolfgang Thomas]
+* Remove nasty ipdb import [GitHub]
+* move workflow_menu view to ploneintranet.layout [Harald Friessnegger]
+* Merge pull request #1131 from quaive/do-not-break-event-sidebar [GitHub]
+* Merge pull request #1133 from quaive/workflow_translation [GitHub]
+* fix regression: we need to translate workflow state names [Wolfgang Thomas]
+* Do not break is start or end date are None [Alessandro Pisa]
+* Merge pull request #1127 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1128 from quaive/catch-geturl-error [GitHub]
+* Do not render an empty <li> item [Alessandro Pisa]
+* Catch AttributeError in getURL. I can't reliably reproduce it, but sometimes getURL throws an AttributeError. If the request does not have a URL then we can't continue the event handler anyway, but at least we may be able to finish the original request if we catch the error. [Manuel Reinhardt]
+* Back to development: 1.2.44 [Manuel Reinhardt]
 
 
 1.2.43 (2017-02-10)
