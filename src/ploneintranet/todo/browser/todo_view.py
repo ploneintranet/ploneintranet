@@ -5,8 +5,8 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.browser.workflow import WorkflowMenu
 from ploneintranet.workspace.basecontent.baseviews import ContentView
-from ploneintranet.workspace.basecontent.baseviews import WorkflowMenu
 from zope.component import getUtility
 from zope.interface import implementer
 
