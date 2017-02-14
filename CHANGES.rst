@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.44 (unreleased)
+1.2.44 (2017-02-14)
 -------------------
 
 * Merge pull request #1044 from quaive/proto420-bulk-workflow [GitHub]
