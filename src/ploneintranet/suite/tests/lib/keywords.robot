@@ -1110,6 +1110,15 @@ I list the documents with the tag
 I view the document
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements
 
+I open the document
+    [arguments]  ${title}
+    Click link  ${title}
+    Wait until element is visible  xpath=//h1[@id="document-title"][text()="${title}"]
+
+I can see the item is in state
+    [arguments]  ${state}
+    Wait until element is visible  xpath=//select[@id="workflow_action"]/option[@selected="selected"][text()="${state}"]
+
 I browse to an image
     I browse to a workspace
     Wait Until Page Contains Element  xpath=//a[contains(@href, 'budget-proposal')]
