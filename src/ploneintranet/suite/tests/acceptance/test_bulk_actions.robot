@@ -191,7 +191,7 @@ A member can bulk publish documents in a subfolder
       and I toggle the bulk action controls
       and I add an item to the cart  Manage Information
       and I add an item to the cart  Files for application 2837
-      and I choose to change the workflow state of the items and subitems to  Published
+      and I choose to change the workflow state of the items to  Published
       When I browse to a file
       then I can see the item is in state  Published
 
@@ -284,19 +284,9 @@ I choose to download the items in the cart
 I choose to change the workflow state of the items to
     [arguments]  ${transition}
     Execute Javascript  $('#batch-more .panel-content').show()
-    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change workflow']
+    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change the workflow state']
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch change workflow"]
     Select From List  css=select[name=transition]  Published
-    Click button  form-buttons-send
-    Wait until page contains  The workflow state of the following items has been changed:
-
-I choose to change the workflow state of the items and subitems to
-    [arguments]  ${transition}
-    Execute Javascript  $('#batch-more .panel-content').show()
-    Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change workflow']
-    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch change workflow"]
-    Select From List  css=select[name=transition]  Published
-    Select checkbox  xpath=//input[@name='recursive']
     Click button  form-buttons-send
     Wait until page contains  The workflow state of the following items has been changed:
 
