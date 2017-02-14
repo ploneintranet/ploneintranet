@@ -37,7 +37,7 @@
                  data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
               >
                 <h4 class="title">
-                  ${python:view.format_event_date(event)} — ${event/Title}
+                  ${python:view.format_event_date(event)} - ${event/Title}
                 </h4>
                 <p class="byline" tal:define="location event/location" tal:condition="location">
                   <tal:location replace="location" />
