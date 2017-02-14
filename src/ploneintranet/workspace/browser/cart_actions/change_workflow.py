@@ -64,7 +64,9 @@ class ChangeWorkflowView(BaseCartView):
                 request=self.request,
                 type="warning")
 
-        recursive = bool(self.request.form.get('recursive', ''))
+        # We set recursive to be generally True
+        # See discussion on quaive/ploneintranet.prototype#420
+        recursive = True
         pworkflow = api.portal.get_tool('portal_workflow')
 
         def action(obj):

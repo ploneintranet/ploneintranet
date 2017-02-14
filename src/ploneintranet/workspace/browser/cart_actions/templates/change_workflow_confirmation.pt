@@ -33,9 +33,6 @@
                         tal:content="trans/title" i18n:translate="">transition</option>
                     </select>
                 </label>
-                <label>
-                    <input type="checkbox" name="recursive"/><tal:translate i18n:translate="">Include contained items?</tal:translate>
-                </label>
             </fieldset>
             <article>
                 <p>
@@ -55,7 +52,7 @@
             <span tal:replace="structure context/@@authenticator/authenticator"/>
 
             <button type="submit" id="form-buttons-send" class="close-panel icon-ok-circle pat-shopping-cart" i18n:translate="">
-              I am sure, change workflow
+              OK, change workflow
             </button>
             <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
               Cancel
