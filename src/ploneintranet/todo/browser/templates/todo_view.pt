@@ -110,7 +110,6 @@
               <label id="todo-${here/UID}-replacement"
                      tal:condition="request/task_action|nothing"
               >
-                <?python locals().update(econtext); import ipdb; ipdb.set_trace() ?>
                 <input type="checkbox" name="active-tasks:list"
                   value="${here/UID};"
                   checked="${python: 'checked' if done else None}"
