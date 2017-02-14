@@ -206,7 +206,7 @@
                 </li>
                 <li>
                   <button type="submit"
-                          class="icon-workflow"
+                          class="icon-speedometer"
                           title="Change workflow"
                           formaction="${context/absolute_url}/cart-change-workflow-confirm?_authenticator=${token}"
                           i18n:translate="" i18n:attributes="title">Change workflow</button>
