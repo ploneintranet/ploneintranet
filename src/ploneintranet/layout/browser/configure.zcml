@@ -124,6 +124,15 @@
       />
 
   <browser:page
+    name="workflow_menu"
+    for="*"
+    layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+    template="templates/workflow_menu.pt"
+    class=".workflow.WorkflowMenu"
+    permission="zope2.View"
+  />
+
+  <browser:page
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="date-picker-i18n.json"
       class=".date_picker.I18nJSONView"
