@@ -83,6 +83,8 @@ After creating users with bulk upload, you can add avatar images as follows:
 
 - Upload images into this folder with ids like 'johndoe.jpg' matching userid 'johndoe'
 
+  (As plone does not allow ids containing dots, use 'john_doe.jpg' as avatar image for userid 'john.doe')
+
 - Run ``http://portal_url/avatars/@@import-avatars``
 
 
@@ -218,7 +220,7 @@ The view requires Manager privileges.
 
 You can also sync an individual user profile using the `sync` view.
 This view also requires Manager privileges.
-		 
+
 .. code::
 
    /plonesite/profiles/joe-bloggs/@@sync
@@ -231,11 +233,11 @@ that will query the AD server for any users that have changed since the
 last sync (using the `whenChanged` AD attribute).
 
 This significantly improves the performance of the sync:
-   
+
 .. code::
 
    /plonesite/profiles/@@sync-user-properties-ldap
-   
+
 .. _docs.plone.org: http://docs.plone.org/external/plone.app.dexterity/docs/advanced/behaviours.html
 
 .. _Behaviours: http://docs.plone.org/external/plone.app.dexterity/docs/behaviors/index.html
@@ -329,7 +331,7 @@ Plugin activation
 
 - ZMI http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_servers
   Delete the existing ldap server and create a new one with the right hostname and port. For a default ploneintranet buildout that is: host ‘localhost’ and port ‘8389’.
-  
+
 - ZMI http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_main
   Configure the ``User Base DN``, ``Group Base DN``,  ``Manager DN`` and
   ``User password encryption`` to match your local LDAP installation.
