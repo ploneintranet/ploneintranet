@@ -55,6 +55,12 @@ To use the bulk upload, visit the `@@import-users` browser view on the profiles 
 See :download:`this example csv file <users.csv>` to get you started.
 Supported columns are listed in the `@@import-users` view.
 
+If you check "Update details for existing users" existing user profiles are updated with the values provided in the csv file.
+
+
+If you omit values in the password column, a password is auto-generated for new users, and the password of existing users will be kept.
+
+
 .. warning::
 
    Don't upload the example CSV into a production site without changing at least the passwords...

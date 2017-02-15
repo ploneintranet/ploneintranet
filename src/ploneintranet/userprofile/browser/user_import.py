@@ -6,6 +6,7 @@ import itertools
 import logging
 import transaction
 
+from dexterity.membrane.behavior.password import IProvidePasswordsSchema
 from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
@@ -327,8 +328,14 @@ class CSVImportView(BrowserView):
                         raise custom_exc.RequiredMissing(
                             e.message,
                             details={'row': offset_row, 'field': key})
+
+                if norm_key == 'password':
+                    # set the password if we're updating and it's given
+                    if update and validated_value:
+                        IProvidePasswordsSchema(user).password = password
+                    continue
                 if any([norm_key == 'username',
-                        not update and norm_key in {'email', 'password'}]):
+                        not update and norm_key == 'email']):
                     continue
                 setattr(user, norm_key, validated_value)
 
