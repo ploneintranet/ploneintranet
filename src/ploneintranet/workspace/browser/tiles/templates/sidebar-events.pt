@@ -42,7 +42,7 @@
                 <p class="byline" tal:define="location event/location" tal:condition="location">
                   <tal:location replace="location" />
                 </p>
-                <p class="date">
+                <p class="date" tal:condition="event/start">
                   <time class="calendar-medium"
                         tal:define="month_name python:date2month_name(event.start)">
                     <strong class="day">${python:event.start.day}</strong>
