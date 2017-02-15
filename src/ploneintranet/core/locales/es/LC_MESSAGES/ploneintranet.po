@@ -2202,11 +2202,11 @@ msgid "Self-Managed"
 msgstr "Gestionado por si mismo"
 
 #: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Self-managed, private teamspace"
+msgid "Team-managed, private teamspace"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:33
-msgid "Self-managed, private workspace"
+msgid "Team-managed, private workspace"
 msgstr ""
 
 #: ../invitations/invite_user.pt:48

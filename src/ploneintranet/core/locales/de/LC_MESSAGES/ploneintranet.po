@@ -2237,12 +2237,12 @@ msgid "Self-Managed"
 msgstr "Selbstverwaltet"
 
 #: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Self-managed, private teamspace"
-msgstr "Selbstverwalteter, privater Arbeitsraum"
+msgid "Team-managed, private teamspace"
+msgstr "Teamverwalteter, privater Arbeitsraum"
 
 #: ../workspace/browser/templates/add_workspace.pt:33
-msgid "Self-managed, private workspace"
-msgstr "Selbstverwalteter, privater Arbeitsraum"
+msgid "Team-managed, private workspace"
+msgstr "Teamverwalteter, privater Arbeitsraum"
 
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:73

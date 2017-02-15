@@ -2204,12 +2204,12 @@ msgid "Self-Managed"
 msgstr "Open beheer"
 
 #: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Self-managed, private teamspace"
-msgstr "Open beheer, besloten groep"
+msgid "Team-managed, private teamspace"
+msgstr "Team beheer, besloten groep"
 
 #: ../workspace/browser/templates/add_workspace.pt:33
-msgid "Self-managed, private workspace"
-msgstr "Open beheer, besloten groep"
+msgid "Team-managed, private workspace"
+msgstr "Team beheer, besloten groep"
 
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:71
