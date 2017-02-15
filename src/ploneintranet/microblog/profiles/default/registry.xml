@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.microblog.whitelisted_types">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_whitelisted_types">List of the whitelisted types</title>
+      <description i18n:translate="help_whitelisted_types">
+        This types may enter the microblog feed.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>Document</element>
+      <element>Event</element>
+      <element>File</element>
+      <element>Image</element>
+      <element>News Item</element>
+    </value>
+  </record>
+</registry>
