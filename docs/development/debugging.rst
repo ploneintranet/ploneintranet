@@ -66,19 +66,25 @@ If you try to access the debug information in the ZMI, this will break on::
 
 You can fix that by applying the following patch to class ``DebugManager`` in ``ApplicationManager.py``::
 
-    *** /var/tmp/eggs/Zope2-2.13.24-py2.7.egg/App/ApplicationManager.py~	2016-04-08 10:22:03.818536674 +0200
-    --- /var/tmp/eggs/Zope2-2.13.24-py2.7.egg/App/ApplicationManager.py	2016-12-28 15:37:22.948853573 +0100
+    *** /var/tmp/eggs/Zope2-2.13.24-py2.7.egg/App/ApplicationManager.py-orig	2017-02-15 18:49:50.143394084 +0000
+    --- /var/tmp/eggs/Zope2-2.13.24-py2.7.egg/App/ApplicationManager.py	2017-02-15 18:52:05.069003128 +0000
     ***************
-    *** 168,174 ****
-                  if 'six.' in m.__name__:
+    *** 165,174 ****
+              for m in sys.modules.values():
+                  if m is None:
+                      continue
+    !             if 'six.' in m.__name__:
                       continue
                   for sym in dir(m):
     !                 ob = getattr(m, sym)
                       if type(ob) in t:
                           counts[ob] = sys.getrefcount(ob)
               pairs = []
-    --- 168,177 ----
-                  if 'six.' in m.__name__:
+    --- 165,177 ----
+              for m in sys.modules.values():
+                  if m is None:
+                      continue
+    !             if 'six.' in repr(m):
                       continue
                   for sym in dir(m):
     !                 try:
