@@ -32,7 +32,7 @@
       handler=".migration.setup_uuid_mapping"
       profile="ploneintranet.microblog:default"
       />
-  
+
   <genericsetup:upgradeStep
       title="Setup threadids"
       description="Add thead_id mapping and attribute"
@@ -41,7 +41,7 @@
       handler=".migration.setup_threadids"
       profile="ploneintranet.microblog:default"
       />
-  
+
   <genericsetup:upgradeStep
       title="Rename _context_uuid -> _microblog_context_uuid"
       description="Rename the attribute _context_uuid -> _microblog_context_uuid (#506)"
@@ -50,7 +50,7 @@
       handler=".migration.uuid_to_microblog_uuid"
       profile="ploneintranet.microblog:default"
       />
-  
+
   <genericsetup:upgradeStep
       title="enforce parent context"
       description="Fix security context for replies"
@@ -59,7 +59,7 @@
       handler=".migration.enforce_parent_context"
       profile="ploneintranet.microblog:default"
       />
-  
+
   <genericsetup:upgradeStep
       title="document discussion"
       description="Add document discussion fields"
@@ -95,7 +95,7 @@
         handler=".migration.tag_older_contentupdates"
         profile="ploneintranet.microblog:default"
         />
-    
+
     <genericsetup:upgradeStep
         title="archive on delete"
         description="archive updates on deletion"
@@ -104,5 +104,14 @@
         handler=".migration.ondelete_archive"
         profile="ploneintranet.microblog:default"
         />
-    
+
+    <genericsetup:upgradeStep
+        title="Configure whitelisted types"
+        description=""
+        source="0010"
+        destination="0011"
+        handler=".migration.set_whitelisted_types"
+        profile="ploneintranet.microblog:default"
+        />
+
 </configure>

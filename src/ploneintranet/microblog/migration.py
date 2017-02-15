@@ -9,7 +9,9 @@ from ploneintranet.microblog.interfaces import IMicroblogTool
 from ploneintranet.microblog.statusupdate import StatusUpdate
 from transaction import commit
 from zope.component import queryUtility
+
 import logging
+
 
 logger = logging.getLogger('ploneintranet.microblog.migration')
 PROFILE_ID = 'ploneintranet.microblog:default'
@@ -218,3 +220,7 @@ def ondelete_archive(context):
         i += 1
     logger.info("archived %s statusupdates with stale uuid references", i)
     commit()
+
+
+def set_whitelisted_types(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')

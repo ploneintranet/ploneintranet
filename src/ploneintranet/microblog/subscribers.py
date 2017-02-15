@@ -1,12 +1,11 @@
 from AccessControl import Unauthorized
-import logging
-
 from plone import api
 from plone.uuid.interfaces import IUUID
 from ploneintranet import api as pi_api
-from ploneintranet.microblog.browser.interfaces import (
-    IPloneIntranetMicroblogLayer
-)
+from ploneintranet.microblog.browser.interfaces import IPloneIntranetMicroblogLayer  # noqa
+
+import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +22,10 @@ def content_created(obj, event):
         logger.debug("%s disabled", event_key)
         return
 
-    # BBB: this should not be harcoded (maybe use a registry record)
-    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
+    whitelist = api.portal.get_registry_record(
+        'ploneintranet.microblog.whitelisted_types',
+        default=('Document', 'File', 'Image', 'News Item', 'Event'),
+    )
     try:
         if obj.portal_type not in whitelist:
             return
@@ -57,8 +58,10 @@ def content_statechanged(obj, event):
         logger.debug("%s disabled", event_key)
         return
 
-    # BBB: this should not be harcoded (maybe use a registry record)
-    whitelist = ('Document', 'File', 'Image', 'News Item', 'Event')
+    whitelist = api.portal.get_registry_record(
+        'ploneintranet.microblog.whitelisted_types',
+        default=('Document', 'File', 'Image', 'News Item', 'Event'),
+    )
     try:
         if obj.portal_type not in whitelist:
             return
