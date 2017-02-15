@@ -42,7 +42,8 @@ class ImportAvatarsView(BrowserView):
         profiles = portal.profiles
         i = 0
         for profile in profiles:
-            portrait_filename = "%s.jpg" % profile
+            # plone normalizes scott.tiger.jpg to scott-tiger.jpg
+            portrait_filename = "%s.jpg" % profile.replace('.', '-')
             portrait = getattr(imgs, profile, None)
             if not portrait:
                 portrait = getattr(imgs, portrait_filename, None)
@@ -52,7 +53,6 @@ class ImportAvatarsView(BrowserView):
                     filename=portrait_filename.decode('utf-8'))
                 getattr(profiles, profile).portrait = image
                 getattr(profiles, profile).reindexObject()
-                transaction.commit()
                 i += 1
 
         logger.info("imported %s portraits", i)

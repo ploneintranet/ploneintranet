@@ -2,14 +2,18 @@ import os
 import tablib
 
 from Products.statusmessages.interfaces import IStatusMessage
+from plone import api
+from plone.app.contenttypes.tests.test_image import dummy_image
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.schema import invalidate_cache
 from plone.directives import form
+from ploneintranet import api as pi_api
+from ploneintranet.userprofile import exc as custom_exc
 from ploneintranet.userprofile.browser.user_import import CSVImportView
+from ploneintranet.userprofile.browser.user_import import ImportAvatarsView
 from ploneintranet.userprofile.browser.user_import import USER_PORTAL_TYPE
 from ploneintranet.userprofile.tests.base import BaseTestCase
-from ploneintranet.userprofile import exc as custom_exc
 from zope import schema
 from zope.component import getUtility
 from zope.interface import alsoProvides
@@ -20,6 +24,50 @@ class IDummySchema(form.Schema):
     hair_colour = schema.TextLine(
         title=u'Hair colour')
 alsoProvides(IDummySchema, IFormFieldProvider)
+
+
+class TestAvatarImportView(BaseTestCase):
+
+    def setUp(self):
+        super(TestAvatarImportView, self).setUp()
+        self.login_as_portal_owner()
+        self.avatars = api.content.create(
+            self.portal, 'Folder', title='Avatars')
+        api.content.create(
+            self.avatars, 'Image', title='scott.tiger.jpg',
+            image=dummy_image())
+
+        api.content.create(
+            self.avatars, 'Image', title='john-doe.jpg',
+            image=dummy_image())
+
+        self.scott = pi_api.userprofile.create(
+            'scott.tiger', 'scott@oracle.com')
+        self.john = pi_api.userprofile.create(
+            'john_doe', 'johndoe@example.com')
+
+    def test_import(self):
+        # plone normalized the image filename
+        self.assertTrue('scott-tiger.jpg' in self.avatars.objectIds())
+        self.assertFalse('scott.tiger.jpg' in self.avatars.objectIds())
+
+        # users don't have an avatar image yet
+        self.assertTrue(self.scott.portrait is None)
+        self.assertTrue(self.john.portrait is None)
+
+        view = ImportAvatarsView(self.avatars, self.request)
+        result = view()
+
+        # john_doe's profile name differs from the image filename
+        # so he did not get a new avatar
+        self.assertEquals(
+            result,
+            u'done 1 portraits')
+        self.assertTrue(self.john.portrait is None)
+
+        self.assertTrue(len(self.scott.portrait.data) > 0)
+        self.assertEquals(self.scott.portrait.filename,
+                          'scott-tiger.jpg')
 
 
 class TestCSVImportView(BaseTestCase):
@@ -67,7 +115,7 @@ class TestCSVImportView(BaseTestCase):
         view = CSVImportView(self.profiles, self.request)
         fti = getUtility(IDexterityFTI, name=USER_PORTAL_TYPE)
         behaviors = fti.behaviors + (
-            'ploneintranet.userprofile.tests.test_import.IDummySchema', )
+            'ploneintranet.userprofile.tests.test_import.IDummySchema',)
         fti.behaviors = behaviors
         invalidate_cache(fti)
 
