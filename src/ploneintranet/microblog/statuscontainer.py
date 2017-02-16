@@ -45,13 +45,15 @@ def cache_key(method, self):
     allowed_status_keys() results.
     - cache per user
     - until a new update is inserted
-    - for maximally 1 second
+    - for maximally 1 minute
 
     The short time interval is needed in case the user's workspace
     memberships change - this should invalidate the cache but we're
     not listening to that event directly.
-    One second on the other hand is enough to cache the results for
-    multiple calls during a single page rendering request.
+    One minute on the other hand is enough to cache the results for
+    multiple calls during a single page rendering request - which
+    should take seconds rather than a minute, but real life can be slow
+    (especially if the cache expires, which has dramatic effects...)
 
     memoize.ram automatically garbage collects the cache after 24 hours.
     """
@@ -63,7 +65,7 @@ def cache_key(method, self):
     return (member.id,
             self._mtime,  # last add in milliseconds (self = statuscontainer)
             self._ctime,  # last delete in microseconds
-            time.time() // 1)
+            time.time() // 60)  # for one minute
 
 
 def getZope2App(*args, **kwargs):
