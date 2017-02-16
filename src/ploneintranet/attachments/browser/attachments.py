@@ -16,6 +16,9 @@ from AccessControl import getSecurityManager
 from Products.CMFCore import permissions
 from AccessControl import Unauthorized
 from plone.app.blob.utils import openBlob
+from plone.protect.auto import safeWrite
+from zope.annotation.interfaces import IAnnotations
+
 import os
 log = logging.getLogger(__name__)
 
@@ -109,7 +112,12 @@ class Attachments(BrowserView):
             raise Unauthorized
 
         r = self.request.response
-        settings = Settings(attachment)
+
+        # avoid long dreaded CSRF error
+        annotations = IAnnotations(attachment)
+        if not annotations.get('collective.documentviewer', None):
+            safeWrite(attachment)
+        settings = Settings(attachment)  # possibly creates annotation
 
         if self.preview_type not in ('large', 'normal', 'small'):
             self.preview_type = 'small'
@@ -118,7 +126,13 @@ class Attachments(BrowserView):
         filepath = u'%s/dump_%s.%s' % (self.preview_type,
                                        self.page,
                                        settings.pdf_image_format)
-        blob = settings.blob_files[filepath]
+        try:
+            blob = settings.blob_files[filepath]
+        except TypeError:
+            # 'NoneType' object has no attribute '__getitem__'
+            # happens e.g. when missing preview for stream attachment
+            return
+
         blobfi = openBlob(blob)
         length = os.fstat(blobfi.fileno()).st_size
         blobfi.close()
@@ -141,7 +155,6 @@ class Attachments(BrowserView):
 
     def render_attachments(self, attachments):
         """replaces ploneintranet/docconv/client/view.py helpers"""
-
         attachment = attachments[self.attachment_id]
         if not self.preview_type or self.preview_type in (
                 'pdf-not-available', 'request-pdf'):
