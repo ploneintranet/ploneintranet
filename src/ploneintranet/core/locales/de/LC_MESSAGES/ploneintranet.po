@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-02-14 14:31+0000\n"
+"POT-Creation-Date: 2017-02-16 10:05+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -90,6 +90,11 @@ msgstr "Ein Container für Apps"
 #: ../workspace/profiles/default/types/ploneintranet.workspace.workspacecontainer.xml
 msgid "A container for workspaces"
 msgstr "Ein Behälter für Arbeitsräume"
+
+#: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
+#: ../workspace/basecontent/templates/document_view.pt:180
+msgid "A copy of this document"
+msgstr "Eine Kopie dieses Artikels"
 
 #: ../search/interfaces.py:95
 msgid "A dictionary of facets and available values"
@@ -481,9 +486,9 @@ msgstr "Kalender"
 msgid "Call ${fullname} at ${context/telephone}"
 msgstr "${fullname} unter ${context/telephone} anrufen"
 
+#: ../library/behaviors/templates/panel-publish-to-library.pt:47
 #: ../messaging/browser/templates/panel-new-chat.html:40
 #: ../microblog/browser/templates/update-social.html:136
-#: ../news/browser/templates/confirm-delete-item.html:34
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -563,7 +568,7 @@ msgid "Confirmed"
 msgstr "Bestätigt"
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:170
+#: ../userprofile/browser/user_import.py:171
 msgid "Constraint not satisfied for {} at row {}.field"
 msgstr "Bedingung nicht erfüllt für {} in Zeile {}."
 
@@ -759,6 +764,10 @@ msgstr "Beschreibung für die Suchergebnisse (optional)"
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:142
 msgid "Deselect all"
 msgstr "Alles abwählen"
+
+#: ../library/behaviors/templates/panel-publish-to-library.pt:28
+msgid "Destination within the library:"
+msgstr "Zielordner in der Bibliothek:"
 
 #: ../search/browser/templates/all_results.pt:159
 msgid "Did you mean"
@@ -964,7 +973,7 @@ msgstr "Datei"
 msgid "File field"
 msgstr "Dateifeld"
 
-#: ../userprofile/browser/user_import.py:144
+#: ../userprofile/browser/user_import.py:145
 msgid "File incorrectly formatted."
 msgstr "Datei falsch formatiert"
 
@@ -1474,7 +1483,7 @@ msgid "Milestone this task belongs to"
 msgstr "Der Meilenstein dieser Aufgabe"
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:165
+#: ../userprofile/browser/user_import.py:166
 msgid "Missing required field {} on row {}"
 msgstr "Erforderliches Feld {} fehlt in Zeile {}."
 
@@ -2023,14 +2032,16 @@ msgstr ""
 msgid "Provides bookmarks of workspaces as a tile"
 msgstr ""
 
+#: ../library/behaviors/templates/panel-publish-to-library.pt:44
 #: ../workspace/policies.py:63
 msgid "Publish"
 msgstr "Veröffentlichen"
 
+#: ../library/behaviors/templates/panel-publish-to-library.pt:12
 #: ../workspace/basecontent/templates/document_view.pt:281
 #: ../workspace/basecontent/templates/mail_view.pt:239
 msgid "Publish to library"
-msgstr ""
+msgstr "In die Bibliothek kopieren"
 
 #: ../library/behaviors/configure.zcml:13
 msgid "Publish widely"
@@ -2236,14 +2247,6 @@ msgstr "Arbeitsraum anwählen"
 msgid "Self-Managed"
 msgstr "Selbstverwaltet"
 
-#: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Team-managed, private teamspace"
-msgstr "Teamverwalteter, privater Arbeitsraum"
-
-#: ../workspace/browser/templates/add_workspace.pt:33
-msgid "Team-managed, private workspace"
-msgstr "Teamverwalteter, privater Arbeitsraum"
-
 #: ../invitations/invite_user.pt:48
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:73
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:170
@@ -2420,6 +2423,14 @@ msgstr "Aufgaben erledigt"
 #: ../workspace/policies.py:37
 msgid "Team-Managed"
 msgstr "Teamverwaltet"
+
+#: ../workspace/browser/templates/workspace-add.pt:83
+msgid "Team-managed, private teamspace"
+msgstr "Teamverwalteter, privater Arbeitsraum"
+
+#: ../workspace/browser/templates/add_workspace.pt:33
+msgid "Team-managed, private workspace"
+msgstr "Teamverwalteter, privater Arbeitsraum"
 
 #: ../userprofile/content/userprofile.py:77
 msgid "Telephone Number"
@@ -2991,7 +3002,7 @@ msgid "Write your text here"
 msgstr "Schreiben Sie hier Ihren Text"
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:175
+#: ../userprofile/browser/user_import.py:176
 msgid "Wrong type for {} at row {}.field"
 msgstr "Falscher Typ für {} in Zeile {}."
 
@@ -3445,6 +3456,11 @@ msgstr ""
 msgid "help_tags"
 msgstr ""
 
+#. Default: "This types may enter the microblog feed."
+#: ../microblog/profiles/default/registry.xml
+msgid "help_whitelisted_types"
+msgstr ""
+
 #. Default: "Controls in which way we are able to sort the workspaces"
 #: ../workspace/profiles/default/registry.xml
 #: ../workspace/upgrades/profiles/to_0016/registry.xml
@@ -3510,6 +3526,17 @@ msgstr "Von folgenden ${num_items} Artikeln wird der Workflow Status geändert (
 #: ../activitystream/browser/templates/stream_tile.pt:39
 msgid "info_loading_more_posts"
 msgstr "Weitere Beiträge werden geladen"
+
+#. Default: "Documents that you publish in the ${library} will be visible to all people who have access to the library."
+#: ../library/behaviors/templates/panel-publish-to-library.pt:22
+msgid "info_publish_to_library"
+msgstr "Artikel, die Sie in die ${library} kopieren, werden für alle Nutzer sichtbar, die die Bibliothek sehen können. "
+
+#. Default: "${document} is published in the library."
+#: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
+#: ../workspace/basecontent/templates/document_view.pt:180
+msgid "info_publish_to_library_success"
+msgstr "${document} ist in der Bibliothek verfügbar."
 
 #. Default: "This workspace was archived on ${archival_date}. Archived workspaces are hidden from the ${workspaces_page}, but can still be made visible by users by ticking 'Archived'."
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:95
@@ -3875,6 +3902,11 @@ msgstr "Navigation umschalten"
 msgid "label_upload_image"
 msgstr "Bild hochladen"
 
+#. Default: "List of the whitelisted types"
+#: ../microblog/profiles/default/registry.xml
+msgid "label_whitelisted_types"
+msgstr ""
+
 #. Default: "Calendar visible in central calendar"
 #: ../workspace/interfaces.py:65
 msgid "label_workspace_calendar_visibility"
@@ -3938,6 +3970,10 @@ msgstr ""
 #: ../microblog/browser/update_social.py:257
 msgid "leave_a_comment"
 msgstr "Kommentar verfassen…"
+
+#: ../library/behaviors/templates/panel-publish-to-library.pt:22
+msgid "library"
+msgstr "Bibliothek"
 
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
@@ -4172,10 +4208,10 @@ msgid "x x"
 msgstr ""
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:160
+#: ../userprofile/browser/user_import.py:161
 msgid "{} on row {}"
 msgstr "{} in Zeile {}"
 
-#: ../userprofile/browser/user_import.py:182
+#: ../userprofile/browser/user_import.py:183
 msgid "{} user(s) {}."
 msgstr "{} Benutzer {}."
