@@ -9,23 +9,23 @@
     <div id="main">
       <div id="content" class="modal">
 	<div id="document-content" class="pat-modal ">
-          <h1>
+          <h1 i18n:translate="">
             Publish to library
           </h1>
-          
+
           <form method="post" action="${context/absolute_url}/feedback-library-copy-updated" class="wizard-box pat-inject " data-pat-inject="source: #document-alert-bar::element; target: div.metadata::element::after">
-            
+
             <div class="panel-body">
               <article class="pat-rich">
-	        <p>
+	        <p i18n:translate="info_publish_to_library">
 		  Documents that you publish in the
-                  <a href="${view/library_url}" target="new">library</a> will be visible to all people who have access to the library.
+                  <a href="${view/library_url}" target="new" i18n:name="library" i18n:translate="">library</a> will be visible to all people who have access to the library.
 	        </p>
               </article>
 
               <fieldset>
 	        <label>
-		  Destination within the library:
+		  <tal:i18n i18n:translate="">Destination within the library:</tal:i18n>
 		  <select name="target_path">
 		    <optgroup tal:repeat="section view/target_tree"
                               label="${section/title}">
@@ -39,17 +39,17 @@
               </fieldset>
 
             </div>
-            
+
             <div class="buttons panel-footer">
-              <button type="submit" class="close-panel icon-ok-circle">
+              <button type="submit" class="close-panel icon-ok-circle" i18n:translate="">
                 Publish
               </button>
-              <button type="button" class="close-panel icon-cancel-circle">
+              <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
                 Cancel
               </button>
             </div>
           </form>
-          
+
         </div>
       </div>
     </div>
