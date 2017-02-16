@@ -80,7 +80,7 @@
             <fieldset class="pat-depends" data-pat-depends="condition: ${python: ' || '.join(['portal_type=%s' % x for x in view.types_with_policy])}">
               <fieldset class="pat-checklist radio">
                 <label><input type="radio" value="1" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Locked down, secret workspace</span></label>
-                <label><input type="radio" value="2" checked name="scenario" /> <span tal:omit-tag="" i18n:translate="">Self-managed, private teamspace</span></label>
+                <label><input type="radio" value="2" checked name="scenario" /> <span tal:omit-tag="" i18n:translate="">Team-managed, private teamspace</span></label>
                 <label><input type="radio" value="3" name="scenario" /> <span tal:omit-tag="" i18n:translate="">Open community</span></label>
               </fieldset>
               <p class="pat-depends pat-well notice" data-pat-depends="condition:scenario=1" i18n:translate="">

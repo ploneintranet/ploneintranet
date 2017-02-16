@@ -31,7 +31,7 @@
 		Locked down, secret workspace
 	      </option>
 	      <option value="private" selected name="security-level" i18n:translate="">
-		Self-managed, private workspace
+		Team-managed, private workspace
 	      </option>
 	      <option value="open" i18n:translate="">
 		Open community
