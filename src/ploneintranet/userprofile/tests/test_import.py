@@ -1,6 +1,7 @@
 import os
 import tablib
 
+from Products.membrane.interfaces import IMembraneUserAuth
 from Products.statusmessages.interfaces import IStatusMessage
 from plone import api
 from plone.app.contenttypes.tests.test_image import dummy_image
@@ -180,6 +181,46 @@ class TestCSVImportView(BaseTestCase):
             email,
             'User not updated',
         )
+
+    def test_password_is_kept(self):
+        view = CSVImportView(self.profiles, self.request)
+
+        # if no password is provided in the import file, one get's generated
+        user_fields_file_loc = self._get_fixture_location(
+            'basic_users.csv')
+        with open(user_fields_file_loc) as bf:
+            filedata = self._parse_file(bf.read())
+        view.create_update_users(filedata)
+
+        barry = pi_api.userprofile.get('foo')
+        doug = pi_api.userprofile.get('bar')
+        barry_pwd = barry.password
+        doug_pwd = doug.password
+        # both got encrypted passwords
+        self.assertTrue(barry_pwd.startswith('{BCRYPT}'))
+        self.assertTrue(doug_pwd.startswith('{BCRYPT}'))
+        # doug got the password provided in the import file
+        self.assertTrue(
+            IMembraneUserAuth(doug).verifyCredentials(
+                dict(login='bar', password='my-secret!')))
+
+        # now re-import the same users but provide a new password for barry
+        user_fields_file_loc = self._get_fixture_location(
+            'basic_users_password.csv')
+        with open(user_fields_file_loc) as bf:
+            filedata = self._parse_file(bf.read())
+        view.create_update_users(filedata, update=True)
+
+        # barry should get a new password
+        self.assertNotEqual(barry_pwd, barry.password)
+        self.assertTrue(
+            IMembraneUserAuth(barry).verifyCredentials(
+                dict(login='foo', password='updated_pwd')))
+        # doug's password should still be the same
+        self.assertEqual(doug_pwd, doug.password)
+        # both got new surnames:
+        self.assertEqual(barry.last_name, u'Whiter')
+        self.assertEqual(doug.last_name, u'Carsbest')
 
     def test_process(self):
         view = CSVImportView(self.profiles, self.request)
