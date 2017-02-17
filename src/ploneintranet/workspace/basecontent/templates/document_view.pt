@@ -176,8 +176,8 @@
 
         <fieldset id="document-alert-bar" tal:condition="copied_to_library_url">
           <!-- no comparison/retraction support yet -->
-          <p class="pat-message notice animated zoomInDown">
-            <a href="${copied_to_library_url}">A copy of this document</a> is published in the library.
+          <p class="pat-message notice animated zoomInDown" i18n:translate="info_publish_to_library_success">
+            <a href="${copied_to_library_url}" i18n:name="document" i18n:translate="">A copy of this document</a> is published in the library.
           </p>
         </fieldset>
 
