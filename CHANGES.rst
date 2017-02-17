@@ -1,11 +1,36 @@
 Changelog
 =========
 
-1.2.45 (unreleased)
+1.2.46 (unreleased)
 -------------------
 
 - Nothing changed yet.
 
+
+1.2.45 (2017-02-17)
+-------------------
+
+* Merge pull request #1150 from quaive/library_publish_translations [GitHub]
+* Merge pull request #1151 from quaive/ccc_performance [GitHub]
+* Massively speedup activity stream (6x-9x) by upping security cache lifetime [Guido A.J. Stevens]
+* Avoid CSRF error and TypeError thrown by missing previews [Guido A.J. Stevens]
+* Using templates as controllers is so Plone2. Sigh. At least document that mess to avoid losing another hour. [Guido A.J. Stevens]
+* ran synci18n and added DE translations [Wolfgang Thomas]
+* added missing i18n for "publish to library" [Wolfgang Thomas]
+* Merge pull request #1149 from quaive/1144-userimport-pwd-reset [GitHub]
+* Merge pull request #1148 from quaive/add_workspace_title_fix [GitHub]
+* Not looking up a workspace-as-a-group directly caused sloooooow PAS lookup [Guido A.J. Stevens]
+* allow (not) to update password when importing users [Harald Friessnegger]
+* The default workspace policy package is actually team-managed, not self-managed as the title of the option would make you believe. [Guido A.J. Stevens]
+* Expand profiler monkey patch documentation [Guido A.J. Stevens]
+* Merge pull request #1147 from quaive/configure-microblog-whitelisted-types [GitHub]
+* Merge pull request #1146 from quaive/do-not-break-event-sidebar [GitHub]
+* Microblog whitelisted types are now configurable [Alessandro Pisa]
+* Do not try to render the calendar icon if we have no start date [Alessandro Pisa]
+* Merge pull request #1143 from quaive/1117-avatar-dots [GitHub]
+* Merge pull request #1142 from quaive/release-1.2.x [GitHub]
+* avatar import for profile names containing dots [Harald Friessnegger]
+* Back to development: 1.2.45 [Wolfgang Thomas]
 
 1.2.44 (2017-02-14)
 -------------------
