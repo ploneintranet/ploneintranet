@@ -191,6 +191,14 @@ class BaseWorkspaceView(BrowserView):
 
     @property
     @memoize
+    def workspaces_container(self):
+        ''' Returns the workspaces container (if found) or an empty dictionary
+        '''
+        portal = api.portal.get()
+        return portal.get('workspaces', {})
+
+    @property
+    @memoize
     def users_container(self):
         ''' Returns the group container (if found) or an empty dictionary
         '''
@@ -200,10 +208,11 @@ class BaseWorkspaceView(BrowserView):
     @memoize
     def resolve_principalid(self, principalid):
         ''' Given a principal id, tries to get him for profile or groups folder
-        and then look for him with pas
+        and then look for him with pas.
         '''
         return (
             self.users_container.get(principalid) or
+            self.workspaces_container.get(principalid) or
             self.groups_container.get(
                 self.groupids_key_mapping.get(principalid)
             ) or

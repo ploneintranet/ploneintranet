@@ -51,6 +51,14 @@ vocab = 'ploneintranet.workspace.vocabularies.Divisions'
 
 class BaseTile(BrowserView):
 
+    """
+    Shared baseclass for the sidebar tiles.
+
+    Cave: many of the actual sidebar templates *also* bind to
+    ploneintranet.workspace.browser.workspace.WorkspaceView
+    to use methods defined there...
+    """
+
     index = None
     form_submitted = False
 
