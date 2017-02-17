@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+
+  <record name="ploneintranet.search.solr.field_limit">
+    <field type="plone.registry.field.Tuple">
+      <title>Solr Field Limit</title>
+      <description>Limit fields returned by solr to this list</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value />
+  </record>
+
+</registry>

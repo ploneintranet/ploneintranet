@@ -199,6 +199,8 @@ class SiteSearch(base.SiteSearch):
     connection = Connection()
     phrase_field_boosts = base.RegistryProperty('phrase_field_boosts',
                                                 prefix=__package__)
+    field_limit = base.RegistryProperty('field_limit',
+                                        prefix=__package__)
 
     def _create_query_object(self, phrase):
         """Create the query object given the search `phrase`.
@@ -313,6 +315,8 @@ class SiteSearch(base.SiteSearch):
             #  - 'created': sort results ascending by creation date
             #  - '-created': sort results descending by creation date
             query = query.sort_by(kw['sort'])
+        if self.field_limit:
+            query = query.field_limit(self.field_limit)
 
         try:
             response = query.execute()

@@ -84,6 +84,22 @@
       handler=".to0009.add_query_boost_configuration"
       profile="ploneintranet.search:default" />
 
+  <genericsetup:registerProfile
+      name="to_0010"
+      title="Add registry entry for solr field limit"
+      description=""
+      directory="profiles/to_0010"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+  <genericsetup:upgradeStep
+      title="Add registry entry for solr field limit"
+      description="ploneintranet.search.solr.field_limit"
+      source="*"
+      destination="0010"
+      handler=".to0010.add_field_limit_configuration"
+      profile="ploneintranet.search:default" />
+
   <!-- -*- extra stuff goes here -*- -->
 
 </configure>
