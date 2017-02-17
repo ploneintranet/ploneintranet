@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.45 (unreleased)
+1.2.45 (2017-02-17)
 -------------------
 
 * Merge pull request #1150 from quaive/library_publish_translations [GitHub]
