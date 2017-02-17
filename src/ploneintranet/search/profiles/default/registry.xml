@@ -91,6 +91,15 @@
     </field>
   </record>
 
+  <record name="ploneintranet.search.solr.field_limit">
+    <field type="plone.registry.field.Tuple">
+      <title>Solr Field Limit</title>
+      <description>Limit fields returned by solr to this list</description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value />
+  </record>
+
   <record name="ploneintranet.search.ui.additional_facets">
     <field type="plone.registry.field.Dict">
       <title>Additional facets for filtering your results</title>
