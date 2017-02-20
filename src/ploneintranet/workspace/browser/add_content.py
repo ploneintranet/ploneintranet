@@ -222,14 +222,19 @@ class AddEvent(AddBase):
 
     def data_pat_inject(self):
         """ Returns the correct dpi config """
+        template = (
+            "source: {selector}; target: {selector}; && "
+            "source: {gsm}; target: {gsm}; loading-class: ''"
+        )
         if self.request.get('app'):
-            return """source: #document-content; target: #document-content;
-        && source: #global-statusmessage; target: #global-statusmessage;
-        loading-class: '';"""
+            selector = '#document-content'
+        else:
+            selector = '#workspace-events'
 
-        return """source: #workspace-events; target: #workspace-events;
-        && source: #global-statusmessage; target: #global-statusmessage;
-        loading-class: ''"""
+        return template.format(
+            gsm='#global-statusmessage',
+            selector=selector,
+        )
 
     def redirect(self, url):
         ''' Try to find the proper redirect context.
