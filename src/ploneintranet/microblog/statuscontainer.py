@@ -430,7 +430,7 @@ class BaseStatusContainer(Persistent, Explicit):
         results = catalog.searchResults(object_provides=marker)
 
         # performance workaround replaces code further down
-        whitelist = [brain.UID for brain in results]
+        whitelist = set([brain.UID for brain in results])
 
         # BELOW IS ONLY NEEDED ONCE #1101 IS FIXED
         # TODO: REFACTOR FOR PERFORMANCE (USING DEDICATED INDEX)
