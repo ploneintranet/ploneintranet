@@ -14,4 +14,4 @@ Developer documentation
     testing_of_pi
     debugging
     releasing
-
+    usermanual
