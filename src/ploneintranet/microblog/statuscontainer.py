@@ -421,32 +421,38 @@ class BaseStatusContainer(Persistent, Explicit):
         However, the number of IMicroblogContext objects in a site is
         normally quite limited and the outcome of this check is cached
         per request, which should hopefully limit the performance cost.
+
+        EDIT: this *is* costly, see workaround and comments below.
         """  # noqa
         catalog = getToolByName(self, 'portal_catalog')
         marker = IMicroblogContext.__identifier__
 
         results = catalog.searchResults(object_provides=marker)
 
-        permission = "Plone Social: View Microblog Status Update"
+        # performance workaround replaces code further down
+        whitelist = [brain.UID for brain in results]
 
-        # SiteRoot context is NOT whitelisted
-        whitelist = []
-        for brain in results:
-            try:
-                obj = brain.getObject()
-            except Unauthorized:
-                # can View but not Access workspace - skip
-                continue
-            # and double check for ViewStatusUpdate
-            if api.user.has_permission(permission, obj=obj):
-                whitelist.append(brain.UID)
+        # BELOW IS ONLY NEEDED ONCE #1101 IS FIXED
+        # TODO: REFACTOR FOR PERFORMANCE (USING DEDICATED INDEX)
+        # SHOULD AVOID THE COSTLY getObject() + api.user CALLS
+        # permission = "Plone Social: View Microblog Status Update"
+
+        # # SiteRoot context is NOT whitelisted
+        # whitelist = []
+        # for brain in results:
+        #     try:
+        #         obj = brain.getObject()
+        #     except Unauthorized:
+        #         # can View but not Access workspace - skip
+        #         continue
+        #     # and double check for ViewStatusUpdate
+        #     if api.user.has_permission(permission, obj=obj):
+        #         whitelist.append(brain.UID)
 
         # SiteRoot context is not UUID indexed, so not blacklisted
         blacklist = [x for x in self._uuid_mapping.keys()
                      if x not in whitelist]
 
-        # return all statuses with no IMicroblogContext (= SiteRoot)
-        # or with a IMicroblogContext that is accessible (= not blacklisted)
         return blacklist
 
     # --- DISABLED ACCESSORS ---
