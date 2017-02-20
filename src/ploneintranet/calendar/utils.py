@@ -242,8 +242,12 @@ def get_workspaces_of_current_user(context):
     key = "get_workspaces_of_current_user-" + user.getId()
     cache = IAnnotations(context.REQUEST)
     data = cache.get(key, None)
+    workspace_container = api.portal.get().get('workspaces')
+    if not workspace_container:
+        return []
     if data is None:
         query = dict(object_provides=IBaseWorkspaceFolder.__identifier__,
+                     path='/'.join(workspace_container.getPhysicalPath()),
                      is_archived=False)
         sitesearch = getUtility(ISiteSearch)
         data = sitesearch.query(filters=query, step=99999)
