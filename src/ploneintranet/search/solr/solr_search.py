@@ -279,7 +279,7 @@ class SiteSearch(base.SiteSearch):
         valid_opts = data['allowedRolesAndUsers']
         sub_qs = [Q(allowedRolesAndUsers=v) for v in valid_opts]
         if len(sub_qs) > 900:
-            logger.warn(
+            logger.info(
                 "Many arau clauses: {}. Please configure Solr "
                 "maxBooleanClauses high enough to avoid SolrError.".format(
                     len(sub_qs)))
