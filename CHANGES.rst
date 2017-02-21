@@ -1,10 +1,23 @@
 Changelog
 =========
 
-1.2.46 (unreleased)
+1.2.47 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.46 (2017-02-21)
+-------------------
+
+* Merge pull request #1158 from quaive/ccc_performance [GitHub]
+* Avoid two very costly security checks in the microblog getter: - This did a getObject() on every workspace in the system - And then did a PAS security check on that workspace [Guido A.J. Stevens]
+* Merge pull request #1155 from quaive/user-manual [GitHub]
+* Add short info about the user manual [Wolfgang Thomas]
+* Merge pull request #1153 from quaive/solr-field-limit [GitHub]
+* Merge pull request #1152 from quaive/release-1.2.x [GitHub]
+* Added field_limit registry record. Allows selecting fields to be returned by solr. [Manuel Reinhardt]
+* Back to development: 1.2.46 [Guido A.J. Stevens]
 
 
 1.2.45 (2017-02-17)
