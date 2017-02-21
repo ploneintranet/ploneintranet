@@ -14,17 +14,45 @@
     <metal:content fill-slot="content">
       <tal:dashboard define="dashboard view/default_dashboard;">
 
-        <form class="canvas-toolbar pat-inject pat-autosubmit" action="${portal_url}/dashboard.html#dashboard" method="GET">
+        <form class="canvas-toolbar pat-inject pat-autosubmit"
+              action="${portal_url}/dashboard.html#dashboard"
+              method="GET"
+        >
           <label class="bare pat-select">
             <select name="dashboard">
-              <option value="activity" i18n:translate="" tal:attributes="selected python:dashboard == 'activity' and 'selected' or nothing">
+              <option selected="${python:dashboard == 'activity' and 'selected' or None}"
+                      value="activity"
+                      i18n:translate=""
+              >
                 Activity centric view
               </option>
-              <option value="task" i18n:translate="" tal:attributes="selected python:dashboard == 'task' and 'selected' or nothing">
+              <option selected="${python:dashboard == 'task' and 'selected' or None}"
+                      value="task"
+                      i18n:translate=""
+              >
                 Task centric view
+              </option>
+              <option selected="${python:dashboard == 'custom' and 'selected' or None}"
+                      value="custom"
+                      i18n:translate=""
+              >
+                My view (customizable)
               </option>
             </select>
           </label>
+          <div class="icons pat-depends"
+               data-pat-depends="condition: dashboard=custom"
+               tal:condition="view/has_custom_dashboard"
+          >
+            <a href="${here/absolute_url}/edit-dashboard#document-content"
+               class="icon edit pat-modal"
+               data-pat-modal="class: large"
+               title="Change the composition of this dashboard to your liking. Add or remove items or change their order or size."
+               i18n:attributes="title"
+               i18n:translate=""
+            >Edit dashboard</a>
+          </div>
+          <span tal:replace="structure context/@@authenticator/authenticator"></span>
         </form>
 
 
@@ -47,11 +75,11 @@
               <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
               <form class="state-toggle pat-inject xpat-autosubmit" action="#">
                   <label class="show-more pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-expanded">
-                      <input type="radio" name="portlet-activity-stream-state-expanded">
+                      <input type="radio" name="portlet-activity-stream-state-expanded" />
                       Show more
                   </label>
                   <label class="show-less pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-collapsed">
-                      <input type="radio" name="portlet-activity-stream-state-collapsed">
+                      <input type="radio" name="portlet-activity-stream-state-collapsed" />
                       Show less
                   </label>
               </form>
@@ -74,6 +102,24 @@
              data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
             >${tile}</a>
         </div>
+
+        <div id="dashboard"
+             class="row pat-masonry"
+             data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet;stamp: .stamp;"
+             tal:condition="python: dashboard == 'custom'"
+             >
+          <div class="grid-sizer four columns"></div>
+          <tal:custom_tiles tal:repeat="tile view/custom_tiles">
+            <a class="pat-inject"
+               id="custom-tile-${repeat/tile/index}"
+               href="${python:view.custom_tile_url(tile)}"
+               hidden
+               data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
+               tal:condition="python:view.get_tile_display(tile) != 'none'"
+               >${tile}</a>
+          </tal:custom_tiles>
+        </div>
+
       </tal:dashboard>
     </metal:content>
   </body>

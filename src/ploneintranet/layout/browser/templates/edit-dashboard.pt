@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <head></head>
+  <body>
+    <div id="content">
+      <div class="pat-modal"
+           id="document-content"
+      >
+        <h1 i18n:translate="">Edit dashboard</h1>
+        <form class="pat-inject wizard-box"
+              action="${request/getURL}"
+              method="post"
+              data-pat-inject="source: #dashboard; target: #dashboard &amp;&amp; source: #global-statusmessage; target: #global-statusmessage;"
+        >
+          <div class="panel-body">
+            <fieldset>
+              <h4 i18n:translate="">Tile order and tile size</h4>
+              <ol class="pat-sortable sortable-list"
+                  data-pat-sortable="selector: .sortable-item"
+                  tal:define="
+                    custom_tiles view/custom_tiles;
+                  "
+              >
+                <li class="sortable-item tag"
+                    tal:repeat="tile custom_tiles"
+                >
+                  <p class="label icon-tag">
+                    ${python:view.get_tile_name(tile)}
+                    <select class="float-after"
+                            name="display-${tile}"
+                            tal:define="
+                              display python:view.get_tile_display(tile);
+                            "
+                    >
+                      <option selected="${python:'selected' if display == 'none' else None}"
+                              value="none"
+                              i18n:translate=""
+                      >Don't show</option>
+                      <option selected="${python:'selected' if display == 'span-1' else None}"
+                              value="span-1"
+                              i18n:translate=""
+                      >1 Column wide</option>
+                      <option selected="${python:'selected' if display == 'span-2' else None}"
+                              value="span-2"
+                              i18n:translate=""
+                      >2 Columns wide</option>
+                      <option selected="${python:'selected' if display == 'span-3' else None}"
+                              value="span-3"
+                              i18n:translate=""
+                      >Page wide</option>
+                    </select>
+                  </p>
+                  <p class="button-cluster">
+                    <button class="sortable-button-up small pat-button"
+                            type="submit"
+                            i18n:translate=""
+                    >Up</button>
+                    <button class="sortable-button-down small pat-button"
+                            type="submit"
+                            i18n:translate=""
+                    >Down</button>
+                    <input name="tiles_order:list"
+                           style="display:none"
+                           type="hidden"
+                           value="${tile}"
+                    />
+                  </p>
+                </li>
+              </ol>
+            </fieldset>
+          </div>
+          <div class="buttons panel-footer">
+            <button class="icon-ok-circle close-panel"
+                    name="save"
+                    type="submit"
+                    value="save"
+                    i18n:translate=""
+            >Save</button>
+            <button class="icon-cancel-circle close-panel"
+                    type="button"
+                    i18n:translate=""
+            >Cancel</button>
+            <button class="close-panel"
+                    hidden
+                    name="restore"
+                    type="submit"
+                    value="restore"
+                    i18n:translate=""
+            >Reset</button>
+          </div>
+          <span tal:replace="structure context/@@authenticator/authenticator"></span>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

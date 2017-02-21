@@ -5,7 +5,7 @@
 
   <body>
 
-    <div class="contacts portlet span-1" id="portlet-contacts">
+    <div class="contacts portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-contacts">
       <div class="content">
         <h2 class="portlet-title">
             <a href="${context/portal_url}/apps/contacts" i18n:translate="">Contacts</a>

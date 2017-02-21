@@ -86,7 +86,7 @@
         source="*"
         destination="0006"
         handler=".to0006.setup_login_splash"
-        profile="ploneintranet.layout:default" />        
+        profile="ploneintranet.layout:default" />
 
     <genericsetup:upgradeStep
         title="Sort portal tabs"
@@ -161,5 +161,21 @@
         destination="0013"
         handler=".to_0013.add_splash_page_configuration"
         profile="ploneintranet.layout:default" />
-    
+
+    <genericsetup:registerProfile
+        name="to_0014"
+        title="Add registry entry for the custom dashboard"
+        description=""
+        directory="profiles/to_0014"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry entry for the custom dashboard"
+        description=""
+        source="*"
+        destination="0014"
+        handler=".to_0014.add_custom_dashboard_tiles"
+        profile="ploneintranet.layout:default" />
 </configure>

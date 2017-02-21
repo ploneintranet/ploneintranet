@@ -16,6 +16,7 @@ class FakeCurrentUser(object):
 
 
 class AppWithParametersView(BrowserView):
+
     def __call__(self):
         return self.request.form
 
@@ -337,6 +338,46 @@ class TestViews(IntegrationTestCase):
             view = self.get_view('dashboard.html')
             self.assertEqual(view.default_dashboard(), 'task')
             self.assertEqual(user.dashboard_default, 'task')
+
+    def test_custom_dashboard(self):
+        # We need a fake user to test persist tile ordering and display options
+        with patch(
+            'ploneintranet.api.userprofile.get_current',
+            return_value=FakeCurrentUser(),
+        ):
+            user = pi_api.userprofile.get_current()
+            view = self.get_view('dashboard.html', dashboard='custom')
+            available_custom_tiles = list(view.available_custom_tiles())
+            reversed_available_custom_tiles = available_custom_tiles[::-1]
+            self.assertListEqual(
+                view.custom_tiles().keys(),
+                available_custom_tiles,
+            )
+            # The view is called
+            self.assertIn('@@news.tile?portletspan=span-1', view())
+            # and we do not write anything on the user
+            self.assertRaises(AttributeError, getattr, user, 'custom_tiles')
+            # We now test if we can modify the order of the tiles
+            params = {
+                'display-%s' % tile: 'span-2'
+                for tile in available_custom_tiles
+            }
+            params['tiles_order'] = reversed_available_custom_tiles
+            edit = self.get_view(
+                'edit-dashboard',
+                **params
+            )
+            edit.maybe_update_tiles()
+
+            # Now the data persist on the user
+            self.assertEqual(
+                user.custom_tiles.keys(),
+                reversed_available_custom_tiles,
+            )
+            self.assertEqual(
+                user.custom_tiles['./@@news.tile?title=News']['display'],
+                'span-2',
+            )
 
     def test_in_app_dashboard(self):
         view = self.get_view('dashboard.html')

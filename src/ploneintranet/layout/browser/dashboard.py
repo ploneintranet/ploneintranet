@@ -1,4 +1,6 @@
 # coding=utf-8
+from cgi import urlparse
+from collections import OrderedDict
 from collective.mustread.behaviors.maybe import IMaybeMustRead
 from collective.mustread.interfaces import ITracker
 from logging import getLogger
@@ -7,15 +9,19 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.contenttypes.interfaces import IDocument
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
+from plone.memoize import forever
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from plone.tiles import Tile
 from ploneintranet import api as pi_api
 from ploneintranet.async.tasks import MarkRead
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from sqlalchemy.exc import OperationalError
+from urllib import urlencode
 from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
@@ -30,6 +36,7 @@ class Dashboard(BrowserView):
     """
     _good_dashboards = [
         'activity',
+        'custom',
         'task',
     ]
 
@@ -55,6 +62,73 @@ class Dashboard(BrowserView):
         return dict(enabled=enabled,
                     uid=uid,
                     content=content)
+
+    def show_message(self, msg, type='success'):
+        ''' Wrap show message to save some keystrokes
+        '''
+        return api.portal.show_message(msg, request=self.request, type=type)
+
+    @property
+    @memoize_contextless
+    def user(self):
+        ''' Return the current userprofile
+        '''
+        return pi_api.userprofile.get_current()
+
+    @memoize_contextless
+    def has_custom_dashboard(self):
+        ''' Check if the functionality is allowed for the user
+        '''
+        return bool(self.user)
+
+    @forever.memoize
+    def get_tile_name(self, tile):
+        ''' Return the name of the tile from the tile path
+        '''
+        qs = tile.partition('?')[-1]
+        return u' '.join(urlparse.parse_qs(qs).get('title', [tile]))
+
+    @memoize
+    def get_tile_display(self, tile):
+        ''' Return the way the tile is displayed
+        '''
+        return self.custom_tiles().get(tile, {}).get('display', 'span-1')
+
+    @memoize
+    def custom_tile_url(self, tile):
+        ''' We need this to set the class parameter span-N
+        '''
+        url, qs = tile.partition('?')[::2]
+        if not qs:
+            return tile
+        params = urlparse.parse_qs(qs)
+        params.update(portletspan=self.get_tile_display(tile))
+        return '{url}?{qs}'.format(url=url, qs=urlencode(params))
+
+    @memoize_contextless
+    def available_custom_tiles(self):
+        ''' This is a list of tiles that can be set in the user profile
+        '''
+        return api.portal.get_registry_record(
+            'ploneintranet.layout.dashboard_custom_tiles',
+            default=[
+                './@@contacts_search.tile?title=Contacts',
+                './@@news.tile?title=News',
+                './@@my_documents.tile?title=My docs',
+            ]
+        )
+
+    def custom_tiles(self):
+        ''' This is an ordered dict of the tiles from the user profile
+        plus the one available
+        '''
+        available = self.available_custom_tiles()
+        user_defined = getattr(self.user, 'custom_tiles', OrderedDict())
+        user_defined_keys = user_defined.keys()
+        for tile in available:
+            if tile not in user_defined_keys:
+                user_defined.update({tile: {'display': 'span-1'}})
+        return user_defined
 
     def activity_tiles(self):
         ''' This is a list of tiles taken
@@ -87,9 +161,7 @@ class Dashboard(BrowserView):
         ''' Returns the dashboard name which is set as default in the registry
         '''
         requested_dashboard = self.request.get('dashboard', '')
-
-        user = pi_api.userprofile.get_current()
-        user_dashboard = getattr(user, 'dashboard_default', '')
+        user_dashboard = getattr(self.user, 'dashboard_default', '')
 
         # try to get the dashboard type to display:
         #  1. request has the priority
@@ -99,9 +171,9 @@ class Dashboard(BrowserView):
         dashboard = (
             requested_dashboard or
             user_dashboard or
-            get_record_from_registry(
+            api.portal.get_registry_record(
                 'ploneintranet.layout.dashboard_default',
-                fallback='activity'
+                default='activity'
             )
         )
         # before returning the chosen dashboard check if
@@ -109,10 +181,9 @@ class Dashboard(BrowserView):
         # on the user profile
         if (
             requested_dashboard in self._good_dashboards and
-            user and
             requested_dashboard != user_dashboard
         ):
-            user.dashboard_default = requested_dashboard
+            self.user.dashboard_default = requested_dashboard
 
         return dashboard
 
@@ -242,6 +313,56 @@ class TasksTile(Tile):
             else:
                 self.grouped_tasks[workspace.id]['tasks'].append(task)
         return self.render()
+
+
+class EditDashboard(Dashboard):
+    ''' Edit the dashboard custom tiles
+    '''
+    def reset_custom_tiles(self):
+        ''' Reset the custom_tile storage
+        '''
+        self.user.custom_tiles = OrderedDict()
+
+    def maybe_update_tiles(self):
+        ''' Update the custom tiles if needed
+        '''
+        if not self.has_custom_dashboard():
+            self.show_message(_('Function not allowed'), type='error')
+            return
+
+        if self.request.form.get('restore', False):
+            self.reset_custom_tiles()
+            return self.show_message(_('Default dashboard restored'))
+
+        requested_tiles = self.request.form.get('tiles_order') or []
+        available = self.available_custom_tiles()
+        tiles = OrderedDict([
+            (
+                tile,
+                {'display': self.request.get('display-%s' % tile, 'span-1')}
+            )
+            for tile in requested_tiles
+            if tile in available
+        ])
+
+        if tiles != self.custom_tiles():
+            self.user.custom_tiles = tiles
+            return self.show_message(_('Dashboard order changed'))
+
+        return self.show_message(
+            _('Dashboard order unchanged'),
+            type='warning'
+        )
+
+    def __call__(self):
+        ''' Update tiles if needed
+        '''
+        if self.request.method == 'POST':
+            self.maybe_update_tiles()
+            return self.request.response.redirect(
+                self.context.absolute_url() + '/dashboard.html'
+            )
+        return super(EditDashboard, self).__call__()
 
 
 class MyDocumentsTile(Tile):

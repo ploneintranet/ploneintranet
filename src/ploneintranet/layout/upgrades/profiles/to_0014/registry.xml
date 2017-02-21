@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.layout.dashboard_custom_tiles">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_dashboard_custom_tiles">List of dashboard custom tiles</title>
+      <description i18n:translate="help_dashboard_custom_tiles">
+        This is the list of the tiles
+        the user will see on the
+        "My view (customizable)" dashboard.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>./@@contacts_search.tile?title=Contacts</element>
+      <element>./@@news.tile?title=News</element>
+      <element>./@@my_documents.tile?title=My docs</element>
+    </value>
+  </record>
+</registry>

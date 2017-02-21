@@ -5,20 +5,20 @@
 
   <body tal:define="my_documents view/my_documents;
                     min_items python:context.portal_registry['ploneintranet.layout.num_library_items'] if 'ploneintranet.layout.num_library_items' in context.portal_registry else 10;">
-    <div class="library portlet span-1 state-collapsed"
+    <div class="library portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          id="portlet-library"
          tal:condition="my_documents">
       <div class="content">
         <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(my_documents) > min_items">
             <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-library; remove: state-*; add: state-expanded">
-                <input type="radio" name="portlet-library-state-expanded" value="on"> 
+                <input type="radio" name="portlet-library-state-expanded" value="on">
                 Show more
             </label>
             <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-library; remove: state-*; add: state-collapsed">
-                <input type="radio" name="portlet-library-state-collapsed" value="on"> 
+                <input type="radio" name="portlet-library-state-collapsed" value="on">
                 Show less
             </label>
-        </form> 
+        </form>
         <h2 class="portlet-title" i18n:translate="">Documents</h2>
         <ul class="menu links">
           <tal:my_document repeat="my_document my_documents">

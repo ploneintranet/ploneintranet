@@ -1,7 +1,7 @@
 <html>
   <body tal:define="min_items python:context.portal_registry['ploneintranet.bookmarks.num_documents'] if 'ploneintranet.bookmarks.num_documents' in context.portal_registry else 3;">
     <div id="portlet-bookmarked-documents"
-         class="bookmarked-documents portlet span-1 state-collapsed"
+         class="bookmarked-documents portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          i18n:domain="ploneintranet"
         >
       <div class="content"
