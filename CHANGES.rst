@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.46 (unreleased)
+1.2.46 (2017-02-21)
 -------------------
 
 * Merge pull request #1158 from quaive/ccc_performance [GitHub]
