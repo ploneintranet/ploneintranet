@@ -131,6 +131,8 @@ class ProtoView(BrowserView):
             return 'icon-user'
         if proto_type == 'file':
             return 'icon-document'
+        if proto_type == 'event':
+            return 'icon-calendar'
 
         logger.warn('Cannot assign an icon class for: %s', value)
         return 'icon-document'
