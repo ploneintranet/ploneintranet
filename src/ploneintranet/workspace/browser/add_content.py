@@ -222,19 +222,32 @@ class AddEvent(AddBase):
 
     def data_pat_inject(self):
         """ Returns the correct dpi config """
-        template = (
-            "source: {selector}; target: {selector}; && "
-            "source: {gsm}; target: {gsm}; loading-class: ''"
-        )
+        selectors = []
         if self.request.get('app'):
-            selector = '#document-content'
+            # When we are adding an event through the caendar we want to reload
+            # the sidebar (first)...
+            if not parent_workspace(self.context):
+                selectors.append('#sidebar')
+            else:
+                selectors.append('#workspace-events')
+            # ...and the calendar (which pat-depends on the sidebar, second)
+            selectors.append('#document-content')
         else:
-            selector = '#workspace-events'
-
-        return template.format(
-            gsm='#global-statusmessage',
-            selector=selector,
+            # BBB: if we add an event in the workspace
+            # it may not be enough to reload the sidebar
+            # if we are viewing the calendar it should also be refreshed
+            selectors.append('#workspace-events')
+        parts = [
+            "source: {0}; target: {0};".format(selector)
+            for selector in selectors
+        ]
+        # and of course we want to update the status message
+        parts.append(
+            "source: {0}; target: {0}; loading-class: ''".format(
+                '#global-statusmessage',
+            )
         )
+        return ' && '.join(parts)
 
     def redirect(self, url):
         ''' Try to find the proper redirect context.

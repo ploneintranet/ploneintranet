@@ -10,9 +10,11 @@
     </h1>
     <form method="POST"
           action="${request/URL}"
-          class="wizard-box pat-inject pat-validation"
-          data-pat-inject="${view/data_pat_inject}"
-          data-pat-validation="disable-selector:#form-buttons-create-${view/form_timestamp}">
+          class="wizard-box ${python:'pat-inject' if dpi else ''} pat-validation"
+          data-pat-inject="${dpi}"
+          data-pat-validation="disable-selector:#form-buttons-create-${view/form_timestamp}"
+          tal:define="dpi view/data_pat_inject;"
+    >
       <div class="panel-body">
 
         <fieldset class="vertical"

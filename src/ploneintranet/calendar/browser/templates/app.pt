@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="content">
-              <form action="@@app-calendar#document-content" class="pat-inject" data-pat-inject="source: #document-content && target: #document-content" data-pat-collapsible="store: local">
+              <form action="@@app-calendar#document-content" class="pat-inject" data-pat-inject="source: #document-content &amp;&amp; target: #document-content" data-pat-collapsible="store: local">
                 <fieldset class="cal-categories"
                           tal:define="calendars view/get_calendars">
 
