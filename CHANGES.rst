@@ -4,7 +4,22 @@ Changelog
 1.2.47 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1163 from quaive/calendar-reload-sidebar [GitHub]
+* More advanced injection [Alessandro Pisa]
+* Merge pull request #1162 from quaive/icon-calendar [GitHub]
+* The event type looks better with icon-calendar rather than icon-doc-text [Alessandro Pisa]
+* Merge pull request #1161 from quaive/warn-to-info [GitHub]
+* Merge pull request #932 from quaive/hide-plone-toolbar [GitHub]
+* Merge pull request #1156 from quaive/fix-ws-dropdown [GitHub]
+* I propose to make that an info because it spams any log aggregation service like sentry and we can't really fix anything so that it goes away [Alexander Pilz]
+* Get rid of the toolbar [Alessandro Pisa]
+* Merge pull request #1160 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1159 from quaive/ccc_performance [GitHub]
+* Merge pull request #1157 from quaive/injection-parameter [GitHub]
+* Back to development: 1.2.47 [Guido A.J. Stevens]
+* Freeze whitelist into a set to speed up more, thx @ale [Guido A.J. Stevens]
+* Fix injection parameter [Alessandro Pisa]
+* Look for the workspace in the workspaces folder only [Alessandro Pisa]
 
 
 1.2.46 (2017-02-21)
