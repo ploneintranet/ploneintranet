@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.47 (unreleased)
+1.2.47 (2017-02-22)
 -------------------
 
 * Merge pull request #1163 from quaive/calendar-reload-sidebar [GitHub]
