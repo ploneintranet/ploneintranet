@@ -4,7 +4,11 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1166 from quaive/fix-news-workflow-menu-injection [GitHub]
+* Merge pull request #1165 from quaive/fix-news-link [GitHub]
+* Fix the injection after a workflow transition on the news [Alessandro Pisa]
+* Fixed the link to the news [Alessandro Pisa]
+* Merge pull request #1164 from quaive/release-1.2.x [GitHub]
 
 
 1.2.47 (2017-02-22)
