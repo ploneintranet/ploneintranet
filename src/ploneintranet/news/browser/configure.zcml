@@ -7,7 +7,7 @@
 
 
   <!-- ======== MAGAZINE VIEWS =============== -->
-  
+
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="view"
@@ -35,7 +35,7 @@
       permission="zope2.View"
       layer=".interfaces.INewsLayer"
       />
-  
+
 
   <browser:page
       name="feeditem"
@@ -45,7 +45,7 @@
       permission="zope2.View"
       layer=".interfaces.INewsContentLayer"
       />
-  
+
   <browser:page
       name="newsitem_view"
       for="plone.app.contenttypes.interfaces.INewsItem"
@@ -56,7 +56,7 @@
       />
 
   <!-- ======== PUBLISHER VIEWS =============== -->
-  
+
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="publisher"
@@ -74,7 +74,7 @@
       permission="cmf.ModifyPortalContent"
       layer=".interfaces.INewsLayer"
       />
-  
+
   <browser:page
       for="ploneintranet.news.content.INewsApp"
       name="panel-create-news.html"
@@ -124,5 +124,15 @@
       layer=".interfaces.INewsLayer"
       />
 
-  
+  <configure package="ploneintranet.layout.browser">
+    <browser:page
+        name="workflow_menu"
+        for="plone.app.contenttypes.interfaces.INewsItem"
+        class="ploneintranet.news.browser.workflow.NewsWorkflowMenu"
+        template="templates/workflow_menu.pt"
+        permission="zope2.View"
+        layer="ploneintranet.news.browser.interfaces.INewsContentLayer"
+        />
+  </configure>
+
 </configure>
