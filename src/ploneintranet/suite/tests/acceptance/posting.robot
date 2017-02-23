@@ -30,7 +30,7 @@ Manager can post a status update
     and I post a status update    ${MESSAGE1}
     then The message is visible as new status update    ${MESSAGE1}
     and The status update only appears once    ${MESSAGE1}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE1}
 
 Alice can post a status update
@@ -39,7 +39,7 @@ Alice can post a status update
     and I post a status update    ${MESSAGE2}
     then The message is visible as new status update    ${MESSAGE2}
     and The message is visible after a reload    ${MESSAGE2}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE2}
 
 Alice can delete modify status update of herself
@@ -65,6 +65,7 @@ Manager can delete modify status update of anybody
     Then the message is not visible    ${MESSAGE1}
 
 Alice can edit modify status update of herself
+    [Tags]  Heisenbug
     Given I am logged in as the user alice_lindstrom
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
@@ -72,7 +73,7 @@ Alice can edit modify status update of herself
     and The message is visible after a reload    ${MESSAGE2}
     and the message is not visible    ${MESSAGE1}
     and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE2}
 
 Manager can edit modify status update of anybody
@@ -80,12 +81,12 @@ Manager can edit modify status update of anybody
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
     When I'm logged in as a 'Manager'
-    and I open the Dashboard    
+    and I open the Dashboard
     then I can edit the status update    ${MESSAGE1}  ${MESSAGE2}
     and The message is visible after a reload    ${MESSAGE2}
     and the message is not visible    ${MESSAGE1}
     and I can access the original text  ${MESSAGE1}  ${MESSAGE2}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE2}
 
 Allan cannot edit or delete modify status update of others
@@ -131,7 +132,7 @@ Alice can delete modify status reply of herself
     And The reply is not visible    ${MESSAGE2}
     when I open the Dashboard
     Then The reply is not visible   ${MESSAGE2}
-    Comment  Cleanup for easier interactive testing        
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE1}
 
 Manager can delete modify status reply of anybody
@@ -140,20 +141,20 @@ Manager can delete modify status reply of anybody
     and I post a status update    ${MESSAGE1}
     and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     When I'm logged in as a 'Manager'
-    and I open the Dashboard    
+    and I open the Dashboard
     when I delete the status reply    ${MESSAGE2}
     then I can see the status reply delete confirmation
     And The reply is not visible    ${MESSAGE2}
     when I open the Dashboard
     Then The reply is not visible   ${MESSAGE2}
-    Comment  Cleanup for easier interactive testing        
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE1}
 
 Allan cannot edit or delete modify status reply of others
     Given I am logged in as the user alice_lindstrom
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
-    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}    
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     When I am logged in as the user allan_neece
     and I open the Dashboard
     Then I cannot open the comment action menu    ${MESSAGE2}
@@ -166,12 +167,12 @@ Alice can edit modify status reply of herself
     Given I am logged in as the user alice_lindstrom
     when I open the Dashboard
     and I post a status update    ${MESSAGE1}
-    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}    
+    and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     then I can edit the status reply    ${MESSAGE2}  ${MESSAGE3}
-    and The reply is not visible    ${MESSAGE2}    
+    and The reply is not visible    ${MESSAGE2}
     and The reply is visible after a reload    ${MESSAGE1}  ${MESSAGE3}
     and I can access the original reply text  ${MESSAGE2}  ${MESSAGE3}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE1}
 
 Manager can edit modify status reply of anybody
@@ -180,12 +181,12 @@ Manager can edit modify status reply of anybody
     and I post a status update    ${MESSAGE1}
     and I post a reply on a status update    ${MESSAGE1}    ${MESSAGE2}
     When I'm logged in as a 'Manager'
-    and I open the Dashboard        
+    and I open the Dashboard
     then I can edit the status reply    ${MESSAGE2}  ${MESSAGE3}
-    and The reply is not visible    ${MESSAGE2}    
+    and The reply is not visible    ${MESSAGE2}
     and The reply is visible after a reload    ${MESSAGE1}  ${MESSAGE3}
     and I can access the original reply text  ${MESSAGE2}  ${MESSAGE3}
-    Comment  Cleanup for easier interactive testing    
+    Comment  Cleanup for easier interactive testing
     I delete the status update    ${MESSAGE1}
 
 Member can reply to a reply in a workspace
@@ -248,7 +249,7 @@ Neil can tag a post by searching for a tag
 Creating a page creates a statusupdate
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
-    When I save the document    
+    When I save the document
     Then the content stream is visible
     And the stream contains     created this item
     When I go to the Open Market Committee Workspace
@@ -256,9 +257,7 @@ Creating a page creates a statusupdate
     When I open the Dashboard
     Then the stream links to the document     My created document
 
-# https://github.com/quaive/ploneintranet/issues/607
 Publishing a page creates a statusupdate
-    [Tags]  Heisenbug
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
     And I save the document
@@ -277,10 +276,9 @@ Content status updates respect document security
     And I can create a new document    My created document
     And I save the document
     And I open the Dashboard
-    Then the stream links to the document     My created document    
+    Then the stream links to the document     My created document
     When I am logged in as the user allan_neece
     And I open the Dashboard
     Then the stream does not link to the document       My created document
 
 *** Keywords ***
-

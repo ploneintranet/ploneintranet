@@ -97,19 +97,13 @@ Dollie can change her avatar from the menu
     And I can open the personal tools menu
     Then I can upload a new avatar from the menu
 
-# https://github.com/quaive/ploneintranet/issues/520
-# ongoing breakage with css=.tooltip-container .menu
 Dollie can change her password
-    [Tags]  heisenbug
     Given I am logged in as the user dollie_nocera
     And I open the change passord form
     Then I change my password to  new_password
     And I can log in with the new password  dollie_nocera  new_password
 
-# https://github.com/quaive/ploneintranet/issues/522
-# This doesn't work because the input form element isn't visible
 Dollie can change her avatar from her profile page
-    [Tags]  fixme
     Given I am logged in as the user dollie_nocera
     And I can view the profile for user dollie_nocera
     Then I can upload a new avatar from my profile
