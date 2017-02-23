@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.48 (unreleased)
+1.2.48 (2017-02-23)
 -------------------
 
 * Merge pull request #1166 from quaive/fix-news-workflow-menu-injection [GitHub]
