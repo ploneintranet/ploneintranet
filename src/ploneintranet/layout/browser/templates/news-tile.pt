@@ -9,15 +9,15 @@
         <form class="state-toggle pat-inject xpat-autosubmit" action="#"
               tal:condition="view/can_expand">
             <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-expanded">
-                <input type="radio" name="portlet-news-state-expanded" value="on"> 
+                <input type="radio" name="portlet-news-state-expanded" value="on">
                 Show more
             </label>
             <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-collapsed">
-                <input type="radio" name="portlet-news-state-collapsed" value="on"> 
+                <input type="radio" name="portlet-news-state-collapsed" value="on">
                 Show less
             </label>
-        </form>      
-        <h2 class="portlet-title"><a href="${context/portal_url}/library/news" i18n:translate="label_news">News</a></h2>
+        </form>
+        <h2 class="portlet-title"><a href="${context/portal_url}/news" i18n:translate="label_news">News</a></h2>
 
         <div class="news-block" id="unread-news">
           <article class="item item-${repeat/news/number}"
