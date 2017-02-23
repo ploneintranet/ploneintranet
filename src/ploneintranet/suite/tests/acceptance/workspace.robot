@@ -223,10 +223,7 @@ Member can create an event
      Then I can edit an event  2120-12-25  2121-12-26  Europe/Rome
      Then I can delete an event  Christmas (updated)
 
-# this is an actual UI issue caused by the new shell
-# https://github.com/quaive/ploneintranet/issues/609
 Member can create a link
-    [Tags]  fixme
     Given I am in a workspace as a workspace admin
      Then I can create a new link  Quaive site
      Then I can edit the new link  Quaive site
@@ -367,9 +364,7 @@ Archived workspaces are marked search results
       And I can see the search result ArchivedWSSearch
      Then I can see that the workspace is archived  ArchivedWSSearch
 
-# https://github.com/quaive/ploneintranet/issues/776
 User can archive a workspace document
-    [Tags]  heisenbug
     Given I am logged in as the user christian_stoney
       And I Go To the Terms and Conditions document
      Then I can archive the current context
