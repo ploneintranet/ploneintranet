@@ -541,7 +541,7 @@ msgstr "Workflow Status ändern"
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:208
 msgid "Change workflow"
-msgstr ""
+msgstr "Workflow Status ändern"
 
 #: ../todo/browser/todo_view.py:41
 msgid "Changes applied"
@@ -1509,7 +1509,7 @@ msgstr "Monat"
 
 #: ../userprofile/browser/templates/group_view.pt:86
 msgid "More &hellip;"
-msgstr ""
+msgstr "Mehr &hellip;"
 
 #: ../calendar/browser/templates/app.pt:36
 msgid "More info"
@@ -1741,7 +1741,7 @@ msgstr "Ältere Objekte"
 
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:79
 msgid "Older events"
-msgstr ""
+msgstr "Ältere Termine"
 
 #: ../workspace/policies.py:34
 msgid "Only administrators can add workspace members."
@@ -2289,11 +2289,11 @@ msgstr "Geteilte Termine"
 
 #: ../activitystream/browser/templates/post.html:361
 msgid "Show ${count} older comment"
-msgstr ""
+msgstr "Zeige ${count} älteren Kommentar"
 
 #: ../activitystream/browser/templates/post.html:364
 msgid "Show ${count} older comments"
-msgstr ""
+msgstr "Zeige ${count} ältere Kommentare"
 
 #: ../workspace/browser/tiles/templates/events.pt:69
 msgid "Show all events"
@@ -2785,7 +2785,7 @@ msgstr "Bis"
 
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:28
 msgid "Upcoming events"
-msgstr ""
+msgstr "Anstehende Termine"
 
 #: ../userprofile/browser/templates/userprofile.pt:45
 msgid "Update avatar"
@@ -2931,7 +2931,7 @@ msgstr "Verzeichnis für Arbeitsräume"
 
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:25
 msgid "Workspace calendar"
-msgstr ""
+msgstr "Kalender des Arbeitsraums"
 
 #: ../workspace/browser/templates/add_workspace.pt:24
 #: ../workspace/browser/templates/workspace-add.pt:26
