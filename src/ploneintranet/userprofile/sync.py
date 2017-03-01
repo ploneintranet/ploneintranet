@@ -413,7 +413,8 @@ class AllWorkGroupsSync(BrowserView):
             self.canonical_plugin_id))
         local_groupids = set(self._plugin_groupids('membrane_groups'))
         self._disable_groups(local_groupids, external_groupids)
-        self._create_groups(local_groupids, external_groupids)
+        # _create_groups is unfortunately a generator, so we need to consume it
+        tuple(self._create_groups(local_groupids, external_groupids))
         sync_many_groups(self.context, self.context.objectValues())
 
     def _create_groups(self, local_groupids, external_groupids):
