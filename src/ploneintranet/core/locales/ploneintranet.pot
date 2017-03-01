@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-02-16 10:05+0000\n"
+"POT-Creation-Date: 2017-03-01 15:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -222,27 +222,27 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:515
+#: ../workspace/browser/tiles/sidebar.py:523
 msgid "All Authors"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:511
+#: ../workspace/browser/tiles/sidebar.py:519
 msgid "All Dates"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:519
+#: ../workspace/browser/tiles/sidebar.py:527
 msgid "All Letters"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:513
+#: ../workspace/browser/tiles/sidebar.py:521
 msgid "All Tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:845
+#: ../workspace/browser/tiles/sidebar.py:853
 msgid "All Time"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:517
+#: ../workspace/browser/tiles/sidebar.py:525
 msgid "All Types"
 msgstr ""
 
@@ -378,7 +378,7 @@ msgstr ""
 msgid "Attachments"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:91
+#: ../workspace/browser/tiles/sidebar.py:99
 msgid "Attributes changed."
 msgstr ""
 
@@ -399,7 +399,7 @@ msgid "BCC"
 msgstr ""
 
 #: ../calendar/browser/templates/fullcalendar.tile.pt:34
-#: ../workspace/browser/tiles/sidebar.py:521
+#: ../workspace/browser/tiles/sidebar.py:529
 msgid "Back"
 msgstr ""
 
@@ -925,7 +925,7 @@ msgstr ""
 msgid "Event description"
 msgstr ""
 
-#: ../workspace/browser/templates/add_event.pt:22
+#: ../workspace/browser/templates/add_event.pt:24
 msgid "Event title"
 msgstr ""
 
@@ -1264,15 +1264,15 @@ msgstr ""
 msgid "Item(s) pasted"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:840
+#: ../workspace/browser/tiles/sidebar.py:848
 msgid "Items modified last month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:834
+#: ../workspace/browser/tiles/sidebar.py:842
 msgid "Items modified last week"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:828
+#: ../workspace/browser/tiles/sidebar.py:836
 msgid "Items modified today"
 msgstr ""
 
@@ -1295,11 +1295,11 @@ msgstr ""
 msgid "Last Contacts"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:839
+#: ../workspace/browser/tiles/sidebar.py:847
 msgid "Last Month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:833
+#: ../workspace/browser/tiles/sidebar.py:841
 msgid "Last Week"
 msgstr ""
 
@@ -1331,6 +1331,10 @@ msgstr ""
 
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:101
+msgid "Learn how this works"
 msgstr ""
 
 #: ../layout/profiles/default/actions.xml
@@ -1441,11 +1445,11 @@ msgstr ""
 msgid "Member users"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:224
+#: ../workspace/browser/tiles/sidebar.py:232
 msgid "Member(s) added"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:229
+#: ../workspace/browser/tiles/sidebar.py:237
 msgid "Member(s) removed"
 msgstr ""
 
@@ -1502,6 +1506,10 @@ msgstr ""
 
 #: ../calendar/browser/templates/fullcalendar.tile.pt:40
 msgid "Month"
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:51
+msgid "More"
 msgstr ""
 
 #: ../userprofile/browser/templates/group_view.pt:86
@@ -1732,7 +1740,7 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:846
+#: ../workspace/browser/tiles/sidebar.py:854
 msgid "Older"
 msgstr ""
 
@@ -2130,7 +2138,7 @@ msgstr ""
 msgid "Rich text"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:236
+#: ../workspace/browser/tiles/sidebar.py:244
 msgid "Role updated"
 msgstr ""
 
@@ -2384,8 +2392,12 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:80
+#: ../calendar/browser/templates/fullcalendar.tile.pt:97
 msgid "Subscribe to calendar"
+msgstr ""
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:84
+msgid "Subscribe to this calendar in Outlook"
 msgstr ""
 
 #: ../calendar/browser/configure.zcml:37
@@ -2589,11 +2601,11 @@ msgstr ""
 msgid "There are no downloadable items in your cart."
 msgstr ""
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:92
+#: ../calendar/browser/templates/fullcalendar.tile.pt:110
 msgid "There are no events to be displayed"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:99
+#: ../workspace/browser/tiles/sidebar.py:107
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
@@ -2751,7 +2763,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:239
+#: ../workspace/browser/tiles/sidebar.py:247
 msgid "Unknown function"
 msgstr ""
 
@@ -2838,7 +2850,7 @@ msgstr ""
 msgid "Upload files"
 msgstr ""
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:87
+#: ../calendar/browser/templates/fullcalendar.tile.pt:100
 msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
 msgstr ""
 
@@ -2967,7 +2979,7 @@ msgstr ""
 msgid "Workspace policy"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:299
+#: ../workspace/browser/tiles/sidebar.py:307
 msgid "Workspace security policy changes saved"
 msgstr ""
 
@@ -3052,7 +3064,7 @@ msgstr ""
 msgid "You cannot rename this item."
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:207
+#: ../workspace/browser/tiles/sidebar.py:215
 msgid "You do not have permission to change the workspace policy"
 msgstr ""
 
@@ -3295,7 +3307,7 @@ msgid "download"
 msgstr ""
 
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:438
+#: ../workspace/browser/tiles/sidebar.py:446
 msgid "drop_files_here"
 msgstr ""
 
@@ -3322,7 +3334,7 @@ msgid "expand/reduce sidebar"
 msgstr ""
 
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:267
+#: ../workspace/browser/tiles/sidebar.py:275
 msgid "external_visibility_label"
 msgstr ""
 
@@ -3544,7 +3556,7 @@ msgid "items matched your search."
 msgstr ""
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:266
+#: ../workspace/browser/tiles/sidebar.py:274
 msgid "join_policy_label"
 msgstr ""
 
@@ -3851,11 +3863,6 @@ msgstr ""
 msgid "label_show_archived"
 msgstr ""
 
-#. Default: "Learn how this works"
-#: ../calendar/browser/templates/fullcalendar.tile.pt:87
-msgid "label_subscribe_to_calendar"
-msgstr ""
-
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
 msgid "label_tags"
@@ -3989,7 +3996,7 @@ msgid "number_of_members"
 msgstr ""
 
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:269
+#: ../workspace/browser/tiles/sidebar.py:277
 msgid "participant_policy_label"
 msgstr ""
 

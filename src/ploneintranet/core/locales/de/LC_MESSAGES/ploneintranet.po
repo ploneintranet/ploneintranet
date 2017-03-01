@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-02-16 10:05+0000\n"
+"POT-Creation-Date: 2017-03-01 15:58+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -225,27 +225,27 @@ msgstr "Erweiterte Berechtigungen"
 msgid "All"
 msgstr "Alles"
 
-#: ../workspace/browser/tiles/sidebar.py:515
+#: ../workspace/browser/tiles/sidebar.py:523
 msgid "All Authors"
 msgstr "Alle Autoren"
 
-#: ../workspace/browser/tiles/sidebar.py:511
+#: ../workspace/browser/tiles/sidebar.py:519
 msgid "All Dates"
 msgstr "Alle Zeitpunkte"
 
-#: ../workspace/browser/tiles/sidebar.py:519
+#: ../workspace/browser/tiles/sidebar.py:527
 msgid "All Letters"
 msgstr "Alle Buchstaben"
 
-#: ../workspace/browser/tiles/sidebar.py:513
+#: ../workspace/browser/tiles/sidebar.py:521
 msgid "All Tags"
 msgstr "Alle Tags"
 
-#: ../workspace/browser/tiles/sidebar.py:845
+#: ../workspace/browser/tiles/sidebar.py:853
 msgid "All Time"
 msgstr "Alle Zeiträume"
 
-#: ../workspace/browser/tiles/sidebar.py:517
+#: ../workspace/browser/tiles/sidebar.py:525
 msgid "All Types"
 msgstr "Alle Typen"
 
@@ -381,7 +381,7 @@ msgstr "Dokumente anhängen"
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: ../workspace/browser/tiles/sidebar.py:91
+#: ../workspace/browser/tiles/sidebar.py:99
 msgid "Attributes changed."
 msgstr "Attribut geändert"
 
@@ -402,7 +402,7 @@ msgid "BCC"
 msgstr "BCC"
 
 #: ../calendar/browser/templates/fullcalendar.tile.pt:34
-#: ../workspace/browser/tiles/sidebar.py:521
+#: ../workspace/browser/tiles/sidebar.py:529
 msgid "Back"
 msgstr "Zurück"
 
@@ -928,7 +928,7 @@ msgstr "Termin"
 msgid "Event description"
 msgstr "Geben Sie eine Beschreibung des Termins ein"
 
-#: ../workspace/browser/templates/add_event.pt:22
+#: ../workspace/browser/templates/add_event.pt:24
 msgid "Event title"
 msgstr "Titel des Termins"
 
@@ -1267,15 +1267,15 @@ msgstr "Zusammenfassung (optional)"
 msgid "Item(s) pasted"
 msgstr "Objekt(e) eingefügt."
 
-#: ../workspace/browser/tiles/sidebar.py:840
+#: ../workspace/browser/tiles/sidebar.py:848
 msgid "Items modified last month"
 msgstr "Objekte, die im letzten Monat geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:834
+#: ../workspace/browser/tiles/sidebar.py:842
 msgid "Items modified last week"
 msgstr "Objekte, die letzte Woche geändert wurden"
 
-#: ../workspace/browser/tiles/sidebar.py:828
+#: ../workspace/browser/tiles/sidebar.py:836
 msgid "Items modified today"
 msgstr "Objekte, die sich heute geändert haben"
 
@@ -1298,11 +1298,11 @@ msgstr "Jetzt registrieren!"
 msgid "Last Contacts"
 msgstr "Zuletzt verwendete Kontakte"
 
-#: ../workspace/browser/tiles/sidebar.py:839
+#: ../workspace/browser/tiles/sidebar.py:847
 msgid "Last Month"
 msgstr "Letzten Monat"
 
-#: ../workspace/browser/tiles/sidebar.py:833
+#: ../workspace/browser/tiles/sidebar.py:841
 msgid "Last Week"
 msgstr "Letzte Woche"
 
@@ -1335,6 +1335,10 @@ msgstr "Spätestes Bearbeitungsdatum"
 #: ../todo/portlets/latest.py:39
 msgid "Latest news"
 msgstr "Aktuelle Nachrichten"
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:101
+msgid "Learn how this works"
+msgstr "Finden Sie heraus, wie das funktioniert"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Library"
@@ -1444,11 +1448,11 @@ msgstr "Benutzergruppen"
 msgid "Member users"
 msgstr "Benutzer"
 
-#: ../workspace/browser/tiles/sidebar.py:224
+#: ../workspace/browser/tiles/sidebar.py:232
 msgid "Member(s) added"
 msgstr "Benutzer hinzugefügt"
 
-#: ../workspace/browser/tiles/sidebar.py:229
+#: ../workspace/browser/tiles/sidebar.py:237
 msgid "Member(s) removed"
 msgstr "Benutzer entfernt"
 
@@ -1506,6 +1510,10 @@ msgstr "Änderungen der letzten 7 Tage"
 #: ../calendar/browser/templates/fullcalendar.tile.pt:40
 msgid "Month"
 msgstr "Monat"
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:51
+msgid "More"
+msgstr "Mehr"
 
 #: ../userprofile/browser/templates/group_view.pt:86
 msgid "More &hellip;"
@@ -1735,7 +1743,7 @@ msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 msgid "Ok"
 msgstr "Ok"
 
-#: ../workspace/browser/tiles/sidebar.py:846
+#: ../workspace/browser/tiles/sidebar.py:854
 msgid "Older"
 msgstr "Ältere Objekte"
 
@@ -2133,7 +2141,7 @@ msgstr "Wiederherstellen"
 msgid "Rich text"
 msgstr "Text"
 
-#: ../workspace/browser/tiles/sidebar.py:236
+#: ../workspace/browser/tiles/sidebar.py:244
 msgid "Role updated"
 msgstr "Rolle bearbeitet"
 
@@ -2387,9 +2395,13 @@ msgstr "Statusänderung von ${fullname}:"
 msgid "Subscribe"
 msgstr "Abonnieren"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:80
+#: ../calendar/browser/templates/fullcalendar.tile.pt:97
 msgid "Subscribe to calendar"
 msgstr "Diesen Kalender abonnieren"
+
+#: ../calendar/browser/templates/fullcalendar.tile.pt:84
+msgid "Subscribe to this calendar in Outlook"
+msgstr "Diesen Kalender in Outlook abonnieren"
 
 #: ../calendar/browser/configure.zcml:37
 msgid "THe fullcalendar used in app and workspace"
@@ -2592,11 +2604,11 @@ msgstr "Es gibt ${num_comments} Kommentar(e) zu ${num_shares} Aktivität(en)"
 msgid "There are no downloadable items in your cart."
 msgstr "Sie haben keine Objekte ausgewählt, die heruntergeladen werden können."
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:92
+#: ../calendar/browser/templates/fullcalendar.tile.pt:110
 msgid "There are no events to be displayed"
 msgstr "Keine Termine vorhanden"
 
-#: ../workspace/browser/tiles/sidebar.py:99
+#: ../workspace/browser/tiles/sidebar.py:107
 msgid "There was a problem updating the content: %s."
 msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 
@@ -2754,7 +2766,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: ../workspace/browser/tiles/sidebar.py:239
+#: ../workspace/browser/tiles/sidebar.py:247
 msgid "Unknown function"
 msgstr "Unbekannte Funktion"
 
@@ -2841,7 +2853,7 @@ msgstr "Dateien hochladen"
 msgid "Upload files"
 msgstr "Dateien hochladen"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:87
+#: ../calendar/browser/templates/fullcalendar.tile.pt:100
 msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
 msgstr "Benutzen Sie die URL oben um den Kalender dieses Arbeitsplatzes in Ihrem Outlook Kalender anzeigen zu lassen."
 
@@ -2970,7 +2982,7 @@ msgstr "Mitglieder des Arbeitsraums können Inhalte lesen, hinzufügen und publi
 msgid "Workspace policy"
 msgstr "Richtlinie des Arbeitsraums"
 
-#: ../workspace/browser/tiles/sidebar.py:299
+#: ../workspace/browser/tiles/sidebar.py:307
 msgid "Workspace security policy changes saved"
 msgstr "Die Änderungen an der Sicherheitsrichtlinie des Arbeitsräumes wurden gesichert."
 
@@ -3055,7 +3067,7 @@ msgstr "Sie können dieses Objekt nicht löschen."
 msgid "You cannot rename this item."
 msgstr "Sie können dieses Objekt nicht umbenennen."
 
-#: ../workspace/browser/tiles/sidebar.py:207
+#: ../workspace/browser/tiles/sidebar.py:215
 msgid "You do not have permission to change the workspace policy"
 msgstr "Sie haben nicht die notwendigen Berechtigungen, um die Sicherheitseinstellungen des Arbeitsraums zu ändern."
 
@@ -3301,7 +3313,7 @@ msgid "download"
 msgstr "Herunterladen"
 
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:438
+#: ../workspace/browser/tiles/sidebar.py:446
 msgid "drop_files_here"
 msgstr "Dateien hierhin schieben oder klicken zum Durchsuchen."
 
@@ -3328,7 +3340,7 @@ msgid "expand/reduce sidebar"
 msgstr "Seitenleiste aus-/einklappen"
 
 #. Default: "External visibility"
-#: ../workspace/browser/tiles/sidebar.py:267
+#: ../workspace/browser/tiles/sidebar.py:275
 msgid "external_visibility_label"
 msgstr "Sichtbarkeit von Aussen"
 
@@ -3568,7 +3580,7 @@ msgid "items matched your search."
 msgstr "Treffer für die Suche"
 
 #. Default: "Join policy"
-#: ../workspace/browser/tiles/sidebar.py:266
+#: ../workspace/browser/tiles/sidebar.py:274
 msgid "join_policy_label"
 msgstr "Teilnahmerichtlinie"
 
@@ -3877,11 +3889,6 @@ msgstr "Senden"
 msgid "label_show_archived"
 msgstr "Archiviert"
 
-#. Default: "Learn how this works"
-#: ../calendar/browser/templates/fullcalendar.tile.pt:87
-msgid "label_subscribe_to_calendar"
-msgstr "Erfahren Sie hier, wie das funktioniert"
-
 #. Default: "Tags"
 #: ../network/behaviors/metadata.py:111
 msgid "label_tags"
@@ -4015,7 +4022,7 @@ msgid "number_of_members"
 msgstr "${no_users} Mitglieder / ${no_groups} Gruppen"
 
 #. Default: "Participant policy"
-#: ../workspace/browser/tiles/sidebar.py:269
+#: ../workspace/browser/tiles/sidebar.py:277
 msgid "participant_policy_label"
 msgstr "Teilnehmerrichtlinie"
 
