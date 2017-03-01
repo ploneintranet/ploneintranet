@@ -3309,7 +3309,7 @@ msgstr "Dateien hierhin schieben oder klicken zum Durchsuchen."
 #: ../workspace/browser/templates/email_invitees_html.pt:11
 #: ../workspace/browser/templates/email_invitees_text.pt:10
 msgid "email_to"
-msgstr "TO"
+msgstr "bis"
 
 #. Default: "Expiration date must be after publishing date."
 #: ../network/behaviors/metadata.py:231
