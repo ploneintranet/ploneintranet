@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.49 (unreleased)
+1.2.49 (2017-03-02)
 -------------------
 
 * remove pypi-local file that got added by accident in 5c17b088a937cfeca48d064dbd247d5e39bb2ef0 [Wolfgang Thomas]
