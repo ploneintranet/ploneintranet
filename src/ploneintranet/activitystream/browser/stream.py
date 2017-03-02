@@ -5,6 +5,7 @@ from plone.dexterity.utils import safe_unicode
 from plone.memoize.view import memoize
 from plone.tiles import Tile
 from ploneintranet import api as piapi
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import INetworkGraph
 from ploneintranet.userprofile.content.userprofile import IUserProfile
 from Products.Five.browser import BrowserView
@@ -223,11 +224,6 @@ class TagStream(StreamBase, BrowserView):
         # return self so the publisher calls this view
         return self
 
-    def __call__(self):
-        if self.request.method == 'POST':
-            self.handle_action()
-        return super(TagStream, self).__call__()
-
     def handle_action(self):
         g = queryUtility(INetworkGraph)
         if g.is_following('tag', self.tag):
@@ -251,3 +247,15 @@ class TagStream(StreamBase, BrowserView):
             self.context.absolute_url(),
             urllib.quote(safe_unicode(self.tag).encode('utf8'))
         )
+
+    def __call__(self):
+        if self.request.method == 'POST':
+            self.handle_action()
+        if not self.tag:
+            api.portal.show_message(
+                message=_('No tag selected'),
+                request=self.request,
+                type="warning",
+            )
+            return self.request.response.redirect(self.context.absolute_url())
+        return super(TagStream, self).__call__()
