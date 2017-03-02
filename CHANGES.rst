@@ -4,7 +4,23 @@ Changelog
 1.2.49 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* remove pypi-local file that got added by accident in 5c17b088a937cfeca48d064dbd247d5e39bb2ef0 [Wolfgang Thomas]
+* Merge pull request #1175 from quaive/translationfixes [GitHub]
+* Merge pull request #1176 from quaive/tag-stream-fix [GitHub]
+* Do not break if no tag is passed [Alessandro Pisa]
+* re-ran i18n-sync and added new translations in DE [Wolfgang Thomas]
+* fix wrong translation in DE intorduced in 0fd744d8 [Wolfgang Thomas]
+* added missing DE translations [Wolfgang Thomas]
+* Merge pull request #1172 from quaive/ical-export [GitHub]
+* Merge pull request #1173 from quaive/fix-6e7faf3a06a4823c489d674b0db1898094bee2bf [GitHub]
+* Really create groups when syncing [Alessandro Pisa]
+* Merge pull request #1170 from quaive/news-item-icon [GitHub]
+* Add link to calendar export [Alessandro Pisa]
+* Return a proper item for news related types [Alessandro Pisa]
+* Merge pull request #1168 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1167 from quaive/mark-heisenbug [GitHub]
+* Back to development: 1.2.49 [Alexander Pilz]
+* Review the test tags [Alessandro Pisa]
 
 
 1.2.48 (2017-02-23)
