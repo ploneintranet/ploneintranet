@@ -8,6 +8,7 @@ from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.add_content import AddBase
+from ploneintranet.workspace.case import ICase
 from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.subscribers import _reset_security_context
 from ploneintranet.workspace.utils import purge_and_refresh_security_manager
@@ -198,6 +199,26 @@ class AddWorkspace(AddBase):
         else:
             return super(AddWorkspace, self).get_new_object(container)
 
+    def maybe_preserve_ownership(self, new, template):
+        ''' In some cases we want to preserve the template ownership
+        on the new object
+        '''
+        if not ICase.providedBy(new):
+            # We do not want this to happen for workspaces...
+            return
+        if not api.portal.get_registry_record(
+            'ploneintranet.workspace.preserve_template_ownership',
+            default=False,
+        ):
+            # ...or if it is not specified through a registry record
+            return
+        pu = api.portal.get_tool('plone_utils')
+        pu.changeOwnershipOf(
+            new,
+            template.getOwner().getId(),
+            recursive=True,
+        )
+
     def create_from_template(self, container=None):
         ''' Create an object with the given template
         '''
@@ -240,6 +261,7 @@ class AddWorkspace(AddBase):
         _reset_security_context(userid, new.REQUEST, invalidate_cache=True)
         # NOW we can set the new name
         api.content.rename(new, self.get_new_unique_id(container))
+        self.maybe_preserve_ownership(new, template)
         new.creation_date = datetime.now()
         # Now that the new workspace has been created, re-index it (async)
         # using the solr-maintenance convenience method.

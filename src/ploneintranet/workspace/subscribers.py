@@ -87,15 +87,24 @@ def workspace_added(ob, event):
     the admin group. We then setup our placeful workflow
 
     """
-    # Whoever creates the workspace should be added as an Admin
+    is_case = ICase.providedBy(ob)
+    preserve_template_ownership = api.portal.get_registry_record(
+        'ploneintranet.workspace.preserve_template_ownership',
+        default=False,
+    )
+    userid = api.user.get_current().id
+
+    # If not stated otherwise through the registry record:
+    # ploneintranet.workspace.preserve_template_ownership
+    # whoever creates the workspace should be added as an Admin
     # When copying a template, that is the current user
     # (not the one who created the original template)
-    userid = api.user.get_current().id
-    ob.setCreators([userid])
-    IWorkspace(ob).add_to_team(
-        user=userid,
-        groups=set(['Admins']),
-    )
+    if (not is_case) or (not preserve_template_ownership):
+        ob.setCreators([userid])
+        IWorkspace(ob).add_to_team(
+            user=userid,
+            groups=set(['Admins']),
+        )
     # During workspace creation, various functions
     # are called (renaming / workflow transitions) which do
     # low-level AccessControl checks.
@@ -105,7 +114,7 @@ def workspace_added(ob, event):
     # ref: https://github.com/ploneintranet/ploneintranet/pull/438
     _reset_security_context(userid, ob.REQUEST)
 
-    if ICase.providedBy(ob):
+    if is_case:
         """Case Workspaces have their own custom workflows
         """
         return
