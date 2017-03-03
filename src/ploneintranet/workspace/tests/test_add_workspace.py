@@ -1,13 +1,15 @@
 # coding=utf-8
-import os
-from ploneintranet.workspace.tests.base import BaseTestCase
+from collective.workspace.interfaces import IHasWorkspace
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.namedfile.file import NamedBlobImage
-from collective.workspace.interfaces import IHasWorkspace, IWorkspace
-
-from ploneintranet.workspace.config import TEMPLATES_FOLDER
 from ploneintranet.workspace.browser.add_workspace import AddWorkspace
+from ploneintranet.workspace.config import TEMPLATES_FOLDER
+from ploneintranet.workspace.tests.base import BaseTestCase
+from ploneintranet.workspace.tests.base import temporary_registry_record
+
+import os
 
 
 class TestAddWorkspace(BaseTestCase):
@@ -201,6 +203,34 @@ class TestAddWorkspaceView(BaseTestCase):
         request = self.layer['request'].clone()
         aw = AddWorkspace(self.workspace_container, request)
         self.assertIn('my-template', aw.all_templates_dict)
+
+    def test_add_template_via_view_preserve_owner(self):
+        self.login('johndoe')
+        request = self.request.clone()
+        request['workspace-type'] = 'example-template'
+        add_workspace = api.content.get_view(
+            'add_workspace',
+            context=self.portal.workspaces,
+            request=request,
+        )
+        add_workspace.title = u'WS'
+        ws = add_workspace.create_from_template()
+        self.assertEqual(ws.getOwner().getId(), 'johndoe')
+        request = self.request.clone()
+        request['workspace-type'] = 'example-template'
+        add_workspace = api.content.get_view(
+            'add_workspace',
+            context=self.portal.workspaces,
+            request=request,
+        )
+        add_workspace.title = u'WS'
+        with temporary_registry_record(
+            'ploneintranet.workspace.preserve_template_ownership',
+            True,
+        ):
+            # This has no effect for regular workspaces
+            ws = add_workspace.create_from_template()
+        self.assertEqual(ws.getOwner().getId(), 'johndoe')
 
     def test_template_member_can_see_template_in_menu(self):
         self.login('johndoe')

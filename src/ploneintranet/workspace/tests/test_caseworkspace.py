@@ -1,7 +1,9 @@
+# coding=utf-8
+from collective.workspace.interfaces import IWorkspace
 from plone import api
 from ploneintranet.workspace.interfaces import IMetroMap
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
-from ploneintranet.workspace.unrestricted import execute_as_manager
+from ploneintranet.workspace.tests.base import temporary_registry_record
 from zope.component import queryAdapter
 
 
@@ -10,6 +12,7 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
     view and additional fields """
 
     def setUp(self):
+        self.app = self.layer['app']
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         pwft = api.portal.get_tool("portal_placeful_workflow")
@@ -27,6 +30,18 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
             'CMFPlacefulWorkflow'].manage_addWorkflowPolicyConfig()
         wfconfig = pwft.getWorkflowPolicyConfig(self.case)
         wfconfig.setPolicyIn('case_workflow')
+        self.login_as_portal_owner()
+        template = api.content.create(
+            type='ploneintranet.workspace.case',
+            id='template1',
+            container=self.portal.templates,
+        )
+        api.content.create(
+            type='Document',
+            id='doc1',
+            container=template,
+        )
+        self.login('test-user')
 
     def test_metromap_initial_state(self):
         """A newly created Case is in the first workflow state. It can't be
@@ -69,16 +84,6 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
         self.assertTrue(queryAdapter(workspace, IMetroMap) is None)
 
     def test_add_case_from_template(self):
-        template = api.content.create(
-            type='ploneintranet.workspace.case',
-            id='template1',
-            container=self.portal.templates,
-        )
-        api.content.create(
-            type='Document',
-            id='doc1',
-            container=template,
-        )
         case_request = self.request.clone()
         case_request['workspace-type'] = 'template1'
         add_workspace = api.content.get_view(
@@ -87,8 +92,36 @@ class TestCaseWorkspace(FunctionalBaseTestCase):
             request=case_request,
         )
         add_workspace.title = u'Case from template'
-        self.case = execute_as_manager(add_workspace.create_from_template)
+        case = add_workspace.create_from_template()
         self.assertTrue('doc1' in self.portal.workspaces['case-from-template'])
+
+        self.assertEqual(case.getOwner().getId(), 'test_user_1_')
+        adapter = IWorkspace(case)
+        self.assertTrue(adapter.get('admin'))
+        self.assertTrue(adapter.get('test_user_1_'))
+
+    def test_add_case_from_template_preserve_owner(self):
+        case_request = self.request.clone()
+        case_request['workspace-type'] = 'template1'
+        add_workspace = api.content.get_view(
+            'add_workspace',
+            context=self.portal.workspaces,
+            request=case_request,
+        )
+        add_workspace.title = u'Case from template'
+        self.assertEqual(api.user.get_current().getId(), 'test_user_1_')
+
+        # create a case preserving the ownership
+        with temporary_registry_record(
+            'ploneintranet.workspace.preserve_template_ownership',
+            True,
+        ):
+            case = add_workspace.create_from_template()
+
+        self.assertEqual(case.getOwner().getId(), 'admin')
+        adapter = IWorkspace(case)
+        self.assertTrue(adapter.get('admin'))
+        self.assertFalse(adapter.get('test-user'))
 
     def test_metromap_frozen_state(self):
         """
