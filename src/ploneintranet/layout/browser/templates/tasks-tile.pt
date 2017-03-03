@@ -4,7 +4,7 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div class="tasks portlet span-1 state-collapsed" id="portlet-tasks"
+    <div class="tasks portlet ${python:request.get('portletspan', 'span-1')} state-collapsed" id="portlet-tasks"
          tal:define="grouped_tasks view/grouped_tasks">
       <div class="content">
         <h2 class="portlet-title" i18n:translate="">Tasks</h2>

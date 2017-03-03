@@ -40,6 +40,22 @@
       <element>./@@tasks.tile</element>
     </value>
   </record>
+  <record name="ploneintranet.layout.dashboard_custom_tiles">
+    <field type="plone.registry.field.Tuple">
+      <title i18n:translate="label_dashboard_custom_tiles">List of dashboard custom tiles</title>
+      <description i18n:translate="help_dashboard_custom_tiles">
+        This is the list of the tiles
+        the user will see on the
+        "My view (customizable)" dashboard.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value purge="false">
+      <element>./@@contacts_search.tile?title=Contacts</element>
+      <element>./@@news.tile?title=News</element>
+      <element>./@@my_documents.tile?title=My docs</element>
+    </value>
+  </record>
   <record name="ploneintranet.layout.dashboard_default">
     <field type="plone.registry.field.TextLine">
       <title i18n:translate="label_dashboard_default">Name of the default dashboard</title>
@@ -150,7 +166,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#new-dashboard&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;new-dashboard&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-dashboard.png); display: none;&quot;&gt;
             &lt;h1&gt;Dashboard&lt;/h1&gt;
@@ -159,7 +175,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#bookmark-workspaces&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;bookmark-workspaces&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-bookmark-workspaces.png); display: none;&quot;&gt;
             &lt;h1&gt;Bookmark workspaces&lt;/h1&gt;
@@ -168,7 +184,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#bookmark-items&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;bookmark-items&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-bookmark-apps.png); display: none;&quot;&gt;
             &lt;h1&gt;Bookmark anything&lt;/h1&gt;
@@ -177,7 +193,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#navigate&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;navigate&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-workspace-landing.png); display: none;&quot;&gt;
             &lt;h1&gt;Navigation&lt;/h1&gt;
@@ -186,7 +202,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#search&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;search&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-search.png); display: none;&quot;&gt;
             &lt;h1&gt;Search&lt;/h1&gt;
@@ -195,7 +211,7 @@
             &lt;/p&gt;
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;a href=&quot;#enjoy&quot; class=&quot;pat-button&quot;&gt;Next…&lt;/a&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
         &lt;article id=&quot;enjoy&quot; class=&quot;container has-image hidden&quot; style=&quot;background-image: url(++theme++ploneintranet.theme/generated/media/pi-dashboard.png); display: none;&quot;&gt;
             &lt;h1&gt;Enjoy!&lt;/h1&gt;
@@ -205,7 +221,7 @@
             &lt;p class=&quot;button-bar&quot;&gt;
                     &lt;!-- &lt;a class=&quot;pat-button&quot;&gt;Finish&lt;/a&gt; --&gt;
                     &lt;button class=&quot;pat-button splash-trigger collapsible-open&quot;&gt;Finish&lt;/button&gt;
-            &lt;/p&gt;    
+            &lt;/p&gt;
         &lt;/article&gt;
     &lt;/div&gt;
     &lt;nav class=&quot;dots&quot;&gt;

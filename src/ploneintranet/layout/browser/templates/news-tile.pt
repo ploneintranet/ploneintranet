@@ -4,7 +4,7 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div class="news portlet span-1 state-collapsed" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
+    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-collapsed" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
       <div class="content">
         <form class="state-toggle pat-inject xpat-autosubmit" action="#"
               tal:condition="view/can_expand">

@@ -1,7 +1,7 @@
 <html>
   <body>
     <div id="portlet-bookmarks${python:view.data.get('id_suffix', '')}"
-         class="library portlet span-1"
+         class="library portlet ${python:request.get('portletspan', 'span-1')}"
          i18n:domain="ploneintranet"
         >
       <div class="content"

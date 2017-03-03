@@ -5,7 +5,7 @@
           injection_trick request/injection_trick|nothing;
         ">
     <div id="portlet-bookmarked-workspaces"
-         class="bookmarked-workspaces portlet span-1 state-${python:'expanded' if asked_expanded else 'collapsed'}"
+         class="bookmarked-workspaces portlet ${python:request.get('portletspan', 'span-1')} state-${python:'expanded' if asked_expanded else 'collapsed'}"
          i18n:domain="ploneintranet"
 
         >

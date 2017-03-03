@@ -20,7 +20,7 @@ ploneintranet.layout.splashpage_enabled
 
     **description**: If the user logs in for the first time, he will see a splash page overlay which can contain introductory information stored in splashpage_content.
 
-    **type**: plone.registry.field.Bool 
+    **type**: plone.registry.field.Bool
 
     **default**: False
 
@@ -31,7 +31,7 @@ ploneintranet.layout.splashpage_uid
 
     **description**: This UID is used to store the information in the user's browser if the splashpage has been shown already. If you want to make the splashpage reappear for all users, change the UID.
 
-    **type**: plone.registry.field.TextLine 
+    **type**: plone.registry.field.TextLine
 
     **default**: ''
 
@@ -77,6 +77,19 @@ ploneintranet.layout.dashboard_task_tiles
                  ./@@workspaces.tile?workspace_type=ploneintranet.workspace.case,
                  ./@@events.tile,
                  ./@@tasks.tile,
+
+ploneintranet.layout.dashboard_custom_tiles
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: List of dashboard custom tiles
+
+    **description**: This is the list of the tiles the user will see on the "My view (customizable)" dashboard.
+
+    **type**: plone.registry.field.Tuple of plone.registry.field.TextLine
+
+    **default**: './@@contacts_search.tile?title=Contacts',
+                 './@@news.tile?title=News',
+                 './@@my_documents.tile?title=My docs',
 
 ploneintranet.layout.dashboard_default
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

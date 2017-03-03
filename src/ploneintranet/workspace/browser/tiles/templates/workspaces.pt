@@ -4,7 +4,7 @@
       i18n:domain="ploneintranet">
 
   <body tal:define="workspaces view/workspaces">
-    <div class="workspaces portlet span-1" id="portlet-workspaces" tal:condition="workspaces">
+    <div class="workspaces portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-workspaces" tal:condition="workspaces">
       <div class="content">
         <h2 class="portlet-title">
           <a href="${view/workspaces_url}">${view/title}</a>

@@ -17,6 +17,9 @@ I am logged in as the user ${userid}
     Input text  name=__ac_password  secret
     Submit Form  css=#login-panel
 
+Wait for injection to be finished
+    Wait Until Page Does Not Contain Element  css=.injecting-content
+
 # add content keyword that supports
 # both dexterity and archetypes
 Add content item

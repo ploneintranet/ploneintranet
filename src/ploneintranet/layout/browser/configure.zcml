@@ -111,6 +111,15 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      name="edit-dashboard"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".dashboard.EditDashboard"
+      permission="ploneintranet.viewsite"
+      template="templates/edit-dashboard.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
   <!--
       Override broken behaviour of plone.app.content delete_confirmation
       See https://github.com/plone/plone.app.content/issues/38
