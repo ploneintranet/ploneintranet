@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
-import os
-import shutil
 from collective.documentviewer import storage
 from collective.documentviewer.convert import Converter as DVConverter
+from collective.documentviewer.convert import DocSplitSubProcess
 from collective.documentviewer.convert import DUMP_FILENAME
 from collective.documentviewer.convert import TEXT_REL_PATHNAME
+from collective.documentviewer.interfaces import IFileWrapper
+from collective.documentviewer.interfaces import IOCRLanguage
 from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer.settings import Settings
 from collective.documentviewer.utils import allowedDocumentType
 from collective.documentviewer.utils import getPortal
 from datetime import datetime
 from logging import getLogger
-from collective.documentviewer.convert import DocSplitSubProcess
-from collective.documentviewer.interfaces import IFileWrapper
-from collective.documentviewer.interfaces import IOCRLanguage
 from plone import api
 from ploneintranet.docconv.client.html_converter import generate_pdf
 from Products.MimetypesRegistry.common import MimeTypeException
 from urllib import urlencode
 from zope.annotation import IAnnotations
 from zope.site.hooks import getSite
+
+import os
+import shutil
 
 
 log = getLogger(__name__)
@@ -454,7 +455,9 @@ def generate_previews(obj, event=None):
     site = getPortal(obj)
     gsettings = GlobalSettings(site)
     html_types = api.portal.get_registry_record(
-        'ploneintranet.docconv.html_types')
+        'ploneintranet.docconv.html_types',
+        default=[],
+    )
 
     if obj.portal_type in html_types:
         generate_pdf(obj, event=event)
