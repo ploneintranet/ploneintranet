@@ -180,6 +180,7 @@ class Dashboard(BrowserView):
         # we have a requested value that should be persisted
         # on the user profile
         if (
+            self.user and
             requested_dashboard in self._good_dashboards and
             requested_dashboard != user_dashboard
         ):
