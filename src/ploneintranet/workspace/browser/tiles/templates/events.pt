@@ -5,7 +5,7 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div id="portlet-events" class="portlet events span-1 state-collapsed"
+    <div id="portlet-events" class="events portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          tal:define="
            events view/upcoming_events;
            num_events python:len(list(events.results));
