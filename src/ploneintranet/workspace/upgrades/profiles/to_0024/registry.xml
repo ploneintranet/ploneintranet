@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.preserve_template_ownership">
+    <field type="plone.registry.field.Bool">
+      <title i18n:translate="label_preserve_template_ownership">Preserve templates ownership</title>
+      <description i18n:translate="help_preserve_template_ownership">Check if we should preserve the templates ownership after a copy.</description>
+      <default>False</default>
+      <required>False</required>
+    </field>
+    <value purge="false">False</value>
+  </record>
+</registry>

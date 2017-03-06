@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
+from contextlib import contextmanager
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -7,11 +8,23 @@ from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 from plone.testing import z2
 from plone.testing.z2 import Browser
-from ploneintranet.workspace.testing import \
-    PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING
-from ploneintranet.workspace.testing import \
-    PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING
+from ploneintranet.workspace.testing import PLONEINTRANET_WORKSPACE_FUNCTIONAL_TESTING  # noqa
+from ploneintranet.workspace.testing import PLONEINTRANET_WORKSPACE_INTEGRATION_TESTING  # noqa
+
 import unittest2 as unittest
+
+
+@contextmanager
+def temporary_registry_record(key, value):
+    '''Temporarily set up a registry record
+    '''
+    pr = api.portal.get_tool('portal_registry')
+    backup = pr._records[key].value
+    pr._records[key].value = value
+    try:
+        yield value
+    finally:
+        pr._records[key].value = backup
 
 
 class BaseTestCase(unittest.TestCase):
