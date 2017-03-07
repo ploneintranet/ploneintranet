@@ -92,18 +92,22 @@ class Dashboard(BrowserView):
     def get_tile_display(self, tile):
         ''' Return the way the tile is displayed
         '''
+        if not isinstance(tile, unicode):
+            tile = tile.decode('utf8')
         return self.custom_tiles().get(tile, {}).get('display', 'span-1')
 
     @memoize
     def custom_tile_url(self, tile):
         ''' We need this to set the class parameter span-N
         '''
+        if isinstance(tile, unicode):
+            tile = tile.encode('utf8')
         url, qs = tile.partition('?')[::2]
         if not qs:
             return tile
         params = urlparse.parse_qs(qs)
         params.update(portletspan=self.get_tile_display(tile))
-        return '{url}?{qs}'.format(url=url, qs=urlencode(params))
+        return u'{url}?{qs}'.format(url=url, qs=urlencode(params, doseq=True))
 
     @memoize_contextless
     def available_custom_tiles(self):
@@ -337,14 +341,13 @@ class EditDashboard(Dashboard):
 
         requested_tiles = self.request.form.get('tiles_order') or []
         available = self.available_custom_tiles()
-        tiles = OrderedDict([
-            (
-                tile,
-                {'display': self.request.get('display-%s' % tile, 'span-1')}
-            )
-            for tile in requested_tiles
-            if tile in available
-        ])
+        tiles = OrderedDict()
+        for tile in requested_tiles:
+            tile_decoded = tile.decode('utf8')
+            if tile_decoded in available:
+                tiles[tile_decoded] = {
+                    'display': self.request.get('display-%s' % tile, 'span-1'),
+                }
 
         if tiles != self.custom_tiles():
             self.user.custom_tiles = tiles
