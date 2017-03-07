@@ -414,3 +414,58 @@ class TestContentStatusUpdate(unittest.TestCase):
         su = found[0]
         self.assertEqual(None, su.microblog_context)
         self.assertEqual(doc, su.content_context)
+
+    def test_is_content_update_yes(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.assertTrue(su1.is_content_update)
+        self.container.add(su1)
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertTrue(su2.is_content_update)
+
+    def test_is_content_update_no(self):
+        su1 = StatusUpdate('foo')
+        self.assertFalse(su1.is_content_update)
+        self.container.add(su1)
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertFalse(su2.is_content_update)
+
+    def test_is_human_update(self):
+        su1 = StatusUpdate('foo')
+        self.assertTrue(su1.is_human_update)
+        self.container.add(su1)
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertTrue(su2.is_human_update)
+
+    def test_toplevel_contentupdate_not_is_human_update(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.assertFalse(su1.is_human_update)
+
+    def test_reply_to_contentupdate_is_human_update(self):
+        self.portal.invokeFactory('Folder', 'f1', title=u"Folder 1")
+        f1 = self.portal['f1']
+        alsoProvides(f1, IMicroblogContext)
+        doc = api.content.create(
+            container=f1,
+            type='Document',
+            title='My document',
+        )
+        su1 = StatusUpdate('foo', content_context=doc)
+        self.container.add(su1)
+        su2 = StatusUpdate('foo', thread_id=su1.id)
+        self.assertTrue(su2.is_human_update)

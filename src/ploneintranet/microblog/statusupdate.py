@@ -205,6 +205,21 @@ class StatusUpdate(Persistent):
         uuid = self._content_context_uuid
         return self._uuid2context(uuid)
 
+    @property
+    def is_human_update(self):
+        """
+        A 'human' update is either a toplevel post without content_context,
+        or a reply (even a reply on a content update)
+        """
+        return not self.is_content_update or self.thread_id is not None
+
+    @property
+    def is_content_update(self):
+        """
+        Show content updates, including replies on toplevel content updates.
+        """
+        return self._content_context_uuid is not None
+
     def _uuid2context(self, uuid=None):
         if not uuid:
             return None
