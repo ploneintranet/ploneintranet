@@ -255,3 +255,47 @@ class TestStatusContainer_Delete(unittest.TestCase):
             self.container.get(parent.id)
         with self.assertRaises(KeyError):
             self.container.get(su.id)
+
+    def test_is_content_mapping(self):
+        container = UUIDStatusContainer()
+        c_context = object()
+        su1 = ContextlessStatusUpdate('parent human')
+        container.add(su1)
+        su2 = ContextlessStatusUpdate('child human')
+        su2.thread_id = su1.id  # bypass normal __init__ lookup of parent
+        container.add(su2)
+        su3 = UUIDStatusUpdate('parent content', content_context=c_context)
+        uuid = su3._content_context_uuid
+        container.add(su3)
+        su4 = UUIDStatusUpdate('child content')
+        su4.thread_id = su3.id   # bypass normal __init__ lookup of parent
+        su4._content_context_uuid = uuid  # bypass lookup of parent
+        container.add(su4)
+
+        found = [x for x in container._is_content_mapping]
+        self.assertEquals([su3.id, su4.id], found)
+        container.delete(su3.id)  # cascades to also remove reply
+        found = [x for x in container._is_content_mapping]
+        self.assertEquals([], found)
+
+    def test_is_human_mapping(self):
+        container = UUIDStatusContainer()
+        c_context = object()
+        su1 = ContextlessStatusUpdate('parent human')
+        container.add(su1)
+        su2 = ContextlessStatusUpdate('child human')
+        su2.thread_id = su1.id  # bypass normal __init__ lookup of parent
+        container.add(su2)
+        su3 = UUIDStatusUpdate('parent content', content_context=c_context)
+        uuid = su3._content_context_uuid
+        container.add(su3)
+        su4 = UUIDStatusUpdate('child content')
+        su4.thread_id = su3.id   # bypass normal __init__ lookup of parent
+        su4._content_context_uuid = uuid  # bypass lookup of parent
+        container.add(su4)
+
+        found = [long(x) for x in container._is_human_mapping]
+        self.assertEquals([su1.id, su2.id, su4.id], found)
+        container.delete(su1.id)  # cascades to also remove reply
+        found = [x for x in container._is_human_mapping]
+        self.assertEquals([su4.id], found)

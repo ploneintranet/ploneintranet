@@ -138,6 +138,10 @@ class BaseStatusContainer(Persistent, Explicit):
         self._threadid_mapping = OOBTree.OOBTree()
         # index by mentions (string UUID) -> (object TreeSet(long statusid))
         self._mentions_mapping = OOBTree.OOBTree()
+        # index all content updates: (object TreeSet(long statusid))
+        self._is_content_mapping = LLBTree.LLTreeSet()
+        # index all human updates: (object TreeSet(long statusid))
+        self._is_human_mapping = LLBTree.LLTreeSet()
 
     def add(self, status):
         self._check_status(status)
@@ -155,6 +159,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._idx_content_context(status)
         self._idx_threadid(status)
         self._idx_mentions(status)
+        self._idx_is_content(status)
+        self._idx_is_human(status)
         self._notify_add(status)
         # the _store() method is shared between Base and Async
         # putting counter updates here ensures maximal consistency
@@ -198,7 +204,7 @@ class BaseStatusContainer(Persistent, Explicit):
                 # this would be the right place to notify deletion
                 logger.info("%s archived statusupdate %s",
                             api.user.get_current().id, xid)
-            except KeyError:
+            except AttributeError:
                 logger.error("%s failed to archive statusupdate %s",
                              api.user.get_current().id, xid)
         self._update_ctime()  # purge cache
@@ -211,6 +217,8 @@ class BaseStatusContainer(Persistent, Explicit):
         self._unidx_content_context(status)
         self._unidx_threadid(status)
         self._unidx_mentions(status)
+        self._unidx_is_content(status)
+        self._unidx_is_human(status)
 
     # --- INDEXES ---
 
@@ -310,6 +318,28 @@ class BaseStatusContainer(Persistent, Explicit):
         mentions = status.mentions.keys()
         for mention in mentions:
             self._mentions_mapping[mention].remove(status.id)
+
+    def _idx_is_content(self, status):
+        if status.is_content_update:
+            self._is_content_mapping.insert(status.id)
+
+    def _unidx_is_content(self, status):
+        # try/except is more robust than status.is_content_update attr check
+        try:
+            self._is_content_mapping.remove(status.id)
+        except KeyError:
+            pass
+
+    def _idx_is_human(self, status):
+        if status.is_human_update:
+            self._is_human_mapping.insert(status.id)
+
+    def _unidx_is_human(self, status):
+        # try/except is more robust than status.is_human_update attr check
+        try:
+            self._is_human_mapping.remove(status.id)
+        except KeyError:
+            pass
 
     def clear(self):
         self._user_mapping.clear()
