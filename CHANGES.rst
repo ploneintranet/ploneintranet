@@ -4,7 +4,28 @@ Changelog
 1.2.50 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1187 from quaive/better-mark-read [GitHub]
+* Update markup [Alessandro Pisa]
+* Merge pull request #1186 from quaive/external-app [GitHub]
+* Merge pull request #1185 from quaive/ical-export [GitHub]
+* Update resource package [Alessandro Pisa]
+* Allow external apps [Alessandro Pisa]
+* Merge pull request #1182 from quaive/set-a-default [GitHub]
+* Merge pull request #1181 from quaive/custom-dashboard-unicode [GitHub]
+* Make the menu work also on the app [Alessandro Pisa]
+* Do not break if the record is not there [Alessandro Pisa]
+* Merge pull request #1180 from quaive/portlet-event-width-customizable [GitHub]
+* Merge pull request #1179 from quaive/fix-zope-user [GitHub]
+* Merge pull request #1178 from quaive/preserve-template-ownership [GitHub]
+* Fix unicode issues [Alessandro Pisa]
+* Allow the event portlet width to be customizable [Alessandro Pisa]
+* Do not break if self.user is not a profile [Alessandro Pisa]
+* Test coverage [Alessandro Pisa]
+* Added the possibility to preserve the template ownership [Alessandro Pisa]
+* Merge pull request #1171 from quaive/customizable-dashboard [GitHub]
+* Merge pull request #1177 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.50 [Wolfgang Thomas]
+* Add the custom dashboard view [Alessandro Pisa]
 
 
 1.2.49 (2017-03-02)
