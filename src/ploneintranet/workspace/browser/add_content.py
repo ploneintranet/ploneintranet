@@ -24,6 +24,13 @@ class AddBase(BrowserView):
         'source: #workspace-documents; target: #workspace-documents',
     ))
 
+    @property
+    @memoize
+    def parent_workspace(self):
+        ''' Return the parent workspace
+        '''
+        return parent_workspace(self.context)
+
     @memoize
     def form_timestamp(self):
         ''' Return a timestamp, used in the form to create unique selectors
@@ -164,8 +171,7 @@ class AddTask(AddBase):
     template = ViewPageTemplateFile('templates/add_task.pt')
 
     def redirect(self, url):
-        workspace = parent_workspace(self.context)
-        url = workspace.absolute_url() + '?show_sidebar'
+        url = self.parent_workspace.absolute_url() + '?show_sidebar'
         return self.request.response.redirect(url)
 
 
@@ -226,7 +232,7 @@ class AddEvent(AddBase):
         if self.request.get('app'):
             # When we are adding an event through the caendar we want to reload
             # the sidebar (first)...
-            if not parent_workspace(self.context):
+            if not self.parent_workspace:
                 selectors.append('#sidebar')
             else:
                 selectors.append('#workspace-events')
@@ -252,7 +258,7 @@ class AddEvent(AddBase):
     def redirect(self, url):
         ''' Try to find the proper redirect context.
         '''
-        workspace = parent_workspace(self.context)
+        workspace = self.parent_workspace
         if self.request.get('app'):
             # This means the event is created using the fullcalendar tile
             if workspace:
