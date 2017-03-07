@@ -1,18 +1,18 @@
 # coding=utf-8
-from datetime import datetime
 from AccessControl.unauthorized import Unauthorized
-from Products.CMFCore.Expression import Expression
-from Products.CMFCore.Expression import createExprContext
+from datetime import datetime
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet.layout.app import IApp
+from Products.CMFCore.Expression import createExprContext
+from Products.CMFCore.Expression import Expression
 from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 
-from ploneintranet.layout.app import IApp
-
 import json
+
 
 logger = getLogger(__name__)
 
@@ -143,6 +143,14 @@ class AppTile(BrowserView):
 
 class AppRedirect(BrowserView):
     """Redirect to a URL specified in the app_parameters"""
+
+    def __call__(self):
+        url = json.loads(self.context.app_parameters).get('url')
+        return self.request.response.redirect(url)
+
+
+class ExternalApp(BrowserView):
+    '''Redirect to an external app'''
 
     def __call__(self):
         url = json.loads(self.context.app_parameters).get('url')

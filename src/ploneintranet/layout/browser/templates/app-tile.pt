@@ -1,6 +1,7 @@
 <div tal:condition="view/condition" class="tile app ${context/devices} app-${view/get_class} ${view/disabled} ${python:view.counter and 'has-counter' or ''}">
     <a href="${context/app_url}#app-space"
-       class="link ${view/modal} pat-inject pat-switch"
+       tal:define="external python: '@@external-app' != context.app and 'pat-inject pat-switch' or ''"
+       class="link ${view/modal} ${external}"
        data-pat-switch="#app-space state-off state-on"
        data-pat-inject="history: record">
       <img class="icon"
