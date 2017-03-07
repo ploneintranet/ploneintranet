@@ -49,9 +49,8 @@
                     > <tal:t i18n:translate="">All calendars</tal:t>
                 </label>
                 <a class="icon iconified icon-ellipsis dropdown pat-tooltip float-after"
-                   href="#calendar-more-menu"
+                   href="${here/absolute_url}/@@calendar-more-menu#calendar-more-menu"
                    data-pat-tooltip="source: ajax; position: tr"
-                   tal:condition="in_workspace"
                    i18n:translate=""
                 >More</a>
                 <input class="cal-cat-${python:view.id2class(ws.getId())}"
@@ -74,38 +73,6 @@
                 </form>
             </div>
         </div>
-
-        <tal:ical_export condition="in_workspace">
-          <div id="calendar-more-menu"
-            hidden
-            >
-            <ul class="menu">
-              <li>
-                <a class="icon-rss pat-modal close-panel"
-                    href="#subscription-url"
-                    i18n:translate=""
-                >Subscribe to this calendar in Outlook</a>
-              </li>
-            </ul>
-          </div>
-          <fieldset id="subscription-url"
-                    hidden
-                    tal:define="
-                      schemaless_absolute_url python:ws.absolute_url().partition('://')[-1];
-                    "
-          >
-            <h3 i18n:translate="">Subscribe to calendar</h3>
-            <textarea style="width: 100%">webcal://${schemaless_absolute_url}/ics_view</textarea>
-            <p class="discrete">
-              <tal:i18n i18n:translate="">Use the above URL to see this Workspace's calendar also in your Outlook calendar.</tal:i18n>
-              <a href="http://office.microsoft.com/en-us/outlook-help/view-and-subscribe-to-internet-calendars-HA010167325.aspx#BM2"
-                 target="new"
-                 i18n:translate=""
-              >Learn how this works</a>.
-            </p>
-          </fieldset>
-        </tal:ical_export>
-
         <div class="calendar">
             <em class="message warning" tal:condition="python:len(list(events))==0" i18n:translate=""> There are no events to be displayed</em>
             <ul class="cal-events">
