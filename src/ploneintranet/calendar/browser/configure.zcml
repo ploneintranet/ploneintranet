@@ -14,6 +14,15 @@
         class=".app.View"
         template="templates/app.pt"
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+        />
+
+    <browser:page
+        name="calendar-more-menu"
+        for="*"
+        permission="zope2.View"
+        class=".views.CalendarMoreMenu"
+        template="templates/calendar_more_menu.pt"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
     />
 
     <browser:page
@@ -34,6 +43,15 @@
         for="*"
         template="templates/fullcalendar.tile.pt"
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
-        />  
+        />
+
+  <browser:page
+      name="ics_view"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.View"
+      template="templates/app.pt"
+      layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+      />
 
 </configure>
