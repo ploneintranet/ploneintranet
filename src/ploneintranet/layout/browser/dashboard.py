@@ -225,6 +225,24 @@ class NewsTile(Tile):
 
         return just_read_uids
 
+    @property
+    @memoize_contextless
+    def cropText(self):
+        ''' Reuse the homonynous function from the plone view
+        '''
+        plone_view = api.content.get_view(
+            'plone',
+            self.context,
+            self.request,
+        )
+        return plone_view.cropText
+
+    def get_cropped_description(self, brain):
+        ''' We want the description to be cropped
+        '''
+        length = 120 - len(brain.Title or'')
+        return self.cropText(brain.Description, length)
+
     @memoize
     def news_items(self):
         tracker = getUtility(ITracker)
@@ -245,9 +263,10 @@ class NewsTile(Tile):
            'ploneintranet.layout.filter_news_by_published_state') is True:
             query.update(review_state='published')
         results = pc(query)
+
         items = [
             {'title': item.Title,
-             'description': item.Description,
+             'description': self.get_cropped_description(item),
              'url': item.getURL(),
              'uid': item.UID,
              'has_thumbs': item.has_thumbs,

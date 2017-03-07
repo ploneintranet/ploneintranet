@@ -4,7 +4,15 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-collapsed" id="portlet-news" tal:define="news_items view/news_items" tal:condition="news_items">
+    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-${collapsible_state}"
+         id="portlet-news"
+         tal:define="
+           news_items view/news_items;
+           portal_url here/portal_url;
+           collapsible_state python:request.get('portletspan', 'span-1') == 'span-1' and 'collapsed' or 'expanded';
+         "
+         tal:condition="news_items"
+    >
       <div class="content">
         <form class="state-toggle pat-inject xpat-autosubmit" action="#"
               tal:condition="view/can_expand">
@@ -17,31 +25,39 @@
                 Show less
             </label>
         </form>
-        <h2 class="portlet-title"><a href="${context/portal_url}/news" i18n:translate="label_news">News</a></h2>
+        <h2 class="portlet-title"><a href="${portal_url}/news" i18n:translate="label_news">News</a></h2>
 
         <div class="news-block" id="unread-news">
-          <article class="item item-${repeat/news/number}"
-                   tal:repeat="news news_items">
-            <a href="${news/url}">
-              <img tal:condition="news/has_thumbs" class="illustration"
-                   src="${news/url}/@@images/image/mini"/>
-              <h3 class="title">
-                ${news/title}
-              </h3>
-              <p class="description"><span tal:replace="news/description">
-                First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</span>
-                <em i18n:translate="read-more">Read more...</em>
-              </p>
-            </a>
-            <form action="${view/url}#portlet-news"
-                  method="post"
-                  class="functions pat-inject">
-              <input type="hidden" name="hit_uid" value="${news/uid}" />
-              <input type="hidden" name="list:just_read_uids"
-                     value="${view/just_read_uids}" />
-                <button type="submit" class="icon-ok">Mark read</button>
-            </form>
-          </article>
+          <div class="news-item pat-equaliser">
+            <article class="item item-${repeat/news/number}"
+                     tal:repeat="news news_items">
+              <a href="${news/url}">
+                <img tal:condition="news/has_thumbs"
+                     class="illustration"
+                     style="background-image: url(${news/url}/@@images/image/mini)"
+                     src="${portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png"
+                     alt=""
+                />
+                <h3 class="title">
+                  ${news/title}
+                </h3>
+                <p class="description"
+                >
+                  <span tal:replace="news/description">
+                  First Indian Airline to join Global Airline Alliance Strong network in growing Indian aviation market</span>
+                  <em i18n:translate="read-more">Read more...</em>
+                </p>
+              </a>
+              <form action="${view/url}#portlet-news"
+                    method="post"
+                    class="functions pat-inject">
+                <input type="hidden" name="hit_uid" value="${news/uid}" />
+                <input type="hidden" name="list:just_read_uids"
+                       value="${view/just_read_uids}" />
+                  <button type="submit" class="icon-ok">Mark read</button>
+              </form>
+            </article>
+          </div>
         </div>
       </div>
     </div>
