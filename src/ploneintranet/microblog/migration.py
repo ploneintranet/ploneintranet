@@ -1,5 +1,6 @@
 # -*- coding=utf-8 -*-
 from AccessControl import Unauthorized
+from BTrees import LLBTree
 from BTrees import LOBTree
 from BTrees import OOBTree
 from DateTime import DateTime
@@ -224,3 +225,19 @@ def ondelete_archive(context):
 
 def set_whitelisted_types(context):
     context.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def setup_human_and_content_mappings(context):
+    """0012 adds two new indexes"""
+    tool = queryUtility(IMicroblogTool)
+    if not hasattr(tool, '_is_content_mapping'):
+        logger.info("Adding missing is_content mapping to %s" % repr(tool))
+        tool._is_content_mapping = LLBTree.LLTreeSet()
+    if not hasattr(tool, '_is_human_mapping'):
+        logger.info("Adding missing is_human mapping to %s" % repr(tool))
+        tool._is_human_mapping = LLBTree.LLTreeSet()
+    logger.info("Indexing statusupdates into is_content and is_human indexes")
+    for status in tool.values(limit=None):
+        tool._idx_is_content(status)
+        tool._idx_is_human(status)
+    commit()

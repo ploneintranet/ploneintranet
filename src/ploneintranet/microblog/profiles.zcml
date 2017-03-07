@@ -114,4 +114,13 @@
         profile="ploneintranet.microblog:default"
         />
 
+    <genericsetup:upgradeStep
+        title="Add is_human and is_content indexes"
+        description=""
+        source="*"
+        destination="0012"
+        handler=".migration.setup_human_and_content_mappings"
+        profile="ploneintranet.microblog:default"
+        />
+
 </configure>
