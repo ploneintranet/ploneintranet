@@ -240,4 +240,12 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      name="external-app"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".apps.ExternalApp"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
 </configure>
