@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.50 (unreleased)
+1.2.50 (2017-03-07)
 -------------------
 
 * Merge pull request #1187 from quaive/better-mark-read [GitHub]
