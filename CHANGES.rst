@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.51 (unreleased)
+1.2.51 (2017-03-08)
 -------------------
 
 * Merge pull request #1195 from quaive/dashboard_and_cal_translations [GitHub]
