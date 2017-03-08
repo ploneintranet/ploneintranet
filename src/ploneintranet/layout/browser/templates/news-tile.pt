@@ -52,7 +52,7 @@
                 <input type="hidden" name="hit_uid" value="${news/uid}" />
                 <input type="hidden" name="list:just_read_uids"
                        value="${view/just_read_uids}" />
-                  <button type="submit" class="icon-ok">Mark read</button>
+                  <button type="submit" class="icon-ok" i18n:translate="label_mark_read">Mark read</button>
               </form>
             </article>
           </div>
