@@ -3890,7 +3890,7 @@ msgstr "Diesen Bereich in der Subnavigation der Nachrichten anzeigen"
 #. Default: "No events available"
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:88
 msgid "label_no_events_available"
-msgstr ""
+msgstr "Keine Termine vorhanden"
 
 #. Default: "Preserve templates ownership"
 #: ../workspace/profiles/default/registry.xml
@@ -3900,7 +3900,6 @@ msgstr ""
 
 #. Default: "Publication Date"
 #: ../news/browser/templates/edit.html:142
-#, fuzzy
 msgid "label_publication_date"
 msgstr "Veröffentlichungsdatum"
 
