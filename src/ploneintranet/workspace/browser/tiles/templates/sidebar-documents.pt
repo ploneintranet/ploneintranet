@@ -289,7 +289,9 @@ Supported types include (class names):
         <!-- Notice that there is a dynamic class 'has-description/has no description which depends on whether a description of the object is available' -->
         </tal:comment>
         <tal:block repeat="item view/items">
-          <label class="${item/cls}">
+          <label class="${item/cls}"
+                 title="${item/title}${python:item.get('description') and ' — '}${item/description}"
+          >
             <input name="items:list" type="checkbox" tal:define="uid python: item.get('UID', '')" tal:condition="uid" value="${uid}"/>
             <a class="pat-inject follow ${python: item.get('dps', None) and 'pat-switch' or ''}"
                id="${python: 'item-%s' % item['UID'] if 'UID' in item else None}"
