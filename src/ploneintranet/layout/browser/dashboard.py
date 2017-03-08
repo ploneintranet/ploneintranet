@@ -243,6 +243,20 @@ class NewsTile(Tile):
         length = 120 - len(brain.Title or'')
         return self.cropText(brain.Description, length)
 
+    def get_img_style(self, item):
+        ''' Return the style for the image tag
+        '''
+        if not item.get('has_thumbs'):
+            return None
+        # BBB we may want to increase the scale for the first news
+        # because in the two column mode it is displayed wider
+        scale = 'mini'
+        url = item['url']
+        return 'background-image: url({url}/@@images/image/{scale})'.format(
+            scale=scale,
+            url=url,
+        )
+
     @memoize
     def news_items(self):
         tracker = getUtility(ITracker)

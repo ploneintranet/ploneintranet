@@ -4,12 +4,11 @@
       lang="en"
       i18n:domain="ploneintranet">
   <body>
-    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-${collapsible_state}"
+    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          id="portlet-news"
          tal:define="
            news_items view/news_items;
            portal_url here/portal_url;
-           collapsible_state python:request.get('portletspan', 'span-1') == 'span-1' and 'collapsed' or 'expanded';
          "
          tal:condition="news_items"
     >
@@ -32,9 +31,8 @@
             <article class="item item-${repeat/news/number}"
                      tal:repeat="news news_items">
               <a href="${news/url}">
-                <img tal:condition="news/has_thumbs"
-                     class="illustration"
-                     style="background-image: url(${news/url}/@@images/image/mini)"
+                <img class="illustration"
+                     style="${python:view.get_img_style(news)}"
                      src="${portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png"
                      alt=""
                 />
