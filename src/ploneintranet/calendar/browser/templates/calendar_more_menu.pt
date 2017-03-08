@@ -1,4 +1,4 @@
-<div id="calendar-more-menu">
+<div id="calendar-more-menu" i18n:domain="ploneintranet">
   <ul class="menu">
     <li>
       <a class="icon-rss pat-modal close-panel"
@@ -9,6 +9,7 @@
   </ul>
 </div>
 <fieldset id="subscription-url"
+          i18n:domain="ploneintranet"
           hidden
           tal:define="
             schemaless_absolute_url python:view.target.absolute_url().partition('://')[-1];

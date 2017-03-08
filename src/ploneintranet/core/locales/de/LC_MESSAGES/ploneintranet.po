@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-03-01 15:58+0000\n"
+"POT-Creation-Date: 2017-03-08 11:52+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -60,6 +60,14 @@ msgstr "-- Bitte auswählen --"
 #: ../workspace/browser/templates/content_macros.pt:80
 msgid "-- Please select a workspace --"
 msgstr "-- Bitte wählen Sie einen Arbeitsraum --"
+
+#: ../layout/browser/templates/edit-dashboard.pt:42
+msgid "1 Column wide"
+msgstr "Einspaltig"
+
+#: ../layout/browser/templates/edit-dashboard.pt:46
+msgid "2 Columns wide"
+msgstr "Zweispaltig"
 
 #: ../workspace/browser/cart_actions/templates/mail_send_confirmation.pt:35
 msgid "<span class=\"text\"><em class=\"placeholder\">Write a message to the recipient(s)...</em></span><em class=\"selected-users\" id=\"selected-users\"></em><em class=\"selected-tags\" id=\"selected-tags\"></em>"
@@ -121,11 +129,11 @@ msgstr "Ein E-Mail Inhaltstyp"
 msgid "A tile to add a new post"
 msgstr "Eine Kachel um neue Mitteilungen hinzuzufügen"
 
-#: ../layout/browser/configure.zcml:208
+#: ../layout/browser/configure.zcml:217
 msgid "A title for the news"
 msgstr "Ein Titel für die Nachricht"
 
-#: ../layout/browser/configure.zcml:197
+#: ../layout/browser/configure.zcml:206
 msgid "A title for the tasks"
 msgstr "Ein Titel für die Aufgabe"
 
@@ -142,11 +150,11 @@ msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
 msgid "About this environment"
 msgstr "Was ist Plone Intranet?"
 
-#: ../layout/browser/templates/dashboard.pt:20
+#: ../layout/browser/templates/dashboard.pt:23
 msgid "Activity centric view"
 msgstr "Startseiten-Ansicht"
 
-#: ../layout/browser/templates/dashboard.pt:47
+#: ../layout/browser/templates/dashboard.pt:75
 msgid "Activity stream"
 msgstr "Aktivitäten"
 
@@ -172,6 +180,10 @@ msgstr ""
 
 #: ../layout/upgrades/configure.zcml:155
 msgid "Add registry entries to configure splash page"
+msgstr ""
+
+#: ../layout/upgrades/configure.zcml:172
+msgid "Add registry entry for the custom dashboard"
 msgstr ""
 
 #: ../bookmarks/browser/bookmark_link.py:57
@@ -389,7 +401,7 @@ msgstr "Attribut geändert"
 msgid "Author name (for display)"
 msgstr "Name des Autors (für die Anzeige)"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:309
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:311
 msgid "Author of this document"
 msgstr "Autor dieses Dokuments"
 
@@ -486,9 +498,9 @@ msgstr "Kalender"
 msgid "Call ${fullname} at ${context/telephone}"
 msgstr "${fullname} unter ${context/telephone} anrufen"
 
+#: ../layout/browser/templates/edit-dashboard.pt:82
 #: ../library/behaviors/templates/panel-publish-to-library.pt:47
 #: ../messaging/browser/templates/panel-new-chat.html:40
-#: ../microblog/browser/templates/update-social.html:136
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -532,6 +544,10 @@ msgstr "Rolle ändern"
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:68
 msgid "Change role of member"
 msgstr "Rolle des Benutzers ändern"
+
+#: ../layout/browser/templates/dashboard.pt:47
+msgid "Change the composition of this dashboard to your liking. Add or remove items or change their order or size."
+msgstr "Passen Sie die Startseite nach Ihren Wünschen an. Blenden Sie Elemente ein oder aus oder verändern Sie deren Reihenfolge oder Breite."
 
 #: ../layout/browser/templates/workflow_menu.pt:7
 #: ../todo/browser/templates/workflow_menu.pt:13
@@ -633,7 +649,7 @@ msgstr "Termin anlegen"
 msgid "Create folder"
 msgstr "Verzeichnis erstellen"
 
-#: ../workspace/browser/add_content.py:143
+#: ../workspace/browser/add_content.py:150
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:64
 msgid "Create link"
 msgstr "Link erstellen"
@@ -669,11 +685,19 @@ msgstr "Ausschneiden"
 msgid "Dashboard"
 msgstr "Startseite"
 
+#: ../layout/browser/dashboard.py:387
+msgid "Dashboard order changed"
+msgstr "Die Startseite wurde geändert"
+
+#: ../layout/browser/dashboard.py:390
+msgid "Dashboard order unchanged"
+msgstr "Die Startseite wurde nicht geändert"
+
 #: ../workspace/browser/templates/content_macros.pt:151
 msgid "Date"
 msgstr "Datum"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:319
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:321
 msgid "Date and time of the latest modification"
 msgstr "Datum und Zeit der letzten Änderung"
 
@@ -701,6 +725,10 @@ msgstr "Abgelehnt"
 #: ../userprofile/content/configure.zcml:17
 msgid "Default additional fields for UserProfile."
 msgstr "Zusätzliche Standardfelder für das Benutzerprofil."
+
+#: ../layout/browser/dashboard.py:373
+msgid "Default dashboard restored"
+msgstr "Ursprüngliche Startseite wurde wiederhergestellt"
 
 #: ../todo/browser/templates/todo_view.pt:48
 #: ../workspace/basecontent/templates/mail_view.pt:63
@@ -796,14 +824,22 @@ msgid "Document types"
 msgstr "Inhaltstypen"
 
 #: ../bookmarks/browser/templates/app.pt:23
-#: ../layout/browser/configure.zcml:220
+#: ../layout/browser/configure.zcml:229
 #: ../layout/browser/templates/my_documents.pt:22
 msgid "Documents"
 msgstr "Dokumente"
 
+#: ../layout/browser/templates/edit-dashboard.pt:38
+msgid "Don't show"
+msgstr "Nicht anzeigen"
+
 #: ../todo/browser/templates/workflow_menu.pt:40
 msgid "Done"
 msgstr "Erledigt"
+
+#: ../layout/browser/templates/edit-dashboard.pt:61
+msgid "Down"
+msgstr "Hinunter"
 
 #: ../workspace/browser/cart_actions/templates/download_confirmation.pt:10
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:201
@@ -856,6 +892,11 @@ msgstr "Bearbeiten"
 #: ../activitystream/browser/templates/panel-edit-comment.html:10
 msgid "Edit comment"
 msgstr "Kommentar bearbeiten"
+
+#: ../layout/browser/templates/dashboard.pt:47
+#: ../layout/browser/templates/edit-dashboard.pt:12
+msgid "Edit dashboard"
+msgstr "Startseite bearbeiten"
 
 #: ../todo/portlets/latest.py:87
 msgid "Edit latest news portlet"
@@ -920,7 +961,7 @@ msgstr "Fehler beim Senden der E-mail"
 msgid "Error while pasting items"
 msgstr "Fehler beim Einfügen aufgetreten"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:368
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:370
 msgid "Event"
 msgstr "Termin"
 
@@ -1056,7 +1097,7 @@ msgstr "Eingestellt"
 msgid "Frozen on"
 msgstr "Abgebrochen am"
 
-#: ../calendar/browser/configure.zcml:37
+#: ../calendar/browser/configure.zcml:46
 msgid "Full Calendar tile"
 msgstr "Kalenderkachel"
 
@@ -1067,6 +1108,10 @@ msgstr "Liste aller Personen, die mir folgen"
 #: ../userprofile/browser/templates/userprofile.pt:119
 msgid "Full list of people ${name_of_followee} follows."
 msgstr "Liste aller Personen, denen ${name_of_followee} folgt"
+
+#: ../layout/browser/dashboard.py:368
+msgid "Function not allowed"
+msgstr "Funktion nicht erlaubt"
 
 #: ../workspace/browser/tiles/templates/sidebar.pt:31
 msgid "General"
@@ -1130,7 +1175,7 @@ msgstr "Nach Tag gruppieren"
 msgid "Group by workspace"
 msgstr "Gruppieren nach Arbeitsraum"
 
-#: ../layout/browser/configure.zcml:232
+#: ../layout/browser/configure.zcml:241
 msgid "Grouped Search"
 msgstr "Gruppierte Suche"
 
@@ -1250,7 +1295,7 @@ msgstr "Lade Benutzer in diesen Arbeitsraum ein (per E-Mail)"
 msgid "Invitees"
 msgstr "Eingeladen"
 
-#: ../workspace/browser/add_content.py:96
+#: ../workspace/browser/add_content.py:103
 msgid "Item created."
 msgstr "Element angelegt."
 
@@ -1336,9 +1381,9 @@ msgstr "Spätestes Bearbeitungsdatum"
 msgid "Latest news"
 msgstr "Aktuelle Nachrichten"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:101
+#: ../calendar/browser/templates/calendar_more_menu.pt:21
 msgid "Learn how this works"
-msgstr "Finden Sie heraus, wie das funktioniert"
+msgstr "Lesen Sie hier, wie das funktioniert"
 
 #: ../layout/profiles/default/actions.xml
 msgid "Library"
@@ -1367,7 +1412,7 @@ msgstr "Like"
 msgid "Link"
 msgstr "Link"
 
-#: ../workspace/browser/add_content.py:145
+#: ../workspace/browser/add_content.py:152
 msgid "Link name"
 msgstr "Link Name"
 
@@ -1567,9 +1612,13 @@ msgstr "Meine Termine"
 msgid "My profile"
 msgstr "Mein Profil"
 
-#: ../layout/browser/configure.zcml:197
+#: ../layout/browser/configure.zcml:206
 msgid "My tile's description"
 msgstr "Meine Kachel - Beschreibung"
+
+#: ../layout/browser/templates/dashboard.pt:35
+msgid "My view (customizable)"
+msgstr "Meine Startseite (anpassbar)"
 
 #: ../userprofile/browser/templates/userprofile_info.pt:19
 msgid "Name"
@@ -1609,7 +1658,7 @@ msgstr "Nachrichtenbereich"
 msgid "News item title"
 msgstr "Titel der Nachricht"
 
-#: ../layout/browser/configure.zcml:208
+#: ../layout/browser/configure.zcml:217
 msgid "News tile showing news on the dashboard"
 msgstr "Nachichtenkachel für die Startseite"
 
@@ -1677,6 +1726,10 @@ msgstr "Keine Ergebnisse"
 msgid "No such user ${userid}."
 msgstr "Benutzer ${userid} nicht gefunden."
 
+#: ../activitystream/browser/stream.py:256
+msgid "No tag selected"
+msgstr "Kein Schlagwort ausgewählt"
+
 #: ../layout/browser/templates/tasks-tile.pt:21
 msgid "No tasks available"
 msgstr "Keine Aufgaben verfügbar"
@@ -1733,7 +1786,7 @@ msgstr "ODT Dokument"
 msgid "OK, change workflow"
 msgstr "OK, Workflow ändern"
 
-#: ../workspace/subscribers.py:161
+#: ../workspace/subscribers.py:170
 msgid "Oh boy, oh boy, you are already a member"
 msgstr "Das war jetzt unerwartet, aber Sie sind bereits ein Mitglied."
 
@@ -1817,6 +1870,10 @@ msgstr "PDF"
 msgid "Page"
 msgstr "Seite"
 
+#: ../layout/browser/templates/edit-dashboard.pt:50
+msgid "Page wide"
+msgstr "Ganze Seitenbreite"
+
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:160
 msgid "Paste"
 msgstr "Einfügen"
@@ -1892,7 +1949,7 @@ msgstr "Bitte wählen Sie mindenstens einen Artikel aus."
 msgid "Please select at workflow transition."
 msgstr "Bitte wählen Sie einen neuen Workflow Status."
 
-#: ../workspace/browser/add_workspace.py:210
+#: ../workspace/browser/add_workspace.py:231
 msgid "Please specify which Case Template to use"
 msgstr "Bitte geben Sie eine Vorlage an"
 
@@ -2124,6 +2181,10 @@ msgstr "Meilenstein wieder öffnen"
 msgid "Reorder tags"
 msgstr "Reihenfolge der Schlagworte ändern"
 
+#: ../layout/browser/templates/edit-dashboard.pt:86
+msgid "Reset"
+msgstr "Zurücksetzen"
+
 #: ../search/browser/templates/all_results.pt:55
 msgid "Reset filters"
 msgstr "Filter zurücksetzen"
@@ -2149,9 +2210,9 @@ msgstr "Rolle bearbeitet"
 msgid "Roster updated."
 msgstr "Mitgliederliste aktualisiert"
 
+#: ../layout/browser/templates/edit-dashboard.pt:76
 #: ../news/browser/templates/panel-edit-news-section-info.html:58
 #: ../todo/browser/templates/todo_view.pt:70
-#: ../userprofile/browser/templates/userprofile-edit.pt:47
 msgid "Save"
 msgstr "Sichern"
 
@@ -2343,7 +2404,7 @@ msgstr "Nur meine Dokumente anzeigen"
 msgid "Show or hide archived workspace"
 msgstr "Ein- oder Ausblenden archivierter Arbeitsräume"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:364
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:366
 msgid "Slideshow"
 msgstr "Präsentation"
 
@@ -2395,15 +2456,15 @@ msgstr "Statusänderung von ${fullname}:"
 msgid "Subscribe"
 msgstr "Abonnieren"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:97
+#: ../calendar/browser/templates/calendar_more_menu.pt:17
 msgid "Subscribe to calendar"
-msgstr "Diesen Kalender abonnieren"
+msgstr "Kalender abonnieren"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:84
+#: ../calendar/browser/templates/calendar_more_menu.pt:4
 msgid "Subscribe to this calendar in Outlook"
 msgstr "Diesen Kalender in Outlook abonnieren"
 
-#: ../calendar/browser/configure.zcml:37
+#: ../calendar/browser/configure.zcml:46
 msgid "THe fullcalendar used in app and workspace"
 msgstr ""
 
@@ -2411,7 +2472,7 @@ msgstr ""
 msgid "Tag"
 msgstr "Schlagwort"
 
-#: ../layout/browser/templates/dashboard.pt:23
+#: ../layout/browser/templates/dashboard.pt:29
 msgid "Task centric view"
 msgstr "Cockpit-Ansicht"
 
@@ -2456,7 +2517,7 @@ msgstr "Unter Vorbehalt"
 msgid "Testing of the ploneintranet.userprofile package"
 msgstr ""
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:360
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:362
 msgid "Text document"
 msgstr "Textdokument"
 
@@ -2604,7 +2665,7 @@ msgstr "Es gibt ${num_comments} Kommentar(e) zu ${num_shares} Aktivität(en)"
 msgid "There are no downloadable items in your cart."
 msgstr "Sie haben keine Objekte ausgewählt, die heruntergeladen werden können."
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:110
+#: ../calendar/browser/templates/fullcalendar.tile.pt:77
 msgid "There are no events to be displayed"
 msgstr "Keine Termine vorhanden"
 
@@ -2616,7 +2677,7 @@ msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 msgid "There was a problem:"
 msgstr "Es ist ein Problem aufgetreten:"
 
-#: ../workspace/browser/add_content.py:104
+#: ../workspace/browser/add_content.py:111
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr "Es ist ein Problem aufgetreten: %s."
@@ -2657,11 +2718,15 @@ msgstr "Dieser Beitrag wurde erfolgreich gelöscht."
 msgid "This user doesn't have an email associated with their account."
 msgstr "Dieser Benutzer hat keine E-Mail Adresse gespeichert."
 
+#: ../layout/browser/templates/edit-dashboard.pt:20
+msgid "Tile order and tile size"
+msgstr "Reihenfolge und Breite der Kacheln"
+
 #: ../bookmarks/browser/configure.zcml:69
 msgid "Tile to bookmark a workspace and show status"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:220
+#: ../layout/browser/configure.zcml:229
 msgid "Tile to list recently modified documents"
 msgstr "Kachel, die zuletzt geänderte Inhalte anzeigt"
 
@@ -2795,6 +2860,10 @@ msgstr "Nicht veröffentlicht"
 msgid "Until"
 msgstr "Bis"
 
+#: ../layout/browser/templates/edit-dashboard.pt:57
+msgid "Up"
+msgstr "Hinauf"
+
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:28
 msgid "Upcoming events"
 msgstr "Anstehende Termine"
@@ -2833,7 +2902,7 @@ msgid "Upgrade to setup the login splash image"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/navigation.pt:132
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:352
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:354
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -2849,19 +2918,19 @@ msgstr "Neues Bild hochladen"
 msgid "Upload file(s)"
 msgstr "Dateien hochladen"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:349
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:351
 msgid "Upload files"
 msgstr "Dateien hochladen"
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:100
+#: ../calendar/browser/templates/calendar_more_menu.pt:20
 msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
-msgstr "Benutzen Sie die URL oben um den Kalender dieses Arbeitsplatzes in Ihrem Outlook Kalender anzeigen zu lassen."
+msgstr "Verwenden Sie die oben genannte URL um den Kalender dieses Arbeitsraumes in Ihrem Outlook Kalender anzuzeigen."
 
 #: ../workspace/behaviors/configure.zcml:55
 msgid "Use this content as a membrane group"
 msgstr "Diesen Inhalt als Membrane Gruppe verwenden"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:315
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:317
 msgid "User not found"
 msgstr "Benutzer nicht gefunden"
 
@@ -2894,7 +2963,7 @@ msgstr "Ansehen"
 msgid "View this image"
 msgstr "Bild ansehen"
 
-#: ../workspace/browser/tiles/templates/sidebar-documents.pt:373
+#: ../workspace/browser/tiles/templates/sidebar-documents.pt:375
 msgid "Weblink"
 msgstr "Weblink"
 
@@ -2902,7 +2971,7 @@ msgstr "Weblink"
 msgid "Week"
 msgstr "Woche"
 
-#: ../workspace/subscribers.py:169
+#: ../workspace/subscribers.py:178
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
 
@@ -3283,7 +3352,7 @@ msgstr "${d}. ${B} ${Y}"
 
 #. time to: ${date}"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:197
+#: ../workspace/browser/add_content.py:203
 msgid "dates_hijacked"
 msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
@@ -3410,6 +3479,12 @@ msgstr ""
 msgid "help_dashboard_activity_tiles"
 msgstr ""
 
+#. Default: "This is the list of the tiles\n        the user will see on the\n        \"My view (customizable)\" dashboard."
+#: ../layout/profiles/default/registry.xml
+#: ../layout/upgrades/profiles/to_0014/registry.xml
+msgid "help_dashboard_custom_tiles"
+msgstr ""
+
 #. default. Pick the values from\n        the dropdown on the dashboard."
 #. Default: "This is the name of the dashboard type that should be shown by default. Pick the values from\n        the dropdown on the dashboard."
 #: ../layout/profiles/default/registry.xml
@@ -3456,6 +3531,12 @@ msgstr ""
 #. Default: "At the moment we are able to handle the values \"active\", \"alphabet\" and \"newest\"."
 #: ../workspace/profiles/default/registry.xml
 msgid "help_my_workspace_sorting"
+msgstr ""
+
+#. Default: "Check if we should preserve the templates ownership after a copy."
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0024/registry.xml
+msgid "help_preserve_template_ownership"
 msgstr ""
 
 #. Default: "If set to True, RichText content (HTML) in workspaces is sanitized before it gets stored. That means all open tags are properly closed, and inline styles and unwanted tags such as SPAN or BLOCKQUOTE get stripped. Multipe line breaks get reduced to a single line break."
@@ -3658,6 +3739,12 @@ msgstr "Ersteller"
 msgid "label_dashboard_activity_tiles"
 msgstr ""
 
+#. Default: "List of dashboard custom tiles"
+#: ../layout/profiles/default/registry.xml
+#: ../layout/upgrades/profiles/to_0014/registry.xml
+msgid "label_dashboard_custom_tiles"
+msgstr ""
+
 #. Default: "Name of the default dashboard"
 #: ../layout/profiles/default/registry.xml
 msgid "label_dashboard_default"
@@ -3733,6 +3820,11 @@ msgstr "Sichtbar auf der Starseite der Nachrichten"
 msgid "label_magazine_image"
 msgstr "Das Bild ist sichtbar auf Nachrichtenübersichten"
 
+#. Default: "Mark read"
+#: ../layout/browser/templates/news-tile.pt:55
+msgid "label_mark_read"
+msgstr "gelesen"
+
 #. Default: "ID of a member"
 #: ../userprofile/content/workgroup.py:59
 msgid "label_member_id"
@@ -3754,7 +3846,7 @@ msgid "label_name"
 msgstr "Name"
 
 #. Default: "News"
-#: ../layout/browser/templates/news-tile.pt:20
+#: ../layout/browser/templates/news-tile.pt:27
 msgid "label_news"
 msgstr "Neuigkeiten"
 
@@ -3798,11 +3890,16 @@ msgstr "Diesen Bereich in der Subnavigation der Nachrichten anzeigen"
 #. Default: "No events available"
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:88
 msgid "label_no_events_available"
+msgstr "Keine Termine vorhanden"
+
+#. Default: "Preserve templates ownership"
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0024/registry.xml
+msgid "label_preserve_template_ownership"
 msgstr ""
 
 #. Default: "Publication Date"
 #: ../news/browser/templates/edit.html:142
-#, fuzzy
 msgid "label_publication_date"
 msgstr "Veröffentlichungsdatum"
 
@@ -4042,7 +4139,7 @@ msgid "posted"
 msgstr "abgeschickt"
 
 #. Default: "Read more..."
-#: ../layout/browser/templates/news-tile.pt:33
+#: ../layout/browser/templates/news-tile.pt:46
 #: ../library/browser/templates/library.html:143
 #: ../news/browser/templates/feeditem.pt:19
 msgid "read-more"
