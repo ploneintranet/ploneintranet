@@ -9,14 +9,15 @@
   </ul>
 </div>
 <fieldset id="subscription-url"
+          i18n:domain="ploneintranet"
           hidden
           tal:define="
             schemaless_absolute_url python:view.target.absolute_url().partition('://')[-1];
           "
 >
-  <h3 i18n:domain="ploneintranet" i18n:translate="">Subscribe to calendar</h3>
+  <h3 i18n:translate="">Subscribe to calendar</h3>
   <textarea style="width: 100%">webcal://${schemaless_absolute_url}/ics_view</textarea>
-  <p i18n:domain="ploneintranet" class="discrete">
+  <p class="discrete">
     <tal:i18n i18n:translate="">Use the above URL to see this Workspace's calendar also in your Outlook calendar.</tal:i18n>
     <a href="http://office.microsoft.com/en-us/outlook-help/view-and-subscribe-to-internet-calendars-HA010167325.aspx#BM2"
        target="new"
