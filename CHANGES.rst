@@ -4,7 +4,20 @@ Changelog
 1.2.51 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1195 from quaive/dashboard_and_cal_translations [GitHub]
+* cleanup [Wolfgang Thomas]
+* add missing translation [Wolfgang Thomas]
+* added translation for mark read label [Angela Steinhardt]
+* added i18n statement to mark read label [Angela Steinhardt]
+* added translations for outlook support (#15065) and dashboard customization (#15070) [Angela Steinhardt]
+* Merge pull request #1189 from quaive/parent_workspace [GitHub]
+* Merge pull request #1188 from quaive/fix-title-attribute [GitHub]
+* Merge pull request #1193 from quaive/fix-nexw-portlet [GitHub]
+* Merge pull request #1190 from quaive/release-1.2.x [GitHub]
+* Fix a couple of glitches [Alessandro Pisa]
+* Back to development: 1.2.51 [Wolfgang Thomas]
+* Add a parent_workspace property [Alessandro Pisa]
+* Added a title attribute to the sidebar items [Alessandro Pisa]
 
 
 1.2.50 (2017-03-07)
