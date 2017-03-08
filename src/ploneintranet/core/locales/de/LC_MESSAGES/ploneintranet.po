@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-03-08 11:34+0000\n"
+"POT-Creation-Date: 2017-03-08 11:52+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -3819,6 +3819,11 @@ msgstr "Sichtbar auf der Starseite der Nachrichten"
 #: ../news/browser/templates/edit.html:89
 msgid "label_magazine_image"
 msgstr "Das Bild ist sichtbar auf Nachrichtenübersichten"
+
+#. Default: "Mark read"
+#: ../layout/browser/templates/news-tile.pt:55
+msgid "label_mark_read"
+msgstr "gelesen"
 
 #. Default: "ID of a member"
 #: ../userprofile/content/workgroup.py:59

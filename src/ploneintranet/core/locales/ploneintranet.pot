@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-03-08 11:34+0000\n"
+"POT-Creation-Date: 2017-03-08 11:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3793,6 +3793,11 @@ msgstr ""
 #: ../news/behaviors.py:36
 #: ../news/browser/templates/edit.html:89
 msgid "label_magazine_image"
+msgstr ""
+
+#. Default: "Mark read"
+#: ../layout/browser/templates/news-tile.pt:55
+msgid "label_mark_read"
 msgstr ""
 
 #. Default: "ID of a member"
