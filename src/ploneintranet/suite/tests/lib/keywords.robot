@@ -164,6 +164,14 @@ I can see an attachment
     [arguments]  ${filename}
     Page Should Contain Link  ${filename}
 
+I can see a content attachment
+    [arguments]  ${filename}
+    Page Should Contain Link  ${filename}
+
+I cannot see a content attachment
+    [arguments]  ${filename}
+    Page Should Not Contain Link  ${filename}
+
 I can follow the profile link for user
     [arguments]  ${user_fullname}
     [Documentation]  We click on the second post item, because we know that Christian Stoney has 2 posts and the 1st post can be hidden by a stupid scroll issue after activating the network filter
