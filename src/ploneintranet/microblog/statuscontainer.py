@@ -646,6 +646,38 @@ class BaseStatusContainer(Persistent, Explicit):
         # not reversing, keep document discussion in chronological order
         return mapping
 
+    # --- HUMAN/CONTENT STREAM FILTERS ACCESSORS ---
+
+    def is_human_items(self, min=None, max=None, limit=100):
+        # secured in is_human_keys()
+        return ((key, self._get(key))
+                for key in self.is_human_keys(min, max, limit))
+
+    def is_human_values(self, min=None, max=None, limit=100):
+        # secured in is_human_keys()
+        return (self._get(key)
+                for key in self.is_human_keys(min, max, limit))
+
+    def is_human_keys(self, min=None, max=None, limit=100):
+        # secure
+        keys = self.secure(self._is_human_mapping)
+        return longkeysortreverse(keys, min, max, limit)
+
+    def is_content_items(self, min=None, max=None, limit=100):
+        # secured in is_content_keys()
+        return ((key, self._get(key))
+                for key in self.is_content_keys(min, max, limit))
+
+    def is_content_values(self, min=None, max=None, limit=100):
+        # secured in is_content_keys()
+        return (self._get(key)
+                for key in self.is_content_keys(min, max, limit))
+
+    def is_content_keys(self, min=None, max=None, limit=100):
+        # secure
+        keys = self.secure(self._is_content_mapping)
+        return longkeysortreverse(keys, min, max, limit)
+
     # --- MENTION ACCESSORS ---
 
     def mention_items(self, mentions, min=None, max=None, limit=100):
