@@ -129,7 +129,8 @@ class StreamBase(object):
             except KeyError:
                 return []
 
-        stream_filter = self.request.get('stream_filter')
+        # we now default to the 'human' filter - see #1115
+        stream_filter = self.request.get('stream_filter', 'human')
         if self.microblog_context:
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
@@ -155,6 +156,18 @@ class StreamBase(object):
                 limit=self.count,
                 users=users,
                 tags=tags
+            )
+        elif stream_filter == 'content':
+            # show only content updates and replies to those
+            statusupdates = container.is_content_values(
+                max=self.next_max,
+                limit=self.count,
+            )
+        elif stream_filter == 'human':
+            # exclude auto-created content updates without replies
+            statusupdates = container.is_human_values(
+                max=self.next_max,
+                limit=self.count,
             )
         elif stream_filter in ('interactions', 'posted', 'likes'):
             raise NotImplementedError("unsupported stream filter: %s"
