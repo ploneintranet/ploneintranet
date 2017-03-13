@@ -151,12 +151,21 @@
       layer="..interfaces.IPloneintranetWorkspaceLayer"
       />
 
+  <!-- BBB this has to go -->
   <browser:page
       name="view"
       for="ploneintranet.workspace.case.ICase"
       class=".case.CaseView"
       permission="zope2.View"
-      template="templates/case.pt"
+      template="templates/workspace.pt"
+      />
+
+  <browser:page
+      name="workspace-timeline"
+      for="ploneintranet.workspace.case.ICase"
+      class=".case.CaseView"
+      permission="zope2.View"
+      template="templates/case_timeline.pt"
       />
 
   <browser:page
