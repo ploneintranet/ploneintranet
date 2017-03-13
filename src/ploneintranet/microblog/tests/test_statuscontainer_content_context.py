@@ -55,3 +55,25 @@ class TestStatusContainerContentContext(unittest.TestCase):
             self.doc2))
         # chronological order, not reversed
         self.assertEqual([self.su3, self.su4], values)
+
+    # re-using this test fixture for human/content filters
+
+    def test_is_human_items(self):
+        values = [x[1] for x in self.container.is_human_items()]
+        self.assertEqual(1, len(values))
+        self.assertEqual([self.su1], values)
+
+    def test_is_human_values(self):
+        values = list(self.container.is_human_values())
+        self.assertEqual(1, len(values))
+        self.assertEqual([self.su1], values)
+
+    def test_is_content_items(self):
+        values = [x[1] for x in self.container.is_content_items()]
+        self.assertEqual(3, len(values))
+        self.assertEqual([self.su4, self.su3, self.su2], values)
+
+    def test_is_content_values(self):
+        values = list(self.container.is_content_values())
+        self.assertEqual(3, len(values))
+        self.assertEqual([self.su4, self.su3, self.su2], values)

@@ -26,20 +26,37 @@ ${TAG3}        Moonshine
 Allan can view the stream
     Given I am logged in as the user allan_neece
     when I open the Dashboard
+    and I filter the stream as  all
     then I can see updates by  Christian Stoney
 
 Allan can see attachments in the stream
     Given I am logged in as the user allan_neece
     when I open the Dashboard
+    and I filter the stream as  all
     then I can see an attachment  report.xlsx
 
 Allan can see comments in the stream
     Given I am logged in as the user allan_neece
      When I open the Dashboard
+     and I filter the stream as  all
      Then I can read the comment  Amazing!
       And I cannot read the comment  Well done!
      When I expand the older comments
      Then I can read the comment  Well done!
+
+Allan can open the human filter stream
+    Given I am logged in as the user allan_neece
+    when I open the Dashboard
+    and I filter the stream as  human
+    Then I can read the comment  Amazing!
+    And I cannot see a content attachment  Pregnancy
+
+Allan can open the content filter stream
+    Given I am logged in as the user allan_neece
+    when I open the Dashboard
+    and I filter the stream as  content
+    Then I can see a content attachment  Pregnancy
+    And I cannot read the comment  Amazing!
 
 Allan can open his user filter stream and see only people he is following
     Given I am logged in as the user allan_neece
@@ -113,6 +130,7 @@ Tagged content status updates link to the tagstream
     Comment  We can only tag after creation has already fired. Fire publication.
     When I can publish the content item
     And I open the Dashboard
+    and I filter the stream as  all
     And the stream links to the document     My created document
     Then I click the tag link  ${TAG3}
     And the stream links to the document     My created document

@@ -37,6 +37,11 @@ class StreamBase(object):
         self.stop_asking = False
 
     @property
+    def stream_filter(self):
+        """we now default to the 'human' filter - but not in the TagStream"""
+        return self.request.get('stream_filter', 'human')
+
+    @property
     def next_max(self):
         if self.last_seen:
             return long(self.last_seen) - 1
@@ -129,7 +134,6 @@ class StreamBase(object):
             except KeyError:
                 return []
 
-        stream_filter = self.request.get('stream_filter')
         if self.microblog_context:
             # support ploneintranet.workspace integration
             statusupdates = container.context_values(
@@ -144,7 +148,7 @@ class StreamBase(object):
                 max=self.next_max,
                 limit=self.count,
             )
-        elif stream_filter == 'network':
+        elif self.stream_filter == 'network':
             # Only activities from people and things I follow
             graph = api.portal.get_tool("ploneintranet_network")
             users = graph.unpack(graph.get_following(u'user'))
@@ -156,9 +160,21 @@ class StreamBase(object):
                 users=users,
                 tags=tags
             )
-        elif stream_filter in ('interactions', 'posted', 'likes'):
+        elif self.stream_filter == 'content':
+            # show only content updates and replies to those
+            statusupdates = container.is_content_values(
+                max=self.next_max,
+                limit=self.count,
+            )
+        elif self.stream_filter == 'human':
+            # exclude auto-created content updates without replies
+            statusupdates = container.is_human_values(
+                max=self.next_max,
+                limit=self.count,
+            )
+        elif self.stream_filter in ('interactions', 'posted', 'likes'):
             raise NotImplementedError("unsupported stream filter: %s"
-                                      % stream_filter)
+                                      % self.stream_filter)
         else:
             # default implementation: all activities
             statusupdates = container.values(
@@ -213,6 +229,11 @@ class TagStream(StreamBase, BrowserView):
     For example, /tagstream/foo will display
     the stream of activities tagged #foo.
     """
+
+    @property
+    def stream_filter(self):
+        """do not apply the default 'human' filter"""
+        return None
 
     def publishTraverse(self, request, name):
         if isinstance(name, unicode):

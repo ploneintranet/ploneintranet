@@ -255,6 +255,7 @@ Creating a page creates a statusupdate
     When I go to the Open Market Committee Workspace
     Then the stream links to the document     My created document
     When I open the Dashboard
+    And I filter the stream as  content
     Then the stream links to the document     My created document
 
 Publishing a page creates a statusupdate
@@ -269,6 +270,7 @@ Publishing a page creates a statusupdate
     When I go to the Open Market Committee Workspace
     Then the stream contains     published
     When I open the Dashboard
+    And I filter the stream as  content
     Then the stream contains     published
 
 Content status updates respect document security
@@ -279,6 +281,7 @@ Content status updates respect document security
     Then the stream links to the document     My created document
     When I am logged in as the user allan_neece
     And I open the Dashboard
+    And I filter the stream as  content
     Then the stream does not link to the document       My created document
 
 *** Keywords ***

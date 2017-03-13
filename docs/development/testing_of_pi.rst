@@ -40,6 +40,10 @@ To not have a gazillion browser windows pop up, run tests in a framebuffer::
 
     Xvfb :99 1>/dev/null 2>&1 & DISPLAY=:99 bin/test -t 'robot' -x
 
+Or, if you prefer to see the ongoing tests progress in a single window::
+
+    Xephyr -screen 1280x1024 :1 & DISPLAY=:1 bin/test -t 'robot' -x
+
 Robot tests can be skipped by using -t '!robot' (note: single quotes, not double quotes)::
 
     ./bin/test -t '!robot'

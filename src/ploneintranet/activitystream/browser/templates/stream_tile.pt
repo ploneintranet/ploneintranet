@@ -3,7 +3,7 @@
         <div id="activity-stream"
              class="activity-stream"
              i18n:domain="ploneintranet"
-             tal:define="filter request/stream_filter|nothing;
+             tal:define="filter request/stream_filter|string:human;
                          context_url here/absolute_url|here/context/absolute_url;">
 
           <form tal:attributes="action string:${context_url}/@@activitystream.tile#activity-stream"
@@ -11,9 +11,13 @@
                 class="functions pat-autosubmit pat-inject">
 	    <label class="filters item pat-select bare">
 	      <select name="stream_filter">
-		<option value="all" i18n:translate=""
+		<option value="all" i18n:translate="all_filter"
                         tal:attributes="selected python:filter=='all'">All activities</option>
-		<option value="network" i18n:translate=""
+		<option value="human" i18n:translate="human_filter"
+                        tal:attributes="selected python:filter=='human'">Only posts and replies</option>
+		<option value="content" i18n:translate="content_filter"
+                        tal:attributes="selected python:filter=='content'">Only content updates</option>
+		<option value="network" i18n:translate="network_filter"
                         tal:attributes="selected python:filter=='network'">Only people and things I follow</option>
                 <!--
 		<option value="interactions">Interactions with other people</option>
