@@ -42,12 +42,16 @@ def update_task_status(self, return_status_message=False):
             if state in ["open", "planned"]:
 
                 api.content.transition(obj, "finish")
-                self.request.__annotations__.pop('plone.memoize', None)
+                getattr(self.request, '__annotations__', {}).pop(
+                    'plone.memoize', None
+                )
                 obj.reindexObject()
         if brain.UID in reopen_tasks:
             if state == "done":
                 obj.reopen()
-                self.request.__annotations__.pop('plone.memoize', None)
+                getattr(self.request, '__annotations__', {}).pop(
+                    'plone.memoize', None
+                )
                 obj.reindexObject()
 
     if return_status_message:
