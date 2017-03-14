@@ -25,6 +25,15 @@
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
     />
 
+    <!-- token based authentication -->
+    <browser:page
+        name="ics_export"
+        for="*"
+        permission="zope.Public"
+        class=".views.IcsExport"
+        layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
+        />
+
     <browser:page
         name="set-timezone-cookie"
         for="*"
@@ -44,14 +53,5 @@
         template="templates/fullcalendar.tile.pt"
         layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
         />
-
-  <browser:page
-      name="ics_view"
-      for="ploneintranet.layout.app.IApp"
-      permission="zope2.View"
-      class=".app.View"
-      template="templates/app.pt"
-      layer="ploneintranet.calendar.browser.interfaces.IPloneintranetCalendarLayer"
-      />
 
 </configure>
