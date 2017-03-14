@@ -84,7 +84,7 @@
                   </label>
               </form>
               <form data-tile="./@@newpostbox.tile"/>
-              <div data-tile="./@@activitystream.tile?stream_filter_menu=1"/>
+              <div data-tile="./@@activitystream.tile"/>
             </div>
           </div>
         </div>
