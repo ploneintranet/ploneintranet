@@ -19,13 +19,11 @@ class BaseCartView(BrowserView):
 
     @property
     def items(self):
-        items = []
         cart_items = self.request.form.get('items', [])
-        for uid in cart_items:
-            obj = api.content.get(UID=uid)
-            if obj:
-                items.append(obj)
-        return items
+        if not cart_items:
+            return []
+        brains = api.content.find(UID=cart_items)
+        return [b.getObject() for b in brains]
 
     @memoize
     def items_by_permission(self):
