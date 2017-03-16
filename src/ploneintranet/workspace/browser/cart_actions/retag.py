@@ -25,17 +25,19 @@ class RetagView(BaseCartView):
         if not new_tags:
             return
         storage = self.grouping_storage
-        for uid in uids:
-            obj = api.content.get(UID=uid)
-            if obj:
-                tags_set = set(obj.subject)
-                for tag in new_tags.split(','):
-                    tags_set.add(safe_unicode(tag))
-                obj.subject = tuple(tags_set)
-                obj.reindexObject()
-                if storage:
-                    storage.update_groupings(obj)
-                handled.append(u'"%s"' % safe_unicode(obj.Title()))
+        if not uids:
+            objs = []
+        else:
+            objs = [b.getObject() for b in api.content.find(UID=uids)]
+        for obj in objs:
+            tags_set = set(obj.subject)
+            for tag in new_tags.split(','):
+                tags_set.add(safe_unicode(tag))
+            obj.subject = tuple(tags_set)
+            obj.reindexObject()
+            if storage:
+                storage.update_groupings(obj)
+            handled.append(u'"%s"' % safe_unicode(obj.Title()))
         if handled:
             titles = ', '.join(sorted(handled))
             msg = _(
