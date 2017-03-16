@@ -1,11 +1,19 @@
+# coding=utf-8
+from plone import api
+from plone.memoize.view import memoize
+from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
 
 
 class BaseCartView(BrowserView):
 
     titles = []
+
+    @property
+    @memoize
+    def workspace(self):
+        return parent_workspace(self.context)
 
     @property
     def items(self):
