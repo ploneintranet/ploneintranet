@@ -10,6 +10,8 @@ class BaseCartView(BrowserView):
 
     titles = []
 
+    checked_permission = 'Modify portal content'
+
     @property
     @memoize
     def workspace(self):
@@ -24,6 +26,18 @@ class BaseCartView(BrowserView):
             if obj:
                 items.append(obj)
         return items
+
+    @memoize
+    def items_by_permission(self):
+        pm = api.portal.get_tool('portal_membership')
+        allowed = []
+        unallowed = []
+        for item in self.items:
+            if pm.checkPermission(self.checked_permission, item):
+                allowed.append(item)
+            else:
+                unallowed.append(item)
+        return (allowed, unallowed)
 
     def confirm(self):
         index = ViewPageTemplateFile("templates/delete_confirmation.pt")

@@ -20,17 +20,6 @@ class RetagView(BaseCartView):
         index = ViewPageTemplateFile("templates/retag_confirmation.pt")
         return index(self)
 
-    def items_by_permission(self):
-        pm = api.portal.get_tool('portal_membership')
-        modifiable = []
-        not_modifiable = []
-        for item in self.items:
-            if pm.checkPermission('Modify portal content', item):
-                modifiable.append(item)
-            else:
-                not_modifiable.append(item)
-        return (modifiable, not_modifiable)
-
     def retag(self):
         handled = []
         uids = self.request.form.get('uids', [])
