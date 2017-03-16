@@ -23,7 +23,6 @@ class RetagView(BaseCartView):
         new_tags = self.request.form.get('subjects')
         if not new_tags:
             return
-        storage = self.grouping_storage
         if not uids:
             objs = []
         else:
@@ -34,8 +33,7 @@ class RetagView(BaseCartView):
                 tags_set.add(safe_unicode(tag))
             obj.subject = tuple(tags_set)
             obj.reindexObject()
-            if storage:
-                storage.update_groupings(obj)
+            self.update_groupings(obj)
             handled.append(u'"%s"' % safe_unicode(obj.Title()))
         if handled:
             titles = ', '.join(sorted(handled))

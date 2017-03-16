@@ -24,6 +24,12 @@ class BaseCartView(BrowserView):
     def grouping_storage(self):
         return IGroupingStorage(self.workspace, None)
 
+    def update_groupings(self, obj):
+        storage = self.grouping_storage
+        if not storage:
+            return
+        storage.update_groupings(obj)
+
     @property
     def items(self):
         cart_items = self.request.form.get('items', [])
