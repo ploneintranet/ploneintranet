@@ -3,8 +3,10 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="ploneintranet">
-  <body>
-    <div class="news portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
+  <body tal:define="
+          portletspan python:request.get('portletspan', 'span-1');
+        ">
+    <div class="news portlet ${portletspan} state-collapsed"
          id="portlet-news"
          tal:define="
            news_items view/news_items;
@@ -32,9 +34,10 @@
                      tal:repeat="news news_items">
               <a href="${news/url}">
                 <img class="illustration"
-                     style="${python:view.get_img_style(news)}"
+                     style="${python:view.get_img_style(news, scale)}"
                      src="${portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png"
                      alt=""
+                     tal:define="scale python: 'large' if (portletspan != 'span-1' and repeat.news.index == 0) else 'mini'"
                 />
                 <h3 class="title">
                   ${news/title}
