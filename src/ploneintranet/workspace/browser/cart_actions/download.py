@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """A Cart Action for downloading all items listed in cart as a ZIP file."""
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from StringIO import StringIO
 from datetime import datetime
 from plone import api
 from plone.api.exc import InvalidParameterError
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from urllib import urlencode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from StringIO import StringIO
 
 import zipfile
 
@@ -79,27 +78,23 @@ class DownloadView(BaseCartView):
         finally:
             zf.close()
 
-        if zf.filelist:
-            self.request.response.setHeader(
-                "Content-Type",
-                "application/zip"
-            )
-            now = datetime.now()
-            zipfilename = "download-%s-%s-%s.zip" % (
-                now.year, now.month, now.day)
-            self.request.response.setHeader(
-                'Content-Disposition',
-                "attachment; filename=%s" % zipfilename
-            )
-            return output.getvalue()
-        else:
+        if not zf.filelist:
             api.portal.show_message(
                 message=_(u"There are no downloadable items in your cart."),
                 request=self.request,
-                type="warning")
-            params = {
-                'groupname': self.request.get('groupname', ''),
-            }
-            self.request.response.redirect(
-                '{0}?{1}'.format(
-                    self.context.absolute_url(), urlencode(params)))
+                type="warning"
+            )
+            return self.redirect()
+
+        self.request.response.setHeader(
+            "Content-Type",
+            "application/zip"
+        )
+        now = datetime.now()
+        zipfilename = "download-%s-%s-%s.zip" % (
+            now.year, now.month, now.day)
+        self.request.response.setHeader(
+            'Content-Disposition',
+            "attachment; filename=%s" % zipfilename
+        )
+        return output.getvalue()

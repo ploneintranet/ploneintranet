@@ -5,6 +5,7 @@ from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from urllib import urlencode
 
 
 class BaseCartView(BrowserView):
@@ -46,3 +47,16 @@ class BaseCartView(BrowserView):
     def confirm(self):
         index = ViewPageTemplateFile("templates/delete_confirmation.pt")
         return index(self)
+
+    def redirect(self):
+        ''' Redirect to the context
+        '''
+        params = {
+            'groupname': self.request.get('groupname', ''),
+        }
+        return self.request.response.redirect(
+            '{url}?{params}'.format(
+                url=self.context.absolute_url(),
+                params=urlencode(params)
+            )
+        )

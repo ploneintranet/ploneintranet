@@ -5,7 +5,6 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from urllib import urlencode
 
 
 class DeleteView(BaseCartView):
@@ -42,10 +41,4 @@ class DeleteView(BaseCartView):
                 request=self.request,
                 type="info",
             )
-
-        params = {
-            'groupname': self.request.get('groupname', ''),
-        }
-        self.request.response.redirect(
-            '{0}?{1}'.format(
-                self.context.absolute_url(), urlencode(params)))
+        return self.redirect()
