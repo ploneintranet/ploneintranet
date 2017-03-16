@@ -43,71 +43,7 @@
       <tal:workspace_tasks tal:condition="not: ws/is_case">
         <fieldset class="object-list tasks pat-checklist">
           <tal:task repeat="task tasks">
-            <br />
-            <label id="todo-${task/id}"
-                   tal:define="
-                     read_only not:task/can_edit;
-                   "
-            >
-              <input checked="${python: 'checked' if task['checked'] else None}"
-                     disabled="${python:read_only and 'disabled' or None}"
-                     name="active-tasks:list"
-                     type="checkbox"
-                     value="${task/id}"
-              />
-              <a class="pat-inject follow pat-switch"
-                 href="${task/url}"
-                 title="${task/title}"
-                 data-pat-inject="source: #document-body; target: #document-body"
-                 data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
-              >${task/title}</a>
-              <div class="additional-meta-data"
-                   metal:define-macro="additional-meta-data"
-                   tal:define="
-                     assignee task/obj/assignee;
-                     initiator task/obj/initiator;
-                   "
-              >
-                <a class="assignee meta-column icon-user pat-inject"
-                   href="${context/portal_url}/profiles/${assignee}#document-body"
-                   title="Assignee"
-                   data-pat-inject="source: #document-body; target: #document-body"
-                   tal:condition="assignee"
-                >
-                  ${python:ws_view.get_principal_title(assignee)}
-                </a>
-                <a class="assignee meta-column icon-user"
-                   title="Assignee"
-                   tal:condition="not:assignee"
-                ></a>
-
-                <time class="due-date meta-column icon-clock pat-display-time"
-                      datetime="${task/due}"
-                      title="Due date"
-                      data-pat-display-time="from-now: true; locale: ${here/plone_portal_state/language}"
-                      tal:condition="task/due"
-                ></time>
-                <time class="due-date meta-column icon-clock"
-                      tal:condition="not:task/due"
-                ></time>
-                <a class="initiator meta-column icon-manager pat-inject"
-                   href="${context/portal_url}/profiles/${initiator}#document-body"
-                   title="Initiator"
-                   data-pat-inject="source: #document-body; target: #document-body"
-                   tal:condition="initiator"
-                >
-                  ${python:ws_view.get_principal_title(initiator)}
-                </a>
-                <a class="initiator meta-column icon-manager"
-                   title="Initiator"
-                   tal:condition="not:initiator"
-                ></a>
-              </div>
-              <input name="current-tasks:list"
-                     type="hidden"
-                     value="${task/id}"
-              />
-            </label>
+            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
           </tal:task>
         </fieldset>
       </tal:workspace_tasks>
@@ -136,38 +72,7 @@
                   i18n:translate=""
               >${milestone/title}</h4>
               <tal:task repeat="task python:tasks[milestone_id]">
-                <label id="todo-${task/id}"
-                       tal:define="
-                         read_only not:task/can_edit;
-                       "
-                >
-                  <input checked="${python:'checked' if task['checked'] else None}"
-                         disabled="${python:read_only and 'disabled' or None}"
-                         name="active-tasks:list"
-                         type="checkbox"
-                         value="${task/id}"
-                  />
-                  <input name="disabled-checked-tasks:list"
-                         type="hidden"
-                         value="${task/id}"
-                         tal:condition="python: read_only and task['checked']"
-                  />
-                  <input name="checked-tasks:list"
-                         type="hidden"
-                         value="${task/id}"
-                         tal:condition="python: not read_only and task['checked']"
-                  />
-                  <a class="pat-inject follow pat-switch"
-                     href="${task/url}"
-                     title="${task/title}"
-                     data-pat-inject="source: #document-body; target: #document-body"
-                     data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
-                  >${task/title}</a>
-                  <input name="current-tasks:list"
-                         type="hidden"
-                         value="${task/id}"
-                  />
-                </label>
+                  <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
               </tal:task>
               <p class="button-bar">
                 <a class="icon-plus-circle small button pat-modal"
@@ -204,26 +109,10 @@
           >
             Unassigned
           </h3>
-          <label id="todo-${task/id}"
-                 tal:repeat="task uatasks"
-          >
-            <input checked="${python:'checked' if task['checked'] else None}"
-                   name="active-tasks:list"
-                   type="checkbox"
-                   value="${task/id}"
-            />
-            <a class="pat-inject"
-               href="${task/url}"
-               title="${task/title}"
-               data-pat-inject="source: #document-body; target: #document-body; history: record"
-            >${task/title}</a>
-            <input name="current-tasks:list"
-                   type="hidden"
-                   value="${task/id}"
-            />
-          </label>
+          <tal:task repeat="task uatasks">
+            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
+          </tal:task>
         </fieldset>
-
       </tal:case_tasks>
 
       <input name="section"

@@ -22,6 +22,15 @@
     />
 
   <browser:page
+    name="todo_in_sidebar"
+    for="..content.todo.ITodo"
+    layer=".interfaces.IPloneintranetTodoLayer"
+    template="templates/todo_in_sidebar.pt"
+    class=".todo_view.TodoView"
+    permission="zope2.View"
+    />
+
+  <browser:page
     name="workflow_menu"
     for="..content.todo.ITodo"
     layer=".interfaces.IPloneintranetTodoLayer"
