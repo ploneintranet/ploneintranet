@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.52 (unreleased)
+1.2.52 (2017-03-16)
 -------------------
 
 * Merge pull request #1207 from quaive/restore-autoform [GitHub]
