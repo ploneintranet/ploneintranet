@@ -3,6 +3,8 @@ from collections import defaultdict
 from plone import api
 from plone.app.textfield.interfaces import IRichTextValue
 from plone.app.textfield.value import RichTextValue
+from plone.autoform.interfaces import WIDGETS_KEY
+from plone.autoform.widgets import ParameterizedWidget
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import getAdditionalSchemata
 from plone.z3cform.z2 import processInputs
@@ -67,8 +69,16 @@ def dexterity_update(obj, request=None):
                '%s-empty-marker' % name not in request.form:
                 continue
             field = schema[name]
-            widget = component.getMultiAdapter(
-                (field, request), IFieldWidget)
+            autoform_widgets = schema.queryTaggedValue(WIDGETS_KEY, default={})
+            if name in autoform_widgets:
+                widget = autoform_widgets[name]
+                if not isinstance(widget, ParameterizedWidget):
+                    widget = ParameterizedWidget(widget)
+                widget = widget(field, request)
+            else:
+                widget = component.getMultiAdapter(
+                    (field, request), IFieldWidget)
+
             widget.context = obj
             value = field.missing_value
             widget.update()
