@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed generic application-workspace application- ">
+    <div id="main">
+
+      <div class="modal"
+           id="content"
+      >
+        <div class="pat-modal"
+             id="document-content"
+        >
+          <h1 i18n:translate="">Change metadata</h1>
+          <form class="wizard-box pat-inject"
+                action="${workspace/absolute_url}/@@cart-changemetadata"
+                method="POST"
+                data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items &amp;&amp; source: #document-body; target: #document-body"
+                tal:define="
+                  items view/items_by_permission;
+                  modifiable python:items[0];
+                  not_modifiable python:items[1];
+                  workspace nocall:view/workspace;
+                  proto nocall:here/@@proto;
+                "
+          >
+            <input name="groupname"
+                   type="hidden"
+                   value="${request/groupname|nothing}"
+            />
+            <div class="panel-body">
+              <fieldset class="vertical change-metadata">
+                <tal:item repeat="item modifiable">
+                  <fieldset class="group ${python:proto.friendly_type2icon_class(item.portal_type)}">
+                    <label class="title">
+                      <input autofocus=""
+                             name="${item/UID}.title:record:ustring"
+                             placeholder="Document title"
+                             type="text"
+                             value="${item/title}"
+                             i18n:attributes="placeholder"
+                      />
+                    </label>
+                    <label>
+                      <textarea name="${item/UID}.description:record:ustring"
+                                placeholder="Document description"
+                                rows="3"
+                                i18n:attributes="placeholder"
+                      >${item/description}</textarea>
+                    </label>
+                    <label>
+                      <input class="pat-autosuggest"
+                             name="${item/UID}.subject:record:ustring"
+                             placeholder="Enter a label"
+                             value="${python:','.join(item.Subject())}"
+                             data-pat-autosuggest="ajax-data-type: json; ajax-search-index: text; ajax-url:${workspace/absolute_url}/@@getVocabulary?resultsonly=1&amp;name=ploneintranet.network.vocabularies.Keywords&amp;field=subjects"
+                             i18n:attributes="placeholder"
+                      />
+                    </label>
+                  </fieldset>
+                </tal:item>
+                <fieldset class="group icon-lock"
+                          tal:condition="python:not modifiable and not not_modifiable"
+                >
+                  <dfn class="pat-message notice"
+                       i18n:translate=""
+                  >No item selected.</dfn>
+                </fieldset>
+
+                <fieldset class="group icon-lock"
+                          tal:condition="not_modifiable"
+                >
+                  <dfn class="pat-message notice"
+                       i18n:translate=""
+                  >You cannot change the metadata of the following items.</dfn>
+                </fieldset>
+                <tal:item repeat="item not_modifiable">
+                  <fieldset class="group ${python:proto.friendly_type2icon_class(item.portal_type)}">
+                    <label class="title">
+                      ${item/title}
+                    </label>
+                    <p>
+                      ${item/description}
+                    </p>
+                    <div class="select2-container select2-container-multi select2-container-disabled">
+                      <ul class="select2-choices">
+                        <li class="select2-search-choice"
+                            tal:repeat="subject item/Subject"
+                        ><div>${subject}</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </fieldset>
+                </tal:item>
+              </fieldset>
+            </div>
+            <div class="buttons panel-footer">
+              <button class="close-panel icon-ok-circle"
+                      id="form-buttons-send"
+                      type="submit"
+                      i18n:translate=""
+              >Save</button>
+              <button class="close-panel icon-cancel-circle"
+                      type="button"
+                      i18n:translate=""
+              >Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
