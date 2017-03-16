@@ -2,8 +2,6 @@
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from ploneintranet.workspace.interfaces import IGroupingStoragable
-from ploneintranet.workspace.interfaces import IGroupingStorage
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from urllib import urlencode
@@ -26,8 +24,7 @@ class RetagView(BaseCartView):
         new_tags = self.request.form.get('subjects')
         if not new_tags:
             return
-        storage = (IGroupingStoragable.providedBy(self.workspace) and
-                   IGroupingStorage(self.workspace) or None)
+        storage = self.grouping_storage
         for uid in uids:
             obj = api.content.get(UID=uid)
             if obj:

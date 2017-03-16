@@ -1,6 +1,7 @@
 # coding=utf-8
 from plone import api
 from plone.memoize.view import memoize
+from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -16,6 +17,11 @@ class BaseCartView(BrowserView):
     @memoize
     def workspace(self):
         return parent_workspace(self.context)
+
+    @property
+    @memoize
+    def grouping_storage(self):
+        return IGroupingStorage(self.workspace, None)
 
     @property
     def items(self):
