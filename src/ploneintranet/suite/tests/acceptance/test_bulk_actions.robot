@@ -61,6 +61,20 @@ A member can only bulk delete the items they are allowed to delete
       and I open the sidebar documents tile
       and I can see the document  Terms and conditions
 
+A member can only bulk change the metadata the items they are allowed to edit
+    Given I am logged in as the user guy_hackey
+      And I go to the Open Market Committee Workspace
+      And I open the sidebar documents tile
+      And I can create a new document  Do not touch me
+      And I submit the content item
+      And I can create a new document  Change me
+      And I toggle the bulk action controls
+      And I add an item to the cart  Do not touch me
+      And I add an item to the cart  Change me
+      And I choose to change the metadata for the items in the cart
+     Then I cannot change the metadata for Do not touch me
+      And I can change the metadata for Change me
+
 A member can only cut items they are allowed to delete
     Given I am logged in as the user guy_hackey
       and I go to the Service Announcements Workspace
@@ -231,6 +245,25 @@ I choose to delete the items in the cart
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  css=div.panel-content button.icon-trash
     Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch delete"]
+
+I choose to change the metadata for the items in the cart
+    # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
+    Execute Javascript  $('#batch-more .panel-content').show()
+    Click Element  css=div.panel-content button.icon-pencil
+    Wait for injection to be finished
+
+I cannot change the metadata for Do not touch me
+     Page should contain  You cannot change the metadata of the following items.
+     Page should contain element   jquery=.change-metadata label:contains('Do not touch me')
+
+I can change the metadata for Change me
+    Input Text  jquery=.change-metadata .title > input  I changed you
+    Input Text  jquery=.change-metadata textarea  and I added a description
+    Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  press
+    Wait Until Element is Visible  jquery=.select2-match:contains('press')
+    Click element  jquery=.select2-match:contains('press')
+    Click element  css=#form-buttons-send
+    Wait Until Page Contains  The following items have been updated: I changed you
 
 I choose to cut the items in the cart
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Cut']

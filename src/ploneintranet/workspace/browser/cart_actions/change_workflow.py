@@ -8,7 +8,6 @@ from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
 from Products.CMFCore.interfaces._content import IFolderish
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from urllib import urlencode
 from ZODB.POSException import ConflictError
 
 
@@ -117,9 +116,4 @@ class ChangeWorkflowView(BaseCartView):
                 type="info",
             )
 
-        params = {
-            'groupname': self.request.get('groupname', ''),
-        }
-        self.request.response.redirect(
-            '{0}?{1}'.format(
-                self.context.absolute_url(), urlencode(params)))
+        return self.redirect()

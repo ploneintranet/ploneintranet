@@ -26,6 +26,16 @@ class BaseView(ContentView):
 @implementer(IBlocksTransformEnabled)
 class TodoView(BaseView):
 
+    @memoize
+    def is_done(self):
+        ''' Check if this task is done
+        '''
+        return api.content.get_view(
+            'workflow_menu',
+            self.context,
+            self.request,
+        ).is_done()
+
     def update(self):
         """ """
         if ('task_action' in self.request and

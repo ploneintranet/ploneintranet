@@ -219,6 +219,15 @@
                           i18n:translate="" i18n:attributes="title">Delete</button>
                 </li>
                 <li>
+                  <button class="icon-pencil"
+                          type="submit"
+                          title="Change metadata, including names, tags and descriptions."
+                          formaction="${context/absolute_url}/cart-changemetadata-confirm?_authenticator=${token}#content"
+                          i18n:attributes="title"
+                          i18n:translate=""
+                          >Change metadata</button>
+                </li>
+                <li>
                   <button type="submit"
                           class="icon-tags"
                           title="Re-tag"

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """A Cart Action for deleting all items listed in cart."""
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from urllib import urlencode
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class DeleteView(BaseCartView):
+    checked_permission = 'Delete objects'
 
     def confirm(self):
         index = ViewPageTemplateFile("templates/delete_confirmation.pt")
@@ -41,21 +41,4 @@ class DeleteView(BaseCartView):
                 request=self.request,
                 type="info",
             )
-
-        params = {
-            'groupname': self.request.get('groupname', ''),
-        }
-        self.request.response.redirect(
-            '{0}?{1}'.format(
-                self.context.absolute_url(), urlencode(params)))
-
-    def items_by_permission(self):
-        pm = api.portal.get_tool('portal_membership')
-        deletable = []
-        not_deletable = []
-        for item in self.items:
-            if pm.checkPermission('Delete objects', item):
-                deletable.append(item)
-            else:
-                not_deletable.append(item)
-        return (deletable, not_deletable)
+        return self.redirect()

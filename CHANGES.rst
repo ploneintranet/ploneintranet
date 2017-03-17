@@ -1,10 +1,38 @@
 Changelog
 =========
 
-1.2.52 (unreleased)
+1.2.53 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.52 (2017-03-16)
+-------------------
+
+* Merge pull request #1207 from quaive/restore-autoform [GitHub]
+* Merge pull request #1205 from quaive/news-tile-large-preview [GitHub]
+* Don't assume we get a dotted name; it could be a ParameterizedWidget. [Manuel Reinhardt]
+* Revert "remove broken workaround" to restore autoform directives support [Manuel Reinhardt]
+* Merge pull request #1200 from quaive/unify-pts [GitHub]
+* Merge pull request #1202 from quaive/fix-attributeerror [GitHub]
+* Large preview for the first image when portlet spans on more columns [ale-rt]
+* Merge pull request #1201 from quaive/1115_stream_filters [GitHub]
+* Fix attribute error when annotation storage is not initialized yet [ale-rt]
+* Cleanup TAL, refs #1115 [Guido A.J. Stevens]
+* Use one page template for ws and cases [ale-rt]
+* Merge pull request #1198 from quaive/understand-container [GitHub]
+* Merge pull request #1199 from quaive/1115_stream_filters [GitHub]
+* Fix posting.robot to not assume the "all" stream by default, refs #1115 [Guido A.J. Stevens]
+* Add testcoverage on stream filters and fix regressions, fixes #1115 [Guido A.J. Stevens]
+* Hook up human/content filters in frontend, refs #1115 [Guido A.J. Stevens]
+* Provide secure human/content stream filter accessors, refs #1115 [Guido A.J. Stevens]
+* Understand the container request parameter [Alessandro Pisa]
+* Merge pull request #1196 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.52 [Wolfgang Thomas]
+* Provide upgrade step for is_content/is_human indexes, refs #1115 [Guido A.J. Stevens]
+* Implement indexes for human/content streams, refs #1115 [Guido A.J. Stevens]
+* Implement content/human boolean accessors on statusupdates refs #1115 [Guido A.J. Stevens]
 
 
 1.2.51 (2017-03-08)

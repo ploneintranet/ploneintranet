@@ -1,0 +1,72 @@
+<label id="todo-${here/UID}"
+       tal:define="
+         ws nocall:view/workspace;
+         ws_view nocall:ws/@@view;
+         is_disabled python:None if view.can_edit else 'disabled';
+         is_checked python:'checked' if view.is_done() else None;
+       "
+       i18n:domain="ploneintranet"
+>
+  <input checked="${is_checked}"
+         disabled="${is_disabled}"
+         name="active-tasks:list"
+         type="checkbox"
+         value="${here/UID}"
+  />
+  <tal:checked condition="is_checked">
+    <input name="${python:'disabled-' if is_disabled else ''}checked-tasks:list"
+           type="hidden"
+           value="${here/UID}"
+    />
+  </tal:checked>
+  <input name="current-tasks:list"
+         type="hidden"
+         value="${here/UID}"
+  />
+  <a class="pat-inject follow pat-switch"
+     href="${here/absolute_url}"
+     title="${here/title}"
+     data-pat-inject="source: #document-body; target: #document-body"
+     data-pat-switch="body focus-* focus-document &amp;&amp; body sidebar-large sidebar-normal"
+  >${here/title}</a>
+  <div class="additional-meta-data"
+       tal:define="
+         assignee here/assignee;
+         initiator here/initiator;
+       "
+  >
+    <a class="assignee meta-column icon-user pat-inject"
+       href="${context/portal_url}/profiles/${assignee}#document-body"
+       title="Assignee"
+       data-pat-inject="source: #document-body; target: #document-body"
+       tal:condition="assignee"
+    >
+      ${python:ws_view.get_principal_title(assignee)}
+    </a>
+    <a class="assignee meta-column icon-user"
+       title="Assignee"
+       tal:condition="not:assignee"
+    ></a>
+    <time class="due-date meta-column icon-clock pat-display-time"
+          datetime="${here/due}"
+          title="Due date"
+          data-pat-display-time="from-now: true; locale: ${here/plone_portal_state/language}"
+          tal:condition="here/due"
+    ></time>
+    <time class="due-date meta-column icon-clock"
+          tal:condition="not:here/due"
+    ></time>
+    <a class="initiator meta-column icon-manager pat-inject"
+       href="${context/portal_url}/profiles/${initiator}#document-body"
+       title="Initiator"
+       data-pat-inject="source: #document-body; target: #document-body"
+       tal:condition="initiator"
+    >
+      ${python:ws_view.get_principal_title(initiator)}
+    </a>
+    <a class="initiator meta-column icon-manager"
+       title="Initiator"
+       tal:condition="not:initiator"
+    ></a>
+  </div>
+</label>
