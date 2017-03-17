@@ -1,10 +1,18 @@
 # coding=utf-8
+from AccessControl import Unauthorized
+from hashlib import sha256
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
+from plone.uuid.interfaces import IUUID
+from ploneintranet import api as pi_api
 from ploneintranet.calendar.config import TZ_COOKIE_NAME
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from Products.Five import BrowserView
+from urllib import urlencode
+
+import hmac
 
 
 class SetTimezoneView(BrowserView):
@@ -33,3 +41,87 @@ class CalendarMoreMenu(BrowserView):
                 INavigationRoot.providedBy(obj)
             ):
                 return obj
+
+    @memoize_contextless
+    def get_user(self):
+        ''' Get the requested user
+        '''
+        return pi_api.userprofile.get_current()
+
+    @memoize
+    def get_key(self):
+        ''' Get the key for the current user and context
+
+        Currently it is generated with the UIDs of the user and the target,
+        but we may change this adding, e.g., a secret stored in the registry
+        '''
+        user = self.get_user()
+        if not user:
+            raise Unauthorized("Access denied to anonymous")
+        return IUUID(user, '') + IUUID(self.target, '')
+
+    def get_token(self):
+        ''' Return the token for the given userid in this context
+        '''
+        key = self.get_key()
+        user = self.get_user()
+        message = user.id
+        return hmac.new(key, message, sha256).hexdigest()
+
+    def webcal_url(self):
+        ''' Return the webcal url
+        '''
+        target_url = self.target.absolute_url()
+        schemaless_absolute_url = target_url.partition('://')[-1]
+        params = {
+            'uid': self.get_user().id,
+            'token': self.get_token(),
+        }
+        return 'webcal://{schemaless_absolute_url}/ics_export?{params}'.format(
+            schemaless_absolute_url=schemaless_absolute_url,
+            params=urlencode(params),
+        )
+        return
+
+
+class IcsExport(CalendarMoreMenu):
+    ''' We need an authorization token to allow the user to
+    retrieve the ics_view output
+    '''
+    @memoize_contextless
+    def get_user(self, userid=None):
+        ''' Override the base class method to work for anonymous users
+        '''
+        if userid is None:
+            userid = self.request.get('uid')
+        portal = api.portal.get()
+        profiles = portal.get('profiles', {})
+        user = profiles.get(userid, None)
+        return user
+
+    def validate(self):
+        ''' Check that the token passed in the request is equal
+        to the one generate in our secret way
+        '''
+        token = self.request.get('token')
+        if token != self.get_token():
+            raise Unauthorized("Access denied to anonymous")
+
+    @property
+    def ics_view(self):
+        ''' the ics_view for the target
+        '''
+        return api.content.get_view(
+            'ics_view',
+            self.target,
+            self.request,
+        )
+
+    def __call__(self):
+        ''' If called directly check a token and return the ics_view
+        for the requested user
+        '''
+        self.validate()
+        user = self.get_user()
+        with api.env.adopt_user(user.id):
+            return self.ics_view()
