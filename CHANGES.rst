@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.53 (unreleased)
+1.2.53 (2017-03-17)
 -------------------
 
 * Merge pull request #1211 from quaive/token-protected-ics_export [GitHub]
