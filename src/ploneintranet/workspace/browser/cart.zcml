@@ -40,6 +40,14 @@
   <browser:pages
       for="*"
       permission="zope2.View"
+      class=".cart_actions.changemetadata.ChangemetadataView">
+    <browser:page name="cart-changemetadata" attribute="changemetadata"/>
+    <browser:page name="cart-changemetadata-confirm" attribute="confirm"/>
+  </browser:pages>
+
+  <browser:pages
+      for="*"
+      permission="zope2.View"
       class=".cart_actions.retag.RetagView">
     <browser:page name="cart-retag" attribute="retag"/>
     <browser:page name="cart-retag-confirm" attribute="confirm"/>

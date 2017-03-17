@@ -1,6 +1,3 @@
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.MailHost.MailHost import MailHostError
 from base64 import b64encode
 from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer.utils import allowedDocumentType
@@ -13,19 +10,17 @@ from plone.app.contenttypes.interfaces import IImage
 from ploneintranet.api import previews
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from ploneintranet.workspace.utils import parent_workspace
-from urllib import urlencode
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.MailHost.MailHost import MailHostError
 
 import logging
+
 
 log = logging.getLogger(__name__)
 
 
 class MailView(BaseCartView):
-
-    @property
-    def workspace(self):
-        return parent_workspace(self.context)
 
     def confirm(self):
         index = ViewPageTemplateFile("templates/mail_send_confirmation.pt")
@@ -106,12 +101,7 @@ class MailView(BaseCartView):
             request=self.request,
             type="info",
         )
-        params = {
-            'groupname': self.request.get('groupname', ''),
-        }
-        self.request.response.redirect(
-            '{0}?{1}'.format(
-                self.context.absolute_url(), urlencode(params)))
+        return self.redirect()
 
     def attachable_objs(self):
         """

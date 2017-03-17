@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.utils import safe_unicode
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.cart_actions.base import BaseCartView
-from urllib import urlencode
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -16,17 +16,6 @@ class RenameView(BaseCartView):
     def confirm(self):
         index = ViewPageTemplateFile("templates/rename_confirmation.pt")
         return index(self)
-
-    def items_by_permission(self):
-        pm = api.portal.get_tool('portal_membership')
-        modifiable = []
-        not_modifiable = []
-        for item in self.items:
-            if pm.checkPermission('Modify portal content', item):
-                modifiable.append(item)
-            else:
-                not_modifiable.append(item)
-        return (modifiable, not_modifiable)
 
     def rename(self):
         handled = []
@@ -62,10 +51,4 @@ class RenameView(BaseCartView):
                 request=self.request,
                 type="info",
             )
-
-        params = {
-            'groupname': self.request.get('groupname', ''),
-        }
-        self.request.response.redirect(
-            '{0}?{1}'.format(
-                self.context.absolute_url(), urlencode(params)))
+        return self.redirect()
