@@ -4,7 +4,23 @@ Changelog
 1.2.53 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1211 from quaive/token-protected-ics_export [GitHub]
+* Merge branch 'master' into token-protected-ics_export [Alexander Pilz]
+* Merge pull request #1210 from quaive/bulk-change-metadata [GitHub]
+* Add a bulk action to change metadata [ale-rt]
+* Added an update_groupings method [ale-rt]
+* Refactor final redirect [ale-rt]
+* Optimize the catalog queries [ale-rt]
+* Refactor the grouping storage [ale-rt]
+* Optimize catalog queries [ale-rt]
+* Refactor item_by_permission [ale-rt]
+* Refactor workspace property [ale-rt]
+* Merge pull request #1209 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1208 from quaive/fix-sidebar-todos [GitHub]
+* Back to development: 1.2.53 [Manuel Reinhardt]
+* Fix todos in sidebar [ale-rt]
+* Cleanup the template [ale-rt]
+* Create a token protected ics_export [ale-rt]
 
 
 1.2.52 (2017-03-16)
