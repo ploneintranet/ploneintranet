@@ -15,14 +15,27 @@
          tal:condition="news_items"
     >
       <div class="content">
-        <form class="state-toggle pat-inject xpat-autosubmit" action="#"
-              tal:condition="view/can_expand">
-            <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-expanded">
-                <input type="radio" name="portlet-news-state-expanded" value="on">
+        <form class="state-toggle pat-inject pat-autosubmit"
+              method="post"
+              action="${here/absolute_url}/@@${view/__name__}"
+              data-pat-inject="source: #unread-news; target: #unread-news"
+              tal:condition="view/can_expand"
+        >
+            <label class="show-more pat-switch checked"
+                   data-pat-switch="selector: #portlet-news; remove: state-*; add: state-expanded"
+            >
+                <input type="radio"
+                       name="portlet-news-state-expanded"
+                       value="on"
+                >
                 Show more
             </label>
-            <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-news; remove: state-*; add: state-collapsed">
-                <input type="radio" name="portlet-news-state-collapsed" value="on">
+            <label class="show-less pat-switch checked"
+                   data-pat-switch="selector: #portlet-news; remove: state-*; add: state-collapsed">
+                <input type="radio"
+                       name="portlet-news-state-expanded"
+                       value=""
+                >
                 Show less
             </label>
         </form>

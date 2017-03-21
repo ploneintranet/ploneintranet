@@ -254,6 +254,15 @@ class NewsTile(Tile):
             url=url,
         )
 
+    @property
+    @memoize
+    def batch_size(self):
+        ''' Check if we should batch the news_item
+        '''
+        if self.request.form.get('portlet-news-state-expanded') == 'on':
+            return 0
+        return 4
+
     @memoize
     def news_items(self):
         tracker = getUtility(ITracker)
@@ -289,8 +298,13 @@ class NewsTile(Tile):
             obj = item['item'].getObject()
             item['must_read'] = IMaybeMustRead(obj).must_read
         # sort must-read, then on effective
-        return sorted(items, key=lambda x: x['must_read'],
-                      reverse=True)
+        items.sort(key=lambda x: x['must_read'], reverse=True)
+
+        # BBB: implement a proper batching with autoload
+        batch_size = self.batch_size
+        if not batch_size:
+            return items
+        return items[:batch_size]
 
     def can_expand(self):
         return len(self.news_items()) > self.min_num()
