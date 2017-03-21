@@ -37,7 +37,7 @@
                    />
 
                 <a tal:condition="not:view/stop_asking"
-                   href="${context_url}/@@activitystream.tile?stream_filter=${filter}&amp;last_seen=${view/last_seen}&amp;_authenticator=${here/@@authenticator/token}"
+                   href="${context_url}/@@activitystream.tile?stream_filter=${filter}&amp;last_seen=${view/last_seen}&amp;_authenticator=${here/@@authenticator/token}&amp;b_size=${request/b_size|string:5}"
                    class="pat-inject infinite-scrolling-trigger"
                    data-pat-inject="trigger: autoload-visible; source: #stream-items; target: self::element">
                    <tal:trans i18n:translate="info_loading_more_posts">Loading more posts</tal:trans>…</a>

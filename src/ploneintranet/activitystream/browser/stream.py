@@ -24,8 +24,6 @@ logger = logging.getLogger(__name__)
 class StreamBase(object):
     """Shared base class for activity streams"""
 
-    count = 15
-
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -35,6 +33,16 @@ class StreamBase(object):
         else:
             self.last_seen = None
         self.stop_asking = False
+
+    @property
+    @memoize
+    def count(self):
+        ''' The count can be configured through the b_size parameter
+        '''
+        try:
+            return int(self.request.form.get('b_size'))
+        except TypeError:
+            return 5
 
     @property
     def stream_filter(self):

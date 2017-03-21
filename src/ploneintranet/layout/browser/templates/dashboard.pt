@@ -83,8 +83,8 @@
                       Show less
                   </label>
               </form>
-              <form data-tile="./@@newpostbox.tile"/>
-              <div data-tile="./@@activitystream.tile"/>
+              <form data-tile="${here/absolute_url}/@@newpostbox.tile" />
+              <div data-tile="${here/absolute_url}/@@activitystream.tile?b_size=${request/b_size|string:5}"/>
             </div>
           </div>
         </div>
