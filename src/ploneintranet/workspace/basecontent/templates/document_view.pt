@@ -203,10 +203,14 @@
                 </article>
 
                 <tal:c condition="python: context.portal_type == 'File'">
-                  <article class="document preview" tal:condition="view/is_available">
-                    <tal:previews tal:repeat="preview view/previews">
-                      <img src="${preview}" />
-                    </tal:previews>
+                  <article class="document preview"
+                           id="document-previews"
+                           tal:condition="view/is_available">
+                    <a class="batch-preview pat-inject"
+                       data-pat-inject="source: .batch-previews; target: #document-previews; trigger: autoload-visible;"
+                       href="${here/absolute_url}/@@batch-previews?b_start=0"
+                       id="document-previews"
+                    >&nbsp;</a>
                   </article>
                   <article class="document preview" tal:condition="not:view/is_available">
                     <p class="message no-preview"

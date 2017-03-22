@@ -1,0 +1,20 @@
+<div class="batch-previews"
+     tal:define="
+       Batch python:modules['plone.batching'].Batch;
+       previews view/previews;
+       b_id string:batch-previews-autoload-trigger;
+       b_size python:int(request.get('b_size', 1));
+       b_start python:int(request.get('b_start', 0));
+       b_next python:b_start+b_size;
+       b_len python: len(previews);
+       batch python:Batch(previews, b_size, b_start);
+     "
+>
+  <img src="${preview}" tal:repeat="preview batch" />
+  <a class="pat-inject"
+     id="${b_id}"
+     data-pat-inject="source: .batch-previews; target: #${b_id}::element; trigger: autoload-visible"
+     href="${here/absolute_url}/@@batch-previews?b_start=${b_next}"
+     tal:condition="python: b_next<b_len"
+  >&nbsp;</a>
+</div>
