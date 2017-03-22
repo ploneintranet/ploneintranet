@@ -1,7 +1,9 @@
 # coding=utf-8
 from json import dumps
+from json import loads
 from plone import api
 from plone.api.exc import InvalidParameterError
+from plone.app.content.browser.file import FileUploadView
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from zope.publisher.browser import BrowserView
 
@@ -58,8 +60,18 @@ class ImagePickerJson(BrowserView):
             {
                 'id': img['getId'],
                 'title': img['Title'],
-                'url': img.getURL(),
+                'url': '%s/@@images/image/large' % img.getURL(),
                 'thumb': '%s/@@images/image/preview' % img.getURL(),
             } for img in results
         ]
         return dumps(images)
+
+
+class ImageFileUploadJson(FileUploadView):
+
+    def __call__(self):
+        '''
+        '''
+        data = loads(super(ImageFileUploadJson, self).__call__())
+        data['url'] = data['url'] + u'/@@images/image/large'
+        return dumps(data)

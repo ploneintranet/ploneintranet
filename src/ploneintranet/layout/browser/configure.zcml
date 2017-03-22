@@ -194,6 +194,14 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      for="Products.CMFCore.interfaces.IFolderish"
+      name="images-upload.json"
+      class=".utils.ImageFileUploadJson"
+      permission="zope2.View"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
   <plone:tile
       name="tasks.tile"
       title="A title for the tasks"
