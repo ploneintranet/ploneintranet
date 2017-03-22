@@ -133,6 +133,8 @@ class ProtoView(BrowserView):
             return 'icon-document'
         if proto_type == 'event':
             return 'icon-calendar'
+        if proto_type == 'task':
+            return 'icon-tasks'
         if 'news' in proto_type:
             return 'icon-newspaper'
 
