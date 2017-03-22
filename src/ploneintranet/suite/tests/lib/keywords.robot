@@ -60,6 +60,10 @@ I open the Dashboard
     Run Keyword And Ignore Error  Click Element  xpath=//input[@name='form.button.confirm']
     Wait Until Page Contains Element  css=#dashboard
 
+I scroll the Dashboard
+    Execute Javascript  jQuery('.activities .infinite-scrolling-trigger').focus()
+    Wait for injection to be finished
+
 I am in a workspace as a workspace member
     I am logged in as the user allan_neece
     I go to the Open Market Committee Workspace
@@ -187,7 +191,8 @@ I cannot see updates tagged
 
 I click the tag link
     [arguments]  ${tag}
-    Click Link  \#${tag}
+    Wait Until Element Is Visible  jquery=a:contains(#${tag})
+    Click Link  jquery=a:contains(#${tag})
 
 I can toggle following the tag
     Click Element  css=#follow-function button
@@ -205,8 +210,10 @@ I can toggle following the user
 
 I filter the stream as
     [arguments]  ${stream_filter}
+    Wait for injection to be finished
     Click element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}']
     Wait until page contains element  xpath=//select[@name='stream_filter']//option[@value='${stream_filter}'][@selected='selected']
+    Wait for injection to be finished
 
 The message is visible as new status update
     [arguments]  ${message}
