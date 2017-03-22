@@ -24,6 +24,14 @@
   />
 
   <browser:page
+      name="batch-previews"
+      for="*"
+      class=".baseviews.ContentView"
+      permission="zope2.View"
+      template="templates/batch-previews.pt"
+      />
+
+  <browser:page
       for="plone.app.contenttypes.interfaces.IDocument"
       name="edit"
       class=".document.EditView"
