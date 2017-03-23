@@ -1,9 +1,14 @@
 <a class="follow" href="${context/absolute_url}" i18n:domain="ploneintranet">
   <figure class="branded" tal:condition="context/magazine_image">
     <img class="illustration"
+         style="${python:view.get_img_style(scale)}"
+         src="${view/portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png"
+         alt=""
+         tal:define="
+           scale options/scale|string:mini;
+         "
          tal:condition="context/image"
-         style="background-image: url(${context/absolute_url}/@@images/image/large)"
-         src="${view/portal_url}/++theme++ploneintranet.layout/placeholder-16x9.png" alt="">
+    />
   </figure>
   <div class="teaser">
     <h3 class="title">
@@ -22,4 +27,3 @@
 </a>
 <a tal:condition="view/can_edit"
    href="${context/absolute_url}/edit.html" class="edit-button iconified">[Edit]</a>
-
