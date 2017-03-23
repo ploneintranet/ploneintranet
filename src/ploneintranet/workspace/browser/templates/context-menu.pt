@@ -1,8 +1,8 @@
 <div id="content">
     <div id="extra-options">
         <ul class="menu" i18n:domain="ploneintranet">
-            <li>
-                <a href="${context/absolute_url}/contenthistorypopup#content" tal:condition="view/is_versionable" class="iconified icon-history pat-modal" data-pat-modal="class: large" data-pat-inject="source: #content; target: body:after" title="Version history" i18n:attributes="title" i18n:translate="">
+            <li tal:condition="view/is_versionable">
+                <a href="${context/absolute_url}/contenthistorypopup#content" class="iconified icon-history pat-modal" data-pat-modal="class: large" data-pat-inject="source: #content; target: body:after" title="Version history" i18n:attributes="title" i18n:translate="">
                     Version history
                 </a>
             </li>
@@ -20,18 +20,24 @@
                  i18n:translate=""
                 >Delete</a>
             </li>
-            <li>
-                <tal:archiving replace="structure here/@@archive-link-iconified" />
-            </li>
-            <li>
-                <tal:pinning replace="structure here/@@pinning-link-iconified|nothing"></tal:pinning>
-            </li>
-            <li>
-              <tal:history tal:condition="exists:here/@@app-audit-button">
-                <a tal:replace="structure here/@@app-audit-button" />
-              </tal:history>
-            </li>
-
+            <li tal:define="
+                  action here/@@archive-link-iconified|nothing;
+                "
+                tal:condition="action/strip|action"
+                tal:content="structure action"
+            ></li>
+            <li tal:define="
+                  action here/@@pinning-link-iconified|nothing;
+                "
+                tal:condition="action/strip|action"
+                tal:content="structure action"
+            ></li>
+            <li tal:define="
+                  action here/@@app-audit-button|nothing;
+                "
+                tal:condition="action/strip|action"
+                tal:content="structure action"
+            ></li>
         </ul>
     </div>
 </div>
