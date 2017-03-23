@@ -134,10 +134,11 @@
                           >${context/description}</textarea>
                         </fieldset>
 
-                        <fieldset class="bar versioning pat-inject pat-subform" tal:condition="python:context.portal_type in ('File', 'Image')"
-                                  data-pat-inject="source: #document-content; target: #document-content && source: fieldset.versioning; target: fieldset.versioning">
+                        <fieldset class="bar versioning pat-inject pat-subform"
+                                  data-pat-inject="source: #document-content; target: #document-content &amp;&amp; source: fieldset.versioning; target: fieldset.versioning"
+                                  tal:condition="python:not read_only and context.portal_type in ('File', 'Image')"
+                        >
                             <span tal:replace="structure context/@@authenticator/authenticator"/>
-
                             <label class="pat-checklist">
                               <input type="checkbox" name="cmfeditions_save_new_version" id="cmfeditions_save_new_version" /><span tal:omit-tag="" i18n:translate="">Save a new version</span>
                             </label>
