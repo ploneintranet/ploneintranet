@@ -1,25 +1,51 @@
-<div class="row">
-          <div class="eight columns">
+<div class="row"
+     tal:define="
+       news_items view/news_items;
+     "
+>
+          <div class="eight columns"
+               tal:condition="news_items"
+          >
             <div class="news-feed">
-              <!-- First item -->
-              <article tal:repeat="item python: view.news_items()[0:1]"
+              <tal:comment condition="nothing">
+                The first item is displayed with a large image
+              </tal:comment>
+              <article tal:repeat="item python: news_items[:1]"
                        class="item item-${item/counter}">
-                <tal:item replace="structure item/obj/@@feeditem" />
+                <tal:item define="
+                            feeditem nocall:item/obj/@@feeditem;
+                          "
+                          replace="structure python:feeditem.render('large')"
+                />
               </article>
+              <tal:comment condition="nothing">
+                These items are displayed with a preview image.
+                The preview image is useful on small sized devices
+              </tal:comment>
               <div class="row pat-equaliser"
                    tal:define="second_batch python:view.news_items()[1:4]"
                    tal:condition="second_batch">
                 <!-- Item 2-4 -->
                 <article tal:repeat="item second_batch"
                          class="item item-${item/counter} level-2 four columns">
-                  <tal:item replace="structure item/obj/@@feeditem" />
+                  <tal:item define="
+                              feeditem nocall:item/obj/@@feeditem;
+                            "
+                            replace="structure python:feeditem.render('preview')"
+                  />
                 </article>
 
               </div>
-
+              <tal:comment condition="nothing">
+                These items are displayed with a mini image (the default)
+              </tal:comment>
               <article tal:repeat="item python:view.news_items()[4:]"
                        class="item item-${item/counter} level-3">
-                  <tal:item replace="structure item/obj/@@feeditem" />
+                <tal:item define="
+                           feeditem nocall:item/obj/@@feeditem;
+                         "
+                         replace="structure python:feeditem.render('mini')"
+                />
               </article>
             </div>
           </div>
@@ -30,9 +56,16 @@
               <h2 i18n:translate="">
                 Trending
               </h2>
+              <tal:comment condition="nothing">
+                Trending images want a preview image
+              </tal:comment>
               <article tal:repeat="item view/trending_top5"
                        class="item item-${item/counter}">
-                  <tal:item replace="structure item/obj/@@feeditem" />
+                <tal:item define="
+                            feeditem nocall:item/obj/@@feeditem;
+                          "
+                          replace="structure python:feeditem.render('preview')"
+                />
               </article>
 
               <p class="more"
@@ -41,4 +74,4 @@
               </p>
             </div>
           </div>
-        </div>
+</div>

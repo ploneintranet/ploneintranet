@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
+from .utils import obj2dict
 from collective.mustread.interfaces import ITracker
 from plone import api
 from plone.memoize.view import memoize
 from ploneintranet.async.tasks import MarkRead
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.core.i18nl10n import ulocalized_time
 from ploneintranet.layout.utils import shorten
 from Products.Five.browser import BrowserView
 from sqlalchemy.exc import OperationalError
 from zope.component import getUtility
 
-from .utils import obj2dict
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.core.i18nl10n import ulocalized_time
-
 import logging
+
+
 log = logging.getLogger(__name__)
 
 
@@ -125,6 +126,19 @@ class FeedItem(BrowserView):
             return self.context.section.to_object.title
         except AttributeError:
             return None
+
+    def get_img_style(self, scale='mini'):
+        ''' Return the style for the image tag
+        '''
+        return 'background-image: url({url}/@@images/image/{scale})'.format(
+            scale=scale,
+            url=self.context.absolute_url(),
+        )
+
+    def render(self, scale='mini'):
+        ''' Call the index passing the scale as an option
+        '''
+        return self.index(scale=scale)
 
 
 class NewsItemView(NewsMagazine):

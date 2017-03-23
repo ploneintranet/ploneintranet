@@ -18,12 +18,6 @@
     <include package=".browser" />
     <include package=".upgrades" />
 
-    <plone:static
-        directory="static"
-        type="theme"
-        name="ploneintranet.layout"
-        />
-
     <!-- switch off all IAppLayer on the navigation root -->
     <subscriber
         for="plone.app.layout.navigation.interfaces.INavigationRoot
@@ -36,7 +30,7 @@
     <adapter
         for="plone.dexterity.interfaces.IDexterityContent"
         factory=".adapters.AppContent" />
-    
+
     <genericsetup:registerProfile
         name="default"
         title="Plone Intranet: -- [Layout]"
