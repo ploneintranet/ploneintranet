@@ -58,7 +58,7 @@
                          data-pat-inject="url: ${context/absolute_url}/edit.html#hero-upload"
                          title="Upload a new hero image that may be displayed in the news overview pages."
                          tal:define="has_image context/image">
-                    <img src="${context/absolute_url}/@@images/image/preview" alt=""
+                    <img src="${context/absolute_url}/@@images/image/mini" alt=""
                          tal:condition="has_image"/>
                     <span class="pat-button upload-button"
                           tal:condition="has_image"
