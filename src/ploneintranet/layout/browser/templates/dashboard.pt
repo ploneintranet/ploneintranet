@@ -59,18 +59,24 @@
         <div id="dashboard"
              class="row pat-masonry"
              data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .portlet; stamp: .stamp;"
-             tal:condition="python: dashboard == 'activity'">
+             tal:define="
+               activity_tiles view/activity_tiles;
+             "
+             tal:condition="python: dashboard == 'activity'"
+        >
           <div class="grid-sizer four columns"></div>
-
-          <a tal:repeat="tile view/activity_tiles"
-             id="custom-tile-${repeat/tile/index}"
-             href="${here/absolute_url}/${tile}"
-             class="pat-inject span-1"
-             hidden
-             data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
-            >${tile}</a>
-
-          <div class="portlet span-2 state-expanded stamp right" id="portlet-activity-stream">
+          <div class="portlet span-1"
+            id="tile-before-${repeat/tile/index}"
+            hidden
+            tal:condition="activity_tiles"
+            tal:repeat="tile python:activity_tiles[:1]"
+            >
+            <a class="pat-inject span-1"
+              href="${here/absolute_url}/${tile}"
+              data-pat-inject="source:.portlet::element; target: #tile-before-${repeat/tile/index}::element; trigger:autoload"
+              >${tile}</a>
+            </div>
+          <div class="portlet span-2 state-expanded" id="portlet-activity-stream">
             <div class="content">
               <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
               <form class="state-toggle pat-inject xpat-autosubmit" action="#">
@@ -86,6 +92,17 @@
               <form data-tile="${here/absolute_url}/@@newpostbox.tile" />
               <div data-tile="${here/absolute_url}/@@activitystream.tile?b_size=${request/b_size|string:5}"/>
             </div>
+          </div>
+          <div class="portlet span-1"
+               id="custom-tile-${repeat/tile/index}"
+               hidden
+               tal:condition="activity_tiles"
+               tal:repeat="tile python:activity_tiles[1:]"
+          >
+            <a class="pat-inject span-1"
+               href="${here/absolute_url}/${tile}"
+               data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
+            >${tile}</a>
           </div>
         </div>
 
