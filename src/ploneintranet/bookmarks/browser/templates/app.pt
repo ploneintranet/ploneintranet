@@ -60,7 +60,10 @@
                        i18n:attributes="placeholder"
                        placeholder="Search bookmarks"/>
               </form>
-
+              <p class="pat-message notice"
+                tal:condition="not:view/my_bookmarks_grouped"
+                i18n:translate=""
+                >No bookmarks were found</p>
               <div class="directory"
                    tal:define="
                        items_grouped view/my_bookmarks_grouped;
@@ -93,6 +96,10 @@
             <div id="directory-apps">
               <div class="row tiles apps pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                 <div class="grid-sizer"></div>
+                <p class="pat-message notice"
+                   tal:condition="not:view/my_bookmarked_apps"
+                   i18n:translate=""
+                >No bookmarks were found</p>
                 <tal:apps tal:repeat="app view/my_bookmarked_apps">
                   <tal:app define="app app/getObject" replace="structure app/@@app-tile" />
                 </tal:apps>
@@ -103,6 +110,10 @@
               <div class="row tiles workspaces pat-masonry"
                    data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;">
                 <div class="grid-sizer four columns"></div>
+                <p class="pat-message notice"
+                   tal:condition="not:view/my_bookmarked_workspaces"
+                   i18n:translate=""
+                >No bookmarks were found</p>
                 <tal:repeat repeat="workspace view/my_bookmarked_workspaces">
                   <div data-tile="${workspace/url}/@@workspace.tile" />
                 </tal:repeat>
@@ -110,6 +121,10 @@
             </div>
 
             <div id="directory-people">
+              <p class="pat-message notice"
+                tal:condition="not:view/my_bookmarked_people"
+                i18n:translate=""
+                >No bookmarks were found</p>
               <div class="row people user-cards results pat-equaliser">
                 <tal:repeat repeat="person view/my_bookmarked_people">
                   <div class="item" tal:define="person person/getObject">
@@ -152,6 +167,10 @@
             </div><!-- #directory-people -->
 
             <div id="directory-documents">
+              <p class="pat-message notice"
+                tal:condition="not:view/my_bookmarked_documents"
+                i18n:translate=""
+                >No bookmarks were found</p>
               <div class="office results pat-masonry office-files document-previews"
                    data-pat-masonry="column-width: .item; gutter: 0;">
                 <tal:repeat repeat="item view/my_bookmarked_documents">
