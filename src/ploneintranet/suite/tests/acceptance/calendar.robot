@@ -26,8 +26,10 @@ User can access the calendar app
 
 I can go to the calendar application
     I can Click the Apps tab
+    Wait until element is visible  css=div.app-calendar
     Click Element  css=div.app-calendar
-    Wait until element is visible  css=div.pat-calendar
-    Wait until element is visible  css=button.view-week
-    Wait until element is visible  css=div.calendar
+    Wait for injection to be finished
+    Page should contain element  css=div.pat-calendar
+    Page should contain element  css=button.view-week
+    Page should contain element  css=div.calendar
     Page should contain element  css=select.timezone
