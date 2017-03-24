@@ -83,7 +83,8 @@ I can see the file preview in the stream
 
 I can open the file from the stream preview
    Wait Until Element Is visible   css=#activity-stream .document-preview a[href$='/basic.txt']
-   Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
+   # Sometimes the element is visible but covered by some tile injected on the dashboard
+   Wait Until Keyword Succeeds  1 sec  100 ms  Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
    Wait until page contains  Proin at congue nisl
 
 I add a UTF-8 file
