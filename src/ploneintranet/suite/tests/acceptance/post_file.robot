@@ -76,6 +76,7 @@ I can see the file preview in the post box
 
 I submit the new post
     Click Element  css=button[name='form.buttons.statusupdate']
+    Wait for injection to be finished
 
 I can see the file preview in the stream
     Wait Until Element Is visible   css=#activity-stream .document-preview img[src$='/basic.txt/small']
