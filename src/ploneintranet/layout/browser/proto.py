@@ -84,6 +84,8 @@ class ProtoView(BrowserView):
             return 'email'
         if 'profile' in value or 'person' in value:
             return 'people'
+        if 'file' in value:
+            return 'file'
         # This is our fallback
         logger.warn('Unrecognized friendly type: %s', value)
         return 'file'
