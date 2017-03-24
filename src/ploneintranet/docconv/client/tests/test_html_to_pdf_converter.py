@@ -71,7 +71,8 @@ class TestHTMLToPDF(FunctionalTestCase):
         # even if it is scaled
         local_mini_path = local_image_path + '/@@images/image/mini'
         observed = converter.get_local_image(local_mini_path)
-        self.assertEqual(len(observed[0]), 2626)
+        # Image compression may return different results on different platforms
+        self.assertAlmostEqual(len(observed[0]), 2626, delta=10)
         self.assertTupleEqual(observed[1:], (200, 45))
 
     def test_run_conversion(self):
