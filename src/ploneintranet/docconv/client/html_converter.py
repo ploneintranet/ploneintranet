@@ -3,7 +3,6 @@ collective.documentviewer and save it on the object.
 """
 from Acquisition import aq_inner
 from BeautifulSoup import BeautifulSoup
-from PIL import Image
 from collective.documentviewer.convert import Converter
 from collective.documentviewer.convert import docsplit
 from collective.documentviewer.settings import GlobalSettings
@@ -11,6 +10,7 @@ from collective.documentviewer.settings import Settings
 from collective.documentviewer.utils import getDocumentType
 from collective.documentviewer.utils import getPortal
 from logging import getLogger
+from PIL import Image
 from plone import api
 from plone.app.blob.field import ImageField
 from ploneintranet.workspace.config import PDF_VERSION_KEY
@@ -22,6 +22,7 @@ from zope.annotation import IAnnotations
 import codecs
 import httplib
 import os
+
 
 logger = getLogger('collective.documentviewer')
 
@@ -58,23 +59,49 @@ class HTMLConverter(Converter):
 
         return url
 
+    def get_image_scale(self, obj, field, scale):
+        ''' Get a scaled image from an object
+
+        :param obj: The Plone content object to get scale for
+        :type obj: A Plone content object
+        :param field: field that stores the image
+        :type field: str
+        :param scale: If True add a timestamp to the URLs
+        :type scale: bool
+        :return: The preview image
+        :rtype: plone.namedfile.file.NamedBlobImage
+        '''
+        view = obj.restrictedTraverse('@@images')
+        return view.traverse(field, [scale]).scale.data
+
     def get_local_image(self, path):
+        path, scale_path = path.partition('/@@images/')[::2]
         try:
             img_obj = self.context.restrictedTraverse(path)
         except (KeyError, AttributeError) as e:
             logger.warn('Could not get image object for {0}: '
                         'KeyError {1}'.format(path, e))
             return (None, 0, 0)
+
         if not img_obj:
             logger.warn('Empty image object: %s' % path)
             return (None, 0, 0)
-        if not hasattr(img_obj, 'image'):
-            # doesn't seem to be a blob image
-            logger.warn('Could not get image data: %s' % path)
-            return (None, 0, 0)
-        img_data = img_obj.image.data
-        width, height = img_obj.image.getImageSize()
-        return (img_data, width, height)
+
+        if not scale_path:
+            if not hasattr(img_obj, 'image'):
+                # doesn't seem to be a blob image
+                logger.warn('Could not get image data: %s' % path)
+                return (None, 0, 0)
+            namedblobimage = img_obj.image
+        else:
+            try:
+                field, scale = scale_path.split('/')
+                namedblobimage = self.get_image_scale(img_obj, field, scale)
+            except:
+                logger.warn('Cannot scale path %s, %s' % (path, scale_path))
+                return (None, 0, 0)
+
+        return (namedblobimage.data,) + namedblobimage.getImageSize()
 
     def extract_images(self, soup, tempdir):
         index = 0
