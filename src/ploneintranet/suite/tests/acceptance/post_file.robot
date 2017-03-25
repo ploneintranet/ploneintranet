@@ -76,13 +76,15 @@ I can see the file preview in the post box
 
 I submit the new post
     Click Element  css=button[name='form.buttons.statusupdate']
+    Wait for injection to be finished
 
 I can see the file preview in the stream
     Wait Until Element Is visible   css=#activity-stream .document-preview img[src$='/basic.txt/small']
 
 I can open the file from the stream preview
    Wait Until Element Is visible   css=#activity-stream .document-preview a[href$='/basic.txt']
-   Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
+   # Sometimes the element is visible but covered by some tile injected on the dashboard
+   Wait Until Keyword Succeeds  1 sec  100 ms  Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
    Wait until page contains  Proin at congue nisl
 
 I add a UTF-8 file
