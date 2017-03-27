@@ -26,6 +26,7 @@ class UpdateSocialBase(BrowserView):
     button_prefix = 'form.buttons.'
 
     @property
+    @memoize
     def thread_id(self):
         """ Return the thread_id
         (used e.g. for commenting other status updates)

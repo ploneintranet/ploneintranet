@@ -1,5 +1,6 @@
 # coding=utf-8
 from plone import api
+from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from Products.Five.browser import BrowserView
 
@@ -44,6 +45,7 @@ class ContentStreamView(BrowserView):
         return len([su for su in self._statusupdates_all()
                     if su.thread_id])
 
+    @memoize
     def _statusupdates_threadparents(self):
         """Render all shares, except when it's an older share
         without any replies.
@@ -64,9 +66,10 @@ class ContentStreamView(BrowserView):
                 if su.id in reply_thread_ids or
                 su is last]
 
+    @memoize
     def _statusupdates_all(self):
         container = pi_api.microblog.get_microblog()
-        return container.content_values(self.context)
+        return list(container.content_values(self.context))
 
     def __call__(self):
         ''' On the content stream we want all the comments,
