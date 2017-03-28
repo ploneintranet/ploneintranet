@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
-from plone.protect import PostOnly
 from plone.app.uuid.utils import uuidToCatalogBrain
+from plone.memoize.view import memoize
+from plone.protect import PostOnly
 from ploneintranet import api as piapi
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.network.interfaces import INetworkTool
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -30,6 +31,43 @@ class ToggleLike(BrowserView):
         self.util = getUtility(INetworkTool)
         self.item_id = api.content.get_uuid(self.context)
         self.like_type = "content"
+
+    @property
+    @memoize
+    def likerids(self):
+        ''' The id of the people that like this content
+        '''
+        return self.util.get_likers(
+            self.like_type,
+            item_id=self.item_id,
+        )
+
+    @property
+    @memoize
+    def likers(self):
+        ''' The id of the people that like this content
+
+        If it includes the current user, return Myself as the first element
+        '''
+        likers = []
+        userid = api.user.get_current().id
+        include_myself = False
+        for likerid in self.likerids:
+            if likerid == userid:
+                include_myself = True
+            else:
+                liker = piapi.userprofile.get(likerid)
+                if liker:
+                    likers.append(liker.fullname)
+                else:
+                    likers.append(likerid)
+        likers.sort()
+        if include_myself:
+            likers.insert(0, self.context.translate(_(u'Myself')))
+        return u', '.join(likers)
+
+    def total_likes(self):
+        return len(self.likerids)
 
     def __call__(self):
         """ """
@@ -72,13 +110,6 @@ class ToggleLike(BrowserView):
         """Check if item_id is a valid UUID"""
         if uuidToCatalogBrain(item_id) is not None:
             return True
-
-    def total_likes(self):
-        likes = self.util.get_likers(
-            self.like_type,
-            item_id=self.item_id,
-        )
-        return len(likes)
 
 
 @implementer(IPublishTraverse)
