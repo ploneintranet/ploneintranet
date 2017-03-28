@@ -98,6 +98,7 @@
                 </div>
                 <input type="hidden" name="form.submitted" value="1" />
               </form>
+              <div tal:replace="structure context/@@content-stream.html"></div>
             </div>
 
             <aside data-tile="${workspace_url}/@@sidebar.default"
