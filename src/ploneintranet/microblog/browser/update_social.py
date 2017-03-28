@@ -1,15 +1,16 @@
 # coding=utf-8
-import logging
-from Products.Five.browser import BrowserView
-from plone import api
-
 from datetime import datetime
+from plone import api
 from plone.memoize.view import memoize
 from ploneintranet import api as piapi
 from ploneintranet.attachments.attachments import IAttachmentStoragable
 from ploneintranet.attachments.utils import extract_and_add_attachments
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.microblog.statusupdate import StatusUpdate
+from Products.Five.browser import BrowserView
+
+import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -265,3 +266,93 @@ class UpdateSocialView(UpdateSocialBase):
                 default=u"What are you doing?"
             )
         return self.microblog_context.translate(placeholder)
+
+
+class FirstCommentView(UpdateSocialHandler):
+    ''' This view initializes the comment stream on contexts that still
+    have no comments
+    '''
+    form_id = 'comment-box'
+    thread_id = None
+    direct = False
+
+    @property
+    @memoize
+    def attachment_form_token(self):
+        ''' Set up a token used in the attachment form
+        '''
+        member = api.user.get_current()
+        userid = member.getId()
+        return "{0}-{1}".format(
+            userid,
+            datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
+        )
+
+    @memoize
+    def form_action(self):
+        ''' Submit to itself
+        '''
+        return '/'.join((self.microblog_context_url, self.__name__))
+
+    @property
+    @memoize
+    def placeholder(self):
+        placeholder = _(
+            u"leave_a_comment",
+            default=u"Leave a comment..."
+        )
+        return self.microblog_context.translate(placeholder)
+
+    @property
+    def microblog_context(self):
+        ''' The context of this microblog post
+        (the portal, a workspace, and so on...)
+        '''
+        return self.context
+
+    def create_post(self):
+        ''' We need first to initialize the content stream, then we can comment
+        '''
+        if not (self.post_text or self.post_attachment):
+            return
+        parent = piapi.microblog.statusupdate.create(
+            content_context=self.context,
+            action_verb=u'created',
+            tags=self.context.Subject() or None,
+            userid=self.context.Creator(),
+            time=self.context.created().asdatetime(),
+        )
+        post = piapi.microblog.statusupdate.create(
+            text=self.post_text,
+            microblog_context=self.microblog_context,
+            thread_id=parent.id,
+            mention_ids=self.post_mentions,
+            tags=self.post_tags,
+        )
+        self.create_post_attachment(post)
+        return post
+
+    def get_pat_inject(self, form_id, thread_id):
+        ''' This will return the a string to fill the
+        data-pat-inject attribute
+
+        It varies according to the fact we are creating:
+         - a status update (no thread_id)
+         - a comment to the status update
+        '''
+        return (
+            'source: #comments-document-comments; '
+            'target: #comments-document-comments; '
+        )
+
+    def __call__(self):
+        ''' Call update and see if a post was created.
+        If yes return the content stream that will contain
+        the newly created post and a commentbox.
+        '''
+        self.update()
+        if not self.post:
+            return super(FirstCommentView, self).__call__()
+        return self.request.response.redirect(
+            '%s/@@content-stream.html' % self.context.absolute_url()
+        )

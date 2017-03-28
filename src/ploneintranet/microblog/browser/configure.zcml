@@ -25,7 +25,16 @@
       template="templates/update-social.html"
       permission="ploneintranet.microblog.AddStatusUpdate"
       />
-  
+
+  <browser:page
+      name="first-comment.html"
+      for="*"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      class=".update_social.FirstCommentView"
+      template="templates/update-social.html"
+      permission="ploneintranet.microblog.AddStatusUpdate"
+      />
+
   <browser:page
       name="post-well-done.html"
       for="*"
@@ -34,7 +43,7 @@
       template="templates/post-well-done.html"
       permission="ploneintranet.microblog.AddStatusUpdate"
       />
-  
+
   <browser:page
       name="comment-well-said.html"
       for="*"
@@ -43,7 +52,7 @@
       template="templates/comment-well-said.html"
       permission="ploneintranet.microblog.AddStatusUpdate"
       />
-  
+
   <browser:view
       for="*"
       name="panel-tags"
@@ -67,5 +76,5 @@
       permission="ploneintranet.microblog.AddStatusUpdate"
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       />
-  
+
 </configure>
