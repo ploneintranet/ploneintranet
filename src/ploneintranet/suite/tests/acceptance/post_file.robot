@@ -22,6 +22,7 @@ Alice can attach a file to a post
     Then I can see the file preview in the post box
 
 Alice can submit a post with a file attachment
+    [Tags]  Heisenbug
    Given I am logged in as the user alice_lindstrom
      And I open the Dashboard
     When I create a new post
