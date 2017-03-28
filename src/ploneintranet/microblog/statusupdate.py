@@ -58,6 +58,8 @@ class StatusUpdate(Persistent):
         self._init_content_context(thread_id, content_context)
         self.tags = tags
         self._verb = action_verb
+        # Initialize the attachment storage (see #1230)
+        IAttachmentStorage(self, None)
 
     def edit(self, text):
         """keeps original text across multiple edits"""
