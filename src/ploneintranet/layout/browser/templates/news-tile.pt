@@ -50,7 +50,7 @@
                      style="${python:view.get_img_style(news, scale)}"
                      src="${portal_url}/++theme++ploneintranet.theme/generated/media/placeholder-16x9.png"
                      alt=""
-                     tal:define="scale python: 'large' if (portletspan != 'span-1' and repeat.news.index == 0) else 'mini'"
+                     tal:define="scale python: 'mini' if repeat.news.index != 0 else ('large' if portletspan != 'span-1' else 'preview')"
                 />
                 <h3 class="title">
                   ${news/title}
