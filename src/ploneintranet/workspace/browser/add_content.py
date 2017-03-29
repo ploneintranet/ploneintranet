@@ -10,6 +10,7 @@ from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.container.interfaces import INameChooser
+from zope.deprecation import deprecate
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
 
@@ -281,34 +282,67 @@ class AddEvent(AddBase):
             url = workspace.absolute_url() + '?show_sidebar#workspace-events'
         return self.request.response.redirect(url)
 
+    def round_date(self, dt):
+        ''' Round the datetime minutes and seconds to the next quarter,
+        i.e. '2000/01/01 00:35:21' becomes '2000/01/01 00:30:00'
+        '''
+        remainder = float(dt) % 900
+        if not remainder:
+            return dt
+        return dt + (900 - float(dt) % 900) / 86400
+
     @property
     @memoize
     def default_datetime(self):
         ''' Return the default date (the requested one or now)
+
+        The request may come from several sources, e.g.:
+
+        1. from the sidebar
+        2. from the calendar month view
+        3. from the calendar day and week views
+
+        Each of this cases may have a date parameter in different formats.
+        We try to convert it to a DateTime.
         '''
-        requested_date = self.request.get('date')
-        if requested_date:
-            requested_date += ' 08:00'
+        requested_date = self.request.get('date', '')
+        # The requeste_date, when called by the calendar day and week view,
+        # will look like '2017-03-29T13:30:00'
+        if 'T' in requested_date:
+            # Strip the "T" to have the local timezone
+            requested_date = requested_date.replace('T', ' ')
+        else:
+            # 'T' in not there, assume we have only the date in the request
+            requested_date += ' 09:00'
         try:
+            requested_date = ' '.join((requested_date, DateTime().localZone()))
             date = DateTime(requested_date)
         except SyntaxError:
             date = DateTime()
         return date
 
+    @property
+    @memoize
     def default_start(self):
-        dt = self.default_datetime
-        time = self.round_minutes(dt.TimeMinutes())
-        result = DateTime(dt.Date() + " " + time)
-        return result
+        ''' The rounded default_datetime.
+        '''
+        return self.round_date(self.default_datetime)
 
+    @property
+    @memoize
     def default_end(self):
-        dt = self.default_datetime
-        time = self.round_minutes(dt.TimeMinutes())
-        parts = time.split(":")
-        parts[0] = str((int(parts[0]) + 1) % 24)
-        result = DateTime(dt.Date() + " " + parts[0] + ":" + parts[1])
-        return result
+        ''' Like default_start, but add a time interval (in hours)
 
+        We will have a 'T' in the request parameter
+        if the request comes from the day or the week calendar view
+        '''
+        delta = 'T' in self.request.get('date', '') and 0.5 or 1.
+        return self.default_start + delta / 24
+
+    @deprecate(
+        'The method round_minutes has been replaced '
+        'by the more powerful round_date'
+    )
     def round_minutes(self, time):
         hours, minutes = time.split(":")
         if minutes != "00":
