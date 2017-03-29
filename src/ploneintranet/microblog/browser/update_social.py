@@ -126,7 +126,7 @@ class UpdateSocialHandler(UpdateSocialBase):
         extract_and_add_attachments(
             self.post_attachment,
             post,
-            workspace=self.context,
+            workspace=self.microblog_context,
             token=token
         )
 
@@ -292,7 +292,7 @@ class FirstCommentView(UpdateSocialHandler):
     def form_action(self):
         ''' Submit to itself
         '''
-        return '/'.join((self.microblog_context_url, self.__name__))
+        return '/'.join((self.context.absolute_url(), self.__name__))
 
     @property
     @memoize
@@ -301,14 +301,7 @@ class FirstCommentView(UpdateSocialHandler):
             u"leave_a_comment",
             default=u"Leave a comment..."
         )
-        return self.microblog_context.translate(placeholder)
-
-    @property
-    def microblog_context(self):
-        ''' The context of this microblog post
-        (the portal, a workspace, and so on...)
-        '''
-        return self.context
+        return self.context.translate(placeholder)
 
     def create_post(self):
         ''' We need first to initialize the content stream, then we can comment
