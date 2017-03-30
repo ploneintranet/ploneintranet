@@ -97,6 +97,7 @@ Allan can add a tag to his tag filter stream and remove it again
     Given I am logged in as the user allan_neece
     and I open the Dashboard
     and I scroll the Dashboard
+    and I scroll the Dashboard
     and I click the tag link  confidential
     when I can toggle following the tag
     and I open the Dashboard
