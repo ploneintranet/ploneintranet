@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.54 (unreleased)
+1.2.54 (2017-03-30)
 -------------------
 
 * Merge pull request #1241 from quaive/update-versions [GitHub]
