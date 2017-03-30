@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from plone import api
 from ploneintranet.workspace.tests.base import FunctionalBaseTestCase
+
 import os
 import unittest
 
@@ -103,3 +105,51 @@ class TestAddContent(FunctionalBaseTestCase):
         self.browser.getControl(name='form.buttons.create').click()
         new = self.workspace['my-folder']
         self.assertEqual(new.portal_type, 'Folder')
+
+    def test_add_event_round_date(self):
+        view = api.content.get_view(
+            'add_event',
+            self.portal,
+            self.request,
+        )
+
+        self.assertEqual(
+            view.round_date(DateTime('2000/01/01 00:00:00 GMT+2')),
+            DateTime('2000/01/01 00:00:00 GMT+2')
+        )
+        self.assertEqual(
+            view.round_date(DateTime('2000/01/01 00:15:00 GMT+2')),
+            DateTime('2000/01/01 00:15:00 GMT+2')
+        )
+        self.assertEqual(
+            view.round_date(DateTime('2000/01/01 00:15:01 GMT+2')),
+            DateTime('2000/01/01 00:30:00 GMT+2')
+        )
+
+    def test_add_event_default_dates(self):
+        view = api.content.get_view(
+            'add_event',
+            self.portal,
+            self.request.clone(),
+        )
+        # if we do not request any date, the date will be today,
+        # the time will be 9:00 AM
+        # The code should take care of the current timezone
+        self.assertEqual(view.default_datetime.hour(), 9)
+        self.assertEqual(view.default_datetime, view.default_start)
+        self.assertEqual(view.default_end.hour(), 10)
+
+        # if we pass a date it will be used to setup the defaults
+        view.request.set('date', '2000/01/01')
+        view.request.__annotations__.pop('plone.memoize')
+        self.assertEqual(view.default_end.year(), 2000)
+        self.assertEqual(view.default_end.hour(), 10)
+        self.assertEqual(view.default_end.minute(), 0)
+
+        # if we pass a date ant a time it will be used to setup the defaults
+        view.request.set('date', '2000/01/01T08:30')
+        view.request.__annotations__.pop('plone.memoize')
+        self.assertEqual(view.default_start.hour(), 8)
+        self.assertEqual(view.default_start.minute(), 30)
+        self.assertEqual(view.default_end.hour(), 9)
+        self.assertEqual(view.default_end.minute(), 0)
