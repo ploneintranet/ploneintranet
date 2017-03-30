@@ -167,19 +167,17 @@ class StatusUpdateView(BrowserView):
         is_image = False
         if isinstance(item, Image):
             is_image = True
-            # # this suffers from a bug
-            # # 'large' should return 768x768 but instead returns 400x400
-            # images = api.content.get_view(
-            #     'images',
-            #     item.aq_base,
-            #     self.request,
-            # )
-            # url = '/'.join((
-            #     item_url,
-            #     images.scale(scale='large').url.lstrip('/'),
-            # ))
-            # # use unscaled instead
-            url = item_url
+            # this suffers from a bug
+            # 'large' should return 768x768 but instead returns 400x400
+            images = api.content.get_view(
+                'images',
+                item.aq_base,
+                self.request,
+            )
+            url = '/'.join((
+                item_url,
+                images.scale(scale='large').url.lstrip('/'),
+            ))
         elif pi_api.previews.get(item):
             url = '/'.join((item_url, 'small'))
         else:

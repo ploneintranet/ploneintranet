@@ -258,7 +258,9 @@ Creating a page creates a statusupdate
     And I filter the stream as  content
     Then the stream links to the document     My created document
 
+# https://github.com/quaive/ploneintranet/issues/607
 Publishing a page creates a statusupdate
+    [Tags]  Heisenbug
     Given I am in a workspace as a workspace member
     And I can create a new document    My created document
     And I save the document
