@@ -43,7 +43,7 @@
       <tal:workspace_tasks tal:condition="not: ws/is_case">
         <fieldset class="object-list tasks pat-checklist">
           <tal:task repeat="task tasks">
-            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
+            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar" />
           </tal:task>
         </fieldset>
       </tal:workspace_tasks>
@@ -72,7 +72,7 @@
                   i18n:translate=""
               >${milestone/title}</h4>
               <tal:task repeat="task python:tasks[milestone_id]">
-                  <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
+                  <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar" />
               </tal:task>
               <p class="button-bar">
                 <a class="icon-plus-circle small button pat-modal"
@@ -110,7 +110,7 @@
             Unassigned
           </h3>
           <tal:task repeat="task uatasks">
-            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar">
+            <tal:replace define="obj nocall:task/obj" replace="structure obj/@@todo_in_sidebar" />
           </tal:task>
         </fieldset>
       </tal:case_tasks>
