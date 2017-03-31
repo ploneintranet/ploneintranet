@@ -7,8 +7,12 @@
 <!-- ploneintranet.prototype/_includes/comment.html -->
 
 <div class="comment"
+     id="${context/thread_id}-comment-${context/id}"
+     tal:define="
+       is_slow here/@@proto/is_slow;
+     "
      i18n:domain="ploneintranet"
-     id="${context/thread_id}-comment-${context/id}">
+>
      <div class="comment-header">
          <a href="${view/portal_url}/author/${here/userid}">
            <img tal:replace="structure view/avatar">
@@ -56,7 +60,12 @@
      <section class="preview">
        <figure tal:repeat="attachment view/attachments">
          <a href="${attachment/link|attachment}">
-           <img alt="" src="${attachment/img_src|attachment}" alt="" />
+           <img alt="${attachment/title}"
+                src="${attachment/img_src|attachment}"
+                title="${attachment/title}"
+                tal:condition="not:is_slow"
+            />
+            <tal:title condition="is_slow">${attachment/title}</tal:title>
          </a>
        </figure>
      </section>
