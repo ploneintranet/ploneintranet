@@ -236,14 +236,15 @@
              tal:define="preview_src python:view.content_preview_urls()[0]"
              tal:attributes="href view/content_url;
                              alt content_context/Title">
-  	    <img src="${preview_src}" alt="" />
-  	  </a>
+            <img src="${preview_src}" alt="" />
+  	      </a>
           <a tal:condition="view/content_has_leadimage"
              tal:attributes="href view/content_url;
                              alt content_context/Title">
-  	    <img src="${content_context/absolute_url}/@@images/image/large"
-                 tal:condition="content_context/image"
-                 alt="" />
+          <img alt=""
+               src="${content_context/absolute_url}/@@images/image/large"
+               tal:condition="python:not is_slow and content_context.image"
+          />
   	</a>
   	<figcaption>
   	  <strong class="title">
