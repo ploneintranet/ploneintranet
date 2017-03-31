@@ -1,5 +1,6 @@
 # coding=utf-8
 from logging import getLogger
+from plone import api
 from plone.memoize import forever
 from plone.memoize.view import memoize_contextless
 from Products.Five import BrowserView
@@ -156,3 +157,17 @@ class ProtoView(BrowserView):
         """
         short_month_name = date.strftime('%b').lower()  # jan
         return self.translate_short_month_name(short_month_name)
+
+    @memoize_contextless
+    def is_slow(self):
+        ''' Check if should serve a version with reduced functionality
+        '''
+        ips = (
+            self.request.get('HTTP_X_FORWARDED_FOR') or
+            self.request.get('REMOTE_ADDR', '')
+        ).split()
+        bad_ips = api.portal.get_registry_record(
+            'ploneintranet.layout.known_bad_ips',
+            default=(),
+        ) or ()
+        return not set(ips).isdisjoint(bad_ips)

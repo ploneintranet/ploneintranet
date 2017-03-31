@@ -177,5 +177,25 @@
         source="*"
         destination="0014"
         handler=".to_0014.add_custom_dashboard_tiles"
-        profile="ploneintranet.layout:default" />
+        profile="ploneintranet.layout:default"
+        />
+
+    <genericsetup:registerProfile
+        name="to_0015"
+        title="Add known bad ips"
+        description=""
+        directory="profiles/to_0015"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add known bad ips"
+        description=""
+        source="*"
+        destination="0015"
+        handler=".to_0015.add_known_bad_ips"
+        profile="ploneintranet.layout:default"
+        />
+
 </configure>

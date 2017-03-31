@@ -1,4 +1,5 @@
 # coding=utf-8
+from contextlib import contextmanager
 from json import loads
 from mock import patch
 from plone import api
@@ -8,6 +9,19 @@ from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.utils import in_app
 from Products.Five import BrowserView
 from zope.interface import alsoProvides
+
+
+@contextmanager
+def temporary_registry_record(key, value):
+    '''Temporarily set up a registry record
+    '''
+    pr = api.portal.get_tool('portal_registry')
+    backup = pr._records[key].value
+    pr._records[key].value = value
+    try:
+        yield value
+    finally:
+        pr._records[key].value = backup
 
 
 class FakeCurrentUser(object):
@@ -437,3 +451,16 @@ class TestViews(IntegrationTestCase):
             DEFAULT_IMAGE_TAG,
             self.portal.login_form()
         )
+
+    def test_proto_slow(self):
+        ''' the is_slow function
+        '''
+        with temporary_registry_record(
+            'ploneintranet.layout.known_bad_ips',
+            (u'666.666.666.666',)
+        ):
+            proto = self.get_view('proto')
+            self.assertFalse(proto.is_slow())
+            proto.request.__annotations__.pop('plone.memoize')
+            proto.request.environ.update({'REMOTE_ADDR': u'666.666.666.666 1'})
+            self.assertTrue(proto.is_slow())
