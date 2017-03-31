@@ -145,16 +145,17 @@
         </tal:comment>
 
         <tal:stream_document condition="not:is_image">
-          <section class="document preview"
-                   tal:attributes="class python:has_preview and 'document document-preview' or 'document document-preview not-possible'">
+          <section class="document document document-preview ${python: 'not-possible' if (is_slow or not has_preview) else ''}">
             <figure>
-              <a href="#"
-                 i18n:attributes="title"
+              <a href="${attachment/link}"
                  title="Download this file"
-                 tal:attributes="href attachment/link">
-                <img src="/media/preview_thumb_1.jpg" alt=""
-                     tal:condition="has_preview"
-                     tal:attributes="src attachment/img_src" />
+                 i18n:attributes="title"
+              >
+                <img alt="${attachment/title}"
+                     title="${attachment/title}"
+                     src="${attachment/img_src}"
+                     tal:condition="python:not is_slow and has_preview"
+                />
               </a>
               <figcaption>
                 <strong class="title">
