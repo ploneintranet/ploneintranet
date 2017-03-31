@@ -1,10 +1,73 @@
 Changelog
 =========
 
-1.2.54 (unreleased)
+1.2.55 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.54 (2017-03-30)
+-------------------
+
+* Merge pull request #1241 from quaive/update-versions [GitHub]
+* Merge pull request #1240 from quaive/add-event-defaults [GitHub]
+* Merge pull request #1239 from quaive/statusupdate-image-large [GitHub]
+* The dashboard should be scrolled two times [ale-rt]
+* Update versions [ale-rt]
+* Mark recent test regression as unstable refs #607 (#608) [ale-rt]
+* Fix default dates for the add event view [ale-rt]
+* Merge pull request #1237 from quaive/fix-upload-on-first-comment [GitHub]
+* Merge pull request #1236 from quaive/improve-news-tile [GitHub]
+* Merge pull request #1232 from quaive/display-likers [GitHub]
+* Serve the image large even if it smaller thenm expected [ale-rt]
+* Fix attachments upload on first comment [ale-rt]
+* Improve the first news image size [ale-rt]
+* Merge pull request #1231 from quaive/first-comment-box [GitHub]
+* Merge pull request #1235 from quaive/mark-heisenbug [GitHub]
+* Make todos commentable [ale-rt]
+* Include first comment box [ale-rt]
+* Added a box to initialize comments [ale-rt]
+* Initialize the attachment storage when creating a status update (Fixes #1230) [ale-rt]
+* Cache methods called multiple times [ale-rt]
+* Mark Alice can attach a file to a post as an Heisenbug [ale-rt]
+* Mark Alice can attach a file to a post as an Heisenbug [ale-rt]
+* Display likers [ale-rt]
+* Mark Alice can attach a file to a post as an Heisenbug [ale-rt]
+* Merge pull request #1221 from quaive/batch-activity-stream [GitHub]
+* Sometimes the element is visible but covered by some tile injected on the dashboard [ale-rt]
+* Merge pull request #1227 from quaive/enhance-htmlconverter [GitHub]
+* Merge pull request #1228 from quaive/proto-friendly-type [GitHub]
+* Image compression may return different results on different platforms [ale-rt]
+* Wait for injection to be finished after the update is posted [ale-rt]
+* Remove stamp right from the activity stream [ale-rt]
+* We have to scroll to see the content [ale-rt]
+* Only 5 activities at once [ale-rt]
+* HTMLConverter now understands image scales [ale-rt]
+* Merge pull request #1226 from quaive/1225-fixheisenbug [GitHub]
+* Prevent the warning "Unrecognized friendly type: file" [ale-rt]
+* Attempt to fix the heisenbug "User can access the calendar app" [ale-rt]
+* Merge pull request #1224 from quaive/ui-improvements [GitHub]
+* Merge pull request #1223 from quaive/no-bookamrks-notification [GitHub]
+* Merge pull request #1222 from quaive/feeditems-images [GitHub]
+* Do not render empty li [ale-rt]
+* No bookmarks notification [ale-rt]
+* Image mini is enough in the news edit form [ale-rt]
+* Use the proper scale for each news level [ale-rt]
+* Remove static folder (the same content is in the theme) [ale-rt]
+* Merge pull request #1220 from quaive/versioning-permissions [GitHub]
+* Merge pull request #1219 from quaive/news-batching [GitHub]
+* Do not show  the versioning fieldset if we have not enough permissions [ale-rt]
+* Icon tasks [ale-rt]
+* Batch the news [ale-rt]
+* Merge pull request #1217 from quaive/redactor-image-large [GitHub]
+* Merge pull request #1216 from quaive/batch-previews [GitHub]
+* Link image large with pat-redactor [ale-rt]
+* Batch document previews [ale-rt]
+* Merge pull request #1214 from quaive/plone-5.0.7 [GitHub]
+* Upgrade to Plone 5.0.7 [ale-rt]
+* Merge pull request #1212 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.54 [ale-rt]
 
 
 1.2.53 (2017-03-17)
