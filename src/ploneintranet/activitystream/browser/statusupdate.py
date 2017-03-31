@@ -315,12 +315,11 @@ class StatusUpdateView(BrowserView):
         base = 'document document-preview'
         if self.is_content_image_update:
             return base
-        elif pi_api.previews.converting(self.content_context):
+        if pi_api.previews.converting(self.content_context):
             return base + ' not-generated'
-        elif not self.content_has_previews():
+        if not self.content_has_previews():
             return base + ' not-possible'
-        else:
-            return base
+        return base
 
     def content_preview_urls(self):
         if not self.is_content_update:
