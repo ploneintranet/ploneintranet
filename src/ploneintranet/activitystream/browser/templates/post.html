@@ -293,13 +293,16 @@
                  tal:define="content_context nocall:context/content_context;">
   	<figure>
             <a href="${view/content_url}"
-               alt="${content_context/Title}">
-            <img src="${content_context/absolute_url}"
-                 alt="${content_context/Title}"
-                 />
+               alt="${content_context/Title}"
+            >
+              <img src="${content_context/absolute_url}/@@images/image/large"
+                   alt="${content_context/Title}"
+                   tal:condition="not:is_slow"
+              />
+              <tal:title condition="is_slow">${content_context/Title}</tal:title>
             </a>
   	</figure>
-  	<p class="overlay">
+  	<p class="${python: not is_slow and 'overlay' or None}">
             <tal:comment condition="nothing">
             <!-- XXX images gallery view not implemented yet -->
             <!-- XXX images zip download not implemented yet -->
