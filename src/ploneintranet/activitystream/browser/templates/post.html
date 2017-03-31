@@ -199,10 +199,12 @@
               <a href="${attachment/img_src}">
                 <img src="${attachment/img_src}/large"
                      alt=""
+                     tal:condition="not:is_slow"
                      />
+                <tal:title condition="is_slow">${attachment/title}</tal:title>
               </a>
   	  </figure>
-  	  <p class="overlay">
+  	  <p class="${python: not is_slow and 'overlay' or None}">
               <tal:comment condition="nothing">
               <!-- XXX images gallery view not implemented yet -->
               <!-- XXX images zip download not implemented yet -->
