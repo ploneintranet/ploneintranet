@@ -12,6 +12,7 @@
        tal:define="
          thread_id context/getId;
          portal_url view/portal_url;
+         is_slow here/@@proto/is_slow;
        "
        class="post item"
        tal:attributes="id python: thread_id and ('post-%s' % thread_id) or None">
