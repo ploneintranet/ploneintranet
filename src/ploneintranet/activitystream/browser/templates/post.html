@@ -242,7 +242,7 @@
              tal:attributes="href view/content_url;
                              alt content_context/Title">
           <img alt=""
-               src="${content_context/absolute_url}/@@images/image/large"
+               src="${content_context/absolute_url}/@@images/image/preview"
                tal:condition="python:not is_slow and content_context.image"
           />
   	</a>
