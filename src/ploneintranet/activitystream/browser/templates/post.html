@@ -231,15 +231,18 @@
       </tal:comment>
 
       <tal:content_default condition="not:view/is_content_image_update">
-      <section class="document document-preview"
+      <section class="${view/content_preview_status_css} ${python:is_slow and 'not-possible'}"
                tal:define="content_context nocall:context/content_context;"
-               tal:attributes="class view/content_preview_status_css">
+      >
         <figure>
           <a tal:condition="view/content_has_previews"
              tal:define="preview_src python:view.content_preview_urls()[0]"
              tal:attributes="href view/content_url;
                              alt content_context/Title">
-            <img src="${preview_src}" alt="" />
+            <img src="${preview_src}"
+                 tal:condition="python:not is_slow"
+                 alt=""
+            />
   	      </a>
           <a tal:condition="view/content_has_leadimage"
              tal:attributes="href view/content_url;
