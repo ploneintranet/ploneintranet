@@ -82,11 +82,18 @@ class Dashboard(BrowserView):
         return bool(self.user)
 
     @forever.memoize
-    def get_tile_name(self, tile):
+    def tile_options(self, tile):
         ''' Return the name of the tile from the tile path
         '''
         qs = tile.partition('?')[-1]
-        return u' '.join(urlparse.parse_qs(qs).get('title', [tile]))
+        return urlparse.parse_qs(qs)
+
+    @forever.memoize
+    def get_tile_name(self, tile):
+        ''' Return the name of the tile from the tile path
+        '''
+        options = self.tile_options(tile)
+        return u' '.join(options.get('title', [tile]))
 
     @memoize
     def get_tile_display(self, tile):
@@ -105,9 +112,9 @@ class Dashboard(BrowserView):
         url, qs = tile.partition('?')[::2]
         if not qs:
             return tile
-        params = urlparse.parse_qs(qs)
-        params.update(portletspan=self.get_tile_display(tile))
-        return u'{url}?{qs}'.format(url=url, qs=urlencode(params, doseq=True))
+        options = self.tile_options(tile)
+        options.update(portletspan=self.get_tile_display(tile))
+        return u'{url}?{qs}'.format(url=url, qs=urlencode(options, doseq=True))
 
     @memoize_contextless
     def available_custom_tiles(self):
@@ -371,6 +378,20 @@ class EditDashboard(Dashboard):
         ''' Reset the custom_tile storage
         '''
         self.user.custom_tiles = OrderedDict()
+
+    def is_resizable(self, tile):
+        ''' The noresize=1 query string parameter disable the size selction
+        '''
+        if 'noresize' in self.tile_options(tile):
+            return False
+        return True
+
+    def allow_fullpage(self, tile):
+        ''' The noresize=1 query string parameter disable the size selction
+        '''
+        if 'nofullpage' in self.tile_options(tile):
+            return False
+        return True
 
     def maybe_update_tiles(self):
         ''' Update the custom tiles if needed

@@ -34,6 +34,7 @@
                             tal:define="
                               display python:view.get_tile_display(tile);
                             "
+                            tal:condition="python:view.is_resizable(tile)"
                     >
                       <option selected="${python:'selected' if display == 'none' else None}"
                               value="none"
@@ -50,6 +51,7 @@
                       <option selected="${python:'selected' if display == 'span-3' else None}"
                               value="span-3"
                               i18n:translate=""
+                              tal:condition="python:view.allow_fullpage(tile)"
                       >Page wide</option>
                     </select>
                   </p>
