@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.layout.known_bad_ips">
+    <field type="plone.registry.field.Tuple">
+      <title>Known bad ips</title>
+      <description>
+        A list of ip addresses that are considered to have a bad connection.
+        Never perform the speedtest to preserve bandwidth.
+      </description>
+      <required>False</required>
+      <value_type type="plone.registry.field.TextLine"></value_type>
+    </field>
+  </record>
+</registry>

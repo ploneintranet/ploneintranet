@@ -15,7 +15,10 @@
                                here_url context/absolute_url;
                                copied_to_library_url view/copied_to_library_url;
                                workspace_url workspace/absolute_url;
-                               workspace_id python:workspace.id">
+                               workspace_id python:workspace.id;
+                               is_slow here/@@proto/is_slow;
+                   "
+    >
 
       <div class="application" id="app-space">
         <div id="application-body"
@@ -211,7 +214,15 @@
                        data-pat-inject="source: .batch-previews; target: #document-previews; trigger: autoload-visible;"
                        href="${here/absolute_url}/@@batch-previews?b_start=0"
                        id="document-previews"
+                       tal:condition="not:is_slow"
                     >&nbsp;</a>
+                    <a class="batch-preview pat-inject"
+                       data-pat-inject="source: .batch-previews; target: #document-previews;"
+                       href="${here/absolute_url}/@@batch-previews?b_start=0"
+                       id="document-previews"
+                       tal:condition="is_slow"
+                       i18n:translate=""
+                    >Load previews ...</a>
                   </article>
                   <article class="document preview" tal:condition="not:view/is_available">
                     <p class="message no-preview"
