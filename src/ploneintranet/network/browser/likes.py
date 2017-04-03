@@ -64,7 +64,13 @@ class ToggleLike(BrowserView):
         likers.sort()
         if include_myself:
             likers.insert(0, self.context.translate(_(u'Myself')))
-        return u', '.join(likers)
+        if not likers:
+            return
+        return _(
+            'liked_by',
+            default=u'Liked by: ${likers}',
+            mapping={'likers': u', '.join(likers)}
+        )
 
     def total_likes(self):
         return len(self.likerids)
