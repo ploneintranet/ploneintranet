@@ -165,7 +165,7 @@ class ProtoView(BrowserView):
         ips = (
             self.request.get('HTTP_X_FORWARDED_FOR') or
             self.request.get('REMOTE_ADDR', '')
-        ).split()
+        ).replace(',', ' ').split()
         bad_ips = api.portal.get_registry_record(
             'ploneintranet.layout.known_bad_ips',
             default=(),
