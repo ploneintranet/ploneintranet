@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-03-31 09:18+0000\n"
+"POT-Creation-Date: 2017-04-04 08:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,11 +59,11 @@ msgstr ""
 msgid "-- Please select a workspace --"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:42
+#: ../layout/browser/templates/edit-dashboard.pt:43
 msgid "1 Column wide"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:46
+#: ../layout/browser/templates/edit-dashboard.pt:47
 msgid "2 Columns wide"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgid "A container for workspaces"
 msgstr ""
 
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:181
+#: ../workspace/basecontent/templates/document_view.pt:184
 msgid "A copy of this document"
 msgstr ""
 
@@ -162,6 +162,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/panel-add-group.pt:13
 msgid "Add groups"
+msgstr ""
+
+#: ../layout/upgrades/configure.zcml:190
+msgid "Add known bad ips"
 msgstr ""
 
 #: ../todo/portlets/latest.py:75
@@ -492,7 +496,7 @@ msgstr ""
 msgid "Call ${fullname} at ${context/telephone}"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:82
+#: ../layout/browser/templates/edit-dashboard.pt:84
 #: ../library/behaviors/templates/panel-publish-to-library.pt:47
 #: ../messaging/browser/templates/panel-new-chat.html:40
 msgid "Cancel"
@@ -530,7 +534,7 @@ msgstr ""
 msgid "Change metadata, including names, tags and descriptions."
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:154
+#: ../workspace/basecontent/templates/document_view.pt:157
 msgid "Change notes"
 msgstr ""
 
@@ -688,11 +692,11 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: ../layout/browser/dashboard.py:398
+#: ../layout/browser/dashboard.py:419
 msgid "Dashboard order changed"
 msgstr ""
 
-#: ../layout/browser/dashboard.py:401
+#: ../layout/browser/dashboard.py:422
 msgid "Dashboard order unchanged"
 msgstr ""
 
@@ -729,7 +733,7 @@ msgstr ""
 msgid "Default additional fields for UserProfile."
 msgstr ""
 
-#: ../layout/browser/dashboard.py:384
+#: ../layout/browser/dashboard.py:405
 msgid "Default dashboard restored"
 msgstr ""
 
@@ -779,7 +783,7 @@ msgid "Department"
 msgstr ""
 
 #: ../userprofile/content/workgroup.py:45
-#: ../workspace/basecontent/templates/document_view.pt:128
+#: ../workspace/basecontent/templates/document_view.pt:131
 #: ../workspace/basecontent/templates/mail_view.pt:136
 msgid "Description"
 msgstr ""
@@ -837,7 +841,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:38
+#: ../layout/browser/templates/edit-dashboard.pt:39
 msgid "Don't show"
 msgstr ""
 
@@ -845,7 +849,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:61
+#: ../layout/browser/templates/edit-dashboard.pt:63
 msgid "Down"
 msgstr ""
 
@@ -854,7 +858,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:280
+#: ../workspace/basecontent/templates/document_view.pt:291
 #: ../workspace/basecontent/templates/mail_view.pt:233
 msgid "Download as"
 msgstr ""
@@ -867,7 +871,7 @@ msgstr ""
 msgid "Download this file"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:208
+#: ../activitystream/browser/templates/post.html:212
 msgid "Download this image"
 msgstr ""
 
@@ -926,8 +930,8 @@ msgstr ""
 msgid "Edit profile"
 msgstr ""
 
-#: ../activitystream/browser/templates/comment.html:37
-#: ../activitystream/browser/templates/post.html:75
+#: ../activitystream/browser/templates/comment.html:41
+#: ../activitystream/browser/templates/post.html:76
 #: ../workspace/browser/views.py:243
 msgid "Edited"
 msgstr ""
@@ -1118,7 +1122,7 @@ msgstr ""
 msgid "Full list of people ${name_of_followee} follows."
 msgstr ""
 
-#: ../layout/browser/dashboard.py:379
+#: ../layout/browser/dashboard.py:400
 msgid "Function not allowed"
 msgstr ""
 
@@ -1413,7 +1417,7 @@ msgstr ""
 msgid "Library for PloneIntranet"
 msgstr ""
 
-#: ../network/browser/likes.py:89
+#: ../network/browser/likes.py:95
 msgid "Like"
 msgstr ""
 
@@ -1424,6 +1428,10 @@ msgstr ""
 msgid "Link name"
 msgstr ""
 
+#: ../workspace/basecontent/templates/document_view.pt:219
+msgid "Load previews ..."
+msgstr ""
+
 #: ../userprofile/browser/templates/userprofile.pt:215
 msgid "Loading ${num_groups} data..."
 msgstr ""
@@ -1432,7 +1440,7 @@ msgstr ""
 msgid "Loading more search results&hellip;"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:106
+#: ../workspace/basecontent/templates/document_view.pt:109
 msgid "Loading..."
 msgstr ""
 
@@ -1701,7 +1709,7 @@ msgstr ""
 msgid "No grouping"
 msgstr ""
 
-#: ../network/browser/likes.py:146
+#: ../network/browser/likes.py:152
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr ""
 
@@ -1733,7 +1741,7 @@ msgstr ""
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:225
+#: ../workspace/basecontent/templates/document_view.pt:236
 msgid "No preview available"
 msgstr ""
 
@@ -1842,7 +1850,7 @@ msgstr ""
 msgid "Open community"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:83
+#: ../workspace/basecontent/templates/document_view.pt:86
 msgid "Open in External Editor"
 msgstr ""
 
@@ -1867,8 +1875,8 @@ msgstr ""
 msgid "Organiser"
 msgstr ""
 
-#: ../activitystream/browser/templates/comment.html:49
-#: ../activitystream/browser/templates/post.html:87
+#: ../activitystream/browser/templates/comment.html:53
+#: ../activitystream/browser/templates/post.html:88
 msgid "Original text:"
 msgstr ""
 
@@ -1886,7 +1894,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:50
+#: ../layout/browser/templates/edit-dashboard.pt:51
 msgid "Page wide"
 msgstr ""
 
@@ -2064,7 +2072,7 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:224
+#: ../workspace/basecontent/templates/document_view.pt:235
 msgid "Preview being generated"
 msgstr ""
 
@@ -2076,7 +2084,7 @@ msgstr ""
 msgid "Primary location"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:283
+#: ../workspace/basecontent/templates/document_view.pt:294
 #: ../workspace/basecontent/templates/mail_view.pt:236
 msgid "Print"
 msgstr ""
@@ -2119,7 +2127,7 @@ msgid "Publish"
 msgstr ""
 
 #: ../library/behaviors/templates/panel-publish-to-library.pt:12
-#: ../workspace/basecontent/templates/document_view.pt:286
+#: ../workspace/basecontent/templates/document_view.pt:297
 #: ../workspace/basecontent/templates/mail_view.pt:239
 msgid "Publish to library"
 msgstr ""
@@ -2197,7 +2205,7 @@ msgstr ""
 msgid "Reorder tags"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:86
+#: ../layout/browser/templates/edit-dashboard.pt:88
 msgid "Reset"
 msgstr ""
 
@@ -2226,13 +2234,13 @@ msgstr ""
 msgid "Roster updated."
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:76
+#: ../layout/browser/templates/edit-dashboard.pt:78
 #: ../news/browser/templates/panel-edit-news-section-info.html:58
 #: ../todo/browser/templates/todo_view.pt:70
 msgid "Save"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:143
+#: ../workspace/basecontent/templates/document_view.pt:146
 msgid "Save a new version"
 msgstr ""
 
@@ -2241,7 +2249,7 @@ msgstr ""
 msgid "Save this document"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:157
+#: ../workspace/basecontent/templates/document_view.pt:160
 msgid "Save this version"
 msgstr ""
 
@@ -2296,6 +2304,7 @@ msgid "Section"
 msgstr ""
 
 #: ../news/browser/templates/panel-create-news.html:44
+#: ../news/browser/templates/panel-edit-news-section-info.html:29
 msgid "Section description (Optional)"
 msgstr ""
 
@@ -2357,12 +2366,12 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:89
+#: ../workspace/basecontent/templates/document_view.pt:92
 #: ../workspace/basecontent/templates/mail_view.pt:82
 msgid "Share"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:89
+#: ../workspace/basecontent/templates/document_view.pt:92
 #: ../workspace/basecontent/templates/mail_view.pt:82
 msgid "Share this document"
 msgstr ""
@@ -2371,11 +2380,11 @@ msgstr ""
 msgid "Shared events"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:361
+#: ../activitystream/browser/templates/post.html:372
 msgid "Show ${count} older comment"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:364
+#: ../activitystream/browser/templates/post.html:375
 msgid "Show ${count} older comments"
 msgstr ""
 
@@ -2399,14 +2408,14 @@ msgstr ""
 msgid "Show archived workspaces"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:75
+#: ../workspace/basecontent/templates/document_view.pt:78
 #: ../workspace/basecontent/templates/event_view.pt:49
 #: ../workspace/basecontent/templates/mail_view.pt:61
 msgid "Show extra context actions"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:104
 #: ../workspace/basecontent/templates/mail_view.pt:92
 msgid "Show extra metadata fields"
 msgstr ""
@@ -2784,7 +2793,7 @@ msgid "Todo"
 msgstr ""
 
 #: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:104
 #: ../workspace/basecontent/templates/mail_view.pt:92
 msgid "Toggle extra metadata"
 msgstr ""
@@ -2850,7 +2859,7 @@ msgstr ""
 msgid "Unknown function"
 msgstr ""
 
-#: ../network/browser/likes.py:87
+#: ../network/browser/likes.py:93
 msgid "Unlike"
 msgstr ""
 
@@ -2875,7 +2884,7 @@ msgstr ""
 msgid "Until"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:57
+#: ../layout/browser/templates/edit-dashboard.pt:59
 msgid "Up"
 msgstr ""
 
@@ -2921,11 +2930,11 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:147
+#: ../workspace/basecontent/templates/document_view.pt:150
 msgid "Upload a new file"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:150
+#: ../workspace/basecontent/templates/document_view.pt:153
 msgid "Upload a new image"
 msgstr ""
 
@@ -2969,12 +2978,12 @@ msgstr ""
 msgid "Version history"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:263
+#: ../activitystream/browser/templates/post.html:271
 #: ../workspace/browser/templates/content_history.pt:15
 msgid "View"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:306
+#: ../activitystream/browser/templates/post.html:317
 msgid "View this image"
 msgstr ""
 
@@ -3093,7 +3102,7 @@ msgstr ""
 msgid "Write a message to the recipient(s)..."
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:195
+#: ../workspace/basecontent/templates/document_view.pt:198
 msgid "Write your text here"
 msgstr ""
 
@@ -3653,7 +3662,7 @@ msgstr ""
 
 #. Default: "${document} is published in the library."
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:181
+#: ../workspace/basecontent/templates/document_view.pt:184
 msgid "info_publish_to_library_success"
 msgstr ""
 
@@ -4101,6 +4110,11 @@ msgstr ""
 msgid "library"
 msgstr ""
 
+#. Default: "Liked by: ${likers}"
+#: ../network/browser/likes.py:69
+msgid "liked_by"
+msgstr ""
+
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
 msgid "message_pwreset_success"
@@ -4334,7 +4348,7 @@ msgstr ""
 msgid "workspaces page"
 msgstr ""
 
-#: ../activitystream/browser/templates/post.html:364
+#: ../activitystream/browser/templates/post.html:375
 msgid "x x"
 msgstr ""
 
