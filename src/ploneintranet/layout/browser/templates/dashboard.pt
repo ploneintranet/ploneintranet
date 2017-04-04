@@ -131,7 +131,7 @@
                id="custom-tile-${repeat/tile/index}"
                href="${python:view.custom_tile_url(tile)}"
                hidden
-               data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload"
+               data-pat-inject="source:.portlet::element; target: #custom-tile-${repeat/tile/index}::element; trigger:autoload; delay: ${python: 1*repeat.tile.index}ms"
                tal:condition="python:view.get_tile_display(tile) != 'none'"
                >${tile}</a>
           </tal:custom_tiles>

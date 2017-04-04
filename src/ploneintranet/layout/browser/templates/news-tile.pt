@@ -5,8 +5,9 @@
       i18n:domain="ploneintranet">
   <body tal:define="
           portletspan python:request.get('portletspan', 'span-1');
+          portletstate python:request.get('portletstate', 'state-collapsed');
         ">
-    <div class="news portlet ${portletspan} state-collapsed"
+    <div class="news portlet ${portletspan} ${portletstate}"
          id="portlet-news"
          tal:define="
            news_items view/news_items;
@@ -18,9 +19,17 @@
         <form class="state-toggle pat-inject pat-autosubmit"
               method="post"
               action="${here/absolute_url}/@@${view/__name__}"
-              data-pat-inject="source: #unread-news; target: #unread-news"
+              data-pat-inject="source: #portlet-news::element; target: #portlet-news::element"
               tal:condition="view/can_expand"
         >
+          <input name="portletspan"
+                 type="hidden"
+                 value="${portletspan}"
+          />
+          <input name="portletstate"
+                 type="hidden"
+                 value="${python: 'state-expanded' if portletstate == 'state-collapsed' else 'state-collapsed'}"
+          />
             <label class="show-more pat-switch checked"
                    data-pat-switch="selector: #portlet-news; remove: state-*; add: state-expanded"
             >
