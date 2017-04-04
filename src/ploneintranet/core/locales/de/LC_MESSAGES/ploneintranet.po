@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-03-31 09:18+0000\n"
+"POT-Creation-Date: 2017-04-04 08:31+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -62,11 +62,11 @@ msgstr "-- Bitte auswählen --"
 msgid "-- Please select a workspace --"
 msgstr "-- Bitte wählen Sie einen Arbeitsraum --"
 
-#: ../layout/browser/templates/edit-dashboard.pt:42
+#: ../layout/browser/templates/edit-dashboard.pt:43
 msgid "1 Column wide"
 msgstr "Einspaltig"
 
-#: ../layout/browser/templates/edit-dashboard.pt:46
+#: ../layout/browser/templates/edit-dashboard.pt:47
 msgid "2 Columns wide"
 msgstr "Zweispaltig"
 
@@ -101,7 +101,7 @@ msgid "A container for workspaces"
 msgstr "Ein Behälter für Arbeitsräume"
 
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:181
+#: ../workspace/basecontent/templates/document_view.pt:184
 msgid "A copy of this document"
 msgstr "Eine Kopie dieses Artikels"
 
@@ -166,6 +166,10 @@ msgstr "Gruppe hinzufügen"
 #: ../workspace/browser/templates/panel-add-group.pt:13
 msgid "Add groups"
 msgstr "Gruppen hinzufügen"
+
+#: ../layout/upgrades/configure.zcml:190
+msgid "Add known bad ips"
+msgstr ""
 
 #: ../todo/portlets/latest.py:75
 msgid "Add latest news portlet"
@@ -252,7 +256,7 @@ msgstr "Alle Buchstaben"
 
 #: ../workspace/browser/tiles/sidebar.py:521
 msgid "All Tags"
-msgstr "Alle Tags"
+msgstr "Alle Schlagworte"
 
 #: ../workspace/browser/tiles/sidebar.py:853
 msgid "All Time"
@@ -417,7 +421,7 @@ msgstr "Zurück"
 
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:10
 msgid "Batch (re)tagging"
-msgstr "Objekte umtaggen"
+msgstr "Schlagworte ändern"
 
 #: ../workspace/browser/cart_actions/templates/change_workflow_confirmation.pt:10
 msgid "Batch change workflow"
@@ -495,7 +499,7 @@ msgstr "Kalender"
 msgid "Call ${fullname} at ${context/telephone}"
 msgstr "${fullname} unter ${context/telephone} anrufen"
 
-#: ../layout/browser/templates/edit-dashboard.pt:82
+#: ../layout/browser/templates/edit-dashboard.pt:84
 #: ../library/behaviors/templates/panel-publish-to-library.pt:47
 #: ../messaging/browser/templates/panel-new-chat.html:40
 msgid "Cancel"
@@ -533,7 +537,7 @@ msgstr "Metadaten ändern"
 msgid "Change metadata, including names, tags and descriptions."
 msgstr "Metadaten (Name, Schlagworte und Beschreibung) ändern"
 
-#: ../workspace/basecontent/templates/document_view.pt:154
+#: ../workspace/basecontent/templates/document_view.pt:157
 msgid "Change notes"
 msgstr "Notizen zur Änderung"
 
@@ -691,11 +695,11 @@ msgstr "Ausschneiden"
 msgid "Dashboard"
 msgstr "Startseite"
 
-#: ../layout/browser/dashboard.py:398
+#: ../layout/browser/dashboard.py:419
 msgid "Dashboard order changed"
 msgstr "Die Startseite wurde geändert"
 
-#: ../layout/browser/dashboard.py:401
+#: ../layout/browser/dashboard.py:422
 msgid "Dashboard order unchanged"
 msgstr "Die Startseite wurde nicht geändert"
 
@@ -732,7 +736,7 @@ msgstr "Abgelehnt"
 msgid "Default additional fields for UserProfile."
 msgstr "Zusätzliche Standardfelder für das Benutzerprofil."
 
-#: ../layout/browser/dashboard.py:384
+#: ../layout/browser/dashboard.py:405
 msgid "Default dashboard restored"
 msgstr "Ursprüngliche Startseite wurde wiederhergestellt"
 
@@ -782,7 +786,7 @@ msgid "Department"
 msgstr "Abteilung"
 
 #: ../userprofile/content/workgroup.py:45
-#: ../workspace/basecontent/templates/document_view.pt:128
+#: ../workspace/basecontent/templates/document_view.pt:131
 #: ../workspace/basecontent/templates/mail_view.pt:136
 msgid "Description"
 msgstr "Beschreibung"
@@ -840,7 +844,7 @@ msgstr "Inhaltstypen"
 msgid "Documents"
 msgstr "Dokumente"
 
-#: ../layout/browser/templates/edit-dashboard.pt:38
+#: ../layout/browser/templates/edit-dashboard.pt:39
 msgid "Don't show"
 msgstr "Nicht anzeigen"
 
@@ -848,7 +852,7 @@ msgstr "Nicht anzeigen"
 msgid "Done"
 msgstr "Erledigt"
 
-#: ../layout/browser/templates/edit-dashboard.pt:61
+#: ../layout/browser/templates/edit-dashboard.pt:63
 msgid "Down"
 msgstr "Hinunter"
 
@@ -857,7 +861,7 @@ msgstr "Hinunter"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: ../workspace/basecontent/templates/document_view.pt:280
+#: ../workspace/basecontent/templates/document_view.pt:291
 #: ../workspace/basecontent/templates/mail_view.pt:233
 msgid "Download as"
 msgstr "Herunterladen als…"
@@ -870,7 +874,7 @@ msgstr "Datei herunterladen"
 msgid "Download this file"
 msgstr "Datei herunterladen"
 
-#: ../activitystream/browser/templates/post.html:208
+#: ../activitystream/browser/templates/post.html:212
 msgid "Download this image"
 msgstr "Bild herunterladen"
 
@@ -929,8 +933,8 @@ msgstr "Beitrag bearbeiten"
 msgid "Edit profile"
 msgstr "Profil bearbeiten"
 
-#: ../activitystream/browser/templates/comment.html:37
-#: ../activitystream/browser/templates/post.html:75
+#: ../activitystream/browser/templates/comment.html:41
+#: ../activitystream/browser/templates/post.html:76
 #: ../workspace/browser/views.py:243
 msgid "Edited"
 msgstr "Bearbeitet"
@@ -959,7 +963,7 @@ msgstr "Beschreibung für diese Aufgabe eintragen"
 #: ../workspace/browser/cart_actions/templates/changemetadata_confirmation.pt:56
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:32
 msgid "Enter a label"
-msgstr "Beschriftung eingeben"
+msgstr "Schlagwort(e) eingeben"
 
 #: ../workspace/browser/templates/content_macros.pt:111
 msgid "Enter a location"
@@ -1121,7 +1125,7 @@ msgstr "Liste aller Personen, die mir folgen"
 msgid "Full list of people ${name_of_followee} follows."
 msgstr "Liste aller Personen, denen ${name_of_followee} folgt"
 
-#: ../layout/browser/dashboard.py:379
+#: ../layout/browser/dashboard.py:400
 msgid "Function not allowed"
 msgstr "Funktion nicht erlaubt"
 
@@ -1181,7 +1185,7 @@ msgstr "Nach Bereich gruppieren"
 
 #: ../library/browser/templates/library.html:51
 msgid "Group by tag"
-msgstr "Nach Tag gruppieren"
+msgstr "Nach Schlagwort gruppieren"
 
 #: ../bookmarks/browser/templates/app.pt:39
 msgid "Group by workspace"
@@ -1416,9 +1420,9 @@ msgstr "Bibliotheksbereich"
 msgid "Library for PloneIntranet"
 msgstr "Die PloneIntranet Bibliothek"
 
-#: ../network/browser/likes.py:89
+#: ../network/browser/likes.py:95
 msgid "Like"
-msgstr "Like"
+msgstr "Gefällt mir"
 
 msgid "Link"
 msgstr "Link"
@@ -1426,6 +1430,10 @@ msgstr "Link"
 #: ../workspace/browser/add_content.py:153
 msgid "Link name"
 msgstr "Link Name"
+
+#: ../workspace/basecontent/templates/document_view.pt:219
+msgid "Load previews ..."
+msgstr ""
 
 #: ../userprofile/browser/templates/userprofile.pt:215
 msgid "Loading ${num_groups} data..."
@@ -1435,7 +1443,7 @@ msgstr "Lade ${num_groups} Daten..."
 msgid "Loading more search results&hellip;"
 msgstr "Weitere Suchergebnisse laden&hellip;"
 
-#: ../workspace/basecontent/templates/document_view.pt:106
+#: ../workspace/basecontent/templates/document_view.pt:109
 msgid "Loading..."
 msgstr "Lade…"
 
@@ -1704,7 +1712,7 @@ msgstr "Es wurden keine Lesezeichen gefunden, die ${SearchableText} entsprechen.
 msgid "No grouping"
 msgstr "Keine Gruppierung"
 
-#: ../network/browser/likes.py:146
+#: ../network/browser/likes.py:152
 msgid "No item id given in sub-path. Use .../@@toggle_like/123456"
 msgstr "Keine Objekt ID übergeben in Teilpfad. Benutze .../@@toggle_like/123456"
 
@@ -1714,7 +1722,7 @@ msgstr "Es wurden keine Objekte ausgewählt."
 
 #: ../workspace/browser/cart_actions/retag.py:52
 msgid "No items could be (re)tagged"
-msgstr "Es konnten keine Objekte umgetagged werden"
+msgstr "Es konnten keine Schlagworte geändert werden"
 
 #: ../workspace/browser/cart_actions/change_workflow.py:114
 msgid "No items could be changed in their workflow states."
@@ -1736,7 +1744,7 @@ msgstr "Es konnten keine Objekte aktualisiert werden"
 msgid "No pending notifications"
 msgstr "Keine ungelesenen Benachrichtigungen"
 
-#: ../workspace/basecontent/templates/document_view.pt:225
+#: ../workspace/basecontent/templates/document_view.pt:236
 msgid "No preview available"
 msgstr "Keine Vorschau verfügbar"
 
@@ -1845,7 +1853,7 @@ msgstr "Offen"
 msgid "Open community"
 msgstr "Offene Gesellschaft"
 
-#: ../workspace/basecontent/templates/document_view.pt:83
+#: ../workspace/basecontent/templates/document_view.pt:86
 msgid "Open in External Editor"
 msgstr "In Externem Editor öffnen"
 
@@ -1870,8 +1878,8 @@ msgstr "Optionen"
 msgid "Organiser"
 msgstr "Veranstalter"
 
-#: ../activitystream/browser/templates/comment.html:49
-#: ../activitystream/browser/templates/post.html:87
+#: ../activitystream/browser/templates/comment.html:53
+#: ../activitystream/browser/templates/post.html:88
 msgid "Original text:"
 msgstr "Originaltext:"
 
@@ -1889,7 +1897,7 @@ msgstr "PDF"
 msgid "Page"
 msgstr "Seite"
 
-#: ../layout/browser/templates/edit-dashboard.pt:50
+#: ../layout/browser/templates/edit-dashboard.pt:51
 msgid "Page wide"
 msgstr "Ganze Seitenbreite"
 
@@ -2067,7 +2075,7 @@ msgstr "PowerPoint 2007 Präsentation"
 msgid "Preview"
 msgstr "Vorschau"
 
-#: ../workspace/basecontent/templates/document_view.pt:224
+#: ../workspace/basecontent/templates/document_view.pt:235
 msgid "Preview being generated"
 msgstr "Vorschau wird erzeugt"
 
@@ -2079,7 +2087,7 @@ msgstr "Vorschau der Nachricht öffnen"
 msgid "Primary location"
 msgstr "Hauptsitz"
 
-#: ../workspace/basecontent/templates/document_view.pt:283
+#: ../workspace/basecontent/templates/document_view.pt:294
 #: ../workspace/basecontent/templates/mail_view.pt:236
 msgid "Print"
 msgstr "Drucken"
@@ -2122,7 +2130,7 @@ msgid "Publish"
 msgstr "Veröffentlichen"
 
 #: ../library/behaviors/templates/panel-publish-to-library.pt:12
-#: ../workspace/basecontent/templates/document_view.pt:286
+#: ../workspace/basecontent/templates/document_view.pt:297
 #: ../workspace/basecontent/templates/mail_view.pt:239
 msgid "Publish to library"
 msgstr "In die Bibliothek kopieren"
@@ -2136,7 +2144,7 @@ msgstr "Veröffentlicht"
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:231
 msgid "Re-tag"
-msgstr "Umtaggen"
+msgstr "Schlagworte ändern"
 
 #: ../bookmarks/browser/templates/bookmarks.tile.pt:41
 msgid "Recent"
@@ -2200,7 +2208,7 @@ msgstr "Meilenstein wieder öffnen"
 msgid "Reorder tags"
 msgstr "Reihenfolge der Schlagworte ändern"
 
-#: ../layout/browser/templates/edit-dashboard.pt:86
+#: ../layout/browser/templates/edit-dashboard.pt:88
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -2229,13 +2237,13 @@ msgstr "Rolle bearbeitet"
 msgid "Roster updated."
 msgstr "Mitgliederliste aktualisiert"
 
-#: ../layout/browser/templates/edit-dashboard.pt:76
+#: ../layout/browser/templates/edit-dashboard.pt:78
 #: ../news/browser/templates/panel-edit-news-section-info.html:58
 #: ../todo/browser/templates/todo_view.pt:70
 msgid "Save"
 msgstr "Sichern"
 
-#: ../workspace/basecontent/templates/document_view.pt:143
+#: ../workspace/basecontent/templates/document_view.pt:146
 msgid "Save a new version"
 msgstr "Neue Version speichern"
 
@@ -2244,7 +2252,7 @@ msgstr "Neue Version speichern"
 msgid "Save this document"
 msgstr "Dokument speichern"
 
-#: ../workspace/basecontent/templates/document_view.pt:157
+#: ../workspace/basecontent/templates/document_view.pt:160
 msgid "Save this version"
 msgstr "Diese Version speichern"
 
@@ -2299,6 +2307,7 @@ msgid "Section"
 msgstr "Bereich"
 
 #: ../news/browser/templates/panel-create-news.html:44
+#: ../news/browser/templates/panel-edit-news-section-info.html:29
 msgid "Section description (Optional)"
 msgstr "Beschreibung des Bereichs (optional)"
 
@@ -2360,12 +2369,12 @@ msgstr "Verwandten Arbeitsraum setzen"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../workspace/basecontent/templates/document_view.pt:89
+#: ../workspace/basecontent/templates/document_view.pt:92
 #: ../workspace/basecontent/templates/mail_view.pt:82
 msgid "Share"
 msgstr "Teilen"
 
-#: ../workspace/basecontent/templates/document_view.pt:89
+#: ../workspace/basecontent/templates/document_view.pt:92
 #: ../workspace/basecontent/templates/mail_view.pt:82
 msgid "Share this document"
 msgstr "Dieses Dokument teilen"
@@ -2374,11 +2383,11 @@ msgstr "Dieses Dokument teilen"
 msgid "Shared events"
 msgstr "Geteilte Termine"
 
-#: ../activitystream/browser/templates/post.html:361
+#: ../activitystream/browser/templates/post.html:372
 msgid "Show ${count} older comment"
 msgstr "Zeige ${count} älteren Kommentar"
 
-#: ../activitystream/browser/templates/post.html:364
+#: ../activitystream/browser/templates/post.html:375
 msgid "Show ${count} older comments"
 msgstr "Zeige ${count} ältere Kommentare"
 
@@ -2402,14 +2411,14 @@ msgstr "Archivierte Schlagworte anzeigen"
 msgid "Show archived workspaces"
 msgstr "Archivierte Arbeitsräume anzeigen"
 
-#: ../workspace/basecontent/templates/document_view.pt:75
+#: ../workspace/basecontent/templates/document_view.pt:78
 #: ../workspace/basecontent/templates/event_view.pt:49
 #: ../workspace/basecontent/templates/mail_view.pt:61
 msgid "Show extra context actions"
 msgstr "Weitere Aktionen für dieses Objekt anzeigen"
 
 #: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:104
 #: ../workspace/basecontent/templates/mail_view.pt:92
 msgid "Show extra metadata fields"
 msgstr "Weitere Metadatenfelder anzeigen"
@@ -2787,7 +2796,7 @@ msgid "Todo"
 msgstr "Aufgabe"
 
 #: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:101
+#: ../workspace/basecontent/templates/document_view.pt:104
 #: ../workspace/basecontent/templates/mail_view.pt:92
 msgid "Toggle extra metadata"
 msgstr "Weitere Metadaten (ein / aus)"
@@ -2853,9 +2862,9 @@ msgstr "Unbekannt"
 msgid "Unknown function"
 msgstr "Unbekannte Funktion"
 
-#: ../network/browser/likes.py:87
+#: ../network/browser/likes.py:93
 msgid "Unlike"
-msgstr "Unlike"
+msgstr "Gefällt mir nicht"
 
 #: ../workspace/browser/pinning.py:136
 msgid "Unpin"
@@ -2878,7 +2887,7 @@ msgstr "Nicht veröffentlicht"
 msgid "Until"
 msgstr "Bis"
 
-#: ../layout/browser/templates/edit-dashboard.pt:57
+#: ../layout/browser/templates/edit-dashboard.pt:59
 msgid "Up"
 msgstr "Hinauf"
 
@@ -2924,11 +2933,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Hochladen"
 
-#: ../workspace/basecontent/templates/document_view.pt:147
+#: ../workspace/basecontent/templates/document_view.pt:150
 msgid "Upload a new file"
 msgstr "Neue Datei hochladen"
 
-#: ../workspace/basecontent/templates/document_view.pt:150
+#: ../workspace/basecontent/templates/document_view.pt:153
 msgid "Upload a new image"
 msgstr "Neues Bild hochladen"
 
@@ -2972,12 +2981,12 @@ msgstr "Verschiedenes"
 msgid "Version history"
 msgstr "Versionen ansehen"
 
-#: ../activitystream/browser/templates/post.html:263
+#: ../activitystream/browser/templates/post.html:271
 #: ../workspace/browser/templates/content_history.pt:15
 msgid "View"
 msgstr "Ansehen"
 
-#: ../activitystream/browser/templates/post.html:306
+#: ../activitystream/browser/templates/post.html:317
 msgid "View this image"
 msgstr "Bild ansehen"
 
@@ -3096,7 +3105,7 @@ msgstr "Kurznachricht schreiben"
 msgid "Write a message to the recipient(s)..."
 msgstr "Kurznachricht an den oder die Empfänger..."
 
-#: ../workspace/basecontent/templates/document_view.pt:195
+#: ../workspace/basecontent/templates/document_view.pt:198
 msgid "Write your text here"
 msgstr "Schreiben Sie hier Ihren Text"
 
@@ -3164,7 +3173,7 @@ msgstr "Sie haben nicht die notwendigen Berechtigungen, um die Sicherheitseinste
 
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:41
 msgid "You don't have permission to (re)tag any of them."
-msgstr "Keine Berechtigung diese Objekte umzutaggen"
+msgstr "Keine Berechtigung die Schlagworte dieser Objekte zu ändern"
 
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:34
 msgid "You don't have permission to delete any of them."
@@ -3305,7 +3314,7 @@ msgstr "Die folgenden Dokumente wurden umbenannt: ${title_elems}"
 #. Default: "The following items have been (re)tagged: ${title_elems}"
 #: ../workspace/browser/cart_actions/retag.py:40
 msgid "batch_retag_success"
-msgstr "Die folgenden Dokumenten wurden umgetagged: ${title_elems}"
+msgstr "Die Schlagworte der folgenden Dokumenten wurden geändert: ${title_elems}"
 
 #. Default: "BCC"
 #: ../workspace/behaviors/mail.py:43
@@ -3640,7 +3649,7 @@ msgstr "${num_not_deleteable} der Objekte kann bzw. können nicht gelöscht werd
 #. Default: "${num_not_modifiable} of the items cannot be (re)tagged because you don't have permission."
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:44
 msgid "info_has_not_modifiable_items"
-msgstr "${num_not_modifiable} Objekte konnten aufgrund fehlender Berechtigungen nicht umgetagged werden."
+msgstr "Die Schlagworte von ${num_not_modifiable} Objekten konnten aufgrund fehlender Berechtigungen nicht geändert werden."
 
 #. Default: "You've selected the following ${num_items} items to be deleted."
 #: ../workspace/browser/cart_actions/templates/delete_confirmation.pt:32
@@ -3655,7 +3664,7 @@ msgstr "Der folgende Arbeitsraum ist aktuell als ähnlich gesetzt. Klicken um di
 #. Default: "The following ${num_items} items will be (re)tagged (un-tick to exclude from this action)."
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:38
 msgid "info_items_selected_for_retagging"
-msgstr " Die folgenden ${num_items} Dokumente werden umgetagged (abwählen um sie nicht zu berücksichtigen)."
+msgstr " Die Schlagworte der folgenden ${num_items} Dokumente werden geändert (abwählen um sie nicht zu berücksichtigen)."
 
 #. Default: "The workflow state of the following ${num_items} items will be changed (un-tick to exclude from this action)."
 #: ../workspace/browser/cart_actions/templates/change_workflow_confirmation.pt:40
@@ -3674,7 +3683,7 @@ msgstr "Artikel, die Sie in die ${library} kopieren, werden für alle Nutzer sic
 
 #. Default: "${document} is published in the library."
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:181
+#: ../workspace/basecontent/templates/document_view.pt:184
 msgid "info_publish_to_library_success"
 msgstr "${document} ist in der Bibliothek verfügbar."
 
@@ -4126,6 +4135,11 @@ msgstr "Kommentar verfassen…"
 msgid "library"
 msgstr "Bibliothek"
 
+#. Default: "Liked by: ${likers}"
+#: ../network/browser/likes.py:69
+msgid "liked_by"
+msgstr "Gefällt diesen Benutzern: ${likers}"
+
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
 msgid "message_pwreset_success"
@@ -4162,7 +4176,7 @@ msgstr "${num_deleteable} der Objekte kann bzw. können gelöscht werden."
 #. Default: "${num_modifiable} of the items can be (re)tagged."
 #: ../workspace/browser/cart_actions/templates/retag_confirmation.pt:48
 msgid "num_items_can_be_retagged"
-msgstr "${num_modifiable} Dokumente können umgetagged werden."
+msgstr "Die Schlagworte von ${num_modifiable} Objekten können geändert werden."
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
 #: ../workspace/browser/workspace.py:139
@@ -4359,7 +4373,7 @@ msgstr "Arbeitsräume"
 msgid "workspaces page"
 msgstr "Übersicht der Arbeitsräume"
 
-#: ../activitystream/browser/templates/post.html:364
+#: ../activitystream/browser/templates/post.html:375
 msgid "x x"
 msgstr ""
 
