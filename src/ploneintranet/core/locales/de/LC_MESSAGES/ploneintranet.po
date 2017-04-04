@@ -1422,7 +1422,7 @@ msgstr "Die PloneIntranet Bibliothek"
 
 #: ../network/browser/likes.py:95
 msgid "Like"
-msgstr "Gefällt mir"
+msgstr "Like"
 
 msgid "Link"
 msgstr "Link"
@@ -2864,7 +2864,7 @@ msgstr "Unbekannte Funktion"
 
 #: ../network/browser/likes.py:93
 msgid "Unlike"
-msgstr "Gefällt mir nicht"
+msgstr "Unlike"
 
 #: ../workspace/browser/pinning.py:136
 msgid "Unpin"
@@ -4138,7 +4138,7 @@ msgstr "Bibliothek"
 #. Default: "Liked by: ${likers}"
 #: ../network/browser/likes.py:69
 msgid "liked_by"
-msgstr "Gefällt diesen Benutzern: ${likers}"
+msgstr "Gefällt: ${likers}"
 
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
