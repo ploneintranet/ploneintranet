@@ -1,10 +1,52 @@
 Changelog
 =========
 
-1.2.55 (unreleased)
+1.2.56 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.55 (2017-04-06)
+-------------------
+
+* Merge pull request #1253 from quaive/fix-empty-tag [GitHub]
+* Bulk change metadata: Don't create an empty tag if the tag field is empty. [Manuel Reinhardt]
+* Merge pull request #1252 from quaive/allow-hiding [GitHub]
+* Merge pull request #1251 from quaive/q.a.milestones [GitHub]
+* Merge pull request #1250 from quaive/translations_stream_like [GitHub]
+* Allow hiding even if portlet is not resizable [ale-rt]
+* Add q.a.milestones to sources [Wolfgang Thomas]
+* Merge pull request #1249 from quaive/news-item-portlet [GitHub]
+* added translation for liked by statement #14904 [Angela Steinhardt]
+* temporary status [Angela Steinhardt]
+* Reinject the whole portlet [ale-rt]
+* Load tiles in order [ale-rt]
+* Merge pull request #1247 from quaive/custom-dashboard-fixes [GitHub]
+* Merge pull request #1246 from quaive/liked-by [GitHub]
+* Merge pull request #1245 from quaive/lofi-quaive [GitHub]
+* Adding tweaks for portlet customizations [ale-rt]
+* Added a liked by prefix [ale-rt]
+* Fix ip separator [ale-rt]
+* Merge pull request #1244 from quaive/lofi-quaive [GitHub]
+* Do not autoload previews on slow networks [ale-rt]
+* Disable previews on slow networks for content updates [ale-rt]
+* Image preview for posts with images [ale-rt]
+* Image preview for posts with attachments [ale-rt]
+* The preview size is enough for everybody [ale-rt]
+* Do not show content updates previews if the network is slow [ale-rt]
+* Anti if campaign [ale-rt]
+* Do not show image previews in comment if is slow [ale-rt]
+* Do not show preview for image contents in the stream [ale-rt]
+* Check is_slow [ale-rt]
+* Understand slow ips [ale-rt]
+* Merge pull request #1243 from quaive/translations_various [GitHub]
+* Merge pull request #1242 from quaive/release-1.2.x [GitHub]
+* added translations for stream and other small missing tokens [Angela Steinhardt]
+* changed domain (removed "plone") to get create event translated [Angela Steinhardt]
+* added missing i18n statement [Angela Steinhardt]
+* added end tal:replace for some statements to make i18ndude to accept the file. [Angela Steinhardt]
+* Back to development: 1.2.55 [ale-rt]
 
 
 1.2.54 (2017-03-30)
