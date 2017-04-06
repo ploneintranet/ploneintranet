@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.55 (unreleased)
+1.2.55 (2017-04-06)
 -------------------
 
 * Merge pull request #1253 from quaive/fix-empty-tag [GitHub]
