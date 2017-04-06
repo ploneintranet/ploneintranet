@@ -89,7 +89,7 @@ class AddWorkspace(AddBase):
             {
                 'id': fti.id,
                 'portal_type': fti.id,
-                'title': fti.title
+                'title': fti.Title(),
             }
             for fti in allowed_ftis
         ]
