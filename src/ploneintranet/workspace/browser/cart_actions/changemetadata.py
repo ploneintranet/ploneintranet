@@ -36,7 +36,10 @@ class ChangemetadataView(BaseCartView):
         for key in self.allowed_record_keys:
             if key in record:
                 if key == 'subject':
-                    data[key] = tuple(record['subject'].split(','))
+                    if record['subject']:
+                        data[key] = tuple(record['subject'].split(','))
+                    else:
+                        data[key] = ()
                 else:
                     data[key] = record[key]
         return data
