@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """View for creating/updating users from an input file"""
 
+import codecs
+import csv
 import tablib
 import itertools
 import logging
@@ -134,9 +136,23 @@ class CSVImportView(BrowserView):
         """Process the input file, validate and
         create the users.
         """
+        # Excel inserts the useless BOM for UTF8, remove it
+        csvfile = csvfile.replace(codecs.BOM_UTF8, '')
+        u_csvfile = safe_unicode(csvfile)
+        # Find out which delimiter is used. CSV from EXCEL can have semicolon
+        try:
+            sep = csv.Sniffer().sniff(u_csvfile, delimiters=',;\t').delimiter
+        except csv.Error:
+            return self._show_message_redirect(
+                _("File incorrectly formatted.")
+            )
+
+        # Tablib can only work with comma as a separator
+        if sep != ',':
+            u_csvfile = u_csvfile.replace(sep, ',')
         # Remove empty lines
-        csvdata = u"\n".join(
-            [line for line in safe_unicode(csvfile).split('\n') if line])
+        lines = [line for line in u_csvfile.splitlines() if line]
+        csvdata = u"\n".join(lines)
         data = tablib.Dataset()
         try:
             data.csv = csvdata.encode('utf-8')
