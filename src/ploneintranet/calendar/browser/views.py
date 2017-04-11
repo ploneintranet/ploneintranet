@@ -72,16 +72,21 @@ class CalendarMoreMenu(BrowserView):
         ''' Return the webcal url
         '''
         target_url = self.target.absolute_url()
+        if target_url.startswith('https'):
+            prot = 'webcals'
+        else:
+            prot = 'webcal'
         schemaless_absolute_url = target_url.partition('://')[-1]
         params = {
             'uid': self.get_user().id,
             'token': self.get_token(),
         }
-        return 'webcal://{schemaless_absolute_url}/ics_export?{params}'.format(
+        url = '{prot}://{schemaless_absolute_url}/ics_export?{params}'.format(
+            prot=prot,
             schemaless_absolute_url=schemaless_absolute_url,
             params=urlencode(params),
         )
-        return
+        return url
 
 
 class IcsExport(CalendarMoreMenu):
