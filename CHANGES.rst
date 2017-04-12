@@ -4,7 +4,14 @@ Changelog
 1.2.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1257 from quaive/webcal_https [GitHub]
+* Merge pull request #1256 from quaive/import-user-improvements [GitHub]
+* for the WebCal URL, use 'webcals' in case we're browsing via https [Wolfgang Thomas]
+* Make importing users also work for files created in a Windows environment [Wolfgang Thomas]
+* Merge pull request #1255 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1254 from quaive/translate_custom_ws_types [GitHub]
+* Back to development: 1.2.56 [Manuel Reinhardt]
+* Use the Title() method on fti, since this will ensure that a Message (from i18nmessageid) will be created, allowing to translate it. [Wolfgang Thomas]
 
 
 1.2.55 (2017-04-06)
