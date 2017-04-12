@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.56 (unreleased)
+1.2.56 (2017-04-12)
 -------------------
 
 * Merge pull request #1257 from quaive/webcal_https [GitHub]
