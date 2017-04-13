@@ -53,6 +53,25 @@ class TodoView(BaseView):
                 type="success")
         super(TodoView, self).update()
 
+    @property
+    @memoize
+    def metromap(self):
+        ''' Get the the metromap view
+        '''
+        return api.content.get_view(
+            'metromap',
+            self.workspace,
+            self.request,
+        )
+
+    @property
+    @memoize
+    def milestone_options(self):
+        ''' Get the milestone options from the metromap (if we have any)
+        '''
+        current_milestone = self.context.milestone
+        return self.metromap.get_milestone_options(current_milestone)
+
 
 class TodoWorkflowMenu(WorkflowMenu):
     ''' Customize the workflow menu for todos

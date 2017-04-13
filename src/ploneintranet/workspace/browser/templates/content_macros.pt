@@ -45,19 +45,18 @@
                class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
       <br/>
-
-      <tal:case_todo condition="workspace/is_case">
-        <label class="stage milestone"
-               tal:define="workspace_view nocall:workspace/view">
+      <tal:case_todo condition="milestone_options"
+                     define="
+                       milestone_options view/milestone_options|nothing;
+                     ">
+        <label class="stage milestone">
           <span tal:omit-tag="" i18n:translate="">Milestone this task belongs to</span>
-          <select name="milestone" tal:define="mm_seq workspace_view/metromap_sequence">
+          <select name="milestone">
             <option></option>
-            <tal:milesstones repeat="milestone mm_seq">
-              <option tal:define="current_milestone python:request.form.get('milestone') if context == workspace else getattr(context, 'milestone', '')"
-                      value="${milestone}"
-                      tal:attributes="selected python:'selected' if current_milestone == milestone else ''"
-                      tal:content="python:mm_seq[milestone]['title']"/>
-            </tal:milesstones>
+            <option value="${option/value}"
+                    selected="${option/selected}"
+                    tal:repeat="option milestone_options"
+            >${option/title}</option>
           </select>
         </label>
         <br />
