@@ -182,3 +182,22 @@ class MetromapTile(Tile):
         milestones = map(self.get_milestone, self.transitions)
         self.set_milestone_states(milestones)
         return milestones
+
+    @memoize
+    def get_milestone_options(self, selected_value=None):
+        ''' Return the options for a milestone select
+        '''
+        if selected_value is None:
+            selected_value = self.request.form.get('milestone')
+        options = []
+        get_state = self.workflow.states.get
+        for transition in self.transitions:
+            value = transition['state']
+            title = _(get_state(value).title)
+            selected = 'selected' if value == selected_value else None
+            options.append({
+                'value': value,
+                'title': title,
+                'selected': selected
+            })
+        return options
