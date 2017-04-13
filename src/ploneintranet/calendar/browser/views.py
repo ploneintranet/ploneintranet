@@ -46,7 +46,10 @@ class CalendarMoreMenu(BrowserView):
     def get_user(self):
         ''' Get the requested user
         '''
-        return pi_api.userprofile.get_current()
+        user = pi_api.userprofile.get_current()
+        if not user:
+            raise Unauthorized("Only valid users can access this menu")
+        return user
 
     @memoize
     def get_key(self):

@@ -51,6 +51,7 @@
                 <a class="icon iconified icon-ellipsis dropdown pat-tooltip float-after"
                    href="${here/absolute_url}/@@calendar-more-menu#calendar-more-menu"
                    data-pat-tooltip="source: ajax; position: tr"
+                   tal:condition="not:context/@@plone_portal_state/anonymous"
                    i18n:translate=""
                 >More</a>
                 <input class="cal-cat-${python:view.id2class(ws.getId())}"
