@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ploneintranet">
+
+
+  <!--
+    This views are here for testing purpose
+  -->
+  <browser:page
+      name="test_injection_on_insufficient_privileges"
+      for="*"
+      permission="zope.Public"
+      template="test_injection_on_insufficient_privileges.pt"
+      />
+
+  <browser:page
+      name="test_always_raise_insufficient_privileges"
+      for="*"
+      permission="zope.Public"
+      class=".always_raise.View"
+      />
+
+</configure>
