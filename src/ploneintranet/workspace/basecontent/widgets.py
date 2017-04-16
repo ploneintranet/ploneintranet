@@ -1,16 +1,20 @@
+# coding=utf-8
 from datetime import datetime
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.behaviors.file import IFileField
 from ploneintranet.workspace.interfaces import IWorkspaceAppFormLayer
 from pytz import timezone
+from z3c.form.browser.select import SelectWidget
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import DateDataConverter
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IFieldWidget
+from z3c.form.interfaces import ISelectWidget
 from z3c.form.interfaces import IWidget
 from z3c.form.interfaces import NOT_CHANGED
 from z3c.form.interfaces import NO_VALUE
@@ -19,12 +23,13 @@ from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import adapter
 from zope.component import adapts
+from zope.interface import Interface
 from zope.interface import implementer
 from zope.interface import implementer_only
+from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import ITuple
-
 from ploneintranet.network.behaviors.metadata import IDublinCore \
     as pi_IDublinCore
 
@@ -170,3 +175,21 @@ def PloneIntranetImageFieldWidget(field, request):
 @implementer(IFieldWidget)
 def PloneIntranetFileFieldWidget(field, request):
     return FieldWidget(field, PloneIntranetFileWidget(request))
+
+
+@implementer_only(ISelectWidget)
+class PloneIntranetSelectWidget(SelectWidget):
+    """Select widget implementation."""
+    noValueMessage = _('Unknown')
+
+
+@adapter(IChoice, Interface, IWorkspaceAppFormLayer)
+@implementer(IFieldWidget)
+def PloneIntranetSelectFieldWidget(field, source, request=None):
+    """IFieldWidget factory for SelectWidget."""
+    # BBB: emulate our pre-2.0 signature (field, request)
+    if request is None:
+        real_request = source
+    else:
+        real_request = request
+    return FieldWidget(field, PloneIntranetSelectWidget(real_request))
