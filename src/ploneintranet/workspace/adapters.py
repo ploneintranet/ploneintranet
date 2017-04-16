@@ -301,12 +301,16 @@ class MetroMap(object):
 
             # only current state can be closed
             if (state == current_state and can_manage and not open_tasks):
-                next_transition = wfstep.get('next_transition', None)
+                next_transition_enabled = True
             else:
-                next_transition = None
-            if next_transition:
+                next_transition_enabled = False
+
+            # get the id and title of the next transition, for display on the
+            # metromap
+            next_transition_id = metromap_list[index].get('next_transition')
+            if next_transition_id:
                 transition_title = _(
-                    cwf.transitions.get(next_transition).title)
+                    cwf.transitions.get(next_transition_id).title)
             else:
                 transition_title = ''
 
@@ -323,7 +327,8 @@ class MetroMap(object):
 
             sequence[state] = {
                 'title': _(cwf.states.get(state).title),
-                'transition_id': next_transition,
+                'transition_enabled': next_transition_enabled,
+                'transition_id': next_transition_id,
                 'transition_title': transition_title,
                 'reopen_transition': reopen_transition,
                 'is_current': is_current,
