@@ -570,12 +570,7 @@ class Sidebar(BaseTile):
         """
         Return the children for a certain grouping_value
         """
-        grouping = self.grouping()
-        sorting = self.sorting()
-        grouping_value = self.request.get('groupname')
-        filter = self.request.get('filter')
-        children = self.get_group_children(grouping, grouping_value, filter,
-                                           sorting)
+        children = self.get_group_children()
         if page_idx is None:
             page_idx = self.page_idx
         page_size = self.page_size
@@ -721,29 +716,9 @@ class Sidebar(BaseTile):
 
         return headers
 
-    def get_group_children(self,
-                           grouping,
-                           grouping_value,
-                           filter=None,
-                           sorting='modified'):
-        """
-        Return all the items that have a value $grouping_value for a
-        field corresponding to $grouping.
-        """
-        catalog = api.portal.get_tool(name='portal_catalog')
-        workspace = parent_workspace(self.context)
-        # workspace_uid = IUUID(workspace)
-        criteria = {
-            'path': '/'.join(workspace.getPhysicalPath()),
-            'fl': 'score Creator Title UID Subject modified outdated '
-                  'path_string portal_type getthumb review_state '
-                  'sortable_title documentType path_string getIcon '
-                  'Description',
-            'hl': 'false',
-            'sort_on': sorting,
-            'sort_order':
-            sorting == 'modified' and 'descending' or 'ascending',
-        }
+    def get_base_group_query(self):
+        ''' This is the base query to search the catalog for groups
+        '''
         # XXX: This is not yet exposed in the UI, but may soon be
         # if 'my_documents' in self.show_extra:
         #     username = api.user.get_current().getId()
@@ -751,102 +726,164 @@ class Sidebar(BaseTile):
 
         # if not self.archives_shown():
         #     criteria['outdated'] = False
+        workspace = parent_workspace(self.context)
+        sorting = self.sorting()
+        sort_order = sorting == 'modified' and 'descending' or 'ascending'
+        return {
+            'path': '/'.join(workspace.getPhysicalPath()),
+            'fl': 'score Creator Title UID Subject modified outdated '
+                  'path_string portal_type getthumb review_state '
+                  'sortable_title documentType path_string getIcon '
+                  'Description',
+            'hl': 'false',
+            'sort_on': sorting,
+            'sort_order': sort_order,
+        }
 
-        def values_in_grouping(name, value):
-            gs = IGroupingStorage(workspace)
-            groupings = gs.get_groupings()
-            grouping = groupings.get(name, dict())
-            return [x for x in grouping.get(value, list())]
+    def get_group_brains(self, additional_query={}):
+        ''' Return objects in catalog satisfying the base query updated
+        with the optional additional_query
+        '''
+        catalog = api.portal.get_tool(name='portal_catalog')
+        query = self.get_base_group_query()
+        query.update(additional_query)
+        return catalog(**query)
 
-        documents = []
+    def get_grouping_by_name(self):
+        ''' Gets the available groupings
+        '''
+        workspace = parent_workspace(self.context)
+        gs = IGroupingStorage(workspace)
+        groupings = gs.get_groupings()
+        return groupings.get(self.grouping(), {})
 
+    def uids_in_grouping(self):
+        ''' Get the values in grouping
+        '''
+        grouping = self.get_grouping_by_name()
+        value = self.request.get('groupname')
+        return [x for x in grouping.get(value, [])]
+
+    def get_group_children_by_label(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to "label".
+
+        This is a bit of an exception compared to the
+        other groupings.
+        We have to check whether grouping_value is 'Untagged', so we
+        query the catalog here and not at the end of the method.
+        """
+        grouping_value = self.request.get('groupname')
+        if grouping_value != 'Untagged':
+            uids = self.uids_in_grouping()
+            brains = self.get_group_brains({'UID': uids})
+        else:
+            brains = self.get_group_brains()
+        return [
+            brain for brain in brains
+            if not(grouping_value == 'Untagged' and brain.Subject)
+        ]
+
+    def get_group_children_by_author(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to "author".
+        """
+        # XXX This is not yet exposed in the UI, but might be soon.
+        # if 'my_documents' in self.show_extra and \
+        #         criteria.get('Creator') != grouping_value:
+        #     # If the filter is "Documents by me" and the groupingvalue is
+        #     # not the current user, we don't return any documents.
+        #     return []
+        uids = self.uids_in_grouping()
+        return self.get_group_brains({'UID': uids})
+
+    def get_group_children_by_date(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to "date".
+        """
+        # Show the results grouped by today, the last week,
+        # the last month,
+        # all time. For every grouping, we exclude the previous one. So,
+        # last week won't again include today and all time would exclude
+        # the last month.
+        today_start = DateTime(DateTime().Date())
+        today_end = today_start + 1
+        week_start = today_start - 6
+        # FIXME: Last month should probably be the last literal month,
+        # not the last 30 days.
+        month_start = today_start - 30
+        query = {}
+        grouping_value = self.request.get('groupname')
+        if grouping_value == 'Today':
+            query['modified'] = {
+                'range': 'min:max',
+                'query': (today_start, today_end)
+            }
+        elif grouping_value == 'Last Week':
+            query['modified'] = {
+                'range': 'min:max',
+                'query': (week_start, today_start)
+            }
+        elif grouping_value == 'Last Month':
+            query['modified'] = {
+                'range': 'min:max',
+                'query': (month_start, week_start)
+            }
+        elif grouping_value == 'All Time':
+            query['modified'] = {
+                'range': 'max',
+                'query': month_start
+            }
+
+        brains = self.get_group_brains(query)
+        return [
+            brain for brain in brains
+            if brain.portal_type != 'ploneintranet.workspace.workspacefolder'
+        ]
+
+    def get_group_children_by_type(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to "type".
+        """
+        grouping_value = self.request.get('groupname')
+        if grouping_value == 'other':
+            brains = self.get_group_brains()
+        else:
+            brains = self.get_group_brains({'mimetype': grouping_value})
+        return [
+            brain for brain in brains
+            if brain.portal_type != 'ploneintranet.workspace.workspacefolder'
+        ]
+
+    def get_group_children_by_first_letter(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to "first_letter".
+        """
+        uids = self.uids_in_grouping()
+        return self.get_group_brains({'UID': uids})
+
+    def get_group_children(self):
+        """
+        Return all the items that have a value $grouping_value for a
+        field corresponding to $grouping.
+        """
+        grouping = self.grouping()
         if grouping == 'label':
-            # This is a bit of an exception compared to the
-            # other groupings.
-            # We have to check whether grouping_value is 'Untagged', so we
-            # query the catalog here and not at the end of the method.
-            if grouping_value != 'Untagged':
-                criteria['UID'] = values_in_grouping('label', grouping_value)
-
-            brains = catalog(**criteria)
-            for brain in brains:
-                if grouping_value == 'Untagged' and brain.Subject:
-                    continue
-                documents.append(brain)
-
+            return self.get_group_children_by_label()
         elif grouping == 'author':
-            # XXX This is not yet exposed in the UI, but might be soon.
-            # if 'my_documents' in self.show_extra and \
-            #         criteria.get('Creator') != grouping_value:
-            #     # If the filter is "Documents by me" and the groupingvalue is
-            #     # not the current user, we don't return any documents.
-            #     return []
-            criteria['UID'] = values_in_grouping('author', grouping_value)
-            # criteria['Creator'] = grouping_value
-            brains = catalog(**criteria)
-            for brain in brains:
-                documents.append(brain)
-
+            return self.get_group_children_by_author()
         elif grouping == 'date':
-            # Show the results grouped by today, the last week,
-            # the last month,
-            # all time. For every grouping, we exclude the previous one. So,
-            # last week won't again include today and all time would exclude
-            # the last month.
-            today_start = DateTime(DateTime().Date())
-            today_end = today_start + 1
-            week_start = today_start - 6
-            # FIXME: Last month should probably be the last literal month,
-            # not the last 30 days.
-            month_start = today_start - 30
-
-            if grouping_value == 'Today':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (today_start, today_end)}
-            elif grouping_value == 'Last Week':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (week_start, today_start)}
-            elif grouping_value == 'Last Month':
-                criteria['modified'] = \
-                    {'range': 'min:max', 'query': (month_start, week_start)}
-            elif grouping_value == 'All Time':
-                criteria['modified'] = {'range': 'max', 'query': month_start}
-
-            brains = catalog(**criteria)
-            for brain in brains:
-                if brain.portal_type == \
-                   'ploneintranet.workspace.workspacefolder':
-                    continue
-                documents.append(brain)
-
+            return self.get_group_children_by_date()
         elif grouping == 'type':
-            if grouping_value != 'other':
-                criteria['mimetype'] = grouping_value
-                brains = catalog(**criteria)
-                for brain in brains:
-                    if brain.portal_type == \
-                       'ploneintranet.workspace.workspacefolder':
-                        continue
-                    documents.append(brain)
-            else:
-                brains = catalog(**criteria)
-                for brain in brains:
-                    if brain.portal_type == \
-                       'ploneintranet.workspace.workspacefolder':
-                        continue
-
-                    if map_content_type(brain.mimetype):
-                        continue
-                    documents.append(brain)
-
+            return self.get_group_children_by_type()
         elif grouping == 'first_letter':
-            criteria['UID'] = values_in_grouping('first_letter',
-                                                 grouping_value)
-            brains = catalog(**criteria)
-            for brain in brains:
-                documents.append(brain)
-
-        return documents
+            return self.get_group_children_by_first_letter()
+        return []
 
     def set_grouping_cookie(self):
         """
