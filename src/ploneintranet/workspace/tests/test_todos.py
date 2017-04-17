@@ -146,3 +146,28 @@ class TestTodos(BaseTestCase):
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'planned')
         api.content.transition(case2, 'assign')
         self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')
+
+    def test_reject_case(self):
+        """
+        Rejecting a Case should set 'open' Todo items to 'planned'
+        """
+        wft = self.portal.portal_workflow
+        case_todo = api.content.create(
+            type='todo',
+            title='case_todo',
+            container=self.case,
+            milestone='new',
+        )
+        self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')
+
+        api.content.transition(self.case, 'reject')
+        self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'planned')
+
+        case_todo.milestone = 'bogus'
+        api.content.transition(self.case, 'reset')
+        self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'planned')
+
+        api.content.transition(self.case, 'reject')
+        case_todo.milestone = 'new'
+        api.content.transition(self.case, 'reset')
+        self.assertEquals(wft.getInfoFor(case_todo, 'review_state'), 'open')

@@ -38,7 +38,14 @@ class Todo(Item):
             if milestone:
                 case_state = wft.getInfoFor(workspace, 'review_state')
                 mm = IMetroMap(workspace).metromap_sequence.keys()
-                future = mm.index(milestone) > mm.index(case_state)
+                # A case could be set to a state which isn't included in the
+                # metromap e.g. on-hold, rejected. If that happens we can treat
+                # it as a future state and set all open tasks to planned
+                mm_states = case_state in mm and milestone in mm
+                future = (
+                    not mm_states or
+                    mm.index(milestone) > mm.index(case_state)
+                )
                 current_or_past = not future
                 if current_or_past and todo_state != 'open':
                     api.content.transition(self, 'set_to_open')
