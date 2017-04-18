@@ -131,6 +131,12 @@
      handler=".subscribers.content_object_moved"
      />
 
+  <subscriber
+     for="plone.app.contenttypes.interfaces.IDocument
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+     handler=".subscribers.set_default_body_text"
+     />
+
   <genericsetup:registerProfile
       name="default"
       title="Plone Intranet: -- [Workspace]"
