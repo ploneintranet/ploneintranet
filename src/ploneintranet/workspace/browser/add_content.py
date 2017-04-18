@@ -8,6 +8,7 @@ from plone.i18n.normalizer import idnormalizer
 from ploneintranet.core import ploneintranetCoreMessageFactory as _  # noqa
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.case import create_case_from_template
+from ploneintranet.workspace.unrestricted import execute_as_manager
 from ploneintranet.workspace.utils import parent_workspace
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -93,9 +94,17 @@ class AddContent(BrowserView):
                 else:
                     raise AttributeError
 
-                new.set_external_visibility(external_visibility)
+                if external_visibility:
+                    execute_as_manager(
+                        new.set_external_visibility, external_visibility)
+
                 new.join_policy = join_policy
                 new.participant_policy = participant_policy
+
+            acl_users = api.portal.get_tool('acl_users')
+            if acl_users.ZCacheable_enabled():
+                acl_users.ZCacheable_invalidate()
+
 
         modified, errors = dexterity_update(new)
 
