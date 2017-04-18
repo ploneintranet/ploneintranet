@@ -5,6 +5,7 @@ from plone.memoize.view import memoize
 from zope.interface import implements
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 import ploneintranet.api as pi_api
+from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.utils import parent_workspace
 from json import dumps
@@ -14,6 +15,12 @@ class BaseWorkspaceView(BrowserView):
     """
     Base view class for workspace related view
     """
+    def __call__(self):
+        section = self.request.form.get('section', None)
+        if section == 'task':
+            update_task_status(self)
+        return super(BaseWorkspaceView, self).__call__()
+
     @memoize
     def workspace(self):
         """Acquire the root workspace of the current context"""
