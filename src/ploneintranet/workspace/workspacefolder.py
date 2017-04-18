@@ -143,15 +143,27 @@ class WorkspaceFolder(Container):
                 items[milestone].sort(key=lambda x: x['checked'] is False)
         return items
 
-    def existing_users(self):
+    def existing_users(self, members_only=True):
         """
         Look up the full user details for current workspace members
         """
-        members = IWorkspace(self).members
         info = []
+        if members_only:
+            members = IWorkspace(self).members
+            users = members.items()
+        else:
+            users = api.user.get_users()
 
-        for user_or_group_id, details in members.items():
-            user = api.user.get(user_or_group_id)
+        for user_details in users:
+            if members_only:
+                user_or_group_id, details = user_details
+                groups = details['groups']
+                user = api.user.get(user_or_group_id)
+            else:
+                user = user_details
+                user_or_group_id = user.getId()
+                groups = api.group.get_groups(user=user)
+
             if user is not None:
                 typ = 'user'
                 user = user.getUser()
@@ -181,7 +193,6 @@ class WorkspaceFolder(Container):
             # that is not the default participation policy group
             # (including Admins group)
             role = None
-            groups = details['groups']
             if 'Admins' in groups:
                 role = 'Admin'
             for policy in PARTICIPANT_POLICY:
@@ -204,7 +215,7 @@ class WorkspaceFolder(Container):
                     portrait=portrait,
                     cls=classes,
                     member=True,
-                    admin='Admins' in details['groups'],
+                    admin='Admins' in groups,
                     role=role,
                     typ=typ
                 )
@@ -228,14 +239,15 @@ class WorkspaceFolder(Container):
         Return JSON for pre-filling a pat-autosubmit field with the values for
         that field
         """
-        users = self.existing_users()
         field_value = getattr(context, field, default)
+        if not field_value:
+            return ''
+        assigned_users = field_value.split(',')
         prefill = {}
-        if field_value:
-            assigned_users = field_value.split(',')
-            for user in users:
-                if user['id'] in assigned_users:
-                    prefill[user['id']] = user['title']
+        for user_id in assigned_users:
+            user = api.user.get(user_id)
+            if user:
+                prefill[user_id] = user.getProperty('fullname')
         if prefill:
             return dumps(prefill)
         else:
