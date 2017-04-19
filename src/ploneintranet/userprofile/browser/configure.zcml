@@ -124,6 +124,14 @@
 
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      name="view"
+      permission="zope2.View"
+      class=".userprofilecontainer.View"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
+
+  <browser:page
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="import-users"
       class=".user_import.CSVImportView"
       permission="cmf.ManagePortal"
