@@ -4,7 +4,6 @@ from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
-from ploneintranet.layout.interfaces import IAppLayer
 from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from ploneintranet.network.behaviors.metadata import IDublinCore as pi_IDublinCore  # noqa
 from ploneintranet.workspace.behaviors.file import IFileField
@@ -28,46 +27,6 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
-from zope.schema.interfaces import ITuple
-
-
-class ICommaSeparatedWidget(IWidget):
-    """ Marker interface """
-
-
-@implementer_only(ICommaSeparatedWidget)
-class CommaSeparatedWidget(Widget):
-    def extract(self, default=NO_VALUE):
-        """pat-autosuggest fields use a comma separated string as the value.
-        Split that into a tuple of strings.
-
-        :rtype tuple of strings: """
-        value = self.request.get(self.name, default)
-        if value == u'':
-            return ()
-        if isinstance(value, basestring):
-            values = value.split(',')
-            return tuple(values)
-
-
-class CommaSeparatedConverter(BaseDataConverter):
-    adapts(ITuple, ICommaSeparatedWidget)
-
-    def toFieldValue(self, value):
-        """Return the tuple of strings
-
-        :rtype tuple of strings:
-        """
-        if value is None:
-            return self.field.missing_value
-        return value
-
-
-# plone intranet uses a dublincore override
-@adapter(getSpecification(pi_IDublinCore['subjects']), IAppLayer)
-@implementer(IFieldWidget)
-def CommaSeparatedFieldWidget(field, request):
-    return FieldWidget(field, CommaSeparatedWidget(request))
 
 
 class IPatDatePickerWidget(IWidget):
