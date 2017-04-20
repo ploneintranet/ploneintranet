@@ -33,12 +33,14 @@ class TestSubscribers(FunctionalTestCase):
         ).value = 'TestDocument'
         self.browser.getControl(
             name="form.widgets.IDublinCore.subjects"
-        ).value = "foo;bar;foobar"
+        ).value = self.separator.join(('foo', 'bar', 'foobar'))
         self.browser.getControl('Save').click()
         self.assertTrue("foobar" in self.browser.contents)
-        self.assertFalse("foo;bar" in self.browser.contents)
+        self.assertFalse(
+            self.separator.join(('foo', 'bar')) in self.browser.contents)
 
     def test_add_document_adds_tags(self):
+        self.separator = ','
         self.add_testdocument()
         doc = self.portal.testdocument
         uuid = IUUID(doc)
@@ -49,6 +51,7 @@ class TestSubscribers(FunctionalTestCase):
     def test_add_document_standard_dublincore_does_not_add_tags(self):
         restore_all_behaviors()
         transaction.commit()
+        self.separator = ';'
         self.add_testdocument()
         doc = self.portal.testdocument
         uuid = IUUID(doc)
