@@ -35,6 +35,38 @@ class ContentView(BrowserView):
     sidebar_target = ''
     _edit_permission = 'Modify portal content'
 
+    _pat_redactor_options = [
+        ('imageupload', '{workspace_url}/images-upload.json'),
+        ('imagegetjson', '{workspace_url}/@@images.json'),
+        ('imageresizable', 'true'),
+        ('toolbar-external', '#editor-toolbar'),
+        ('allowed-tags', (
+            'p, ul, li, ol, strong, em, a, img, video, embed, object, '
+            'h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, '
+            'iframe, figure, figcaption'
+        )),
+        ('buttons', (
+            'format, bold, italic, deleted, lists, link, horizontalrule, image'
+        )),
+        ('formatting', 'p, pre, h1, h2, h3'),
+        ('plugins', 'bufferbuttons,alignment,table,source,video,imagemanager')
+    ]
+
+    @property
+    @memoize
+    def form_data_pat_redactor(self):
+        ''' Return the options for pat-redactor in the format:
+
+        key1: value1; key2: value2; ...
+        '''
+        workspace = parent_workspace(self.context)
+        options = '; '.join(
+            ': '.join(option) for option in self._pat_redactor_options
+        )
+        return options.format(
+            workspace_url=workspace.absolute_url()
+        )
+
     @property
     @memoize
     def is_ajax(self):

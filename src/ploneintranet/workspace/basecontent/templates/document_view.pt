@@ -198,7 +198,7 @@
                     <textarea tal:condition="not:read_only"
                               name="text"
                               class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
-                              data-pat-redactor="imageupload: ${workspace_url}/images-upload.json; imagegetjson: ${workspace_url}/@@images.json; imageresizable: true; toolbar-external: #editor-toolbar; allowed-tags: p, ul, li, ol, strong, em, a, img, video, embed, object, h1, h2, h3, h4, h5, table, thead, tbody, th, tr, td, iframe, figure, figcaption; buttons: format, bold, italic, deleted, lists, link, horizontalrule, image; formatting: p, pre, h1, h2, h3; plugins: alignment,table,source,video,imagemanager"
+                              data-pat-redactor="${view/form_data_pat_redactor}"
                               placeholder="Write your text here"
                               i18n:attributes="placeholder;"
                          >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
