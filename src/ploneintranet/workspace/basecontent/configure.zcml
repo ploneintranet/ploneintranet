@@ -102,9 +102,6 @@
     permission="zope2.View"
     />
 
-  <adapter factory=".widgets.CommaSeparatedConverter" />
-  <adapter factory=".widgets.CommaSeparatedFieldWidget" />
-
   <adapter factory=".widgets.PatDatePickerConverter" />
   <adapter factory=".widgets.PatDatePickerDataConverter" />
   <adapter factory=".widgets.StartPatDatePickerFieldWidget" />

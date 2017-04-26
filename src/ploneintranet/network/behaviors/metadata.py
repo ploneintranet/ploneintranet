@@ -173,6 +173,7 @@ class ICategorization(model.Schema):
     directives.widget(
         'subjects',
         AjaxSelectFieldWidget,
+        separator=',',
         vocabulary='ploneintranet.network.vocabularies.Keywords'
     )
 
@@ -316,7 +317,13 @@ CreatorsDefaultValue = ComputedWidgetAttribute(
 class IDublinCore(IOwnership, IPublication, ICategorization, IBasic):
     """ Metadata behavior providing all the DC fields
     """
-    pass
+
+    directives.widget(
+        'subjects',
+        AjaxSelectFieldWidget,
+        separator=',',
+        vocabulary='ploneintranet.network.vocabularies.Keywords'
+    )
 
 
 class Basic(MetadataBase):
