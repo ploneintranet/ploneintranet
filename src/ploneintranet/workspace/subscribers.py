@@ -364,6 +364,21 @@ def workspace_groupbehavior_toggled(obj, event):
         membrane_catalog.reindexObject(workspace)
 
 
+def _is_id_good_enough(objid, normalizedid, container):
+    ''' Check if the actual objid is good enough with respect
+    to the normalizedid.
+    '''
+    if objid == normalizedid:
+        return True
+    # If the normalizedid is avaliable, we should use it
+    if normalizedid not in container:
+        return False
+    parts = objid.rpartition('-')
+    if parts[0] == normalizedid and parts[-1].isdigit():
+        return True
+    return False
+
+
 def create_title_from_id(obj, event):
     if not api.portal.get_registry_record(
         'ploneintranet.workspace.rename_after_title_changed',
@@ -391,10 +406,10 @@ def create_title_from_id(obj, event):
         plone_view = getMultiAdapter((obj, obj.REQUEST), name='plone')
         name = plone_view.cropText(name, MAX_ID_FROM_TITLE_LENGTH, ellipsis="")
     normalized_name = IUserPreferredURLNormalizer(obj.REQUEST).normalize(name)
-    if orig_id == normalized_name:
-        # We already have the desired id, do nothing
-        return
     container = aq_parent(obj)
+    # Check if the id is already looking good
+    if _is_id_good_enough(orig_id, normalized_name, container):
+        return
     chooser = INameChooser(container)
     new_id = chooser and chooser.chooseName(normalized_name, container)
     if new_id and new_id != orig_id:
