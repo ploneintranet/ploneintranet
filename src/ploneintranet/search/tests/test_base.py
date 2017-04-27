@@ -1,20 +1,20 @@
-import abc
-import collections
-import datetime
 from functools import partial
-import unittest
-
-import transaction
 from pkg_resources import resource_filename
 from plone import api
 from plone.app import testing
 from plone.namedfile import NamedBlobFile
+from ploneintranet.search.interfaces import ISearchResponse
+from ploneintranet.search.interfaces import ISearchResult
+from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.search.testing import login_session
+from ploneintranet.search.testing import TEST_USER_1_NAME
 from zope.interface.verify import verifyObject
 
-from ploneintranet.search.interfaces import (ISiteSearch,
-                                             ISearchResponse,
-                                             ISearchResult)
-from ploneintranet.search.testing import login_session, TEST_USER_1_NAME
+import abc
+import collections
+import datetime
+import transaction
+import unittest
 
 
 class ContentSetup(object):
@@ -125,6 +125,13 @@ class SearchTestsBase(ContentSetup):
         util = self._make_utility()
         response = util.query('hopefully')
         self._check_type_iterable(response)
+
+    def test_response_boolean_state(self):
+        util = self._make_utility()
+        response = util.query('hopefully')
+        self.assertTrue(response)
+        response = util.query('unobtainium')
+        self.assertFalse(response)
 
     def test_results_iterable(self):
         util = self._make_utility()
