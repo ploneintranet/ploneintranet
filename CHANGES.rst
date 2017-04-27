@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.57 (unreleased)
+1.2.57 (2017-04-27)
 -------------------
 
 * Merge pull request #1261 from quaive/fix-subjects-widget [GitHub]
