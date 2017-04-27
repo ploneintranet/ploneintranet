@@ -482,12 +482,20 @@ class SearchTestsBase(ContentSetup):
     def test_search_result_sorting(self):
         util = self._make_utility()
         query = util.query
-        ascending = query('indexed', sort='modified')
-        ascending_titles = [result.title for result in ascending]
-        descending = query('indexed', sort='-modified')
-        descending_titles = [result.title for result in descending]
-        descending_titles.reverse()
-        self.assertEqual(ascending_titles, descending_titles)
+        for field in (
+            'modified',
+            'sortable_title',
+        ):
+            ascending = query('indexed', sort=field)
+            ascending_titles = [result.title for result in ascending]
+            descending = query('indexed', sort='-' + field)
+            descending_titles = [result.title for result in descending]
+            descending_titles.reverse()
+            self.assertEqual(
+                ascending_titles,
+                descending_titles,
+                msg='Error while sorting by {field}'.format(field=field)
+            )
 
     def test_file_content_matches(self):
         path = resource_filename('ploneintranet.search.tests',
