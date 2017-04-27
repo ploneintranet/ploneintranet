@@ -1,10 +1,28 @@
 Changelog
 =========
 
-1.2.57 (unreleased)
+1.2.58 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.57 (2017-04-27)
+-------------------
+
+* Merge pull request #1261 from quaive/fix-subjects-widget [GitHub]
+* Removed obsolete CommaSeparatedWidget. [Manuel Reinhardt]
+* Use comma as separator for subjects field. [Manuel Reinhardt]
+* Merge pull request #1264 from quaive/profiles-redirect [GitHub]
+* Profile container default view [ale-rt]
+* Merge pull request #1262 from quaive/milestone-options [GitHub]
+* Merge pull request #1260 from quaive/fix-calendar-more-menu-as-anonymous [GitHub]
+* Merge pull request #1259 from quaive/update-versions [GitHub]
+* Merge pull request #1258 from quaive/release-1.2.x [GitHub]
+* Easy customizable milestone options [ale-rt]
+* Only authenticated users can subscribe to a calendar [ale-rt]
+* Update collective.auditlog [ale-rt]
+* Back to development: 1.2.57 [ale-rt]
 
 
 1.2.56 (2017-04-12)
