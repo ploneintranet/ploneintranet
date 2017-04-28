@@ -1,21 +1,12 @@
-<nav id="tabs-nav"
-     class="tabs pat-tabs navigation"
+<nav class="tabs pat-tabs navigation"
+     id="tabs-nav"
+     tal:define="
+       context_url here/absolute_url;
+     "
      i18n:domain="ploneintranet"
-    >
-  <a href="@@search?SearchableText=${request/SearchableText|nothing}"
-     class="pat-inject #results"
-     i18n:translate=""
-    >All</a>
-  <a href="@@search_people?SearchableText=${request/SearchableText|nothing}"
-     class="pat-inject"
-     i18n:translate=""
-    >People</a>
-  <a href="@@search_images?SearchableText=${request/SearchableText|nothing}"
-     class="pat-inject"
-     i18n:translate=""
-    >Images</a>
-  <a href="@@search_files?SearchableText=${request/SearchableText|nothing}"
-     class="pat-inject"
-     i18n:translate=""
-    >Files</a>
+>
+  <a class="pat-inject ${tab/extra_class|nothing}"
+     href="${tab/url}"
+     tal:repeat="tab view/get_tabs"
+  >${tab/title}</a>
 </nav>
