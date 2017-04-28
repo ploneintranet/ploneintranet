@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+
+  <metal:content fill-slot="content">
+    <div class="focus-sidebar sidebar-normal application-administrator-tool application-administrator-tool sidebar-left-closed sidebar-right-closed "
+         id="application-body"
+    >
+      <div id="document-content">
+        <div id="app-content">
+          <div class="canvas-toolbar">
+            <form class="pat-autosubmit pat-inject"
+                  id="group-management-group-filter"
+                  action="${here/absolute_url}/${view/__name__}#directory"
+            >
+              <label class="bare pat-select"
+                     tal:condition="bbb|nothing"
+              >
+                <select>
+                  <option selected="${option/selected|nothing}"
+                          value="${option/value}"
+                          tal:repeat="option view/search_options"
+                  >${option/title}</option>
+                </select>
+              </label>
+              <div class="icons"
+                   tal:condition="view/can_add|nothing"
+              >
+                <a class="icon create pat-modal"
+                   href="${here/absolute_url}/panel-create-user-account#document-content"
+                   title="Create a new user account"
+                   i18n:attributes="title"
+                   i18n:translate=""
+                >Create a new user account</a>
+              </div>
+              <input name="SearchableText"
+                     placeholder="Search"
+                     size="20"
+                     type="search"
+                     value="${request/SearchableText|nothing}"
+                     i18n:attributes="placeholder"
+              />
+              <button hidden
+                      type="submit"
+                      i18n:translate=""
+              >Search</button>
+            </form>
+          </div>
+          <div id="directory">
+            <tal:has_results condition="not:view/users">
+              <p class="pat-message notice"
+                 tal:condition="request/SearchableText|nothing"
+                 i18n:translate=""
+              >No users found</p>
+              <p class="pat-message notice"
+                 tal:condition="not:request/SearchableText|nothing"
+                 i18n:translate=""
+              >Search for users</p>
+            </tal:has_results>
+            <ul class="users links tablesque autoload-users-source"
+                tal:condition="view/users"
+            ><tal:users repeat="user view/users"><li class="user-account status-${python:view.get_user_css_class(user)}"
+                    id="user-${python:user.UID[:6]}"
+                >
+                  <a class="user-name pat-modal"
+                     href="${user/getURL}/@@userprofile-info#person-info"
+                     title="${user/title}"
+                     data-pat-modal="class: large"
+                  >
+                    <img tal:replace="structure python:view.get_avatar_by_userid(user.getId())" />
+                    ${user/title}
+                  </a>
+                  <span class="functions">
+                    <a class="user-status pat-modal"
+                       href="${user/getURL}/panel-toggle-user-state#document-content"
+                       data-pat-modal="class: medium"
+                    >${python:view.get_status_hr(user)}</a>
+                  </span>
+                </li></tal:users><tal:autoload define="
+                              next_url python: view.users and view.search_view.next_page_url(view.users.total_results);
+                            "
+              ><li class="user-account"
+                    id="users-autoload-target"
+                    tal:condition="next_url"
+                >
+                  <a class="user-name pat-inject"
+                     href="${next_url}"
+                     i18n:translate=""
+                     data-pat-inject="source: .autoload-users-source; target: #users-autoload-target::element; trigger: autoload-visible"
+                  >Loading more search results…</a>
+                </li>
+              </tal:autoload></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </metal:content>
+</html>

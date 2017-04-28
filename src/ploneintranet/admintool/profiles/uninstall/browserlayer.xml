@@ -1,0 +1,7 @@
+<layers>
+  <layer
+    name="ploneintranet.admintool.browser"
+    interface="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+    remove="True"
+  />
+</layers>
