@@ -133,6 +133,13 @@ class SearchTestsBase(ContentSetup):
         response = util.query('unobtainium')
         self.assertFalse(response)
 
+    def test_response_length(self):
+        util = self._make_utility()
+        response = util.query('hopefully')
+        self.assertEqual(len(response), 1)
+        response = util.query('unobtainium')
+        self.assertEqual(len(response), 0)
+
     def test_results_iterable(self):
         util = self._make_utility()
         response = util.query('hopefully')
