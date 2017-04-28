@@ -24,7 +24,6 @@
              tal:define="
                type workspace/ws_type | string:workspace;
                autosave_enabled view/autosave_enabled|nothing;
-               form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
                read_only python:not view.can_edit;
              "
             >
@@ -37,7 +36,7 @@
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="${view/form_id}"
-                  data-pat-autosubmit="${python:autosave_enabled and 'delay: 2000ms' or None}"
+                  data-pat-autosubmit="delay: ${view/autosave_delay}"
                   data-pat-inject="${view/form_pat_inject_options}">
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
@@ -82,13 +81,8 @@
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
                     <tal:workflow replace="structure here/@@workflow_menu|nothing" />
+                    <tal:saving_badge replace="structure here/@@saving_badge" />
 
-                    <tal:autosaveon condition="autosave_enabled">
-                      <metal:macro use-macro="context/content_macros/saving_badge" />
-                    </tal:autosaveon>
-                    <tal:autosaveoff condition="not:autosave_enabled">
-                      <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
-                    </tal:autosaveoff>
                     <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
 
 

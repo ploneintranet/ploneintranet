@@ -3,6 +3,8 @@ from plone import api
 from ploneintranet.layout.app import apps_container_id
 
 import logging
+
+
 log = logging.getLogger(__name__)
 
 

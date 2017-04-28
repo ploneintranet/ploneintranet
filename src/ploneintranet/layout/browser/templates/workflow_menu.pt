@@ -1,6 +1,7 @@
 <fieldset class="pat-subform pat-autosubmit pat-inject"
           id="workflow-menu"
           data-pat-inject="${view/form_pat_inject_options}"
+          data-pat-autosubmit="delay: 1ms"
           tal:condition="view/has_workflow"
           i18n:domain="ploneintranet"
 >

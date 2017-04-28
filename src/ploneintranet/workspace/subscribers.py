@@ -385,6 +385,15 @@ def create_title_from_id(obj, event):
         default=True,
     ):
         return
+    autosave_portal_types = api.portal.get_registry_record(
+        'ploneintranet.workspace.autosave_portal_types',
+        default=[],
+    )
+    if obj.portal_type in autosave_portal_types:
+        # autosave does not work well with autorename because the form action
+        # will point to the old URL and the redirection tool will not work
+        # with the ajax calls
+        return
     if IContainerModifiedEvent.providedBy(event):
         # The container modified event gets triggered during the creation
         # of a folder. We must not change the id before an item as been

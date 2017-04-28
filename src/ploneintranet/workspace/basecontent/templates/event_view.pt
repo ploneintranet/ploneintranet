@@ -18,7 +18,10 @@
               read_only python:not view.can_edit;
               type workspace/ws_type | string:workspace;
               is_archived workspace/archival_date;
-              archived_class python:'workspace-state-archived' if is_archived else ''"
+              archived_class python:'workspace-state-archived' if is_archived else '';
+              autosave_enabled view/autosave_enabled|nothing;
+              autosave_delay view/autosave_delay|nothing;
+            "
            tal:attributes="class string:sidebar-normal application-workspace application- project page-type-${type} workspace-type-${type} ${archived_class} sidebar-left-closed">
 
           <h1 id="workspace-name">
@@ -29,11 +32,13 @@
           <div class="${workspace_id}" id="project-body">
 
               <div id="document-body" tal:define="formid here/UID;">
-                  <form class="document pat-inject pat-validation"
+                  <form class="document pat-inject pat-validation ${python:'pat-autosubmit' if view.autosave_enabled else ''}"
+                        method="POST"
+                        action="${context/absolute_url}/view#document-body"
                         id="${formid}"
-                        data-pat-validation="disable-selector: #save-event"
-                        data-pat-inject="source: #document-body; target: #document-body; &amp;&amp; source:#workspace-events; target: #workspace-events; loading-class: ''; &amp;&amp; source: #global-statusmessage; target: #global-statusmessage; loading-class: '';"
-                        method="POST" action="${context/absolute_url}/view#document-body">
+                        data-pat-validation="disable-selector: #save-button"
+                        data-pat-inject="${view/form_pat_inject_options}"
+                        >
                       <div class="metadata pat-bumper" id="meta">
                           <div class="meta-bar">
                               <!-- Next link should be populated with the link back to the parent. Used for small screen and accessibility -->
@@ -47,10 +52,7 @@
                               </span>
                               <div class="quick-functions">
                                 <a class="icon-ellipsis iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Show extra context actions" i18n:attributes="title" i18n:translate="" href="${context/absolute_url}/context-menu#content">Show extra context actions</a>
-                                <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">Copy</a-->
-
-                                <button id="save-event" type="submit" tal:condition="not:read_only" class="icon-floppy" title="Save this document" i18n:attributes="title" i18n:translate="">Save</button>
-
+                                <tal:saving_badge replace="structure here/@@saving_badge" />
                               </div>
                           </div>
                       </div>

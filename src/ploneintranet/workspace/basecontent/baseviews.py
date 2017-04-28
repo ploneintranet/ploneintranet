@@ -32,7 +32,6 @@ from zope.schema.interfaces import IVocabularyFactory
 class ContentView(BrowserView):
     """View and edit class/form for all default DX content-types."""
 
-    sidebar_target = ''
     _edit_permission = 'Modify portal content'
 
     _pat_redactor_options = [
@@ -118,8 +117,9 @@ class ContentView(BrowserView):
         ''' Look up the registry to check if autosave should be enabled
         for this portal_type
         '''
-        autosave_portal_types = get_record_from_registry(
-            'ploneintranet.workspace.autosave_portal_types'
+        autosave_portal_types = api.portal.get_registry_record(
+            'ploneintranet.workspace.autosave_portal_types',
+            default=[],
         )
         return self.context.portal_type in autosave_portal_types
 
@@ -128,7 +128,8 @@ class ContentView(BrowserView):
     def autosave_delay(self):
         ''' The delay before triggering the autosave injection
         '''
-        return u'2000ms'
+        if self.autosave_enabled:
+            return u'2000ms'
 
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
@@ -280,16 +281,32 @@ class ContentView(BrowserView):
         '''
         return self.context.UID()
 
+    @property
+    def sidebar_target(self):
+        ''' When injecting the form we may want to reload some sidebar parts
+        '''
+        return 'item-{UID}'.format(
+            UID=self.context.UID()
+        )
+
     def form_pat_inject_options(self):
         ''' Return the data-path-inject options we want to use
         '''
-        template = ' && '.join([
-            'source: #{form_id}; target: #{form_id};',
-            'source: #{sidebar_target}; target: #{sidebar_target};'
-            'source: #global-statusmessage; target: #global-statusmessage;'
-        ])
+        parts = [
+            'source: #{mainid}; target: #{mainid};',
+            'source: #{sidebar_target}-replacement; target: #{sidebar_target};'
+        ]
+        if self.autosave_enabled:
+            mainid = 'saving-badge'
+        else:
+            mainid = 'document-body'
+            parts.append(
+                '#global-statusmessage; target:#global-statusmessage; '
+                'loading-class: \'\''
+            )
+        template = ' && '.join(parts)
         return template.format(
-            form_id=self.form_id,
+            mainid=mainid,
             sidebar_target=self.sidebar_target,
         )
 

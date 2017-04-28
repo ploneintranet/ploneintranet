@@ -142,6 +142,15 @@
   />
 
   <browser:page
+      name="saving_badge"
+      for="*"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      template="templates/saving_badge.pt"
+      class=".saving_badge.View"
+      permission="zope2.View"
+      />
+
+  <browser:page
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="date-picker-i18n.json"
       class=".date_picker.I18nJSONView"
