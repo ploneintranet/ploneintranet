@@ -220,6 +220,11 @@ class SearchResponse(collections.Iterable):
         for search_result in self.context:
             yield search_result
 
+    def __bool__(self):
+        return bool(self.total_results)
+
+    __nonzero__ = __bool__
+
     @property
     def results(self):
         return self.context

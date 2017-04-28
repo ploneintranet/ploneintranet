@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """Interfaces for search API."""
-from zope.interface import Interface
-from zope import schema
-
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from zope import schema
+from zope.interface import Interface
 
 
 class IPloneintranetSearchLayer(Interface):
@@ -96,6 +95,10 @@ class ISearchResponse(Interface):
 
     total_results = schema.Int(
         title=_(u'The total number of results generated from the query'))
+
+    def __bool__():
+        """Search responses should be false if we have no results
+        """
 
     def __iter__():
         """Search responses should implement the `Iterable` protocol.
