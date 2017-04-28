@@ -25,9 +25,6 @@
              class="sidebar-normal application-workspace application- page-type-${type} workspace-type-${type} sidebar-left-closed"
              tal:define="
                type workspace/ws_type | string:workspace;
-               autosave_enabled view/autosave_enabled|nothing;
-               autosave_delay view/autosave_delay|nothing;
-               form_injection_elementid python:autosave_enabled and 'saving-badge' or 'document-body';
                read_only python:not view.can_edit;
                disabled python:'disabled' if read_only else None;
              "
@@ -36,12 +33,14 @@
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
           <div id="document-body">
-            <form class="document pat-inject document-type-${view/portal_type_to_class}"
+            <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''} document-type-${view/portal_type_to_class}"
                   method="POST"
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="document-form"
-                  data-pat-inject="${python: (not autosave_enabled) and '#global-statusmessage; target:#global-statusmessage; loading-class: \'\' &amp;&amp;' or ''} source: #${form_injection_elementid}; target: #${form_injection_elementid}; &amp;&amp; source: #item-${here/UID}-replacement; target: #item-${here/UID}; loading-class: ''">
+                  data-pat-autosubmit="delay: ${view/autosave_delay}"
+                  data-pat-inject="${view/form_pat_inject_options}"
+            >
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">
                   <button class="pat-switch back-to-parent icon-left-open" data-pat-switch="#application-body focus-* focus-sidebar">${context/aq_inner/aq_parent/title}</button>
@@ -50,27 +49,14 @@
                         id="document-title"
                         style="min-height: 1.5em"
                       >${context/title}</h1>
-                    <fieldset class="pat-subform pat-autosubmit pat-inject"
-                              data-pat-autosubmit="delay: ${autosave_delay}"
-                              data-pat-inject="source: #saving-badge; target: #saving-badge; &amp;&amp; source: #item-${here/UID}-replacement; target: #item-${here/UID};"
-                              tal:omit-tag="not:autosave_enabled"
-                    >
-                      <textarea class="doc-title pat-content-mirror"
-                                disabled="${disabled}"
-                                maxlength="70"
-                                name="title"
-                                placeholder="Document title"
-                                type="text"
-                                data-pat-content-mirror="target: #document-title"
-                      >${context/title}</textarea>
-                      <input tal:condition="autosave_enabled"
-                             tal:replace="structure context/@@authenticator/authenticator" />
-                      <input name="autosave_title"
-                             type="hidden"
-                             value="1"
-                             tal:condition="autosave_enabled"
-                      />
-                    </fieldset>
+                    <textarea class="doc-title pat-content-mirror"
+                              disabled="${disabled}"
+                              maxlength="70"
+                              name="title"
+                              placeholder="Document title"
+                              type="text"
+                              data-pat-content-mirror="target: #document-title"
+                    >${context/title}</textarea>
                   </span>
 
                   <div class="quick-functions">
@@ -93,13 +79,7 @@
 
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
                     <tal:workflow replace="structure here/@@workflow_menu|nothing" />
-
-                    <tal:autosaveon condition="autosave_enabled">
-                      <metal:macro use-macro="context/content_macros/saving_badge" />
-                    </tal:autosaveon>
-                    <tal:autosaveoff condition="not:autosave_enabled">
-                      <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
-                    </tal:autosaveoff>
+                    <tal:saving_badge replace="structure here/@@saving_badge" />
 
                     <a class="icon-down-open meta-data-toggle iconified pat-toggle" data-pat-toggle="selector: #document-form; value: more-metadata less-metadata" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">Toggle extra metadata</a>
 
@@ -108,14 +88,10 @@
                 </div> <!-- #meta-bar -->
                 <div tal:condition="python:context.portal_type == 'Document' and not read_only" id="editor-toolbar" class="bar redactor"><p class="loader" i18n:translate="">Loading...</p></div>
 
-                <fieldset class="pat-collapsible closed meta-extra ${python:'pat-autosubmit' if autosave_enabled else ''}"
+                <fieldset class="pat-collapsible closed meta-extra"
                           data-pat-collapsible="trigger: .meta-data-toggle"
-                          data-pat-autosubmit="${python: None if not autosave_enabled else 'delay: ' + autosave_delay}"
                           id="meta-extra"
                       >
-                    <input tal:condition="autosave_enabled"
-                           tal:replace="structure context/@@authenticator/authenticator" />
-
                     <div class="panel-content" style="display:none">
                         <fieldset class="bar">
                           <input type="text"
@@ -188,22 +164,14 @@
               <div id="document-content">
                 <article class="document rich"
                          tal:condition="python: context.portal_type == 'Document'">
-                  <fieldset class="pat-subform pat-autosubmit pat-inject"
-                            data-pat-autosubmit="delay: ${autosave_delay}"
-                            data-pat-inject="source: #saving-badge; target: #saving-badge"
-                            tal:omit-tag="not:autosave_enabled"
-                  >
-                    <input tal:condition="autosave_enabled"
-                           tal:replace="structure context/@@authenticator/authenticator" />
-                    <textarea tal:condition="not:read_only"
-                              name="text"
-                              class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
-                              data-pat-redactor="${view/form_data_pat_redactor}"
-                              placeholder="Write your text here"
-                              i18n:attributes="placeholder;"
-                         >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
-                    <span tal:condition="python:read_only and context.text and hasattr(context.text, 'raw')" tal:replace="structure context/text/output" />
-                  </fieldset>
+                  <textarea tal:condition="not:read_only"
+                            name="text"
+                            class="pat-redactor ${python:context.text and 'has-content' or 'has-no-content'}"
+                            data-pat-redactor="${view/form_data_pat_redactor}"
+                            placeholder="Write your text here"
+                            i18n:attributes="placeholder;"
+                       >${python: context.text.raw if context.text and hasattr(context.text, 'raw') else ''}</textarea>
+                  <span tal:condition="python:read_only and context.text and hasattr(context.text, 'raw')" tal:replace="structure context/text/output" />
                 </article>
 
                 <tal:c condition="python: context.portal_type == 'File'">
@@ -273,7 +241,7 @@
                  href="${item/url}"
                  data-pat-inject="${item/dpi|nothing}"
                  data-pat-switch="${item/dps|nothing}"
-                 tal:condition="request/form.submitted|request/autosave_title|nothing"
+                 tal:condition="request/form.submitted|nothing"
                  tal:repeat="item view/make_sidebar_items"
               >
                 <strong class="title">

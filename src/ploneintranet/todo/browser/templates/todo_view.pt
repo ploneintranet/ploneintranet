@@ -15,6 +15,7 @@
                      read_only python:not view.can_edit;
                      disabled python: None if view.can_edit else 'disabled';
                      workflow_menu nocall:here/@@workflow_menu|nothing;
+
                    ">
       <div class="application" id="app-space">
         <div class="sidebar-normal application-workspace application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed"
@@ -28,8 +29,14 @@
           <div class="${workspace_id}" id="project-body">
 
             <div id="document-body">
-              <form class="document pat-inject" method="POST" action="${context/absolute_url}/view"
-                data-pat-inject="source: #document-content; target: #document-content &amp;&amp; source: #global-statusmessage; target: #global-statusmessage;">
+              <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''}"
+                    method="POST"
+                    action="${context/absolute_url}/view"
+                    enctype="multipart/form-data"
+                    id="document-form"
+                    data-pat-autosubmit="delay: ${view/autosave_delay}"
+                    data-pat-inject="${view/form_pat_inject_options}"
+              >
                 <div class="metadata pat-bumper" id="meta">
                   <div class="meta-bar">
                     <span class="title-group">
@@ -67,7 +74,7 @@
                         Toggle extra metadata
                       </a>
                       <tal:workflow replace="structure workflow_menu|nothing" />
-                      <button type="submit" tal:condition="not:read_only" class="icon-floppy" i18n:translate="">Save</button>
+                      <tal:saving_badge replace="structure here/@@saving_badge" />
 
                     </div>
                   </div>

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from Products.Five import BrowserView
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.memoize.view import memoize
+from Products.Five import BrowserView
 
 
 class WorkflowMenu(BrowserView):

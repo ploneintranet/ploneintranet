@@ -1012,7 +1012,7 @@ I cannot edit an event because of validation
     Input Text  css=div.event-details input[name=start]  text=${start}
     Input Text  css=div.event-details input[name=end]  text=${end}
     Select From List  timezone  ${timezone}
-    Element Should Be Visible  jquery=#save-event:disabled
+    Element Should Be Visible  jquery=#save-button:disabled
 
 Then I can delete an event
     [arguments]  ${title}

@@ -8,6 +8,25 @@ from ploneintranet.workspace.basecontent.utils import get_selection_classes
 class EventView(ContentView):
     ''' This view specializes the content view for events
     '''
+    def form_pat_inject_options(self):
+        ''' Return the data-path-inject options we want to use
+        '''
+        parts = [
+            'source: #{mainid}; target: #{mainid};',
+            "source: #workspace-events; target: #workspace-events; loading-class: ''",  # noqa
+        ]
+        if self.autosave_enabled:
+            mainid = 'saving-badge'
+        else:
+            mainid = 'document-body'
+            parts.append(
+                '#global-statusmessage; target:#global-statusmessage; '
+                'loading-class: \'\''
+            )
+        template = ' && '.join(parts)
+        return template.format(
+            mainid=mainid,
+        )
 
     def validate(self):
         ''' Override base content validation

@@ -26,6 +26,14 @@ class BaseView(ContentView):
 @implementer(IBlocksTransformEnabled)
 class TodoView(BaseView):
 
+    @property
+    def sidebar_target(self):
+        ''' When injecting the form we may want to reload some sidebar parts
+        '''
+        return 'todo-{UID}'.format(
+            UID=self.context.UID()
+        )
+
     @memoize
     def is_done(self):
         ''' Check if this task is done
