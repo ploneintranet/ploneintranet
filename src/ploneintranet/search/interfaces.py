@@ -100,6 +100,10 @@ class ISearchResponse(Interface):
         """Search responses should be false if we have no results
         """
 
+    def __len__():
+        """Search responses should have a length
+        """
+
     def __iter__():
         """Search responses should implement the `Iterable` protocol.
 

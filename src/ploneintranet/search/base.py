@@ -225,6 +225,9 @@ class SearchResponse(collections.Iterable):
 
     __nonzero__ = __bool__
 
+    def __len__(self):
+        return self.total_results
+
     @property
     def results(self):
         return self.context
