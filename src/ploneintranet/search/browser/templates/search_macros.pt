@@ -1,0 +1,70 @@
+<metal:form define-macro="form"
+            i18n:domain="ploneintranet"
+>
+  <form class="pat-form pat-inject"
+        id="global-search"
+        action="${here/absolute_url}/@@search#results"
+        data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record"
+  >
+
+    <div class="container input">
+      <fieldset class="search pat-subform pat-autosubmit pat-inject"
+                data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record;"
+      >
+        <label>
+          <input name="SearchableText"
+                 placeholder="Search the entire intranet"
+                 type="search"
+                 value="${request/SearchableText|nothing}"
+                 i18n:attributes="placeholder label_search_entire_intranet"
+          />
+        </label>
+        <button type="search"
+                i18n:translate=""
+        >Search</button>
+      </fieldset>
+    </div>
+
+    <tal:nav replace="structure here/search_tabs" />
+
+    <div class="results"
+         id="results"
+         tal:define="
+           search_response search_response|nothing;
+         "
+    >
+      <metal:results define-slot="results">
+        <div class="container results">
+
+        </div>
+      </metal:results>
+    </div>
+  </form>
+</metal:form>
+
+<metal:autoload define-macro="autoload">
+  <tal:next define="
+              next_url python: view.next_page_url(len(search_response));
+            "
+            tal:condition="next_url"
+  >
+    <a class="item pat-inject"
+       id="search-autoload-target"
+       href="${next_url}"
+       data-pat-inject="source: #listing; target: #search-autoload-target::element; trigger: autoload-visible;"
+       i18n:translate=""
+    >Loading more search results…</a>
+  </tal:next>
+</metal:autoload>
+
+<metal:counter define-macro="counter">
+  <p tal:condition="not:search_response"
+     i18n:translate=""
+  >No results found</p>
+  <p tal:condition="search_response">
+    ${python:len(search_response)}
+    <span tal:omit-tag=""
+          i18n:translate=""
+    >items matched your search.</span>
+  </p>
+</metal:counter>

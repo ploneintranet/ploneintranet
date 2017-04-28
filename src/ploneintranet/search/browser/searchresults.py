@@ -385,14 +385,15 @@ class SearchResultsView(BrowserView):
 
         return display_previews == 'on'
 
-    def search_by_type(self, type_name):
+    def search_by_type(self, type_name, allow_all=False, sort=None):
         """
         Search for specific content types
         """
         form = self.request.form
         keywords = form.get('SearchableText')
         if not keywords:
-            return []
+            if not allow_all:
+                return []
         filters = {'portal_type': type_name}
 
         search_util = getUtility(ISiteSearch)
@@ -401,17 +402,30 @@ class SearchResultsView(BrowserView):
             filters=filters,
             start=self.get_start(),
             step=self._batch_size,
+            sort=sort,
         )
         return response
 
-    def search_images(self):
-        return self.search_by_type('Image')
+    def search_images(self, allow_all=False, sort=None):
+        return self.search_by_type(
+            'Image',
+            allow_all=allow_all,
+            sort=sort,
+        )
 
-    def search_files(self):
-        return self.search_by_type('File')
+    def search_files(self, allow_all=False, sort=None):
+        return self.search_by_type(
+            'File',
+            allow_all=allow_all,
+            sort=sort,
+        )
 
-    def search_people(self):
-        return self.search_by_type('ploneintranet.userprofile.userprofile')
+    def search_people(self, allow_all=False, sort=None):
+        return self.search_by_type(
+            'ploneintranet.userprofile.userprofile',
+            allow_all=allow_all,
+            sort=sort,
+        )
 
 
 class UserSearchResultsView(SearchResultsView):
