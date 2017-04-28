@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from plone.app.event.interfaces import IBrowserLayer as IPloneAppEventLayer
-
-from zope.interface import Interface, Attribute
+from plone.app.z3cform.interfaces import IPloneFormLayer
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 # NB additional content interfaces in .app.
@@ -50,7 +50,21 @@ class IAppContainer(Interface):
     app_layers = Attribute("A list of IAppLayer to be activated on traversal")
 
 
-class IAppView(Interface):
+class IDiazoNoTemplate(Interface):
+    """
+    Views marked by this interface will receive a "diazo off" class
+    that will skip diazo transforms
+    """
+
+
+class IDiazoAppTemplate(Interface):
+    """
+    Views marked by this interface will receive a diazo-template-* class
+    that can be used in diazo transforms
+    """
+
+
+class IAppView(IDiazoAppTemplate):
     """
     View interface to mark a view as being placed within the Apps section.
     I.e. event app views on the siteroot that don't have an IAppManager
