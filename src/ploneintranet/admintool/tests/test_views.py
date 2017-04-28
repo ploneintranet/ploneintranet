@@ -27,6 +27,7 @@ class TestViews(FunctionalTestCase):
             title='John Doe',
             first_name='John',
             last_name='Doe',
+            username='john-doe',
         )
         api.content.create(
             type='ploneintranet.userprofile.userprofile',
@@ -34,6 +35,7 @@ class TestViews(FunctionalTestCase):
             title='John Smith',
             first_name='John',
             last_name='Smith',
+            username='john-smith',
         )
 
     def login_as_portal_owner(self):
@@ -110,4 +112,47 @@ class TestViews(FunctionalTestCase):
         self.assertListEqual(
             [x.title for x in view.users],
             [u'John Doe']
+        )
+
+    def test_create_user_panel(self):
+        view = api.content.get_view(
+            'panel-create-user-account',
+            self.portal.profiles,
+            self.get_request(),
+        )
+        self.assertRaises(ValueError, view.create_user)
+        self.assertEqual(view.error, u'missing_parameter_key')
+        view.request = self.get_request({
+            'username': 'john-doe',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'jd@example.com',
+        })
+        self.assertRaises(Exception, view.create_user)
+        self.assertEqual(
+            view.error,
+            'The id "john-doe" is invalid - it is already in use.'
+        )
+        view.request = self.get_request({
+            'username': 'jane-doe',
+            'first_name': 'Jane',
+            'last_name': 'Doe',
+            'email': 'jd@example.com',
+        })
+        user = view.create_user()
+        self.assertEqual(user.fullname, u'Jane Doe')
+        self.assertEqual(
+            api.content.get_state(user),
+            'pending',
+        )
+
+    def test_mail_user_created(self):
+        view = api.content.get_view(
+            'mail-user-created',
+            self.portal.profiles['john-doe'],
+            self.get_request(),
+        )
+        self.assertIn(
+            'http://nohost/plone/mail_password?userid=john-doe',
+            view(),
         )

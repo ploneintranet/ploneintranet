@@ -21,25 +21,46 @@ Admin can use the administrator tool app
       And I can deactivate  Jorge Primavera
       And I can activate  Jorge Primavera
       And I can filter the users
+     Then I can add the user  john_doe  John  Doe  jd@example.net
+      And I can activate the new user  John Doe
 
 
 *** Keywords ***
 
 # See lib/keywords.robot in the section "case related keywords"
+I can add the user
+    [arguments]  ${username}  ${first_name}  ${last_name}  ${email}
+    Click Link  jquery=#group-management-group-filter .icon.create
+    Wait for injection to be finished
+    Input text  jquery=.wizard-box [name=username]  ${username}
+    Input text  jquery=.wizard-box [name=first_name]  ${first_name}
+    Input text  jquery=.wizard-box [name=last_name]  ${last_name}
+    Input text  jquery=.wizard-box [name=email]  ${email}
+    Click Button  Create user account
+    Wait for injection to be finished
+    Page should contain Element  jquery=li:contains('${first_name} ${last_name}')
+
 
 I can deactivate
     [arguments]  ${fullname}
-    Wait for injection to be finished
-    Click Element  jquery=li:contains(${fullname}) > .functions > a.user-status:contains(Enabled)
-    Wait for injection to be finished
-    Click Button  Deactivate user
+    I can modify the state for user  ${fullname}  Enabled  Deactivate user
 
 I can activate
     [arguments]  ${fullname}
+    I can modify the state for user  ${fullname}  Disabled  Activate user
+
+I can activate the new user
+    [arguments]  ${fullname}
+    I can modify the state for user  ${fullname}  Pending  Activate user
+
+I can modify the state for user
+    [arguments]  ${fullname}  ${state}  ${action}
     Wait for injection to be finished
-    Click Element  jquery=li:contains(${fullname}) > .functions > a.user-status:contains(Disabled)
+    Click Element  jquery=li:contains(${fullname}) > .functions > a.user-status:contains(${state})
     Wait for injection to be finished
-    Click Button  Activate user
+    Click Button  ${action}
+    Wait for injection to be finished
+    Click Button  Close
 
 I can filter the users
     Wait for injection to be finished

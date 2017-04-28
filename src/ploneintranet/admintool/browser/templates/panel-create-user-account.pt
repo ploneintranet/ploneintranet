@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <body>
+    <div id="document-content">
+      <div class="pat-modal"
+           tal:omit-tag="view/is_ajax"
+      >
+        <h1>${view/title}</h1>
+        <form class="wizard-box pat-inject"
+              action="${view/__name__}#document-content"
+              method="post"
+              data-pat-inject="#document-content &amp;&amp; #global-statusmessage; loading-class: ''"
+        >
+          <div class="panel-body">
+            <p class="pat-message warning"
+               tal:condition="view/error|nothing"
+            >${view/error}</p>
+            <fieldset class="vertical pat-validate">
+              <label class="">
+                <tal:i18n i18n:translate="">Username</tal:i18n>
+                <input name="username"
+                       required
+                       type="text"
+                       value="${request/username|nothing}"
+                />
+              </label>
+              <label>
+                <tal:i18n i18n:translate="">First name</tal:i18n>
+                <input name="first_name"
+                       required
+                       type="text"
+                       value="${request/first_name|nothing}"
+                />
+              </label>
+              <label>
+                <tal:i18n i18n:translate="">Last name</tal:i18n>
+                <input name="last_name"
+                       required
+                       type="text"
+                       value="${request/last_name|nothing}"
+                />
+              </label>
+              <label>
+                <tal:i18n i18n:translate="">E-mail address</tal:i18n>
+                <input name="email"
+                       required
+                       type="email"
+                       value="${request/email|nothing}"
+                />
+              </label>
+            </fieldset>
+            <tal:block tal:replace="structure context/@@authenticator/authenticator" />
+            <p class="pat-message notice">${view/description}</p>
+          </div>
+          <div class="buttons panel-footer">
+            <button class="icon-ok-circle close-panel"
+                    name="toggle_state"
+                    type="submit"
+                    value="1"
+            >${view/title}</button>
+            <button class="icon-cancel-circle close-panel"
+                    type="button"
+                    i18n:translate=""
+            >Cancel</button>
+          </div>
+          <aside id="global-statusmessage">
+            <tal:message tal:content="structure provider:plone.globalstatusmessage" />
+          </aside>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

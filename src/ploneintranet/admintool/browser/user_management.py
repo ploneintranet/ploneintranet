@@ -1,4 +1,6 @@
 # coding=utf-8
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from logging import getLogger
 from plone import api
 from plone.memoize.view import memoize
@@ -11,6 +13,7 @@ from Products.CMFPlone import PloneMessageFactory as _pmf
 from Products.Five import BrowserView
 from urllib import urlencode
 from zope.interface import implementer
+from zope.interface.exceptions import Invalid
 
 
 logger = getLogger(__name__)
@@ -21,6 +24,23 @@ class View(BrowserView):
     ''' Manage the user state
     '''
     app_name = 'administrator-tool'
+
+    @property
+    @memoize
+    def profiles(self):
+        ''' The profiles folder
+        '''
+        return api.portal.get().profiles
+
+    @property
+    @memoize
+    def can_add(self):
+        ''' The profiles folder
+        '''
+        return api.user.has_permission(
+            'Add portal content',
+            obj=self.profiles,
+        )
 
     @property
     @memoize
@@ -99,15 +119,111 @@ class View(BrowserView):
         return self.translate_review_state(user.review_state)
 
 
+class PanelAddUser(BaseView):
+    ''' Add a user
+    '''
+    title = _('Create user account')
+    description = _(
+        'Once the user account is created, '
+        'the user will receive an e-mail containing a link to a page '
+        'on which the account creation can be finalised.'
+    )
+
+    def send_email(self, profile):
+        ''' After the user has been created he will receive
+        an email notification to activate its account and reset the password.
+        '''
+        message = MIMEMultipart()
+        mailview = api.content.get_view(
+            'mail-user-created',
+            profile,
+            self.request,
+        )
+        body = mailview()
+        message.attach(MIMEText(body.encode('utf8'), 'html'))
+        portal = api.portal.get()
+        try:
+            api.portal.send_email(
+                recipient=profile.email,
+                subject='Welcome to {}!'.format(portal.Title()),
+                body=message,
+                immediate=False,
+            )
+        except Exception as e:
+            api.portal.show_message(
+                str(e),
+                self.request,
+                'error',
+            )
+            logger.exception('Error sending the email')
+
+    def create_user(self):
+        properties = {}
+        required_values = (
+            'email',
+            'first_name',
+            'last_name',
+            'username',
+        )
+        form = self.request.form
+        for key in required_values:
+            value = form.get(key)
+            if not value:
+                self.error = _(
+                    'missing_parameter_key',
+                    default='Missing parameter: ${key}',
+                    mapping={'key': key},
+                )
+                raise ValueError('Missing attribute')
+            if not isinstance(value, unicode):
+                value = value.decode('utf8')
+            properties[key] = value
+
+        username = properties.pop('username')
+        try:
+            profile = pi_api.userprofile.create(
+                username,
+                email=properties.pop('email'),
+                properties=properties,
+            )
+        except Invalid:
+            self.error = _('A user with this username already exists')
+            raise
+        except Exception as e:
+            self.error = str(e)
+            raise
+        self.send_email(profile)
+        return profile
+
+    def __call__(self):
+        if not self.is_posting():
+            self.maybe_disable_diazo()
+            return self.index()
+        try:
+            user = self.create_user()
+        except (ValueError, Invalid):
+            return self.index()
+        params = {'SearchableText': user.fullname.encode('utf8')}
+        return self.redirect(
+            '{base_url}/@@{view}?{qs}'.format(
+                base_url=api.portal.get().absolute_url(),
+                view='user-management',
+                qs=urlencode(params)
+            )
+        )
+
+
 class PanelToggleUserState(BaseView):
     ''' Change the user review state
     '''
     title_mapping = {
         'disabled': _('Activate user'),
+        'pending': _('Activate user'),
         'enabled': _('Deactivate user'),
     }
     target_state_mapping = {
         'disabled': 'enabled',
+        'pending': 'enabled',
         'enabled': 'disabled',
     }
 
@@ -135,12 +251,12 @@ class PanelToggleUserState(BaseView):
                 ),
                 mapping={'fullname': self.context.fullname}
             )
-        elif review_state == 'disabled':
+        elif review_state in ('disabled', 'pending'):
             return _(
                 'activate_user_panel_description',
                 default=(
-                    'The user account of \'${fullname}\'? is deactivated. '
-                    'Would you like to reactivate this user account?'
+                    'The user account of \'${fullname}\' is deactivated. '
+                    'Would you like to activate this user account?'
                 ),
                 mapping={'fullname': self.context.fullname}
             )

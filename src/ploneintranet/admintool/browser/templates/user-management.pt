@@ -30,10 +30,10 @@
                 </select>
               </label>
               <div class="icons"
-                   tal:condition="view/can_add|nothing"
+                   tal:condition="view/can_add"
               >
                 <a class="icon create pat-modal"
-                   href="${here/absolute_url}/panel-create-user-account#document-content"
+                   href="${view/profiles/absolute_url}/panel-create-user-account#document-content"
                    title="Create a new user account"
                    i18n:attributes="title"
                    i18n:translate=""
@@ -91,8 +91,8 @@
                 >
                   <a class="user-name pat-inject"
                      href="${next_url}"
-                     i18n:translate=""
                      data-pat-inject="source: .autoload-users-source; target: #users-autoload-target::element; trigger: autoload-visible"
+                     i18n:translate=""
                   >Loading more search results…</a>
                 </li>
               </tal:autoload></ul>

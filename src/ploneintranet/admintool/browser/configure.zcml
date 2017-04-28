@@ -42,4 +42,21 @@
       layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
       />
 
+  <browser:page
+      name="panel-create-user-account"
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      permission="cmf.AddPortalContent"
+      class=".user_management.PanelAddUser"
+      template="templates/panel-create-user-account.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+  <browser:page
+      name="mail-user-created"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      permission="zope2.View"
+      template="templates/mail-user-created.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
 </configure>
