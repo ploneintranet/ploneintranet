@@ -31,6 +31,7 @@
       name="search_tabs"
       for="*"
       permission="zope2.View"
+      class=".searchtabs.View"
       template="templates/search_tabs.pt"
       layer="..interfaces.IPloneintranetSearchLayer"
       />
