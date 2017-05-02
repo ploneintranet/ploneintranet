@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.58 (unreleased)
+1.2.58 (2017-05-02)
 -------------------
 
 * Merge pull request #1278 from quaive/fix-injection-parameters [GitHub]
