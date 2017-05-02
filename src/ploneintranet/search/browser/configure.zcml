@@ -10,6 +10,14 @@
   <include package="ploneintranet.layout" file="permissions.zcml" />
 
   <browser:page
+      name="search_macros"
+      for="*"
+      permission="zope2.View"
+      template="templates/search_macros.pt"
+      layer="..interfaces.IPloneintranetSearchLayer"
+      />
+
+  <browser:page
       name="search"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       permission="ploneintranet.viewsite"

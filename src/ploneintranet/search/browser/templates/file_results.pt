@@ -1,69 +1,52 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
   <body>
 
-    <tal:content metal:fill-slot="content">
-      <form action="${request/getURL}#results" id="global-search" class="pat-form pat-inject" data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record">
-
-        <div class="container input">
-          <fieldset class="search pat-subform pat-autosubmit pat-inject"
-                    data-pat-inject="source: #results; target: #results; &amp;&amp; source: #tabs-nav; target: #tabs-nav; history: record;">
-            <label>
-              <input type="search" name="SearchableText" placeholder="Search the entire intranet" value="${request/SearchableText|nothing}"
-                     i18n:attributes="placeholder label_search_entire_intranet"
-                     />
-            </label>
-            <button type="search" i18n:translate="">Search</button>
-          </fieldset>
-        </div>
-
-        <tal:nav replace="structure here/search_tabs" />
-
-        <div class="results" id="results">
-
-        <div class="container results"
-             tal:define="search_response view/search_files"
-          >
-          <tal:has_results condition="search_response">
-            <p i18n:translate=""><span i18n:name="results" tal:replace="search_response/total_results">87</span> items matched your search.</p>
-
-            <div id="result_items" class="office results pat-masonry office-files" data-pat-masonry="column-width: .item; gutter: 0;">
+    <tal:content metal:fill-slot="content"
+                 define="
+                   search_response view/search_files;
+                   search_macros nocall:here/@@search_macros;
+                 "
+    >
+      <metal:form use-macro="search_macros/form">
+        <metal:results fill-slot="results">
+          <div class="container results">
+            <metal:counter use-macro="search_macros/counter" />
+            <div class="office results pat-masonry office-files"
+                 id="listing"
+                 data-pat-masonry="column-width: .item; gutter: 0;"
+                 tal:condition="search_response"
+            >
               <tal:result repeat="result search_response">
-                <a href="${result/url}${python:view.url_fragments.get(result.portal_type)}" class="item">
+                <a class="item"
+                   href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                >
                   <figure>
-                    <img tal:define="spacer python:result.description and ' - ' or ' ';
-                                     preview_small result/preview_image_url;
-                                     preview_large python:preview_small.replace('/small/', '/large/')"
-                         tal:condition="preview_large"
-                         src="${preview_large}"
+                    <img src="${preview_large}"
                          title="${result/title}${spacer}${result/description}"
-                      />
+                         tal:define="
+                           spacer python:result.description and ' - ' or ' ';
+                           preview_small result/preview_image_url;
+                           preview_large python:preview_small.replace('/small/', '/large/');
+                         "
+                         tal:condition="preview_large"
+                    />
                     <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
                   </figure>
                 </a>
               </tal:result>
-              <tal:next define="
-                  next_url python: view.next_page_url(search_response.total_results);
-                "
-                tal:condition="next_url">
-                <a id="files-autoload-target"
-                   class="item pat-inject"
-                   href="${next_url}"
-                   data-pat-inject="source: #result_items; target: #files-autoload-target::element; trigger: autoload-visible;"
-                   i18n:translate=""
-                  >More results</a>
-              </tal:next>
+              <metal:counter use-macro="search_macros/autoload" />
             </div>
-          </tal:has_results>
-        </div><!-- /container results -->
-      </div><!-- /#results results -->
-
-    </form>
-    </tal:content><!-- /content -->
+          </div>
+        </metal:results>
+      </metal:form>
+    </tal:content>
   </body>
 </html>
