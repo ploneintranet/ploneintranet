@@ -4,8 +4,11 @@ from plone.app.layout.globals.interfaces import ILayoutPolicy
 from plone.app.layout.globals.layout import LayoutPolicy as PloneLayoutPolicy
 from ploneintranet.layout.interfaces import IAppContainer
 from ploneintranet.layout.interfaces import IAppView
+from ploneintranet.layout.interfaces import IDiazoAppTemplate
+from ploneintranet.layout.interfaces import IDiazoNoTemplate
 from zope.component import getMultiAdapter
 from zope.interface import implements
+
 
 log = getLogger(__name__)
 
@@ -13,6 +16,21 @@ log = getLogger(__name__)
 class LayoutPolicy(PloneLayoutPolicy):
 
     implements(ILayoutPolicy)
+
+    def append_diazo_template(self, base, template, view):
+        ''' Return classes to select a diazo template
+        '''
+        if IDiazoNoTemplate.providedBy(view):
+            base += ' diazo off'
+            return base
+
+        if IDiazoAppTemplate.providedBy(view):
+            diazo_template = 'bookmarks'
+        else:
+            diazo_template = ''
+        if diazo_template:
+            base = '{} diazo-theme-{}'.format(base, diazo_template)
+        return base
 
     def bodyClass(self, template, view):
         """
@@ -49,5 +67,5 @@ class LayoutPolicy(PloneLayoutPolicy):
             except AttributeError:
                 log.error("View %s fails to provide app_name", view.__name__)
                 base += ' view-app app-None'
-
+        base = self.append_diazo_template(base, template, view)
         return base

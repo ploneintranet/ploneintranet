@@ -9,6 +9,7 @@ from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.layout.app import apps_container_id
 from ploneintranet.layout.interfaces import IAppView
+from ploneintranet.layout.interfaces import IDiazoNoTemplate
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from unidecode import unidecode
@@ -285,7 +286,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
             return 'disabled'
 
 
-@implementer(IAppView)
+@implementer(IAppView, IDiazoNoTemplate)
 class AppMessagingNewChat(BrowserView, _AppMessagingMixin):
     """
     Panel helper to create a new conversation.
@@ -294,7 +295,7 @@ class AppMessagingNewChat(BrowserView, _AppMessagingMixin):
     # /prototype/_site/apps/messages/panel-new-chat.html
 
 
-@implementer(IAppView)
+@implementer(IAppView, IDiazoNoTemplate)
 class AppMessagingNewMessage(BrowserView, _AppMessagingMixin):
     """
     Injection helper to add a message to a conversation.
