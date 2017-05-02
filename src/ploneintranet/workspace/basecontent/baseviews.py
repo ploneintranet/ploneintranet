@@ -267,7 +267,7 @@ class ContentView(BrowserView):
             'pat-inject': ' && '.join([
                 'source:#document-body; target:#document-body',
                 'source:#workspace-events; target:#workspace-events',
-                'target:#global-statusmessage; source:#global-statusmessage',
+                'source:#global-statusmessage; target:#global-statusmessage',
             ])
         }
         return "%s/delete_confirmation?%s#content" % (
@@ -294,7 +294,7 @@ class ContentView(BrowserView):
         '''
         parts = [
             'source: #{mainid}; target: #{mainid};',
-            'source: #{sidebar_target}-replacement; target: #{sidebar_target};'
+            'source: #{sidebar_target}-replacement; target: #{sidebar_target}; loading-class: \'\''  # noqa
         ]
         if self.autosave_enabled:
             mainid = 'saving-badge'
