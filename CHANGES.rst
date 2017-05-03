@@ -1,10 +1,37 @@
 Changelog
 =========
 
-1.2.58 (unreleased)
+1.2.59 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.58 (2017-05-02)
+-------------------
+
+* Merge pull request #1278 from quaive/fix-injection-parameters [GitHub]
+* Merge pull request #1275 from quaive/improve-search [GitHub]
+* Merge pull request #1276 from quaive/simplify-diazo-rules [GitHub]
+* Fix injection parameters [ale-rt]
+* Improve the search views [ale-rt]
+* Simplify the diazo rules [ale-rt]
+* Merge pull request #1274 from quaive/improve-navigation-tabs [GitHub]
+* Merge pull request #1273 from quaive/response-length [GitHub]
+* Merge pull request #1265 from quaive/autosave [GitHub]
+* Improve navigation tabs [ale-rt]
+* Make len(response) work [ale-rt]
+* Improve autosaving [ale-rt]
+* Merge pull request #1269 from quaive/fix-continuos-renaming [GitHub]
+* Merge pull request #1267 from quaive/undo-redo [GitHub]
+* Merge pull request #1272 from quaive/sortable-title [GitHub]
+* Merge pull request #1271 from quaive/search-response-truth-value [GitHub]
+* Added the sortable_title index [ale-rt]
+* Check the truth value of a search response [ale-rt]
+* Merge pull request #1270 from quaive/release-1.2.x [GitHub]
+* Back to development: 1.2.58 [Manuel Reinhardt]
+* Fix continuos renaming [ale-rt]
+* Make it possible to customize data-pat-redactor via Python code [ale-rt]
 
 
 1.2.57 (2017-04-27)
