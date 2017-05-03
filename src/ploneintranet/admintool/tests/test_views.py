@@ -37,6 +37,10 @@ class TestViews(FunctionalTestCase):
             last_name='Smith',
             username='john-smith',
         )
+        # pre date john doe creation date for testing the sort methods
+        johndoe = self.portal.profiles['john-doe']
+        johndoe.creation_date = johndoe.creation_date - 1
+        johndoe.reindexObject(idxs=['created'])
 
     def login_as_portal_owner(self):
         """
@@ -93,6 +97,9 @@ class TestViews(FunctionalTestCase):
             self.assertEqual(view.disabled, 'disabled')
 
     def test_user_management(self):
+        existing_profiles = self.portal.profiles.listFolderContents()
+
+        # Test sorting by title
         view = api.content.get_view(
             'user-management',
             self.app,
@@ -101,13 +108,31 @@ class TestViews(FunctionalTestCase):
         found_profiles = [
             x.title for x in view.users
         ]
-        existing_profiles = [
-            x.title for x in self.portal.profiles.listFolderContents()
-        ]
-        self.assertEqual(
+        self.assertListEqual(
             found_profiles,
-            sorted(existing_profiles),
+            sorted(x.title for x in existing_profiles),
         )
+
+        # Test sorting by reversed creation date
+        existing_profiles = sorted(
+            existing_profiles,
+            key=lambda obj: obj.creation_date,
+            reverse=True,
+        )
+        view = api.content.get_view(
+            'user-management',
+            self.app,
+            self.get_request({'sorting': '-created'}),
+        )
+        found_profiles = [
+            x.title for x in view.users
+        ]
+        self.assertListEqual(
+            found_profiles,
+            [obj.title for obj in existing_profiles],
+        )
+
+        # Test searchable text
         view.request = self.get_request({'SearchableText': 'Doe'})
         self.assertListEqual(
             [x.title for x in view.users],

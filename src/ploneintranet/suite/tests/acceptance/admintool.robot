@@ -18,11 +18,14 @@ Test Teardown  Close all browsers
 Admin can use the administrator tool app
     Given I'm logged in as a 'Site Administrator'
      Then I can go to the application  Administrator Tool
+      And I can see the first search result is  Alice Lindström
       And I can deactivate  Jorge Primavera
       And I can activate  Jorge Primavera
       And I can filter the users
      Then I can add the user  john_doe  John  Doe  jd@example.net
       And I can activate the new user  John Doe
+     Then I can sort the users by creation date
+      And I can see the first search result is  John Doe
 
 
 *** Keywords ***
@@ -71,3 +74,12 @@ I can filter the users
     Input text  jquery=#group-management-group-filter [name=SearchableText]  strange
     Wait for injection to be finished
     Page should contain Element  jquery=#directory .notice:contains('No users found')
+
+I can sort the users by creation date
+    Select From List  sorting  -created
+    Input text  jquery=#group-management-group-filter [name=SearchableText]  ${EMPTY}\n
+    Wait for injection to be finished
+
+I can see the first search result is
+    [arguments]  ${fullname}
+    Page should contain element  jquery=.user-account:first:contains(${fullname})

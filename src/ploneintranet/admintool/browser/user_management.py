@@ -44,11 +44,18 @@ class View(BrowserView):
 
     @property
     @memoize
+    def sorting(self):
+        '''
+        '''
+        return self.request.form.get('sorting', 'sortable_title')
+
+    @property
+    @memoize
     def search_options(self):
         options = [
             {
                 'title': _('Alphabetically'),
-                'value': '',
+                'value': 'sortable_title',
             },
             {
                 'title': _('Account status'),
@@ -56,14 +63,18 @@ class View(BrowserView):
             },
             {
                 'title': _('Most recently added'),
-                'value': '',
+                'value': '-created',
             },
             {
                 'title': _('Most recently logged in'),
                 'value': '',
             },
         ]
-        return options[:1]  # BBB
+        sorting = self.sorting
+        for option in options:
+            selected = 'selected' if sorting == option['value'] else None
+            option['selected'] = selected
+        return options[::2]  # BBB
 
     @property
     @memoize_contextless
@@ -79,7 +90,7 @@ class View(BrowserView):
     def users(self):
         return self.search_view.search_people(
             allow_all=True,
-            sort='sortable_title',
+            sort=self.sorting,
         )
 
     @memoize_contextless

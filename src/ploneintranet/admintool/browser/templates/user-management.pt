@@ -19,10 +19,8 @@
                   id="group-management-group-filter"
                   action="${here/absolute_url}/${view/__name__}#directory"
             >
-              <label class="bare pat-select"
-                     tal:condition="bbb|nothing"
-              >
-                <select>
+              <label class="bare pat-select">
+                <select name="sorting">
                   <option selected="${option/selected|nothing}"
                           value="${option/value}"
                           tal:repeat="option view/search_options"
