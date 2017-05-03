@@ -59,22 +59,22 @@ class View(BrowserView):
             },
             {
                 'title': _('Account status'),
-                'value': '',
+                'value': 'review_state',
             },
             {
                 'title': _('Most recently added'),
                 'value': '-created',
             },
-            {
-                'title': _('Most recently logged in'),
-                'value': '',
-            },
+            # {
+            #     'title': _('Most recently logged in'),
+            #     'value': '',
+            # },
         ]
         sorting = self.sorting
         for option in options:
             selected = 'selected' if sorting == option['value'] else None
             option['selected'] = selected
-        return options[::2]  # BBB
+        return options
 
     @property
     @memoize_contextless

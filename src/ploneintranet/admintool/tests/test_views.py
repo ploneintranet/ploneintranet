@@ -37,10 +37,27 @@ class TestViews(FunctionalTestCase):
             last_name='Smith',
             username='john-smith',
         )
-        # pre date john doe creation date for testing the sort methods
-        johndoe = self.portal.profiles['john-doe']
-        johndoe.creation_date = johndoe.creation_date - 1
-        johndoe.reindexObject(idxs=['created'])
+        api.content.create(
+            type='ploneintranet.userprofile.userprofile',
+            container=self.portal.profiles,
+            title='Maria Rossi',
+            first_name='Maria',
+            last_name='Rossi',
+            username='maria-rossi',
+        )
+
+        # pre date user creation date and change the state
+        # for testing the sort methods
+        for idx, (userid, to_state) in enumerate(
+            zip(
+                ('john-doe', 'maria-rossi'),
+                ('enabled', 'disabled')
+            )
+        ):
+            obj = self.portal.profiles[userid]
+            obj.creation_date = obj.creation_date - idx - 1
+            api.content.transition(obj, to_state=to_state)
+            obj.reindexObject(idxs=['created', 'review_state'])
 
     def login_as_portal_owner(self):
         """
@@ -123,6 +140,24 @@ class TestViews(FunctionalTestCase):
             'user-management',
             self.app,
             self.get_request({'sorting': '-created'}),
+        )
+        found_profiles = [
+            x.title for x in view.users
+        ]
+        self.assertListEqual(
+            found_profiles,
+            [obj.title for obj in existing_profiles],
+        )
+
+        # Test sorting by review_state
+        existing_profiles = sorted(
+            existing_profiles,
+            key=lambda obj: api.content.get_state(obj),
+        )
+        view = api.content.get_view(
+            'user-management',
+            self.app,
+            self.get_request({'sorting': 'review_state'}),
         )
         found_profiles = [
             x.title for x in view.users
