@@ -14,6 +14,11 @@
   <adapter name="Title"
            factory=".indexers.Title" />
 
+  <adapter name="login_time"
+           factory=".indexers.login_time" />
+  <adapter name="login_time"
+           factory=".indexers.login_time_default"
+  />
   <adapter name="workspace_members"
            factory=".indexers.workspace_members" />
 

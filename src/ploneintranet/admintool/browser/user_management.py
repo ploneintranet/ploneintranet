@@ -65,10 +65,10 @@ class View(BrowserView):
                 'title': _('Most recently added'),
                 'value': '-created',
             },
-            # {
-            #     'title': _('Most recently logged in'),
-            #     'value': '',
-            # },
+            {
+                'title': _('Most recently logged in'),
+                'value': '-login_time',
+            },
         ]
         sorting = self.sorting
         for option in options:
