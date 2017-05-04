@@ -301,7 +301,7 @@ class ContentView(BrowserView):
         else:
             mainid = 'document-body'
             parts.append(
-                '#global-statusmessage; target:#global-statusmessage; '
+                'source:#global-statusmessage; target:#global-statusmessage; '
                 'loading-class: \'\''
             )
         template = ' && '.join(parts)
