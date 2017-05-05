@@ -56,6 +56,9 @@
   <drop css:theme="#buddies-toggle"
         css:if-not-content="#buddies-toggle" />
 
+  <drop css:theme="#global-header #messages-link" />
+  <drop css:theme="#global-header #osh-toggle" />
+
   <replace css:content="#buddies-toggle"
            css:theme="#buddies-toggle" />
 
