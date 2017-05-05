@@ -55,6 +55,7 @@
       name="mail-user-created"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       permission="zope2.View"
+      class=".mail.UserCreatedMail"
       template="templates/mail-user-created.pt"
       layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
       />

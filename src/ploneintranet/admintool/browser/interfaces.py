@@ -4,3 +4,7 @@ from zope.interface import Interface
 
 class IPloneintranetAdmintoolLayer(Interface):
     """Marker interface to define ZTK browser layer"""
+
+
+class IGeneratePWResetToken(Interface):
+    """Marker interface to define ZTK browser layer"""

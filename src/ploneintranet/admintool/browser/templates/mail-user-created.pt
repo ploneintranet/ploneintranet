@@ -1,7 +1,6 @@
 <tal:mail define="
             portal_state nocall:here/plone_portal_state;
-            portal_url portal_state/portal_url;
-            password_reset_link string:${portal_url}/mail_password?userid=${here/username};
+            password_reset_link view/password_reset_link;
           "
           i18n:domain="ploneintranet"
 >
@@ -25,5 +24,6 @@
   </p>
   <p tal:omit-tag="nothing"
      i18n:translate=""
+     tal:condition="view/is_pending"
   >Before logging in your account needs to be activated.</p>
 </tal:mail>

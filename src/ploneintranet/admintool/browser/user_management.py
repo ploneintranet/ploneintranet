@@ -6,12 +6,14 @@ from plone import api
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
+from ploneintranet.admintool.browser.interfaces import IGeneratePWResetToken
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.base import BaseView
 from ploneintranet.layout.interfaces import IAppView
 from Products.CMFPlone import PloneMessageFactory as _pmf
 from Products.Five import BrowserView
 from urllib import urlencode
+from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.interface.exceptions import Invalid
 
@@ -145,6 +147,7 @@ class PanelAddUser(BaseView):
         an email notification to activate its account and reset the password.
         '''
         message = MIMEMultipart()
+        alsoProvides(self.request, IGeneratePWResetToken)
         mailview = api.content.get_view(
             'mail-user-created',
             profile,
@@ -167,6 +170,11 @@ class PanelAddUser(BaseView):
                 'error',
             )
             logger.exception('Error sending the email')
+
+    def approve_immediately(self):
+        ''' Check if the user should be approved immediately
+        '''
+        return not self.request.form.get('keep_pending', False)
 
     def create_user(self):
         properties = {}
@@ -195,6 +203,7 @@ class PanelAddUser(BaseView):
             profile = pi_api.userprofile.create(
                 username,
                 email=properties.pop('email'),
+                approve=self.approve_immediately,
                 properties=properties,
             )
         except Invalid:

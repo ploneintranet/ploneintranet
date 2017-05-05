@@ -23,7 +23,9 @@ Admin can use the administrator tool app
       And I can activate  Jorge Primavera
       And I can filter the users
      Then I can add the user  john_doe  John  Doe  jd@example.net
-      And I can activate the new user  John Doe
+      # BBB: the user is automatically activate,
+      # we need some pending user to test this one
+      # And I can activate the new user  John Doe
      Then I can sort the users by creation date
       And I can see the first search result is  John Doe
 

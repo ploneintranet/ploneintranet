@@ -3,6 +3,7 @@
 from plone import api
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from plone.testing import z2
+from ploneintranet.admintool.browser.interfaces import IGeneratePWResetToken
 from ploneintranet.admintool.browser.interfaces import IPloneintranetAdmintoolLayer  # noqa
 from ploneintranet.admintool.testing import FunctionalTestCase
 from ploneintranet.layout.app import apps_container_id
@@ -203,7 +204,7 @@ class TestViews(FunctionalTestCase):
         self.assertEqual(user.fullname, u'Jane Doe')
         self.assertEqual(
             api.content.get_state(user),
-            'pending',
+            'enabled',
         )
 
     def test_mail_user_created(self):
@@ -213,6 +214,14 @@ class TestViews(FunctionalTestCase):
             self.get_request(),
         )
         self.assertIn(
-            'http://nohost/plone/mail_password?userid=john-doe',
+            'http://nohost/plone/passwordreset/exampletoken',
+            view(),
+        )
+        request = self.get_request()
+        alsoProvides(request, IGeneratePWResetToken)
+        view.request = request
+        # The example token is replaced by a proper token
+        self.assertNotIn(
+            'http://nohost/plone/passwordreset/exampletoken',
             view(),
         )
