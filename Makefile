@@ -1,4 +1,5 @@
 _DIR	= release/prototype/_site
+RELEASE_DIR     = release/prototype/_site
 DIAZO_DIR       = src/ploneintranet/theme/static/generated
 LATEST          = $(shell cat LATEST)
 BUNDLEPLONEID	= ploneintranet
