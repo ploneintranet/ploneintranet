@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+
+  <metal:content fill-slot="content">
+    <div class="focus-sidebar sidebar-normal application-${view/__name__} application-administrator-tool sidebar-left-closed sidebar-right-closed "
+         id="application-body"
+    >
+      <div id="document-content">
+        <nav class="navigation tabs"
+             tal:condition="python:len(view.navigation_tabs) &gt; 1"
+        >
+          <a class="pat-inject {bbb-current}"
+             href="{bbb}"
+             data-pat-inject="history: record"
+             tal:repeat="tab view/navigation_tabs"
+          ></a>
+        </nav>
+        <div id="app-content">
+          <a class="pat-inject"
+             href="${here/absolute_url}/user-management#app-content"
+             data-pat-inject="trigger: autoload"
+             i18n:translate=""
+          >Loading ...
+          </a>
+        </div>
+      </div>
+    </div>
+  </metal:content>
+</html>

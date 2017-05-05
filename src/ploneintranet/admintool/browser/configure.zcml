@@ -1,0 +1,63 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ploneintranet"
+    >
+
+  <browser:page
+      name="app-administrator-tool"
+      for="ploneintranet.layout.app.IApp"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      class=".app.View"
+      template="templates/app.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+  <browser:menuItem
+      title="administrator-tool"
+      description=""
+      for="ploneintranet.layout.app.IApp"
+      action="app-administrator-tool"
+      menu="plone_displayviews"
+      i18n:attributes="title"
+      />
+
+  <browser:page
+      name="user-management"
+      for="*"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      class=".user_management.View"
+      template="templates/user-management.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+  <browser:page
+      name="panel-toggle-user-state"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      class=".user_management.PanelToggleUserState"
+      template="templates/panel-toggle-user-state.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+  <browser:page
+      name="panel-create-user-account"
+      for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
+      permission="cmf.AddPortalContent"
+      class=".user_management.PanelAddUser"
+      template="templates/panel-create-user-account.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+  <browser:page
+      name="mail-user-created"
+      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
+      permission="zope2.View"
+      class=".mail.UserCreatedMail"
+      template="templates/mail-user-created.pt"
+      layer="ploneintranet.admintool.browser.interfaces.IPloneintranetAdmintoolLayer"
+      />
+
+</configure>

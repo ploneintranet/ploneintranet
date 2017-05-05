@@ -12,6 +12,7 @@
 
   <include package="ploneintranet.activitystream"/>
   <include package="ploneintranet.async"/>
+  <include package="ploneintranet.admintool"/>
   <include package="ploneintranet.bookmarks"/>
   <include package="ploneintranet.calendar"/>
   <include package="ploneintranet.core"/>
@@ -179,6 +180,14 @@
       title="Disable INoBarceletaLayer in Barceloneta"
       import_steps="plone.app.registry"
       />
-  
+
+  <genericsetup:upgradeStep
+      title="Install ploneintranet.admintool"
+      description=""
+      source="*"
+      destination="0016"
+      handler=".upgrades.to_0016"
+      profile="ploneintranet.suite:default"
+    />
 
 </configure>

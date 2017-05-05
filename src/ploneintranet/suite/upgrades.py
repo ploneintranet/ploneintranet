@@ -2,6 +2,7 @@
 from plone import api
 from ploneintranet.themeswitcher.interfaces import IThemeSwitcherSettings
 from Products.CMFPlone.utils import safe_unicode
+
 import logging
 
 
@@ -70,3 +71,11 @@ def filter_news_layer(context):
         name='browserlayer_filterlist',
         value=filter_list,
     )
+
+
+def to_0016(context):
+    ''' Since this version we have ploneintranet.admintool
+    '''
+    pq = api.portal.get_tool('portal_quickinstaller')
+    if not pq.isProductInstalled('ploneintranet.admintool'):
+        pq.installProduct('ploneintranet.admintool')

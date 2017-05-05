@@ -1713,10 +1713,12 @@ I can unbookmark the user
     Click Element  css=.icon-bookmark.active
     Wait Until Page Contains Element  css=.icon-bookmark-empty
 
-I can go to the bookmark application
-    I can Click the Apps tab
-    Click Element  jquery=h3:contains(Bookmarks)
-    Wait until element is visible  jquery=.bookmark :contains(Example Case)
+I can go to the application
+    [arguments]  ${name}
+    Go To  ${PLONE_URL}/apps
+    Wait for injection to be finished
+    Click Element  jquery=h3:contains("${name}")
+    Wait for injection to be finished
 
 I can filter bookmarked application
     Input text  jquery=.application-bookmarks [name=SearchableText]  bookmark
