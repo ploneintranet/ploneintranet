@@ -8,13 +8,46 @@
            src="${context/portal_url}/++theme++ploneintranet.theme/generated/apps/${view/get_class}/icon.svg"
            alt="${context/title}"
         />
-      <h3>${context/title}</h3>
+      <svg xmlns="http://www.w3.org/2000/svg"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           class="tile-icon"
+           id="Layer_1"
+           style="enable-background:new 0 0 512 512;"
+           version="1.1"
+           viewbox="0 0 512 512"
+           x="0px"
+           xml:space="preserve"
+           y="0px"
+      >
+        <text style="font-size:50px;"
+              transform="matrix(1 0 0 1 28 66.8936)"
+        >
+          ${context/title}
+        </text>
+      </svg>
       <sup tal:condition="view/counter|nothing"
            class="counter digit-${view/digits}">${view/counter}</sup>
-      <time tal:condition="python:context.id=='calendar'" tal:define="now view/date" class="date pat-auto-scale">
-        <span class="date">${python:now.strftime('%-d')}</span>
-        <span class="month">${python:now.strftime('%b')}</span>
-      </time>
-    </a>
+      <svg xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          class="calendar-date"
+          id="Capa_1"
+          style="enable-background:new 0 0 512 512;"
+          version="1.1"
+          viewbox="0 0 512 512"
+          x="0px"
+          xml:space="preserve"
+          y="0px"
+          tal:define="
+            now view/date;
+          "
+          tal:condition="python:context.id=='calendar'"
+      >
+        <text style="font-size:50px;"
+              transform="matrix(1 0 0 1 196.4268 304.8936)"
+        >
+          <tspan class="date">${python:now.strftime('%-d')}</tspan>
+          <tspan class="month">${python:now.strftime('%b')}</tspan>
+        </text>
+      </svg>
     <tal:link tal:condition="context/app" replace="structure context/bookmark-link-iconified" />
 </div>
