@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.59 (unreleased)
+1.2.59 (2017-05-08)
 -------------------
 
 * Merge pull request #1290 from quaive/remove-unused-template [GitHub]
