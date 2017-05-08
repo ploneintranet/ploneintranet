@@ -120,6 +120,8 @@ class AppTile(BrowserView):
         return ''
 
     def condition(self):
+        ''' A tal condition that controls if this tile should be rendered
+        '''
         if self.context.condition:
             expr_context = createExprContext(
                 self.context, api.portal.get(), self.context)
@@ -129,13 +131,55 @@ class AppTile(BrowserView):
             return True
 
     @property
+    @memoize
     def modal(self):
         ''' Open in a modal returning 'pat-modal'.
         If you want, instead to follow the ling just return ''
         '''
-        if self.not_found:
+        if self.not_found or self.unauthorized:
             return 'pat-modal'
         return ''
+
+    @property
+    @memoize
+    def inject(self):
+        ''' Check if we should inject this tile
+        '''
+        if self.modal:
+            return ''
+        if self.context.app == '@@external-app':
+            return ''
+        return 'pat-inject pat-switch'
+
+    @property
+    @memoize
+    def pat_inject_options(self):
+        ''' Check if we should inject this tile
+        '''
+        if not self.inject:
+            return
+        if self.modal:
+            return '#document-content'
+        return '#app-space; history: record;'
+
+    @property
+    @memoize
+    def url(self):
+        ''' Open in a modal returning 'pat-modal'.
+        If you want, instead to follow the ling just return ''
+        '''
+        if self.modal:
+            template = '{url}/@@{view}#document-content'
+            url = api.portal.get().absolute_url()
+            if self.not_found:
+                view = 'app-not-available.html'
+            else:
+                view = 'app-unauthorized'
+            return template.format(
+                url=url,
+                view=view,
+            )
+        return self.context.app_url()
 
     def get_class(self):
         return self.context.css_class or self.context.getId()

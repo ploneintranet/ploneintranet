@@ -271,7 +271,33 @@ class TestViews(IntegrationTestCase):
         # Even if we are unauthorized
         tile = self.get_app_tile('private-app')
         with api.env.adopt_roles({'Anonymous'}):
-            self.assertEqual(tile.modal, '')
+            self.assertEqual(tile.modal, 'pat-modal')
+
+    def test_app_basetile_url(self):
+        ''' Check the url property of the app tile adapter
+        '''
+        # With an empty path, when clicking on a tile,
+        # we will get an alert in a modal
+        tile = self.get_app_tile('empty-app')
+        self.assertEqual(
+            tile.url,
+            'http://nohost/plone/@@app-not-available.html#document-content',
+        )
+
+        # Otherwise we will open the tile
+        tile = self.get_app_tile('private-app')
+        self.assertEqual(
+            tile.url,
+            'http://nohost/plone/apps/private-app/robots.txt',
+        )
+
+        # Even if we are unauthorized
+        tile = self.get_app_tile('private-app')
+        with api.env.adopt_roles({'Anonymous'}):
+            self.assertEqual(
+                tile.url,
+                'http://nohost/plone/@@app-unauthorized#document-content',
+            )
 
     def test_app_basetile_disabled(self):
         ''' Check the disabled property of the app tile adapter
