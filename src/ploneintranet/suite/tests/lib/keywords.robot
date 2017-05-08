@@ -1610,20 +1610,20 @@ I can click the ${TAB_NAME} tab
 I can bookmark the application
     [arguments]  ${application}
     I can click the Apps tab
-    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Bookmark')]
+    Click element  xpath=//*[contains(text(),'${application}')]/../../../a[contains(text(), 'Bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click button  Close
     I can click the Apps tab
-    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Remove bookmark')]
+    Page should contain element  xpath=//*[contains(text(),'${application}')]/../../../a[contains(text(), 'Remove bookmark')]
 
 I can unbookmark the application
     [arguments]  ${application}
     I can click the Apps tab
-    Click element  xpath=//h3[contains(text(),'${application}')]/../../a[contains(text(), 'Remove bookmark')]
+    Click element  xpath=//*[contains(text(),'${application}')]/../../../a[contains(text(), 'Remove bookmark')]
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Click button  Close
     I can click the Apps tab
-    Page should contain element  xpath=//h3[contains(text(), '${application}')]/../../a[contains(text(), 'Bookmark')]
+    Page should contain element  xpath=//*[contains(text(),'${application}')]/../../../a[contains(text(), 'Bookmark')]
 
 I can bookmark the workspace
     [arguments]  ${workspace}
@@ -1717,7 +1717,7 @@ I can go to the application
     [arguments]  ${name}
     Go To  ${PLONE_URL}/apps
     Wait for injection to be finished
-    Click Element  jquery=h3:contains("${name}")
+    Click Element  jquery=.tile.app svg text:contains("${name}")
     Wait for injection to be finished
 
 I can filter bookmarked application
