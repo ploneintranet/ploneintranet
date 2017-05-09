@@ -18,4 +18,18 @@ Anonymous get redirected to login page
           Click Link  Test unauthorized pat-inject
           Wait Until Page Contains Element  css=.pat-notification.warning  5
 
+
+Allan cannot access some apps
+    Given I am logged in as the user allan_neece
+     Then I can go to the application  App market
+      And I see the modal  App not available
+     Then I can go to the application  Administrator Tool
+      And I see the modal  App unauthorized
+
+
 *** Keywords ***
+
+I see the modal
+    [arguments]  ${title}
+    Page should contain Element  jquery=h1:contains("${title}")
+    Click button  jquery=#pat-modal .close-panel
