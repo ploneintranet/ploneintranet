@@ -4,25 +4,32 @@ from Acquisition import aq_inner
 from collective.workspace.interfaces import IWorkspace
 from plone import api
 from plone.app.content.browser.file import FileUploadView as BaseFileUploadView
-from plone.app.dexterity.interfaces import IDXFileFactory
+from plone.app.dexterity.factories import upload_lock
 from plone.app.layout.viewlets.content import ContentHistoryView as BaseContentHistoryView  # noqa
 from plone.app.workflow.browser.sharing import SharingView as BaseSharingView
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.utils import createContentInContainer
 from plone.memoize.view import memoize
+from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.protect.authenticator import createToken
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.uuid.interfaces import IUUID
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.config import INTRANET_USERS_GROUP_ID
 from ploneintranet.workspace.subscribers import _update_workspace_groupings
 from Products.CMFCore.utils import _checkPermission
 from Products.CMFEditions.Permissions import AccessPreviousVersions
+from Products.CMFPlone import utils as ploneutils
 from Products.Five.browser import BrowserView
 from urllib import urlencode
+from zope.container.interfaces import INameChooser
 from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
 
 import json
 import mimetypes
+import transaction
 
 
 class JoinView(BrowserView):
@@ -151,6 +158,52 @@ class FileUploadView(BaseFileUploadView):
             obj.setSubject(groupname)
             _update_workspace_groupings(obj, None)
 
+    def set_filedata(self, obj, filedata, filename, content_type):
+        ''' Try to understand what is the primary field
+        and store the data there
+        '''
+        try:
+            info = IPrimaryFieldInfo(obj, None)
+        except TypeError:
+            info = None
+        fieldname = info and info.fieldname or 'file'
+        # This should take care of File and images
+        if 'image' in fieldname:
+            blob_factory = NamedBlobImage
+        else:
+            blob_factory = NamedBlobFile
+        filename = ploneutils.safe_unicode(filename)
+        value = blob_factory(
+            data=filedata,
+            filename=filename,
+            contentType=content_type
+        )
+        return setattr(obj, fieldname, value)
+
+    def create_dx_file(self, filename, content_type, filedata, portal_type):
+        ''' Inspired by plone.app.dexterity.factories.IDXFileFactory
+        '''
+        name = filename.decode('utf8')
+        chooser = INameChooser(self.context)
+        # otherwise I get ZPublisher.Conflict ConflictErrors
+        # when uploading multiple files
+        upload_lock.acquire()
+        newid = chooser.chooseName(name, self.context.aq_parent)
+        try:
+            transaction.begin()
+            obj = createContentInContainer(
+                self.context,
+                portal_type,
+                id=newid,
+            )
+            self.set_filedata(obj, filedata, name, content_type)
+            obj.title = name
+            obj.reindexObject()
+            transaction.commit()
+        finally:
+            upload_lock.release()
+        return obj
+
     def create_file_from_request(self, name):
         context = self.context
         filedata = self.request.form.get(name, None)
@@ -160,11 +213,15 @@ class FileUploadView(BaseFileUploadView):
         content_type = mimetypes.guess_type(filename)[0] or ""
         # Determine if the default file/image types are DX or AT based
         ctr = api.portal.get_tool('content_type_registry')
-        type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
+        type_ = ctr.findTypeName(filename.lower(), content_type, '')
+
+        if not type_ == 'Image':
+            type_ = 'File'
+
         pt = api.portal.get_tool('portal_types')
 
         if IDexterityFTI.providedBy(getattr(pt, type_)):
-            obj = IDXFileFactory(context)(filename, content_type, filedata)
+            obj = self.create_dx_file(filename, content_type, filedata, type_)
             self.post_factory(obj)
             notify(ObjectCreatedEvent(obj))
             if hasattr(obj, 'file'):
