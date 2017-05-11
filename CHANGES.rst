@@ -4,7 +4,10 @@ Changelog
 1.1.0rc2 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+* Upgrade to Plone 5.0.7 [ale-rt]
+* Update zc.buildout and setuptools [ale-rt]
+* Fix missing Makefile variable [ale-rt]
+* s/venus/gaia/ [Guido A.J. Stevens]
 
 
 1.1.0rc1 (2016-10-27)
