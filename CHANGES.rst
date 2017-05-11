@@ -1,10 +1,37 @@
 Changelog
 =========
 
-1.2.59 (unreleased)
+1.2.60 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.59 (2017-05-08)
+-------------------
+
+* Merge pull request #1290 from quaive/remove-unused-template [GitHub]
+* Merge pull request #1289 from quaive/upgrade-quaive.app.audit [GitHub]
+* Merge pull request #1293 from quaive/app-tile-svg [GitHub]
+* Update element selector [ale-rt]
+* Handle correctly the modal in the apps view [ale-rt]
+* Use the latest resources [ale-rt]
+* Upgrade quaive.app.audit [ale-rt]
+* Remove unused template [ale-rt]
+* Use svg in the app tiles [ale-rt]
+* Merge pull request #1277 from quaive/user-management-app [GitHub]
+* Users activated on creation [ale-rt]
+* Sorting by last login time [ale-rt]
+* Sort user by review_state [ale-rt]
+* Sort the users by reverse creation date [ale-rt]
+* Create user panel [ale-rt]
+* User management [ale-rt]
+* Merge pull request #1281 from quaive/fix-injection-parameters [GitHub]
+* Fix injection parameters [ale-rt]
+* Merge pull request #1280 from quaive/update-quaive-app-packages [GitHub]
+* Merge pull request #1279 from quaive/release-1.2.x [GitHub]
+* Latest versions for quaive.app.* packages [ale-rt]
+* Back to development: 1.2.59 [ale-rt]
 
 
 1.2.58 (2017-05-02)
