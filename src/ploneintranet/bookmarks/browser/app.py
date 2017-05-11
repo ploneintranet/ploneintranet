@@ -1,8 +1,9 @@
 # coding=utf-8
 from collections import defaultdict
-from datetime import date
 from DateTime import DateTime
+from datetime import date
 from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.bookmarks.browser.base import BookmarkView
@@ -12,7 +13,6 @@ from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 from zope.i18nmessageid.message import Message
 from zope.interface import implementer
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 
 @implementer(IAppView, IBlocksTransformEnabled)
@@ -127,11 +127,10 @@ class View(BookmarkView):
         '''
         userid = api.user.get_current().id
         dates = self.ploneintranet_network._bookmarked_on.get(userid, {})
-
-        bookmarks = self.my_bookmarks_of_type()
         bookmarks = sorted(
             self.my_bookmarks_of_type(),
             key=lambda bookmark: dates.get(bookmark.UID),
+            reverse=True,
         )
         return tuple(bookmarks[:limit])
 

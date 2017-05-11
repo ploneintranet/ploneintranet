@@ -427,18 +427,18 @@ class TestViews(FunctionalTestCase):
         self.assertListEqual(
             [x.title for x in view.my_recent_bookmarks()],
             [
-                'Bookmarks',
-                'Bookmarkable workspace',
+                u'Bookmarkable One',
                 'Bookmarkable page',
-                u'Bookmarkable One'
+                'Bookmarkable workspace',
+                'Bookmarks',
             ],
         )
         # We can even limit the results
         self.assertListEqual(
             [x.title for x in view.my_recent_bookmarks(2)],
             [
-                'Bookmarks',
-                'Bookmarkable workspace',
+                u'Bookmarkable One',
+                'Bookmarkable page',
             ],
         )
 
@@ -516,20 +516,20 @@ class TestViews(FunctionalTestCase):
         self.assertListEqual(
             [x.title for x in tile.get_bookmarks()],
             [
-                'Bookmarks',
-                'Bookmarkable workspace',
+                u'Bookmarkable One',
                 'Bookmarkable page',
-                u'Bookmarkable One'
+                'Bookmarkable workspace',
+                'Bookmarks',
             ],
         )
         tile = self.get_bookmarks_tile({'sort_by': 'recent'})
         self.assertListEqual(
             [x.title for x in tile.get_bookmarks()],
             [
-                'Bookmarks',
-                'Bookmarkable workspace',
+                u'Bookmarkable One',
                 'Bookmarkable page',
-                u'Bookmarkable One'
+                'Bookmarkable workspace',
+                'Bookmarks',
             ],
         )
         # But we can sort by popularity and see the order changing

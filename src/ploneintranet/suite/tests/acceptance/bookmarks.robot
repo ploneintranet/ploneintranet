@@ -104,7 +104,7 @@ User can query the bookmarks tile in the dashboard
     Given I am logged in as the user allan_neece
       And I open the Dashboard
      Then I can query the bookmarks tile for  minutes
-      And I can see in the bookmark tile that the last bookmark is  Minutes Overview
+      And I can see in the bookmark tile that the first bookmark is  Minutes Overview
      Then I can query the bookmarks tile for  walrus
       And I can see in the bookmark tile that we have no bookmarks matching  walrus
 
@@ -114,7 +114,7 @@ User can click the bookmarks tile tabs in the dashboard
      When I click the portlet tab  Most popular
      Then I can see in the bookmark tile that the first bookmark is  Bookmarks
      When I click the portlet tab  Recent
-     Then I can see in the bookmark tile that the first bookmark is  Example Case
+     Then I can see in the bookmark tile that the first bookmark is  Silvio De Paoli
 
 *** Keywords ***
 
