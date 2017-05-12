@@ -120,3 +120,12 @@ msgstr ""
 #Define our own long date format
 msgid "date_format_long"
 msgstr ""
+
+
+# Messages for pat-validation
+
+msgid "This date must be on or before the end date."
+msgstr ""
+
+msgid "This date must be on or after the start date."
+msgstr ""
