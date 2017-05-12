@@ -490,3 +490,20 @@ class TestViews(IntegrationTestCase):
             proto.request.__annotations__.pop('plone.memoize')
             proto.request.environ.update({'REMOTE_ADDR': u'666.666.666.666 1'})
             self.assertTrue(proto.is_slow())
+
+    def test_splashpage(self):
+        with patch(
+            'ploneintranet.api.userprofile.get_current',
+            return_value=FakeCurrentUser(),
+        ):
+            with temporary_registry_record(
+                'ploneintranet.layout.splashpage_enabled',
+                True,
+            ):
+                view = self.get_view('dashboard.html')
+                user = view.user
+                self.assertEqual(view.splashpage_uid, u'splashpage-1')
+                self.assertTrue(view.show_splashpage)
+                view.request = self.request.clone()
+                user.splashpage_read = u'splashpage-1'
+                self.assertFalse(view.show_splashpage)
