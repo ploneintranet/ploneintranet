@@ -10,8 +10,8 @@ Pick the development option if you want to develop for Plone Intranet.
 .. toctree::
     :maxdepth: 2
 
+    system-setup
     quickstart
     development
     production
     ldap
-

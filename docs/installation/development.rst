@@ -77,9 +77,9 @@ Set-up a development environment::
 
 .. note::
 
-   If you're a member of the Quaive team, please use the private Quaive repo at 
+   If you're a member of the Quaive team, please use the private Quaive repo at
    https://github.com/quaive/ploneintranet instead of the public community repo.
-   
+
 Create a new Plone instance
 ---------------------------
 
@@ -107,7 +107,7 @@ Those passwords are not actually secret, they're just the word "secret" without 
 
 If you want an empty site, you can install ``Plone Intranet: Suite`` via the Quickinstaller. In that case you will also have to install ``Plone Intranet:  Theme`` - we ship with a default theme but it's not automatically installed.
 
-Please read the section on :doc:`../development/components/userprofiles.rst`
+Please read the section on :doc:`../development/components/userprofiles`
 to learn how you can manage users.
 
 
@@ -257,4 +257,3 @@ Use the "boot2docker ip" command to figure out what NAT ip your boot2docker vm i
 .. _without sudo: http://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 .. _Install boot2docker: https://github.com/boot2docker/boot2docker
 .. _initialize your docker environment: http://stackoverflow.com/questions/25372781/docker-error-var-run-docker-sock-no-such-file-or-directory
-
