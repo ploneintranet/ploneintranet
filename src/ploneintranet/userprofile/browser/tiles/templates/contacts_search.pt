@@ -8,7 +8,7 @@
     <div class="contacts portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-contacts">
       <div class="content">
         <h2 class="portlet-title">
-            <a href="${context/portal_url}/apps/contacts" i18n:translate="">Contacts</a>
+          <a href="${view/header_link}" i18n:translate="">Contacts</a>
         </h2>
         <form class="search-box pat-inject pat-autosubmit" action="${context/portal_url}/@@contacts_search.tile#contact-search-items">
 		  <fieldset class="vertical">
