@@ -16,7 +16,6 @@ from plone.tiles import Tile
 from ploneintranet import api as pi_api
 from ploneintranet.async.tasks import MarkRead
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -42,26 +41,42 @@ class Dashboard(BrowserView):
 
     implements(IBlocksTransformEnabled)
 
-    def splashpage_config(self):
-        ''' Splash page config
+    @property
+    @memoize
+    def splashpage_uid(self):
+        ''' Get the splashpage uid
         '''
-        enabled = get_record_from_registry(
-            'ploneintranet.layout.splashpage_enabled',
-            fallback=False
-        )
-
-        uid = get_record_from_registry(
+        return api.portal.get_registry_record(
             'ploneintranet.layout.splashpage_uid',
-            fallback=''
+            default='',
         )
 
-        content = get_record_from_registry(
+    @property
+    @memoize
+    def show_splashpage(self):
+        ''' Check if splashpage should be enabled
+        '''
+        if not api.portal.get_registry_record(
+            'ploneintranet.layout.splashpage_enabled',
+            default=False,
+        ):
+            return False
+        user = self.user
+        if not user:
+            return False
+        if getattr(user, 'splashpage_read', None) == self.splashpage_uid:
+            return False
+        return True
+
+    @property
+    @memoize
+    def splashpage_content(self):
+        ''' Check if splashpage should be enabled
+        '''
+        return api.portal.get_registry_record(
             'ploneintranet.layout.splashpage_content',
-            fallback=''
+            default=''
         )
-        return dict(enabled=enabled,
-                    uid=uid,
-                    content=content)
 
     def show_message(self, msg, type='success'):
         ''' Wrap show message to save some keystrokes
@@ -144,9 +159,9 @@ class Dashboard(BrowserView):
     def activity_tiles(self):
         ''' This is a list of tiles taken
         '''
-        return get_record_from_registry(
+        return api.portal.get_registry_record(
             'ploneintranet.layout.dashboard_activity_tiles',
-            fallback=[
+            default=[
                 './@@contacts_search.tile',
                 './@@news.tile',
                 './@@my_documents.tile',
@@ -156,9 +171,9 @@ class Dashboard(BrowserView):
     def task_tiles(self):
         ''' This is a list of tiles taken
         '''
-        return get_record_from_registry(
+        return api.portal.get_registry_record(
             'ploneintranet.layout.dashboard_task_tiles',
-            fallback=[
+            default=[
                 './@@news.tile',
                 './@@my_documents.tile',
                 './@@workspaces.tile?workspace_type=ploneintranet.workspace.workspacefolder',  # noqa
@@ -318,19 +333,17 @@ class NewsTile(Tile):
 
     @memoize
     def min_num(self):
-        return self.get_record('min_news_items', 3)
+        return api.portal.get_registry_record(
+            'ploneintranet.layout.min_news_items',
+            default=3,
+        )
 
     @memoize
     def max_num(self):
-        return self.get_record('max_news_items', 10)
-
-    def get_record(self, name, default):
-        id = 'ploneintranet.layout.{}'.format(name)
-        try:
-            return api.portal.get_registry_record(id)
-        except api.exc.InvalidParameterError:
-            # fallback if registry entry is not there
-            return default
+        return api.portal.get_registry_record(
+            'ploneintranet.layout.max_news_items',
+            default=10,
+        )
 
 
 class TasksTile(Tile):
