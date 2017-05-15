@@ -228,6 +228,10 @@ class SiteSearch(base.SiteSearch):
         if isinstance(filters, LuceneQuery):
             return query.filter(filters)
         Q = self.Q
+        if 'path' not in filters:
+            filters.update(
+                path='/'.join(api.portal.get().getPhysicalPath()),
+            )
         for key, value in filters.items():
             if key == 'path':
                 key = 'path_parents'
