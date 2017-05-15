@@ -299,14 +299,21 @@ class SidebarSettingsSecurity(BaseTile):
             value = field.keys()[index]
 
             if value != getattr(ws, field_name):
-                if field_name == 'external_visibility':
-                    ws.set_external_visibility(value)
-                else:
-                    setattr(ws, field_name, value)
+                try:
+                    if field_name == 'external_visibility':
+                        ws.set_external_visibility(value)
+                    else:
+                        setattr(ws, field_name, value)
+                    msg = _(u'Workspace security policy changes saved')
+                    msg_type = 'success'
+                except:
+                    msg = _(u'Workspace security policy change failed')
+                    log.exception('Workspace security policy change failed')
+                    msg_type = 'error'
                 api.portal.show_message(
-                    _(u'Workspace security policy changes saved'),
+                    msg,
                     self.request,
-                    'success',
+                    msg_type,
                 )
 
         if self.request.method == 'POST':
