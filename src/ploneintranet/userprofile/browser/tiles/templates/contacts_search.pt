@@ -27,7 +27,9 @@
                 <form class="search-result users">
                 <fieldset class="checklist pat-checklist" tal:define="byline_fieldname view/get_byline_fieldname">
                     <tal:result repeat="result search_response">
-                    <label class="item user">
+                    <label class="item user"
+                           tal:condition="python: result.review_state == 'enabled'"
+                    >
                         <input name="" type="checkbox" />
                         <a href="${result/url}" class="follow">
                         <img tal:condition="result/getId|nothing"
