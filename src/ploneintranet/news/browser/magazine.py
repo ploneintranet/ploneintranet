@@ -151,7 +151,7 @@ class NewsItemView(NewsMagazine):
     @property
     @memoize
     def section(self):
-        return self.context.section.to_object
+        return self.context.section and self.context.section.to_object
 
     def date(self):
         return ulocalized_time(
