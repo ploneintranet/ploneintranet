@@ -7,6 +7,19 @@ from ploneintranet import api as pi_api
 
 class ContactsSearch(Tile):
 
+    def header_link(self):
+        ''' Link to the Contacts app (if it is available)
+        '''
+        portal = api.portal.get()
+        apps = portal.get('apps', {})
+        app = apps.get('contacts')
+        if not app:
+            return
+        tile = app.restrictedTraverse('app-tile')
+        if tile.disabled:
+            return
+        return tile.url
+
     def is_show_recent_contacts(self):
         portlet_contacts_recent = api.portal.get_registry_record(
             'ploneintranet.userprofile.portlet_contacts_recent')
