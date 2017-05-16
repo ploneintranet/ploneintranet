@@ -13,6 +13,7 @@ from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.behaviors import ITodo
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStorage
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from ploneintranet.workspace.interfaces import IWorkspaceState
 from ploneintranet.workspace.policies import PARTICIPANT_POLICY
 from ploneintranet.workspace.utils import parent_workspace
@@ -106,6 +107,8 @@ class BaseWorkspaceView(BrowserView):
             return principal.getGroupName()
         if hasattr(principal, 'getGroupId'):
             return principal.Title() or principal.getGroupId()
+        if IWorkspaceFolder.providedBy(principal):
+            return principal.Title()
         return (
             getattr(principal, 'fullname', '') or
             principal.getProperty('fullname') or
