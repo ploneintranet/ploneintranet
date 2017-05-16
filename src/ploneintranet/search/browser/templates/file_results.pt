@@ -15,38 +15,42 @@
                    search_macros nocall:here/@@search_macros;
                  "
     >
-      <metal:form use-macro="search_macros/form">
-        <metal:results fill-slot="results">
-          <div class="container results">
-            <metal:counter use-macro="search_macros/counter" />
-            <div class="office results pat-masonry office-files"
-                 id="listing"
-                 data-pat-masonry="column-width: .item; gutter: 0;"
-                 tal:condition="search_response"
-            >
-              <tal:result repeat="result search_response">
-                <a class="item"
-                   href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                >
-                  <figure>
-                    <img src="${preview_large}"
-                         title="${result/title}${spacer}${result/description}"
-                         tal:define="
-                           spacer python:result.description and ' - ' or ' ';
-                           preview_small result/preview_image_url;
-                           preview_large python:preview_small.replace('/small/', '/large/');
-                         "
-                         tal:condition="preview_large"
-                    />
-                    <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
-                  </figure>
-                </a>
-              </tal:result>
-              <metal:counter use-macro="search_macros/autoload" />
+      <div class="focus-sidebar sidebar-normal application-search application-${view/__name__} sidebar-left-open sidebar-right-closed "
+           id="application-body"
+      >
+        <metal:form use-macro="search_macros/form">
+          <metal:results fill-slot="results">
+            <div class="container results">
+              <metal:counter use-macro="search_macros/counter" />
+              <div class="office results pat-masonry office-files"
+                   id="listing"
+                   data-pat-masonry="column-width: .item; gutter: 0;"
+                   tal:condition="search_response"
+              >
+                <tal:result repeat="result search_response">
+                  <a class="item"
+                     href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                  >
+                    <figure>
+                      <img src="${preview_large}"
+                           title="${result/title}${spacer}${result/description}"
+                           tal:define="
+                             spacer python:result.description and ' - ' or ' ';
+                             preview_small result/preview_image_url;
+                             preview_large python:preview_small.replace('/small/', '/large/');
+                           "
+                           tal:condition="preview_large"
+                      />
+                      <figcaption class="icon-file">${python:result.title or result.getId()}</figcaption>
+                    </figure>
+                  </a>
+                </tal:result>
+                <metal:counter use-macro="search_macros/autoload" />
+              </div>
             </div>
-          </div>
-        </metal:results>
-      </metal:form>
+          </metal:results>
+        </metal:form>
+      </div>
     </tal:content>
   </body>
 </html>

@@ -53,7 +53,7 @@
        href="${next_url}"
        data-pat-inject="source: #listing; target: #search-autoload-target::element; trigger: autoload-visible;"
        i18n:translate=""
-    >Loading more search results…</a>
+    >Loading more search results&hellip;</a>
   </tal:next>
 </metal:autoload>
 

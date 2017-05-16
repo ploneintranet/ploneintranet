@@ -14,313 +14,317 @@
                    search_macros nocall:here/@@search_macros;
                  "
     >
-      <metal:form use-macro="search_macros/form">
-        <metal:results fill-slot="results">
-          <div class="container results pat-subform pat-autosubmit pat-inject"
-               data-pat-inject="source: #listing; target: #listing;"
-          >
-            <div class="row"
-                 tal:define="
-                   display_previews view/display_previews;
-                   results_sorting view/get_sorting;
-                   portal_url portal_url|here/portal_url;
-                   friendly_type2type_class nocall:here/@@proto/friendly_type2type_class;
-                 "
+      <div class="focus-sidebar sidebar-normal application-search application-${view/__name__} sidebar-left-open sidebar-right-closed "
+           id="application-body"
+      >
+        <metal:form use-macro="search_macros/form">
+          <metal:results fill-slot="results">
+            <div class="container results pat-subform pat-autosubmit pat-inject"
+                 data-pat-inject="source: #listing; target: #listing;"
             >
-              <div class="three columns filters">
-                <fieldset tal:condition="search_response">
-                  <input name="SearchableText_filtered"
-                         type="hidden"
-                         value="${request/SearchableText|request/SearchableText_filtered|nothing}"
-                  />
-                  <p class="button-bar pat-depends"
-                     data-pat-depends="${view/reset_button_pat_depends}"
-                  >
-                    <a class="pat-button icon-cancel-circle pat-inject"
-                       href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
-                       data-pat-inject="source: #results; target: #results"
-                       i18n:translate=""
-                    >Reset filters</a>
-                  </p>
-                  <fieldset class="pat-checklist pat-bar-toggles document-types"
-                            tal:condition="view/type_facets"
-                  >
-                    <legend i18n:translate="">Document types</legend>
-                    <!-- Only list content types in this list that are relevant for this search result. -->
-                    <tal:for repeat="type view/type_facets">
-                      <label class="${type/id}">
-                        <input checked="${python:type['id'] in request and 'checked' or None}"
-                               name="friendly_type_name"
-                               type="checkbox"
-                               value="${type/title}"
-                        /><tal:type tal:replace="type/title"
-                                  i18n:domain="ploneintranet"
-                                  i18n:translate=""
-                        />
-                      </label>
-                    </tal:for>
-                  </fieldset>
-                  <fieldset class="vertical">
-                    <legend i18n:translate="">Date range</legend>
-                    <label>
-                      <input class="pat-date-picker"
-                             name="start_date"
-                             placeholder="Created after…"
-                             type="date"
-                             value="${python:request.get('created_after')}"
-                             data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
-                             i18n:attributes="placeholder label_created_after;"
-                      />
-                    </label>
-                    <label>
-                      <input class="pat-date-picker"
-                             name="end_date"
-                             placeholder="Created before…"
-                             type="date"
-                             value="${request/created_before|nothing}"
-                             data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
-                             i18n:attributes="placeholder label_created_before;"
-                      />
-                    </label>
-                  </fieldset>
-                  <tal:additional_facets tal:repeat="facet view/get_additional_facets">
-                    <fieldset class="pat-checklist pat-bar-toggles ${facet/id}"
-                              tal:define="
-                                items python:view.get_facets(facet['id']);
-                              "
-                              tal:condition="items"
+              <div class="row"
+                   tal:define="
+                     display_previews view/display_previews;
+                     results_sorting view/get_sorting;
+                     portal_url portal_url|here/portal_url;
+                     friendly_type2type_class nocall:here/@@proto/friendly_type2type_class;
+                   "
+              >
+                <div class="three columns filters">
+                  <fieldset tal:condition="search_response">
+                    <input name="SearchableText_filtered"
+                           type="hidden"
+                           value="${request/SearchableText|request/SearchableText_filtered|nothing}"
+                    />
+                    <p class="button-bar pat-depends"
+                       data-pat-depends="${view/reset_button_pat_depends}"
                     >
-                      <legend i18n:translate="">${facet/label}</legend>
-                      <tal:for repeat="item items">
-                        <label>
-                          <input checked="${python:item['id'] in request and 'checked' or None}"
-                                 name="${facet/id}"
+                      <a class="pat-button icon-cancel-circle pat-inject"
+                         href="${request/getURL}?SearchableText=${request/SearchableText|request/SearchableText_filtered|nothing}"
+                         data-pat-inject="source: #results; target: #results"
+                         i18n:translate=""
+                      >Reset filters</a>
+                    </p>
+                    <fieldset class="pat-checklist pat-bar-toggles document-types"
+                              tal:condition="view/type_facets"
+                    >
+                      <legend i18n:translate="">Document types</legend>
+                      <!-- Only list content types in this list that are relevant for this search result. -->
+                      <tal:for repeat="type view/type_facets">
+                        <label class="${type/id}">
+                          <input checked="${python:type['id'] in request and 'checked' or None}"
+                                 name="friendly_type_name"
                                  type="checkbox"
-                                 value="${item/title}"
-                          />${item/title}</label>
+                                 value="${type/title}"
+                          /><tal:type tal:replace="type/title"
+                                    i18n:domain="ploneintranet"
+                                    i18n:translate=""
+                          />
+                        </label>
                       </tal:for>
                     </fieldset>
-                  </tal:additional_facets>
-                </fieldset>
-              </div>
-              <div class="nine columns last document-listing"
-                   id="listing"
-              >
-                <p class="introduction">
-                  <tal:if condition="search_response/total_results|nothing">
-                    ${search_response/total_results}
-                    <span tal:omit-tag=""
-                          i18n:translate=""
-                    >items matched your search.</span>
-                  </tal:if>
-                  <a class="bare pat-select float-after pat-tooltip"
-                     href="#view-options"
-                     data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr"
-                     i18n:translate=""
-                  >Options</a>
-                </p>
-
-                <div id="view-options"
-                     hidden
-                >
-                  <fieldset class="vertical pat-inject"
-                            data-pat-inject="source: #listing; target: #listing;"
-                  >
-                    <input tal:condition="view/persistent_options"
-                           tal:replace="structure context/@@authenticator/authenticator"
-                    />
-                    <input name="options.submitted"
-                           type="hidden"
-                           value="1"
-                    />
-                    <input name="display-previews-old"
-                           type="hidden"
-                           value="on"
-                           tal:condition="display_previews"
-                    />
-                    <fieldset class="pat-checklist">
+                    <fieldset class="vertical">
+                      <legend i18n:translate="">Date range</legend>
                       <label>
-                        <input checked="${python:display_previews and 'checked' or None}"
-                               name="display-previews"
-                               type="checkbox"
+                        <input class="pat-date-picker"
+                               name="start_date"
+                               placeholder="Created after…"
+                               type="date"
+                               value="${python:request.get('created_after')}"
+                               data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
+                               i18n:attributes="placeholder label_created_after;"
                         />
-                        <span tal:omit-tag=""
-                              i18n:translate=""
-                        >Display previews</span>
+                      </label>
+                      <label>
+                        <input class="pat-date-picker"
+                               name="end_date"
+                               placeholder="Created before…"
+                               type="date"
+                               value="${request/created_before|nothing}"
+                               data-pat-date-picker="i18n: ${portal_url}/@@date-picker-i18n.json"
+                               i18n:attributes="placeholder label_created_before;"
+                        />
                       </label>
                     </fieldset>
-                    <fieldset class="pat-checklist radio">
-                      <label>
-                        <input checked="${python: results_sorting==None and 'checked' or None}"
-                               name="results-sorting"
-                               type="radio"
-                               value="relevancy"
-                        />
-                        <span tal:omit-tag=""
-                              i18n:translate=""
-                        >Sort by relevancy</span>
-                      </label>
-                      <label>
-                        <input checked="${python: results_sorting=='-created' and 'checked' or None}"
-                               name="results-sorting"
-                               type="radio"
-                               value="date"
-                        />
-                        <span tal:omit-tag=""
-                              i18n:translate=""
-                        >Sort by date</span>
-                      </label>
-                    </fieldset>
+                    <tal:additional_facets tal:repeat="facet view/get_additional_facets">
+                      <fieldset class="pat-checklist pat-bar-toggles ${facet/id}"
+                                tal:define="
+                                  items python:view.get_facets(facet['id']);
+                                "
+                                tal:condition="items"
+                      >
+                        <legend i18n:translate="">${facet/label}</legend>
+                        <tal:for repeat="item items">
+                          <label>
+                            <input checked="${python:item['id'] in request and 'checked' or None}"
+                                   name="${facet/id}"
+                                   type="checkbox"
+                                   value="${item/title}"
+                            />${item/title}</label>
+                        </tal:for>
+                      </fieldset>
+                    </tal:additional_facets>
                   </fieldset>
                 </div>
-                <p class="did-you-mean"
-                   tal:define="
-                     corrected search_response/spell_corrected_search|nothing;
-                   "
-                   tal:condition="corrected"
+                <div class="nine columns last document-listing"
+                     id="listing"
                 >
-                  <span tal:omit-tag=""
-                        i18n:translate=""
-                  >Did you mean</span>
-                  <strong>
-                    <a href="${portal_url}/@@search?SearchableText=${corrected}">${corrected}</a>
-                  </strong>?</p>
-                <div id="search-result">
-                  <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
-                      id="result-listing"
-                      data-search-string="${request/QUERY_STRING|nothing}"
+                  <p class="introduction">
+                    <tal:if condition="search_response/total_results|nothing">
+                    ${search_response/total_results}
+                      <span tal:omit-tag=""
+                            i18n:translate=""
+                      >items matched your search.</span>
+                    </tal:if>
+                    <a class="bare pat-select float-after pat-tooltip"
+                       href="#view-options"
+                       data-pat-tooltip="target: .results.pat-subform; source: ajax; position-list: tr"
+                       i18n:translate=""
+                    >Options</a>
+                  </p>
+
+                  <div id="view-options"
+                       hidden
                   >
-                    <tal:results repeat="result search_response">
-                      <tal:result tal:define="
-                                    type_class python:friendly_type2type_class(result.friendly_type_name);
-                                    fragments python: view.url_fragments.get(result.portal_type);
-                                    result_url string:${result/url}${fragments};
-                                    is_archived result/is_archived;
-                                    workspace_state python:'archived' if is_archived else result.review_state;
-                                    highlights result/highlighted_summary;
-                                  "
-                      >
-                        <dt class="title ${type_class}">
-                          <a href="${result_url}">
-                            ${result/title}
-                            <strong class="icon-archive workspace-state archived"
-                                    tal:condition="is_archived"
-                                    i18n:translate="icon_archived"
-                            >Archived</strong>
-                          </a>
-                        </dt>
-                        <dd class="description ${type_class}">
-                          <tal:preview tal:condition="display_previews">
-                            <tal:preview_selector define="
-                                                    preview_class python: view.preview_class(result.portal_type);
-                                                  "
-                                                  switch="preview_class"
-                            >
-
-                              <tal:preview_rich case="string:rich">
-                                <article class="preview rich pat-rich"
-                                         tal:content="structure python:view.get_text_preview(result)"
-                                ></article>
-                              </tal:preview_rich>
-
-                              <tal:preview_workspace case="string:workspace">
-                                <a class="preview workspace-preview workspace-state-${workspace_state} workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
-                                   href="${result_url}"
-                                >
-                                  <h4>${result/title}</h4>
-                                </a>
-                              </tal:preview_workspace>
-
-                              <tal:preview_rich case="string:event">
-                                <a class="preview ${preview_class}"
-                                   href="${result_url}"
-                                >
-                                  <time class="calendar-medium pat-auto-scale"
-                                        tal:define="
-                                          obj result/getObject;
-                                          event_date obj/start|obj/due|nothing;
-                                        "
-                                  >
-                                    <tal:has_time condition="event_date">
-                                      <tal:calendar define="
-                                                      day python:event_date.strftime('%d');
-                                                      month python:event_date.strftime('%B');
-                                                      year python:event_date.strftime('%Y');
-                                                    "
-                                      >
-                                        <strong class="day">${day}</strong>
-                                        <strong class="month char-count-${python:len(month)}">${month}</strong>
-                                        <strong class="year">${year}</strong>
-                                      </tal:calendar>
-                                    </tal:has_time>
-                                  </time>
-                                </a>
-                              </tal:preview_rich>
-
-                              <tal:preview_file tal:case="string:file">
-                                <a class="preview ${preview_class}"
-                                   href="${result_url}"
-                                   tal:condition="result/preview_image_path"
-                                >
-                                  <img alt="${result/title}"
-                                       src="${result/preview_image_url}"
-                                  />
-                                </a>
-                              </tal:preview_file>
-
-                              <tal:preview_user tal:case="string:user">
-                                <a class="preview ${preview_class}"
-                                   href="${result_url}"
-                                   tal:condition="result/preview_image_url"
-                                >
-                                  <img class="pat-avatar"
-                                       alt="${result/title}"
-                                       src="${result/preview_image_url}"
-                                  />
-                                  <h4 class="name">${result/title}</h4>
-                                </a>
-                              </tal:preview_user>
-                            </tal:preview_selector>
-                          </tal:preview>
-
-                          <tal:highlights condition="highlights">
-                            <p class="fragment"
-                               tal:content="structure highlights"
-                            ></p>
-                          </tal:highlights>
-                          <tal:nohighlights condition="not:highlights">
-                            <p class="fragment"
-                               tal:condition="result/description"
-                               tal:content="result/description"
-                            ></p>
-                          </tal:nohighlights>
-                          <a class="link"
-                             href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                          >${python:view.friendly_path(result.url)}</a>
-                        </dd>
-                      </tal:result>
-                    </tal:results>
-                    <tal:autoload define="
-                                    next_url python: search_response and view.next_page_url(search_response.total_results);
-                                  "
+                    <fieldset class="vertical pat-inject"
+                              data-pat-inject="source: #listing; target: #listing;"
                     >
-                      <dd id="load-more-results"
-                          tal:condition="next_url"
+                      <input tal:condition="view/persistent_options"
+                             tal:replace="structure context/@@authenticator/authenticator"
+                      />
+                      <input name="options.submitted"
+                             type="hidden"
+                             value="1"
+                      />
+                      <input name="display-previews-old"
+                             type="hidden"
+                             value="on"
+                             tal:condition="display_previews"
+                      />
+                      <fieldset class="pat-checklist">
+                        <label>
+                          <input checked="${python:display_previews and 'checked' or None}"
+                                 name="display-previews"
+                                 type="checkbox"
+                          />
+                          <span tal:omit-tag=""
+                                i18n:translate=""
+                          >Display previews</span>
+                        </label>
+                      </fieldset>
+                      <fieldset class="pat-checklist radio">
+                        <label>
+                          <input checked="${python: results_sorting==None and 'checked' or None}"
+                                 name="results-sorting"
+                                 type="radio"
+                                 value="relevancy"
+                          />
+                          <span tal:omit-tag=""
+                                i18n:translate=""
+                          >Sort by relevancy</span>
+                        </label>
+                        <label>
+                          <input checked="${python: results_sorting=='-created' and 'checked' or None}"
+                                 name="results-sorting"
+                                 type="radio"
+                                 value="date"
+                          />
+                          <span tal:omit-tag=""
+                                i18n:translate=""
+                          >Sort by date</span>
+                        </label>
+                      </fieldset>
+                    </fieldset>
+                  </div>
+                  <p class="did-you-mean"
+                     tal:define="
+                       corrected search_response/spell_corrected_search|nothing;
+                     "
+                     tal:condition="corrected"
+                  >
+                    <span tal:omit-tag=""
+                          i18n:translate=""
+                    >Did you mean</span>
+                    <strong>
+                      <a href="${portal_url}/@@search?SearchableText=${corrected}">${corrected}</a>
+                    </strong>?</p>
+                  <div id="search-result">
+                    <dl class="search-results previews-${python: display_previews and 'on' or 'off'}"
+                        id="result-listing"
+                        data-search-string="${request/QUERY_STRING|nothing}"
+                    >
+                      <tal:results repeat="result search_response">
+                        <tal:result tal:define="
+                                      type_class python:friendly_type2type_class(result.friendly_type_name);
+                                      fragments python: view.url_fragments.get(result.portal_type);
+                                      result_url string:${result/url}${fragments};
+                                      is_archived result/is_archived;
+                                      workspace_state python:'archived' if is_archived else result.review_state;
+                                      highlights result/highlighted_summary;
+                                    "
+                        >
+                          <dt class="title ${type_class}">
+                            <a href="${result_url}">
+                            ${result/title}
+                              <strong class="icon-archive workspace-state archived"
+                                      tal:condition="is_archived"
+                                      i18n:translate="icon_archived"
+                              >Archived</strong>
+                            </a>
+                          </dt>
+                          <dd class="description ${type_class}">
+                            <tal:preview tal:condition="display_previews">
+                              <tal:preview_selector define="
+                                                      preview_class python: view.preview_class(result.portal_type);
+                                                    "
+                                                    switch="preview_class"
+                              >
+
+                                <tal:preview_rich case="string:rich">
+                                  <article class="preview rich pat-rich"
+                                           tal:content="structure python:view.get_text_preview(result)"
+                                  ></article>
+                                </tal:preview_rich>
+
+                                <tal:preview_workspace case="string:workspace">
+                                  <a class="preview workspace-preview workspace-state-${workspace_state} workspace-type-${python:result.portal_type.endswith('case') and 'case' or 'regular'}"
+                                     href="${result_url}"
+                                  >
+                                    <h4>${result/title}</h4>
+                                  </a>
+                                </tal:preview_workspace>
+
+                                <tal:preview_rich case="string:event">
+                                  <a class="preview ${preview_class}"
+                                     href="${result_url}"
+                                  >
+                                    <time class="calendar-medium pat-auto-scale"
+                                          tal:define="
+                                            obj result/getObject;
+                                            event_date obj/start|obj/due|nothing;
+                                          "
+                                    >
+                                      <tal:has_time condition="event_date">
+                                        <tal:calendar define="
+                                                        day python:event_date.strftime('%d');
+                                                        month python:event_date.strftime('%B');
+                                                        year python:event_date.strftime('%Y');
+                                                      "
+                                        >
+                                          <strong class="day">${day}</strong>
+                                          <strong class="month char-count-${python:len(month)}">${month}</strong>
+                                          <strong class="year">${year}</strong>
+                                        </tal:calendar>
+                                      </tal:has_time>
+                                    </time>
+                                  </a>
+                                </tal:preview_rich>
+
+                                <tal:preview_file tal:case="string:file">
+                                  <a class="preview ${preview_class}"
+                                     href="${result_url}"
+                                     tal:condition="result/preview_image_path"
+                                  >
+                                    <img alt="${result/title}"
+                                         src="${result/preview_image_url}"
+                                    />
+                                  </a>
+                                </tal:preview_file>
+
+                                <tal:preview_user tal:case="string:user">
+                                  <a class="preview ${preview_class}"
+                                     href="${result_url}"
+                                     tal:condition="result/preview_image_url"
+                                  >
+                                    <img class="pat-avatar"
+                                         alt="${result/title}"
+                                         src="${result/preview_image_url}"
+                                    />
+                                    <h4 class="name">${result/title}</h4>
+                                  </a>
+                                </tal:preview_user>
+                              </tal:preview_selector>
+                            </tal:preview>
+
+                            <tal:highlights condition="highlights">
+                              <p class="fragment"
+                                 tal:content="structure highlights"
+                              ></p>
+                            </tal:highlights>
+                            <tal:nohighlights condition="not:highlights">
+                              <p class="fragment"
+                                 tal:condition="result/description"
+                                 tal:content="result/description"
+                              ></p>
+                            </tal:nohighlights>
+                            <a class="link"
+                               href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                            >${python:view.friendly_path(result.url)}</a>
+                          </dd>
+                        </tal:result>
+                      </tal:results>
+                      <tal:autoload define="
+                                      next_url python: search_response and view.next_page_url(search_response.total_results);
+                                    "
                       >
-                        <a class="pat-inject infinite-scrolling-trigger"
-                           href="${next_url}#result-listing"
-                           data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
-                           i18n:translate=""
-                        >Loading more search results…</a>
-                      </dd>
-                    </tal:autoload>
-                  </dl>
+                        <dd id="load-more-results"
+                            tal:condition="next_url"
+                        >
+                          <a class="pat-inject infinite-scrolling-trigger"
+                             href="${next_url}#result-listing"
+                             data-pat-inject="trigger: autoload-visible; source: #result-listing; target: #load-more-results::element"
+                             i18n:translate=""
+                          >Loading more search results&hellip;</a>
+                        </dd>
+                      </tal:autoload>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </metal:results>
-      </metal:form>
+          </metal:results>
+        </metal:form>
+      </div>
     </tal:content>
   </body>
 </html>

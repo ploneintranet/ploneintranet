@@ -91,7 +91,7 @@
                      href="${next_url}"
                      data-pat-inject="source: .autoload-users-source; target: #users-autoload-target::element; trigger: autoload-visible"
                      i18n:translate=""
-                  >Loading more search results…</a>
+                  >Loading more search results&hellip;</a>
                 </li>
               </tal:autoload></ul>
           </div>

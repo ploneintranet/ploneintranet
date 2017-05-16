@@ -8,11 +8,13 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.memoize import forever
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
+from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.search.interfaces import ISiteSearch
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from zope.component import getUtility
+from zope.interface import implementer
 from ZTUtils import make_query
 
 import locale
@@ -29,6 +31,7 @@ except locale.Error:
     )
 
 
+@implementer(IDiazoAppTemplate)
 class SearchResultsView(BrowserView):
 
     # Map portal types to url fragments so that the correct sidebar
