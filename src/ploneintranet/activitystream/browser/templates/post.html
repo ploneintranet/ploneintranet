@@ -19,7 +19,7 @@
     <div class="post-header">
       <a href="${portal_url}/author/${here/userid}">
           <img tal:replace="structure view/avatar">
-          <h4 class="name">${python:view.fullname or '&nbsp;'}</h4>
+          <h4 class="name">${view/fullname}</h4>
       </a>
       <p class="byline">
         <em class="action" i18n:translate=""

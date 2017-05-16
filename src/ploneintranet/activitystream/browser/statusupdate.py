@@ -132,11 +132,10 @@ class StatusUpdateView(BrowserView):
             pi_api.userprofile.get(self.context.userid) or
             api.user.get(self.context.userid)
         )
+        fullname = ''
         if user:
             fullname = getattr(user, 'fullname', user.getProperty('fullname'))
-        else:
-            fullname = self.context.userid
-        return fullname
+        return fullname or self.context.userid
 
     @property
     @memoize
