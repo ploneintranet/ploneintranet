@@ -28,7 +28,7 @@
     <a class="pat-button icon-chat"
        href="${chat_link/url}"
        target="chat"
-       tal:condition="nothing|chat_link"
+       tal:condition="chat_link"
        tal:define="chat_link view/chat_link"
     >${chat_link/label}</a>
   </form>
