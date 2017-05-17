@@ -14,79 +14,83 @@
                    search_macros nocall:here/@@search_macros;
                  "
     >
-      <metal:form use-macro="search_macros/form">
-        <metal:results fill-slot="results">
-          <div class="container results">
-            <metal:counter use-macro="search_macros/counter" />
-            <div class="row people results pat-equaliser-disabled"
-                 id="listing"
-            >
-              <tal:result repeat="result search_response">
-                <div class="item">
-                  <div class="user-card">
-                    <img class="pat-avatar"
-                         tal:attributes="
-                           src result/preview_image_url;
-                           alt string:Image of ${result/title};
-                         "
-                    />
-                    <a tal:attributes="
-                         href result/url;
-                       "
-                    >
-                      <h4 class="name"
-                          tal:content="result/title"
-                      >Minoush Farmer</h4>
-                      <p class="byline"
-                         tal:condition="result/latest_status|nothing"
-                         tal:content="result/latest_status|nothing"
-                      >This is my latest status.</p>
-                    </a>
-                    <ul class="skill-cloud"
-                        tal:condition="result/skills|nothing"
-                    >
-                      <tal:skill tal:repeat="skill result/skills">
-                        <li class="skill"
-                            tal:content="skill/title"
-                        >Design
-                          <em class="counter"
-                              tal:content="skill/count"
-                          >7</em></li>
-                      </tal:skill>
-                    </ul>
-                    <ul class="data">
-                      <li class="mail icon-mail"
-                          tal:condition="result/contact_email"
-                          tal:attributes="
-                            title string:Mail ${result/title} at ${result/contact_email};
-                          "
-                      >
-                        <a tal:content="result/contact_email"
+      <div class="focus-sidebar sidebar-normal application-search application-${view/__name__} sidebar-left-open sidebar-right-closed "
+           id="application-body"
+      >
+        <metal:form use-macro="search_macros/form">
+          <metal:results fill-slot="results">
+            <div class="container results">
+              <metal:counter use-macro="search_macros/counter" />
+              <div class="row people results pat-equaliser-disabled"
+                   id="listing"
+              >
+                <tal:result repeat="result search_response">
+                  <div class="item">
+                    <div class="user-card">
+                      <img class="pat-avatar"
                            tal:attributes="
-                             href string:mailto:${result/contact_email};
+                             src result/preview_image_url;
+                             alt string:Image of ${result/title};
                            "
-                        >minoush.farmer@organisation.com</a>
-                      </li>
-                      <li class="phone icon-phone"
-                          tal:condition="result/phone|nothing"
-                          tal:attributes="
-                            title string:Call ${result/title} on ${result/phone};
-                          "
+                      />
+                      <a tal:attributes="
+                           href result/url;
+                         "
                       >
-                        <a tal:attributes="
-                             href string:tel:${result/phone};
-                           "
-                        >+34 506 948 294</a>
-                      </li>
-                    </ul>
+                        <h4 class="name"
+                            tal:content="result/title"
+                        >Minoush Farmer</h4>
+                        <p class="byline"
+                           tal:condition="result/latest_status|nothing"
+                           tal:content="result/latest_status|nothing"
+                        >This is my latest status.</p>
+                      </a>
+                      <ul class="skill-cloud"
+                          tal:condition="result/skills|nothing"
+                      >
+                        <tal:skill tal:repeat="skill result/skills">
+                          <li class="skill"
+                              tal:content="skill/title"
+                          >Design
+                            <em class="counter"
+                                tal:content="skill/count"
+                            >7</em></li>
+                        </tal:skill>
+                      </ul>
+                      <ul class="data">
+                        <li class="mail icon-mail"
+                            tal:condition="result/contact_email"
+                            tal:attributes="
+                              title string:Mail ${result/title} at ${result/contact_email};
+                            "
+                        >
+                          <a tal:content="result/contact_email"
+                             tal:attributes="
+                               href string:mailto:${result/contact_email};
+                             "
+                          >minoush.farmer@organisation.com</a>
+                        </li>
+                        <li class="phone icon-phone"
+                            tal:condition="result/phone|nothing"
+                            tal:attributes="
+                              title string:Call ${result/title} on ${result/phone};
+                            "
+                        >
+                          <a tal:attributes="
+                               href string:tel:${result/phone};
+                             "
+                          >+34 506 948 294</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </tal:result>
-              <metal:counter use-macro="search_macros/autoload" />
+                </tal:result>
+                <metal:counter use-macro="search_macros/autoload" />
+              </div>
             </div>
-          </div>
-        </metal:results>
-      </metal:form>
+          </metal:results>
+        </metal:form>
+      </div>
     </tal:content>
   </body>
 </html>

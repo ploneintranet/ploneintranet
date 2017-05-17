@@ -14,38 +14,42 @@
                    search_macros nocall:here/@@search_macros;
                  "
     >
-      <metal:form use-macro="search_macros/form">
-        <metal:results fill-slot="results">
-          <div class="container results">
-            <metal:counter use-macro="search_macros/counter" />
-            <div class="images results pat-masonry images"
-                 id="listing"
-                 data-pat-masonry="column-width: .item; gutter: 0;"
-            >
-              <tal:result repeat="result search_response">
-                <a class="item"
-                   href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
-                >
-                  <figure>
-                    <img tal:define="
-                           spacer python:result.description and ' - ' or ' ';
-                         "
-                         tal:attributes="
-                           src result/preview_image_url;
-                           title string:${result/title}${spacer}${result/description};
-                         "
-                    />
-                    <figcaption>
-                      <tal:title tal:replace="result/title" />
-                    </figcaption>
-                  </figure>
-                </a>
-              </tal:result>
-              <metal:counter use-macro="search_macros/autoload" />
+      <div class="focus-sidebar sidebar-normal application-search application-${view/__name__} sidebar-left-open sidebar-right-closed "
+           id="application-body"
+      >
+        <metal:form use-macro="search_macros/form">
+          <metal:results fill-slot="results">
+            <div class="container results">
+              <metal:counter use-macro="search_macros/counter" />
+              <div class="images results pat-masonry images"
+                   id="listing"
+                   data-pat-masonry="column-width: .item; gutter: 0;"
+              >
+                <tal:result repeat="result search_response">
+                  <a class="item"
+                     href="${result/url}${python:view.url_fragments.get(result.portal_type)}"
+                  >
+                    <figure>
+                      <img tal:define="
+                             spacer python:result.description and ' - ' or ' ';
+                           "
+                           tal:attributes="
+                             src result/preview_image_url;
+                             title string:${result/title}${spacer}${result/description};
+                           "
+                      />
+                      <figcaption>
+                        <tal:title tal:replace="result/title" />
+                      </figcaption>
+                    </figure>
+                  </a>
+                </tal:result>
+                <metal:counter use-macro="search_macros/autoload" />
+              </div>
             </div>
-          </div>
-        </metal:results>
-      </metal:form>
+          </metal:results>
+        </metal:form>
+      </div>
     </tal:content>
   </body>
 </html>
