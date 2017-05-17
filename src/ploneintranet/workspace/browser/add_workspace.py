@@ -250,6 +250,17 @@ class AddWorkspace(AddBase):
             target=container,
             safe_id=False,
         )
+        template_review_state = api.content.get_state(template)
+        new_review_state = api.content.get_state(new)
+        if template_review_state != new_review_state:
+            try:
+                api.content.transition(obj=new, to_state=template_review_state)
+            except api.exc.InvalidParameterError:
+                log.warning(
+                    'Cannot find a transaction to state %r for %r',
+                    template_review_state,
+                    new,
+                )
 
         # We must not let api's `copy` method do the renaming. If the
         # acl_users folder is cached, then AccessControl checks will not
