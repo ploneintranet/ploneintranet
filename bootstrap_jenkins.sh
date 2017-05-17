@@ -16,7 +16,7 @@ virtualenv --relocatable .
 rm -rf local/lib/python2.7/site-packages/easy_install* local/lib/python2.7/site-packages/setuptools* 2>/dev/null || true
 ./bin/pip install -UIr requirements.txt || exit 1
 virtualenv --no-setuptools --relocatable .
-./bin/buildout -N -t 10 -c $BUILDOUT_CONFIG || exit 1
+./bin/buildout -N -t 30 -c $BUILDOUT_CONFIG || exit 1
 virtualenv --no-setuptools --relocatable .
 bundle install --path vendor/bundle --binstubs
 ./bin/develop up -f || exit 1
