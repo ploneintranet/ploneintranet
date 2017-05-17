@@ -141,6 +141,15 @@
       />
 
   <browser:page
+      name="plone_lock_info"
+      for="plone.locking.interfaces.ITTWLockable"
+      permission="zope2.View"
+      class=".locking.PILockingInformation"
+      allowed_attributes="is_locked is_locked_for_current_user lock_is_stealable lock_info render_panel"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
+
+  <browser:page
     name="workflow_menu"
     for="*"
     layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
