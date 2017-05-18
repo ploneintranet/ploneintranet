@@ -4,12 +4,14 @@
     tal:define="
       task_number python:0;
       portal_url here/portal_url;
-      duedate_view nocall:ws/duedate-view | nothing;
+      duedate_view nocall:here/duedate-view | nothing;
     "
     i18n:domain="ploneintranet"
   >
   <tal:milestone repeat="milestone view/milestones">
-    <li class="section actioned state-${milestone/finished}"
+    <li tal:define="overdue python:duedate_view and duedate_view.is_overdue(milestone) or False;
+                    state python:overdue and 'overdue' or milestone['finished']"
+        class="section actioned state-${state}"
         title="${milestone/title}"
         >
       <tal:state_index define="global task_number python:task_number + repeat['milestone'].index">
@@ -24,9 +26,12 @@
             <p class="step-label icon" />
           </li>
           <tal:tasks repeat="task milestone/tasks">
-            <tal:task_number define="global task_number python:task_number + 1">
+            <tal:task_number
+                define="global task_number python:task_number + 1;
+                        overdue python:duedate_view and task['overdue'];
+                        state python:'closed' if task['checked'] else 'open';">
               <li id="item-${task_number}"
-                  class="step-background state-${python:'closed' if task['checked'] else 'open'}">
+                  class="step-background state-${python:'overdue' if overdue else state}">
                 <p class="step-label icon icon-help-circled">
                   <span class="link">
                     <a class="label-text"
@@ -63,7 +68,11 @@
             >${milestone/transition_title}</a>
         </p>
         <p class="due-date" tal:condition="duedate_view">
-          <span tal:replace="python:duedate_view.milestone_due_date(milestone)">23 mar 2017</span>   
+          <span tal:replace="python:duedate_view.milestone_due_date(milestone['state']).strftime('%d %b %Y')">23 mar 2017</span>
+          <strong class="warning"
+                  i18n:translate=""
+                  tal:condition="overdue"
+          >Overdue</strong>
         </p>
       </tal:state_index>
     </li>
