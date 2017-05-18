@@ -232,6 +232,38 @@ class TestAddWorkspaceView(BaseTestCase):
             ws = add_workspace.create_from_template()
         self.assertEqual(ws.getOwner().getId(), 'johndoe')
 
+    def test_add_template_via_view_preserve_state(self):
+        self.login('johndoe')
+        request = self.request.clone()
+        request['workspace-type'] = 'example-template'
+        add_workspace = api.content.get_view(
+            'add_workspace',
+            context=self.portal.workspaces,
+            request=request,
+        )
+        add_workspace.title = u'WS'
+
+        # Clone a template in the open state
+        with api.env.adopt_user('admin'):
+            api.content.transition(obj=self.template, transition='make_open')
+        ws = add_workspace.create_from_template()
+        self.assertEqual(
+            api.content.get_state(ws),
+            'open',
+        )
+
+        # Clear the cache
+        delattr(add_workspace.request, '__annotations__')
+
+        # Clone a template in the secret state
+        with api.env.adopt_user('admin'):
+            api.content.transition(obj=self.template, transition='make_secret')
+        ws = add_workspace.create_from_template()
+        self.assertEqual(
+            api.content.get_state(ws),
+            'secret',
+        )
+
     def test_template_member_can_see_template_in_menu(self):
         self.login('johndoe')
         request = self.layer['request'].clone()
