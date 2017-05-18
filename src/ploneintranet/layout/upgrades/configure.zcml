@@ -198,4 +198,22 @@
         profile="ploneintranet.layout:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0016"
+        title="New splashpage"
+        description=""
+        directory="profiles/to_0016"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="New splashpage"
+        description=""
+        source="*"
+        destination="0016"
+        handler=".to_0016.new_splashpage"
+        profile="ploneintranet.layout:default"
+        />
+
 </configure>

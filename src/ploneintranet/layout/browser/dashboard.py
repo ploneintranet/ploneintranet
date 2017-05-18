@@ -214,6 +214,27 @@ class Dashboard(BrowserView):
 
         return dashboard
 
+    def maybe_mark_splashpage_as_read(self):
+        ''' Check if we can mark this splash page as read
+        If so add an attribute to the user
+        '''
+        splashpage_uid = self.request.form.get('splashpage_uid')
+        if (
+            not self.user or
+            splashpage_uid != self.splashpage_uid
+        ):
+            # This is a debug feature to display again the splashpage
+            if splashpage_uid == 'force':
+                self.user.splashpage_read = ''
+            return
+        self.user.splashpage_read = splashpage_uid
+
+    def __call__(self):
+        ''' Do something before rendering the template
+        '''
+        self.maybe_mark_splashpage_as_read()
+        return super(Dashboard, self).__call__()
+
 
 class NewsTile(Tile):
 

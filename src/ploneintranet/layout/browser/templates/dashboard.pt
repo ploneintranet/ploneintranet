@@ -8,12 +8,27 @@
 
   <body class="view-secure">
     <metal:content fill-slot="body_top">
-      <div class="pat-collapsible splash-message open"
-           id="splash-message-uid-${view/splashpage_uid}"
-           data-pat-collapsible="store: local; trigger: .splash-trigger"
-           tal:condition="view/show_splashpage"
-           tal:content="structure view/splashpage_content"
-    ></div>
+      <div id="splash-message-diazo-marker">
+        <form class="splash-message pat-inject#user-avatar"
+              id="${view/splashpage_uid}"
+              action="${here/portal_url}/@@dashboard.html"
+              tal:condition="view/show_splashpage"
+        >
+          <input type="hidden"
+                 value="${view/splashpage_uid}"
+                 name="splashpage_uid"
+          />
+          <button class="trigger splash-trigger pat-switch"
+                  name="read-status"
+                  type="submit"
+                  value="read"
+                  data-pat-switch="selector: body; remove: splash-active"
+          >Close message</button>
+          <div class="panel-content">
+            <tal:splash replace="structure view/splashpage_content" />
+          </div>
+        </form>
+      </div>
     </metal:content>
 
     <metal:content fill-slot="content">

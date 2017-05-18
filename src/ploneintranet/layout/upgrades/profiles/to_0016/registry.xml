@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.layout.splashpage_content">
+    <field type="plone.registry.field.Text">
+      <default></default>
+      <title>Content of the splashpage</title>
+      <description>This is the complete html markup used to render the splashpage.</description>
+      <required>False</required>
+    </field>
+    <value purge="false">
+      &lt;div class=&quot;content pat-stacks&quot;&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;introduce&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-mobile.png)&quot;
+        &gt;
+          &lt;h1&gt;Welcome back!&lt;/h1&gt;
+          &lt;p&gt;
+          We would like to introduce you to the new StarDesk. StarDesk has been redesigned so that it now works on touch screens (mobile/tablets).
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#new-dashboard&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;new-dashboard&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-dashboard-stardesk.png)&quot;
+        &gt;
+          &lt;h1&gt;Dashboard&lt;/h1&gt;
+          &lt;p&gt;
+          This is the updated Dashboard. You can add bookmarks to the Dashboard to create shortcuts to your most important places.
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#navigate&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;bookmark-workspaces&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-bookmark-workspaces.png)&quot;
+        &gt;
+          &lt;h1&gt;Bookmark workspaces&lt;/h1&gt;
+          &lt;p&gt;
+          Personalise your StarDesk experience by bookmarking workspaces to add them to your Dashboard.
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#bookmark-items&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;bookmark-items&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-bookmark-user.png)&quot;
+        &gt;
+          &lt;h1&gt;Bookmark anything&lt;/h1&gt;
+          &lt;p&gt;
+          You can also bookmark your most-used contacts, important documents and other items.
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#search&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;navigate&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-workspaces-2-devices.png)&quot;
+        &gt;
+          &lt;h1&gt;Navigation&lt;/h1&gt;
+          &lt;p&gt;
+          You can use the top navigation or mobile menu to switch easily to an overview of all workspaces.
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#bookmark-workspaces&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;search&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-search-stardesk.png)&quot;
+        &gt;
+          &lt;h1&gt;Search&lt;/h1&gt;
+          &lt;p&gt;
+          Use the search option to quickly find information you need.
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;a class=&quot;pat-button&quot;
+               href=&quot;#enjoy&quot;
+            &gt;Next&amp;hellip;&lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+        &lt;article class=&quot;container has-image&quot;
+                 id=&quot;enjoy&quot;
+                 style=&quot;background-image: url(/++theme++ploneintranet.theme/generated/media/pi-dashboard-2-devices.png)&quot;
+        &gt;
+          &lt;h1&gt;Enjoy!&lt;/h1&gt;
+          &lt;p&gt;
+          We hope you will enjoy working with StarDesk at your desk, on a tablet and on mobile!
+          &lt;/p&gt;
+          &lt;p class=&quot;button-bar&quot;&gt;
+            &lt;!-- &lt;a class=&quot;pat-button&quot;&gt;Finish&lt;/a&gt; --&gt;
+            &lt;button class=&quot;pat-button pat-switch&quot;
+                    name=&quot;read-status&quot;
+                    type=&quot;submit&quot;
+                    value=&quot;read&quot;
+                    data-pat-switch=&quot;selector: body; remove: splash-active&quot;
+            &gt;Finish&lt;/button&gt;
+          &lt;/p&gt;
+        &lt;/article&gt;
+      &lt;/div&gt;
+      &lt;nav class=&quot;dots&quot;&gt;
+        &lt;a href=&quot;#introduce&quot;&gt;Welcome back!&lt;/a&gt;
+        &lt;a href=&quot;#new-dashboard&quot;&gt;Dashboard&lt;/a&gt;
+        &lt;a href=&quot;#bookmark-workspaces&quot;&gt;Bookmark workspaces&lt;/a&gt;
+        &lt;a href=&quot;#bookmark-items&quot;&gt;Bookmark anything&lt;/a&gt;
+        &lt;a href=&quot;#navigate&quot;&gt;Navigation&lt;/a&gt;
+        &lt;a href=&quot;#search&quot;&gt;Search&lt;/a&gt;
+        &lt;a href=&quot;#enjoy&quot;&gt;Enjoy!&lt;/a&gt;
+      &lt;/nav&gt;
+    </value>
+  </record>
+</registry>
