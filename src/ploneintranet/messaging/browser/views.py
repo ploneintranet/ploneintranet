@@ -99,7 +99,11 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
     def update(self):
         # mark read on initial full load, not on incremental update
         if self.userid and not self.only_new:
-            self.mark_read(self.userid)
+            try:
+                self.mark_read(self.userid)
+            except KeyError:
+                # We should initialize the inbox first
+                self.create_conversation(self.userid)
         new_userid = self.request.get('new_userid', None)
         if new_userid:
             self.create_conversation(new_userid)
@@ -139,6 +143,7 @@ class AppMessagingView(BrowserView, _AppMessagingMixin):
             conversation = pi_api.messaging.create_conversation(new_userid)
             safeWrite(conversation, self.request)
             safeWrite(inbox, self.request)
+            safeWrite(inbox.data, self.request)
             logger.info("%s started new conversation with %s",
                         api.user.get_current().id, new_userid)
 

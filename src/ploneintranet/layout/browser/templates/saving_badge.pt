@@ -1,34 +1,51 @@
 <tal:button define="
               autosave_enabled view/autosave_enabled|nothing;
               can_edit view/can_edit;
+              lock_info view/lock_info;
             "
+            i18n:domain="ploneintranet"
 >
-  <tal:autosaveon condition="autosave_enabled">
-    <p class="saving-badge"
-       id="saving-badge"
-       tal:define="
-         toLocalizedtime nocall:here/@@plone/toLocalizedTime;
-         last_modified python:toLocalizedtime(here.modified(), long_format=1);
-       "
-    >
-      <button class="saved-tag focus"
+  <tal:notlocked condition="not:lock_info">
+    <tal:autosaveon condition="autosave_enabled">
+      <p class="saving-badge"
+         id="saving-badge"
+         tal:define="
+           toLocalizedtime nocall:here/@@plone/toLocalizedTime;
+           last_modified python:toLocalizedtime(here.modified(), long_format=1);
+         "
+      >
+        <button class="saved-tag focus"
+                id="save-button"
+                disabled="${python: None if can_edit else 'disabled'}"
+                type="submit"
+        >
+          <tal:t i18n:translate="">Last saved</tal:t>
+          <time class="modification-date pat-display-time"
+                datetime="${here/ModificationDate}"
+                data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
+          >${last_modified}</time>
+        </button>
+      </p>
+    </tal:autosaveon>
+    <tal:autosaveoff condition="not:autosave_enabled">
+      <button class="icon-floppy"
               id="save-button"
-              disabled="${python: None if can_edit else 'disabled'}"
               type="submit"
-      ><tal:t i18n:translate="">Last saved</tal:t>
-        <time class="modification-date pat-display-time"
-              datetime="${here/ModificationDate}"
-              data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
-        >${last_modified}</time>
-      </button>
+              tal:condition="can_edit"
+              i18n:translate=""
+      >Save</button>
+    </tal:autosaveoff>
+  </tal:notlocked>
+  <tal:locked condition="lock_info">
+    <p class="saving-badge locked"
+       id="saving-badge"
+    >
+      <a class="locked-tag pat-tooltip inactive"
+         href="${here/absolute_url}/@@plone_lock_info/render_panel#locked-menu"
+         title="${lock_info/lock_panel_link_title}"
+         data-pat-tooltip="source: ajax; class: rich large warning"
+         i18n:translate=""
+      >Locked</a>
     </p>
-  </tal:autosaveon>
-  <tal:autosaveoff condition="not:autosave_enabled">
-    <button class="icon-floppy"
-            id="save-button"
-            type="submit"
-            tal:condition="can_edit"
-            i18n:translate=""
-    >Save</button>
-  </tal:autosaveoff>
+  </tal:locked>
 </tal:button>

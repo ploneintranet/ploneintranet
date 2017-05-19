@@ -131,6 +131,15 @@ Member can see delete button on an editable document
     Click Element  css=div.quick-functions a.icon-ellipsis
     Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
 
+Member can steal the lock of a document
+    Given I am logged in as the user allan_neece
+     Then I can lock a document
+     When I am logged in as the user christian_stoney
+     Then I can see the document is locked
+      And I can see who locked the document
+      And I can start a conversation with the lock owner
+      And I can steal the lock
+
 # Member can change the title of a folder
 #     Given I am in a workspace as a workspace member
 #     And I view the folder
@@ -155,3 +164,33 @@ Member can see delete button on an editable document
 *** Keywords ***
 
 # See lib/keywords.robot in the section "workspace and case content related keywords"
+
+I can lock a document
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements/@@plone_lock_operations/create_lock
+
+I can see the document is locked
+    Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/repurchase-agreements/
+    Page should contain element  jquery=.saving-badge.locked
+
+I click on the locked badge
+    Click element  jquery=.saving-badge.locked
+    Wait for injection to be finished
+
+I can see who locked the document
+    I click on the locked badge
+    Click Element  css=.pat-message.warning > a.close-panel.pat-modal
+    Wait for injection to be finished
+    Click Element  css=#pat-modal button.close-panel
+
+I can start a conversation with the lock owner
+    I click on the locked badge
+    Click element  css=.button-bar > a.icon-chat
+    Select Window  chat
+    Page Should Contain Element  jquery=#chat-bar [placeholder="Write a message"]
+    Close Window
+    Select Window    main
+    I click on the locked badge
+
+I can steal the lock
+    I click on the locked badge
+    Click button  Unlock

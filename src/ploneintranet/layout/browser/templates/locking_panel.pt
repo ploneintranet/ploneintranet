@@ -1,0 +1,45 @@
+<div id="locked-menu"
+     i18n:domain="ploneintranet"
+     tal:define="
+       info view/lock_info;
+       is_locked view/is_locked;
+     "
+>
+  <p class="pat-message warning"
+     tal:condition="is_locked"
+  >
+    <tal:i18n i18n:translate="">
+      This document is currently locked for editing by
+    </tal:i18n>
+    <a class="close-panel pat-modal"
+       href="${here/portal_url}/profiles/${info/creator}/@@userprofile-info#person-info::element"
+    >${info/fullname}</a>.
+    <tal:i18n i18n:translate="">
+      If you think the user is currently not editing this document and you want to edit it now, then you can unlock the document. Unlocking the document will allow you to edit the document and lock it for editing for other users untill you close the document.
+    </tal:i18n>
+  </p>
+  <form class="footer button-bar pat-inject"
+        action="${context/absolute_url}/@@plone_lock_operations/force_unlock"
+        tal:condition="is_locked"
+  >
+    <button class="icon-lock-open close-panel"
+            type="submit"
+            i18n:translate=""
+    >Unlock</button>
+    <a class="pat-button icon-chat"
+       href="${chat_link/url}"
+       target="chat"
+       tal:condition="chat_link"
+       tal:define="chat_link view/chat_link"
+    >${chat_link/label}</a>
+  </form>
+  <form class="footer button-bar pat-inject"
+        action="${context/absolute_url}/@@plone_lock_operations/create_lock"
+        tal:condition="not:is_locked"
+  >
+    <button class="icon-lock close-panel"
+            type="submit"
+            i18n:translate=""
+    >Lock</button>
+  </form>
+</div>

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-04-04 08:31+0000\n"
+"POT-Creation-Date: 2017-05-19 12:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "${context/action_verb}"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:100
+#: ../search/browser/templates/all_results.pt:96
 msgid "${facet/label}"
 msgstr ""
 
@@ -43,11 +43,7 @@ msgstr ""
 msgid "${milestone/transition_title}"
 msgstr ""
 
-#: ../search/browser/templates/file_results.pt:33
-msgid "${results} items matched your search."
-msgstr ""
-
-#: ../layout/browser/templates/workflow_menu.pt:15
+#: ../layout/browser/templates/workflow_menu.pt:16
 msgid "${state/title}"
 msgstr ""
 
@@ -55,7 +51,7 @@ msgstr ""
 msgid "-- Please select --"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:80
+#: ../workspace/browser/templates/content_macros.pt:79
 msgid "-- Please select a workspace --"
 msgstr ""
 
@@ -84,7 +80,7 @@ msgstr ""
 msgid "A Workspace users can collaborate in"
 msgstr ""
 
-#: ../search/interfaces.py:58
+#: ../search/interfaces.py:57
 msgid "A contact email address for this search result"
 msgstr ""
 
@@ -98,11 +94,11 @@ msgid "A container for workspaces"
 msgstr ""
 
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:184
+#: ../workspace/basecontent/templates/document_view.pt:160
 msgid "A copy of this document"
 msgstr ""
 
-#: ../search/interfaces.py:95
+#: ../search/interfaces.py:94
 msgid "A dictionary of facets and available values"
 msgstr ""
 
@@ -110,7 +106,7 @@ msgstr ""
 msgid "A group with this id already exists"
 msgstr ""
 
-#: ../search/interfaces.py:70
+#: ../search/interfaces.py:69
 msgid "A highlighted summary of this search result"
 msgstr ""
 
@@ -123,15 +119,19 @@ msgstr ""
 msgid "A mail content type"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:301
+msgid "A problem occurred while changing the user state"
+msgstr ""
+
 #: ../microblog/browser/configure.zcml:18
 msgid "A tile to add a new post"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:225
+#: ../layout/browser/configure.zcml:251
 msgid "A title for the news"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:214
+#: ../layout/browser/configure.zcml:240
 msgid "A title for the tasks"
 msgstr ""
 
@@ -139,6 +139,7 @@ msgstr ""
 msgid "A user (or a group) assigned to this task"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:210
 #: ../userprofile/content/userprofile.py:150
 msgid "A user with this username already exists"
 msgstr ""
@@ -148,11 +149,19 @@ msgstr ""
 msgid "About this environment"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:23
+#: ../admintool/browser/user_management.py:63
+msgid "Account status"
+msgstr ""
+
+#: ../admintool/browser/user_management.py:240
+msgid "Activate user"
+msgstr ""
+
+#: ../layout/browser/templates/dashboard.pt:28
 msgid "Activity centric view"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:81
+#: ../layout/browser/templates/dashboard.pt:86
 msgid "Activity stream"
 msgstr ""
 
@@ -233,33 +242,33 @@ msgstr ""
 msgid "Advanced permissions"
 msgstr ""
 
-#: ../search/browser/templates/search_tabs.pt:5
+#: ../search/browser/searchtabs.py:12
 #: ../workspace/browser/templates/case_manager.pt:109
 #: ../workspace/browser/tiles/templates/navigation.pt:35
 msgid "All"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:523
+#: ../workspace/browser/tiles/sidebar.py:530
 msgid "All Authors"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:519
+#: ../workspace/browser/tiles/sidebar.py:526
 msgid "All Dates"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:527
+#: ../workspace/browser/tiles/sidebar.py:534
 msgid "All Letters"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:521
+#: ../workspace/browser/tiles/sidebar.py:528
 msgid "All Tags"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:853
+#: ../workspace/browser/tiles/sidebar.py:860
 msgid "All Time"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:525
+#: ../workspace/browser/tiles/sidebar.py:532
 msgid "All Types"
 msgstr ""
 
@@ -275,7 +284,7 @@ msgstr ""
 msgid "All day"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:131
 msgid "All day event"
 msgstr ""
 
@@ -287,7 +296,7 @@ msgstr ""
 msgid "All notifications"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:196
+#: ../bookmarks/browser/app.py:195
 #: ../layout/browser/grouped_search.py:68
 msgid "All time"
 msgstr ""
@@ -300,18 +309,19 @@ msgstr ""
 msgid "All workspace types"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:59
 #: ../workspace/profiles/default/registry.xml
 #: ../workspace/upgrades/profiles/to_0016/registry.xml
 msgid "Alphabetical"
 msgstr ""
 
 #: ../layout/browser/templates/app-not-available.pt:25
+#: ../layout/browser/templates/app-unauthorized.pt:25
 #: ../layout/browser/templates/app.pt:25
 msgid "Alright"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:62
-#: ../workspace/browser/templates/workspace-add.pt:92
 msgid "Any logged-in user is allowed to join the group and participate. Anything in this group is visible for any logged-in user, even if they're not a member."
 msgstr ""
 
@@ -323,6 +333,10 @@ msgstr ""
 #: ../layout/browser/templates/app-not-available.pt:12
 #: ../layout/browser/templates/app.pt:12
 msgid "App not available"
+msgstr ""
+
+#: ../layout/browser/templates/app-unauthorized.pt:12
+msgid "App unauthorized"
 msgstr ""
 
 #: ../bookmarks/browser/templates/app.pt:20
@@ -381,12 +395,12 @@ msgstr ""
 msgid "Attach a file (or create a picture)"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:73
+#: ../workspace/basecontent/templates/mail_view.pt:72
 #: ../workspace/browser/templates/context-menu.pt:10
 msgid "Attach documents"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:73
+#: ../workspace/basecontent/templates/mail_view.pt:72
 #: ../workspace/browser/templates/context-menu.pt:10
 msgid "Attachments"
 msgstr ""
@@ -407,12 +421,12 @@ msgstr ""
 msgid "Available fields/columns"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:118
+#: ../workspace/basecontent/templates/mail_view.pt:112
 msgid "BCC"
 msgstr ""
 
 #: ../calendar/browser/templates/fullcalendar.tile.pt:34
-#: ../workspace/browser/tiles/sidebar.py:529
+#: ../workspace/browser/tiles/sidebar.py:536
 msgid "Back"
 msgstr ""
 
@@ -481,14 +495,14 @@ msgstr ""
 msgid "Bookmarks tile"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:112
+#: ../workspace/basecontent/templates/mail_view.pt:106
 msgid "CC"
 msgstr ""
 
 msgid "CSV document"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:73
+#: ../workspace/browser/templates/content_macros.pt:72
 msgid "Calendar"
 msgstr ""
 
@@ -496,9 +510,9 @@ msgstr ""
 msgid "Call ${fullname} at ${context/telephone}"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:84
-#: ../library/behaviors/templates/panel-publish-to-library.pt:47
-#: ../messaging/browser/templates/panel-new-chat.html:40
+#: ../admintool/browser/templates/panel-create-user-account.pt:67
+#: ../admintool/browser/templates/panel-toggle-user-state.pt:36
+#: ../layout/browser/templates/edit-dashboard.pt:85
 msgid "Cancel"
 msgstr ""
 
@@ -534,7 +548,7 @@ msgstr ""
 msgid "Change metadata, including names, tags and descriptions."
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:157
+#: ../workspace/basecontent/templates/document_view.pt:133
 msgid "Change notes"
 msgstr ""
 
@@ -552,12 +566,12 @@ msgstr ""
 msgid "Change role of member"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:47
+#: ../layout/browser/templates/dashboard.pt:52
 msgid "Change the composition of this dashboard to your liking. Add or remove items or change their order or size."
 msgstr ""
 
-#: ../layout/browser/templates/workflow_menu.pt:7
-#: ../todo/browser/templates/workflow_menu.pt:13
+#: ../layout/browser/templates/workflow_menu.pt:8
+#: ../todo/browser/templates/workflow_menu.pt:14
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:208
 msgid "Change the workflow state"
 msgstr ""
@@ -566,7 +580,7 @@ msgstr ""
 msgid "Change workflow"
 msgstr ""
 
-#: ../todo/browser/todo_view.py:51
+#: ../todo/browser/todo_view.py:59
 msgid "Changes applied"
 msgstr ""
 
@@ -582,16 +596,16 @@ msgstr ""
 msgid "Close sidebar"
 msgstr ""
 
-#: ../todo/browser/templates/workflow_menu.pt:35
+#: ../todo/browser/templates/workflow_menu.pt:36
 msgid "Closed"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:224
+#: ../workspace/browser/templates/content_macros.pt:223
 msgid "Confirmed"
 msgstr ""
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:171
+#: ../userprofile/browser/user_import.py:187
 msgid "Constraint not satisfied for {} at row {}.field"
 msgstr ""
 
@@ -611,11 +625,11 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:221
+#: ../workspace/basecontent/templates/mail_view.pt:215
 msgid "Copy all attachments as individual files to this workspace."
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:185
+#: ../workspace/basecontent/templates/mail_view.pt:179
 msgid "Copy file to workspace"
 msgstr ""
 
@@ -635,6 +649,10 @@ msgstr ""
 
 #: ../library/browser/templates/library.html:60
 msgid "Create a new page or section"
+msgstr ""
+
+#: ../admintool/browser/templates/user-management.pt:33
+msgid "Create a new user account"
 msgstr ""
 
 #: ../workspace/browser/templates/workspaces.pt:55
@@ -674,8 +692,11 @@ msgstr ""
 msgid "Create task"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:138
+msgid "Create user account"
+msgstr ""
+
 #: ../workspace/browser/templates/add_workspace.pt:11
-#: ../workspace/browser/templates/workspace-add.pt:11
 #: ../workspace/browser/templates/workspaces.pt:55
 msgid "Create workspace"
 msgstr ""
@@ -692,15 +713,15 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: ../layout/browser/dashboard.py:419
+#: ../layout/browser/dashboard.py:432
 msgid "Dashboard order changed"
 msgstr ""
 
-#: ../layout/browser/dashboard.py:422
+#: ../layout/browser/dashboard.py:435
 msgid "Dashboard order unchanged"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:151
+#: ../workspace/browser/templates/content_macros.pt:150
 msgid "Date"
 msgstr ""
 
@@ -708,7 +729,7 @@ msgstr ""
 msgid "Date and time of the latest modification"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:76
+#: ../search/browser/templates/all_results.pt:67
 msgid "Date range"
 msgstr ""
 
@@ -720,12 +741,16 @@ msgstr ""
 msgid "Days running"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:242
+msgid "Deactivate user"
+msgstr ""
+
 #: ../workspace/browser/templates/email_invitees_html.pt:1
 #: ../workspace/browser/templates/email_invitees_text.pt:1
 msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:226
+#: ../workspace/browser/templates/content_macros.pt:225
 msgid "Declined"
 msgstr ""
 
@@ -733,12 +758,12 @@ msgstr ""
 msgid "Default additional fields for UserProfile."
 msgstr ""
 
-#: ../layout/browser/dashboard.py:405
+#: ../layout/browser/dashboard.py:418
 msgid "Default dashboard restored"
 msgstr ""
 
-#: ../todo/browser/templates/todo_view.pt:48
-#: ../workspace/basecontent/templates/mail_view.pt:63
+#: ../todo/browser/templates/todo_view.pt:55
+#: ../workspace/basecontent/templates/mail_view.pt:62
 #: ../workspace/browser/templates/context-menu.pt:15
 msgid "Delete"
 msgstr ""
@@ -764,12 +789,12 @@ msgid "Delete post"
 msgstr ""
 
 #: ../news/browser/templates/edit.html:38
-#: ../todo/browser/templates/todo_view.pt:48
+#: ../todo/browser/templates/todo_view.pt:55
 #: ../workspace/browser/templates/context-menu.pt:15
 msgid "Delete this document"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:63
+#: ../workspace/basecontent/templates/mail_view.pt:62
 msgid "Delete this event"
 msgstr ""
 
@@ -783,8 +808,8 @@ msgid "Department"
 msgstr ""
 
 #: ../userprofile/content/workgroup.py:45
-#: ../workspace/basecontent/templates/document_view.pt:131
-#: ../workspace/basecontent/templates/mail_view.pt:136
+#: ../workspace/basecontent/templates/document_view.pt:107
+#: ../workspace/basecontent/templates/mail_view.pt:130
 msgid "Description"
 msgstr ""
 
@@ -804,16 +829,15 @@ msgstr ""
 msgid "Destination within the library:"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:159
+#: ../search/browser/templates/all_results.pt:185
 msgid "Did you mean"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:140
+#: ../search/browser/templates/all_results.pt:150
 msgid "Display previews"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:79
-#: ../workspace/browser/templates/workspace-add.pt:38
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:45
 msgid "Division"
 msgstr ""
@@ -831,12 +855,12 @@ msgstr ""
 msgid "Document title"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:63
+#: ../search/browser/templates/all_results.pt:51
 msgid "Document types"
 msgstr ""
 
 #: ../bookmarks/browser/templates/app.pt:23
-#: ../layout/browser/configure.zcml:237
+#: ../layout/browser/configure.zcml:263
 #: ../layout/browser/templates/my_documents.pt:22
 msgid "Documents"
 msgstr ""
@@ -845,11 +869,11 @@ msgstr ""
 msgid "Don't show"
 msgstr ""
 
-#: ../todo/browser/templates/workflow_menu.pt:40
+#: ../todo/browser/templates/workflow_menu.pt:41
 msgid "Done"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:63
+#: ../layout/browser/templates/edit-dashboard.pt:64
 msgid "Down"
 msgstr ""
 
@@ -858,12 +882,12 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:291
-#: ../workspace/basecontent/templates/mail_view.pt:233
+#: ../workspace/basecontent/templates/document_view.pt:259
+#: ../workspace/basecontent/templates/mail_view.pt:227
 msgid "Download as"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:179
+#: ../workspace/basecontent/templates/mail_view.pt:173
 msgid "Download file"
 msgstr ""
 
@@ -888,6 +912,10 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
+#: ../admintool/browser/templates/panel-create-user-account.pt:50
+msgid "E-mail address"
+msgstr ""
+
 #: ../workspace/browser/templates/case_manager.pt:124
 msgid "Earliest creation date"
 msgstr ""
@@ -905,7 +933,7 @@ msgstr ""
 msgid "Edit comment"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:47
+#: ../layout/browser/templates/dashboard.pt:52
 #: ../layout/browser/templates/edit-dashboard.pt:12
 msgid "Edit dashboard"
 msgstr ""
@@ -932,7 +960,7 @@ msgstr ""
 
 #: ../activitystream/browser/templates/comment.html:41
 #: ../activitystream/browser/templates/post.html:76
-#: ../workspace/browser/views.py:243
+#: ../workspace/browser/views.py:300
 msgid "Edited"
 msgstr ""
 
@@ -962,7 +990,7 @@ msgstr ""
 msgid "Enter a label"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:111
+#: ../workspace/browser/templates/content_macros.pt:110
 msgid "Enter a location"
 msgstr ""
 
@@ -978,7 +1006,7 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:98
+#: ../workspace/browser/templates/content_macros.pt:97
 msgid "Event description"
 msgstr ""
 
@@ -1004,6 +1032,10 @@ msgstr ""
 msgid "Expand sidebar"
 msgstr ""
 
+#: ../admintool/configure.zcml:26
+msgid "Extension profile for ploneintranet.admintool."
+msgstr ""
+
 #: ../bookmarks/configure.zcml:26
 msgid "Extension profile for ploneintranet.bookmarks."
 msgstr ""
@@ -1027,11 +1059,11 @@ msgstr ""
 msgid "File field"
 msgstr ""
 
-#: ../userprofile/browser/user_import.py:145
+#: ../userprofile/browser/user_import.py:147
 msgid "File incorrectly formatted."
 msgstr ""
 
-#: ../search/browser/templates/search_tabs.pt:17
+#: ../search/browser/searchtabs.py:24
 msgid "Files"
 msgstr ""
 
@@ -1051,6 +1083,8 @@ msgstr ""
 msgid "Find users"
 msgstr ""
 
+#: ../admintool/browser/templates/mail-user-created.pt:15
+#: ../admintool/browser/templates/panel-create-user-account.pt:34
 #: ../userprofile/content/userprofile.py:39
 msgid "First name"
 msgstr ""
@@ -1096,8 +1130,8 @@ msgstr ""
 msgid "Freeze case"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:102
-#: ../workspace/browser/templates/content_macros.pt:146
+#: ../workspace/basecontent/templates/mail_view.pt:96
+#: ../workspace/browser/templates/content_macros.pt:145
 #: ../workspace/browser/templates/email_invitees_html.pt:11
 msgid "From"
 msgstr ""
@@ -1122,7 +1156,7 @@ msgstr ""
 msgid "Full list of people ${name_of_followee} follows."
 msgstr ""
 
-#: ../layout/browser/dashboard.py:400
+#: ../layout/browser/dashboard.py:413
 msgid "Function not allowed"
 msgstr ""
 
@@ -1188,7 +1222,7 @@ msgstr ""
 msgid "Group by workspace"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:249
+#: ../layout/browser/configure.zcml:275
 msgid "Grouped Search"
 msgstr ""
 
@@ -1239,6 +1273,10 @@ msgstr ""
 msgid "If checked, users will be removed from workspace"
 msgstr ""
 
+#: ../layout/browser/templates/locking_panel.pt:17
+msgid "If you think the user is currently not editing this document and you want to edit it now, then you can unlock the document. Unlocking the document will allow you to edit the document and lock it for editing for other users untill you close the document."
+msgstr ""
+
 #: ../workspace/browser/templates/workspace.pt:68
 msgid "If you use this workspace, you might also be interested in"
 msgstr ""
@@ -1255,7 +1293,7 @@ msgstr ""
 msgid "Image of {{ page.title }}"
 msgstr ""
 
-#: ../search/browser/templates/search_tabs.pt:13
+#: ../search/browser/searchtabs.py:20
 msgid "Images"
 msgstr ""
 
@@ -1286,7 +1324,7 @@ msgstr ""
 msgid "Installs the ploneintranet.news package"
 msgstr ""
 
-#: ../userprofile/configure.zcml:53
+#: ../userprofile/configure.zcml:58
 msgid "Installs the ploneintranet.userprofile package"
 msgstr ""
 
@@ -1303,7 +1341,7 @@ msgstr ""
 msgid "Invite users to this workspace (via email)"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:217
+#: ../workspace/browser/templates/content_macros.pt:216
 msgid "Invitees"
 msgstr ""
 
@@ -1324,15 +1362,15 @@ msgstr ""
 msgid "Item(s) pasted"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:848
+#: ../workspace/browser/tiles/sidebar.py:855
 msgid "Items modified last month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:842
+#: ../workspace/browser/tiles/sidebar.py:849
 msgid "Items modified last week"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:836
+#: ../workspace/browser/tiles/sidebar.py:843
 msgid "Items modified today"
 msgstr ""
 
@@ -1355,28 +1393,30 @@ msgstr ""
 msgid "Last Contacts"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:847
+#: ../workspace/browser/tiles/sidebar.py:854
 msgid "Last Month"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:841
+#: ../workspace/browser/tiles/sidebar.py:848
 msgid "Last Week"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:194
+#: ../bookmarks/browser/app.py:193
 #: ../layout/browser/grouped_search.py:66
 msgid "Last month"
 msgstr ""
 
+#: ../admintool/browser/templates/mail-user-created.pt:17
+#: ../admintool/browser/templates/panel-create-user-account.pt:42
 #: ../userprofile/content/userprofile.py:44
 msgid "Last name"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:244
+#: ../layout/browser/templates/saving_badge.pt:22
 msgid "Last saved"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:192
+#: ../bookmarks/browser/app.py:191
 #: ../layout/browser/grouped_search.py:64
 msgid "Last week"
 msgstr ""
@@ -1413,7 +1453,7 @@ msgstr ""
 msgid "Library Section"
 msgstr ""
 
-#: ../library/configure.zcml:20
+#: ../library/configure.zcml:19
 msgid "Library for PloneIntranet"
 msgstr ""
 
@@ -1428,7 +1468,7 @@ msgstr ""
 msgid "Link name"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:219
+#: ../workspace/basecontent/templates/document_view.pt:187
 msgid "Load previews ..."
 msgstr ""
 
@@ -1436,22 +1476,34 @@ msgstr ""
 msgid "Loading ${num_groups} data..."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:281
+#: ../admintool/browser/templates/app.pt:26
+msgid "Loading ..."
+msgstr ""
+
+#: ../admintool/browser/templates/user-management.pt:90
+#: ../search/browser/templates/all_results.pt:313
 msgid "Loading more search results&hellip;"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:109
+#: ../workspace/basecontent/templates/document_view.pt:89
 msgid "Loading..."
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:111
+#: ../workspace/browser/templates/content_macros.pt:110
 #: ../workspace/browser/templates/email_invitees_html.pt:12
 #: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
 msgstr ""
 
+#: ../layout/browser/templates/locking_panel.pt:40
+msgid "Lock"
+msgstr ""
+
+#: ../layout/browser/templates/saving_badge.pt:43
+msgid "Locked"
+msgstr ""
+
 #: ../workspace/browser/templates/add_workspace.pt:30
-#: ../workspace/browser/templates/workspace-add.pt:82
 msgid "Locked down, secret workspace"
 msgstr ""
 
@@ -1543,12 +1595,12 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:52
+#: ../workspace/browser/templates/content_macros.pt:53
 msgid "Milestone this task belongs to"
 msgstr ""
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:166
+#: ../userprofile/browser/user_import.py:182
 msgid "Missing required field {} on row {}"
 msgstr ""
 
@@ -1588,12 +1640,6 @@ msgstr ""
 msgid "More information about"
 msgstr ""
 
-#: ../search/browser/templates/file_results.pt:54
-#: ../search/browser/templates/image_results.pt:50
-#: ../search/browser/templates/people_results.pt:94
-msgid "More results"
-msgstr ""
-
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:48
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:35
 msgid "More..."
@@ -1606,6 +1652,14 @@ msgstr ""
 
 #: ../bookmarks/browser/templates/bookmarks.tile.pt:45
 msgid "Most popular"
+msgstr ""
+
+#: ../admintool/browser/user_management.py:67
+msgid "Most recently added"
+msgstr ""
+
+#: ../admintool/browser/user_management.py:71
+msgid "Most recently logged in"
 msgstr ""
 
 #: ../workspace/browser/forms.py:63
@@ -1628,11 +1682,11 @@ msgstr ""
 msgid "My profile"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:214
+#: ../layout/browser/configure.zcml:240
 msgid "My tile's description"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:35
+#: ../layout/browser/templates/dashboard.pt:40
 msgid "My view (customizable)"
 msgstr ""
 
@@ -1644,7 +1698,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:119
+#: ../workspace/browser/templates/content_macros.pt:118
 msgid "Name of organiser"
 msgstr ""
 
@@ -1678,7 +1732,7 @@ msgstr ""
 msgid "News item title"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:225
+#: ../layout/browser/configure.zcml:251
 msgid "News tile showing news on the dashboard"
 msgstr ""
 
@@ -1733,7 +1787,7 @@ msgstr ""
 msgid "No items could be renamed"
 msgstr ""
 
-#: ../workspace/browser/cart_actions/changemetadata.py:117
+#: ../workspace/browser/cart_actions/changemetadata.py:120
 msgid "No items could be updated"
 msgstr ""
 
@@ -1741,7 +1795,7 @@ msgstr ""
 msgid "No pending notifications"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:236
+#: ../workspace/basecontent/templates/document_view.pt:204
 msgid "No preview available"
 msgstr ""
 
@@ -1775,6 +1829,14 @@ msgstr ""
 msgid "No upcoming events."
 msgstr ""
 
+#: ../admintool/browser/user_management.py:294
+msgid "No user selected"
+msgstr ""
+
+#: ../admintool/browser/templates/user-management.pt:55
+msgid "No users found"
+msgstr ""
+
 #: ../workspace/browser/templates/add_workspace.pt:81
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:66
@@ -1785,11 +1847,11 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:253
+#: ../bookmarks/browser/app.py:252
 msgid "Not in a workspace"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:95
+#: ../workspace/browser/templates/content_macros.pt:94
 msgid "Notes"
 msgstr ""
 
@@ -1824,12 +1886,16 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: ../workspace/browser/tiles/sidebar.py:854
+#: ../workspace/browser/tiles/sidebar.py:861
 msgid "Older"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:79
 msgid "Older events"
+msgstr ""
+
+#: ../admintool/browser/user_management.py:139
+msgid "Once the user account is created, the user will receive an e-mail containing a link to a page on which the account creation can be finalised."
 msgstr ""
 
 #: ../workspace/policies.py:34
@@ -1840,17 +1906,16 @@ msgstr ""
 msgid "Only my workspaces"
 msgstr ""
 
-#: ../todo/browser/templates/workflow_menu.pt:33
+#: ../todo/browser/templates/workflow_menu.pt:34
 #: ../workspace/policies.py:23
 msgid "Open"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:36
-#: ../workspace/browser/templates/workspace-add.pt:84
 msgid "Open community"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:86
+#: ../workspace/basecontent/templates/document_view.pt:72
 msgid "Open in External Editor"
 msgstr ""
 
@@ -1867,11 +1932,11 @@ msgid "Open workspace calendar in a new window"
 msgstr ""
 
 #: ../news/browser/templates/publisher-sidebar.pt:41
-#: ../search/browser/templates/all_results.pt:123
+#: ../search/browser/templates/all_results.pt:119
 msgid "Options"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:118
+#: ../workspace/browser/templates/content_macros.pt:117
 msgid "Organiser"
 msgstr ""
 
@@ -1894,7 +1959,7 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:51
+#: ../layout/browser/templates/edit-dashboard.pt:52
 msgid "Page wide"
 msgstr ""
 
@@ -1910,7 +1975,7 @@ msgid "Pending review"
 msgstr ""
 
 #: ../bookmarks/browser/templates/app.pt:22
-#: ../search/browser/templates/search_tabs.pt:9
+#: ../search/browser/searchtabs.py:16
 msgid "People"
 msgstr ""
 
@@ -1937,10 +2002,6 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:56
-msgid "Pick a ${fti_titles_by_type/?portal_type} Template"
-msgstr ""
-
 #: ../workspace/browser/templates/content_macros.pt:28
 msgid "Pick an assignee"
 msgstr ""
@@ -1961,7 +2022,7 @@ msgstr ""
 msgid "Pinned"
 msgstr ""
 
-#: ../todo/browser/templates/workflow_menu.pt:34
+#: ../todo/browser/templates/workflow_menu.pt:35
 msgid "Planned"
 msgstr ""
 
@@ -1975,6 +2036,14 @@ msgstr ""
 
 #: ../workspace/browser/add_workspace.py:231
 msgid "Please specify which Case Template to use"
+msgstr ""
+
+#: ../admintool/configure.zcml:34
+msgid "Plone Intranet: -- [Administrator Tool uninstall]"
+msgstr ""
+
+#: ../admintool/configure.zcml:26
+msgid "Plone Intranet: -- [Administrator Tool]"
 msgstr ""
 
 #: ../async/configure.zcml:26
@@ -2013,11 +2082,11 @@ msgstr ""
 msgid "Plone Intranet: -- [Layout]"
 msgstr ""
 
-#: ../library/configure.zcml:28
+#: ../library/configure.zcml:27
 msgid "Plone Intranet: -- [Library uninstall]"
 msgstr ""
 
-#: ../library/configure.zcml:20
+#: ../library/configure.zcml:19
 msgid "Plone Intranet: -- [Library]"
 msgstr ""
 
@@ -2041,15 +2110,15 @@ msgstr ""
 msgid "Plone Intranet: -- [Themeswitcher]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:72
+#: ../userprofile/configure.zcml:77
 msgid "Plone Intranet: -- [User Profiles Testing]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:63
+#: ../userprofile/configure.zcml:68
 msgid "Plone Intranet: -- [User Profiles uninstall]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:53
+#: ../userprofile/configure.zcml:58
 msgid "Plone Intranet: -- [User Profiles]"
 msgstr ""
 
@@ -2068,11 +2137,11 @@ msgstr ""
 msgid "PowerPoint 2007 presentation"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:165
+#: ../workspace/basecontent/templates/mail_view.pt:159
 msgid "Preview"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:235
+#: ../workspace/basecontent/templates/document_view.pt:203
 msgid "Preview being generated"
 msgstr ""
 
@@ -2084,8 +2153,8 @@ msgstr ""
 msgid "Primary location"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:294
-#: ../workspace/basecontent/templates/mail_view.pt:236
+#: ../workspace/basecontent/templates/document_view.pt:262
+#: ../workspace/basecontent/templates/mail_view.pt:230
 msgid "Print"
 msgstr ""
 
@@ -2127,8 +2196,8 @@ msgid "Publish"
 msgstr ""
 
 #: ../library/behaviors/templates/panel-publish-to-library.pt:12
-#: ../workspace/basecontent/templates/document_view.pt:297
-#: ../workspace/basecontent/templates/mail_view.pt:239
+#: ../workspace/basecontent/templates/document_view.pt:265
+#: ../workspace/basecontent/templates/mail_view.pt:233
 msgid "Publish to library"
 msgstr ""
 
@@ -2193,7 +2262,7 @@ msgstr ""
 msgid "Rename"
 msgstr ""
 
-#: ../todo/browser/templates/workflow_menu.pt:41
+#: ../todo/browser/templates/workflow_menu.pt:42
 msgid "Reopen"
 msgstr ""
 
@@ -2205,11 +2274,11 @@ msgstr ""
 msgid "Reorder tags"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:88
+#: ../layout/browser/templates/edit-dashboard.pt:89
 msgid "Reset"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:55
+#: ../search/browser/templates/all_results.pt:42
 msgid "Reset filters"
 msgstr ""
 
@@ -2234,22 +2303,21 @@ msgstr ""
 msgid "Roster updated."
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:78
+#: ../layout/browser/templates/edit-dashboard.pt:79
+#: ../layout/browser/templates/saving_badge.pt:31
 #: ../news/browser/templates/panel-edit-news-section-info.html:58
-#: ../todo/browser/templates/todo_view.pt:70
 msgid "Save"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:146
+#: ../workspace/basecontent/templates/document_view.pt:122
 msgid "Save a new version"
 msgstr ""
 
 #: ../news/browser/templates/edit.html:46
-#: ../workspace/basecontent/templates/event_view.pt:52
 msgid "Save this document"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:160
+#: ../workspace/basecontent/templates/document_view.pt:136
 msgid "Save this version"
 msgstr ""
 
@@ -2257,9 +2325,9 @@ msgstr ""
 msgid "Scroll back to top"
 msgstr ""
 
+#: ../admintool/browser/templates/user-management.pt:40
 #: ../messaging/browser/templates/chat.html:95
 #: ../microblog/browser/templates/panel_tags.pt:21
-#: ../microblog/browser/templates/panel_users.pt:29
 msgid "Search"
 msgstr ""
 
@@ -2283,6 +2351,10 @@ msgstr ""
 
 #: ../workspace/browser/templates/roster-edit.pt:41
 msgid "Search for a user"
+msgstr ""
+
+#: ../admintool/browser/templates/user-management.pt:59
+msgid "Search for users"
 msgstr ""
 
 #: ../workspace/browser/templates/case_manager.pt:83
@@ -2366,13 +2438,13 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:92
-#: ../workspace/basecontent/templates/mail_view.pt:82
+#: ../workspace/basecontent/templates/document_view.pt:78
+#: ../workspace/basecontent/templates/mail_view.pt:81
 msgid "Share"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:92
-#: ../workspace/basecontent/templates/mail_view.pt:82
+#: ../workspace/basecontent/templates/document_view.pt:78
+#: ../workspace/basecontent/templates/mail_view.pt:81
 msgid "Share this document"
 msgstr ""
 
@@ -2408,15 +2480,15 @@ msgstr ""
 msgid "Show archived workspaces"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:78
-#: ../workspace/basecontent/templates/event_view.pt:49
-#: ../workspace/basecontent/templates/mail_view.pt:61
+#: ../workspace/basecontent/templates/document_view.pt:64
+#: ../workspace/basecontent/templates/event_view.pt:54
+#: ../workspace/basecontent/templates/mail_view.pt:60
 msgid "Show extra context actions"
 msgstr ""
 
-#: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:104
-#: ../workspace/basecontent/templates/mail_view.pt:92
+#: ../todo/browser/templates/todo_view.pt:73
+#: ../workspace/basecontent/templates/document_view.pt:84
+#: ../workspace/basecontent/templates/mail_view.pt:86
 msgid "Show extra metadata fields"
 msgstr ""
 
@@ -2440,11 +2512,11 @@ msgstr ""
 msgid "Some items have been sent to you."
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:152
+#: ../search/browser/templates/all_results.pt:172
 msgid "Sort by date"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:147
+#: ../search/browser/templates/all_results.pt:162
 msgid "Sort by relevancy"
 msgstr ""
 
@@ -2452,7 +2524,7 @@ msgstr ""
 msgid "Special workspace"
 msgstr ""
 
-#: ../search/interfaces.py:92
+#: ../search/interfaces.py:91
 msgid "Spell corrected search string"
 msgstr ""
 
@@ -2464,7 +2536,7 @@ msgstr ""
 msgid "Start conversation"
 msgstr ""
 
-#: ../workspace/basecontent/event.py:21
+#: ../workspace/basecontent/event.py:40
 msgid "Start date should be lower than end date"
 msgstr ""
 
@@ -2496,7 +2568,7 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: ../layout/browser/templates/dashboard.pt:29
+#: ../layout/browser/templates/dashboard.pt:34
 msgid "Task centric view"
 msgstr ""
 
@@ -2521,10 +2593,6 @@ msgstr ""
 msgid "Team-Managed"
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:83
-msgid "Team-managed, private teamspace"
-msgstr ""
-
 #: ../workspace/browser/templates/add_workspace.pt:33
 msgid "Team-managed, private workspace"
 msgstr ""
@@ -2533,11 +2601,11 @@ msgstr ""
 msgid "Telephone Number"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:225
+#: ../workspace/browser/templates/content_macros.pt:224
 msgid "Tentative"
 msgstr ""
 
-#: ../userprofile/configure.zcml:72
+#: ../userprofile/configure.zcml:77
 msgid "Testing of the ploneintranet.userprofile package"
 msgstr ""
 
@@ -2561,11 +2629,11 @@ msgstr ""
 msgid "The UUID of this token"
 msgstr ""
 
-#: ../search/interfaces.py:77
+#: ../search/interfaces.py:76
 msgid "The absolute URL for a preview image representing search result"
 msgstr ""
 
-#: ../search/interfaces.py:84
+#: ../search/interfaces.py:83
 msgid "The absolute URL to the content for this search result based on the path and the host in the current request"
 msgstr ""
 
@@ -2599,7 +2667,7 @@ msgstr ""
 msgid "The datetime this token expires"
 msgstr ""
 
-#: ../search/interfaces.py:55
+#: ../search/interfaces.py:54
 msgid "The description of this search result"
 msgstr ""
 
@@ -2611,7 +2679,7 @@ msgstr ""
 msgid "The following items have been shared with you:"
 msgstr ""
 
-#: ../search/interfaces.py:67
+#: ../search/interfaces.py:66
 msgid "The friendly label for the type of search result"
 msgstr ""
 
@@ -2623,19 +2691,19 @@ msgstr ""
 msgid "The number of uses for this token before it expires"
 msgstr ""
 
-#: ../search/interfaces.py:64
+#: ../search/interfaces.py:63
 msgid "The portal type of this search result"
 msgstr ""
 
-#: ../search/interfaces.py:73
+#: ../search/interfaces.py:72
 msgid "The relative path to a preview imagerepresenting this search result"
 msgstr ""
 
-#: ../search/interfaces.py:81
+#: ../search/interfaces.py:80
 msgid "The relative path to the content for this search result"
 msgstr ""
 
-#: ../search/interfaces.py:52
+#: ../search/interfaces.py:51
 msgid "The title of this search result"
 msgstr ""
 
@@ -2643,7 +2711,7 @@ msgstr ""
 msgid "The token has expired."
 msgstr ""
 
-#: ../search/interfaces.py:98
+#: ../search/interfaces.py:97
 msgid "The total number of results generated from the query"
 msgstr ""
 
@@ -2655,7 +2723,7 @@ msgstr ""
 msgid "The userid this action is for"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:141
+#: ../workspace/basecontent/baseviews.py:174
 msgid "The workflow state has been changed."
 msgstr ""
 
@@ -2672,12 +2740,10 @@ msgid "The workspace is visible, but inaccessible to outsiders. Only workspace m
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:56
-#: ../workspace/browser/templates/workspace-add.pt:86
 msgid "The workspace will only be accessible by people you invite. The workspace will not be visible on the workspaces overview. Documents in this group are subject to review before they can be shared within the group. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:59
-#: ../workspace/browser/templates/workspace-add.pt:89
 msgid "The workspace will only be accessible for team members. Any member can add a new team member. Once you're in the team, you can do pretty much anything. Nothing in this group will ever be visible to non-members."
 msgstr ""
 
@@ -2689,7 +2755,7 @@ msgstr ""
 msgid "There are no downloadable items in your cart."
 msgstr ""
 
-#: ../calendar/browser/templates/fullcalendar.tile.pt:77
+#: ../calendar/browser/templates/fullcalendar.tile.pt:78
 msgid "There are no events to be displayed"
 msgstr ""
 
@@ -2697,7 +2763,7 @@ msgstr ""
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:155
+#: ../workspace/basecontent/baseviews.py:188
 msgid "There was a problem:"
 msgstr ""
 
@@ -2712,6 +2778,17 @@ msgstr ""
 
 #: ../activitystream/browser/templates/comment-deleted.html:9
 msgid "This comment has been succesfully deleted."
+msgstr ""
+
+msgid "This date must be on or after the start date."
+msgstr ""
+
+# Messages for pat-validation
+msgid "This date must be on or before the end date."
+msgstr ""
+
+#: ../layout/browser/templates/locking_panel.pt:11
+msgid "This document is currently locked for editing by"
 msgstr ""
 
 #: ../bookmarks/browser/templates/bookmark.pt:16
@@ -2750,11 +2827,11 @@ msgstr ""
 msgid "Tile to bookmark a workspace and show status"
 msgstr ""
 
-#: ../layout/browser/configure.zcml:237
+#: ../layout/browser/configure.zcml:263
 msgid "Tile to list recently modified documents"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:166
+#: ../workspace/browser/templates/content_macros.pt:165
 msgid "Time"
 msgstr ""
 
@@ -2766,7 +2843,7 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:203
+#: ../workspace/browser/templates/content_macros.pt:202
 msgid "Timezone"
 msgstr ""
 
@@ -2779,11 +2856,11 @@ msgstr ""
 msgid "Title:"
 msgstr ""
 
-#: ../workspace/basecontent/templates/mail_view.pt:106
+#: ../workspace/basecontent/templates/mail_view.pt:100
 msgid "To"
 msgstr ""
 
-#: ../bookmarks/browser/app.py:190
+#: ../bookmarks/browser/app.py:189
 #: ../calendar/browser/templates/fullcalendar.tile.pt:35
 #: ../layout/browser/grouped_search.py:62
 msgid "Today"
@@ -2792,9 +2869,9 @@ msgstr ""
 msgid "Todo"
 msgstr ""
 
-#: ../todo/browser/templates/todo_view.pt:66
-#: ../workspace/basecontent/templates/document_view.pt:104
-#: ../workspace/basecontent/templates/mail_view.pt:92
+#: ../todo/browser/templates/todo_view.pt:73
+#: ../workspace/basecontent/templates/document_view.pt:84
+#: ../workspace/basecontent/templates/mail_view.pt:86
 msgid "Toggle extra metadata"
 msgstr ""
 
@@ -2818,7 +2895,7 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:223
+#: ../workspace/browser/templates/content_macros.pt:222
 msgid "Undecided"
 msgstr ""
 
@@ -2839,7 +2916,7 @@ msgstr ""
 msgid "Ungrouped"
 msgstr ""
 
-#: ../library/configure.zcml:28
+#: ../library/configure.zcml:27
 msgid "Uninstall Library for PloneIntranet"
 msgstr ""
 
@@ -2863,6 +2940,10 @@ msgstr ""
 msgid "Unlike"
 msgstr ""
 
+#: ../layout/browser/templates/locking_panel.pt:25
+msgid "Unlock"
+msgstr ""
+
 #: ../workspace/browser/pinning.py:136
 msgid "Unpin"
 msgstr ""
@@ -2880,11 +2961,11 @@ msgstr ""
 msgid "Unpublished"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:175
+#: ../workspace/browser/templates/content_macros.pt:174
 msgid "Until"
 msgstr ""
 
-#: ../layout/browser/templates/edit-dashboard.pt:59
+#: ../layout/browser/templates/edit-dashboard.pt:60
 msgid "Up"
 msgstr ""
 
@@ -2930,11 +3011,11 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:150
+#: ../workspace/basecontent/templates/document_view.pt:126
 msgid "Upload a new file"
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:153
+#: ../workspace/basecontent/templates/document_view.pt:129
 msgid "Upload a new image"
 msgstr ""
 
@@ -2962,10 +3043,16 @@ msgstr ""
 msgid "User profile management"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:298
+msgid "User state changed"
+msgstr ""
+
 #: ../microblog/interfaces.py:17
 msgid "Userid"
 msgstr ""
 
+#: ../admintool/browser/templates/mail-user-created.pt:13
+#: ../admintool/browser/templates/panel-create-user-account.pt:26
 #: ../userprofile/content/userprofile.py:30
 msgid "Username"
 msgstr ""
@@ -3039,7 +3126,6 @@ msgid "Workspace calendar"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:24
-#: ../workspace/browser/templates/workspace-add.pt:26
 msgid "Workspace description"
 msgstr ""
 
@@ -3047,7 +3133,7 @@ msgstr ""
 msgid "Workspace for PloneIntranet"
 msgstr ""
 
-#: ../workspace/browser/views.py:35
+#: ../workspace/browser/views.py:42
 msgid "Workspace join policy doesn't allow self join"
 msgstr ""
 
@@ -3075,6 +3161,10 @@ msgstr ""
 msgid "Workspace policy"
 msgstr ""
 
+#: ../workspace/browser/tiles/sidebar.py:310
+msgid "Workspace security policy change failed"
+msgstr ""
+
 #: ../workspace/browser/tiles/sidebar.py:307
 msgid "Workspace security policy changes saved"
 msgstr ""
@@ -3084,7 +3174,6 @@ msgid "Workspace settings and about"
 msgstr ""
 
 #: ../workspace/browser/templates/add_workspace.pt:21
-#: ../workspace/browser/templates/workspace-add.pt:23
 msgid "Workspace title"
 msgstr ""
 
@@ -3102,12 +3191,12 @@ msgstr ""
 msgid "Write a message to the recipient(s)..."
 msgstr ""
 
-#: ../workspace/basecontent/templates/document_view.pt:198
+#: ../workspace/basecontent/templates/document_view.pt:167
 msgid "Write your text here"
 msgstr ""
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:176
+#: ../userprofile/browser/user_import.py:192
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
@@ -3115,7 +3204,7 @@ msgstr ""
 msgid "YYYY-MM-DD"
 msgstr ""
 
-#: ../workspace/browser/views.py:44
+#: ../workspace/browser/views.py:51
 msgid "You are a member of this workspace now"
 msgstr ""
 
@@ -3139,8 +3228,8 @@ msgstr ""
 msgid "You are about to unfreeze this case. After unfreezing a case, its members will able again to make changes."
 msgstr ""
 
-#: ../workspace/browser/templates/workspace-add.pt:95
-msgid "You can always change these settings later via the security control panel in the workspace."
+#: ../layout/browser/templates/app-unauthorized.pt:18
+msgid "You are not authorized to use this app."
 msgstr ""
 
 #: ../workspace/browser/templates/joinviewlet.pt:6
@@ -3189,7 +3278,7 @@ msgstr ""
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:149
+#: ../workspace/basecontent/baseviews.py:182
 msgid "Your changes have been saved."
 msgstr ""
 
@@ -3201,10 +3290,39 @@ msgstr ""
 msgid "abbreviation_number"
 msgstr ""
 
+#. Default: "The user account of '${fullname}' is deactivated. Would you like to activate this user account?"
+#: ../admintool/browser/user_management.py:275
+msgid "activate_user_panel_description"
+msgstr ""
+
 #. Default: "What are you doing?"
 #: ../microblog/browser/update_social.py:264
 #: ../microblog/interfaces.py:14
 msgid "add_statusupdate_button"
+msgstr ""
+
+#: ../admintool/browser/configure.zcml:25
+msgid "administrator-tool"
+msgstr ""
+
+#. Default: "A user account has been created for you with the following data"
+#: ../admintool/browser/templates/mail-user-created.pt:9
+msgid "admintool_info_account_created"
+msgstr ""
+
+#. Default: "Before logging in, your account needs to be activated."
+#: ../admintool/browser/templates/mail-user-created.pt:25
+msgid "admintool_info_activation"
+msgstr ""
+
+#. Default: "Thank you for joining ${site_name}!"
+#: ../admintool/browser/templates/mail-user-created.pt:7
+msgid "admintool_info_intro"
+msgstr ""
+
+#. Default: "You can set at any time your password following this link"
+#: ../admintool/browser/templates/mail-user-created.pt:21
+msgid "admintool_info_set_password"
 msgstr ""
 
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
@@ -3278,7 +3396,7 @@ msgid "batch_change_workflow_success"
 msgstr ""
 
 #. Default: "The following items have been updated: ${title_elems}"
-#: ../workspace/browser/cart_actions/changemetadata.py:105
+#: ../workspace/browser/cart_actions/changemetadata.py:108
 msgid "batch_changemetadata_success"
 msgstr ""
 
@@ -3355,7 +3473,7 @@ msgid "cc"
 msgstr ""
 
 #. Default: "Cannot modify: ${title}"
-#: ../workspace/browser/cart_actions/changemetadata.py:60
+#: ../workspace/browser/cart_actions/changemetadata.py:63
 msgid "changemetadata_permission_denied for"
 msgstr ""
 
@@ -3397,8 +3515,13 @@ msgid "date_format_long"
 msgstr ""
 
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:204
+#: ../workspace/browser/add_content.py:216
 msgid "dates_hijacked"
+msgstr ""
+
+#. Default: "Would you like to deactivate the account of '${fullname}'? After this, this user can no longer enter his account, but this action can be reversed at any time."
+#: ../admintool/browser/user_management.py:264
+msgid "deactivate_user_panel_description"
 msgstr ""
 
 #. Default: "Show the section description on the section page"
@@ -3427,7 +3550,7 @@ msgid "download"
 msgstr ""
 
 #. Default: "Drop files here or click to browse..."
-#: ../workspace/browser/tiles/sidebar.py:446
+#: ../workspace/browser/tiles/sidebar.py:453
 msgid "drop_files_here"
 msgstr ""
 
@@ -3438,12 +3561,12 @@ msgid "email_to"
 msgstr ""
 
 #. Default: "Expiration date must be after publishing date."
-#: ../network/behaviors/metadata.py:231
+#: ../network/behaviors/metadata.py:232
 msgid "error_expiration_must_be_after_effective_date"
 msgstr ""
 
 #. Default: "Invalid effective or expires date"
-#: ../network/behaviors/metadata.py:194
+#: ../network/behaviors/metadata.py:195
 msgid "error_invalid_publication"
 msgstr ""
 
@@ -3501,17 +3624,17 @@ msgid "help_case_manager_states"
 msgstr ""
 
 #. Default: "The names of people that have contributed to this item. Each contributor should be on a separate line."
-#: ../network/behaviors/metadata.py:273
+#: ../network/behaviors/metadata.py:274
 msgid "help_contributors"
 msgstr ""
 
 #. Default: "Copyright statement or other rights information on this item."
-#: ../network/behaviors/metadata.py:290
+#: ../network/behaviors/metadata.py:291
 msgid "help_copyrights"
 msgstr ""
 
 #. Default: "Persons responsible for creating the content of this item. Please enter a list of user names, one per line. The principal creator should come first."
-#: ../network/behaviors/metadata.py:255
+#: ../network/behaviors/metadata.py:256
 msgid "help_creators"
 msgstr ""
 
@@ -3547,12 +3670,12 @@ msgid "help_description"
 msgstr ""
 
 #. Default: "If this date is in the future, the content will not show up in listings and searches until this date."
-#: ../network/behaviors/metadata.py:209
+#: ../network/behaviors/metadata.py:210
 msgid "help_effective_date"
 msgstr ""
 
 #. Default: "When this date is reached, the content will nolonger be visible in listings and searches."
-#: ../network/behaviors/metadata.py:219
+#: ../network/behaviors/metadata.py:220
 msgid "help_expiration_date"
 msgstr ""
 
@@ -3615,7 +3738,7 @@ msgstr ""
 
 #. Default: "Archived"
 #: ../layout/browser/overrides/plone.app.layout.viewlets.path_bar.pt:19
-#: ../search/browser/templates/all_results.pt:184
+#: ../search/browser/templates/all_results.pt:209
 #: ../workspace/browser/templates/case_manager.pt:34
 msgid "icon_archived"
 msgstr ""
@@ -3662,7 +3785,7 @@ msgstr ""
 
 #. Default: "${document} is published in the library."
 #: ../library/behaviors/templates/feedback-library-copy-updated.pt:14
-#: ../workspace/basecontent/templates/document_view.pt:184
+#: ../workspace/basecontent/templates/document_view.pt:160
 msgid "info_publish_to_library_success"
 msgstr ""
 
@@ -3686,9 +3809,7 @@ msgstr ""
 msgid "invititations"
 msgstr ""
 
-#: ../search/browser/templates/all_results.pt:120
-#: ../search/browser/templates/image_results.pt:32
-#: ../search/browser/templates/people_results.pt:33
+#: ../search/browser/templates/all_results.pt:115
 msgid "items matched your search."
 msgstr ""
 
@@ -3742,27 +3863,27 @@ msgid "label_case_manager_states"
 msgstr ""
 
 #. Default: "Contributors"
-#: ../network/behaviors/metadata.py:272
+#: ../network/behaviors/metadata.py:273
 msgid "label_contributors"
 msgstr ""
 
 #. Default: "Rights"
-#: ../network/behaviors/metadata.py:289
+#: ../network/behaviors/metadata.py:290
 msgid "label_copyrights"
 msgstr ""
 
 #. Default: "Created after…"
-#: ../search/browser/templates/all_results.pt:78
+#: ../search/browser/templates/all_results.pt:69
 msgid "label_created_after"
 msgstr ""
 
 #. Default: "Created before…"
-#: ../search/browser/templates/all_results.pt:87
+#: ../search/browser/templates/all_results.pt:79
 msgid "label_created_before"
 msgstr ""
 
 #. Default: "Creators"
-#: ../network/behaviors/metadata.py:254
+#: ../network/behaviors/metadata.py:255
 msgid "label_creators"
 msgstr ""
 
@@ -3803,7 +3924,7 @@ msgid "label_description"
 msgstr ""
 
 #. Default: "Publishing Date"
-#: ../network/behaviors/metadata.py:208
+#: ../network/behaviors/metadata.py:209
 msgid "label_effective_date"
 msgstr ""
 
@@ -3813,7 +3934,7 @@ msgid "label_event_global_default"
 msgstr ""
 
 #. Default: "Expiration Date"
-#: ../network/behaviors/metadata.py:218
+#: ../network/behaviors/metadata.py:219
 #: ../news/browser/templates/edit.html:148
 msgid "label_expiration_date"
 msgstr ""
@@ -3830,7 +3951,7 @@ msgid "label_include_slcclicktracker"
 msgstr ""
 
 #. Default: "Language"
-#: ../network/behaviors/metadata.py:180
+#: ../network/behaviors/metadata.py:181
 msgid "label_language"
 msgstr ""
 
@@ -3852,7 +3973,7 @@ msgid "label_magazine_image"
 msgstr ""
 
 #. Default: "Mark read"
-#: ../layout/browser/templates/news-tile.pt:71
+#: ../layout/browser/templates/news-tile.pt:80
 msgid "label_mark_read"
 msgstr ""
 
@@ -3877,7 +3998,7 @@ msgid "label_name"
 msgstr ""
 
 #. Default: "News"
-#: ../layout/browser/templates/news-tile.pt:42
+#: ../layout/browser/templates/news-tile.pt:51
 msgid "label_news"
 msgstr ""
 
@@ -3967,12 +4088,12 @@ msgid "label_schema_categorization"
 msgstr ""
 
 #. Default: "Dates"
-#: ../network/behaviors/metadata.py:203
+#: ../network/behaviors/metadata.py:204
 msgid "label_schema_dates"
 msgstr ""
 
 #. Default: "Ownership"
-#: ../network/behaviors/metadata.py:246
+#: ../network/behaviors/metadata.py:247
 msgid "label_schema_ownership"
 msgstr ""
 
@@ -3982,19 +4103,17 @@ msgid "label_search"
 msgstr ""
 
 #. Default: "Search"
-#: ../search/browser/templates/plone.searchbox.pt:7
+#: ../search/browser/templates/plone.searchbox.pt:14
 msgid "label_search_button"
 msgstr ""
 
 #. Default: "Search the entire intranet"
-#: ../search/browser/templates/all_results.pt:18
-#: ../search/browser/templates/file_results.pt:17
-#: ../search/browser/templates/image_results.pt:17
+#: ../search/browser/templates/search_macros.pt:15
 msgid "label_search_entire_intranet"
 msgstr ""
 
 #. Default: "Search through content…"
-#: ../search/browser/templates/plone.searchbox.pt:4
+#: ../search/browser/templates/plone.searchbox.pt:7
 msgid "label_search_placeholder"
 msgstr ""
 
@@ -4115,9 +4234,24 @@ msgstr ""
 msgid "liked_by"
 msgstr ""
 
+#. Default: "Chat with ${fullname}."
+#: ../layout/browser/locking.py:38
+msgid "lock_panel_chat_link_label"
+msgstr ""
+
+#. Default: "This item is locked by ${fullname}. Click to see options."
+#: ../layout/browser/saving_badge.py:43
+msgid "lock_panel_link_title"
+msgstr ""
+
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
 msgid "message_pwreset_success"
+msgstr ""
+
+#. Default: "Missing parameter: ${key}"
+#: ../admintool/browser/user_management.py:191
+msgid "missing_parameter_key"
 msgstr ""
 
 #. Default: "More"
@@ -4154,7 +4288,7 @@ msgid "num_items_can_be_retagged"
 msgstr ""
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:139
+#: ../workspace/browser/workspace.py:142
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr ""
@@ -4180,7 +4314,7 @@ msgid "posted"
 msgstr ""
 
 #. Default: "Read more..."
-#: ../layout/browser/templates/news-tile.pt:62
+#: ../layout/browser/templates/news-tile.pt:71
 #: ../library/browser/templates/library.html:143
 #: ../news/browser/templates/feeditem.pt:24
 msgid "read-more"
@@ -4353,10 +4487,10 @@ msgid "x x"
 msgstr ""
 
 #. Default: "row"
-#: ../userprofile/browser/user_import.py:161
+#: ../userprofile/browser/user_import.py:177
 msgid "{} on row {}"
 msgstr ""
 
-#: ../userprofile/browser/user_import.py:183
+#: ../userprofile/browser/user_import.py:199
 msgid "{} user(s) {}."
 msgstr ""
