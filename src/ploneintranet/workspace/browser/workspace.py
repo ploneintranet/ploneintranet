@@ -2,7 +2,7 @@
 from Acquisition import aq_inner
 from collections import defaultdict
 from collective.workspace.interfaces import IWorkspace
-from datetime import datetime
+from datetime import date
 from json import dumps
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -26,8 +26,6 @@ from zope.component import getAdapter
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import implements
-
-import pytz
 
 
 class BaseWorkspaceView(BrowserView):
@@ -283,16 +281,14 @@ class BaseWorkspaceView(BrowserView):
             portal_type=ptype,
             sort_on=['due', 'getObjPositionInParent'],
         )
-        utc = pytz.UTC
-        now = utc.localize(datetime.utcnow())
+        today = date.today()
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
             done = wft.getInfoFor(todo, 'review_state') == u'done'
             overdue = False
             if not done and todo.due:
-                # XXX syslab: compare to now or to today 23:59?
-                overdue = todo.due < now
+                overdue = todo.due < today
             data = {
                 'id': brain.UID,
                 'title': brain.Title,
