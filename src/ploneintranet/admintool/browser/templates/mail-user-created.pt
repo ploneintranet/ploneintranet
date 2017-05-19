@@ -4,10 +4,9 @@
           "
           i18n:domain="ploneintranet"
 >
-  <h1 i18n:translate="">Thank you for joining ${portal_state/portal_title}!</h1>
+  <h1 i18n:translate="admintool_info_intro">Thank you for joining <tal:i18n i18n:name="site_name">${portal_state/portal_title}</tal:i18n>!</h1>
   <p>
-    <tal:i18n tal:omit-tag="nothing"
-              i18n:translate=""
+    <tal:i18n i18n:translate="admintool_info_account_created"
     >A user account has been created for you  with the following data</tal:i18n>:
   </p>
   <dl>
@@ -19,13 +18,11 @@
     <dd>${here/last_name}</dd>
   </dl>
   <p>
-    <tal:i18n tal:omit-tag="nothing"
-              i18n:translate=""
+    <tal:i18n i18n:translate="admintool_info_set_password"
     >You can set at any time your password following this link</tal:i18n>:
     <a href="${password_reset_link}">${password_reset_link}</a>.
   </p>
-  <p tal:omit-tag="nothing"
-     i18n:translate=""
+  <p i18n:translate="admintool_info_activation"
      tal:condition="view/is_pending"
-  >Before logging in your account needs to be activated.</p>
+  >Before logging in, your account needs to be activated.</p>
 </tal:mail>
