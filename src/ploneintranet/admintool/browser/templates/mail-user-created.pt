@@ -9,14 +9,16 @@
     <tal:i18n tal:omit-tag="nothing"
               i18n:translate=""
     >A user account has been created for you  with the following data</tal:i18n>:
-    <dl>
-      <dt i18n:translate="">Username</dt>
-      <dd>${here/username}</dd>
-      <dt i18n:translate="">First name</dt>
-      <dd>${here/first_name}</dd>
-      <dt i18n:translate="">Last name</dt>
-      <dd>${here/last_name}</dd>
-    </dl>
+  </p>
+  <dl>
+    <dt i18n:translate="">Username</dt>
+    <dd>${here/username}</dd>
+    <dt i18n:translate="">First name</dt>
+    <dd>${here/first_name}</dd>
+    <dt i18n:translate="">Last name</dt>
+    <dd>${here/last_name}</dd>
+  </dl>
+  <p>
     <tal:i18n tal:omit-tag="nothing"
               i18n:translate=""
     >You can set at any time your password following this link</tal:i18n>:
