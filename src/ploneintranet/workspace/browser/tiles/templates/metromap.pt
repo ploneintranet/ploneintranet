@@ -5,11 +5,12 @@
       task_number python:0;
       portal_url here/portal_url;
       duedate_view nocall:here/duedate-view | nothing;
+      duedates_enabled duedate_view | python:False;
     "
     i18n:domain="ploneintranet"
   >
   <tal:milestone repeat="milestone view/milestones">
-    <li tal:define="overdue python:duedate_view and duedate_view.is_overdue(milestone) or False;
+    <li tal:define="overdue python:duedates_enabled and duedate_view.is_overdue(milestone) or False;
                     state python:overdue and 'overdue' or milestone['finished']"
         class="section actioned state-${state}"
         title="${milestone/title}"
@@ -28,7 +29,7 @@
           <tal:tasks repeat="task milestone/tasks">
             <tal:task_number
                 define="global task_number python:task_number + 1;
-                        overdue python:duedate_view and task['overdue'];
+                        overdue python:duedates_enabled and task['overdue'];
                         state python:'closed' if task['checked'] else 'open';">
               <li id="item-${task_number}"
                   class="step-background state-${python:'overdue' if overdue else state}">
@@ -67,7 +68,7 @@
              i18n:translate=""
             >${milestone/transition_title}</a>
         </p>
-        <p class="due-date" tal:condition="duedate_view">
+        <p class="due-date" tal:condition="duedates_enabled">
           <span tal:replace="python:duedate_view.milestone_due_date(milestone['state']).strftime('%d %b %Y')">23 mar 2017</span>
           <strong class="warning"
                   i18n:translate=""
