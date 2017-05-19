@@ -3,6 +3,7 @@
               can_edit view/can_edit;
               lock_info view/lock_info;
             "
+            i18n:domain="ploneintranet"
 >
   <tal:notlocked condition="not:lock_info">
     <tal:autosaveon condition="autosave_enabled">

@@ -1,4 +1,5 @@
 <div id="locked-menu"
+     i18n:domain="ploneintranet"
      tal:define="
        info view/lock_info;
        is_locked view/is_locked;
