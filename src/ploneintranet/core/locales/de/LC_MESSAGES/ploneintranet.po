@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-05-19 12:14+0000\n"
+"POT-Creation-Date: 2017-05-19 11:58+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -124,7 +124,7 @@ msgstr "Ein E-Mail Inhaltstyp"
 
 #: ../admintool/browser/user_management.py:301
 msgid "A problem occurred while changing the user state"
-msgstr ""
+msgstr "Beim Versuch, den Status des Nutzeraccounts zu ändern, gab es ein Problem."
 
 #: ../microblog/browser/configure.zcml:18
 msgid "A tile to add a new post"
@@ -154,11 +154,11 @@ msgstr "Was ist Plone Intranet?"
 
 #: ../admintool/browser/user_management.py:63
 msgid "Account status"
-msgstr ""
+msgstr "Status des Nutzeraccounts"
 
 #: ../admintool/browser/user_management.py:240
 msgid "Activate user"
-msgstr ""
+msgstr "Nutzer aktivieren"
 
 #: ../layout/browser/templates/dashboard.pt:28
 msgid "Activity centric view"
@@ -340,7 +340,7 @@ msgstr "App nicht verfügbar"
 
 #: ../layout/browser/templates/app-unauthorized.pt:12
 msgid "App unauthorized"
-msgstr ""
+msgstr "Keine Berechtigung für die App"
 
 #: ../bookmarks/browser/templates/app.pt:20
 #: ../layout/profiles/default/actions.xml
@@ -656,7 +656,7 @@ msgstr "Neue Seite oder Bereich erstellen"
 
 #: ../admintool/browser/templates/user-management.pt:33
 msgid "Create a new user account"
-msgstr ""
+msgstr "Einen neuen Nutzeraccount erstellen"
 
 #: ../workspace/browser/templates/workspaces.pt:55
 msgid "Create a new workspace"
@@ -697,7 +697,7 @@ msgstr "Aufgabe erstellen"
 
 #: ../admintool/browser/user_management.py:138
 msgid "Create user account"
-msgstr ""
+msgstr "Nutzeraccount erstellen"
 
 #: ../workspace/browser/templates/add_workspace.pt:11
 #: ../workspace/browser/templates/workspaces.pt:55
@@ -746,7 +746,7 @@ msgstr "Tage laufend"
 
 #: ../admintool/browser/user_management.py:242
 msgid "Deactivate user"
-msgstr ""
+msgstr "Nutzer deaktivieren"
 
 #: ../workspace/browser/templates/email_invitees_html.pt:1
 #: ../workspace/browser/templates/email_invitees_text.pt:1
@@ -917,7 +917,7 @@ msgstr "E-Mail"
 
 #: ../admintool/browser/templates/panel-create-user-account.pt:50
 msgid "E-mail address"
-msgstr ""
+msgstr "E-mailadresse"
 
 #: ../workspace/browser/templates/case_manager.pt:124
 msgid "Earliest creation date"
@@ -1278,7 +1278,7 @@ msgstr "Wenn angewählt werden die Benutzer aus dem Arbeitsraum entfernt."
 
 #: ../layout/browser/templates/locking_panel.pt:17
 msgid "If you think the user is currently not editing this document and you want to edit it now, then you can unlock the document. Unlocking the document will allow you to edit the document and lock it for editing for other users untill you close the document."
-msgstr ""
+msgstr "Wenn Sie denken, dass der Benutzer dieses Dokument derzeit nicht mehr editiert und Sie es jetzt editieren wollen, dann können Sie das Dokument entsperren. Dadurch können Sie dann editieren, und das Dokument wird für andere Benutzer gesperrt"
 
 #: ../workspace/browser/templates/workspace.pt:68
 msgid "If you use this workspace, you might also be interested in"
@@ -1481,7 +1481,7 @@ msgstr "Lade ${num_groups} Daten..."
 
 #: ../admintool/browser/templates/app.pt:26
 msgid "Loading ..."
-msgstr ""
+msgstr "Laden…"
 
 #: ../admintool/browser/templates/user-management.pt:90
 #: ../search/browser/templates/all_results.pt:313
@@ -1500,11 +1500,11 @@ msgstr "Ort"
 
 #: ../layout/browser/templates/locking_panel.pt:40
 msgid "Lock"
-msgstr ""
+msgstr "Sperren"
 
 #: ../layout/browser/templates/saving_badge.pt:43
 msgid "Locked"
-msgstr ""
+msgstr "Gesperrt"
 
 #: ../workspace/browser/templates/add_workspace.pt:30
 msgid "Locked down, secret workspace"
@@ -1659,11 +1659,11 @@ msgstr "Beliebt"
 
 #: ../admintool/browser/user_management.py:67
 msgid "Most recently added"
-msgstr ""
+msgstr "Zuletzt hinzugefügt"
 
 #: ../admintool/browser/user_management.py:71
 msgid "Most recently logged in"
-msgstr ""
+msgstr "Zuletzt eingeloggt"
 
 #: ../workspace/browser/forms.py:63
 msgid "Move"
@@ -1834,11 +1834,11 @@ msgstr "Keine anstehenden Termine."
 
 #: ../admintool/browser/user_management.py:294
 msgid "No user selected"
-msgstr ""
+msgstr "Keine Nutzer ausgewählt"
 
 #: ../admintool/browser/templates/user-management.pt:55
 msgid "No users found"
-msgstr ""
+msgstr "Keine Nutzer gefunden"
 
 #: ../workspace/browser/templates/add_workspace.pt:81
 #: ../workspace/browser/tiles/templates/navigation.pt:36
@@ -1899,7 +1899,7 @@ msgstr "Ältere Termine"
 
 #: ../admintool/browser/user_management.py:139
 msgid "Once the user account is created, the user will receive an e-mail containing a link to a page on which the account creation can be finalised."
-msgstr ""
+msgstr "Sobald der Nutzeraccount erstellt wurde, wird eine E-mail an den Nutzer geschickt. Diese enthält einen Link zu einer Seite, auf der weitere Details wie das Passwort eingetragen werden können."
 
 #: ../workspace/policies.py:34
 msgid "Only administrators can add workspace members."
@@ -2358,7 +2358,7 @@ msgstr "Benutzer suchen"
 
 #: ../admintool/browser/templates/user-management.pt:59
 msgid "Search for users"
-msgstr ""
+msgstr "Nach Benutzern suchen"
 
 #: ../workspace/browser/templates/case_manager.pt:83
 msgid "Search in title and description"
@@ -2784,15 +2784,15 @@ msgid "This comment has been succesfully deleted."
 msgstr "Dieser Kommentar wurde erfolgreich gelöscht."
 
 msgid "This date must be on or after the start date."
-msgstr ""
+msgstr "Dieses Datum muss mindestens auf dem Startdatum oder später liegen."
 
 # Messages for pat-validation
 msgid "This date must be on or before the end date."
-msgstr ""
+msgstr "Dieses Datum muss vor oder auf dem Enddatum liegen."
 
 #: ../layout/browser/templates/locking_panel.pt:11
 msgid "This document is currently locked for editing by"
-msgstr ""
+msgstr "Dieses Dokument ist gerade zum Editieren gesperrt von"
 
 #: ../bookmarks/browser/templates/bookmark.pt:16
 msgid "This item has been added to your bookmarks."
@@ -2945,7 +2945,7 @@ msgstr "Unlike"
 
 #: ../layout/browser/templates/locking_panel.pt:25
 msgid "Unlock"
-msgstr ""
+msgstr "Entsperren"
 
 #: ../workspace/browser/pinning.py:136
 msgid "Unpin"
@@ -3048,7 +3048,7 @@ msgstr "Verwaltung der Benutzerprofile"
 
 #: ../admintool/browser/user_management.py:298
 msgid "User state changed"
-msgstr ""
+msgstr "Status des Nutzeraccounts wurde geändert."
 
 #: ../microblog/interfaces.py:17
 msgid "Userid"
@@ -3166,7 +3166,7 @@ msgstr "Richtlinie des Arbeitsraums"
 
 #: ../workspace/browser/tiles/sidebar.py:310
 msgid "Workspace security policy change failed"
-msgstr ""
+msgstr "Die Änderungen an der Sicherheitsrichtlinie des Arbeitsräumes war nicht möglich."
 
 #: ../workspace/browser/tiles/sidebar.py:307
 msgid "Workspace security policy changes saved"
@@ -3233,7 +3233,7 @@ msgstr "Sie sind dabei, dieses Geschäft wiederaufzunehmen. Nach Wiederaufnahme 
 
 #: ../layout/browser/templates/app-unauthorized.pt:18
 msgid "You are not authorized to use this app."
-msgstr ""
+msgstr "Sie haben keine Berechtigung, diese App zu verwenden."
 
 #: ../workspace/browser/templates/joinviewlet.pt:6
 msgid "You can become a member of this workspace"
@@ -3296,7 +3296,7 @@ msgstr "Nr."
 #. Default: "The user account of '${fullname}' is deactivated. Would you like to activate this user account?"
 #: ../admintool/browser/user_management.py:275
 msgid "activate_user_panel_description"
-msgstr ""
+msgstr "Der Nutzeraccount von '${fullname}' ist deaktiviert. Möchten Sie ihn aktivieren?"
 
 #. Default: "What are you doing?"
 #: ../microblog/browser/update_social.py:264
@@ -3311,22 +3311,22 @@ msgstr ""
 #. Default: "A user account has been created for you with the following data"
 #: ../admintool/browser/templates/mail-user-created.pt:9
 msgid "admintool_info_account_created"
-msgstr ""
+msgstr "Es wurde für Sie ein Nutzeraccount angelegt mit folgenden Daten"
 
 #. Default: "Before logging in, your account needs to be activated."
 #: ../admintool/browser/templates/mail-user-created.pt:25
 msgid "admintool_info_activation"
-msgstr ""
+msgstr "Bevor Sie sich einloggen können, muss Ihr Nutzeraccount noch aktiviert werden."
 
 #. Default: "Thank you for joining ${site_name}!"
 #: ../admintool/browser/templates/mail-user-created.pt:7
 msgid "admintool_info_intro"
-msgstr ""
+msgstr "Vielen Dank, dass Sie ${site_name} beigetreten sind!"
 
 #. Default: "You can set at any time your password following this link"
 #: ../admintool/browser/templates/mail-user-created.pt:21
 msgid "admintool_info_set_password"
-msgstr ""
+msgstr "Sie können Ihr Passwort über folgenden Link setzen"
 
 #. from this workspace. Are you sure? (un-tick to exclude from removing)"
 #. Default: "You've selected the following ${num_users} members to be removed from this workspace. Are you sure? (un-tick to exclude from removing)"
@@ -3528,7 +3528,7 @@ msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endze
 #. Default: "Would you like to deactivate the account of '${fullname}'? After this, this user can no longer enter his account, but this action can be reversed at any time."
 #: ../admintool/browser/user_management.py:264
 msgid "deactivate_user_panel_description"
-msgstr ""
+msgstr "Möchten Sie den Nutzeraccount von '${fullname}' deaktivieren? Danach wird er / sie sich nicht mehr einloggen können. Die Deaktivierung kann aber jederzeit rückgängig gemacht werden."
 
 #. Default: "Show the section description on the section page"
 #: ../news/content.py:40
@@ -4262,12 +4262,12 @@ msgstr "Gefällt: ${likers}"
 #. Default: "Chat with ${fullname}."
 #: ../layout/browser/locking.py:38
 msgid "lock_panel_chat_link_label"
-msgstr ""
+msgstr "Mit ${fullname} chatten"
 
 #. Default: "This item is locked by ${fullname}. Click to see options."
 #: ../layout/browser/saving_badge.py:43
 msgid "lock_panel_link_title"
-msgstr ""
+msgstr "Dieses Dokument ist von ${fullname} gesperrt. Kicken Sie hier, um Optionen zu sehen."
 
 #. Default: "Your password has been set successfully. You may now ${login_link} with your new password."
 #: ../layout/browser/overrides/Products.PasswordResetTool.skins.PasswordReset.pwreset_finish.pt:16
@@ -4277,7 +4277,7 @@ msgstr "Ihr Passwort wurde erfolgreich gesetzt. Sie können sich nun unter ${log
 #. Default: "Missing parameter: ${key}"
 #: ../admintool/browser/user_management.py:191
 msgid "missing_parameter_key"
-msgstr ""
+msgstr "Fehlender Wert: ${key}"
 
 #. Default: "More"
 #: ../news/browser/templates/publisher-sidebar.pt:125
