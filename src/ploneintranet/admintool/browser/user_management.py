@@ -56,7 +56,7 @@ class View(BrowserView):
     def search_options(self):
         options = [
             {
-                'title': _('Alphabetically'),
+                'title': _('Alphabetical'),
                 'value': 'sortable_title',
             },
             {
