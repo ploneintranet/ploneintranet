@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.60 (unreleased)
+1.2.60 (2017-05-22)
 -------------------
 
 * Merge pull request #1318 from quaive/implement-locking-chat-button [GitHub]
