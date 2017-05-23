@@ -18,7 +18,7 @@ Alice can attach a file to a post
    Given I am logged in as the user alice_lindstrom
      And I open the Dashboard
     When I create a new post
-     And I add a file
+     And I post the file  basic.txt
     Then I can see the file preview in the post box
 
 Alice can submit a post with a file attachment
@@ -26,7 +26,7 @@ Alice can submit a post with a file attachment
    Given I am logged in as the user alice_lindstrom
      And I open the Dashboard
     When I create a new post
-     And I add a file
+     And I post the file  basic.txt
      And I can see the file preview in the post box
      And I submit the new post
    # injection
@@ -41,7 +41,7 @@ Alice can submit a post with a UTF-8 file attachment
    Given I am logged in as the user alice_lindstrom
      And I open the Dashboard
     When I create a new post
-     And I add a UTF-8 file
+     And I post the file  bärtige_flößer.odt
      And I can see the UTF-8 file preview in the post box
      And I submit the new post
    # Injection barfs UTF-8 but only in the testrunner (works fine in real site). Skip.
@@ -53,7 +53,7 @@ Alice can submit a post with a UTF-8 file attachment
 Alice can submit a post with a file attachment and no text
    Given I am logged in as the user alice_lindstrom
      And I open the Dashboard
-    When I add a file
+    When I post the file  basic.txt
      And I can see the file preview in the post box
      And I submit the new post
    # test injection working
@@ -68,9 +68,11 @@ I open the Dashboard
 I create a new post
     Input Text      css=#post-box textarea  Look at this new doc
 
-I add a file
-    Click Element   css=#post-box input[name='form.widgets.attachments']
-    Choose File     css=#post-box input[name='form.widgets.attachments']    ${UPLOADS}/basic.txt
+I post the file
+    [Arguments]  ${filename}
+    Click Element  css=#post-box textarea
+    Execute javascript  jQuery("#post-box").addClass("status-attach")
+    Choose File     css=#post-box input[name='form.widgets.attachments']    ${UPLOADS}/${filename}
 
 I can see the file preview in the post box
     Wait Until Element Is visible   css=#post-box #post-box-attachment-previews img    timeout=60
@@ -84,13 +86,8 @@ I can see the file preview in the stream
 
 I can open the file from the stream preview
    Wait Until Element Is visible   css=#activity-stream .document-preview a[href$='/basic.txt']
-   # Sometimes the element is visible but covered by some tile injected on the dashboard
-   Wait Until Keyword Succeeds  1 sec  100 ms  Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
+   Click Link  css=#activity-stream .document-preview strong a[href$='/basic.txt']
    Wait until page contains  Proin at congue nisl
-
-I add a UTF-8 file
-    Click Element   css=#post-box input[name='form.widgets.attachments']
-    Choose File     css=#post-box input[name='form.widgets.attachments']    ${UPLOADS}/bärtige_flößer.odt
 
 I can see the UTF-8 file preview in the post box
     Wait Until Element Is visible   css=#post-box #post-box-attachment-previews img    timeout=60
