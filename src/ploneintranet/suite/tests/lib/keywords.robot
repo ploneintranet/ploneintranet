@@ -617,6 +617,8 @@ I create a task for
     Wait Until Page Contains Element  jquery=span.select2-match:last
     Click Element  jquery=span.select2-match:last
     Input Text  css=.wizard-box input[name=due]  2020-12-31
+    [Documentation]  Change focus to close the calendar
+    Click Element  css=.wizard-box input[name=title]
     Click Element  css=.wizard-box #form-buttons-create
     Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
 
