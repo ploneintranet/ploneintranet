@@ -244,7 +244,7 @@ I choose to delete the items in the cart
     # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  css=div.panel-content button.icon-trash
-    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch delete"]
+    Wait for injection to be finished
 
 I choose to change the metadata for the items in the cart
     # Click Element  css=div#batch-more  ## For whatever reason, this doesn't work in test, only in live
@@ -290,7 +290,7 @@ I choose to retag the items in the cart
     [arguments]  ${tag}
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Re-tag']
-    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch (re)tagging"]
+    Wait for injection to be finished
     Input Text  xpath=//input[@placeholder='Enter a label']/../div//input  ${tag},
     Click button  Tag
 
@@ -298,7 +298,7 @@ I choose to rename the items in the cart
     [arguments]  ${old_title}  ${title}
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Rename']
-    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch rename"]
+    Wait for injection to be finished
     Input Text  xpath=//input[@placeholder='${old_title}']  ${title}
     Click button  form-buttons-send
 
@@ -314,7 +314,7 @@ I choose to change the workflow state of the items to
     [arguments]  ${transition}
     Execute Javascript  $('#batch-more .panel-content').show()
     Click Element  xpath=//div[contains(@class, 'batch-functions')]//button[text()='Change the workflow state']
-    Wait until element is visible  xpath=//div[@class="pat-modal"]//h1[text()="Batch change workflow"]
+    Wait for injection to be finished
     Select From List  css=select[name=transition]  Published
     Click button  form-buttons-send
     Wait until page contains  The workflow state of the following items has been changed:
