@@ -1,15 +1,17 @@
-from Products.Five.browser import BrowserView
+from collective.documentviewer.settings import Settings
 from plone import api
-from plone.memoize.view import memoize
 from plone.app.contenttypes.content import File
 from plone.app.contenttypes.content import Image
 from plone.i18n.normalizer.interfaces import IURLNormalizer
+from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.attachments import utils
 from ploneintranet.attachments.attachments import IAttachmentStorage
 from ploneintranet.docconv.client.handlers import handle_file_creation
-from collective.documentviewer.settings import Settings
+from Products.Five.browser import BrowserView
 from zope.component import getUtility
+from zope.container.interfaces import DuplicateIDError
+
 import logging
 
 
@@ -86,7 +88,10 @@ class UploadAttachments(BrowserView):
         attachment_objs = utils.extract_attachments(uploaded_attachments)
         for obj in attachment_objs:
             obj.id = normalizer.normalize(u'{0}-{1}'.format(token, obj.id))
-            attachments.add(obj)
+            try:
+                attachments.add(obj)
+            except DuplicateIDError:
+                pass
             obj = attachments.get(obj.id)
             try:
                 handle_file_creation(obj, None, async=False)
