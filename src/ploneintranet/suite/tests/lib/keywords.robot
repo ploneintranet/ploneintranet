@@ -1602,7 +1602,7 @@ I can sort search results by ${FIELD}
     Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can click the ${TAB_NAME} tab
-    Click Link  link=${TAB_NAME}
+    Click link  jquery=nav > a:contains(${TAB_NAME})
     Wait Until Page Does Not Contain Element  css=.injecting-content
 
 # *** END search related keywords ***
