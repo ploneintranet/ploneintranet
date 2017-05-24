@@ -42,10 +42,19 @@
             <div class="pat-bumper ${python:context.hero_image and 'has-hero' or ''}"
                  id="workspace-header"
             >
-              <img class="hero-image"
-                   src="${context/absolute_url}/@@images/hero_image"
-                   tal:condition="context/hero_image | nothing"
-              />
+              <tal:hero tal:condition="context/hero_image | nothing">
+                <img class="hero-image"
+                    tal:define="modified context/modified"
+                    src="${context/absolute_url}/@@images/hero_image?timestamp=${modified/ISO}"
+                    tal:condition="not:request/hero_image|nothing"
+                />
+                <!-- When replacing the hero image the modified date is not yet updated. Use current time in this case. -->
+                <img class="hero-image"
+                    tal:define="DateTime modules/DateTime.DateTime"
+                    src="${context/absolute_url}/@@images/hero_image?timestamp=${DateTime/ISO}"
+                    tal:condition="request/hero_image|nothing"
+                />
+              </tal:hero>
               <div class="content">
                 <h1 class="title"
                     id="top"
