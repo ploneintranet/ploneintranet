@@ -617,6 +617,8 @@ I create a task for
     Wait Until Page Contains Element  jquery=span.select2-match:last
     Click Element  jquery=span.select2-match:last
     Input Text  css=.wizard-box input[name=due]  2020-12-31
+    [Documentation]  Change focus to close the calendar
+    Click Element  css=.wizard-box input[name=title]
     Click Element  css=.wizard-box #form-buttons-create
     Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
 
@@ -665,7 +667,7 @@ I can invite Alice to join the workspace from the menu
     I can invite Alice to the workspace
 
 I can invite Alice to the workspace
-    Wait until element is visible  xpath=//div[contains(@class, 'pat-modal')]//h1[text()='Add users']
+    Wait for injection to be finished
     Input Text  css=li.select2-search-field input  alice
     Wait Until Element Is visible  css=span.select2-match
     Click Element  css=span.select2-match
@@ -1600,7 +1602,7 @@ I can sort search results by ${FIELD}
     Wait Until Element is Visible  css=.previews-on,.previews-off
 
 I can click the ${TAB_NAME} tab
-    Click Link  link=${TAB_NAME}
+    Click link  jquery=nav > a:contains(${TAB_NAME})
     Wait Until Page Does Not Contain Element  css=.injecting-content
 
 # *** END search related keywords ***

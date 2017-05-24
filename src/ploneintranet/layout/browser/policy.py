@@ -67,5 +67,7 @@ class LayoutPolicy(PloneLayoutPolicy):
             except AttributeError:
                 log.error("View %s fails to provide app_name", view.__name__)
                 base += ' view-app app-None'
+        if getattr(view, 'show_splashpage', None):
+            base += ' splash-active'
         base = self.append_diazo_template(base, template, view)
         return base

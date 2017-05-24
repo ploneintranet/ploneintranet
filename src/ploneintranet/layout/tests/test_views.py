@@ -501,9 +501,15 @@ class TestViews(IntegrationTestCase):
                 True,
             ):
                 view = self.get_view('dashboard.html')
-                user = view.user
                 self.assertEqual(view.splashpage_uid, u'splashpage-1')
                 self.assertTrue(view.show_splashpage)
+                # This emulates the user closing the splashpage
                 view.request = self.request.clone()
-                user.splashpage_read = u'splashpage-1'
+                view.request.form['splashpage_uid'] = u'splashpage-1'
+                view()
                 self.assertFalse(view.show_splashpage)
+                # Check if we can force the splashpage to appear again
+                view.request = self.request.clone()
+                view.request.form['splashpage_uid'] = u'force'
+                view()
+                self.assertTrue(view.show_splashpage)
