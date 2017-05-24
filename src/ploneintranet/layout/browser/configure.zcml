@@ -12,6 +12,8 @@
   <include package="z3c.jbot" file="meta.zcml" />
   <browser:jbot directory="overrides"
                 layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer" />
+  <browser:jbot directory="overrides-quaive-specific"
+                layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer" />
 
   <include file="switchoff.zcml" />
 
