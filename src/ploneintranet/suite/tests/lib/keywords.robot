@@ -610,15 +610,13 @@ I create a task for
     Wait Until Element Is visible  css=[title="Create new task"]
     Click Element  css=[title="Create new task"]
     Wait Until Page Contains Element  css=.wizard-box
+    Input Text  css=.wizard-box input[name=due]  2020-12-31
     Input Text  css=.wizard-box input[name=title]  Ciao ${name}
     Input Text  css=.wizard-box textarea[name=description]  This is for you ${name}
     Click Element  css=.wizard-box .assignee .select2-choices input
     Input Text  css=.wizard-box .assignee .select2-choices input  ${name}
     Wait Until Page Contains Element  jquery=span.select2-match:last
     Click Element  jquery=span.select2-match:last
-    Input Text  css=.wizard-box input[name=due]  2020-12-31
-    [Documentation]  Change focus to close the calendar
-    Click Element  css=.wizard-box input[name=title]
     Click Element  css=.wizard-box #form-buttons-create
     Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
 
