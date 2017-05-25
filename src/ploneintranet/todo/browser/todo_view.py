@@ -167,15 +167,17 @@ class TodoSidebar(TodoView):
         ''' Convenience method to easily render the tabs in the template
         '''
         base_url = self.logical_parent.absolute_url()
-        return [
+        items = [
             {
                 'url': '{base_url}/{view}'.format(
                     base_url=base_url,
                     view=view,
                 ),
-                'label': label
+                'label': label,
             } for view, label in self._navigation_tabs.iteritems()
         ]
+        items[0]['klass'] = 'current'
+        return items
 
     def __call__(self):
         ''' Choose the proper sidebar to render
