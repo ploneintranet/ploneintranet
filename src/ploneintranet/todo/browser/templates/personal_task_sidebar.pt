@@ -1,193 +1,382 @@
-<aside class="left sidebar">
-  <div id="sidebar-content" class="">
+<aside class="left sidebar"
+       id="sidebar"
+>
+  <div class=""
+       id="sidebar-content"
+  >
     <nav class="navigation tabs pat-tabs">
-          <a href="index" class="pat-inject" data-pat-inject="target: #sidebar-content > .tabs-content; source: #sidebar-content > .tabs-content; history: record">All tasks</a>
-          <a href="my-tasks.html" class="pat-inject current" data-pat-inject="target: #sidebar-content > .tabs-content; source: #sidebar-content > .tabs-content; history: record">My tasks</a>
-          <a href="personal-tasks.html" class="pat-inject" data-pat-inject="target: #sidebar-content > .tabs-content; source: #sidebar-content > .tabs-content; history: record">Personal task list</a>
-      </nav>
-      <div class="tabs-content">
-        <form action="search-result.html#search-result" class="pat-inject pat-autosubmit">
-        <div class="button-bar functions" id="-functions">
-              <div class="contextual buttons float-before" id="-contextual-functions">
-                    <label class="pat-select bare" data-option="Group by origin">
-                        <select name="browse-mode">
-                            <option value="case_state">Group by origin</option>
-                            <option value="case_state">Group by origin and milestone</option>
-                            <option value="initiator">Group by initiator</option>
-                            <option value="task_state">Group by task state</option>
-                            <option value="priority">Group by priority</option>
-                            <option value="none">No grouping</option>
-                        </select>
+      <a class="pat-inject ${item/klass|nothing}"
+         href="${item/url}"
+         data-pat-inject="target: #sidebar-content &gt; .tabs-content; source: #sidebar-content &gt; .tabs-content; history: record"
+         tal:repeat="item view/navigation_tabs"
+      >${item/label}</a>
+    </nav>
+    <div class="tabs-content">
+      <form class="pat-inject pat-autosubmit"
+            action="search-result.html#search-result"
+      >
+        <div class="button-bar functions"
+             id="-functions"
+        >
+          <div class="contextual buttons float-before"
+               id="-contextual-functions"
+          >
+            <label class="pat-select bare"
+                   data-option="Group by origin"
+            >
+              <select name="browse-mode">
+                <option value="case_state">Group by origin</option>
+                <option value="case_state">Group by origin and milestone</option>
+                <option value="initiator">Group by initiator</option>
+                <option value="task_state">Group by task state</option>
+                <option value="priority">Group by priority</option>
+                <option value="none">No grouping</option>
+              </select>
+            </label>
+            <div class="extras">
+              <label class="pat-select bare"
+                     data-option="newest first"
+              >Sort
+                <select name="browse-mode">
+                  <option value="sort">newest first</option>
+                  <option value="sort">oldest first</option>
+                  <option value="sort">by assignee</option>
+                  <option value="sort">by initiator</option>
+                  <option value="sort">by task state</option>
+                  <option value="sort">by priority</option>
+                  <option value="sort">alphabetically</option>
+                </select>
+              </label>
+              <label class="pat-select bare"
+                     data-option="Open tickets"
+              >
+                <select name="browse-mode">
+                  <option value="task_state">Open tickets</option>
+                  <option value="task_state">Closed tickets</option>
+                  <option value="task_state">All tickets</option>
+                </select>
+              </label>
+              <div class="pat-collapsible context-menu closed align-left"
+                   id="initiators-menu"
+                   data-pat-collapsible="close-trigger: .context-menu:not(#initiators-menu),.close-menu"
+              >
+                <strong class="label menu-trigger collapsible-closed">Initiators</strong>
+                <div class="panel-content"
+                     style="display: none;"
+                ><p class="close-menu">Close</p><fieldset class="pat-checklist unchecked">
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        I
                     </label>
-                    <div class="extras">
-                      <label class="pat-select bare" data-option="newest first">Sort
-                          <select name="browse-mode">
-                              <option value="sort">newest first</option>
-                              <option value="sort">oldest first</option>
-                              <option value="sort">by assignee</option>
-                              <option value="sort">by initiator</option>
-                              <option value="sort">by task state</option>
-                              <option value="sort">by priority</option>
-                              <option value="sort">alphabetically</option>
-                          </select>
-                      </label>
-                      <label class="pat-select bare" data-option="Open tickets">
-                          <select name="browse-mode">
-                              <option value="task_state">Open tickets</option>
-                              <option value="task_state">Closed tickets</option>
-                              <option value="task_state">All tickets</option>
-                          </select>
-                      </label>
-                        <div class="pat-collapsible context-menu closed align-left" data-pat-collapsible="close-trigger: .context-menu:not(#initiators-menu),.close-menu" id="initiators-menu">
-                            <strong class="label menu-trigger collapsible-closed">Initiators</strong>
-                            <div class="panel-content" style="display: none;"><p class="close-menu">Close</p><fieldset class="pat-checklist unchecked">
-                                <label class="unchecked"><input type="checkbox" name=""> I</label>
-                            </fieldset><fieldset class="pat-checklist unchecked">
-                                <label class="unchecked"><input type="checkbox" name=""> John Doe</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Mario Minstreel</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Guido Stevens</label>
-                            </fieldset></div>
+                  </fieldset><fieldset class="pat-checklist unchecked">
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        John Doe
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Mario Minstreel
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Guido Stevens
+                    </label>
+                  </fieldset></div>
 
 
-                        </div>
-                        <div class="pat-collapsible context-menu closed align-left" data-pat-collapsible="close-trigger: .context-menu:not(#date-range-menu),.close-menu" id="date-range-menu">
-                            <strong class="label menu-trigger collapsible-closed">Date range</strong>
-                            <div class="panel-content" style="display: none;"><p class="close-menu">Close</p><fieldset class="vertical">
-                                <label>
+              </div>
+              <div class="pat-collapsible context-menu closed align-left"
+                   id="date-range-menu"
+                   data-pat-collapsible="close-trigger: .context-menu:not(#date-range-menu),.close-menu"
+              >
+                <strong class="label menu-trigger collapsible-closed">Date range</strong>
+                <div class="panel-content"
+                     style="display: none;"
+                ><p class="close-menu">Close</p><fieldset class="vertical">
+                    <label>
                                   From
-                                  <input type="text" class="pat-date-picker" name="filter-from-date">
-                                </label>
-                                <label>
+                      <input class="pat-date-picker"
+                             name="filter-from-date"
+                             type="text"
+                      />
+                    </label>
+                    <label>
                                   Until
-                                  <input type="text" class="pat-date-picker" name="filter-until-date">
-                                </label>
-                            </fieldset></div>
+                      <input class="pat-date-picker"
+                             name="filter-until-date"
+                             type="text"
+                      />
+                    </label>
+                  </fieldset></div>
 
-                        </div>
-                        <div class="pat-collapsible context-menu closed align-left" data-pat-collapsible="close-trigger: .context-menu:not(#milestones-menu),.close-menu" id="milestones-menu">
-                            <strong class="label menu-trigger collapsible-closed">Milestones</strong>
-                            <div class="panel-content" style="display: none;"><p class="close-menu">Close</p><fieldset class="pat-checklist unchecked">
-                                <label class="unchecked"><input type="checkbox" name=""> Neu</label>
-                                <label class="unchecked"><input type="checkbox" name=""> In bearbeitung</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Vollständig</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Antrag</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Beschlossen</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Abgeschlossen</label>
-                                <label class="unchecked"><input type="checkbox" name=""> Archiviert</label>
-                            </fieldset></div>
+              </div>
+              <div class="pat-collapsible context-menu closed align-left"
+                   id="milestones-menu"
+                   data-pat-collapsible="close-trigger: .context-menu:not(#milestones-menu),.close-menu"
+              >
+                <strong class="label menu-trigger collapsible-closed">Milestones</strong>
+                <div class="panel-content"
+                     style="display: none;"
+                ><p class="close-menu">Close</p><fieldset class="pat-checklist unchecked">
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Neu
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        In bearbeitung
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Vollst&auml;ndig
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Antrag
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Beschlossen
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Abgeschlossen
+                    </label>
+                    <label class="unchecked"><input name=""
+                             type="checkbox"
+                      />
+                        Archiviert
+                    </label>
+                  </fieldset></div>
 
-                        </div>
-                    </div>
               </div>
-              <div class="quick-functions">
-                  <a class="toggle-sidebar-size pat-toggle" data-pat-toggle="selector: #application-body; value: sidebar-large sidebar-normal" title="expand/reduce sidebar">Expand sidebar</a>
-                  <a title="Create new document" href="/panel-create-task.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large">Create task</a>
-              </div>
-          </div>
-            <div class="search-box">
-                <label>
-                    <input name="" type="search" placeholder="Search" class="focus">
-                    <button type="submit">Search</button>
-                </label>
             </div>
-        </form>
-          <form class="search-result" id="search-result">
-            <fieldset class="object-list personal tasks pat-checklist pat-collapsible open checked">
-              <h4 class="section-label icon-user collapsible-open">
-                    Personal tasks <a href="/#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>
-                </h4>
-                <div class="panel-content"><label class="checked">
-                    <input type="checkbox" checked="">
-                    <a title="" class="pat-inject follow pat-switch priority-high" data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: none" href="my-tasks.html">Clean-up mailbox</a>
-                    <div class="additional-meta-data">
-                        <a href="/guido-stevens/#person-info::element" class="assignee meta-column icon-user pat-modal" title="Assignee">
-                            Liz Baker
-                        </a>
-                        <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">2 years ago</time>
-                        <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
-                        <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
-
-                        </a> -->
-                        <a href="/guido-stevens/#person-info::element" class="initiator meta-column icon-manager  pat-modal" title="Initiator of this task">
-                            Liz Baker
-                        </a>
-                    </div>
-                </label><label class="checked">
-                    <input type="checkbox" checked="">
-                    <a title="" class="pat-inject follow pat-switch" data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: none" href="my-tasks.html">Organise Christmas dinner</a>
-                    <div class="additional-meta-data">
-                        <a href="/guido-stevens/#person-info::element" class="assignee meta-column icon-user pat-modal" title="Assignee">
-                            Liz Baker
-                        </a>
-                        <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">2 years ago</time>
-                        <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
-                        <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
-
-                        </a> -->
-                        <a href="/guido-stevens/#person-info::element" class="initiator meta-column icon-manager pat-modal" title="Initiator of this task">
-                            Alexander Pilz
-                        </a>
-                    </div>
-                </label><label class="checked">
-                    <input type="checkbox" checked="">
-                    <a title="" class="pat-inject follow pat-switch priority-medium" data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: none" href="my-tasks.html">Order printer supplies</a>
-                    <div class="additional-meta-data">
-                        <a href="/guido-stevens/#person-info::element" class="assignee meta-column pat-modal icon-user" title="Assignee">
-                            Liz Baker
-                        </a>
-                        <time datetime="2015-06-02 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">2 years ago</time>
-                        <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
-                        <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
-
-                        </a> -->
-                        <a href="/guido-stevens/#person-info::element" class="initiator meta-column icon-manager pat-modal" title="Initiator of this task">
-                            Liz Baker
-                        </a>
-                    </div>
-                </label><label class="checked">
-                    <input type="checkbox" checked="">
-                    <a title="" class="pat-inject follow pat-switch" data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: none" href="/expertenmeinung#document-body">Fill out declarations</a>
-                    <div class="additional-meta-data">
-                        <a href="/guido-stevens/#document-body" class="assignee meta-column icon-user pat-inject pat-switch" title="Assignee">
-                            Liz Baker
-                        </a>
-                        <time datetime="2015-06-02 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">2 years ago</time>
-                        <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
-                        <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
-
-                        </a> -->
-                        <a href="/liz-baker/#person-info::element" class="initiator meta-column icon-manager pat-modal" title="Initiator of this task">
-                            Liz Baker
-                        </a>
-                    </div>
-                </label></div>
-
-
-
-          </fieldset>
-            <fieldset class="object-list tasks pat-checklist pat-collapsible open checked">
-                <h4 class="section-label icon-workspace collapsible-open">
-                    Minifest <a href="/#content" class="pat-modal iconified icon-info-circle" data-pat-modal="class: large">Info</a>
-                </h4>
-                <div class="panel-content"><label class="checked">
-                    <input type="checkbox" checked="">
-                    <a title="" class="pat-inject follow pat-switch" data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal" data-pat-inject="target: #document-body; history: none" href="/hintergrundcheck#document-body">Hintergrundcheck machen</a>
-                    <div class="additional-meta-data">
-                        <a href="/guido-stevens/#person-info::element" class="assignee meta-column icon-user pat-modal" title="Assignee">
-                            Liz Baker
-                        </a>
-                        <time datetime="2015-06-01 14:00" class="due-date meta-column icon-clock pat-display-time" data-pat-display-time="from-now: true" title="Due date">2 years ago</time>
-                        <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
-                        <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
-
-                        </a> -->
-                        <a href="/liz-baker/#person-info::element" class="initiator meta-column icon-manager pat-modal" title="Initiator of this task">
-                            John Doe
-                        </a>
-                    </div>
-                </label></div>
-          </fieldset>
-          </form>
+          </div>
+          <div class="quick-functions">
+            <a class="toggle-sidebar-size pat-toggle"
+               title="expand/reduce sidebar"
+               data-pat-toggle="selector: #application-body; value: sidebar-large sidebar-normal"
+            >Expand sidebar</a>
+            <a class="create-document pat-modal icon-doc-text"
+               href="/panel-create-task.html#document-content"
+               title="Create new document"
+               data-pat-modal="class: large"
+            >Create task</a>
+          </div>
         </div>
+        <div class="search-box">
+          <label>
+            <input class="focus"
+                   name=""
+                   placeholder="Search"
+                   type="search"
+            />
+            <button type="submit">Search</button>
+          </label>
+        </div>
+      </form>
+      <form class="search-result"
+            id="search-result"
+      >
+        <fieldset class="object-list personal tasks pat-checklist pat-collapsible open checked">
+          <h4 class="section-label icon-user collapsible-open">
+                    Personal tasks
+            <a class="pat-modal iconified icon-info-circle"
+               href="/#content"
+               data-pat-modal="class: large"
+            >Info</a>
+          </h4>
+          <div class="panel-content"><label class="checked">
+              <input checked=""
+                     type="checkbox"
+              />
+              <a class="pat-inject follow pat-switch priority-high"
+                 href="my-tasks.html"
+                 title=""
+                 data-pat-inject="target: #document-body; history: none"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >Clean-up mailbox</a>
+              <div class="additional-meta-data">
+                <a class="assignee meta-column icon-user pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Assignee"
+                >
+                            Liz Baker
+                </a>
+                <time class="due-date meta-column icon-clock pat-display-time"
+                      datetime="2015-06-01 14:00"
+                      title="Due date"
+                      data-pat-display-time="from-now: true"
+                >2 years ago</time>
+                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+
+                        </a> -->
+                <a class="initiator meta-column icon-manager pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Initiator of this task"
+                >
+                            Liz Baker
+                </a>
+              </div>
+            </label><label class="checked">
+              <input checked=""
+                     type="checkbox"
+              />
+              <a class="pat-inject follow pat-switch"
+                 href="my-tasks.html"
+                 title=""
+                 data-pat-inject="target: #document-body; history: none"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >Organise Christmas dinner</a>
+              <div class="additional-meta-data">
+                <a class="assignee meta-column icon-user pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Assignee"
+                >
+                            Liz Baker
+                </a>
+                <time class="due-date meta-column icon-clock pat-display-time"
+                      datetime="2015-06-01 14:00"
+                      title="Due date"
+                      data-pat-display-time="from-now: true"
+                >2 years ago</time>
+                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+
+                        </a> -->
+                <a class="initiator meta-column icon-manager pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Initiator of this task"
+                >
+                            Alexander Pilz
+                </a>
+              </div>
+            </label><label class="checked">
+              <input checked=""
+                     type="checkbox"
+              />
+              <a class="pat-inject follow pat-switch priority-medium"
+                 href="my-tasks.html"
+                 title=""
+                 data-pat-inject="target: #document-body; history: none"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >Order printer supplies</a>
+              <div class="additional-meta-data">
+                <a class="assignee meta-column pat-modal icon-user"
+                   href="/guido-stevens/#person-info::element"
+                   title="Assignee"
+                >
+                            Liz Baker
+                </a>
+                <time class="due-date meta-column icon-clock pat-display-time"
+                      datetime="2015-06-02 14:00"
+                      title="Due date"
+                      data-pat-display-time="from-now: true"
+                >2 years ago</time>
+                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+
+                        </a> -->
+                <a class="initiator meta-column icon-manager pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Initiator of this task"
+                >
+                            Liz Baker
+                </a>
+              </div>
+            </label><label class="checked">
+              <input checked=""
+                     type="checkbox"
+              />
+              <a class="pat-inject follow pat-switch"
+                 href="/expertenmeinung#document-body"
+                 title=""
+                 data-pat-inject="target: #document-body; history: none"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >Fill out declarations</a>
+              <div class="additional-meta-data">
+                <a class="assignee meta-column icon-user pat-inject"
+                   href="/guido-stevens/#document-body"
+                   title="Assignee"
+                >
+                            Liz Baker
+                </a>
+                <time class="due-date meta-column icon-clock pat-display-time"
+                      datetime="2015-06-02 14:00"
+                      title="Due date"
+                      data-pat-display-time="from-now: true"
+                >2 years ago</time>
+                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+
+                        </a> -->
+                <a class="initiator meta-column icon-manager pat-modal"
+                   href="/liz-baker/#person-info::element"
+                   title="Initiator of this task"
+                >
+                            Liz Baker
+                </a>
+              </div>
+            </label></div>
+
+
+
+        </fieldset>
+        <fieldset class="object-list tasks pat-checklist pat-collapsible open checked">
+          <h4 class="section-label icon-workspace collapsible-open">
+                    Minifest
+            <a class="pat-modal iconified icon-info-circle"
+               href="/#content"
+               data-pat-modal="class: large"
+            >Info</a>
+          </h4>
+          <div class="panel-content"><label class="checked">
+              <input checked=""
+                     type="checkbox"
+              />
+              <a class="pat-inject follow pat-switch"
+                 href="/hintergrundcheck#document-body"
+                 title=""
+                 data-pat-inject="target: #document-body; history: none"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+              >Hintergrundcheck machen</a>
+              <div class="additional-meta-data">
+                <a class="assignee meta-column icon-user pat-modal"
+                   href="/guido-stevens/#person-info::element"
+                   title="Assignee"
+                >
+                            Liz Baker
+                </a>
+                <time class="due-date meta-column icon-clock pat-display-time"
+                      datetime="2015-06-01 14:00"
+                      title="Due date"
+                      data-pat-display-time="from-now: true"
+                >2 years ago</time>
+                <!-- Milestone is hidden in this case, because there's already a grouping by milestone. If a grouping based on any of the other metadata would be selected, then that respective metadata column would be hidden instead. -->
+                <!-- <a href="" class="milestone meta-column icon-stage" title="Author of this document">
+
+                        </a> -->
+                <a class="initiator meta-column icon-manager pat-modal"
+                   href="/liz-baker/#person-info::element"
+                   title="Initiator of this task"
+                >
+                            John Doe
+                </a>
+              </div>
+            </label></div>
+        </fieldset>
+      </form>
     </div>
+  </div>
 </aside>
