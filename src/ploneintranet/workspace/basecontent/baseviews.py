@@ -131,10 +131,16 @@ class ContentView(BrowserView):
         if self.autosave_enabled:
             return u'2000ms'
 
+    @property
+    @memoize
+    def workspace(self):
+        ''' Return the parent workspace (if there is any)
+        '''
+        return parent_workspace(self.context)
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
-        self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
             self._edit_permission,
             obj=context
