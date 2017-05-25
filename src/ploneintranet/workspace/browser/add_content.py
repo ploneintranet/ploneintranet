@@ -3,6 +3,7 @@ from DateTime import DateTime
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
@@ -37,6 +38,59 @@ class AddBase(BrowserView):
         ''' Return a timestamp, used in the form to create unique selectors
         '''
         return DateTime().strftime('%s')
+
+    @property
+    @memoize
+    def user(self):
+        ''' The currently authenticated ploneintranet user profile (if any)
+        '''
+        return pi_api.userprofile.get_current()
+
+    @property
+    @memoize
+    def content_helper_view(self):
+        ''' Use the content_helper_view
+        '''
+        return api.content.get_view(
+            'content_helper_view',
+            self.context,
+            self.request,
+        )
+
+    @property
+    @memoize
+    def allusers_json_url(self):
+        ''' Return @@allusers.json in the proper context
+        '''
+        return '{}/@@allusers.json'.format(
+            self.parent_workspace.absolute_url()
+        )
+
+    def get_data_pat_autosuggest(self, fieldname):
+        ''' Return the data-pat-autosuggest for a fieldname
+        '''
+        if (
+            fieldname == 'initiator' and
+            self.request.method == 'GET' and
+            self.user
+        ):
+            default_prefill = self.user.getId()
+        else:
+            default_prefill = ''
+
+        prefill_json = self.content_helper_view.safe_member_prefill(
+            self.context,
+            fieldname,
+            default=default_prefill,
+        )
+        return '; '.join((
+            'ajax-data-type: json',
+            'maximum-selection-size: 1',
+            'selection-classes: {}',
+            'ajax-url: {}'.format(self.allusers_json_url),
+            'allow-new-words: false',
+            'prefill-json: {}'.format(prefill_json),
+        ))
 
     def redirect(self, url):
         """
