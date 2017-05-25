@@ -16,9 +16,7 @@
         />
       </fieldset>
 
-      <fieldset class="vertical"
-                tal:define="workspace context/acquire_workspace;
-                            workspace_url context/absolute_url;">
+      <fieldset class="vertical">
         <metal:task_fields use-macro="context/content_macros/task_fields"/>
       </fieldset>
 

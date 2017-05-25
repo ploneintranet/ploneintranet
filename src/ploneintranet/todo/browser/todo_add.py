@@ -11,12 +11,23 @@ class AddTask(AddBase):
 
     @property
     @memoize
+    def allusers_json_url(self):
+        ''' Return @@allusers.json in the proper context
+        '''
+        target = self.parent_workspace or self.context
+        return '{}/@@allusers.json'.format(target.absolute_url())
+
+    @property
+    @memoize
     def milestone_options(self):
         ''' Get the milestone options from the metromap (if we have any)
         '''
+        workspace = self.parent_workspace
+        if not workspace:
+            return
         metromap = api.content.get_view(
             'metromap',
-            self.parent_workspace,
+            workspace,
             self.request,
         )
         return metromap.get_milestone_options()
