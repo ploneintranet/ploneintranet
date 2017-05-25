@@ -47,4 +47,11 @@
     permission="zope2.View"
     />
 
+  <browser:page
+      name="add_task"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".todo_add.AddTask"
+      permission="cmf.AddPortalContent"
+      />
+
 </configure>
