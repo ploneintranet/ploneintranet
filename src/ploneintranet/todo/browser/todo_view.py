@@ -6,6 +6,7 @@ from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.workflow import WorkflowMenu
+from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.workspace.basecontent.baseviews import ContentView
 from zope.component import getUtility
 from zope.interface import implementer
@@ -23,8 +24,16 @@ class BaseView(ContentView):
         self.content_uid = api.content.get_uuid(self.context)
 
 
-@implementer(IBlocksTransformEnabled)
+@implementer(IBlocksTransformEnabled, IDiazoAppTemplate)
 class TodoView(BaseView):
+
+    @property
+    @memoize
+    def logical_parent(self):
+        ''' Tries to find the best logical parent for this object.
+        It may be a workspace or a userprofile if the todo is a personal task
+        '''
+        return self.workspace or self.context.aq_parent
 
     @property
     def sidebar_target(self):
@@ -77,8 +86,56 @@ class TodoView(BaseView):
     def milestone_options(self):
         ''' Get the milestone options from the metromap (if we have any)
         '''
+        if not self.workspace:
+            return None
         current_milestone = self.context.milestone
         return self.metromap.get_milestone_options(current_milestone)
+
+    @property
+    @memoize
+    def content_helper_view(self):
+        ''' Use the content_helper_view
+        '''
+        return api.content.get_view(
+            'content_helper_view',
+            self.context,
+            self.request,
+        )
+
+    @property
+    @memoize
+    def allusers_json_url(self):
+        ''' Return @@allusers.json in the proper context
+        '''
+        return '{}/@@allusers.json'.format(
+            self.logical_parent.absolute_url()
+        )
+
+    def get_data_pat_autosuggest(self, fieldname):
+        ''' Return the data-pat-autosuggest for a fieldname
+        '''
+        if (
+            fieldname == 'initiator' and
+            self.request.method == 'GET' and
+            self.user
+        ):
+            default_prefill = self.user.getId()
+        else:
+            default_prefill = ''
+
+        prefill_json = self.content_helper_view.safe_member_prefill(
+            self.context,
+            fieldname,
+            default=default_prefill,
+        )
+        return '; '.join((
+            'ajax-data-type: json',
+            'maximum-selection-size: 1',
+            'selection-classes: {}',
+            'ajax-url: {}'.format(self.allusers_json_url),
+            'allow-new-words: false',
+            'prefill-json: {}'.format(prefill_json),
+        ))
 
 
 class TodoWorkflowMenu(WorkflowMenu):
