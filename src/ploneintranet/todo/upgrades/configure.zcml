@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+    <genericsetup:upgradeStep
+        title="Create the todo app if it is not there"
+        description=""
+        source="*"
+        destination="0002"
+        handler=".to_0002.create_todo_app"
+        profile="ploneintranet.todo:default" />
+
+</configure>

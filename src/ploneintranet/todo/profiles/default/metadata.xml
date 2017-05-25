@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>1</version>
+  <version>0002</version>
+  <dependencies>
+    <dependency>profile-ploneintranet.search:default</dependency>
+    <dependency>profile-ploneintranet.layout:default</dependency>
+  </dependencies>
 </metadata>
