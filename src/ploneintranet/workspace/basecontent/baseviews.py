@@ -53,6 +53,13 @@ class ContentView(BrowserView):
 
     @property
     @memoize
+    def user(self):
+        ''' The currently authenticated ploneintranet user profile (if any)
+        '''
+        return pi_api.userprofile.get_current()
+
+    @property
+    @memoize
     def form_data_pat_redactor(self):
         ''' Return the options for pat-redactor in the format:
 
