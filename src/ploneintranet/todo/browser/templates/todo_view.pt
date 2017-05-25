@@ -16,7 +16,7 @@
                      workflow_menu nocall:here/@@workflow_menu|nothing;
                    ">
       <div class="application" id="app-space">
-        <div class="sidebar-normal application-${python:view.workspace and 'workspace' or 'application-todo'} application- project page-type-${type} workspace-type-${type} sidebar-left-open sidebar-right-closed"
+        <div class="sidebar-normal application-${python:view.workspace and 'workspace' or 'application-todo'} application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed"
              id="application-body"
              tal:define="type logical_parent/ws_type | string:workspace;"
         >
@@ -117,6 +117,9 @@
                  i18n:translate=""
               >Open sidebar</a>
             </aside>
+            <tal:sidebar-toggle-button condition="python:view.show_sidebar and not view.workspace"
+                                       replace="structure here/@@sidebar-toggle-button"
+            />
             <aside tal:condition="not:view/show_sidebar"
                    tal:define="
                      done workflow_menu/is_done;
