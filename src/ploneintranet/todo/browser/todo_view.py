@@ -1,10 +1,13 @@
 # coding=utf-8
 from ..interfaces import ITodoUtility
 from collections import OrderedDict
+from itertools import imap
+from json import dumps
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.workflow import WorkflowMenu
 from ploneintranet.layout.interfaces import IDiazoAppTemplate
@@ -95,17 +98,6 @@ class TodoView(BaseView):
 
     @property
     @memoize
-    def content_helper_view(self):
-        ''' Use the content_helper_view
-        '''
-        return api.content.get_view(
-            'content_helper_view',
-            self.context,
-            self.request,
-        )
-
-    @property
-    @memoize
     def allusers_json_url(self):
         ''' Return @@allusers.json in the proper context
         '''
@@ -113,31 +105,46 @@ class TodoView(BaseView):
             self.logical_parent.absolute_url()
         )
 
+    def autosuggest_prefill(self, field):
+        ''' Return JSON for pre-filling a pat-autosubmit field with the values for
+        that field
+        '''
+        field_value = getattr(
+            self.context,
+            field,
+            self.user and self.user.getId()
+        )
+        if not field_value:
+            return
+        users = imap(pi_api.userprofile.get, field_value.split(','))
+        prefill = {
+            user.getId(): user.fullname or user.getId()
+            for user in users if user
+        }
+        if not prefill:
+            return
+        return dumps(prefill)
+
     def get_data_pat_autosuggest(self, fieldname):
         ''' Return the data-pat-autosuggest for a fieldname
         '''
-        if (
-            fieldname == 'initiator' and
-            self.request.method == 'GET' and
-            self.user
-        ):
-            default_prefill = self.user.getId()
-        else:
-            default_prefill = ''
-
-        prefill_json = self.content_helper_view.safe_member_prefill(
-            self.context,
-            fieldname,
-            default=default_prefill,
-        )
-        return '; '.join((
+        options = [
             'ajax-data-type: json',
             'maximum-selection-size: 1',
             'selection-classes: {}',
             'ajax-url: {}'.format(self.allusers_json_url),
             'allow-new-words: false',
-            'prefill-json: {}'.format(prefill_json),
-        ))
+        ]
+        if (
+            fieldname == 'initiator' and
+            self.request.method == 'GET' and
+            self.user
+        ):
+            prefill_json = self.autosuggest_prefill(fieldname)
+            if prefill_json:
+                options.append('prefill-json: {}'.format(prefill_json))
+
+        return '; '.join(options)
 
 
 class TodoSidebar(TodoView):
