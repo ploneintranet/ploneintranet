@@ -22,6 +22,14 @@
     />
 
   <browser:page
+    name="todo_sidebar"
+    for="..content.todo.ITodo"
+    layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+    class=".todo_view.TodoSidebar"
+    permission="zope2.View"
+    />
+
+  <browser:page
     name="todo_in_sidebar"
     for="..content.todo.ITodo"
     layer=".interfaces.IPloneintranetTodoLayer"

@@ -1,5 +1,6 @@
 # coding=utf-8
 from ..interfaces import ITodoUtility
+from collections import OrderedDict
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -8,6 +9,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.workflow import WorkflowMenu
 from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.workspace.basecontent.baseviews import ContentView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.interface import implementer
 
@@ -136,6 +138,49 @@ class TodoView(BaseView):
             'allow-new-words: false',
             'prefill-json: {}'.format(prefill_json),
         ))
+
+
+class TodoSidebar(TodoView):
+    ''' Return the proper sidebar depending if we are in a workspace or in a
+    userprofile
+    '''
+    personal_task_sidebar = ViewPageTemplateFile(
+        'templates/personal_task_sidebar.pt'
+    )
+
+    _navigation_tabs = OrderedDict(
+        [
+            ('@@all-tasks', _('All tasks')),
+            ('@@my-tasks', _('My tasks')),
+            ('@@personal-tasks', _('Personal tasks')),
+        ]
+    )
+
+    def navigation_tabs(self):
+        ''' Convenience method to easily render the tabs in the template
+        '''
+        base_url = self.logical_parent.absolute_url()
+        return [
+            {
+                'url': '{base_url}/{view}'.format(
+                    base_url=base_url,
+                    view=view,
+                ),
+                'label': label
+            } for view, label in self._navigation_tabs.iteritems()
+        ]
+
+    def __call__(self):
+        ''' Choose the proper sidebar to render
+        '''
+        if not self.workspace:
+            return self.personal_task_sidebar()
+        view = api.content.get_view(
+            'sidebar.default',
+            self.workspace,
+            self.request,
+        )
+        return view()
 
 
 class TodoWorkflowMenu(WorkflowMenu):
