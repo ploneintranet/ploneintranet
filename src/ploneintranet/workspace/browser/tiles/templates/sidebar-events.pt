@@ -50,7 +50,7 @@
                     <strong class="year">${python:event.start.year}</strong>
                   </time>
                 </p>
-                <p class="description" tal:define="description event/Description" tal:condition="description" tal:content="description" />
+                <p class="description" tal:define="description python:view.shorten(event['Description'])" tal:condition="description" tal:content="description" />
               </a>
               <tal:comment condition="nothing">
                 <!-- Has been removed by cornelis from prototype. Keeping it here in case it will soon be reactivated -->
