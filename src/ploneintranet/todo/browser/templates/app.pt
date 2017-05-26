@@ -12,6 +12,7 @@
          id="application-body"
          tal:define="
            userprofiles nocall:view/userprofiles;
+           authenticator here/@@authenticator/authenticator;
          "
     >
       <div id="document-body"></div>
@@ -265,9 +266,25 @@
                 <div class="panel-content">
                   <label tal:repeat="item view/personal_tasks">
                     <metal:task define-macro="task">
-                      <input checked="closed"
-                             type="checkbox"
-                      />
+                      <fieldset class="pat-inject pat-autosubmit pat-subform"
+                                action="${item/absolute_url}"
+                                style="margin-bottom: 0"
+                                data-pat-inject="#document-body"
+                      >
+                        <input checked="${python: 'checked' if is_done else None}"
+                               name="task_action"
+                               type="checkbox"
+                               value="close"
+                               tal:define="
+                                 is_done python:view.is_done(item);
+                               "
+                        />
+                        <input name="toggle_action_marker"
+                               type="hidden"
+                               value="1"
+                        />
+                        <tal:authenticator replace="structure authenticator" />
+                      </fieldset>
                       <a class="pat-inject follow pat-switch priority-${item/priority}"
                          href="${item/absolute_url}#document-body"
                          title="${item/title}"

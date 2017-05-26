@@ -17,6 +17,10 @@ class View(BrowserView):
     '''
     app_name = 'todo'
 
+    _done_states = (
+        'done',
+    )
+
     _navigation_tabs = OrderedDict(
         [
             ('@@app-todo', _('All tasks')),
@@ -155,6 +159,12 @@ class View(BrowserView):
         )
         options = []  # BBB
         return options
+
+    @memoize
+    def is_done(self, task):
+        ''' Check if the task is done
+        '''
+        return api.content.get_state(obj=task) in self._done_states
 
     def search_tasks(self, filters={}, **params):
         """

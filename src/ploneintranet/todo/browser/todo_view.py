@@ -72,6 +72,15 @@ class TodoView(BaseView):
             self.request,
         ).is_done()
 
+    def should_update(self):
+        ''' We also want to update this view when toggling the task state
+        '''
+        if self.request.get('toggle_action_marker'):
+            if 'task_action' not in self.request.form:
+                self.request.form['task_action'] = 'reopen'
+            return True
+        return super(TodoView, self).should_update()
+
     def update(self):
         """ """
         if ('task_action' in self.request and
