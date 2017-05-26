@@ -145,6 +145,12 @@ class ContentView(BrowserView):
         '''
         return parent_workspace(self.context)
 
+    def should_update(self):
+        ''' Check if we should call the update method
+        before rendering the template
+        '''
+        return self.request.method == 'POST'
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
@@ -153,7 +159,7 @@ class ContentView(BrowserView):
             obj=context
         )
         # When saving, force to POST
-        if self.request.method == 'POST':
+        if self.should_update():
             self.update()
 
         return super(ContentView, self).__call__()
