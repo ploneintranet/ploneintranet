@@ -174,11 +174,15 @@ class View(BrowserView):
         keywords = form.get('SearchableText')
         filters['portal_type'] = 'todo'
         search_util = getUtility(ISiteSearch)
+        _params = {
+            'sort': 'sortable_title',
+            'step': 9999,
+        }
+        _params.update(params)
         response = search_util.query(
             keywords,
             filters,
-            step=9999,
-            **params
+            **_params
         )
         return response
 
