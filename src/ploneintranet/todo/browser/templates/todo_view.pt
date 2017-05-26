@@ -111,11 +111,13 @@
                    id="sidebar"
                    tal:condition="view/show_sidebar"
             >
-              <a class="pat-inject"
-                 href="${here/absolute_url}/@@todo_sidebar"
-                 data-pat-inject="source: #sidebar::element; target: #sidebar::element; trigger: autoload-visible"
-                 i18n:translate=""
-              >Open sidebar</a>
+              <div id="sidebar-content">
+                <a class="pat-inject"
+                   href="${here/absolute_url}/@@todo_sidebar"
+                   data-pat-inject="source: #sidebar::element; target: #sidebar::element; trigger: autoload-visible"
+                   i18n:translate=""
+                >Open sidebar</a>
+              </div>
             </aside>
             <tal:sidebar-toggle-button condition="python:view.show_sidebar and not view.workspace"
                                        replace="structure here/@@sidebar-toggle-button|nothing"
