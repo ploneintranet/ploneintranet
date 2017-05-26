@@ -11,7 +11,6 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.workflow import WorkflowMenu
 from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.workspace.basecontent.baseviews import ContentView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.interface import implementer
 
@@ -42,7 +41,7 @@ class TodoView(BaseView):
         if not app:
             return
         return api.content.get_view(
-            app.app,
+            app.app.lstrip('@'),
             app,
             self.request,
         )
@@ -160,30 +159,17 @@ class TodoSidebar(TodoView):
     ''' Return the proper sidebar depending if we are in a workspace or in a
     userprofile
     '''
-    personal_task_sidebar = ViewPageTemplateFile(
-        'templates/personal_task_sidebar.pt'
-    )
-
-    @property
-    @memoize
-    def navigation_tabs(self):
-        ''' Convenience method to easily render the tabs in the template
-        '''
-        app_view = self.app_view
-        if not app_view:
-            return []
-        return app_view.navigation_tabs
-
     def __call__(self):
         ''' Choose the proper sidebar to render
         '''
-        if not self.workspace:
-            return self.personal_task_sidebar()
-        view = api.content.get_view(
-            'sidebar.default',
-            self.workspace,
-            self.request,
-        )
+        if self.workspace:
+            view = api.content.get_view(
+                'sidebar.default',
+                self.workspace,
+                self.request,
+            )
+        else:
+            view = self.app_view
         return view()
 
 

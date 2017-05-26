@@ -15,7 +15,9 @@
          "
     >
       <div id="document-body"></div>
-      <aside class="left sidebar">
+      <aside class="left sidebar"
+             id="sidebar"
+      >
         <div id="sidebar-content">
           <nav class="navigation tabs pat-tabs"
                tal:condition="bbb|not:view/navigation_tabs"
