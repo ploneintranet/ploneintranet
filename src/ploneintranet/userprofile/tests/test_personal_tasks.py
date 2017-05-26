@@ -26,6 +26,8 @@ class TestPersonalTasks(BaseTestCase):
         )
         api.content.transition(self.profile1, 'approve')
         self.profile1.reindexObject()
+        pq = api.portal.get_tool('portal_quickinstaller')
+        pq.installProducts(['ploneintranet.todo'])
         self.logout()
 
     def test_personal_task_allowed(self):

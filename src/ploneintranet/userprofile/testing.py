@@ -38,6 +38,16 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
         )
         xmlconfig.file(
             'configure.zcml',
+            ploneintranet.docconv.client,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.search,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
             ploneintranet.todo,
             context=configurationContext
         )
