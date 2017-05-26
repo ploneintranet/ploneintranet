@@ -124,10 +124,10 @@ class TodoView(BaseView):
         ''' Return JSON for pre-filling a pat-autosubmit field with the values for
         that field
         '''
-        field_value = getattr(
+        field_value = self.request.form.get(field) or getattr(
             self.context,
             field,
-            self.user and self.user.getId()
+            None,
         )
         if not field_value:
             return
@@ -150,15 +150,9 @@ class TodoView(BaseView):
             'ajax-url: {}'.format(self.allusers_json_url),
             'allow-new-words: false',
         ]
-        if (
-            fieldname == 'initiator' and
-            self.request.method == 'GET' and
-            self.user
-        ):
-            prefill_json = self.autosuggest_prefill(fieldname)
-            if prefill_json:
-                options.append('prefill-json: {}'.format(prefill_json))
-
+        prefill_json = self.autosuggest_prefill(fieldname)
+        if prefill_json:
+            options.append('prefill-json: {}'.format(prefill_json))
         return '; '.join(options)
 
 
