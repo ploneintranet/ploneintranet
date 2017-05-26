@@ -33,5 +33,7 @@ class AddTask(AddBase):
         return metromap.get_milestone_options()
 
     def redirect(self, url):
-        url = self.parent_workspace.absolute_url() + '?show_sidebar'
+        workspace = self.parent_workspace
+        if workspace:
+            url = self.parent_workspace.absolute_url() + '?show_sidebar'
         return self.request.response.redirect(url)

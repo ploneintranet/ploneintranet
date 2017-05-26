@@ -1,6 +1,5 @@
 # coding=utf-8
 from ..interfaces import ITodoUtility
-from collections import OrderedDict
 from itertools import imap
 from json import dumps
 from logging import getLogger
@@ -31,6 +30,22 @@ class BaseView(ContentView):
 
 @implementer(IBlocksTransformEnabled, IDiazoAppTemplate)
 class TodoView(BaseView):
+
+    @property
+    @memoize
+    def app_view(self):
+        ''' Get the todo app view
+        '''
+        portal = api.portal.get()
+        apps = portal.get('apps', {})
+        app = apps.get('todo', {})
+        if not app:
+            return
+        return api.content.get_view(
+            app.app,
+            app,
+            self.request,
+        )
 
     @property
     @memoize
@@ -155,29 +170,15 @@ class TodoSidebar(TodoView):
         'templates/personal_task_sidebar.pt'
     )
 
-    _navigation_tabs = OrderedDict(
-        [
-            ('@@all-tasks', _('All tasks')),
-            ('@@my-tasks', _('My tasks')),
-            ('@@personal-tasks', _('Personal tasks')),
-        ]
-    )
-
+    @property
+    @memoize
     def navigation_tabs(self):
         ''' Convenience method to easily render the tabs in the template
         '''
-        base_url = self.logical_parent.absolute_url()
-        items = [
-            {
-                'url': '{base_url}/{view}'.format(
-                    base_url=base_url,
-                    view=view,
-                ),
-                'label': label,
-            } for view, label in self._navigation_tabs.iteritems()
-        ]
-        items[0]['klass'] = 'current'
-        return items
+        app_view = self.app_view
+        if not app_view:
+            return []
+        return app_view.navigation_tabs
 
     def __call__(self):
         ''' Choose the proper sidebar to render

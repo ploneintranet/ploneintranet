@@ -54,4 +54,13 @@
       permission="cmf.AddPortalContent"
       />
 
+  <browser:page
+      name="app-todo"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.View"
+      template="templates/app.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
+
 </configure>

@@ -1,32 +1,60 @@
-<div id="content" i18n:domain="ploneintranet">
+<div id="content"
+     i18n:domain="ploneintranet"
+>
   <h1 i18n:translate="">
     Create task
   </h1>
-  <form method="POST" action="#" tal:attributes="action request/URL" class="pat-inject wizard-box pat-validation" data-pat-inject="source: #workspace-tickets; target: #workspace-tickets" data-pat-validation="disable-selector:#form-buttons-create">
+  <form class="${python: view.parent_workspace and 'pat-inject' or None} wizard-box pat-validation"
+        action="${request/URL}"
+        method="POST"
+        data-pat-inject="${python: view.parent_workspace and '#workspace-tickets' or None}"
+        data-pat-validation="disable-selector:#form-buttons-create"
+  >
     <div class="panel-body">
 
       <fieldset class="vertical">
-        <input type="text" name="title" maxlength="70" placeholder="Task title" autofocus="autofocus" i18n:attributes="placeholder" required="required"/>
-        <br/>
-        <!--textarea name="description" placeholder="Enter a description of the task" rows="6"></textarea-->
-        <input name="portal_type" value="todo" type="hidden" />
-        <input name="container"
-               value="${request/container|nothing}"
+        <input autofocus="autofocus"
+               maxlength="70"
+               name="title"
+               placeholder="Task title"
+               required="required"
+               type="text"
+               i18n:attributes="placeholder"
+        />
+        <br />
+        <input name="portal_type"
                type="hidden"
+               value="todo"
+        />
+        <input name="container"
+               type="hidden"
+               value="${request/container|nothing}"
         />
       </fieldset>
 
       <fieldset class="vertical">
-        <metal:task_fields use-macro="context/content_macros/task_fields"/>
+        <metal:task_fields use-macro="context/content_macros/task_fields" />
       </fieldset>
 
     </div>
     <div class="buttons panel-footer">
-      <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <button id="form-buttons-create" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="">
+      <span tal:replace="structure context/@@authenticator/authenticator"></span>
+      <button class="icon-ok-circle focus ${python: view.parent_workspace and 'close-panel' or None}"
+              id="form-buttons-create"
+              name="form.buttons.create"
+              type="submit"
+              value="Create"
+              i18n:translate=""
+      >
         Create
       </button>
-      <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel validate-ignore" i18n:translate="">
+      <button class="icon-cancel-circle close-panel validate-ignore"
+              id="form-buttons-cancel"
+              name="form.buttons.cancel"
+              type="button"
+              value="Cancel"
+              i18n:translate=""
+      >
         Cancel
       </button>
     </div>
