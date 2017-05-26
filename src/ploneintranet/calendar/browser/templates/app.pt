@@ -100,7 +100,7 @@
             </div>
           </div>
         </aside>
-        <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button" />
+        <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button|nothing" />
       </div>
     </metal:content>
 

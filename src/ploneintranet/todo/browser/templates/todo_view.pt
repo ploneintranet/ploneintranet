@@ -118,7 +118,7 @@
               >Open sidebar</a>
             </aside>
             <tal:sidebar-toggle-button condition="python:view.show_sidebar and not view.workspace"
-                                       replace="structure here/@@sidebar-toggle-button"
+                                       replace="structure here/@@sidebar-toggle-button|nothing"
             />
             <aside tal:condition="not:view/show_sidebar"
                    tal:define="

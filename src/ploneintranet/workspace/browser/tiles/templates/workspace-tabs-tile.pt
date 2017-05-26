@@ -22,6 +22,6 @@
     <a class="todos pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; #application-body focus-* focus-sidebar" href="#workspace-tickets" title="Tasks"
         i18n:translate="" i18n:attributes="title">Tasks</a>
 </nav>
-<tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button" />
+<tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button|nothing" />
 </body>
 </html>

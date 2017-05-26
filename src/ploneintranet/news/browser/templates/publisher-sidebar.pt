@@ -129,6 +129,6 @@
 
       </div><!-- /sidebar-content -->
     </aside>
-    <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button" />
+    <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button|nothing" />
   </body>
 </html>
