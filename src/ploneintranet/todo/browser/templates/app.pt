@@ -268,7 +268,7 @@
                     <metal:task define-macro="task">
                       <fieldset class="pat-inject pat-autosubmit pat-subform"
                                 action="${item/absolute_url}"
-                                style="margin-bottom: 0"
+                                style="margin-bottom: 0; display: inline-block;"
                                 data-pat-inject="#document-body"
                       >
                         <input checked="${python: 'checked' if is_done else None}"
