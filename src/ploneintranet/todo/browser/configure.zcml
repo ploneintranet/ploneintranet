@@ -15,7 +15,7 @@
   <browser:page
     name="view"
     for="..content.todo.ITodo"
-    layer=".interfaces.IPloneintranetTodoLayer"
+    layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
     template="templates/todo_view.pt"
     class=".todo_view.TodoView"
     permission="zope2.View"
