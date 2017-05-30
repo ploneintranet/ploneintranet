@@ -1385,10 +1385,10 @@ I can add a new task
 I can close a milestone
     [arguments]  ${milestone}
     I can open a milestone task panel  ${milestone}
-    Wait Until Page Contains Element  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
+    Wait for injection to be finished
+    Click link  Tasks
     Click Link  xpath=//fieldset[@id='milestone-${milestone}']//a[text()='Close milestone']
-    [Documentation]  Wait until the temporary class 'injecting' has been removed, to be sure injection has completed
-    Wait until page does not contain element   xpath=//div[@id='workspace-tickets']/div[contains(@class, 'injecting')]
+    Wait for injection to be finished
     # auto-closes current, reopen
     I can open a milestone task panel  ${milestone}
     Wait until element is visible  xpath=//fieldset[@id='milestone-${milestone}']//h4[contains(@class, 'state-finished')]
