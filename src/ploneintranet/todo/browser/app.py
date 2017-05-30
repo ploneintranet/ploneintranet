@@ -230,6 +230,7 @@ class View(BrowserView):
         for task in tasks:
             workspace = parent_workspace(task)
             tasks_by_workspace[workspace].append(task)
+        tasks_by_workspace[None].extend(self.personal_tasks)
         return tasks_by_workspace
 
     @property
@@ -239,7 +240,7 @@ class View(BrowserView):
         '''
         return sorted(
             self.tasks_by_workspace,
-            key=lambda w: w.title,
+            key=lambda w: getattr(w, 'title', ''),
         )
 
     @memoize
