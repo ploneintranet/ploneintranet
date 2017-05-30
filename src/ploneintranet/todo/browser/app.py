@@ -56,10 +56,11 @@ class View(BrowserView):
         ]
     )
 
+    _state_mode_default = ''
     _state_mode_options = OrderedDict(
         [
             ('open', _('Open tickets')),
-            ('closed', _('Closed tickets')),
+            ('done', _('Closed tickets')),
             ('', _('All tickets')),
         ]
     )
@@ -170,9 +171,8 @@ class View(BrowserView):
         options = self.options2items(
             self._state_mode_options,
             'state-mode',
-            '',
+            self._state_mode_default,
         )
-        options = []  # BBB
         return options
 
     @memoize
@@ -188,6 +188,9 @@ class View(BrowserView):
         form = self.request.form
         keywords = form.get('SearchableText')
         filters['portal_type'] = 'todo'
+        state_mode = form.get('state-mode', self._state_mode_default)
+        if state_mode:
+            filters['review_state'] = state_mode
         search_util = getUtility(ISiteSearch)
 
         _params = {
@@ -230,7 +233,8 @@ class View(BrowserView):
         for task in tasks:
             workspace = parent_workspace(task)
             tasks_by_workspace[workspace].append(task)
-        tasks_by_workspace[None].extend(self.personal_tasks)
+        if self.personal_tasks:
+            tasks_by_workspace[None].extend(self.personal_tasks)
         return tasks_by_workspace
 
     @property
