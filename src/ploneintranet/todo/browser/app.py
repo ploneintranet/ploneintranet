@@ -1,4 +1,5 @@
 # coding=utf-8
+from collections import defaultdict
 from collections import OrderedDict
 from plone import api
 from plone.memoize.view import memoize
@@ -6,6 +7,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from zope.component import getUtility
 from zope.interface import implementer
@@ -63,15 +65,28 @@ class View(BrowserView):
 
     @property
     @memoize_contextless
+    def portal(self):
+        ''' Return the userprofile container view
+        '''
+        return api.portal.get()
+
+    @property
+    @memoize_contextless
     def userprofiles(self):
         ''' Return the userprofile container view
         '''
-        portal = api.portal.get()
         return api.content.get_view(
             'view',
-            portal.profiles,
+            self.portal.profiles,
             self.request,
         )
+
+    @property
+    @memoize_contextless
+    def workspace_container(self):
+        ''' Return the userprofile container view
+        '''
+        return self.portal.workspaces
 
     @property
     @memoize
@@ -83,7 +98,7 @@ class View(BrowserView):
     @property
     @memoize
     def add_task_url(self):
-        ''' Convenience method to easily render the tabs in the template
+        ''' The URL for adding a personal tasks
         '''
         user = self.user
         if not user:
@@ -196,8 +211,38 @@ class View(BrowserView):
         path = '/'.join(self.user.getPhysicalPath())
         return [t.getObject() for t in self.search_tasks({'path': path})]
 
+    @property
+    @memoize
+    def workspace_tasks(self):
+        ''' Return the tasks inside workspaces
+        '''
+        path = '/'.join(self.workspace_container.getPhysicalPath())
+        return [t.getObject() for t in self.search_tasks({'path': path})]
+
+    @property
+    @memoize
+    def tasks_by_workspace(self):
+        ''' Return the tasks inside workspaces grouped by workspace
+        '''
+        tasks = self.workspace_tasks
+        tasks_by_workspace = defaultdict(list)
+        for task in tasks:
+            workspace = parent_workspace(task)
+            tasks_by_workspace[workspace].append(task)
+        return tasks_by_workspace
+
+    @property
+    @memoize
+    def workspaces(self):
+        ''' Return the workspaces that contain mathing tasks
+        '''
+        return sorted(
+            self.tasks_by_workspace,
+            key=lambda w: w.title,
+        )
+
     @memoize
     def show_no_results(self):
         ''' Check if we should show the no result notice
         '''
-        return not self.personal_tasks
+        return not (self.personal_tasks or self.tasks_by_workspace)

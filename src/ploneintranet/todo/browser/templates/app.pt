@@ -351,24 +351,30 @@
                 </div>
               </fieldset>
               <fieldset class="object-list tasks pat-checklist pat-collapsible open checked"
-                        tal:repeat="workspace bbb|view/workspaces|nothing"
+                        tal:repeat="workspace view/workspaces"
               >
                 <h4 class="section-label icon-workspace collapsible-open">
                   ${workspace/title}
                   <a class="pat-modal iconified icon-info-circle"
                      href="/#content"
                      data-pat-modal="class: large"
-                     tal:condition="bbb/nothing"
+                     tal:condition="bbb|nothing"
                      i18n:translate=""
                   >Info</a>
                 </h4>
-                <div class="panel-content">
-                  <label tal:repeat="item view/personal_tasks">
-                    <metal:task use-macro="task" />
+                <div class="panel-content"
+                  tal:define="
+                    tasks python:view.tasks_by_workspace[workspace]
+                  ">
+                  <label tal:repeat="item tasks">
+                    <metal:task use-macro="view/macros/task" />
                   </label>
                   <p class="button-bar">
-                    <a class="icon-plus-circle small button"
-                       href="${workspace/url}/@@add_task"
+                    <a class="icon-plus-circle small button pat-modal"
+                       href="${workspace/absolute_url}/@@app-add_task#document-content"
+                       title="Create new task"
+                       data-pat-inject="source:#content"
+                       i18n:attributes="title"
                        i18n:translate=""
                     >New task</a>
                   </p>

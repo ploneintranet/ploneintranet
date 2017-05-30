@@ -6,8 +6,13 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class AddTask(AddBase):
+    ''' The base add task in workspace view
+    '''
 
     template = ViewPageTemplateFile('templates/add_task.pt')
+    form_class = 'pat-inject'
+    form_data_pat_inject = '#workspace-tickets'
+    ok_closes_panel = True
 
     @property
     @memoize
@@ -37,3 +42,19 @@ class AddTask(AddBase):
         if workspace:
             url = self.parent_workspace.absolute_url() + '?show_sidebar'
         return self.request.response.redirect(url)
+
+
+class AddPersonalTask(AddTask):
+    ''' Add a personal task from the app
+    '''
+    form_class = None
+    form_data_pat_inject = None
+    ok_closes_panel = False
+
+    def redirect(self, url):
+        return self.request.response.redirect(url)
+
+
+class AddWorkspaceTask(AddPersonalTask):
+    ''' Add a workspace task from the app
+    '''
