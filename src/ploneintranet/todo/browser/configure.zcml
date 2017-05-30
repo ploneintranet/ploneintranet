@@ -77,4 +77,12 @@
       layer=".interfaces.IPloneintranetTodoLayer"
       />
 
+  <browser:page
+      for="..content.todo.ITodo"
+      name="delete_confirmation"
+      class=".todo_delete.TodoDeleteConfirmationForm"
+      permission="zope2.DeleteObjects"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
+
 </configure>
