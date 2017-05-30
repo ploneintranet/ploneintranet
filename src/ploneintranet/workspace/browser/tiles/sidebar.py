@@ -23,6 +23,7 @@ from plone.protect.authenticator import createToken
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
+from ploneintranet.layout.utils import shorten
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.utils import update_task_status
 from ploneintranet.workspace.browser.show_extra import set_show_extra_cookie
@@ -1288,6 +1289,9 @@ class SidebarEvents(Sidebar):
     ''' Customized tile that shows only the Events
     '''
     index = ViewPageTemplateFile('templates/sidebar-events.pt')
+
+    def shorten(self, text):
+        return shorten(text, length=256)
 
 
 class SidebarTodos(Sidebar):
