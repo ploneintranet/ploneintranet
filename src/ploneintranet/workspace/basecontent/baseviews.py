@@ -53,6 +53,13 @@ class ContentView(BrowserView):
 
     @property
     @memoize
+    def user(self):
+        ''' The currently authenticated ploneintranet user profile (if any)
+        '''
+        return pi_api.userprofile.get_current()
+
+    @property
+    @memoize
     def form_data_pat_redactor(self):
         ''' Return the options for pat-redactor in the format:
 
@@ -131,16 +138,28 @@ class ContentView(BrowserView):
         if self.autosave_enabled:
             return u'2000ms'
 
+    @property
+    @memoize
+    def workspace(self):
+        ''' Return the parent workspace (if there is any)
+        '''
+        return parent_workspace(self.context)
+
+    def should_update(self):
+        ''' Check if we should call the update method
+        before rendering the template
+        '''
+        return self.request.method == 'POST'
+
     def __call__(self, title=None, description=None, tags=[], text=None):
         """Render the default template and evaluate the form when editing."""
         context = aq_inner(self.context)
-        self.workspace = parent_workspace(context)
         self.can_edit = api.user.has_permission(
             self._edit_permission,
             obj=context
         )
         # When saving, force to POST
-        if self.request.method == 'POST':
+        if self.should_update():
             self.update()
 
         return super(ContentView, self).__call__()

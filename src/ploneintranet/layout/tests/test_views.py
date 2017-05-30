@@ -183,7 +183,6 @@ class TestViews(IntegrationTestCase):
         configured = {
             'contacts',
             'messages',
-            'todo',
             'calendar',
             'slide-bank',
             'image-bank',

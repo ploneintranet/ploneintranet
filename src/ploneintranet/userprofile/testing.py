@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
+from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import applyProfile
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.testing import z2
 from ploneintranet.testing import PLONEINTRANET_FIXTURE
 from zope.configuration import xmlconfig
 
 import ploneintranet.layout
+import ploneintranet.todo
 import ploneintranet.userprofile
 
 
@@ -33,6 +34,21 @@ class PloneintranetuserprofileLayer(PloneSandboxLayer):
         xmlconfig.file(
             'configure.zcml',
             ploneintranet.userprofile,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.docconv.client,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.search,
+            context=configurationContext
+        )
+        xmlconfig.file(
+            'configure.zcml',
+            ploneintranet.todo,
             context=configurationContext
         )
         for p in self.products:

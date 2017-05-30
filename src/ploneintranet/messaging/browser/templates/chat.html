@@ -126,10 +126,7 @@
 
             </div><!-- /sidebar-content -->
           </aside><!-- /sidebar -->
-          <p id="toggle-sidebar">
-              <span class="open pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar">Open sidebar</span>
-              <span class="close pat-switch" data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document">Close sidebar</span>
-          </p>
+          <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button|nothing" />
 <!-- to be removed when quaive.resources.ploneintranet contains these fixes:
 https://github.com/quaive/ploneintranet.prototype/commit/e09fa9e300d3fd84fdaae139a885d42fa09f5913
 https://github.com/quaive/ploneintranet.prototype/commit/aae8f9960e45589f9883bb1bc61ee1c8a62f2757

@@ -10,6 +10,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.testing import z2
+
 import unittest2 as unittest
 
 
@@ -20,8 +21,8 @@ class PloneintranetTodoLayer(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
-        import ploneintranet.todo
-        self.loadZCML(package=ploneintranet.todo)
+        import ploneintranet.todo.tests
+        self.loadZCML(package=ploneintranet.todo.tests)
         z2.installProduct(app, 'ploneintranet.todo')
 
     def setUpPloneSite(self, portal):

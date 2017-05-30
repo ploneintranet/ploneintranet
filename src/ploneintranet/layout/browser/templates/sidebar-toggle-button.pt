@@ -1,0 +1,10 @@
+<p id="toggle-sidebar">
+  <span class="open pat-switch"
+        data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-open &amp;&amp; selector: #application-body; remove: focus-*; add: focus-sidebar"
+        i18n:translate=""
+  >Open sidebar</span>
+  <span class="close pat-switch"
+        data-pat-switch="selector: #application-body; remove: sidebar-left-*; add: sidebar-left-closed &amp;&amp; selector: #application-body; remove: focus-*; add: focus-document"
+        i18n:translate=""
+  >Close sidebar</span>
+</p>

@@ -293,4 +293,12 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      name="sidebar-toggle-button"
+      for="*"
+      permission="zope2.View"
+      template="templates/sidebar-toggle-button.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
 </configure>

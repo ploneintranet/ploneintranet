@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setup/installation tests for this package."""
 
-from ploneintranet.todo.testing import IntegrationTestCase
 from plone import api
+from ploneintranet.todo.testing import IntegrationTestCase
+
 
 PROJECTNAME = 'ploneintranet.todo'
 
@@ -25,6 +26,9 @@ class TestInstall(IntegrationTestCase):
         portal_types = api.portal.get_tool('portal_types')
         fti = portal_types.get('todo', None)
         self.assertEqual(fti.id, 'todo')
+
+    def test_app_installed(self):
+        self.assertEqual(self.portal.apps.todo.app, '@@app-todo')
 
 
 class TestUninstall(IntegrationTestCase):

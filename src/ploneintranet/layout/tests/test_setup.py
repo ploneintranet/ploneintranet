@@ -1,10 +1,10 @@
 from plone import api
 from plone.browserlayer.utils import registered_layers
-from ploneintranet.layout.testing import IntegrationTestCase
-from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.interfaces import IPloneintranetContentLayer
 from ploneintranet.layout.interfaces import IPloneintranetFormLayer
+from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.setuphandlers import create_apps_container
+from ploneintranet.layout.testing import IntegrationTestCase
 
 
 class TestSetup(IntegrationTestCase):
@@ -49,7 +49,6 @@ class TestSetup(IntegrationTestCase):
             [
                 'contacts',
                 'messages',
-                'todo',
                 'calendar',
                 'slide-bank',
                 'image-bank',

@@ -1,0 +1,62 @@
+<div id="content"
+     i18n:domain="ploneintranet"
+>
+  <h1 i18n:translate="">
+    Create task
+  </h1>
+  <form class="${python: view.parent_workspace and 'pat-inject' or None} wizard-box pat-validation"
+        action="${request/URL}"
+        method="POST"
+        data-pat-inject="${python: view.parent_workspace and '#workspace-tickets' or None}"
+        data-pat-validation="disable-selector:#form-buttons-create"
+  >
+    <div class="panel-body">
+
+      <fieldset class="vertical">
+        <input autofocus="autofocus"
+               maxlength="70"
+               name="title"
+               placeholder="Task title"
+               required="required"
+               type="text"
+               i18n:attributes="placeholder"
+        />
+        <br />
+        <input name="portal_type"
+               type="hidden"
+               value="todo"
+        />
+        <input name="container"
+               type="hidden"
+               value="${request/container|nothing}"
+        />
+      </fieldset>
+
+      <fieldset class="vertical">
+        <metal:task_fields use-macro="context/content_macros/task_fields" />
+      </fieldset>
+
+    </div>
+    <div class="buttons panel-footer">
+      <span tal:replace="structure context/@@authenticator/authenticator"></span>
+      <button class="icon-ok-circle focus ${python: view.parent_workspace and 'close-panel' or None}"
+              id="form-buttons-create"
+              name="form.buttons.create"
+              type="submit"
+              value="Create"
+              i18n:translate=""
+      >
+        Create
+      </button>
+      <button class="icon-cancel-circle close-panel validate-ignore"
+              id="form-buttons-cancel"
+              name="form.buttons.cancel"
+              type="button"
+              value="Cancel"
+              i18n:translate=""
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

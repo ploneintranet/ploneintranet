@@ -1,11 +1,15 @@
 # coding=utf-8
 from ..interfaces import ITodoUtility
+from itertools import imap
+from json import dumps
 from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.workflow import WorkflowMenu
+from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.workspace.basecontent.baseviews import ContentView
 from zope.component import getUtility
 from zope.interface import implementer
@@ -23,8 +27,32 @@ class BaseView(ContentView):
         self.content_uid = api.content.get_uuid(self.context)
 
 
-@implementer(IBlocksTransformEnabled)
+@implementer(IBlocksTransformEnabled, IDiazoAppTemplate)
 class TodoView(BaseView):
+
+    @property
+    @memoize
+    def app_view(self):
+        ''' Get the todo app view
+        '''
+        portal = api.portal.get()
+        apps = portal.get('apps', {})
+        app = apps.get('todo', {})
+        if not app:
+            return
+        return api.content.get_view(
+            app.app.lstrip('@'),
+            app,
+            self.request,
+        )
+
+    @property
+    @memoize
+    def logical_parent(self):
+        ''' Tries to find the best logical parent for this object.
+        It may be a workspace or a userprofile if the todo is a personal task
+        '''
+        return self.workspace or self.context.aq_parent
 
     @property
     def sidebar_target(self):
@@ -43,6 +71,15 @@ class TodoView(BaseView):
             self.context,
             self.request,
         ).is_done()
+
+    def should_update(self):
+        ''' We also want to update this view when toggling the task state
+        '''
+        if self.request.get('toggle_action_marker'):
+            if 'task_action' not in self.request.form:
+                self.request.form['task_action'] = 'reopen'
+            return True
+        return super(TodoView, self).should_update()
 
     def update(self):
         """ """
@@ -77,8 +114,72 @@ class TodoView(BaseView):
     def milestone_options(self):
         ''' Get the milestone options from the metromap (if we have any)
         '''
+        if not self.workspace:
+            return None
         current_milestone = self.context.milestone
         return self.metromap.get_milestone_options(current_milestone)
+
+    @property
+    @memoize
+    def allusers_json_url(self):
+        ''' Return @@allusers.json in the proper context
+        '''
+        return '{}/@@allusers.json'.format(
+            self.logical_parent.absolute_url()
+        )
+
+    def autosuggest_prefill(self, field):
+        ''' Return JSON for pre-filling a pat-autosubmit field with the values for
+        that field
+        '''
+        field_value = self.request.form.get(field) or getattr(
+            self.context,
+            field,
+            None,
+        )
+        if not field_value:
+            return
+        users = imap(pi_api.userprofile.get, field_value.split(','))
+        prefill = {
+            user.getId(): user.fullname or user.getId()
+            for user in users if user
+        }
+        if not prefill:
+            return
+        return dumps(prefill)
+
+    def get_data_pat_autosuggest(self, fieldname):
+        ''' Return the data-pat-autosuggest for a fieldname
+        '''
+        options = [
+            'ajax-data-type: json',
+            'maximum-selection-size: 1',
+            'selection-classes: {}',
+            'ajax-url: {}'.format(self.allusers_json_url),
+            'allow-new-words: false',
+        ]
+        prefill_json = self.autosuggest_prefill(fieldname)
+        if prefill_json:
+            options.append('prefill-json: {}'.format(prefill_json))
+        return '; '.join(options)
+
+
+class TodoSidebar(TodoView):
+    ''' Return the proper sidebar depending if we are in a workspace or in a
+    userprofile
+    '''
+    def __call__(self):
+        ''' Choose the proper sidebar to render
+        '''
+        if self.workspace:
+            view = api.content.get_view(
+                'sidebar.default',
+                self.workspace,
+                self.request,
+            )
+        else:
+            view = self.app_view
+        return view()
 
 
 class TodoWorkflowMenu(WorkflowMenu):

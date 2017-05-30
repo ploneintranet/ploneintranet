@@ -64,9 +64,6 @@ def create_apps(*args):
             'path': '@@app-messaging',
             'devices': 'desktop tablet'
         }, {
-            'key': 'todo',
-            'title': u'Todo',
-        }, {
             'key': 'calendar',
             'title': u'Calendar',
         }, {

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="ploneintranet.userprofile.userprofile"
+        meta_type="Dexterity FTI"
+        i18n:domain="ploneintranet"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      >
+ <property name="allowed_content_types" purge="false">
+   <element value="todo" />
+ </property>
+</object>

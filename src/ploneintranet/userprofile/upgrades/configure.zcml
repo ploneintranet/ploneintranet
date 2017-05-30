@@ -3,6 +3,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="ploneintranet.userprofie">
 
+  <include file="profiles.zcml" />
+
   <genericsetup:upgradeStep
     title="Fix user profile container"
     description="We want a user profile container, we want i public"
@@ -33,15 +35,6 @@
     profile="ploneintranet.userprofile:default"
     />
 
-  <genericsetup:registerProfile
-    name="to_0005"
-    title="Update profile to add the registry record ploneintranet.userprofile.userprofile_hidden_info"
-    description=""
-    directory="profiles/to_0005"
-    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
-
   <genericsetup:upgradeStep
     title="Update registry to allow hiding some informations from the user profile view"
     description=""
@@ -49,15 +42,6 @@
     destination="5"
     handler=".to_0005.add_userprofile_hidden_info_registry_entry"
     profile="ploneintranet.userprofile:default"
-    />
-
-  <genericsetup:registerProfile
-    name="to_0006"
-    title="Update profile to include the changes for ploneintranet.userprofile.workgroup"
-    description=""
-    directory="profiles/to_0006"
-    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
   <genericsetup:upgradeStep
@@ -69,15 +53,6 @@
     profile="ploneintranet.userprofile:default"
     />
 
-  <genericsetup:registerProfile
-    name="to_0007"
-    title="Update profile to include the changes for ploneintranet.userprofile.only_membrane_groups"
-    description=""
-    directory="profiles/to_0007"
-    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
-
   <genericsetup:upgradeStep
     title="Update profile to include the changes for ploneintranet.userprofile.only_membrane_groups"
     description=""
@@ -85,15 +60,6 @@
     destination="7"
     handler=".to_0007.only_membrane_groups_registry_record"
     profile="ploneintranet.userprofile:default"
-    />
-
-  <genericsetup:registerProfile
-    name="to_0008"
-    title="Update profile to initialize ploneintranet.userprofile.portlet_contacts_recent"
-    description=""
-    directory="profiles/to_0008"
-    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
   <genericsetup:upgradeStep
@@ -105,21 +71,21 @@
     profile="ploneintranet.userprofile:default"
     />
 
-  <genericsetup:registerProfile
-    name="to_0009"
-    title="Update profile to initialize ploneintranet.userprofile.portlet_contacts_byline_field"
-    description=""
-    directory="profiles/to_0009"
-    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
-
   <genericsetup:upgradeStep
     title="Initialize ploneintranet.userprofile.portlet_contacts_byline_field"
     description=""
     source="*"
     destination="9"
     handler=".to_0009.portlet_contacts_byline_field_registry_record"
+    profile="ploneintranet.userprofile:default"
+    />
+
+  <genericsetup:upgradeStep
+    title="Allow the creation of todo inside user profiles"
+    description=""
+    source="*"
+    destination="10"
+    handler=".to_0010.personal_tasks"
     profile="ploneintranet.userprofile:default"
     />
 

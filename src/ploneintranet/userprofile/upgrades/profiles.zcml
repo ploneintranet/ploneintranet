@@ -1,0 +1,60 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploneintranet.userprofie">
+
+  <genericsetup:registerProfile
+    name="to_0005"
+    title="Update profile to add the registry record ploneintranet.userprofile.userprofile_hidden_info"
+    description=""
+    directory="profiles/to_0005"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="to_0006"
+    title="Update profile to include the changes for ploneintranet.userprofile.workgroup"
+    description=""
+    directory="profiles/to_0006"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="to_0007"
+    title="Update profile to include the changes for ploneintranet.userprofile.only_membrane_groups"
+    description=""
+    directory="profiles/to_0007"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="to_0008"
+    title="Update profile to initialize ploneintranet.userprofile.portlet_contacts_recent"
+    description=""
+    directory="profiles/to_0008"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="to_0009"
+    title="Update profile to initialize ploneintranet.userprofile.portlet_contacts_byline_field"
+    description=""
+    directory="profiles/to_0009"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="to_0010"
+    title="Update profile that allows the creation of todos inside a userprofile"
+    description=""
+    directory="profiles/to_0010"
+    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+</configure>

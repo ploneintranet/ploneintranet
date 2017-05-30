@@ -1,5 +1,4 @@
-<div class="visible"
-     id="workspace-tickets"
+<div id="workspace-tickets"
      tal:define="
        ws view/workspace;
        ws_view nocall:ws/@@view;

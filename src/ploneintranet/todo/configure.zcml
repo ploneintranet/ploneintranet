@@ -12,6 +12,15 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
+    <include package="plone.behavior" file="meta.zcml" />
+    <include package="plone.directives.form" />
+    <include package="plone.directives.form" file="meta.zcml" />
+
+    <include package=".browser" />
+    <include package=".portlets" />
+    <include package=".upgrades" />
+
+
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
@@ -19,6 +28,7 @@
         directory="profiles/default"
         description="Extension profile for ploneintranet.todo."
         provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler=".setuphandlers.post_default"
         />
 
     <genericsetup:registerProfile
@@ -29,10 +39,6 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         post_handler="ploneintranet.todo.uninstall.uninstall"
         />
-
-    <include package="plone.behavior" file="meta.zcml" />
-    <include package="plone.directives.form" />
-    <include package="plone.directives.form" file="meta.zcml" />
 
     <plone:behavior
         title="MustRead"
@@ -55,9 +61,6 @@
         provides=".behaviors.IMilestone"
         for=".behaviors.IMilestoneMarker"
         />
-
-    <include package=".portlets" />
-    <include package=".browser" />
 
     <utility
         provides="ploneintranet.todo.interfaces.ITodoUtility"
