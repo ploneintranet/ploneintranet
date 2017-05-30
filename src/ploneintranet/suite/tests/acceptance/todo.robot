@@ -29,6 +29,16 @@ Allan can add a workspace task
      Then I create a workspace task  My first task  Christian Stoney
      Then I delete the current document
 
+Allan use the todo apps filters
+    Given I am logged in as the user allan_neece
+     Then I can go to the application  Todo
+     Then I can see that the first task is  Populate Metadata
+     When I sort the results  Alphabetically
+     Then I can see that the first task is  Budget
+     When I filter the results by state  Closed
+     Then I can see that the first task is  Identify the requirements
+
+
 *** Keywords ***
 
 # See lib/keywords.robot in the section "case related keywords"
@@ -64,3 +74,17 @@ I delete the current document
     Wait for injection to be finished
     Click Button  I am sure, delete now
     Wait for injection to be finished
+
+I can see that the first task is
+    [arguments]  ${title}
+    Wait for injection to be finished
+    Page Should Contain Element  jquery=#search-result .panel-content :first a:contains(${title})
+
+I sort the results
+    [arguments]  ${title}
+    Select From List  sort-mode  ${title}
+
+
+I filter the results by state
+    [arguments]  ${title}
+    Select From List  state-mode  ${title} tickets
