@@ -43,14 +43,15 @@ class View(BrowserView):
         ]
     )
 
+    _sort_mode_default = '-modified'
     _sort_mode_options = OrderedDict(
         [
             ('-modified', _('Newest first')),
             ('modified', _('Oldest first')),
-            ('assignee', _('By assignee')),
-            ('initiator', _('By initiator')),
+            # ('assignee', _('By assignee')),
+            # ('initiator', _('By initiator')),
             ('review_state', _('By task state')),
-            ('priority', _('By priority')),
+            # ('priority', _('By priority')),
             ('sortable_title', _('Alphabetically')),
         ]
     )
@@ -157,9 +158,8 @@ class View(BrowserView):
         options = self.options2items(
             self._sort_mode_options,
             'sort-mode',
-            '-modified',
+            self._sort_mode_default,
         )
-        options = []  # BBB
         return options
 
     @property
@@ -189,8 +189,9 @@ class View(BrowserView):
         keywords = form.get('SearchableText')
         filters['portal_type'] = 'todo'
         search_util = getUtility(ISiteSearch)
+
         _params = {
-            'sort': 'sortable_title',
+            'sort': form.get('sort-mode', self._sort_mode_default),
             'step': 9999,
         }
         _params.update(params)
