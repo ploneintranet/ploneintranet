@@ -513,3 +513,27 @@ class TestViews(IntegrationTestCase):
                 view.request.form['splashpage_uid'] = u'force'
                 view()
                 self.assertTrue(view.show_splashpage)
+
+    def test_toggle_lock(self):
+        # The portal does not support TTW locking
+        view = self.get_view('toggle-lock')
+        self.assertEqual(view.lock_info, None)
+        self.assertEqual(view.lock_operations, None)
+
+        # A Document does support TTW locking
+        obj = api.content.create(
+            title="Example page",
+            container=self.folder,
+            type="Document"
+        )
+        view = self.get_view('toggle-lock', obj)
+        self.assertEqual(view.lock_info, None)
+        self.assertNotEqual(view.lock_operations, None)
+        self.assertEqual(view.lock(), u'Document locked')
+        # Purge the cache
+        view.request.__annotations__.pop('plone.memoize')
+        self.assertEqual(view.lock_info['creator'], 'test_user_1_')
+        self.assertEqual(view.unlock(), u'Document unlocked')
+        # Purge the cache
+        view.request.__annotations__.pop('plone.memoize')
+        self.assertEqual(view.lock_info, None)

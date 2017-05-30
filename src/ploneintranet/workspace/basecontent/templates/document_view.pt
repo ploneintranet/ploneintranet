@@ -33,13 +33,14 @@
             <a href="${workspace_url}" tal:content="workspace/Title">Title</a>
           </h1>
           <div id="document-body">
-            <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''} document-type-${view/portal_type_to_class}"
+            <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''} document-type-${view/portal_type_to_class} ${python:'pat-doclock' if not read_only else ''}"
                   method="POST"
                   action="${context/absolute_url}/view"
                   enctype="multipart/form-data"
                   id="document-form"
                   data-pat-autosubmit="delay: ${view/autosave_delay}"
                   data-pat-inject="${view/form_pat_inject_options}"
+                  data-pat-doclock="${python: 'url: ' + here.absolute_url() + '/@@toggle-lock' if not read_only else ''}"
             >
               <div class="metadata pat-bumper sticky-supported" id="meta">
                 <div class="meta-bar">

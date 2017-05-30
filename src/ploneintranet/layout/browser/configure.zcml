@@ -170,6 +170,15 @@
       />
 
   <browser:page
+      for="*"
+      name="toggle-lock"
+      template="templates/toggle-lock.pt"
+      class=".toggle_lock.ToggleLockView"
+      permission="cmf.ModifyPortalContent"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
+  <browser:page
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="date-picker-i18n.json"
       class=".date_picker.I18nJSONView"
