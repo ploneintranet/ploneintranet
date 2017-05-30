@@ -48,10 +48,10 @@ class View(BrowserView):
         [
             ('-modified', _('Newest first')),
             ('modified', _('Oldest first')),
-            # ('assignee', _('By assignee')),
-            # ('initiator', _('By initiator')),
+            ('assignee', _('By assignee')),
+            ('initiator', _('By initiator')),
             ('review_state', _('By task state')),
-            # ('priority', _('By priority')),
+            ('priority', _('By priority')),
             ('sortable_title', _('Alphabetically')),
         ]
     )

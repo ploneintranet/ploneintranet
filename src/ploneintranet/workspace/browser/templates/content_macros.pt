@@ -59,6 +59,15 @@
         </label>
         <br />
       </tal:case_todo>
+      <label class="priority">
+        <tal:label i18n:translate="">Priority</tal:label>
+        <select name="priority">
+          <option i18n:translate="">No priority set</option>
+          <option i18n:translate="0">Low priority</option>
+          <option i18n:translate="1">Medium priority</option>
+          <option i18n:translate="2">High priority</option>
+        </select>
+      </label>
     </metal:task_fields>
 
     <metal:event_fields define-macro="event_fields" i18n:domain="ploneintranet"
