@@ -65,6 +65,8 @@ class View(BrowserView):
         ]
     )
 
+    _search_tasks_limit = 100
+
     @property
     @memoize_contextless
     def portal(self):
@@ -206,7 +208,7 @@ class View(BrowserView):
 
         _params = {
             'sort': form.get('sort-mode', self._sort_mode_default),
-            'step': 9999,
+            'step': self._search_tasks_limit,
         }
         _params.update(params)
         response = search_util.query(
@@ -215,6 +217,14 @@ class View(BrowserView):
             **_params
         )
         return response
+
+    @memoize
+    def show_lenght_warning(self):
+        ''' The search results are limited. Show a warning
+        the suggests to play with filters
+        '''
+        total_tasks = len(self.personal_tasks) + len(self.workspace_tasks)
+        return total_tasks >= self._search_tasks_limit
 
     @property
     @memoize

@@ -251,6 +251,10 @@
                   id="search-result"
                   action="${here/absolute_url}/@@${view/__name__}#search-result"
             >
+              <p class="pat-message notice"
+                 tal:condition="view/show_lenght_warning"
+                 i18n:translate=""
+              >You reached the search result limit, you may want to filter your search</p>
               <tal:groups tal:repeat="workspace view/workspaces">
                 <fieldset class="object-list ${python:'personal' if is_personal else ''} tasks pat-checklist pat-collapsible open checked"
                           tal:define="
