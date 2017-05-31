@@ -100,6 +100,10 @@ def get_user_suggestions(
     """
     def expand(search_results, full_objects):
         """Helper function to delay full object expansion"""
+        # Only return users that are enabled
+        search_results = filter(
+            lambda x: getattr(x, 'review_state', '') == 'enabled',
+            search_results)
         if full_objects:
             return (x.getObject() for x in search_results)
         else:
