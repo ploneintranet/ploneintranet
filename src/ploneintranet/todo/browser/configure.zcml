@@ -1,71 +1,72 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="ploneintranet">
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ploneintranet"
+    >
 
   <browser:page
       name="mark_read"
       for="..behaviors.IMustReadMarker"
-      class=".markread.MarkRead"
       permission="zope2.View"
+      class=".markread.MarkRead"
       layer=".interfaces.IPloneintranetTodoLayer"
       />
 
   <browser:page
-    name="view"
-    for="..content.todo.ITodo"
-    layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
-    template="templates/todo_view.pt"
-    class=".todo_view.TodoView"
-    permission="zope2.View"
-    />
+      name="view"
+      for="..content.todo.ITodo"
+      permission="zope2.View"
+      class=".todo_view.TodoView"
+      template="templates/todo_view.pt"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
 
   <browser:page
-    name="todo_sidebar"
-    for="..content.todo.ITodo"
-    layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
-    class=".todo_view.TodoSidebar"
-    permission="zope2.View"
-    />
+      name="todo_sidebar"
+      for="..content.todo.ITodo"
+      permission="zope2.View"
+      class=".todo_view.TodoSidebar"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
 
   <browser:page
-    name="todo_in_sidebar"
-    for="..content.todo.ITodo"
-    layer=".interfaces.IPloneintranetTodoLayer"
-    template="templates/todo_in_sidebar.pt"
-    class=".todo_view.TodoView"
-    permission="zope2.View"
-    />
+      name="todo_in_sidebar"
+      for="..content.todo.ITodo"
+      permission="zope2.View"
+      class=".todo_view.TodoView"
+      template="templates/todo_in_sidebar.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
 
   <browser:page
-    name="workflow_menu"
-    for="..content.todo.ITodo"
-    layer=".interfaces.IPloneintranetTodoLayer"
-    template="templates/workflow_menu.pt"
-    class=".todo_view.TodoWorkflowMenu"
-    permission="zope2.View"
-    />
+      name="workflow_menu"
+      for="..content.todo.ITodo"
+      permission="zope2.View"
+      class=".todo_view.TodoWorkflowMenu"
+      template="templates/workflow_menu.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
 
   <browser:page
       name="add_task"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".todo_add.AddTask"
       permission="cmf.AddPortalContent"
+      class=".todo_add.AddTask"
       />
 
   <browser:page
       name="add_task"
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
-      class=".todo_add.AddPersonalTask"
       permission="cmf.AddPortalContent"
+      class=".todo_add.AddPersonalTask"
       />
 
   <browser:page
       name="app-add_task"
       for="Products.CMFCore.interfaces.IFolderish"
-      class=".todo_add.AddWorkspaceTask"
       permission="cmf.AddPortalContent"
+      class=".todo_add.AddWorkspaceTask"
       />
 
   <browser:page
@@ -74,6 +75,15 @@
       permission="zope2.View"
       class=".app.View"
       template="templates/app.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
+
+  <browser:page
+      name="app-todo-search-results"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.View"
+      template="templates/app-results.pt"
       layer=".interfaces.IPloneintranetTodoLayer"
       />
 
@@ -87,6 +97,15 @@
       />
 
   <browser:page
+      name="my-tasks-search-results"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.MyTasksView"
+      template="templates/app-results.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
+
+  <browser:page
       name="personal-tasks"
       for="ploneintranet.layout.app.IApp"
       permission="zope2.View"
@@ -96,10 +115,19 @@
       />
 
   <browser:page
-      for="..content.todo.ITodo"
+      name="personal-tasks-search-results"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.PersonalTasksView"
+      template="templates/app-results.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
+
+  <browser:page
       name="delete_confirmation"
-      class=".todo_delete.TodoDeleteConfirmationForm"
+      for="..content.todo.ITodo"
       permission="zope2.DeleteObjects"
+      class=".todo_delete.TodoDeleteConfirmationForm"
       layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
       />
 

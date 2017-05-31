@@ -98,6 +98,24 @@ class View(BrowserView):
             self.request,
         )
 
+    @property
+    def results_view(self):
+        ''' Return a view that renders the search results
+        '''
+        return api.content.get_view(
+            '{}-search-results'.format(self.__name__),
+            self.context,
+            self.request,
+        )
+
+    def reset_url(self):
+        ''' Return the url without -search-results
+        '''
+        name = self.__name__
+        if name.endswith('-search-results'):
+            name = name.rsplit('-', 2)[0]
+        return name
+
     @memoize_contextless
     def get_prio_class(self, priority):
         ''' Return a class to set the priority market

@@ -31,7 +31,7 @@
           </nav>
           <div class="tabs-content">
             <form class="pat-inject pat-autosubmit"
-                  action="${here/absolute_url}/@@${view/__name__}#search-result"
+                  action="${here/absolute_url}/@@${view/__name__}-search-results#search-result"
             >
               <div class="button-bar functions"
                    id="-functions"
@@ -290,141 +290,7 @@
                 </label>
               </div>
             </form>
-            <form class="search-result"
-                  id="search-result"
-                  action="${here/absolute_url}/@@${view/__name__}#search-result"
-            >
-              <p class="pat-message notice"
-                 tal:condition="view/show_lenght_warning"
-                 i18n:translate=""
-              >You reached the search result limit, you may want to filter your search</p>
-              <p class="applied-filters pat-inject pat-subform"
-                 tal:condition="view/show_reset_button"
-              >
-                <button class="icon-cancel-circle"
-                        formaction="${here/absolute_url}/@@${view/__name__}#sidebar-content"
-                        type="submit"
-                        i18n:translate=""
-                >Reset search and filters</button>
-              </p>
-              <tal:groups tal:repeat="beautified_key view/beautified_keys">
-                <fieldset class="object-list ${beautified_key/klass|nothing} tasks pat-checklist pat-collapsible open checked">
-                  <h4 class="section-label ${beautified_key/icon|string:icon-workspace} collapsible-open">
-                    <tal:title replace="beautified_key/title" />
-                    <a class="pat-modal iconified icon-info-circle"
-                       href="/#content"
-                       data-pat-modal="class: large"
-                       tal:condition="bbb|nothing"
-                       i18n:translate=""
-                    >Info</a>
-                  </h4>
-                  <div class="panel-content"
-                       tal:define="
-                         tasks python:view.tasks_by_group[beautified_key['key']];
-                       "
-                  >
-                    <label tal:repeat="item tasks">
-                      <fieldset class="pat-inject pat-autosubmit pat-subform"
-                                action="${item/absolute_url}"
-                                style="margin-bottom: 0; display: inline-block;"
-                                data-pat-inject="#document-body"
-                      >
-                        <input checked="${python: 'checked' if is_done else None}"
-                               name="task_action"
-                               type="checkbox"
-                               value="close"
-                               tal:define="
-                                 is_done python:view.is_done(item);
-                               "
-                        />
-                        <input name="toggle_action_marker"
-                               type="hidden"
-                               value="1"
-                        />
-                        <tal:authenticator replace="structure authenticator" />
-                      </fieldset>
-                      <a class="pat-inject follow pat-switch ${python: view.get_prio_class(item.priority)}"
-                         href="${item/absolute_url}#document-body"
-                         title="${item/title}"
-                         data-pat-inject="target: #document-body; history: none"
-                         data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
-                      >${item/title}</a>
-                      <div class="additional-meta-data">
-                        <tal:assignee>
-                          <a class="assignee meta-column icon-user pat-modal"
-                             href="${here/portal_url}/profiles/${item/assignee}/@@userprofile-info#person-info::element"
-                             title="Assignee"
-                             tal:condition="item/assignee"
-                             i18n:attributes="title;"
-                          >${python:userprofiles.get_fullname_for(item.assignee)}</a>
-                          <span class="meta-column assignee"
-                                tal:condition="not:item/assignee"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:assignee>
-                        <tal:due>
-                          <time class="due-date meta-column icon-clock pat-display-time"
-                                datetime="${item/due}"
-                                title="Due date"
-                                data-pat-display-time="from-now: true"
-                                tal:condition="item/due"
-                                i18n:attributes="title;"
-                          >${item/due}</time>
-                          <span class="meta-column"
-                                tal:condition="not:item/due"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:due>
-                        <tal:milestone tal:condition="nothing">
-                          <a class="milestone meta-column icon-stage"
-                             href="${item/milestone_url}"
-                             title="Milestone"
-                             tal:condition="item/milestone"
-                             i18n:attributes="title;"
-                          >${item/milestone}</a>
-                          <span class="meta-column"
-                                tal:condition="not:item/milestone"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:milestone>
-                        <tal:initiator>
-                          <a class="initiator meta-column icon-manager pat-modal"
-                             href="${here/portal_url}/profiles/${item/initiator}/@@userprofile-info#person-info::element"
-                             title="Initiator of this task"
-                             tal:condition="item/initiator"
-                             i18n:attributes="title;"
-                          >${python:userprofiles.get_fullname_for(item.initiator)}</a>
-                          <span class="meta-column"
-                                tal:condition="not:item/initiator"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:initiator>
-                      </div>
-                    </label>
-                    <p class="button-bar"
-                       tal:condition="beautified_key/url|nothing"
-                    >
-                      <a class="icon-plus-circle small button pat-modal"
-                         href="${beautified_key/url}/@@app-add_task?${beautified_key/add_params|nothing}#content"
-                         title="Create new task"
-                         i18n:attributes="title"
-                         i18n:translate=""
-                      >New task</a>
-                    </p>
-                  </div>
-                </fieldset>
-              </tal:groups>
-              <tal:noresults>
-                <p class="pat-message notice"
-                   tal:condition="view/show_no_results"
-                   i18n:translate=""
-                >No results found</p>
-              </tal:noresults>
-            </form>
+            <tal:results replace="structure view/results_view" />
           </div>
         </div>
       </aside>
