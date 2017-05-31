@@ -17,6 +17,8 @@
       <element>is_division</element>
       <element>outdated</element>
       <element>is_archived</element>
+      <element>assignee</element>
+      <element>initiator</element>
       <element>division</element>
       <element>UID</element>
       <element>invitees</element>
