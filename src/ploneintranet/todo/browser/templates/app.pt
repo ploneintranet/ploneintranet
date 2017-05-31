@@ -298,6 +298,15 @@
                  tal:condition="view/show_lenght_warning"
                  i18n:translate=""
               >You reached the search result limit, you may want to filter your search</p>
+              <p class="applied-filters pat-inject pat-subform"
+                 tal:condition="view/show_reset_button"
+              >
+                <button class="icon-cancel-circle"
+                        formaction="${here/absolute_url}/@@${view/__name__}#sidebar-content"
+                        type="submit"
+                        i18n:translate=""
+                >Reset search and filters</button>
+              </p>
               <tal:groups tal:repeat="beautified_key view/beautified_keys">
                 <fieldset class="object-list ${beautified_key/klass|nothing} tasks pat-checklist pat-collapsible open checked">
                   <h4 class="section-label ${beautified_key/icon|string:icon-workspace} collapsible-open">

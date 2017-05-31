@@ -465,6 +465,12 @@ class View(BrowserView):
         '''
         return not self.tasks
 
+    def show_reset_button(self):
+        ''' Show the reset button if we have something in the query string
+        '''
+        keys = self.request.form.keys()
+        return keys and keys != ['_']
+
 
 class MyTasksView(View):
     ''' The tasks assigned to me
