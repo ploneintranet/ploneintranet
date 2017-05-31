@@ -27,7 +27,7 @@ class View(BrowserView):
         [
             ('@@app-todo', _('All tasks')),
             ('@@my-tasks', _('My tasks')),
-            # ('@@personal-tasks', _('Personal tasks')),
+            ('@@personal-tasks', _('Personal tasks')),
         ]
     )
 
@@ -296,3 +296,14 @@ class MyTasksView(View):
         if not self.user:
             return
         filters['assignee'] = self.user.username
+
+
+class PersonalTasksView(View):
+    ''' My personal tasks
+    '''
+    @property
+    @memoize
+    def workspace_tasks(self):
+        ''' Return the tasks inside workspaces
+        '''
+        return []
