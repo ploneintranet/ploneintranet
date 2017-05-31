@@ -13,6 +13,7 @@ from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.vocabularies import todo_priority
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
+from scorched.dates import solr_date
 from zope.component import getUtility
 from zope.interface import implementer
 
@@ -218,6 +219,14 @@ class View(BrowserView):
         state_mode = form.get('state-mode', self._state_mode_default)
         if state_mode:
             filters['review_state'] = state_mode
+        start = form.get('start', None)
+        end = form.get('end', None)
+        if start and end:
+            filters['due__range'] = (solr_date(start), solr_date(end))
+        elif start:
+            filters['due__ge'] = solr_date(start)
+        elif end:
+            filters['due__le'] = solr_date(end)
 
     def search_tasks(self, filters={}, **params):
         """

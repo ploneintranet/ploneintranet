@@ -159,7 +159,6 @@
                     <div class="pat-collapsible context-menu closed align-left"
                          id="date-range-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#date-range-menu),.close-menu"
-                         tal:condition="bbb|view/show_date_range|nothing"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -174,14 +173,14 @@
                           <label>
                             <tal:i18n i18n:translate="">From</tal:i18n>
                             <input class="pat-date-picker"
-                                   name="filter-from-date"
+                                   name="start"
                                    type="text"
                             />
                           </label>
                           <label>
                             <tal:i18n i18n:translate="">Until</tal:i18n>
                             <input class="pat-date-picker"
-                                   name="filter-until-date"
+                                   name="end"
                                    type="text"
                             />
                           </label>
