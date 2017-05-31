@@ -61,11 +61,23 @@
       </tal:case_todo>
       <label class="priority">
         <tal:label i18n:translate="">Priority</tal:label>
-        <select name="priority">
-          <option i18n:translate="">No priority set</option>
-          <option i18n:translate="0">Low priority</option>
-          <option i18n:translate="1">Medium priority</option>
-          <option i18n:translate="2">High priority</option>
+        <select name="priority"
+          tal:define="
+            selected request/priority|here/priority|nothing;
+          "
+        >
+          <option selected="${python: 'selected' if str(selected) == '-1' else None}"
+                  value="-1"
+                  i18n:translate="">No priority set</option>
+          <option selected="${python: 'selected' if str(selected) == '0' else None}"
+                  value="0"
+                  i18n:translate="">Low priority</option>
+          <option selected="${python: 'selected' if str(selected) == '1' else None}"
+                  value="1"
+                  i18n:translate="">Medium priority</option>
+          <option selected="${python: 'selected' if str(selected) == '2' else None}"
+                  value="2"
+                  i18n:translate="">High priority</option>
         </select>
       </label>
     </metal:task_fields>
