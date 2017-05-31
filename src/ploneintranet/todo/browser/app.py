@@ -14,6 +14,7 @@ from ploneintranet.todo.vocabularies import todo_priority
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from scorched.dates import solr_date
+from urllib import urlencode
 from zope.component import getUtility
 from zope.interface import implementer
 
@@ -360,6 +361,7 @@ class View(BrowserView):
             return {
                 'key': key,
                 'title': key.title,
+                'url': key.absolute_url(),
             }
 
     def _origin_and_milestone_key_beautifier(self, key):
@@ -376,11 +378,15 @@ class View(BrowserView):
             }
         if milestone:
             title = u' - '.join((ws.title, milestone))
+            add_params = urlencode({'milestone': milestone})
         else:
             title = ws.title
+            add_params = ''
         return {
             'key': key,
             'title': title,
+            'url': ws.absolute_url(),
+            'add_params': add_params,
         }
 
     def _userid_key_beautifier(self, key):
