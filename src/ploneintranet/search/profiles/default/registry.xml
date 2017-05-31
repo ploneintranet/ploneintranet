@@ -17,9 +17,14 @@
       <element>is_division</element>
       <element>outdated</element>
       <element>is_archived</element>
+      <element>assignee</element>
+      <element>initiator</element>
       <element>division</element>
       <element>UID</element>
       <element>invitees</element>
+      <element>due__ge</element>
+      <element>due__le</element>
+      <element>due__range</element>
       <element>end__gt</element>
       <element>object_provides</element>
     </value>

@@ -100,6 +100,12 @@
       handler=".to0010.add_field_limit_configuration"
       profile="ploneintranet.search:default" />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <genericsetup:upgradeStep
+      title="Configure the solr fields for the todo app"
+      description=""
+      source="*"
+      destination="0011"
+      handler=".to0011.add_todo_app_solr_fields"
+      profile="ploneintranet.search:default" />
 
 </configure>

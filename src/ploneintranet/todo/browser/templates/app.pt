@@ -21,7 +21,7 @@
       >
         <div id="sidebar-content">
           <nav class="navigation tabs pat-tabs"
-               tal:condition="bbb|not:view/navigation_tabs"
+               tal:condition="view/navigation_tabs"
           >
             <a class="pat-inject ${item/klass|nothing}"
                href="${item/url}"
@@ -31,7 +31,7 @@
           </nav>
           <div class="tabs-content">
             <form class="pat-inject pat-autosubmit"
-                  action="${here/absolute_url}/@@${view/__name__}#search-result"
+                  action="${here/absolute_url}/@@${view/__name__}-search-results#search-result"
             >
               <div class="button-bar functions"
                    id="-functions"
@@ -74,7 +74,7 @@
                     <div class="pat-collapsible context-menu closed align-left"
                          id="assignees-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#assignees-menu),.close-menu"
-                         tal:condition="bbb|view/show_assignes|nothing"
+                         tal:condition="view/show_assignes"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -85,45 +85,67 @@
                         <p class="close-menu"
                            i18n:translate=""
                         >Close</p>
-                        <fieldset class="pat-checklist">
-                          <label>
-                            <input name="assignee"
-                                   type="checkbox"
-                                   value="myself"
-                            />
-                            <tal:i18n i18n:translate="">I</tal:i18n>
-                          </label>
-                        </fieldset>
-                        <tal:departments condition="bbb|view/departments|nothing">
-                          <h4 i18n:translate="">Departments</h4>
-                          <fieldset class="pat-checklist unchecked">
-                            <label tal:repeat="department view/departments">
+                        <tal:protodivergent condition="nothing">
+                          <!--
+                            I deliberately replaced the list of checkboxes
+                            The list, infact, can be huge and there is not
+                            a clear way to filter the users in the list
+
+                            See: https://github.com/quaive/ploneintranet.prototype/issues/498
+                          -->
+                          <fieldset class="pat-checklist">
+                            <label>
                               <input name="assignee"
                                      type="checkbox"
-                                     value="${department/value}"
+                                     value="myself"
                               />
-                              ${department/label}
+                              <tal:i18n i18n:translate="">I</tal:i18n>
                             </label>
                           </fieldset>
-                        </tal:departments>
-                        <tal:individuals condition="bbb|view/individuals|nothing">
-                          <h4 i18n:translate="">Individuals</h4>
-                          <fieldset class="pat-checklist unchecked">
-                            <label tal:repeat="individual view/individual">
-                              <input name="assignee"
-                                     type="checkbox"
-                                     value="${individual/value}"
+                          <tal:departments condition="bbb|view/departments|nothing">
+                            <h4 i18n:translate="">Departments</h4>
+                            <fieldset class="pat-checklist unchecked">
+                              <label tal:repeat="department view/departments">
+                                <input name="assignee"
+                                       type="checkbox"
+                                       value="${department/value}"
+                                />
+                                ${department/label}
+                              </label>
+                            </fieldset>
+                          </tal:departments>
+                          <tal:individuals condition="bbb|view/individuals|nothing">
+                            <h4 i18n:translate="">Individuals</h4>
+                            <fieldset class="pat-checklist unchecked">
+                              <label tal:repeat="individual view/individual">
+                                <input name="assignee"
+                                       type="checkbox"
+                                       value="${individual/value}"
+                                />
+                                ${individual/label}
+                              </label>
+                            </fieldset>
+                          </tal:individuals>
+                        </tal:protodivergent>
+                        <tal:protodivergent>
+                          <fieldset>
+                            <label>
+                              <input class="pat-autosuggest users"
+                                     name="assignee"
+                                     placeholder="Filter by user"
+                                     type="text"
+                                     data-pat-autosuggest="${view/get_data_pat_autosuggest}"
+                                     i18n:attributes="placeholder"
                               />
-                              ${individual/label}
                             </label>
                           </fieldset>
-                        </tal:individuals>
+                        </tal:protodivergent>
                       </div>
                     </div>
                     <div class="pat-collapsible context-menu closed align-left"
                          id="initiators-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#initiators-menu),.close-menu"
-                         tal:condition="bbb|view/show_initiatiors|nothing"
+                         tal:condition="view/show_initiators"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -134,32 +156,53 @@
                         <p class="close-menu"
                            i18n:translate=""
                         >Close</p>
-                        <fieldset class="pat-checklist">
-                          <label>
-                            <input name="initiator"
-                                   type="checkbox"
-                                   value="myself"
-                            />
-                            <tal:i18n i18n:translate="">I</tal:i18n>
-                          </label>
-                        </fieldset>
-                        <fieldset class="pat-checklist"
-                                  tal:condition="view/initiators|nothing"
-                        >
-                          <label tal:repeat="item view/initiators">
-                            <input name="assignee"
-                                   type="checkbox"
-                                   value="${item/value}"
-                            />
-                            ${item/label}
-                          </label>
-                        </fieldset>
+                        <tal:protodivergent condition="nothing">
+                          <!--
+                            I deliberately replaced the list of checkboxes
+                            The list, infact, can be huge and there is not
+                            a clear way to filter the users in the list
+
+                            See: https://github.com/quaive/ploneintranet.prototype/issues/498
+                          -->
+                          <fieldset class="pat-checklist">
+                            <label tal:condition="nocall:view/user">
+                              <input name="initiator"
+                                     type="checkbox"
+                                     value="${view/user/username}"
+                              />
+                              <tal:i18n i18n:translate="">I</tal:i18n>
+                            </label>
+                          </fieldset>
+                          <fieldset class="pat-checklist"
+                                    tal:condition="view/initiators|nothing"
+                          >
+                            <label tal:repeat="item view/initiators">
+                              <input name="assignee"
+                                     type="checkbox"
+                                     value="${item/value}"
+                              />
+                              ${item/label}
+                            </label>
+                          </fieldset>
+                        </tal:protodivergent>
+                        <tal:protodivergent>
+                          <fieldset>
+                            <label>
+                              <input class="pat-autosuggest users"
+                                     name="initiator"
+                                     placeholder="Filter by user"
+                                     type="text"
+                                     data-pat-autosuggest="${view/get_data_pat_autosuggest}"
+                                     i18n:attributes="placeholder"
+                              />
+                            </label>
+                          </fieldset>
+                        </tal:protodivergent>
                       </div>
                     </div>
                     <div class="pat-collapsible context-menu closed align-left"
                          id="date-range-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#date-range-menu),.close-menu"
-                         tal:condition="bbb|view/show_date_range|nothing"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -174,14 +217,14 @@
                           <label>
                             <tal:i18n i18n:translate="">From</tal:i18n>
                             <input class="pat-date-picker"
-                                   name="filter-from-date"
+                                   name="start"
                                    type="text"
                             />
                           </label>
                           <label>
                             <tal:i18n i18n:translate="">Until</tal:i18n>
                             <input class="pat-date-picker"
-                                   name="filter-until-date"
+                                   name="end"
                                    type="text"
                             />
                           </label>
@@ -247,138 +290,7 @@
                 </label>
               </div>
             </form>
-            <form class="search-result"
-                  id="search-result"
-                  action="${here/absolute_url}/@@${view/__name__}#search-result"
-            >
-              <tal:groups tal:repeat="workspace view/workspaces">
-                <fieldset class="object-list ${python:'personal' if is_personal else ''} tasks pat-checklist pat-collapsible open checked"
-                          tal:define="
-                            is_personal python: not workspace;
-                          "
-                >
-                  <h4 class="section-label ${python: 'icon-user' if is_personal else 'icon-workspace'} collapsible-open">
-                    <tal:title condition="not:is_personal"
-                               replace="workspace/title"
-                    />
-                    <tal:title condition="is_personal"
-                               i18n:translate=""
-                    >Personal tasks</tal:title>
-                    <a class="pat-modal iconified icon-info-circle"
-                       href="/#content"
-                       data-pat-modal="class: large"
-                       tal:condition="bbb|nothing"
-                       i18n:translate=""
-                    >Info</a>
-                  </h4>
-                  <div class="panel-content"
-                       tal:define="
-                         tasks python:view.tasks_by_workspace[workspace];
-                       "
-                  >
-                    <label tal:repeat="item tasks">
-                      <fieldset class="pat-inject pat-autosubmit pat-subform"
-                                action="${item/absolute_url}"
-                                style="margin-bottom: 0; display: inline-block;"
-                                data-pat-inject="#document-body"
-                      >
-                        <input checked="${python: 'checked' if is_done else None}"
-                               name="task_action"
-                               type="checkbox"
-                               value="close"
-                               tal:define="
-                                 is_done python:view.is_done(item);
-                               "
-                        />
-                        <input name="toggle_action_marker"
-                               type="hidden"
-                               value="1"
-                        />
-                        <tal:authenticator replace="structure authenticator" />
-                      </fieldset>
-                      <a class="pat-inject follow pat-switch priority-${item/priority}"
-                         href="${item/absolute_url}#document-body"
-                         title="${item/title}"
-                         data-pat-inject="target: #document-body; history: none"
-                         data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
-                      >${item/title}</a>
-                      <div class="additional-meta-data">
-                        <tal:assignee>
-                          <a class="assignee meta-column icon-user pat-modal"
-                             href="${here/portal_url}/profiles/${item/assignee}/@@userprofile-info#person-info::element"
-                             title="Assignee"
-                             tal:condition="item/assignee"
-                             i18n:attributes="title;"
-                          >${python:userprofiles.get_fullname_for(item.assignee)}</a>
-                          <span class="meta-column assignee"
-                                tal:condition="not:item/assignee"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:assignee>
-                        <tal:due>
-                          <time class="due-date meta-column icon-clock pat-display-time"
-                                datetime="${item/due}"
-                                title="Due date"
-                                data-pat-display-time="from-now: true"
-                                tal:condition="item/due"
-                                i18n:attributes="title;"
-                          >${item/due}</time>
-                          <span class="meta-column"
-                                tal:condition="not:item/due"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:due>
-                        <tal:milestone tal:condition="nothing">
-                          <a class="milestone meta-column icon-stage"
-                             href="${item/milestone_url}"
-                             title="Milestone"
-                             tal:condition="item/milestone"
-                             i18n:attributes="title;"
-                          >${item/milestone}</a>
-                          <span class="meta-column"
-                                tal:condition="not:item/milestone"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:milestone>
-                        <tal:initiator>
-                          <a class="initiator meta-column icon-manager pat-modal"
-                             href="${here/portal_url}/profiles/${item/initiator}/@@userprofile-info#person-info::element"
-                             title="Initiator of this task"
-                             tal:condition="item/initiator"
-                             i18n:attributes="title;"
-                          >${python:userprofiles.get_fullname_for(item.initiator)}</a>
-                          <span class="meta-column"
-                                tal:condition="not:item/initiator"
-                          >
-                            &nbsp;
-                          </span>
-                        </tal:initiator>
-                      </div>
-                    </label>
-                    <p class="button-bar"
-                       tal:condition="not:is_personal"
-                    >
-                      <a class="icon-plus-circle small button pat-modal"
-                         href="${workspace/absolute_url}/@@app-add_task#document-content"
-                         title="Create new task"
-                         data-pat-inject="source:#content"
-                         i18n:attributes="title"
-                         i18n:translate=""
-                      >New task</a>
-                    </p>
-                  </div>
-                </fieldset>
-              </tal:groups>
-              <tal:noresults>
-                <p class="pat-message notice"
-                   tal:condition="view/show_no_results"
-                   i18n:translate=""
-                >No results found</p>
-              </tal:noresults>
-            </form>
+            <tal:results replace="structure view/results_view" />
           </div>
         </div>
       </aside>
