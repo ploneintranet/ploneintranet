@@ -6,16 +6,36 @@ from htmllaundry import utils
 from htmllaundry.cleaners import LaundryCleaner
 from htmllaundry.utils import MARKER
 from htmllaundry.utils import INLINE_TAGS
+from urlparse import urlsplit
+
+
+class PloneintranetLaundryCleaner(LaundryCleaner):
+
+    def allow_embedded_url(self, el, url):
+        """
+        Overwrite this method from lxml.html.clean.Cleaner
+        Reason: we also allow '' as scheme, next to http and https
+        """
+        if (self.whitelist_tags is not None and
+                el.tag not in self.whitelist_tags):
+            return False
+        scheme, netloc, path, query, fragment = urlsplit(url)
+        netloc = netloc.lower().split(':', 1)[0]
+        if scheme not in ('http', 'https', ''):
+            return False
+        if netloc in self.host_whitelist:
+            return True
+        return False
 
 # Define our own DocumentCleaner, in order to fine-tune which tags are allowed
-DocumentCleaner = LaundryCleaner(
+DocumentCleaner = PloneintranetLaundryCleaner(
     page_structure=False,
     remove_unknown_tags=False,
     allow_tags=[
         'a', 'img', 'em', 'p', 'strong', 'del',
         'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'ol', 'li', 'sub', 'sup',
         'abbr', 'acronym', 'dl', 'dt', 'dd', 'cite',
-        'dft', 'br', 'table', 'tr', 'td', 'th', 'thead',
+        'iframe', 'dft', 'br', 'table', 'tr', 'td', 'th', 'thead',
         'tbody', 'tfoot', 'figure', 'figcaption'],
     safe_attrs_only=True,
     add_nofollow=True,
@@ -27,7 +47,21 @@ DocumentCleaner = LaundryCleaner(
     meta=False,
     processing_instructions=False,
     frames=True,
-    annoying_tags=False
+    annoying_tags=False,
+    # This list concerns embedded content. Only URLs that match the following
+    # domains will be considered valid, otherwise the whole tag will get
+    # stripped.
+    # This happens because the property `embedded` is implicitly set to True
+    # via inheritance. To generally allow embeding objects like iframes without
+    # a check against this list, set `embedded=False`.
+    host_whitelist=(
+        'youtube.com',
+        'www.youtube.com',
+        'youtu.be',
+        'vimeo.com',
+        'www.vimeo.com',
+        'player.vimeo.com',
+    ),
 )
 
 
@@ -88,7 +122,10 @@ def sanitize_html(input, cleaner=DocumentCleaner, wrap='p'):
     body = bodies[0]
 
     cleaned = cleaner.clean_html(body)
-    utils.remove_empty_tags(cleaned, extra_empty_tags=['tr', 'th', 'td'])
+    utils.remove_empty_tags(
+        cleaned,
+        extra_empty_tags=['tr', 'th', 'td', 'iframe']
+    )
     utils.strip_outer_breaks(cleaned)
 
     if wrap is not None:
