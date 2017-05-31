@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.61 (unreleased)
+1.2.61 (2017-05-31)
 -------------------
 
 * Merge pull request #1339 from quaive/more-powerful-todo-app [GitHub]
