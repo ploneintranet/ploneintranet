@@ -21,7 +21,7 @@
       >
         <div id="sidebar-content">
           <nav class="navigation tabs pat-tabs"
-               tal:condition="bbb|not:view/navigation_tabs"
+               tal:condition="view/navigation_tabs"
           >
             <a class="pat-inject ${item/klass|nothing}"
                href="${item/url}"

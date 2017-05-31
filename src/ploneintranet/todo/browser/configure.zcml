@@ -78,6 +78,15 @@
       />
 
   <browser:page
+      name="my-tasks"
+      for="ploneintranet.layout.app.IApp"
+      permission="zope2.View"
+      class=".app.MyTasksView"
+      template="templates/app.pt"
+      layer=".interfaces.IPloneintranetTodoLayer"
+      />
+
+  <browser:page
       for="..content.todo.ITodo"
       name="delete_confirmation"
       class=".todo_delete.TodoDeleteConfirmationForm"

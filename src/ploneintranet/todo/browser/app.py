@@ -27,7 +27,7 @@ class View(BrowserView):
         [
             ('@@app-todo', _('All tasks')),
             ('@@my-tasks', _('My tasks')),
-            ('@@personal-tasks', _('Personal tasks')),
+            # ('@@personal-tasks', _('Personal tasks')),
         ]
     )
 
@@ -194,18 +194,23 @@ class View(BrowserView):
         '''
         return api.content.get_state(obj=task) in self._done_states
 
+    def set_filters(self, filters):
+        ''' Customizable filters for the view
+        '''
+        form = self.request.form
+        filters['portal_type'] = 'todo'
+        state_mode = form.get('state-mode', self._state_mode_default)
+        if state_mode:
+            filters['review_state'] = state_mode
+
     def search_tasks(self, filters={}, **params):
         """
         Search for specific content types
         """
         form = self.request.form
         keywords = form.get('SearchableText')
-        filters['portal_type'] = 'todo'
-        state_mode = form.get('state-mode', self._state_mode_default)
-        if state_mode:
-            filters['review_state'] = state_mode
+        self.set_filters(filters)
         search_util = getUtility(ISiteSearch)
-
         _params = {
             'sort': form.get('sort-mode', self._sort_mode_default),
             'step': self._search_tasks_limit,
@@ -279,3 +284,15 @@ class View(BrowserView):
         ''' Check if we should show the no result notice
         '''
         return not (self.personal_tasks or self.tasks_by_workspace)
+
+
+class MyTasksView(View):
+    ''' The tasks assigned to me
+    '''
+    def set_filters(self, filters={}, **params):
+        ''' Filter by assignee with my userid
+        '''
+        super(MyTasksView, self).set_filters(filters)
+        if not self.user:
+            return
+        filters['assignee'] = self.user.username
