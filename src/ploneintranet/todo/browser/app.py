@@ -51,7 +51,7 @@ class View(BrowserView):
             ('assignee', _('By assignee')),
             ('initiator', _('By initiator')),
             ('review_state', _('By task state')),
-            ('priority', _('By priority')),
+            ('-priority', _('By priority')),
             ('sortable_title', _('Alphabetically')),
         ]
     )
