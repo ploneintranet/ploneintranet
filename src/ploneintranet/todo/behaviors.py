@@ -1,9 +1,13 @@
-from plone.directives import form
-from zope.interface import alsoProvides, Interface
-from zope.schema import Bool, Choice, Date, TextLine, Text
-
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from .vocabularies import todo_priority
+from plone.directives import form
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from zope.interface import alsoProvides
+from zope.interface import Interface
+from zope.schema import Bool
+from zope.schema import Choice
+from zope.schema import Date
+from zope.schema import Text
+from zope.schema import TextLine
 
 
 class IMustRead(form.Schema):
@@ -56,7 +60,7 @@ class ITodo(form.Schema):
     priority = Choice(
         title=_(u"Priority"),
         required=True,
-        default=1,
+        default=-1,
         vocabulary=todo_priority,
     )
 
