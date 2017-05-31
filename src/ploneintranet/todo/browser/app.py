@@ -1,16 +1,23 @@
 # coding=utf-8
 from collections import defaultdict
 from collections import OrderedDict
+from itertools import imap
+from logging import getLogger
 from plone import api
+from plone.memoize import forever
 from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.todo.vocabularies import todo_priority
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from zope.component import getUtility
 from zope.interface import implementer
+
+
+logger = getLogger(__name__)
 
 
 @implementer(IAppView)
@@ -31,6 +38,7 @@ class View(BrowserView):
         ]
     )
 
+    _browse_mode_default = 'origin'
     _browse_mode_options = OrderedDict(
         [
             ('origin', _('Group by origin')),
@@ -159,10 +167,17 @@ class View(BrowserView):
         options = self.options2items(
             self._browse_mode_options,
             'browse-mode',
-            'origin',
+            self._browse_mode_default,
         )
-        options = []  # BBB
         return options
+
+    @property
+    @memoize
+    def browse_mode(self):
+        return self.request.form.get(
+            'browse-mode',
+            self._browse_mode_default,
+        )
 
     @property
     @memoize
@@ -199,6 +214,7 @@ class View(BrowserView):
         '''
         form = self.request.form
         filters['portal_type'] = 'todo'
+        filters['path'] = self.searched_paths
         state_mode = form.get('state-mode', self._state_mode_default)
         if state_mode:
             filters['review_state'] = state_mode
@@ -207,6 +223,7 @@ class View(BrowserView):
         """
         Search for specific content types
         """
+        filters = filters.copy()
         form = self.request.form
         keywords = form.get('SearchableText')
         self.set_filters(filters)
@@ -228,67 +245,194 @@ class View(BrowserView):
         ''' The search results are limited. Show a warning
         the suggests to play with filters
         '''
-        total_tasks = len(self.personal_tasks) + len(self.workspace_tasks)
-        return total_tasks >= self._search_tasks_limit
+        return len(self.tasks) >= self._search_tasks_limit
 
     @property
     @memoize
-    def personal_tasks(self):
-        ''' Return the personal tasks
-        '''
-        if not self.user:
-            return []
-        path = '/'.join(self.user.getPhysicalPath())
-        return filter(
-            None,
-            [t.getObject() for t in self.search_tasks({'path': path})],
-        )
-
-    @property
-    @memoize
-    def workspace_tasks(self):
+    def searched_paths(self):
         ''' Return the tasks inside workspaces
         '''
-        path = '/'.join(self.workspace_container.getPhysicalPath())
-        return filter(
-            None,
-            [t.getObject() for t in self.search_tasks({'path': path})],
-        )
+        paths = [
+            '/'.join(obj.getPhysicalPath())
+            for obj in (
+                self.workspace_container,
+                self.portal.profiles,
+            )
+        ]
+        return paths
+
+    @property
+    @memoize
+    def tasks(self):
+        ''' Return the tasks inside workspaces
+        '''
+        if not self.searched_paths:
+            return []
+        return filter(None, (t.getObject() for t in self.search_tasks()))
 
     @property
     @memoize
     def tasks_by_workspace(self):
         ''' Return the tasks inside workspaces grouped by workspace
         '''
-        tasks = self.workspace_tasks
+        tasks = self.tasks
         tasks_by_workspace = defaultdict(list)
         for task in tasks:
             workspace = parent_workspace(task)
             tasks_by_workspace[workspace].append(task)
-        if self.personal_tasks:
-            tasks_by_workspace[None].extend(self.personal_tasks)
         return tasks_by_workspace
+
+    def get_key_maker(self):
+        ''' Return a function that will generate a key
+        according to the selected browsing mode
+        The key can be the parent workspace, an attribute value,
+        the review state or whatever.
+
+        As a fallback we return a function that returns None.
+        '''
+        browse_mode = self.browse_mode
+        if browse_mode in ('origin', 'assigned', 'initiated'):
+            return parent_workspace
+        if browse_mode == 'origin_and_milestone':
+            return lambda task: (parent_workspace(task), task.milestone)
+        if browse_mode == 'task_state':
+            return api.content.get_state
+        if browse_mode in (
+            'assignee',
+            'initiator',
+            'priority',
+        ):
+            return lambda task: getattr(task, browse_mode, None)
+        return lambda task: None
+
+    def _origin_key_beautifier(self, key):
+        ''' We expect key to be either a workspace or None
+        '''
+        if not key:
+            return {
+                'icon': 'icon-user',
+                'klass': 'personal',
+                'key': key,
+                'title': _('Personal tasks'),
+                'sorting_key': ' ',
+            }
+        else:
+            return {
+                'key': key,
+                'title': key.title,
+            }
+
+    def _origin_and_milestone_key_beautifier(self, key):
+        ''' We expect key to be a tuple containing a workspace and a milestone
+        '''
+        ws, milestone = key
+        if not ws:
+            return {
+                'icon': 'icon-user',
+                'klass': 'personal',
+                'key': key,
+                'title': _('Personal tasks'),
+                'sorting_key': ' ',
+            }
+        if milestone:
+            title = u' - '.join((ws.title, milestone))
+        else:
+            title = ws.title
+        return {
+            'key': key,
+            'title': title,
+        }
+
+    def _userid_key_beautifier(self, key):
+        ''' We expect key to be a userid
+        '''
+        fullname = self.userprofiles.get_fullname_for(key)
+        return {
+            'title': fullname or _('None'),
+            'key': key,
+            'sorting_key': fullname or ' '
+        }
+
+    def _priority_key_beautifier(self, key):
+        ''' We expect key to be a priority level
+        '''
+        try:
+            title = todo_priority.getTerm(key).title
+        except:
+            logger.warning(
+                'Cannot get priority label for value: %r',
+                key,
+            )
+            title = key
+        return {
+            'title': title,
+            'key': key,
+            'sorting_key': str(-key + 50),
+        }
+
+    def get_key_beautifier(self):
+        '''Return a function that will transform a key in to something
+        that can be rendered in the template
+        '''
+        browse_mode = self.browse_mode
+        if browse_mode in ('origin', 'assigned', 'initiated'):
+            return self._origin_key_beautifier
+        if browse_mode == 'origin_and_milestone':
+            return self._origin_and_milestone_key_beautifier
+        if browse_mode in ('assignee', 'initiator'):
+            return self._userid_key_beautifier
+        if browse_mode == 'priority':
+            return self._priority_key_beautifier
+        return lambda key: {'title': key, 'key': key}
 
     @property
     @memoize
-    def workspaces(self):
-        ''' Return the workspaces that contain mathing tasks
+    def tasks_by_group(self):
+        ''' Return the tasks grouped according to the browse mode
+
+        The beautifier function is a dict like object with a key, a title
+        and other optional key/value pairs that may be used in the template
         '''
+        key_maker = self.get_key_maker()
+        tasks_by_group = defaultdict(list)
+        for task in self.tasks:
+            key = key_maker(task)
+            tasks_by_group[key].append(task)
+        return tasks_by_group
+
+    @property
+    @memoize
+    def beautified_keys(self):
+        ''' Return the sorted keys for our browse mode
+        The keys need to be beautified in order to be rendered in the template.
+        '''
+        key_beautifier = self.get_key_beautifier()
+        groups = imap(key_beautifier, self.tasks_by_group)
         return sorted(
-            self.tasks_by_workspace,
-            key=lambda w: getattr(w, 'title', ''),
+            groups,
+            key=lambda g: g.get('sorting_key') or g['title'],
         )
 
     @memoize
     def show_no_results(self):
         ''' Check if we should show the no result notice
         '''
-        return not (self.personal_tasks or self.tasks_by_workspace)
+        return not self.tasks
 
 
 class MyTasksView(View):
     ''' The tasks assigned to me
     '''
+
+    @property
+    @forever.memoize
+    def _browse_mode_options(self):
+        ''' Remove the assignee option because it is always the current user
+        '''
+        options = super(MyTasksView, self)._browse_mode_options.copy()
+        options.pop('assignee')
+        return options
+
     def set_filters(self, filters={}, **params):
         ''' Filter by assignee with my userid
         '''
@@ -297,13 +441,54 @@ class MyTasksView(View):
             return
         filters['assignee'] = self.user.username
 
+    @property
+    @memoize
+    def searched_paths(self):
+        ''' Return the tasks inside workspaces
+        '''
+        if self.user:
+            return '/'.join(self.user.getPhysicalPath())
+        return ''
+
 
 class PersonalTasksView(View):
     ''' My personal tasks
     '''
+    _browse_mode_default = ''
+    _browse_mode_options = OrderedDict(
+        [
+            ('', _('All personal tickets')),
+            ('assigned', _('Personal tickets assigned to me by others')),
+            ('initiated', _('Personal tickets that I assigned to others')),
+        ]
+    )
+
+    def set_filters(self, filters={}, **params):
+        ''' Filter by assignee with my userid
+        '''
+        super(PersonalTasksView, self).set_filters(filters)
+        browse_mode = self.browse_mode
+        if browse_mode == 'assigned':
+            filters['assignee'] = self.user.username
+        elif browse_mode == 'initiated':
+            filters['initiator'] = self.user.username
+
+    def get_key_maker(self):
+        ''' Personal tasks are not grouped
+        '''
+        return lambda task: None
+
+    def get_key_beautifier(self):
+        '''Return a function that will transform a key in to something
+        that can be rendered in the template
+        '''
+        return self._origin_key_beautifier
+
     @property
     @memoize
-    def workspace_tasks(self):
+    def searched_paths(self):
         ''' Return the tasks inside workspaces
         '''
-        return []
+        if not self.user and self.browse_mode:
+            return []
+        return '/'.join(self.portal.profiles.getPhysicalPath())

@@ -255,19 +255,10 @@
                  tal:condition="view/show_lenght_warning"
                  i18n:translate=""
               >You reached the search result limit, you may want to filter your search</p>
-              <tal:groups tal:repeat="workspace view/workspaces">
-                <fieldset class="object-list ${python:'personal' if is_personal else ''} tasks pat-checklist pat-collapsible open checked"
-                          tal:define="
-                            is_personal python: not workspace;
-                          "
-                >
-                  <h4 class="section-label ${python: 'icon-user' if is_personal else 'icon-workspace'} collapsible-open">
-                    <tal:title condition="not:is_personal"
-                               replace="workspace/title"
-                    />
-                    <tal:title condition="is_personal"
-                               i18n:translate=""
-                    >Personal tasks</tal:title>
+              <tal:groups tal:repeat="beautified_key view/beautified_keys">
+                <fieldset class="object-list ${beautified_key/klass|nothing} tasks pat-checklist pat-collapsible open checked">
+                  <h4 class="section-label ${beautified_key/icon|string:icon-workspace} collapsible-open">
+                    <tal:title replace="beautified_key/title" />
                     <a class="pat-modal iconified icon-info-circle"
                        href="/#content"
                        data-pat-modal="class: large"
@@ -277,7 +268,7 @@
                   </h4>
                   <div class="panel-content"
                        tal:define="
-                         tasks python:view.tasks_by_workspace[workspace];
+                         tasks python:view.tasks_by_group[beautified_key['key']];
                        "
                   >
                     <label tal:repeat="item tasks">
@@ -363,12 +354,11 @@
                       </div>
                     </label>
                     <p class="button-bar"
-                       tal:condition="not:is_personal"
+                       tal:condition="beautified_key/url|nothing"
                     >
                       <a class="icon-plus-circle small button pat-modal"
-                         href="${workspace/absolute_url}/@@app-add_task#document-content"
+                         href="${beautified_key/url}/@@app-add_task#content"
                          title="Create new task"
-                         data-pat-inject="source:#content"
                          i18n:attributes="title"
                          i18n:translate=""
                       >New task</a>
