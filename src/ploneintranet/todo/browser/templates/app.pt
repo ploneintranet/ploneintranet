@@ -90,6 +90,8 @@
                             I deliberately replaced the list of checkboxes
                             The list, infact, can be huge and there is not
                             a clear way to filter the users in the list
+
+                            See: https://github.com/quaive/ploneintranet.prototype/issues/498
                           -->
                           <fieldset class="pat-checklist">
                             <label>
@@ -159,6 +161,8 @@
                             I deliberately replaced the list of checkboxes
                             The list, infact, can be huge and there is not
                             a clear way to filter the users in the list
+
+                            See: https://github.com/quaive/ploneintranet.prototype/issues/498
                           -->
                           <fieldset class="pat-checklist">
                             <label tal:condition="nocall:view/user">
