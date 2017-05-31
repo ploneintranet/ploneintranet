@@ -251,21 +251,32 @@
                   id="search-result"
                   action="${here/absolute_url}/@@${view/__name__}#search-result"
             >
-              <fieldset class="object-list personal tasks pat-checklist pat-collapsible open"
-                        tal:condition="view/personal_tasks"
-              >
-                <h4 class="section-label icon-user collapsible-open">
-                  <tal:i18n i18n:translate="">Personal tasks</tal:i18n>
-                  <a class="pat-modal iconified icon-info-circle"
-                     href="/#content"
-                     data-pat-modal="class: large"
-                     tal:condition="nothing"
-                     i18n:translate=""
-                  >Info</a>
-                </h4>
-                <div class="panel-content">
-                  <label tal:repeat="item view/personal_tasks">
-                    <metal:task define-macro="task">
+              <tal:groups tal:repeat="workspace view/workspaces">
+                <fieldset class="object-list ${python:'personal' if is_personal else ''} tasks pat-checklist pat-collapsible open checked"
+                          tal:define="
+                            is_personal python: not workspace;
+                          "
+                >
+                  <h4 class="section-label ${python: 'icon-user' if is_personal else 'icon-workspace'} collapsible-open">
+                    <tal:title condition="not:is_personal"
+                               replace="workspace/title"
+                    />
+                    <tal:title condition="is_personal"
+                               i18n:translate=""
+                    >Personal tasks</tal:title>
+                    <a class="pat-modal iconified icon-info-circle"
+                       href="/#content"
+                       data-pat-modal="class: large"
+                       tal:condition="bbb|nothing"
+                       i18n:translate=""
+                    >Info</a>
+                  </h4>
+                  <div class="panel-content"
+                       tal:define="
+                         tasks python:view.tasks_by_workspace[workspace];
+                       "
+                  >
+                    <label tal:repeat="item tasks">
                       <fieldset class="pat-inject pat-autosubmit pat-subform"
                                 action="${item/absolute_url}"
                                 style="margin-bottom: 0; display: inline-block;"
@@ -346,34 +357,21 @@
                           </span>
                         </tal:initiator>
                       </div>
-                    </metal:task>
-                  </label>
-                </div>
-              </fieldset>
-              <fieldset class="object-list tasks pat-checklist pat-collapsible open checked"
-                        tal:repeat="workspace bbb|view/workspaces|nothing"
-              >
-                <h4 class="section-label icon-workspace collapsible-open">
-                  ${workspace/title}
-                  <a class="pat-modal iconified icon-info-circle"
-                     href="/#content"
-                     data-pat-modal="class: large"
-                     tal:condition="bbb/nothing"
-                     i18n:translate=""
-                  >Info</a>
-                </h4>
-                <div class="panel-content">
-                  <label tal:repeat="item view/personal_tasks">
-                    <metal:task use-macro="task" />
-                  </label>
-                  <p class="button-bar">
-                    <a class="icon-plus-circle small button"
-                       href="${workspace/url}/@@add_task"
-                       i18n:translate=""
-                    >New task</a>
-                  </p>
-                </div>
-              </fieldset>
+                    </label>
+                    <p class="button-bar"
+                       tal:condition="not:is_personal"
+                    >
+                      <a class="icon-plus-circle small button pat-modal"
+                         href="${workspace/absolute_url}/@@app-add_task#document-content"
+                         title="Create new task"
+                         data-pat-inject="source:#content"
+                         i18n:attributes="title"
+                         i18n:translate=""
+                      >New task</a>
+                    </p>
+                  </div>
+                </fieldset>
+              </tal:groups>
               <tal:noresults>
                 <p class="pat-message notice"
                    tal:condition="view/show_no_results"

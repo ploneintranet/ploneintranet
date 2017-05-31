@@ -4,10 +4,10 @@
   <h1 i18n:translate="">
     Create task
   </h1>
-  <form class="${python: view.parent_workspace and 'pat-inject' or None} wizard-box pat-validation"
+  <form class="${view/form_class} wizard-box pat-validation"
         action="${request/URL}"
         method="POST"
-        data-pat-inject="${python: view.parent_workspace and '#workspace-tickets' or None}"
+        data-pat-inject="${view/form_data_pat_inject}"
         data-pat-validation="disable-selector:#form-buttons-create"
   >
     <div class="panel-body">
@@ -39,7 +39,7 @@
     </div>
     <div class="buttons panel-footer">
       <span tal:replace="structure context/@@authenticator/authenticator"></span>
-      <button class="icon-ok-circle focus ${python: view.parent_workspace and 'close-panel' or None}"
+      <button class="icon-ok-circle focus ${python: view.ok_closes_panel and 'close-panel' or None}"
               id="form-buttons-create"
               name="form.buttons.create"
               type="submit"

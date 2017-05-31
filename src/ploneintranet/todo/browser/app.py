@@ -1,4 +1,5 @@
 # coding=utf-8
+from collections import defaultdict
 from collections import OrderedDict
 from plone import api
 from plone.memoize.view import memoize
@@ -6,6 +7,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
 from zope.component import getUtility
 from zope.interface import implementer
@@ -41,6 +43,7 @@ class View(BrowserView):
         ]
     )
 
+    _sort_mode_default = '-modified'
     _sort_mode_options = OrderedDict(
         [
             ('-modified', _('Newest first')),
@@ -53,25 +56,39 @@ class View(BrowserView):
         ]
     )
 
+    _state_mode_default = ''
     _state_mode_options = OrderedDict(
         [
             ('open', _('Open tickets')),
-            ('closed', _('Closed tickets')),
+            ('done', _('Closed tickets')),
             ('', _('All tickets')),
         ]
     )
 
     @property
     @memoize_contextless
+    def portal(self):
+        ''' Return the userprofile container view
+        '''
+        return api.portal.get()
+
+    @property
+    @memoize_contextless
     def userprofiles(self):
         ''' Return the userprofile container view
         '''
-        portal = api.portal.get()
         return api.content.get_view(
             'view',
-            portal.profiles,
+            self.portal.profiles,
             self.request,
         )
+
+    @property
+    @memoize_contextless
+    def workspace_container(self):
+        ''' Return the userprofile container view
+        '''
+        return self.portal.workspaces
 
     @property
     @memoize
@@ -83,7 +100,7 @@ class View(BrowserView):
     @property
     @memoize
     def add_task_url(self):
-        ''' Convenience method to easily render the tabs in the template
+        ''' The URL for adding a personal tasks
         '''
         user = self.user
         if not user:
@@ -142,9 +159,8 @@ class View(BrowserView):
         options = self.options2items(
             self._sort_mode_options,
             'sort-mode',
-            '-modified',
+            self._sort_mode_default,
         )
-        options = []  # BBB
         return options
 
     @property
@@ -155,9 +171,8 @@ class View(BrowserView):
         options = self.options2items(
             self._state_mode_options,
             'state-mode',
-            '',
+            self._state_mode_default,
         )
-        options = []  # BBB
         return options
 
     @memoize
@@ -173,9 +188,13 @@ class View(BrowserView):
         form = self.request.form
         keywords = form.get('SearchableText')
         filters['portal_type'] = 'todo'
+        state_mode = form.get('state-mode', self._state_mode_default)
+        if state_mode:
+            filters['review_state'] = state_mode
         search_util = getUtility(ISiteSearch)
+
         _params = {
-            'sort': 'sortable_title',
+            'sort': form.get('sort-mode', self._sort_mode_default),
             'step': 9999,
         }
         _params.update(params)
@@ -196,8 +215,40 @@ class View(BrowserView):
         path = '/'.join(self.user.getPhysicalPath())
         return [t.getObject() for t in self.search_tasks({'path': path})]
 
+    @property
+    @memoize
+    def workspace_tasks(self):
+        ''' Return the tasks inside workspaces
+        '''
+        path = '/'.join(self.workspace_container.getPhysicalPath())
+        return [t.getObject() for t in self.search_tasks({'path': path})]
+
+    @property
+    @memoize
+    def tasks_by_workspace(self):
+        ''' Return the tasks inside workspaces grouped by workspace
+        '''
+        tasks = self.workspace_tasks
+        tasks_by_workspace = defaultdict(list)
+        for task in tasks:
+            workspace = parent_workspace(task)
+            tasks_by_workspace[workspace].append(task)
+        if self.personal_tasks:
+            tasks_by_workspace[None].extend(self.personal_tasks)
+        return tasks_by_workspace
+
+    @property
+    @memoize
+    def workspaces(self):
+        ''' Return the workspaces that contain mathing tasks
+        '''
+        return sorted(
+            self.tasks_by_workspace,
+            key=lambda w: getattr(w, 'title', ''),
+        )
+
     @memoize
     def show_no_results(self):
         ''' Check if we should show the no result notice
         '''
-        return not self.personal_tasks
+        return not (self.personal_tasks or self.tasks_by_workspace)

@@ -54,7 +54,7 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
             self.actions['Cancel'].type = 'button'
         else:
             self.actions['Delete'].klass = 'icon-ok-circle'
-            self.actions['Cancel'].klass = 'icon-cancel-circle'
+            self.actions['Cancel'].klass = 'icon-cancel-circle close-panel'
 
     @button.buttonAndHandler(_(u'I am sure, delete now'), name='Delete')
     def handle_delete(self, action):
