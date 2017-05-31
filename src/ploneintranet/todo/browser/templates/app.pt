@@ -123,7 +123,7 @@
                     <div class="pat-collapsible context-menu closed align-left"
                          id="initiators-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#initiators-menu),.close-menu"
-                         tal:condition="bbb|view/show_initiatiors|nothing"
+                         tal:condition="view/show_initiators"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -135,10 +135,10 @@
                            i18n:translate=""
                         >Close</p>
                         <fieldset class="pat-checklist">
-                          <label>
+                          <label tal:condition="nocall:view/user">
                             <input name="initiator"
                                    type="checkbox"
-                                   value="myself"
+                                   value="${view/user/username}"
                             />
                             <tal:i18n i18n:translate="">I</tal:i18n>
                           </label>

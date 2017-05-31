@@ -76,6 +76,8 @@ class View(BrowserView):
 
     _search_tasks_limit = 100
 
+    show_initiators = True
+
     @property
     @memoize_contextless
     def portal(self):
@@ -227,6 +229,9 @@ class View(BrowserView):
             filters['due__ge'] = solr_date(start)
         elif end:
             filters['due__le'] = solr_date(end)
+        initiator = form.get('initiator', None)
+        if initiator:
+            filters['initiator'] = initiator
 
     def search_tasks(self, filters={}, **params):
         """
@@ -471,6 +476,8 @@ class PersonalTasksView(View):
             ('initiated', _('Personal tickets that I assigned to others')),
         ]
     )
+
+    show_initiators = False
 
     def set_filters(self, filters={}, **params):
         ''' Filter by assignee with my userid
