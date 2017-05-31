@@ -74,7 +74,7 @@
                     <div class="pat-collapsible context-menu closed align-left"
                          id="assignees-menu"
                          data-pat-collapsible="close-trigger: .context-menu:not(#assignees-menu),.close-menu"
-                         tal:condition="bbb|view/show_assignes|nothing"
+                         tal:condition="view/show_assignes"
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
@@ -85,39 +85,59 @@
                         <p class="close-menu"
                            i18n:translate=""
                         >Close</p>
-                        <fieldset class="pat-checklist">
-                          <label>
-                            <input name="assignee"
-                                   type="checkbox"
-                                   value="myself"
-                            />
-                            <tal:i18n i18n:translate="">I</tal:i18n>
-                          </label>
-                        </fieldset>
-                        <tal:departments condition="bbb|view/departments|nothing">
-                          <h4 i18n:translate="">Departments</h4>
-                          <fieldset class="pat-checklist unchecked">
-                            <label tal:repeat="department view/departments">
+                        <tal:protodivergent condition="nothing">
+                          <!--
+                            I deliberately replaced the list of checkboxes
+                            The list, infact, can be huge and there is not
+                            a clear way to filter the users in the list
+                          -->
+                          <fieldset class="pat-checklist">
+                            <label>
                               <input name="assignee"
                                      type="checkbox"
-                                     value="${department/value}"
+                                     value="myself"
                               />
-                              ${department/label}
+                              <tal:i18n i18n:translate="">I</tal:i18n>
                             </label>
                           </fieldset>
-                        </tal:departments>
-                        <tal:individuals condition="bbb|view/individuals|nothing">
-                          <h4 i18n:translate="">Individuals</h4>
-                          <fieldset class="pat-checklist unchecked">
-                            <label tal:repeat="individual view/individual">
-                              <input name="assignee"
-                                     type="checkbox"
-                                     value="${individual/value}"
+                          <tal:departments condition="bbb|view/departments|nothing">
+                            <h4 i18n:translate="">Departments</h4>
+                            <fieldset class="pat-checklist unchecked">
+                              <label tal:repeat="department view/departments">
+                                <input name="assignee"
+                                       type="checkbox"
+                                       value="${department/value}"
+                                />
+                                ${department/label}
+                              </label>
+                            </fieldset>
+                          </tal:departments>
+                          <tal:individuals condition="bbb|view/individuals|nothing">
+                            <h4 i18n:translate="">Individuals</h4>
+                            <fieldset class="pat-checklist unchecked">
+                              <label tal:repeat="individual view/individual">
+                                <input name="assignee"
+                                       type="checkbox"
+                                       value="${individual/value}"
+                                />
+                                ${individual/label}
+                              </label>
+                            </fieldset>
+                          </tal:individuals>
+                        </tal:protodivergent>
+                        <tal:protodivergent>
+                          <fieldset>
+                            <label>
+                              <input class="pat-autosuggest users"
+                                     name="assignee"
+                                     placeholder="Filter by user"
+                                     type="text"
+                                     data-pat-autosuggest="${view/get_data_pat_autosuggest}"
+                                     i18n:attributes="placeholder"
                               />
-                              ${individual/label}
                             </label>
                           </fieldset>
-                        </tal:individuals>
+                        </tal:protodivergent>
                       </div>
                     </div>
                     <div class="pat-collapsible context-menu closed align-left"
@@ -134,26 +154,46 @@
                         <p class="close-menu"
                            i18n:translate=""
                         >Close</p>
-                        <fieldset class="pat-checklist">
-                          <label tal:condition="nocall:view/user">
-                            <input name="initiator"
-                                   type="checkbox"
-                                   value="${view/user/username}"
-                            />
-                            <tal:i18n i18n:translate="">I</tal:i18n>
-                          </label>
-                        </fieldset>
-                        <fieldset class="pat-checklist"
-                                  tal:condition="view/initiators|nothing"
-                        >
-                          <label tal:repeat="item view/initiators">
-                            <input name="assignee"
-                                   type="checkbox"
-                                   value="${item/value}"
-                            />
-                            ${item/label}
-                          </label>
-                        </fieldset>
+                        <tal:protodivergent condition="nothing">
+                          <!--
+                            I deliberately replaced the list of checkboxes
+                            The list, infact, can be huge and there is not
+                            a clear way to filter the users in the list
+                          -->
+                          <fieldset class="pat-checklist">
+                            <label tal:condition="nocall:view/user">
+                              <input name="initiator"
+                                     type="checkbox"
+                                     value="${view/user/username}"
+                              />
+                              <tal:i18n i18n:translate="">I</tal:i18n>
+                            </label>
+                          </fieldset>
+                          <fieldset class="pat-checklist"
+                                    tal:condition="view/initiators|nothing"
+                          >
+                            <label tal:repeat="item view/initiators">
+                              <input name="assignee"
+                                     type="checkbox"
+                                     value="${item/value}"
+                              />
+                              ${item/label}
+                            </label>
+                          </fieldset>
+                        </tal:protodivergent>
+                        <tal:protodivergent>
+                          <fieldset>
+                            <label>
+                              <input class="pat-autosuggest users"
+                                     name="initiator"
+                                     placeholder="Filter by user"
+                                     type="text"
+                                     data-pat-autosuggest="${view/get_data_pat_autosuggest}"
+                                     i18n:attributes="placeholder"
+                              />
+                            </label>
+                          </fieldset>
+                        </tal:protodivergent>
                       </div>
                     </div>
                     <div class="pat-collapsible context-menu closed align-left"

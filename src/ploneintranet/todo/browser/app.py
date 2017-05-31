@@ -77,6 +77,7 @@ class View(BrowserView):
     _search_tasks_limit = 100
 
     show_initiators = True
+    show_assignes = True
 
     @property
     @memoize_contextless
@@ -106,6 +107,27 @@ class View(BrowserView):
             2: 'priority-high',
         }
         return classes.get(priority, '')
+
+    @property
+    @memoize
+    def allusers_json_url(self):
+        ''' Return @@allusers.json in the proper context
+        '''
+        return '{}/@@allusers.json'.format(
+            self.portal.profiles.absolute_url()
+        )
+
+    def get_data_pat_autosuggest(self):
+        ''' Return the data-pat-autosuggest for a fieldname
+        '''
+        options = [
+            'ajax-data-type: json',
+            'maximum-selection-size: 1',
+            'selection-classes: {}',
+            'ajax-url: {}'.format(self.allusers_json_url),
+            'allow-new-words: false',
+        ]
+        return '; '.join(options)
 
     @property
     @memoize_contextless
@@ -229,9 +251,13 @@ class View(BrowserView):
             filters['due__ge'] = solr_date(start)
         elif end:
             filters['due__le'] = solr_date(end)
-        initiator = form.get('initiator', None)
-        if initiator:
-            filters['initiator'] = initiator
+        for key in (
+            'assignee',
+            'initiator',
+        ):
+            value = form.get(key, None)
+            if value:
+                filters[key] = value
 
     def search_tasks(self, filters={}, **params):
         """
@@ -438,6 +464,8 @@ class MyTasksView(View):
     ''' The tasks assigned to me
     '''
 
+    show_assignes = False
+
     @property
     @forever.memoize
     def _browse_mode_options(self):
@@ -478,6 +506,7 @@ class PersonalTasksView(View):
     )
 
     show_initiators = False
+    show_assignes = False
 
     def set_filters(self, filters={}, **params):
         ''' Filter by assignee with my userid
