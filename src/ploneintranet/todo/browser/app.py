@@ -83,6 +83,17 @@ class View(BrowserView):
             self.request,
         )
 
+    @memoize_contextless
+    def get_prio_class(self, priority):
+        ''' Return a class to set the priority market
+        '''
+        classes = {
+            0: 'priority-low',
+            1: 'priority-medium',
+            2: 'priority-high',
+        }
+        return classes.get(priority, '')
+
     @property
     @memoize_contextless
     def workspace_container(self):
@@ -213,7 +224,10 @@ class View(BrowserView):
         if not self.user:
             return []
         path = '/'.join(self.user.getPhysicalPath())
-        return [t.getObject() for t in self.search_tasks({'path': path})]
+        return filter(
+            None,
+            [t.getObject() for t in self.search_tasks({'path': path})],
+        )
 
     @property
     @memoize
@@ -221,7 +235,10 @@ class View(BrowserView):
         ''' Return the tasks inside workspaces
         '''
         path = '/'.join(self.workspace_container.getPhysicalPath())
-        return [t.getObject() for t in self.search_tasks({'path': path})]
+        return filter(
+            None,
+            [t.getObject() for t in self.search_tasks({'path': path})],
+        )
 
     @property
     @memoize
