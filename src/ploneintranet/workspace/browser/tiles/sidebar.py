@@ -102,7 +102,7 @@ class BaseTile(BrowserView):
                         type="success")
                     ws.reindexObject()
                     notify(ObjectModifiedEvent(self.context))
-                    if 'hero_image' in form:
+                    if form.get('hero_image', None):
                         self.request.response.redirect(
                             self.context.absolute_url())
 
