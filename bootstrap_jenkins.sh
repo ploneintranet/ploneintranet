@@ -1,9 +1,10 @@
 # Default to jenkins.cfg if no config file passed in
 BUILDOUT_CONFIG=${1-jenkins.cfg}
+PATH=/opt/src/buildout.python/python-2.7/bin:$PATH
 make solr-clean clean
 if [ ! -f bin/activate ]
 then
-    virtualenv .
+    virtualenv . -p python2.7
 fi
 mkdir -p buildout-cache/downloads || exit 1
 
