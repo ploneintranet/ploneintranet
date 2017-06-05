@@ -169,6 +169,24 @@ class ContentView(BrowserView):
         '''
         return True
 
+    @property
+    @memoize
+    def is_locked(self):
+        ''' If the document is locked by another user do not update it
+        '''
+        view = api.content.get_view(
+            'toggle-lock',
+            self.context,
+            self.request,
+        )
+        info = view.lock_info
+        if not info:
+            return False
+        user = self.user
+        if user and user.username == info.get('creator'):
+            return False
+        return True
+
     def update(self):
         """ """
         context = aq_inner(self.context)
@@ -176,6 +194,13 @@ class ContentView(BrowserView):
         fields_modified = {}
         errors = []
         messages = []
+        if self.is_locked:
+            api.portal.show_message(
+                _('The document is locked by another user.'),
+                self.request,
+                'error',
+            )
+            return
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -197,8 +222,10 @@ class ContentView(BrowserView):
             if self.validate():
                 fields_modified, errors = dexterity_update(context)
                 if fields_modified:
-                    messages.append(
-                        context.translate(_("Your changes have been saved.")))
+                    if not self.autosave_enabled:
+                        messages.append(
+                            _("Your changes have been saved.")
+                        )
 
         versioning_errors = self.save_version()
         errors.extend(versioning_errors)
@@ -212,9 +239,10 @@ class ContentView(BrowserView):
             )
 
         elif workflow_modified or fields_modified:
-            api.portal.show_message(
-                ' '.join(messages), request=self.request,
-                type="success")
+            if messages:
+                api.portal.show_message(
+                    ' '.join(messages), request=self.request,
+                    type="success")
 
             if fields_modified:
                 descriptions = [
@@ -317,12 +345,13 @@ class ContentView(BrowserView):
         ]
         if self.autosave_enabled:
             mainid = 'saving-badge'
+            parts.append('#workflow-menu; loading-class: \'\'')
         else:
             mainid = 'document-body'
-            parts.append(
-                'source:#global-statusmessage; target:#global-statusmessage; '
-                'loading-class: \'\''
-            )
+        parts.append(
+            'source:#global-statusmessage; target:#global-statusmessage; '
+            'loading-class: \'\''
+        )
         template = ' && '.join(parts)
         return template.format(
             mainid=mainid,
