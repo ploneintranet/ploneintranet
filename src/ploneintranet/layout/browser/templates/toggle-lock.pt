@@ -13,5 +13,8 @@
         <metal:macro use-macro="context/main_template/macros/statusmessage" />
       </div>
     </metal:statusmessage>
+    <metal:statusmessage fill-slot="content-core">
+      <tal:saving_badge replace="structure here/@@saving_badge" />
+    </metal:statusmessage>
   </body>
 </html>
