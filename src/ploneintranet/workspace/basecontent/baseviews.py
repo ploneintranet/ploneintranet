@@ -19,6 +19,7 @@ from Products.CMFEditions.interfaces.IModifier import FileTooLargeToVersionError
 from Products.CMFEditions.utilities import isObjectChanged
 from Products.CMFEditions.utilities import maybeSaveVersion
 from Products.Five import BrowserView
+from time import time
 from urllib import urlencode
 from zope.component import getUtility
 from zope.event import notify
@@ -187,6 +188,23 @@ class ContentView(BrowserView):
             return False
         return True
 
+    @property
+    @memoize
+    def is_old_version(self):
+        ''' Prevent overwriting changes by checking
+        that the current object modification time is equal to the one
+        known when the document form was rendered
+        '''
+        modified = self.request.form.get('dx_modified')
+        if not modified:
+            return False
+        if isinstance(modified, list):
+            modified = modified[0]
+        if modified != self.context.dx_modified:
+            return True
+        self.request.form.pop('dx_modified')
+        return False
+
     def update(self):
         """ """
         context = aq_inner(self.context)
@@ -201,6 +219,23 @@ class ContentView(BrowserView):
                 'error',
             )
             return
+        if self.is_old_version:
+            msg = _(
+                'document_modified_error',
+                default=(
+                    'It seems that this document was modified since '
+                    'you loaded this form. '
+                    'Your changes will be discarded. '
+                    'Please reload this page. '
+                ),
+            )
+            api.portal.show_message(
+                msg,
+                self.request,
+                'error',
+            )
+            return
+
         if (
                 self.request.get('workflow_action') and
                 not self.request.get('form.submitted')):
@@ -209,6 +244,7 @@ class ContentView(BrowserView):
                 transition=self.request.get('workflow_action')
             )
             # re-calculate can_edit after the workflow state change
+            context.dx_modified = str(int(time()))
             self.can_edit = api.user.has_permission(
                 self._edit_permission,
                 obj=context
@@ -222,6 +258,7 @@ class ContentView(BrowserView):
             if self.validate():
                 fields_modified, errors = dexterity_update(context)
                 if fields_modified:
+                    context.dx_modified = str(int(time()))
                     if not self.autosave_enabled:
                         messages.append(
                             _("Your changes have been saved.")
