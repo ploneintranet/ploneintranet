@@ -449,15 +449,22 @@ class TestUserProfileGetUserSuggestions(IntegrationTestCase):
         self.profiles_1 = [pi_api.userprofile.create(
             username=u'bobschmo-%s' % x,
             email=u'bobschmo-%s@schmo.com' % x,
+            approve=True,
         ) for x in range(8)]
         self.profiles_2 = [pi_api.userprofile.create(
             username=u'bobdoe-%s' % x,
             email=u'bobdoe-%s@doe.com' % x,
+            approve=True,
         ) for x in range(8)]
         self.profiles_3 = [pi_api.userprofile.create(
             username=u'maryjane-%s' % x,
             email=u'maryjane-%s@doe.com' % x,
+            approve=True,
         ) for x in range(8)]
+        self.profile_4 = pi_api.userprofile.create(
+            username='bobnot_enabled',
+            email='bobnot_enabled@doe.com',
+        )
         self.folder = plone_api.content.create(
             self.portal, 'Folder', 'my-folder', 'My Folder')
 
@@ -498,6 +505,24 @@ class TestUserProfileGetUserSuggestions(IntegrationTestCase):
             self.folder, full_objects=True, **q)
         found = set([x for x in usergen])
         self.assertEquals(found, set(self.profiles_1))
+
+    def test_suggestions_only_include_enabled_users(self):
+        """Context provides enough"""
+        self.folder.members = (
+            [u'bobschmo-%x' % x for x in range(8)] + [self.profile_4.username])
+        directlyProvides(self.folder, IMemberGroup)
+        q = {'SearchableText': 'bob*'}
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, **q)
+        found = set([x for x in usergen])
+        # bobnot is not found
+        self.assertEquals(found, set(self.profiles_1))
+        # Now enable bobnot
+        plone_api.content.transition(self.profile_4, to_state="enabled")
+        usergen = pi_api.userprofile.get_user_suggestions(
+            self.folder, full_objects=True, **q)
+        found = set([x for x in usergen])
+        self.assertEquals(found, set(self.profiles_1 + [self.profile_4]))
 
     def test_suggestions_context_search_underlimit(self):
         """Context provides enough"""
