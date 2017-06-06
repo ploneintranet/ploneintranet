@@ -48,6 +48,8 @@ class Users(UpdateSocialBase):
             self.request.form.get('usersearch', '').strip())
         q = q.replace('**', '')
         query = {'SearchableText': q}
+        # We can only mention users that are enabled
+        query['review_state'] = 'enabled'
         users = pi_api.userprofile.get_users(
             context=self.context, full_objects=False, **query)
         return sorted(users, key=lambda x: x.Title)

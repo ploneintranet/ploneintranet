@@ -98,27 +98,31 @@ def get_user_suggestions(
     :returns: user brains or user objects
     :rtype: iterator
     """
-    def expand(search_results, full_objects):
+    def expand(search_results, full_objects, **kwargs):
         """Helper function to delay full object expansion"""
-        # Only return users that are enabled
-        search_results = filter(
-            lambda x: getattr(x, 'review_state', '') == 'enabled',
-            search_results)
+        # Filter results by chosen review state
+        if 'review_state' in kwargs:
+            search_results = filter(
+                lambda x: getattr(x, 'review_state', '') == kwargs['review_state'],  # noqa
+                search_results)
         if full_objects:
             return (x.getObject() for x in search_results)
         else:
             return search_results
 
+    # By default, only return users that are enabled
+    if 'review_state' not in kwargs:
+        kwargs['review_state'] = 'enabled'
     # stage 1 context users
     if context:
         context_users = [x for x in get_users(context, False, **kwargs)]
         if len(context_users) >= min_matches:
-            return expand(context_users, full_objects)
+            return expand(context_users, full_objects, **kwargs)
     # prepare stage 2 and 3
     all_users = [x for x in get_users(None, False, **kwargs)]
     # skip stage 2 if not enough users
     if len(all_users) < min_matches:
-        return expand(all_users, full_objects)
+        return expand(all_users, full_objects, **kwargs)
     # prepare stage 2 filter - unicode!
     graph = queryUtility(INetworkTool)
     following_ids = [x for x in graph.get_following(
@@ -131,9 +135,9 @@ def get_user_suggestions(
     else:
         filtered_users = following_users
     if len(filtered_users) >= min_matches:
-        return expand(filtered_users, full_objects)
+        return expand(filtered_users, full_objects, **kwargs)
     # fallback to stage 3 all users
-    return expand(all_users, full_objects)
+    return expand(all_users, full_objects, **kwargs)
 
 
 def get_users_from_userids_and_groupids(ids=None):
