@@ -528,11 +528,11 @@ class TestViews(IntegrationTestCase):
         view = self.get_view('toggle-lock', obj)
         self.assertEqual(view.lock_info, None)
         self.assertNotEqual(view.lock_operations, None)
-        self.assertEqual(view.lock(), u'Document locked')
+        view.lock()
         # Purge the cache
         view.request.__annotations__.pop('plone.memoize')
         self.assertEqual(view.lock_info['creator'], 'test_user_1_')
-        self.assertEqual(view.unlock(), u'Document unlocked')
+        view.unlock()
         # Purge the cache
         view.request.__annotations__.pop('plone.memoize')
         self.assertEqual(view.lock_info, None)

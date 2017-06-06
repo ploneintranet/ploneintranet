@@ -422,4 +422,7 @@ def create_title_from_id(obj, event):
     chooser = INameChooser(container)
     new_id = chooser and chooser.chooseName(normalized_name, container)
     if new_id and new_id != orig_id:
+        unlock_view = obj.restrictedTraverse('@@toggle-lock', None)
+        if unlock_view and unlock_view.can_unlock():
+            unlock_view.unlock()
         api.content.rename(obj, new_id)

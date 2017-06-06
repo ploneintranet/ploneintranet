@@ -169,12 +169,14 @@
       permission="zope2.View"
       />
 
+  <!-- zope.Public is there on purpose to remove the lock when workflow changes
+       do not allow the user to edit view the content anymore -->
   <browser:page
       for="*"
       name="toggle-lock"
       template="templates/toggle-lock.pt"
       class=".toggle_lock.ToggleLockView"
-      permission="cmf.ModifyPortalContent"
+      permission="zope.Public"
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
