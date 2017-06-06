@@ -145,18 +145,20 @@ class ProtoView(BrowserView):
         return 'icon-document'
 
     @memoize_contextless
-    def translate_short_month_name(self, short_month_name):
+    def translate_short_month_name(self, short_month_name, short=False):
         ''' Translate the short month name using plonelocales
         '''
         msg_id = 'month_{}'.format(short_month_name)
+        if short:
+            msg_id += '_abbr'
         return self.context.translate(pl_message(msg_id))
 
-    def date2month_name(self, date):
+    def date2month_name(self, date, short=False):
         """
         Return the full month name in the appropriate language
         """
         short_month_name = date.strftime('%b').lower()  # jan
-        return self.translate_short_month_name(short_month_name)
+        return self.translate_short_month_name(short_month_name, short)
 
     @memoize_contextless
     def is_slow(self):
