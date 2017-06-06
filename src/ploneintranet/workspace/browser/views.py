@@ -190,7 +190,6 @@ class FileUploadView(BaseFileUploadView):
         upload_lock.acquire()
         newid = chooser.chooseName(name, self.context.aq_parent)
         try:
-            transaction.begin()
             obj = createContentInContainer(
                 self.context,
                 portal_type,
