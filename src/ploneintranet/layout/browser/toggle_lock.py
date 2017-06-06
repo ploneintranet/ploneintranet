@@ -55,6 +55,15 @@ class ToggleLockView(BrowserView):
         '''
         return pi_api.userprofile.get_current()
 
+    def can_lock(self):
+        ''' Check if we can lock this document
+        '''
+        # If we cannot edit the document, we should not lock it
+        return api.user.has_permission(
+            'Modify portal content',
+            obj=self.context,
+        )
+
     def can_unlock(self):
         ''' Check if we can unlock this document
         '''
@@ -81,7 +90,7 @@ class ToggleLockView(BrowserView):
         if not self.lock_operations:
             # Document does not support locking
             return
-        if self.request.form.get('lock'):
+        if self.request.form.get('lock') and self.can_lock():
             if self.lock_info:
                 return
             return self.lock()
