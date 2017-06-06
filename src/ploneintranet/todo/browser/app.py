@@ -82,6 +82,28 @@ class View(BrowserView):
 
     @property
     @memoize_contextless
+    def allowed_columns(self):
+        ''' List the columns we should display in the results
+
+        This depends on the grouping
+        '''
+        all_columns = {
+            'assignee',
+            'due',
+            'initiator',
+            'milestone',
+        }
+        browse_mode = self.browse_mode
+        if browse_mode == 'assignee':
+            all_columns.remove('assignee')
+        elif browse_mode == 'initiator':
+            all_columns.remove('initiator')
+        else:
+            all_columns.remove('milestone')
+        return all_columns
+
+    @property
+    @memoize_contextless
     def portal(self):
         ''' Return the userprofile container view
         '''
