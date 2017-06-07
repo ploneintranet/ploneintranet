@@ -300,7 +300,7 @@ msgid "All notifications"
 msgstr "Alle Benachrichtigungen"
 
 #: ../todo/browser/app.py:554
-msgid "All personal tickets"
+msgid "All personal tasks"
 msgstr "Alle persönlichen Aufgaben"
 
 #: ../todo/browser/app.py:37
@@ -2153,11 +2153,11 @@ msgid "Personal tasks"
 msgstr "Persönliche Aufgaben"
 
 #: ../todo/browser/app.py:555
-msgid "Personal tickets assigned to me by others"
+msgid "Personal tasks assigned to me by others"
 msgstr "Persönliche Aufgaben, die mir zugewiesen wurden"
 
 #: ../todo/browser/app.py:556
-msgid "Personal tickets that I assigned to others"
+msgid "Personal tasks that I assigned to others"
 msgstr "Persönliche Aufgaben, die ich anderen zugewiesen habe"
 
 #: ../userprofile/content/userprofile.py:53

@@ -551,9 +551,9 @@ class PersonalTasksView(View):
     _browse_mode_default = ''
     _browse_mode_options = OrderedDict(
         [
-            ('', _('All personal tickets')),
-            ('assigned', _('Personal tickets assigned to me by others')),
-            ('initiated', _('Personal tickets that I assigned to others')),
+            ('', _('All personal tasks')),
+            ('assigned', _('Personal tasks assigned to me by others')),
+            ('initiated', _('Personal tasks that I assigned to others')),
         ]
     )
 
