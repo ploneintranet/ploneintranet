@@ -4,6 +4,7 @@
       tal:define="
         userprofiles nocall:view/userprofiles;
         authenticator here/@@authenticator/authenticator;
+        allowed_columns view/allowed_columns;
       "
 >
   <p class="pat-message notice"
@@ -62,7 +63,7 @@
              data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
           >${item/title}</a>
           <div class="additional-meta-data">
-            <tal:assignee>
+            <tal:assignee condition="python: 'assignee' in allowed_columns">
               <a class="assignee meta-column icon-user pat-modal"
                  href="${here/portal_url}/profiles/${item/assignee}/@@userprofile-info#person-info::element"
                  title="Assignee"
@@ -75,7 +76,7 @@
                         &nbsp;
               </span>
             </tal:assignee>
-            <tal:due>
+            <tal:due condition="python: 'due' in allowed_columns">
               <time class="due-date meta-column icon-clock pat-display-time"
                     datetime="${item/due}"
                     title="Due date"
@@ -89,20 +90,19 @@
                         &nbsp;
               </span>
             </tal:due>
-            <tal:milestone tal:condition="nothing">
-              <a class="milestone meta-column icon-stage"
-                 href="${item/milestone_url}"
-                 title="Milestone"
-                 tal:condition="item/milestone"
-                 i18n:attributes="title;"
-              >${item/milestone}</a>
+            <tal:milestone condition="python: 'milestone' in allowed_columns">
+              <span class="milestone meta-column icon-${item/milestone|nothing}"
+                    title="Milestone"
+                    tal:condition="item/milestone"
+                    i18n:attributes="title;"
+              >${item/milestone|nothing}</span>
               <span class="meta-column"
                     tal:condition="not:item/milestone"
               >
                         &nbsp;
               </span>
             </tal:milestone>
-            <tal:initiator>
+            <tal:initiator condition="python: 'initiator' in allowed_columns">
               <a class="initiator meta-column icon-manager pat-modal"
                  href="${here/portal_url}/profiles/${item/initiator}/@@userprofile-info#person-info::element"
                  title="Initiator of this task"
