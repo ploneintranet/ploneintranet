@@ -69,9 +69,9 @@ class View(BrowserView):
     _state_mode_default = ''
     _state_mode_options = OrderedDict(
         [
-            ('open', _('Open tickets')),
-            ('done', _('Closed tickets')),
-            ('', _('All tickets')),
+            ('open', _('Open tasks')),
+            ('done', _('Closed tasks')),
+            ('', _('All tasks')),
         ]
     )
 

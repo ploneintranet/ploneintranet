@@ -305,7 +305,7 @@ msgid "All tasks"
 msgstr ""
 
 #: ../todo/browser/app.py:74
-msgid "All tickets"
+msgid "All tasks"
 msgstr ""
 
 #: ../bookmarks/browser/app.py:195
@@ -638,7 +638,7 @@ msgid "Closed"
 msgstr ""
 
 #: ../todo/browser/app.py:73
-msgid "Closed tickets"
+msgid "Closed tasks"
 msgstr ""
 
 #: ../workspace/browser/templates/content_macros.pt:242
@@ -2067,7 +2067,7 @@ msgid "Open sidebar"
 msgstr ""
 
 #: ../todo/browser/app.py:72
-msgid "Open tickets"
+msgid "Open tasks"
 msgstr ""
 
 #: ../calendar/browser/templates/app.pt:48
