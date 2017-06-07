@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.62 (unreleased)
+1.2.62 (2017-06-07)
 -------------------
 
 * Merge pull request #1352 from quaive/todo-app-columns [GitHub]
