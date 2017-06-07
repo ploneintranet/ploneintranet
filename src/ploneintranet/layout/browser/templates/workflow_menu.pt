@@ -22,5 +22,9 @@
       >${state/title}</option>
     </select>
   </label>
+  <input name="dx_modified"
+         type="hidden"
+         value="${request/dx_modified|here/dx_modified|nothing}"
+  />
   <span tal:replace="structure here/@@authenticator/authenticator"/>
 </fieldset>
