@@ -39,6 +39,7 @@
           y="0px"
           tal:define="
             now view/date;
+            date2month_name nocall:here/@@proto/date2month_name;
           "
           tal:condition="python:context.id=='calendar'"
       >
@@ -46,7 +47,7 @@
               transform="matrix(1 0 0 1 196.4268 304.8936)"
         >
           <tspan class="date">${python:now.strftime('%-d')}</tspan>
-          <tspan class="month">${python:now.strftime('%b')}</tspan>
+          <tspan class="month">${python:date2month_name(now, short=True).upper()}</tspan>
         </text>
       </svg>
     <tal:link tal:condition="context/app" replace="structure context/bookmark-link-iconified" />
