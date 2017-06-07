@@ -15,7 +15,9 @@
            authenticator here/@@authenticator/authenticator;
          "
     >
-      <div id="document-body"></div>
+      <div id="document-body">
+        <tal:content replace="structure view/manual|nothing" />
+      </div>
       <aside class="left sidebar"
              id="sidebar"
       >
@@ -292,6 +294,17 @@
             </form>
             <tal:results replace="structure view/results_view" />
           </div>
+          <ul class="sidebar-extras"
+              tal:condition="view/manual|nothing"
+          >
+            <li class="item">
+              <a class="icon-help-circle pat-inject pat-switch"
+                 href="${here/app_url}/#document-body"
+                 data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
+                 i18n:translate=""
+              >Read the manual</a>
+            </li>
+          </ul>
         </div>
       </aside>
       <tal:sidebar-toggle-button replace="structure here/@@sidebar-toggle-button" />
