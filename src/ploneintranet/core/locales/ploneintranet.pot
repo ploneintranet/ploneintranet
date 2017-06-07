@@ -401,7 +401,7 @@ msgid "Assignee"
 msgstr ""
 
 #: ../todo/browser/templates/app.pt:79
-msgid "Assignees"
+msgid "Assignee"
 msgstr ""
 
 #: ../async/configure.zcml:18
@@ -1410,7 +1410,7 @@ msgid "Initiator of this task"
 msgstr ""
 
 #: ../todo/browser/templates/app.pt:150
-msgid "Initiators"
+msgid "Initiator"
 msgstr ""
 
 #: ../news/configure.zcml:47

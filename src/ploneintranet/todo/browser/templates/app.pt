@@ -78,7 +78,7 @@
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
-                      >Assignees</strong>
+                      >Assignee</strong>
                       <div class="panel-content"
                            style="display: none;"
                       >
@@ -149,7 +149,7 @@
                     >
                       <strong class="label menu-trigger collapsible-closed"
                               i18n:translate=""
-                      >Initiators</strong>
+                      >Initiator</strong>
                       <div class="panel-content"
                            style="display: none;"
                       >
@@ -267,7 +267,7 @@
                   >Expand sidebar</a>
                   <a class="create-document pat-modal icon-doc-text"
                      href="${view/add_task_url}#content"
-                     title="Create new document"
+                     title="Create new task"
                      data-pat-modal="class: large"
                      tal:condition="view/add_task_url"
                      i18n:attributes="title;"
