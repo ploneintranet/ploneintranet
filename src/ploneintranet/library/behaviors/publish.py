@@ -129,6 +129,27 @@ class PublishWidely(object):
             # list publishing user as first creator = owner
             creators = [user.id] + [x for x in new.creators if x != user.id]
             new.setCreators(creators)
+
+            # If the required registry setting is present, order the items in
+            # the target folder in reverse chronological order.
+            if api.portal.get_registry_record(
+                'ploneintranet.library.order_by_modified',
+                default=False,
+            ):
+                ordering = target.getOrdering()
+                catalog = api.portal.get_tool('portal_catalog')
+                query = {
+                    'path': {
+                        'query': '/'.join(target.getPhysicalPath()),
+                        'depth': 1
+                    },
+                    'sort_on': 'modified',
+                    'sort_order': 'descending',
+                }
+                brains = catalog(**query)
+                for idx, brain in enumerate(brains):
+                    ordering.moveObjectToPosition(brain.id, idx)
+
             return new
 
         user = api.user.get_current()
