@@ -1,10 +1,25 @@
 Changelog
 =========
 
-1.2.63 (unreleased)
+1.2.64 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.63 (2017-06-08)
+-------------------
+
+* Merge pull request #1355 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1356 from quaive/translations_lock_and_todo_app [GitHub]
+* Merge pull request #1334 from quaive/reload_hero_image [GitHub]
+* Remove plural for Initiator and Assignee [ale-rt]
+* Stricter check for hero_image [ale-rt]
+* Reload hero image when changing it. [ale-rt]
+* Rename tickets -> tasks [ale-rt]
+* Rename tickets -> tasks [ale-rt]
+* added translations for document lock messages (#15361) and todo app (#14916). changed i18n domain to ploneintranet for app-results.pt [Angela Steinhardt]
+* Back to development: 1.2.63 [ale-rt]
 
 
 1.2.62 (2017-06-07)
