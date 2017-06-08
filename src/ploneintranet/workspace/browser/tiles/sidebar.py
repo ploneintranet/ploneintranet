@@ -102,6 +102,9 @@ class BaseTile(BrowserView):
                         type="success")
                     ws.reindexObject()
                     notify(ObjectModifiedEvent(self.context))
+                    if form.get('hero_image', None):
+                        self.request.response.redirect(
+                            self.context.absolute_url())
 
                 if errors:
                     api.portal.show_message(
