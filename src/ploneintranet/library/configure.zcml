@@ -9,6 +9,7 @@
 
   <include package=".browser" />
   <include package=".behaviors" />
+  <include package=".upgrades" />
 
   <genericsetup:registerProfile
       name="default"
@@ -28,23 +29,5 @@
 
   <subscriber for="zope.container.interfaces.IContainerModifiedEvent"
               handler=".handlers.reindex_object_positions" />
-
-  <genericsetup:upgradeDepends
-      source="*"
-      destination="0002"
-      profile="ploneintranet.library:default"
-      title="Activate publish widely behavior.
-             This is implicitly taken from the profile this upgradeStep is defined for."
-      import_steps="typeinfo" />
-  />
-
-  <genericsetup:upgradeDepends
-      source="*"
-      destination="0003"
-      profile="ploneintranet.library:default"
-      title="Close library for adding news items, should use the news app instead.
-             This is implicitly taken from the profile this upgradeStep is defined for."
-      import_steps="typeinfo" />
-  />
 
 </configure>
