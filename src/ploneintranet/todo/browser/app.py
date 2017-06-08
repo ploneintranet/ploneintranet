@@ -69,9 +69,9 @@ class View(BrowserView):
     _state_mode_default = ''
     _state_mode_options = OrderedDict(
         [
-            ('open', _('Open tickets')),
-            ('done', _('Closed tickets')),
-            ('', _('All tickets')),
+            ('open', _('Open tasks')),
+            ('done', _('Closed tasks')),
+            ('', _('All tasks')),
         ]
     )
 
@@ -551,9 +551,9 @@ class PersonalTasksView(View):
     _browse_mode_default = ''
     _browse_mode_options = OrderedDict(
         [
-            ('', _('All personal tickets')),
-            ('assigned', _('Personal tickets assigned to me by others')),
-            ('initiated', _('Personal tickets that I assigned to others')),
+            ('', _('All personal tasks')),
+            ('assigned', _('Personal tasks assigned to me by others')),
+            ('initiated', _('Personal tasks that I assigned to others')),
         ]
     )
 

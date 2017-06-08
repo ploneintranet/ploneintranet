@@ -29,7 +29,7 @@ Allan can add a workspace task
      Then I create a workspace task  My first task  Christian Stoney
      Then I delete the current document
 
-Allan use the todo apps filters
+Allan can use the todo apps filters
     Given I am logged in as the user allan_neece
      Then I can go to the application  Todo
      Then I can see that the first task is  Populate Metadata
@@ -48,7 +48,7 @@ I have no personal tasks
 
 I create a workspace task
     [arguments]  ${title}  ${assignee}
-    Click link  New task
+    Click link  Create new task
     I create a task  My first task  Christian Stoney
 
 I create a personal task
@@ -87,4 +87,4 @@ I sort the results
 
 I filter the results by state
     [arguments]  ${title}
-    Select From List  state-mode  ${title} tickets
+    Select From List  state-mode  ${title} tasks

@@ -1,6 +1,7 @@
 <form class="search-result"
       id="search-result"
       action="${here/absolute_url}/@@${view/__name__}#search-result"
+      i18n:domain="ploneintranet"
       tal:define="
         userprofiles nocall:view/userprofiles;
         authenticator here/@@authenticator/authenticator;
@@ -125,7 +126,7 @@
              title="Create new task"
              i18n:attributes="title"
              i18n:translate=""
-          >New task</a>
+          >Create new task</a>
         </p>
       </div>
     </fieldset>
