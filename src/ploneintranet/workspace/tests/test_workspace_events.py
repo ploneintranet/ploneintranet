@@ -1,7 +1,9 @@
 # coding=utf-8
-from ploneintranet.workspace.tests.base import BaseTestCase
 from plone import api
 from ploneintranet import api as pi_api
+from ploneintranet.workspace.interfaces import IWorkspaceAppContentLayer
+from ploneintranet.workspace.tests.base import BaseTestCase
+from zope.interface import alsoProvides
 
 
 class TestWorkSpaceWorkflow(BaseTestCase):
@@ -72,3 +74,44 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertTrue(
             html.get_payload().startswith('<p>Dear Mr./Ms. invitee,</p>\n')
         )
+
+    def test_agenda_items(self):
+        event = api.content.create(
+            self.workspace,
+            type='Event',
+            title='Test assignees',
+        )
+        document = api.content.create(
+            self.workspace,
+            type='Document',
+            title='Document in Agenda',
+        )
+        # Test default
+        self.assertEqual(event.agenda_items, [])
+        event.agenda_items = [
+            'Prologue',
+            document.UID(),
+            '1234567890abcdef1234567890abcdef',
+            u'☰',
+            u'Epilogue',
+        ]
+
+        # Test that the view understands when an agenda item is a UID
+        request = self.request.clone()
+        alsoProvides(request, IWorkspaceAppContentLayer)
+        event_view = api.content.get_view('event_view', event, request)
+        event_view.can_edit = True
+        # Check that we do not display underesolved UIDS
+        self.assertEqual(len(event.agenda_items), 5)
+        self.assertEqual(len(event_view.get_agenda_items()), 4)
+
+        for item in event_view.get_agenda_items():
+            if item['brain']:
+                self.assertTrue(item['read_only'])
+            else:
+                self.assertFalse(item['read_only'])
+
+        event_view.request.__annotations__.pop('plone.memoize')
+        event_view.can_edit = False
+        for item in event_view.get_agenda_items():
+            self.assertTrue(item['read_only'])

@@ -450,6 +450,32 @@ I can go to the sidebar events tile
     Click Link  link=Events
     Wait Until Element Is visible  xpath=//h3[.='Upcoming events']
 
+I open the sidebar event
+    [arguments]  ${title}
+    Click Element  jquery=.event-list .event :contains('${title}')
+    Wait for injection to be finished
+
+I see that the last event agenda item is
+    [arguments]  ${title}
+    Page should contain element  jquery=.agenda-item:last [value="${title}"]
+
+I see in the event agenda a link to
+    [arguments]  ${title}
+    Page should contain element  jquery=.agenda-item a:contains(${title})
+
+I add to the event agenda the item
+    [arguments]  ${title}
+    Click Element  jquery=.agenda #add-agenda-item
+    [Documentation]  Trick to
+    Execute Javascript  jQuery('.agenda-item.sortable:last').addClass('new-agenda-item-marker')
+    Input Text  jquery=.agenda-item.sortable:last input  ${title}
+    I save the document
+    I see that the last event agenda item is  ${title}
+
+I remove from the event agenda the last item
+    Input Text  jquery=.agenda-item:last input  \n
+    Wait for injection to be finished
+
 I can open the workspace advanced settings tab
     Click Link  link=Workspace settings and about
     Wait Until Page Does Not Contain Element  css=.injecting-content
@@ -991,10 +1017,7 @@ I can edit an event
     Input Text  css=div.event-details input[name=end]  text=${end}
     Click Element   css=input[name='location']
     Select From List  timezone  ${timezone}
-    Click Button  Save
-    Wait Until Element Is Visible  css=div.pat-notification-panel.success
-    Wait Until Page Contains  Your changes have been saved.
-    Click Button  Close
+    I save the document
     Wait Until Page Contains Element  jquery=#workspace-events a:contains(updated)
     Textfield Value Should Be  start  ${start}
     List selection should be  timezone  ${timezone}

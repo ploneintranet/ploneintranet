@@ -6,6 +6,7 @@ from plone.formwidget.namedfile.converter import NamedDataConverter
 from plone.namedfile.interfaces import INamedField
 from ploneintranet.layout.interfaces import IPloneintranetFormLayer
 from ploneintranet.network.behaviors.metadata import IDublinCore as pi_IDublinCore  # noqa
+from ploneintranet.workspace.behaviors.event import IPloneIntranetEvent
 from ploneintranet.workspace.behaviors.file import IFileField
 from ploneintranet.workspace.behaviors.image import IImageField
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
@@ -27,6 +28,7 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
+from zope.schema.interfaces import ISequence
 
 
 class IPatDatePickerWidget(IWidget):
@@ -41,6 +43,7 @@ class PatDatePickerWidget(Widget):
 
     :rtype datetime:
     """
+
     def extract(self, default=NO_VALUE):
         value = self.request.get(self.name, default)
         if value == default:
@@ -77,6 +80,7 @@ class DateCheckboxWidget(Widget):
 
     :rtype datetime:
     """
+
     def extract(self, default=NO_VALUE):
         value = self.request.get(self.name, default)
         if (
@@ -151,6 +155,7 @@ class IPloneIntranetFileWidget(IWidget):
 
 @implementer_only(IPloneIntranetFileWidget)
 class PloneIntranetFileWidget(Widget):
+
     def extract(self, default=NOT_CHANGED):
         """Return NOT_CHANGED if a filename isn't specified.
 
@@ -177,3 +182,44 @@ def PloneIntranetImageFieldWidget(field, request):
 @implementer(IFieldWidget)
 def PloneIntranetFileFieldWidget(field, request):
     return FieldWidget(field, PloneIntranetFileWidget(request))
+
+
+class ISortableListWidget(IWidget):
+    ''' Marker interface '''
+
+
+@implementer_only(ISortableListWidget)
+class SortableListWidget(Widget):
+    ''' A widget for a list of sortable elements, as represented with
+        pat-sortable on the front-end.
+    '''
+
+    def extract(self, default=NO_VALUE):
+        value = self.request.get(self.name, default)
+        if value == default:
+            return value
+        if not isinstance(value, (tuple, list)):
+            value = [value]
+        return filter(None, value)
+
+
+@adapter(
+    getSpecification(IPloneIntranetEvent['agenda_items']),
+    IWorkspaceAppFormLayer,
+)
+@implementer(IFieldWidget)
+def SortableListFieldWidget(field, request):
+    return FieldWidget(field, SortableListWidget(request))
+
+
+@adapter(ISequence, ISortableListWidget)
+class SortableListConverter(BaseDataConverter):
+    """ Data converter for ISortableListWidget.
+    """
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        collectionType = self.field._type
+        if isinstance(collectionType, tuple):
+            collectionType = collectionType[-1]
+        return collectionType(value)

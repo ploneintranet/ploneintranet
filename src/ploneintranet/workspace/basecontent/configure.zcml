@@ -112,4 +112,14 @@
   <adapter factory=".widgets.PloneIntranetFileFieldWidget" />
   <adapter factory=".widgets.PloneIntranetImageFieldWidget" />
 
+  <class class=".widgets.SortableListWidget">
+    <require
+        permission="zope.Public"
+        interface=".widgets.ISortableListWidget"
+        />
+  </class>
+
+  <adapter factory=".widgets.SortableListFieldWidget" />
+  <adapter factory=".widgets.SortableListConverter" />
+
 </configure>

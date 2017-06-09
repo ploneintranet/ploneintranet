@@ -5,6 +5,25 @@
       i18n:domain="ploneintranet">
   <body>
 
+    <metal:button_cluster define-macro="button_cluster"
+                  i18n:domain="ploneintranet"
+    >
+      <span class="button-cluster" tal:condition="not:read_only">
+        <button class="sortable-button-up small pat-button"
+                name="up"
+                type="submit"
+                value="up"
+                i18n:translate=""
+        >Up</button>
+        <button class="sortable-button-down small pat-button"
+                name="down"
+                type="submit"
+                value="down"
+                i18n:translate=""
+        >down</button>
+      </span>
+    </metal:button_cluster>
+
     <metal:task_fields i18n:domain="ploneintranet"
         define-macro="task_fields"
         tal:define="chv here/content_helper_view;
@@ -229,6 +248,91 @@
             </select>
         </label>
 
+      </fieldset>
+
+      <fieldset class="group agenda"
+                tal:define="
+                  agenda_items view/get_agenda_items|nothing;
+                  show_no_agenda_items python: not agenda_items and read_only;
+                "
+      >
+        <legend i18n:translate="">Agenda</legend>
+        <ol class="items-list ${python:'pat-sortable pat-clone' if not read_only else ''}"
+            data-pat-clone="template: #agenda-item-template"
+            data-pat-sortable="selector: .sortable"
+            tal:condition="not:show_no_agenda_items"
+        >
+          <tal:new_item condition="not:read_only">
+            <li class="agenda-item sortable"
+                id="agenda-item-template"
+                hidden
+            >
+              <input type="text"
+                     placeholder="Name of agenda item"
+                     name="agenda_items"
+                     i18n:attributes="placeholder;"
+                     value=""
+              />
+              <metal:macro use-macro="here/content_macros/button_cluster" />
+            </li>
+            <li class="agenda-item sortable" tal:condition="not:agenda_items">
+              <input type="text"
+                     placeholder="Name of agenda item"
+                     name="agenda_items"
+                     i18n:attributes="placeholder;"
+                     value=""
+              />
+              <metal:macro use-macro="here/content_macros/button_cluster" />
+            </li>
+          </tal:new_item>
+          <li class="agenda-item sortable"
+              tal:repeat="agenda_item agenda_items"
+          >
+            <tal:write condition="not:agenda_item/read_only">
+              <input type="text"
+                     placeholder="Name of agenda item"
+                     name="agenda_items"
+                     i18n:attributes="placeholder;"
+                     value="${agenda_item/value}"
+              />
+            </tal:write>
+            <tal:read condition="agenda_item/read_only">
+              <h4 class="title"
+                  tal:define="brain agenda_item/brain"
+              >
+                <a href="${brain/getURL}/view"
+                   target="AgendaItem"
+                   tal:omit-tag="not:brain"
+                >
+                  ${brain/Title|agenda_item/value}
+                </a>
+                <span class="meta">
+                  <em class="label ${badge/klass}"
+                      tal:repeat="badge python:view.get_agenda_item_badges(agenda_item)"
+                  >${badge/label}</em>
+                </span>
+                <input type="hidden"
+                       name="agenda_items"
+                       value="${agenda_item/value}"
+                />
+              </h4>
+              <p class="summary">${agenda_item/brain/Description|nothing}</p>
+            </tal:read>
+            <metal:macro use-macro="here/content_macros/button_cluster" />
+          </li>
+        </ol>
+        <em tal:condition="show_no_agenda_items"
+            i18n:translate=""
+        >No items set</em>
+        <p class="button-bar" tal:condition="not:read_only">
+          <button class="add-item icon-plus-circle small add-clone" type="button" id="add-agenda-item">Add agenda item</button>
+        </p>
+        <input class="sortable-amount"
+               name="pat-sortable-amount"
+               type="hidden"
+               value="1"
+               tal:condition="not:read_only"
+        />
       </fieldset>
       <br/>
 

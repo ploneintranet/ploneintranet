@@ -72,6 +72,24 @@ def full(context):
     default(context)
 
 
+def _setup_event_agenda_items():
+    ''' We set up the agenda items field in a test event.
+
+    The agenda items will be composed of one UID and three normal strings
+    '''
+    folder = api.content.get(
+        '/workspaces/open-market-committee/manage-information'
+    )
+    event = folder['open-market-day']
+    document = folder['repurchase-agreements']
+    event.agenda_items = [
+        'Prologue',
+        document.UID(),
+        u'☰',
+        u'Epilogue and final greetings',
+    ]
+
+
 @force_synchronous_previews
 def testing(context):
     """
@@ -96,6 +114,7 @@ def testing(context):
     log.info("create caseworkspaces")
     caseworkspaces = caseworkspaces_spec(context)
     create_caseworkspaces(caseworkspaces)
+    _setup_event_agenda_items()
     commit()
 
     portal = api.portal.get()
