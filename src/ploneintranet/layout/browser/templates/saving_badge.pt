@@ -1,7 +1,7 @@
 <tal:button define="
               autosave_enabled view/autosave_enabled|nothing;
               can_edit view/can_edit;
-              lock_info view/lock_info;
+              lock_info view/lock_info|nothing;
             "
             i18n:domain="ploneintranet"
 >
