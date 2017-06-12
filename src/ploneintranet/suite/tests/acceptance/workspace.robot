@@ -241,6 +241,16 @@ Member cannot edit an event with invalid data
      When I can create a new event  Easter  2014-12-25  2014-12-26
      Then I cannot edit an event because of validation  Easter  2121-12-25  2120-12-26  Europe/Rome
 
+Workspace admin can modify the event agenda items
+    Given I am logged in as the user christian_stoney
+      And I go to the Open Market Committee Workspace
+     Then I can go to the sidebar events tile
+      And I open the sidebar event  Open Market Day
+      And I see in the event agenda a link to  Repurchase Agreements
+     Then I add to the event agenda the item  This is important!
+     When I remove from the event agenda the last item
+     Then I see that the last event agenda item is  Epilogue and final greetings
+
 Member can submit and retract a document
     Given I am in a workspace as a workspace member
      When I can create a new document    My substandard document
