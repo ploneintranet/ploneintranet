@@ -184,7 +184,7 @@ class ContentView(BrowserView):
         if not info:
             return False
         user = self.user
-        if user and user.username == info.get('creator'):
+        if not user or user.username == info.get('creator'):
             return False
         return True
 
