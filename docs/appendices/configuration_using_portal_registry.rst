@@ -127,6 +127,21 @@ ploneintranet.layout.filter_news_by_published_state
     **default**: True
 
 
+ploneintranet.library
+--------------------
+
+ploneintranet.library.order_by_modified
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: Re-order library folder after publishing widely
+
+    **description**: If True (default), a library folder will be re-ordered so that the item modified last is on top every time a "Publish widely" action happens.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: True
+
+
 ploneintranet.docconv.client
 ----------------------------
 

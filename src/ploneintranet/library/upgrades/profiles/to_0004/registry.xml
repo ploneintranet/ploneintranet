@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.library.order_by_modified">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <title>Order elements in library folders by modification date</title>
+      <description>If true, a library folder will be re-ordered to show the last modified items on top every time an item is published widely to it.</description>
+      <required>False</required>
+    </field>
+    <value purge="false">True</value>
+  </record>
+</registry>
