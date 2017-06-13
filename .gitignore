@@ -27,6 +27,7 @@
 pip-selfcheck.json
 .*.sw[op]
 bin/
+dev/
 develop-eggs/
 docs/Makefile
 docs/make.bat
@@ -44,8 +45,6 @@ Patterns/
 /prototype
 /share/
 release/
-/src-extras/
-src/sphinx.themes.plone/
 stamp-bower
 stamp-npm
 tmp/
