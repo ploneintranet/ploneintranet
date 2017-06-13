@@ -134,7 +134,7 @@ class AppTile(BrowserView):
     @memoize
     def modal(self):
         ''' Open in a modal returning 'pat-modal'.
-        If you want, instead to follow the ling just return ''
+        If you want, instead to follow the click just return ''
         '''
         if self.not_found or self.unauthorized:
             return 'pat-modal'
@@ -165,8 +165,7 @@ class AppTile(BrowserView):
     @property
     @memoize
     def url(self):
-        ''' Open in a modal returning 'pat-modal'.
-        If you want, instead to follow the ling just return ''
+        ''' Return the url will be addressed to when clicking this tile
         '''
         if self.modal:
             template = '{url}/@@{view}#document-content'
@@ -183,6 +182,14 @@ class AppTile(BrowserView):
 
     def get_class(self):
         return self.context.css_class or self.context.getId()
+
+
+class AppNoBarcelonetaView(AppTile):
+    ''' Redirect the user to the proper location
+    when he tries to visit the app object in Quaive
+    '''
+    def __call__(self):
+        return self.request.response.redirect(self.url)
 
 
 class AppRedirect(BrowserView):

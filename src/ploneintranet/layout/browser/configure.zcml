@@ -80,6 +80,14 @@
       />
 
   <browser:page
+      name="view"
+      for="ploneintranet.layout.app.IApp"
+      class=".apps.AppNoBarcelonetaView"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      permission="zope2.View"
+  />
+
+  <browser:page
       name="app-tile"
       for="ploneintranet.layout.app.IApp"
       class=".apps.AppTile"
