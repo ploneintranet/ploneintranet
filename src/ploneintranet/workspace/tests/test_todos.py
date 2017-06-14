@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from AccessControl import Unauthorized
-from datetime import datetime
+from datetime import date
 from datetime import timedelta
 from plone import api
 from ploneintranet import api as pi_api
@@ -228,14 +228,14 @@ class TestTodos(BaseTestCase):
             ['todo2', 'todo1'],
         )
 
-        case.todo1.due = datetime.now()
+        case.todo1.due = date.today()
         case.todo1.reindexObject()
         self.assertEqual(
             [todo['title'] for todo in self.get_tasks(case)['new']],
             ['todo1', 'todo2'],
         )
 
-        case.todo2.due = datetime.now() - timedelta(days=1)
+        case.todo2.due = date.today() - timedelta(days=1)
         case.todo2.reindexObject()
         self.assertEqual(
             [todo['title'] for todo in self.get_tasks(case)['new']],
