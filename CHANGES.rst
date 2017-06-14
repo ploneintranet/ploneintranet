@@ -4,7 +4,28 @@ Changelog
 1.2.64 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1364 from quaive/fix-date-format-in-sidebar [GitHub]
+* Merge pull request #1365 from quaive/milestones-featureflag [GitHub]
+* Merge pull request #1366 from quaive/1337_fix_locking [GitHub]
+* Merge pull request #1354 from quaive/todo-app-manual [GitHub]
+* Merge pull request #1357 from quaive/library-folders-ordering [GitHub]
+* Merge pull request #1363 from quaive/translate-dates-in-metromap [GitHub]
+* Pull in latest q.r.p. fixes #1337 [Guido A.J. Stevens]
+* Include quaive.app.milestones (refs #649) [Harald Friessnegger]
+* Fix date format in the sidebar [ale-rt]
+* Merge pull request #1361 from quaive/admin-locking-fixes [GitHub]
+* Merge pull request #1362 from quaive/app-default-view [GitHub]
+* Properly translates the dates in the metromap [ale-rt]
+* Do not show the default dexterity view when visiting an app [ale-rt]
+* Do not lock admin [ale-rt]
+* Merge pull request #1360 from quaive/agenda-items [GitHub]
+* Introduce the concept of agenda items [ale-rt]
+* Merge pull request #1358 from quaive/release-1.2.x [GitHub]
+* document the new registry record [Wolfgang Thomas]
+* Add upgrade step for the registry record [Wolfgang Thomas]
+* When an item gets published widely (to library), re-order the library folder to show the last modified first, if the respective registry setting is enabled [Wolfgang Thomas]
+* Back to development: 1.2.64 [Wolfgang Thomas]
+* WIP for the application manual [ale-rt]
 
 
 1.2.63 (2017-06-08)
