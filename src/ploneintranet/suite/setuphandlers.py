@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collective.workspace.interfaces import IWorkspace
+from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from plone import api
@@ -540,7 +541,7 @@ def create_workspaces(workspaces, force=False):
 
 
 def case_templates_spec(context):
-    now = localized_now()
+    today = date.today()
     case_templates = [{
         'title': 'Case Template',
         'description': 'A Template Case Workspace, pre-populated with tasks',
@@ -562,7 +563,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Create a draft proposal',
             'milestone': 'prepare',
-            'creation_date': now - timedelta(days=2),
+            'creation_date': today - timedelta(days=2),
         }, {
             'title': 'Budget',
             'type': 'todo',
@@ -578,7 +579,7 @@ def case_templates_spec(context):
             'type': 'todo',
             'description': 'Verify completeness of case proposal',
             'milestone': 'complete',
-            'creation_date': now - timedelta(days=4),
+            'creation_date': today - timedelta(days=4),
         }, {
             'title': 'Financial audit',
             'type': 'todo',
@@ -621,6 +622,7 @@ def case_templates_spec(context):
 
 def caseworkspaces_spec(context):
     now = localized_now()
+    today = date.today()
     # use template todos as a base
     base_contents = case_templates_spec(context)[0]['contents']
     for todo in base_contents:
@@ -631,7 +633,7 @@ def caseworkspaces_spec(context):
         base_contents[i]['assignee'] = random.choice(['dollie_nocera',
                                                       'allan_neece'])
     for i in range(6):
-        base_contents[i]['due'] = now + timedelta(days=i * 2)
+        base_contents[i]['due'] = today + timedelta(days=i * 2)
 
     caseworkspaces = [{
         'title': 'Example Case',
