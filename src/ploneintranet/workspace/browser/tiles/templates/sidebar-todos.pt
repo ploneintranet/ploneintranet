@@ -45,7 +45,7 @@
     <form class="pat-autosubmit pat-inject"
           action="${ws/absolute_url}/@@sidebar.todos"
           method="post"
-          data-pat-injectXXX="source: #workspace-tickets; target: #workspace-tickets"
+          data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
     ><!--  XXX syslab: why does this inject break panel-milestone-settings? -->
       <tal:workspace_tasks tal:condition="not: ws/is_case">
         <fieldset class="object-list tasks pat-checklist">
