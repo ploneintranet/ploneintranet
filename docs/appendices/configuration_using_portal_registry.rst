@@ -104,7 +104,7 @@ ploneintranet.layout.dashboard_default
 
 
 ploneintranet.layout.login_splash
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     title: Splash image for the login form
 
@@ -147,7 +147,7 @@ ploneintranet.docconv.client
 
 
 ploneintranet.docconv.file_types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: Preview Content Types
 
@@ -158,7 +158,7 @@ ploneintranet.docconv.file_types
     **default**: File
 
 ploneintranet.docconv.html_types
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     **title**: HTML Preview Content Types
 
@@ -457,3 +457,27 @@ ploneintranet.workspace.autosave_portal_types
     **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
 
     **default**: []
+
+
+ploneintranet.workspace.use_phase_due_dates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Use Phase Due Dates.
+
+    **description**: If set to True, cases will expose the due date management functionality. You need to have the plone.app.milestones package installed.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: False
+
+
+ploneintranet.workspace.phase_due_dates_default
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Default Value for Phase Due Dates.
+
+    **description**: If set to True, workspaces will be created with due date support turned on by default. You need to have the plone.app.milestones package installed.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: False
