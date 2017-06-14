@@ -464,7 +464,7 @@ ploneintranet.workspace.use_phase_due_dates
 
     **title**: Use Phase Due Dates.
 
-    **description**: If set to True, cases will expose the due date management functionality. You need to have the plone.app.milestones package installed.
+    **description**: If set to True, cases will expose the due date management functionality. You need to have the quaive.app.milestones package installed.
 
     **type**: plone.registry.field.Bool
 
@@ -476,7 +476,7 @@ ploneintranet.workspace.phase_due_dates_default
 
     **title**: Default Value for Phase Due Dates.
 
-    **description**: If set to True, workspaces will be created with due date support turned on by default. You need to have the plone.app.milestones package installed.
+    **description**: If set to True, workspaces will be created with due date support turned on by default. You need to have the quaive.app.milestones package installed.
 
     **type**: plone.registry.field.Bool
 
