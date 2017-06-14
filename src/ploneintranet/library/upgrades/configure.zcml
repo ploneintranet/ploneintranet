@@ -1,0 +1,43 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0002"
+      profile="ploneintranet.library:default"
+      title="Activate publish widely behavior.
+             This is implicitly taken from the profile this upgradeStep is defined for."
+      import_steps="typeinfo" />
+  />
+
+  <genericsetup:upgradeDepends
+      source="*"
+      destination="0003"
+      profile="ploneintranet.library:default"
+      title="Close library for adding news items, should use the news app instead.
+             This is implicitly taken from the profile this upgradeStep is defined for."
+      import_steps="typeinfo" />
+  />
+
+    <genericsetup:registerProfile
+        name="to_0004"
+        title="Upgrade profile that includes registry record for reordering after publishing widely"
+        description=""
+        directory="profiles/to_0004"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Add registry record for reordering a library folder by modification date after publishing widely"
+        description=""
+        source="*"
+        destination="0004"
+        handler=".to_0004.add_library_configuration"
+        profile="ploneintranet.library:default"
+        />
+
+</configure>

@@ -6,6 +6,7 @@
       portal_url here/portal_url;
       duedate_view nocall:here/duedate-view | nothing;
       duedates_enabled duedate_view | python:False;
+      date2month_name nocall:here/@@proto/date2month_name;
     "
     i18n:domain="ploneintranet"
   >
@@ -55,7 +56,7 @@
                   <time class="date"
                         tal:condition="due_date"
                         datetime="${due_date}"
-                      >${python:due_date.strftime('%d %b')}</time>
+                      >${python:due_date.strftime('%d')} ${python:date2month_name(due_date, short=True)}</time>
                 </p>
               </li>
             </tal:task_number>

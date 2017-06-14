@@ -127,6 +127,21 @@ ploneintranet.layout.filter_news_by_published_state
     **default**: True
 
 
+ploneintranet.library
+--------------------
+
+ploneintranet.library.order_by_modified
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: Re-order library folder after publishing widely
+
+    **description**: If True (default), a library folder will be re-ordered so that the item modified last is on top every time a "Publish widely" action happens.
+
+    **type**: plone.registry.field.Bool
+
+    **default**: True
+
+
 ploneintranet.docconv.client
 ----------------------------
 
@@ -449,7 +464,7 @@ ploneintranet.workspace.use_phase_due_dates
 
     **title**: Use Phase Due Dates.
 
-    **description**: If set to True, cases will expose the due date management functionality. You need to have the plone.app.milestones package installed.
+    **description**: If set to True, cases will expose the due date management functionality. You need to have the quaive.app.milestones package installed.
 
     **type**: plone.registry.field.Bool
 
@@ -461,7 +476,7 @@ ploneintranet.workspace.phase_due_dates_default
 
     **title**: Default Value for Phase Due Dates.
 
-    **description**: If set to True, workspaces will be created with due date support turned on by default. You need to have the plone.app.milestones package installed.
+    **description**: If set to True, workspaces will be created with due date support turned on by default. You need to have the quaive.app.milestones package installed.
 
     **type**: plone.registry.field.Bool
 
