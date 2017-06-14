@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.64 (unreleased)
+1.2.64 (2017-06-14)
 -------------------
 
 * Merge pull request #1364 from quaive/fix-date-format-in-sidebar [GitHub]
