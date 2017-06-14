@@ -331,7 +331,7 @@ Supported types include (class names):
                       tal:condition="item/modified | nothing"
                       title="Date and time of the latest modification"
                       i18n:attributes="title"
-                    >${python:item['modified'].strftime('%d %B %Y, %H:%M')}</time>
+                    >${python:item['modified'].asdatetime().strftime('%Y-%m-%d %H:%M:%S %z')}</time>
                 <nav class="tag-cloud tags meta-column" tal:condition="item/subject | nothing">
                   <a class="tag pat-inject"
                      tal:repeat="subject item/subject"
