@@ -29,12 +29,11 @@
          i18n:translate=""
       >Create task</a>
       <a class="edit-settings pat-modal icon-cog"
-         href="/feedback/panel-workspace-tasks-settings.html#document-content"
+         href="${ws/absolute_url}/panel-project-settings#document-content"
          title="Settings"
          tal:condition="duedate_view"
          i18n:attributes="title"
          i18n:translate=""
-         tal:attributes="href string:${ws/absolute_url}/panel-project-settings#document-content"
          data-pat-modal="class: small">Settings</a>
     </div>
   </div>
@@ -103,10 +102,9 @@
                    i18n:translate=""
                 >Reopen</a>
                 <a class="small pat-button pat-modal float-after icon-cog"
-                   href="/feedback/panel-milestone-settings.html?milestone_name=new#document-content"
+                   href="${ws/absolute_url}/panel-milestone-settings?milestone_id=${milestone_id}#document-content"
                    data-pat-modal="class: large"
                    tal:condition="duedate_view"
-                   tal:attributes="href python:'{0}/panel-milestone-settings?milestone_id={1}#document-content'.format(ws.absolute_url(), milestone_id);"
                    i18n:translate=""
                 >Settings</a>
               </p>
