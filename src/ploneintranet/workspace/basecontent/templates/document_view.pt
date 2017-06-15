@@ -75,7 +75,7 @@
                          tal:condition="python:ee_view and ee_view.isEnabledOnThisContentType()"
                          >Open in External Editor</a>
                     </tal:external_editor>
-
+                    <tal:onlyoffice replace="structure here/@@onlyoffice-link-iconified|nothing" />
                     <a href="#share-panel" class="icon-export iconified pat-tooltip" data-pat-tooltip="source: ajax" title="Share this document" i18n:attributes="title" i18n:translate="">Share</a>
 
                     <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
