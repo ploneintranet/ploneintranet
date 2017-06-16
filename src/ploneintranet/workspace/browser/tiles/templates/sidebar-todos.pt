@@ -46,7 +46,6 @@
           action="${ws/absolute_url}/@@sidebar.todos"
           method="post"
           data-pat-inject="source: #workspace-tickets; target: #workspace-tickets"
-    ><!--  XXX syslab: why does this inject break panel-milestone-settings? -->
       <tal:workspace_tasks tal:condition="not: ws/is_case">
         <fieldset class="object-list tasks pat-checklist">
           <tal:task repeat="task tasks">
@@ -104,6 +103,7 @@
                 <a class="small pat-button pat-modal float-after icon-cog"
                    href="${ws/absolute_url}/panel-milestone-settings?milestone_id=${milestone_id}#document-content"
                    data-pat-modal="class: large"
+                   data-pat-inject="source:#document-content; target:#document-content"
                    tal:condition="duedate_view"
                    i18n:translate=""
                 >Settings</a>
