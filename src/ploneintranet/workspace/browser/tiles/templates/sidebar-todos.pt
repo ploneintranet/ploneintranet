@@ -5,6 +5,7 @@
        tasks ws_view/tasks;
        token context/@@authenticator/token;
        can_add view/can_add;
+       duedate_view nocall:ws/duedate-view | nothing;
      "
      i18n:domain="ploneintranet"
 >
@@ -27,6 +28,13 @@
          i18n:attributes="title"
          i18n:translate=""
       >Create task</a>
+      <a class="edit-settings pat-modal icon-cog"
+         href="${ws/absolute_url}/panel-project-settings#document-content"
+         title="Settings"
+         tal:condition="duedate_view"
+         i18n:attributes="title"
+         i18n:translate=""
+         data-pat-modal="class: small">Settings</a>
     </div>
   </div>
   <h3 i18n:translate="">General tasks</h3>
@@ -86,13 +94,20 @@
                    data-pat-inject="source:#workspace-tickets; target:#workspace-tickets &amp;&amp; source:#document-body; target:#document-body"
                    tal:condition="python:milestone['transition_enabled']"
                    i18n:translate=""
-                >Close milestone</a>
+                >Close</a>
                 <a class="small icon-stage success button pat-inject"
                    href="${ws/absolute_url}/content_status_modify?workflow_action=${milestone/reopen_transition}&amp;_authenticator=${token}"
                    data-pat-inject="source:#workspace-tickets; target:#workspace-tickets  &amp;&amp; source:#document-body; target:#document-body"
                    tal:condition="python:milestone['reopen_transition']"
                    i18n:translate=""
-                >Reopen milestone</a>
+                >Reopen</a>
+                <a class="small pat-button pat-modal float-after icon-cog"
+                   href="${ws/absolute_url}/panel-milestone-settings?milestone_id=${milestone_id}#document-content"
+                   data-pat-modal="class: large"
+                   data-pat-inject="source:#document-content; target:#document-content"
+                   tal:condition="duedate_view"
+                   i18n:translate=""
+                >Settings</a>
               </p>
             </fieldset>
           </tal:milestone>

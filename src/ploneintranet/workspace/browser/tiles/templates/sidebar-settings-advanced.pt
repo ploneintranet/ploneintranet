@@ -130,6 +130,20 @@
                                      i18n:translate=""
                                      i18n:attributes="title">Change custom order of tags</a>
                                 </li>
+                                <li tal:define="duedate_view nocall:ws/duedate-view | nothing;
+                                                show_due_settings python: duedate_view and duedate_view.show_settings;"
+                                    tal:condition="python: duedate_view and show_due_settings">
+                                    <p class="pat-depends"
+                                       data-pat-depends="condition: not archived"
+                                       id="use_due_dates">
+                                        <label class="pat-checklist" tal:define="is_enabled duedate_view/context_enabled">
+                                            <tal:translate i18n:translate="">Use Due Date calculation?</tal:translate>
+                                            <input type="checkbox" name="use_due_dates" value="selected"
+                                                   tal:attributes="checked python:'checked' if is_enabled else '';"/>
+                                            <input type="hidden" name="use_due_dates-empty-marker" value="1" />
+                                        </label>
+                                    </p>
+                                </li>
                                 <!-- <li>
                                     <a class="pat-modal" href="/feedback/panel-related-workspaces.html">Set tracking</a>
                                 </li> -->

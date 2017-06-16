@@ -2,6 +2,7 @@
 from Acquisition import aq_inner
 from collections import defaultdict
 from collective.workspace.interfaces import IWorkspace
+from datetime import date
 from json import dumps
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -280,16 +281,22 @@ class BaseWorkspaceView(BrowserView):
             portal_type=ptype,
             sort_on=['due', 'getObjPositionInParent'],
         )
+        today = date.today()
         for brain in brains:
             obj = brain.getObject()
             todo = ITodo(obj)
+            done = wft.getInfoFor(todo, 'review_state') == u'done'
+            overdue = False
+            if not done and todo.due:
+                overdue = todo.due < today
             data = {
                 'id': brain.UID,
                 'title': brain.Title,
                 'description': brain.Description,
                 'url': brain.getURL(),
-                'checked': wft.getInfoFor(todo, 'review_state') == u'done',
-                'due': obj.due,
+                'checked': done,
+                'due': todo.due,
+                'overdue': overdue,
                 'obj': obj,
                 'can_edit': api.user.has_permission(
                     'Modify portal content', obj=obj),
