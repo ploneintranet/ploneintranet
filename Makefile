@@ -110,6 +110,7 @@ bin/python2.7:
 	@virtualenv --clear -p python2.7 .
 	@rm -rf local/lib/python2.7/site-packages/easy_install* local/lib/python2.7/site-packages/setuptools* 2>/dev/null || true
 
+fg: devrun
 devrun:
 	sudo service redis-server start
 	bin/supervisord
