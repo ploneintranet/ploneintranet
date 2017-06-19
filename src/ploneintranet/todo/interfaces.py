@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
-from zope.interface import Interface, Attribute
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.app import IApp
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 # verbs definition
 MUST_READ = 'mustread'
 TODO = 'todo'
+
+
+class ITodoApp(IApp):
+    ''' Marker interface for the todo app
+    '''
 
 
 class IContentAction(Interface):

@@ -1,6 +1,8 @@
 # coding=utf-8
 from plone import api
+from ploneintranet.todo.interfaces import ITodoApp
 from ploneintranet.todo.setuphandlers import create_app
+from zope.interface import alsoProvides
 
 
 def create_todo_app(context):
@@ -15,6 +17,9 @@ def create_todo_app(context):
             # We remove it before installing the newly provided one
             api.content.delete(app)
         else:
-            # If the app is not the dummy one, do not do anything
+            # If the app is not the dummy one, check that it provides the
+            # proper interface
+            if not ITodoApp.providedBy(app):
+                alsoProvides(app, ITodoApp)
             return
     create_app()
