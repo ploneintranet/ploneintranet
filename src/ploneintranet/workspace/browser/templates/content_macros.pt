@@ -325,7 +325,7 @@
             i18n:translate=""
         >No items set</em>
         <p class="button-bar" tal:condition="not:read_only">
-          <button class="add-item icon-plus-circle small add-clone" type="button" id="add-agenda-item">Add agenda item</button>
+          <button class="add-item icon-plus-circle small add-clone" type="button" id="add-agenda-item" i18n:translate="">Add agenda item</button>
         </p>
         <input class="sortable-amount"
                name="pat-sortable-amount"
