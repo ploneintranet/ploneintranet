@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
+from json import dumps
 from plone import api
 from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
@@ -83,20 +84,29 @@ class AddBase(BrowserView):
     def get_data_pat_autosuggest(self, fieldname):
         ''' Return the data-pat-autosuggest for a fieldname
         '''
+        user = self.user
         if (
             fieldname == 'initiator' and
             self.request.method == 'GET' and
-            self.user
+            user
         ):
-            default_prefill = self.user.getId()
+            default_field_value = user.getId()
         else:
-            default_prefill = ''
+            default_field_value = ''
 
         prefill_json = self.content_helper_view.safe_member_prefill(
             self.context,
             fieldname,
-            default=default_prefill,
+            default=default_field_value,
         )
+        if not prefill_json:
+            prefill_json = '{}'
+
+        if user and fieldname == 'initiator' and prefill_json == user.getId():
+            prefill_json = dumps({
+                user.username: user.fullname,
+            })
+
         return '; '.join((
             'ajax-data-type: json',
             'maximum-selection-size: 1',
