@@ -57,16 +57,18 @@
 
   <browser:page
       name="add_task"
-      for="ploneintranet.userprofile.content.userprofile.IUserProfile"
-      permission="cmf.AddPortalContent"
-      class=".todo_add.AddPersonalTask"
+      for="ploneintranet.todo.interfaces.ITodoApp"
+      permission="zope2.View"
+      class=".todo_add.AppAddTask"
+      layer=".interfaces.IPloneintranetTodoLayer"
       />
 
   <browser:page
-      name="app-add_task"
-      for="Products.CMFCore.interfaces.IFolderish"
-      permission="cmf.AddPortalContent"
-      class=".todo_add.AddWorkspaceTask"
+      name="get_milestones_for_container"
+      for="ploneintranet.todo.interfaces.ITodoApp"
+      permission="zope2.View"
+      class=".todo_add.GetMilestonesForContainer"
+      layer=".interfaces.IPloneintranetTodoLayer"
       />
 
   <browser:page

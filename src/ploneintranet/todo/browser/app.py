@@ -189,10 +189,7 @@ class View(BrowserView):
     def add_task_url(self):
         ''' The URL for adding a personal tasks
         '''
-        user = self.user
-        if not user:
-            return
-        return '{}/@@add_task'.format(user.absolute_url())
+        return '{}/@@add_task'.format(self.context.absolute_url())
 
     @property
     @memoize
@@ -390,44 +387,45 @@ class View(BrowserView):
         ''' We expect key to be either a workspace or None
         '''
         if not key:
+            user = self.user
+            container = '/'.join(user.getPhysicalPath()) if user else ''
             return {
                 'icon': 'icon-user',
                 'klass': 'personal',
                 'key': key,
                 'title': _('Personal tasks'),
                 'sorting_key': ' ',
+                'url': self.user and self.add_task_url,
+                'add_params': urlencode({
+                    'container': container
+                }),
             }
         else:
             return {
                 'key': key,
                 'title': key.title,
-                'url': key.absolute_url(),
+                'url': self.add_task_url,
+                'add_params': urlencode({
+                    'container': '/'.join(key.getPhysicalPath())
+                }),
             }
 
     def _origin_and_milestone_key_beautifier(self, key):
         ''' We expect key to be a tuple containing a workspace and a milestone
         '''
         ws, milestone = key
-        if not ws:
-            return {
-                'icon': 'icon-user',
-                'klass': 'personal',
-                'key': key,
-                'title': _('Personal tasks'),
-                'sorting_key': ' ',
-            }
-        if milestone:
-            title = u' - '.join((ws.title, milestone))
-            add_params = urlencode({'milestone': milestone})
-        else:
-            title = ws.title
-            add_params = ''
-        return {
-            'key': key,
-            'title': title,
-            'url': ws.absolute_url(),
-            'add_params': add_params,
-        }
+        key_beautified = self._origin_key_beautifier(ws)
+        key_beautified['key'] = key
+        if ws and milestone:
+            key_beautified['title'] = u' - '.join((
+                key_beautified['title'],
+                milestone,
+            ))
+            key_beautified['add_params'] = '&'.join((
+                key_beautified['add_params'],
+                urlencode({'milestone': milestone})
+            ))
+        return key_beautified
 
     def _userid_key_beautifier(self, key):
         ''' We expect key to be a userid

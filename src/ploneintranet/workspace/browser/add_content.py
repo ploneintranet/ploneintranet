@@ -28,6 +28,20 @@ class AddBase(BrowserView):
 
     @property
     @memoize
+    def portal(self):
+        ''' Return the portal
+        '''
+        return api.portal.get()
+
+    @property
+    @memoize
+    def workspace_container(self):
+        ''' Return the workspace container
+        '''
+        return self.portal.workspaces
+
+    @property
+    @memoize
     def parent_workspace(self):
         ''' Return the parent workspace
         '''

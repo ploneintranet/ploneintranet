@@ -26,10 +26,6 @@
                type="hidden"
                value="todo"
         />
-        <input name="container"
-               type="hidden"
-               value="${request/container|nothing}"
-        />
       </fieldset>
 
       <fieldset class="vertical">
