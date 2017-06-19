@@ -96,7 +96,7 @@
                     title="Milestone"
                     tal:condition="item/milestone"
                     i18n:attributes="title;"
-              >${item/milestone|nothing}</span>
+              >${python: view.get_item_milestone_hr(item)}</span>
               <span class="meta-column"
                     tal:condition="not:item/milestone"
               >

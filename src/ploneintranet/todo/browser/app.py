@@ -383,6 +383,37 @@ class View(BrowserView):
             return lambda task: getattr(task, browse_mode, None)
         return lambda task: None
 
+    @memoize
+    def get_ws_workflow(self, ws):
+        ''' Return the workflow for this workspace
+        '''
+        pw = api.portal.get_tool('portal_workflow')
+        for wf in pw.getWorkflowsFor(ws):
+            return wf
+
+    @memoize
+    def get_milestone_hr(self, ws, milestone):
+        ''' Get's the milestone for this workspace human readable
+
+        Tipycally get the ws workflow and look for an homonymous state
+        '''
+        wf = self.get_ws_workflow(ws)
+        if not wf:
+            return _(milestone)
+        state = wf.states.get(milestone)
+        if not state:
+            return _(milestone)
+        return _(state.title)
+
+    def get_item_milestone_hr(self, item):
+        ''' Given an item, try to get the milestone in a human readable form
+        '''
+        milestone = getattr(item, 'milestone', None)
+        if not milestone:
+            return ''
+        ws = parent_workspace(item)
+        return self.get_milestone_hr(ws, milestone)
+
     def _origin_key_beautifier(self, key):
         ''' We expect key to be either a workspace or None
         '''
@@ -419,7 +450,7 @@ class View(BrowserView):
         if ws and milestone:
             key_beautified['title'] = u' - '.join((
                 key_beautified['title'],
-                milestone,
+                self.get_milestone_hr(ws, milestone),
             ))
             key_beautified['add_params'] = '&'.join((
                 key_beautified['add_params'],
