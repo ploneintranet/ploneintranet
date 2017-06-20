@@ -10,6 +10,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.todo.interfaces import IMilestoneNameResolver
 from ploneintranet.todo.vocabularies import todo_priority
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -398,9 +399,9 @@ class View(BrowserView):
         if not wf:
             return _(review_state)
         state = wf.states.get(review_state)
-        if not state:
-            return _(review_state)
-        return _(state.title)
+        if state:
+            return _(state.title)
+        return _(review_state)
 
     @memoize
     def get_milestone_hr(self, ws, milestone):
@@ -408,6 +409,11 @@ class View(BrowserView):
 
         Tipycally get the ws workflow and look for an homonymous state
         '''
+        adapter = IMilestoneNameResolver(ws, None)
+        if adapter:
+            name = adapter.resolve(milestone)
+            if name:
+                return name
         wf = self.get_ws_workflow(ws)
         return self.get_review_state_hr(wf, milestone)
 
