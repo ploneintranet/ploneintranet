@@ -345,6 +345,7 @@ The content stream is visible
     Wait until element is visible       css=#comments-document-comments
 
 I save the document
+    Wait for injection to be finished
     Click Button  Save
     Wait Until Page Contains  Your changes have been saved
     Click button  Close
@@ -1174,8 +1175,7 @@ I upload a new image
     Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=image]  ${UPLOADS}/vision-to-product.png
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved.
+    I save the document
 
 I browse to a file
     I browse to a workspace
@@ -1191,8 +1191,7 @@ I upload a new file
     Wait Until Element is Visible  meta-extra
     Select Checkbox  css=#cmfeditions_save_new_version
     Choose File  css=input[name=file]  ${UPLOADS}/bärtige_flößer.odt
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved.
+    I save the document
 
 I view the folder
     Go To  ${PLONE_URL}/workspaces/open-market-committee/manage-information/projection-materials/view
@@ -1205,10 +1204,7 @@ I change the title
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Input Text  title  New title ♥
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click Button  Close
-    Wait Until Page Does Not Contain  Your changes have been saved
+    I save the document
 
 The document has the new title
     Wait Until Page Contains Element  xpath=//div[@id='document-body']//textarea[@name='title'][text()='New title ♥']
@@ -1218,10 +1214,7 @@ I change the description
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input Text  xpath=//textarea[@name='description']  New description ☀
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click Button  Close
-    Wait Until Page Does Not Contain  Your changes have been saved
+    I save the document
 
 The document has the new description
     Page Should Contain  New description ☀
@@ -1232,10 +1225,7 @@ I tag the item
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Input Text  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]  ${tag},
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click Button  Close
-    Wait Until Page Does Not Contain  Your changes have been saved
+    I save the document
 
 I tag the item with a suggestion
     [arguments]  ${search_for}  ${selection}
@@ -1245,20 +1235,14 @@ I tag the item with a suggestion
     Input text  xpath=//input[@placeholder='Tags']/../div//input  ${search_for}
     Wait until element is visible  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
     Click Element  xpath=//div[@class='select2-result-label'][contains(text(), '${selection}')]
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click Button  Close
-    Wait Until Page Does Not Contain  Your changes have been saved
+    I save the document
 
 I clear the tag for an item
     Wait Until Page Contains  Toggle extra metadata
     Click Link  link=Toggle extra metadata
     Wait until element is visible  xpath=//fieldset[@id='meta-extra']//input[contains(@class, 'select2-input')]
     Click Link  css=.select2-search-choice-close
-    Click Button  Save
-    Wait Until Page Contains  Your changes have been saved
-    Click Button  Close
-    Wait Until Page Does Not Contain  Your changes have been saved
+    I save the document
 
 The metadata has the new tag
     Click Link  link=Toggle extra metadata
