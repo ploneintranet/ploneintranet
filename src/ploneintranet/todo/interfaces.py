@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
-from zope.interface import Interface, Attribute
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.app import IApp
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 # verbs definition
 MUST_READ = 'mustread'
 TODO = 'todo'
+
+
+class ITodoApp(IApp):
+    ''' Marker interface for the todo app
+    '''
 
 
 class IContentAction(Interface):
@@ -92,3 +99,17 @@ class ITodoUtility(Interface):
         :return: List of ContentActions
         :rtype: :class: `ContentAction`
         """
+
+
+class IMilestoneNameResolver(Interface):
+    ''' Interface for an adapter that resolves a milestone id into a name
+    '''
+    def resolve(milestone_id):
+        ''' Given a mileston_id returns a name or an empty string
+        if it cannot be resolved
+
+        :param milestone_id: a milestone id
+        :type milestone_id: str
+        :return: The resolved milestone name or an empty string
+        :rtype: str
+        '''

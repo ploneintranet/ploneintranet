@@ -220,14 +220,22 @@
                             <tal:i18n i18n:translate="">From</tal:i18n>
                             <input class="pat-date-picker"
                                    name="start"
-                                   type="text"
+                                   placeholder="YYYY-MM-DD"
+                                   type="date"
+                                   value="${request/start|nothing}"
+                                   data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json"
+                                   i18n:attributes="placeholder"
                             />
                           </label>
                           <label>
                             <tal:i18n i18n:translate="">Until</tal:i18n>
                             <input class="pat-date-picker"
                                    name="end"
-                                   type="text"
+                                   placeholder="YYYY-MM-DD"
+                                   type="date"
+                                   value="${request/end|nothing}"
+                                   data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json"
+                                   i18n:attributes="placeholder"
                             />
                           </label>
                         </fieldset>

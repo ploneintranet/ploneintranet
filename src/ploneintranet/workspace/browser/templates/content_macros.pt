@@ -61,23 +61,56 @@
                data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json"
                class="pat-date-picker" i18n:attributes="placeholder" placeholder="Set a deadline"/>
       </label>
+      <br />
+      <label class="pat-subform pat-inject pat-autosubmit"
+             data-pat-inject="url: ${here/absolute_url}/@@get_milestones_for_container; source: #milestones::element; target: #milestones::element"
+             tal:condition="containers"
+             tal:define="
+               containers view/possible_containers|nothing;
+               selected_container_path python:request.get('container', '');
+             ">
+        <tal:i18n i18n:translate="">Destination</tal:i18n>
+        <select class="focus"
+                name="container"
+                tal:define="
+                  user nocall:view/user;
+                "
+        >
+          <option value="${python: '/'.join(user.getPhysicalPath())}"
+                  tal:condition="nocall:user"
+                  i18n:translate=""
+          >Personal task list</option>
+          <optgroup label="Workspaces">
+            <!-- Only workspaces the user has edit rights to are displayed here. -->
+            <tal:options repeat="container containers">
+              <option
+                selected="${python:'selected' if container_path == selected_container_path else None}"
+                value="${container_path}"
+                tal:define="container_path python:'/'.join(container.getPhysicalPath());"
+              >${container/Title}</option>
+            </tal:options>
+          </optgroup>
+        </select>
+      </label>
       <br/>
-      <tal:case_todo condition="milestone_options"
-                     define="
-                       milestone_options view/milestone_options|nothing;
-                     ">
-        <label class="stage milestone">
-          <span tal:omit-tag="" i18n:translate="">Milestone this task belongs to</span>
-          <select name="milestone">
-            <option></option>
-            <option value="${option/value}"
-                    selected="${option/selected}"
-                    tal:repeat="option milestone_options"
-            >${option/title}</option>
-          </select>
-        </label>
-        <br />
-      </tal:case_todo>
+      <label class="stage milestone"
+             id="milestones"
+      >
+        <tal:case_todo condition="milestone_options"
+                       define="
+                         milestone_options view/milestone_options|nothing;
+                       ">
+            <span tal:omit-tag="" i18n:translate="">Milestone this task belongs to</span>
+            <select name="milestone">
+              <option></option>
+              <option value="${option/value}"
+                      selected="${option/selected}"
+                      tal:repeat="option milestone_options"
+              >${option/title}</option>
+            </select>
+        </tal:case_todo>
+      </label>
+      <br />
       <label class="priority">
         <tal:label i18n:translate="">Priority</tal:label>
         <select name="priority"

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-06-19 09:33+0000\n"
+"POT-Creation-Date: 2017-06-20 08:21+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "-- Please select --"
 msgstr "-- Bitte auswählen --"
 
-#: ../workspace/browser/templates/content_macros.pt:117
+#: ../workspace/browser/templates/content_macros.pt:150
 msgid "-- Please select a workspace --"
 msgstr "-- Bitte wählen Sie einen Arbeitsraum --"
 
@@ -168,7 +168,7 @@ msgstr "Startseiten-Ansicht"
 msgid "Activity stream"
 msgstr "Aktivitäten"
 
-#: ../workspace/browser/templates/content_macros.pt:328
+#: ../workspace/browser/templates/content_macros.pt:361
 msgid "Add agenda item"
 msgstr "Traktandum hinzufügen"
 
@@ -249,7 +249,7 @@ msgstr "Erweitert"
 msgid "Advanced permissions"
 msgstr "Erweiterte Berechtigungen"
 
-#: ../workspace/browser/templates/content_macros.pt:259
+#: ../workspace/browser/templates/content_macros.pt:292
 msgid "Agenda"
 msgstr "Traktandenliste"
 
@@ -295,7 +295,7 @@ msgstr "Alle Kalender"
 msgid "All day"
 msgstr "Ganztägig"
 
-#: ../workspace/browser/templates/content_macros.pt:169
+#: ../workspace/browser/templates/content_macros.pt:202
 msgid "All day event"
 msgstr "Ganztägiger Termin"
 
@@ -307,7 +307,7 @@ msgstr "Alle Nachrichten"
 msgid "All notifications"
 msgstr "Alle Benachrichtigungen"
 
-#: ../todo/browser/app.py:554
+#: ../todo/browser/app.py:600
 msgid "All personal tasks"
 msgstr "Alle persönlichen Aufgaben"
 
@@ -405,7 +405,7 @@ msgstr "Sind Sie sicher? (Auswahl entfernen, um Objekte von der Änderung auszus
 #: ../todo/browser/templates/app-results.pt:68
 #: ../todo/browser/templates/app.pt:81
 msgid "Assignee"
-msgstr "Beauftragte"
+msgstr "Beauftragter"
 
 #: ../async/configure.zcml:18
 msgid "Async task dispatch for PloneIntranet"
@@ -542,7 +542,7 @@ msgstr "CC"
 msgid "CSV document"
 msgstr "CSV"
 
-#: ../workspace/browser/templates/content_macros.pt:110
+#: ../workspace/browser/templates/content_macros.pt:143
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -641,7 +641,7 @@ msgstr "Abschluss"
 msgid "Closed tasks"
 msgstr "Abgeschlossene Aufgaben"
 
-#: ../workspace/browser/templates/content_macros.pt:346
+#: ../workspace/browser/templates/content_macros.pt:379
 msgid "Confirmed"
 msgstr "Bestätigt"
 
@@ -683,7 +683,7 @@ msgid "Could not transition: ${title}"
 msgstr "Änderung des Workflow Status nicht möglich für: ${title}"
 
 #: ../news/browser/templates/panel-create-news.html:81
-#: ../todo/browser/templates/add_task.pt:42
+#: ../todo/browser/templates/add_task.pt:38
 #: ../workspace/browser/templates/add_content.pt:35
 msgid "Create"
 msgstr "Erstellen"
@@ -715,13 +715,13 @@ msgstr "Termin anlegen"
 msgid "Create folder"
 msgstr "Verzeichnis erstellen"
 
-#: ../workspace/browser/add_content.py:205
+#: ../workspace/browser/add_content.py:229
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:64
 msgid "Create link"
 msgstr "Link erstellen"
 
 #: ../todo/browser/templates/app-results.pt:124
-#: ../todo/browser/templates/app.pt:270
+#: ../todo/browser/templates/app.pt:278
 #: ../workspace/browser/tiles/templates/sidebar-todos.pt:22
 msgid "Create new task"
 msgstr "Neue Aufgabe erstellen"
@@ -731,7 +731,7 @@ msgid "Create news"
 msgstr "Nachricht erstellen"
 
 #: ../todo/browser/templates/add_task.pt:4
-#: ../todo/browser/templates/app.pt:270
+#: ../todo/browser/templates/app.pt:278
 #: ../workspace/browser/tiles/templates/sidebar-todos.pt:22
 msgid "Create task"
 msgstr "Aufgabe erstellen"
@@ -765,7 +765,7 @@ msgstr "Die Startseite wurde geändert"
 msgid "Dashboard order unchanged"
 msgstr "Die Startseite wurde nicht geändert"
 
-#: ../workspace/browser/templates/content_macros.pt:188
+#: ../workspace/browser/templates/content_macros.pt:221
 msgid "Date"
 msgstr "Datum"
 
@@ -795,7 +795,7 @@ msgstr "Nutzer deaktivieren"
 msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr "Sehr geehrte/r ${invitee_name},"
 
-#: ../workspace/browser/templates/content_macros.pt:348
+#: ../workspace/browser/templates/content_macros.pt:381
 msgid "Declined"
 msgstr "Abgelehnt"
 
@@ -873,6 +873,10 @@ msgstr "Beschreibung für die Suchergebnisse (optional)"
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:142
 msgid "Deselect all"
 msgstr "Alles abwählen"
+
+#: ../workspace/browser/templates/content_macros.pt:72
+msgid "Destination"
+msgstr "Zielort"
 
 #: ../library/behaviors/templates/panel-publish-to-library.pt:28
 msgid "Destination within the library:"
@@ -1040,7 +1044,7 @@ msgstr "Beschreibung für diese Aufgabe eintragen"
 msgid "Enter a label"
 msgstr "Schlagwort(e) eingeben"
 
-#: ../workspace/browser/templates/content_macros.pt:148
+#: ../workspace/browser/templates/content_macros.pt:181
 msgid "Enter a location"
 msgstr "Geben Sie einen Ort ein"
 
@@ -1056,7 +1060,7 @@ msgstr "Fehler beim Einfügen aufgetreten"
 msgid "Event"
 msgstr "Termin"
 
-#: ../workspace/browser/templates/content_macros.pt:135
+#: ../workspace/browser/templates/content_macros.pt:168
 msgid "Event description"
 msgstr "Geben Sie eine Beschreibung des Termins ein"
 
@@ -1076,7 +1080,7 @@ msgstr "Termine, zu denen ich eingeladen bin"
 msgid "Excel 2007 spreadsheet"
 msgstr "Excel"
 
-#: ../todo/browser/templates/app.pt:264
+#: ../todo/browser/templates/app.pt:272
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:41
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:13
 msgid "Expand sidebar"
@@ -1186,7 +1190,7 @@ msgstr "Geschäft abbrechen"
 
 #: ../todo/browser/templates/app.pt:220
 #: ../workspace/basecontent/templates/mail_view.pt:96
-#: ../workspace/browser/templates/content_macros.pt:183
+#: ../workspace/browser/templates/content_macros.pt:216
 msgid "From"
 msgstr "Von"
 
@@ -1320,7 +1324,7 @@ msgstr "Aufmacherbild"
 msgid "High"
 msgstr "Hoch"
 
-#: ../workspace/browser/templates/content_macros.pt:97
+#: ../workspace/browser/templates/content_macros.pt:130
 msgid "High priority"
 msgstr "Hohe Priorität"
 
@@ -1436,11 +1440,11 @@ msgstr "Einladungen"
 msgid "Invite users to this workspace (via email)"
 msgstr "Lade Benutzer in diesen Arbeitsraum ein (per E-Mail)"
 
-#: ../workspace/browser/templates/content_macros.pt:339
+#: ../workspace/browser/templates/content_macros.pt:372
 msgid "Invitees"
 msgstr "Eingeladen"
 
-#: ../workspace/browser/add_content.py:158
+#: ../workspace/browser/add_content.py:182
 msgid "Item created."
 msgstr "Objekt angelegt."
 
@@ -1559,7 +1563,7 @@ msgstr "Like"
 msgid "Link"
 msgstr "Link"
 
-#: ../workspace/browser/add_content.py:207
+#: ../workspace/browser/add_content.py:231
 msgid "Link name"
 msgstr "Link Name"
 
@@ -1584,7 +1588,7 @@ msgstr "Weitere Suchergebnisse laden&hellip;"
 msgid "Loading..."
 msgstr "Lade…"
 
-#: ../workspace/browser/templates/content_macros.pt:148
+#: ../workspace/browser/templates/content_macros.pt:181
 #: ../workspace/browser/templates/email_invitees_html.pt:12
 #: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
@@ -1610,7 +1614,7 @@ msgstr "Abmelden"
 msgid "Low"
 msgstr "Niedrig"
 
-#: ../workspace/browser/templates/content_macros.pt:91
+#: ../workspace/browser/templates/content_macros.pt:124
 msgid "Low priority"
 msgstr "Niedrige Priorität"
 
@@ -1650,7 +1654,7 @@ msgstr "Markiere den Inhalt als \"Muss\" für alle Benutzer"
 msgid "Medium"
 msgstr "Mittel"
 
-#: ../workspace/browser/templates/content_macros.pt:94
+#: ../workspace/browser/templates/content_macros.pt:127
 msgid "Medium priority"
 msgstr "Mittlere Priorität"
 
@@ -1703,11 +1707,11 @@ msgstr "Messages machen es einfach mit Ihren Mitarbeitern in Kontakt zu bleiben.
 msgid "Milestone"
 msgstr "Meilenstein"
 
-#: ../workspace/browser/templates/content_macros.pt:70
+#: ../workspace/browser/templates/content_macros.pt:103
 msgid "Milestone this task belongs to"
 msgstr "Der Meilenstein dieser Aufgabe"
 
-#: ../todo/browser/templates/app.pt:241
+#: ../todo/browser/templates/app.pt:249
 msgid "Milestones"
 msgstr "Meilensteine"
 
@@ -1814,11 +1818,11 @@ msgstr "Mir"
 msgid "Name"
 msgstr "Name"
 
-#: ../workspace/browser/templates/content_macros.pt:270
+#: ../workspace/browser/templates/content_macros.pt:303
 msgid "Name of agenda item"
 msgstr "Titel des Traktandums"
 
-#: ../workspace/browser/templates/content_macros.pt:156
+#: ../workspace/browser/templates/content_macros.pt:189
 msgid "Name of organiser"
 msgstr "Wählen Sie einen Veranstalter"
 
@@ -1920,9 +1924,9 @@ msgstr "Es konnten keine Objekte umbenannt werden"
 msgid "No items could be updated"
 msgstr "Es konnten keine Objekte aktualisiert werden"
 
-#: ../workspace/browser/templates/content_macros.pt:324
+#: ../workspace/browser/templates/content_macros.pt:357
 msgid "No items set"
-msgstr ""
+msgstr "Keine Einträge vorhanden"
 
 #: ../notifications/browser/notifications.pt:39
 msgid "No pending notifications"
@@ -1936,7 +1940,7 @@ msgstr "Keine Vorschau verfügbar"
 msgid "No priority"
 msgstr "Keine Priorität"
 
-#: ../workspace/browser/templates/content_macros.pt:88
+#: ../workspace/browser/templates/content_macros.pt:121
 msgid "No priority set"
 msgstr "Priorität nicht gesetzt"
 
@@ -1982,7 +1986,7 @@ msgstr "Keine Nutzer ausgewählt"
 msgid "No users found"
 msgstr "Keine Nutzer gefunden"
 
-#: ../todo/browser/app.py:437
+#: ../todo/browser/app.py:472
 #: ../workspace/browser/templates/add_workspace.pt:81
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 msgid "None"
@@ -1992,7 +1996,7 @@ msgstr "Nichts"
 msgid "Not in a workspace"
 msgstr "Nicht in einem Arbeitsraum befindlich"
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:165
 msgid "Notes"
 msgstr "Notizen"
 
@@ -2085,7 +2089,7 @@ msgstr "Kalender des Arbeitsraums in neuem Fenster öffnen"
 msgid "Options"
 msgstr "Optionen"
 
-#: ../workspace/browser/templates/content_macros.pt:155
+#: ../workspace/browser/templates/content_macros.pt:188
 msgid "Organiser"
 msgstr "Veranstalter"
 
@@ -2104,7 +2108,7 @@ msgstr "Aussenstehende können selbständig Mitglieder des Arbeitsraums werden."
 
 #: ../workspace/browser/tiles/templates/metromap.pt:74
 msgid "Overdue"
-msgstr ""
+msgstr "Überfällig"
 
 msgid "PDF document"
 msgstr "PDF"
@@ -2151,15 +2155,19 @@ msgstr "Ihr Profilbild wurde aktualisiert. Laden Sie die Seite neu um die Änder
 msgid "Personal settings"
 msgstr "Persönliche Einstellungen"
 
+#: ../workspace/browser/templates/content_macros.pt:79
+msgid "Personal task list"
+msgstr "Persönliche Aufgaben"
+
 #: ../todo/browser/app.py:39
 msgid "Personal tasks"
 msgstr "Persönliche Aufgaben"
 
-#: ../todo/browser/app.py:555
+#: ../todo/browser/app.py:601
 msgid "Personal tasks assigned to me by others"
 msgstr "Persönliche Aufgaben, die mir zugewiesen wurden"
 
-#: ../todo/browser/app.py:556
+#: ../todo/browser/app.py:602
 msgid "Personal tasks that I assigned to others"
 msgstr "Persönliche Aufgaben, die ich anderen zugewiesen habe"
 
@@ -2324,7 +2332,7 @@ msgid "Print"
 msgstr "Drucken"
 
 #: ../todo/behaviors.py:61
-#: ../workspace/browser/templates/content_macros.pt:82
+#: ../workspace/browser/templates/content_macros.pt:115
 msgid "Priority"
 msgstr "Priorität"
 
@@ -2378,9 +2386,9 @@ msgstr "Veröffentlicht"
 msgid "Re-tag"
 msgstr "Schlagworte ändern"
 
-#: ../todo/browser/templates/app.pt:301
+#: ../todo/browser/templates/app.pt:309
 msgid "Read the manual"
-msgstr ""
+msgstr "Einführung lesen"
 
 #: ../bookmarks/browser/templates/bookmarks.tile.pt:41
 msgid "Recent"
@@ -2777,7 +2785,7 @@ msgstr "Teamverwalteter, privater Arbeitsraum"
 msgid "Telephone Number"
 msgstr "Telefonnummer"
 
-#: ../workspace/browser/templates/content_macros.pt:347
+#: ../workspace/browser/templates/content_macros.pt:380
 msgid "Tentative"
 msgstr "Unter Vorbehalt"
 
@@ -2793,7 +2801,7 @@ msgstr "Textdokument"
 msgid "Thank you for using Messages!"
 msgstr "Vielen Dank, dass sie Messages benutzen!"
 
-#: ../todo/interfaces.py:17
+#: ../todo/interfaces.py:24
 msgid "The UID of the content that needs actioning"
 msgstr "Die UID des Inhalts der Aufmerksamkeit benötigt."
 
@@ -2813,7 +2821,7 @@ msgstr "Die absolute URL für das Vorschaubild dieses Suchergebnisses"
 msgid "The absolute URL to the content for this search result based on the path and the host in the current request"
 msgstr "Absolute URL des Inhalts dieses Suchergebnisses, beruhend auf dem Pfad und dem Host der aktuellen Anfrage."
 
-#: ../todo/interfaces.py:18
+#: ../todo/interfaces.py:25
 msgid "The action to be taken on the content"
 msgstr "Die Aktion, die auf diesen Inhalt angewendet wird"
 
@@ -2827,15 +2835,15 @@ msgstr "Die Traktandenliste für diesen Termin finden Sie hier:"
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
 msgstr "Die App, die Sie ausgewählt haben, ist noch nicht verfügbar, wird jedoch in naher Zukunft aktiviert."
 
-#: ../todo/interfaces.py:20
+#: ../todo/interfaces.py:27
 msgid "The datetime this ContentAction was completed"
 msgstr "Tag und Zeit zu dem diese Inhaltsaktion ausgeführt wurde."
 
-#: ../todo/interfaces.py:19
+#: ../todo/interfaces.py:26
 msgid "The datetime this ContentAction was created"
 msgstr "Tag und Zeit zu dem diese Inhaltsaktion erstellt wurde."
 
-#: ../todo/interfaces.py:21
+#: ../todo/interfaces.py:28
 msgid "The datetime this ContentAction was triggered"
 msgstr "Tag und Zeit zu dem diese Inhaltsaktion angestossen wurde."
 
@@ -2899,7 +2907,7 @@ msgstr "Das Gesamtergebnis der Suche"
 msgid "The user (or group) who requested this task"
 msgstr "Der Benutzer (oder die Gruppe), der diese Aufgabe angefordert hat."
 
-#: ../todo/interfaces.py:16
+#: ../todo/interfaces.py:23
 msgid "The userid this action is for"
 msgstr "Die Benutzer ID für diese Aktion"
 
@@ -2947,7 +2955,7 @@ msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 msgid "There was a problem:"
 msgstr "Es ist ein Problem aufgetreten:"
 
-#: ../workspace/browser/add_content.py:166
+#: ../workspace/browser/add_content.py:190
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr "Es ist ein Problem aufgetreten: %s."
@@ -3011,7 +3019,7 @@ msgstr ""
 msgid "Tile to list recently modified documents"
 msgstr "Kachel, die zuletzt geänderte Objekte anzeigt"
 
-#: ../workspace/browser/templates/content_macros.pt:203
+#: ../workspace/browser/templates/content_macros.pt:236
 msgid "Time"
 msgstr "Zeit"
 
@@ -3023,7 +3031,7 @@ msgstr "Zeitzone"
 msgid "Timeline"
 msgstr "Zeitleiste"
 
-#: ../workspace/browser/templates/content_macros.pt:240
+#: ../workspace/browser/templates/content_macros.pt:273
 msgid "Timezone"
 msgstr "Zeitzone"
 
@@ -3075,7 +3083,7 @@ msgstr "Archivierung für dieses Dokument aufheben"
 msgid "Unassigned"
 msgstr "Nicht zugewiesen"
 
-#: ../workspace/browser/templates/content_macros.pt:345
+#: ../workspace/browser/templates/content_macros.pt:378
 msgid "Undecided"
 msgstr "Unentschieden"
 
@@ -3141,8 +3149,8 @@ msgstr ""
 msgid "Unpublished"
 msgstr "Nicht veröffentlicht"
 
-#: ../todo/browser/templates/app.pt:227
-#: ../workspace/browser/templates/content_macros.pt:212
+#: ../todo/browser/templates/app.pt:231
+#: ../workspace/browser/templates/content_macros.pt:245
 msgid "Until"
 msgstr "Bis"
 
@@ -3386,6 +3394,7 @@ msgstr "Schreiben Sie hier Ihren Text"
 msgid "Wrong type for {} at row {}.field"
 msgstr "Falscher Typ für {} in Zeile {}."
 
+#: ../todo/browser/templates/app.pt:221
 #: ../workspace/browser/templates/case_manager.pt:124
 msgid "YYYY-MM-DD"
 msgstr "JJJJ-MM-TT"
@@ -3461,7 +3470,7 @@ msgstr "Diese Nachricht kann an eine oder mehrere Personen verschickt werden. De
 
 #: ../todo/browser/templates/app-results.pt:11
 msgid "You reached the search result limit, you may want to filter your search"
-msgstr ""
+msgstr "Sie haben die maximale Anzahl an Ergebnissen erreicht, bitte filtern Sie Ihre Suche"
 
 #: ../workspace/browser/templates/email_invitees_html.pt:5
 #: ../workspace/browser/templates/email_invitees_text.pt:5
@@ -3708,7 +3717,7 @@ msgstr "${d}. ${B} ${Y}"
 
 #. time to: ${date}"
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:249
+#: ../workspace/browser/add_content.py:273
 msgid "dates_hijacked"
 msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
@@ -3772,7 +3781,7 @@ msgstr "Enddatum muss später sein als Anfangsdatum."
 msgid "error_invalid_publication"
 msgstr "Ungültiges Start- oder Enddatum"
 
-#: ../todo/browser/templates/app.pt:264
+#: ../todo/browser/templates/app.pt:272
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:41
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:13
 msgid "expand/reduce sidebar"

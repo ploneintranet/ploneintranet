@@ -4,19 +4,19 @@
     >
 
     <genericsetup:upgradeStep
-        title="Create the todo app if it is not there"
-        description=""
-        source="*"
-        destination="0002"
-        handler=".to_0002.create_todo_app"
-        profile="ploneintranet.todo:default" />
-
-    <genericsetup:upgradeStep
         title="Make sure legacy ToDos don't have datetime"
         description="The ToDo has always been defined with due_date being a date. But now we need to enforce that any exsiting due_dates are actually dates, not datetimes"
         source="0002"
         destination="0003"
         handler=".to_0003.fix_existing_dates"
+        profile="ploneintranet.todo:default" />
+
+    <genericsetup:upgradeStep
+        title="Create the todo app if it is not there"
+        description=""
+        source="*"
+        destination="0004"
+        handler=".to_0004.create_todo_app"
         profile="ploneintranet.todo:default" />
 
 </configure>

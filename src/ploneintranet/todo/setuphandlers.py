@@ -1,6 +1,8 @@
 # coding=utf-8
 from logging import getLogger
 from plone import api
+from ploneintranet.todo.interfaces import ITodoApp
+from zope.interface import alsoProvides
 
 
 logger = getLogger()
@@ -21,6 +23,7 @@ def create_app():
             app='@@app-todo',
             devices='desktop tablet mobile'
         )
+        alsoProvides(apps['todo'], ITodoApp)
 
     app = apps['todo']
     if api.content.get_state(app) == 'published':

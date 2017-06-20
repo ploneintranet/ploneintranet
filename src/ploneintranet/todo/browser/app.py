@@ -10,6 +10,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.search.interfaces import ISiteSearch
+from ploneintranet.todo.interfaces import IMilestoneNameResolver
 from ploneintranet.todo.vocabularies import todo_priority
 from ploneintranet.workspace.utils import parent_workspace
 from Products.Five import BrowserView
@@ -189,10 +190,7 @@ class View(BrowserView):
     def add_task_url(self):
         ''' The URL for adding a personal tasks
         '''
-        user = self.user
-        if not user:
-            return
-        return '{}/@@add_task'.format(user.absolute_url())
+        return '{}/@@add_task'.format(self.context.absolute_url())
 
     @property
     @memoize
@@ -386,48 +384,91 @@ class View(BrowserView):
             return lambda task: getattr(task, browse_mode, None)
         return lambda task: None
 
+    @memoize
+    def get_ws_workflow(self, ws):
+        ''' Return the workflow for this workspace
+        '''
+        pw = api.portal.get_tool('portal_workflow')
+        for wf in pw.getWorkflowsFor(ws):
+            return wf
+
+    @memoize
+    def get_review_state_hr(self, wf, review_state):
+        ''' Given a workflow and a review state, return a human readable title
+        '''
+        if not wf:
+            return _(review_state)
+        state = wf.states.get(review_state)
+        if state:
+            return _(state.title)
+        return _(review_state)
+
+    @memoize
+    def get_milestone_hr(self, ws, milestone):
+        ''' Get's the milestone for this workspace human readable
+
+        Tipycally get the ws workflow and look for an homonymous state
+        '''
+        adapter = IMilestoneNameResolver(ws, None)
+        if adapter:
+            name = adapter.resolve(milestone)
+            if name:
+                return name
+        wf = self.get_ws_workflow(ws)
+        return self.get_review_state_hr(wf, milestone)
+
+    def get_item_milestone_hr(self, item):
+        ''' Given an item, try to get the milestone in a human readable form
+        '''
+        milestone = getattr(item, 'milestone', None)
+        if not milestone:
+            return ''
+        ws = parent_workspace(item)
+        return self.get_milestone_hr(ws, milestone)
+
     def _origin_key_beautifier(self, key):
         ''' We expect key to be either a workspace or None
         '''
         if not key:
+            user = self.user
+            container = '/'.join(user.getPhysicalPath()) if user else ''
             return {
                 'icon': 'icon-user',
                 'klass': 'personal',
                 'key': key,
                 'title': _('Personal tasks'),
                 'sorting_key': ' ',
+                'url': self.user and self.add_task_url,
+                'add_params': urlencode({
+                    'container': container
+                }),
             }
         else:
             return {
                 'key': key,
                 'title': key.title,
-                'url': key.absolute_url(),
+                'url': self.add_task_url,
+                'add_params': urlencode({
+                    'container': '/'.join(key.getPhysicalPath())
+                }),
             }
 
     def _origin_and_milestone_key_beautifier(self, key):
         ''' We expect key to be a tuple containing a workspace and a milestone
         '''
         ws, milestone = key
-        if not ws:
-            return {
-                'icon': 'icon-user',
-                'klass': 'personal',
-                'key': key,
-                'title': _('Personal tasks'),
-                'sorting_key': ' ',
-            }
-        if milestone:
-            title = u' - '.join((ws.title, milestone))
-            add_params = urlencode({'milestone': milestone})
-        else:
-            title = ws.title
-            add_params = ''
-        return {
-            'key': key,
-            'title': title,
-            'url': ws.absolute_url(),
-            'add_params': add_params,
-        }
+        key_beautified = self._origin_key_beautifier(ws)
+        key_beautified['key'] = key
+        if ws and milestone:
+            key_beautified['title'] = u' - '.join((
+                key_beautified['title'],
+                self.get_milestone_hr(ws, milestone),
+            ))
+            key_beautified['add_params'] = '&'.join((
+                key_beautified['add_params'],
+                urlencode({'milestone': milestone})
+            ))
+        return key_beautified
 
     def _userid_key_beautifier(self, key):
         ''' We expect key to be a userid
@@ -456,6 +497,15 @@ class View(BrowserView):
             'sorting_key': str(-key + 50),
         }
 
+    def _task_state_key_beautifier(self, key):
+        ''' key should be a todo review state.
+        '''
+        pw = api.portal.get_tool('portal_workflow')
+        wf_id = pw.getChainForPortalType('todo')[0]
+        wf = pw.getWorkflowById(wf_id)
+        title = self.get_review_state_hr(wf, key)
+        return {'title': title, 'key': key}
+
     def get_key_beautifier(self):
         '''Return a function that will transform a key in to something
         that can be rendered in the template
@@ -469,6 +519,8 @@ class View(BrowserView):
             return self._userid_key_beautifier
         if browse_mode == 'priority':
             return self._priority_key_beautifier
+        if browse_mode == 'task_state':
+            return self._task_state_key_beautifier
         return lambda key: {'title': key, 'key': key}
 
     @property
