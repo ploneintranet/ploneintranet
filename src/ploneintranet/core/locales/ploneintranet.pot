@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-06-19 09:33+0000\n"
+"POT-Creation-Date: 2017-06-20 08:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "-- Please select --"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:117
+#: ../workspace/browser/templates/content_macros.pt:150
 msgid "-- Please select a workspace --"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "Activity stream"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:328
+#: ../workspace/browser/templates/content_macros.pt:361
 msgid "Add agenda item"
 msgstr ""
 
@@ -246,7 +246,7 @@ msgstr ""
 msgid "Advanced permissions"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:259
+#: ../workspace/browser/templates/content_macros.pt:292
 msgid "Agenda"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 msgid "All day"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:169
+#: ../workspace/browser/templates/content_macros.pt:202
 msgid "All day event"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgstr ""
 msgid "All notifications"
 msgstr ""
 
-#: ../todo/browser/app.py:554
+#: ../todo/browser/app.py:600
 msgid "All personal tasks"
 msgstr ""
 
@@ -539,7 +539,7 @@ msgstr ""
 msgid "CSV document"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:110
+#: ../workspace/browser/templates/content_macros.pt:143
 msgid "Calendar"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgstr ""
 msgid "Closed tasks"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:346
+#: ../workspace/browser/templates/content_macros.pt:379
 msgid "Confirmed"
 msgstr ""
 
@@ -680,7 +680,7 @@ msgid "Could not transition: ${title}"
 msgstr ""
 
 #: ../news/browser/templates/panel-create-news.html:81
-#: ../todo/browser/templates/add_task.pt:42
+#: ../todo/browser/templates/add_task.pt:38
 #: ../workspace/browser/templates/add_content.pt:35
 msgid "Create"
 msgstr ""
@@ -712,13 +712,13 @@ msgstr ""
 msgid "Create folder"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:205
+#: ../workspace/browser/add_content.py:229
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:64
 msgid "Create link"
 msgstr ""
 
 #: ../todo/browser/templates/app-results.pt:124
-#: ../todo/browser/templates/app.pt:270
+#: ../todo/browser/templates/app.pt:278
 #: ../workspace/browser/tiles/templates/sidebar-todos.pt:22
 msgid "Create new task"
 msgstr ""
@@ -728,7 +728,7 @@ msgid "Create news"
 msgstr ""
 
 #: ../todo/browser/templates/add_task.pt:4
-#: ../todo/browser/templates/app.pt:270
+#: ../todo/browser/templates/app.pt:278
 #: ../workspace/browser/tiles/templates/sidebar-todos.pt:22
 msgid "Create task"
 msgstr ""
@@ -762,7 +762,7 @@ msgstr ""
 msgid "Dashboard order unchanged"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:188
+#: ../workspace/browser/templates/content_macros.pt:221
 msgid "Date"
 msgstr ""
 
@@ -792,7 +792,7 @@ msgstr ""
 msgid "Dear Mr./Ms. ${invitee_name},"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:348
+#: ../workspace/browser/templates/content_macros.pt:381
 msgid "Declined"
 msgstr ""
 
@@ -869,6 +869,10 @@ msgstr ""
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:142
 msgid "Deselect all"
+msgstr ""
+
+#: ../workspace/browser/templates/content_macros.pt:72
+msgid "Destination"
 msgstr ""
 
 #: ../library/behaviors/templates/panel-publish-to-library.pt:28
@@ -1037,7 +1041,7 @@ msgstr ""
 msgid "Enter a label"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:148
+#: ../workspace/browser/templates/content_macros.pt:181
 msgid "Enter a location"
 msgstr ""
 
@@ -1053,7 +1057,7 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:135
+#: ../workspace/browser/templates/content_macros.pt:168
 msgid "Event description"
 msgstr ""
 
@@ -1073,7 +1077,7 @@ msgstr ""
 msgid "Excel 2007 spreadsheet"
 msgstr ""
 
-#: ../todo/browser/templates/app.pt:264
+#: ../todo/browser/templates/app.pt:272
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:41
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:13
 msgid "Expand sidebar"
@@ -1183,7 +1187,7 @@ msgstr ""
 
 #: ../todo/browser/templates/app.pt:220
 #: ../workspace/basecontent/templates/mail_view.pt:96
-#: ../workspace/browser/templates/content_macros.pt:183
+#: ../workspace/browser/templates/content_macros.pt:216
 msgid "From"
 msgstr ""
 
@@ -1317,7 +1321,7 @@ msgstr ""
 msgid "High"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:97
+#: ../workspace/browser/templates/content_macros.pt:130
 msgid "High priority"
 msgstr ""
 
@@ -1433,11 +1437,11 @@ msgstr ""
 msgid "Invite users to this workspace (via email)"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:339
+#: ../workspace/browser/templates/content_macros.pt:372
 msgid "Invitees"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:158
+#: ../workspace/browser/add_content.py:182
 msgid "Item created."
 msgstr ""
 
@@ -1556,7 +1560,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:207
+#: ../workspace/browser/add_content.py:231
 msgid "Link name"
 msgstr ""
 
@@ -1581,7 +1585,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:148
+#: ../workspace/browser/templates/content_macros.pt:181
 #: ../workspace/browser/templates/email_invitees_html.pt:12
 #: ../workspace/browser/templates/email_invitees_text.pt:11
 msgid "Location"
@@ -1607,7 +1611,7 @@ msgstr ""
 msgid "Low"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:91
+#: ../workspace/browser/templates/content_macros.pt:124
 msgid "Low priority"
 msgstr ""
 
@@ -1647,7 +1651,7 @@ msgstr ""
 msgid "Medium"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:94
+#: ../workspace/browser/templates/content_macros.pt:127
 msgid "Medium priority"
 msgstr ""
 
@@ -1700,11 +1704,11 @@ msgstr ""
 msgid "Milestone"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:70
+#: ../workspace/browser/templates/content_macros.pt:103
 msgid "Milestone this task belongs to"
 msgstr ""
 
-#: ../todo/browser/templates/app.pt:241
+#: ../todo/browser/templates/app.pt:249
 msgid "Milestones"
 msgstr ""
 
@@ -1811,11 +1815,11 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:270
+#: ../workspace/browser/templates/content_macros.pt:303
 msgid "Name of agenda item"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:156
+#: ../workspace/browser/templates/content_macros.pt:189
 msgid "Name of organiser"
 msgstr ""
 
@@ -1917,7 +1921,7 @@ msgstr ""
 msgid "No items could be updated"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:324
+#: ../workspace/browser/templates/content_macros.pt:357
 msgid "No items set"
 msgstr ""
 
@@ -1933,7 +1937,7 @@ msgstr ""
 msgid "No priority"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:88
+#: ../workspace/browser/templates/content_macros.pt:121
 msgid "No priority set"
 msgstr ""
 
@@ -1979,7 +1983,7 @@ msgstr ""
 msgid "No users found"
 msgstr ""
 
-#: ../todo/browser/app.py:437
+#: ../todo/browser/app.py:472
 #: ../workspace/browser/templates/add_workspace.pt:81
 #: ../workspace/browser/tiles/templates/navigation.pt:36
 msgid "None"
@@ -1989,7 +1993,7 @@ msgstr ""
 msgid "Not in a workspace"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:132
+#: ../workspace/browser/templates/content_macros.pt:165
 msgid "Notes"
 msgstr ""
 
@@ -2082,7 +2086,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:155
+#: ../workspace/browser/templates/content_macros.pt:188
 msgid "Organiser"
 msgstr ""
 
@@ -2148,15 +2152,19 @@ msgstr ""
 msgid "Personal settings"
 msgstr ""
 
+#: ../workspace/browser/templates/content_macros.pt:79
+msgid "Personal task list"
+msgstr ""
+
 #: ../todo/browser/app.py:39
 msgid "Personal tasks"
 msgstr ""
 
-#: ../todo/browser/app.py:555
+#: ../todo/browser/app.py:601
 msgid "Personal tasks assigned to me by others"
 msgstr ""
 
-#: ../todo/browser/app.py:556
+#: ../todo/browser/app.py:602
 msgid "Personal tasks that I assigned to others"
 msgstr ""
 
@@ -2321,7 +2329,7 @@ msgid "Print"
 msgstr ""
 
 #: ../todo/behaviors.py:61
-#: ../workspace/browser/templates/content_macros.pt:82
+#: ../workspace/browser/templates/content_macros.pt:115
 msgid "Priority"
 msgstr ""
 
@@ -2375,7 +2383,7 @@ msgstr ""
 msgid "Re-tag"
 msgstr ""
 
-#: ../todo/browser/templates/app.pt:301
+#: ../todo/browser/templates/app.pt:309
 msgid "Read the manual"
 msgstr ""
 
@@ -2774,7 +2782,7 @@ msgstr ""
 msgid "Telephone Number"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:347
+#: ../workspace/browser/templates/content_macros.pt:380
 msgid "Tentative"
 msgstr ""
 
@@ -2790,7 +2798,7 @@ msgstr ""
 msgid "Thank you for using Messages!"
 msgstr ""
 
-#: ../todo/interfaces.py:17
+#: ../todo/interfaces.py:24
 msgid "The UID of the content that needs actioning"
 msgstr ""
 
@@ -2810,7 +2818,7 @@ msgstr ""
 msgid "The absolute URL to the content for this search result based on the path and the host in the current request"
 msgstr ""
 
-#: ../todo/interfaces.py:18
+#: ../todo/interfaces.py:25
 msgid "The action to be taken on the content"
 msgstr ""
 
@@ -2824,15 +2832,15 @@ msgstr ""
 msgid "The app that you selected is not available yet, but will be enabled in the near future."
 msgstr ""
 
-#: ../todo/interfaces.py:20
+#: ../todo/interfaces.py:27
 msgid "The datetime this ContentAction was completed"
 msgstr ""
 
-#: ../todo/interfaces.py:19
+#: ../todo/interfaces.py:26
 msgid "The datetime this ContentAction was created"
 msgstr ""
 
-#: ../todo/interfaces.py:21
+#: ../todo/interfaces.py:28
 msgid "The datetime this ContentAction was triggered"
 msgstr ""
 
@@ -2896,7 +2904,7 @@ msgstr ""
 msgid "The user (or group) who requested this task"
 msgstr ""
 
-#: ../todo/interfaces.py:16
+#: ../todo/interfaces.py:23
 msgid "The userid this action is for"
 msgstr ""
 
@@ -2944,7 +2952,7 @@ msgstr ""
 msgid "There was a problem:"
 msgstr ""
 
-#: ../workspace/browser/add_content.py:166
+#: ../workspace/browser/add_content.py:190
 #: ../workspace/browser/edit_content.py:37
 msgid "There was a problem: %s."
 msgstr ""
@@ -3008,7 +3016,7 @@ msgstr ""
 msgid "Tile to list recently modified documents"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:203
+#: ../workspace/browser/templates/content_macros.pt:236
 msgid "Time"
 msgstr ""
 
@@ -3020,7 +3028,7 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:240
+#: ../workspace/browser/templates/content_macros.pt:273
 msgid "Timezone"
 msgstr ""
 
@@ -3072,7 +3080,7 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
-#: ../workspace/browser/templates/content_macros.pt:345
+#: ../workspace/browser/templates/content_macros.pt:378
 msgid "Undecided"
 msgstr ""
 
@@ -3138,8 +3146,8 @@ msgstr ""
 msgid "Unpublished"
 msgstr ""
 
-#: ../todo/browser/templates/app.pt:227
-#: ../workspace/browser/templates/content_macros.pt:212
+#: ../todo/browser/templates/app.pt:231
+#: ../workspace/browser/templates/content_macros.pt:245
 msgid "Until"
 msgstr ""
 
@@ -3383,6 +3391,7 @@ msgstr ""
 msgid "Wrong type for {} at row {}.field"
 msgstr ""
 
+#: ../todo/browser/templates/app.pt:221
 #: ../workspace/browser/templates/case_manager.pt:124
 msgid "YYYY-MM-DD"
 msgstr ""
@@ -3702,7 +3711,7 @@ msgid "date_format_long"
 msgstr ""
 
 #. Default: "Start time should be lower than end time. The system set the end time to: ${date}"
-#: ../workspace/browser/add_content.py:249
+#: ../workspace/browser/add_content.py:273
 msgid "dates_hijacked"
 msgstr ""
 
@@ -3766,7 +3775,7 @@ msgstr ""
 msgid "error_invalid_publication"
 msgstr ""
 
-#: ../todo/browser/templates/app.pt:264
+#: ../todo/browser/templates/app.pt:272
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:41
 #: ../workspace/browser/tiles/templates/sidebar-events.pt:13
 msgid "expand/reduce sidebar"
