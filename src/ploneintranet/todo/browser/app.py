@@ -392,18 +392,24 @@ class View(BrowserView):
             return wf
 
     @memoize
+    def get_review_state_hr(self, wf, review_state):
+        ''' Given a workflow and a review state, return a human readable title
+        '''
+        if not wf:
+            return _(review_state)
+        state = wf.states.get(review_state)
+        if not state:
+            return _(review_state)
+        return _(state.title)
+
+    @memoize
     def get_milestone_hr(self, ws, milestone):
         ''' Get's the milestone for this workspace human readable
 
         Tipycally get the ws workflow and look for an homonymous state
         '''
         wf = self.get_ws_workflow(ws)
-        if not wf:
-            return _(milestone)
-        state = wf.states.get(milestone)
-        if not state:
-            return _(milestone)
-        return _(state.title)
+        return self.get_review_state_hr(wf, milestone)
 
     def get_item_milestone_hr(self, item):
         ''' Given an item, try to get the milestone in a human readable form
@@ -485,6 +491,15 @@ class View(BrowserView):
             'sorting_key': str(-key + 50),
         }
 
+    def _task_state_key_beautifier(self, key):
+        ''' key should be a todo review state.
+        '''
+        pw = api.portal.get_tool('portal_workflow')
+        wf_id = pw.getChainForPortalType('todo')[0]
+        wf = pw.getWorkflowById(wf_id)
+        title = self.get_review_state_hr(wf, key)
+        return {'title': title, 'key': key}
+
     def get_key_beautifier(self):
         '''Return a function that will transform a key in to something
         that can be rendered in the template
@@ -498,6 +513,8 @@ class View(BrowserView):
             return self._userid_key_beautifier
         if browse_mode == 'priority':
             return self._priority_key_beautifier
+        if browse_mode == 'task_state':
+            return self._task_state_key_beautifier
         return lambda key: {'title': key, 'key': key}
 
     @property
