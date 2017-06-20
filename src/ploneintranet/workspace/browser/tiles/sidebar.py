@@ -191,6 +191,15 @@ class BaseTile(BrowserView):
             'ploneintranet.workspace.allow_bulk_subscribe', False
         )
 
+    def date_as_datetime(self, date):
+        '''
+            The content items in the sidebar have a `DateTime` as their
+            modification date. But search results have a `datetime`.
+        '''
+        if isinstance(date, DateTime):
+            date = date.asdatetime()
+        return date
+
 
 class SidebarSettingsGeneral(BaseTile):
 
