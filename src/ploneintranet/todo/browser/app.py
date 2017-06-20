@@ -77,6 +77,7 @@ class View(BrowserView):
     )
 
     _search_tasks_limit = 100
+    _ignored_keys = {'_', 'app'}
 
     show_initiators = True
     show_assignes = True
@@ -560,8 +561,8 @@ class View(BrowserView):
     def show_reset_button(self):
         ''' Show the reset button if we have something in the query string
         '''
-        keys = self.request.form.keys()
-        return keys and keys != ['_']
+        keys = set(self.request.form)
+        return keys - self._ignored_keys
 
 
 class MyTasksView(View):
