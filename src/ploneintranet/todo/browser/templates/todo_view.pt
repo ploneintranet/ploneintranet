@@ -114,7 +114,7 @@
               <div id="sidebar-content">
                 <a class="pat-inject"
                    href="${here/absolute_url}/@@todo_sidebar"
-                   data-pat-inject="source: #sidebar::element; target: #sidebar::element; trigger: autoload-visible"
+                   data-pat-inject="source: #sidebar::element; target: #sidebar::element; trigger: autoload"
                    i18n:translate=""
                 >Open sidebar</a>
               </div>
