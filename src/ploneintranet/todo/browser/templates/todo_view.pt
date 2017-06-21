@@ -52,7 +52,7 @@
                     </span>
                     <div class="quick-functions">
                       <a class="icon-ellipsis iconified pat-tooltip"
-                         href="${context/absolute_url}/context-menu#content"
+                         href="${context/absolute_url}/context-menu?${python:'app' if 'app' in request.form else ''}#content"
                          title="Show extra context actions"
                          data-pat-tooltip="source: ajax"
                          i18n:attributes="title"

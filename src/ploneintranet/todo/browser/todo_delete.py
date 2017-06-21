@@ -15,7 +15,7 @@ class TodoDeleteConfirmationForm(PIDeleteConfirmationForm):
     def handle_delete(self, action):
         base_handler = super(TodoDeleteConfirmationForm, self).handle_delete
         base_handler(self, action)
-        if parent_workspace(self.context):
+        if not self.request.form.get('app') and parent_workspace(self.context):
             return
         url = self.context.apps['todo'].app_url()
         return self.request.response.redirect(url)

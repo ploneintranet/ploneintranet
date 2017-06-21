@@ -118,6 +118,11 @@
             </tal:block>
           </div>
           <tal:block tal:condition="view/enableCSRFProtection" tal:replace="structure context/@@authenticator/authenticator" />
+          <input name="app"
+                 type="hidden"
+                 value="1"
+                 tal:condition="python:'app' in request.form"
+          />
         </form>
       </div>
 

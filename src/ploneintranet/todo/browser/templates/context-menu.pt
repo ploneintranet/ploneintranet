@@ -5,7 +5,7 @@
     >
       <li tal:condition="view/can_edit">
         <a class="pat-modal icon-trash iconified close-panel"
-           href="${context/absolute_url}/delete_confirmation#content"
+           href="${context/absolute_url}/delete_confirmation?${python:'app' if 'app' in request.form else ''}#content"
            title="Delete this document"
            data-pat-inject="source: #content; hooks:"
            i18n:attributes="title"

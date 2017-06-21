@@ -58,7 +58,7 @@
             <tal:authenticator replace="structure authenticator" />
           </fieldset>
           <a class="pat-inject follow pat-switch ${python: view.get_prio_class(item.priority)}"
-             href="${item/absolute_url}#document-body"
+             href="${item/absolute_url}?app#document-body"
              title="${item/title}"
              data-pat-inject="target: #document-body; history: none"
              data-pat-switch="#application-body focus-* focus-document &amp;&amp; #application-body sidebar-large sidebar-normal"
