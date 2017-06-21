@@ -248,6 +248,10 @@ class UserProfileView(UserProfileViewForm):
                 'title': profile.fullname,
                 'url': profile.absolute_url(),
                 'avatar_tag': pi_api.userprofile.avatar_tag(userid),
+                'avatar_tag_linked': pi_api.userprofile.avatar_tag(
+                    userid,
+                    link_to='profile',
+                ),
             })
         return details
 
