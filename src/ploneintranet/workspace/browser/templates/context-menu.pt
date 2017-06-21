@@ -16,7 +16,7 @@
                  title="Delete this document"
                  i18n:attributes="title"
                  data-pat-inject="source: #content; hooks:"
-                 class="pat-modal icon-trash iconified"
+                 class="pat-modal icon-trash iconified close-panel"
                  i18n:translate=""
                 >Delete</a>
             </li>
