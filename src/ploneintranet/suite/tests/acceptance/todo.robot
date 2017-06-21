@@ -67,7 +67,6 @@ I create a task
     Click Button  Create
     Wait Until Page Contains Element  jquery=.pat-notification-panel :contains('Close')
     Click Element  jquery=.pat-notification-panel :contains('Close')
-    Click Element  css=#toggle-sidebar .open
 
 I delete the current document
     Click Element  css=.quick-functions .icon-trash

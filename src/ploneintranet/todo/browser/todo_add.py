@@ -92,6 +92,10 @@ class AppAddTask(AddTask):
         return super(AppAddTask, self).create(container=container)
 
     def redirect(self, url):
+        ''' Add a query string parameter that suggests to render the view
+        in the app context
+        '''
+        url += '?app'
         return self.request.response.redirect(url)
 
 

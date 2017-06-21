@@ -14,19 +14,19 @@
                      read_only python:not view.can_edit;
                      disabled python: None if view.can_edit else 'disabled';
                      workflow_menu nocall:here/@@workflow_menu|nothing;
+                     is_in_app view/is_in_app;
                    ">
       <div class="application" id="app-space">
-        <div class="sidebar-normal application-${python:view.workspace and 'workspace' or 'application-todo'} application- project page-type-${type} workspace-type-${type} sidebar-left-closed sidebar-right-closed"
+        <div class="application-${python:view.is_in_app() and 'todo' or 'workspace'} application- project page-type-${type} workspace-type-${type} sidebar-left-open sidebar-right-closed sidebar-normal"
              id="application-body"
              tal:define="type logical_parent/ws_type | string:workspace;"
         >
-          <h1 id="workspace-name" tal:condition="nocall:view/workspace">
+          <h1 id="workspace-name" tal:condition="not:is_in_app">
             <a href="${logical_parent_url}">${logical_parent/Title}</a>
           </h1>
           <div class="${python:plone_view.normalizeString(logical_parent.getId())}"
                id="project-body"
           >
-
             <div id="document-body">
               <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''}"
                     method="POST"
@@ -113,8 +113,8 @@
             >
               <div id="sidebar-content">
                 <a class="pat-inject"
-                   href="${here/absolute_url}/@@todo_sidebar"
                    data-pat-inject="source: #sidebar::element; target: #sidebar::element; trigger: autoload"
+                   href="${here/absolute_url}/@@todo_sidebar?${python:'app' if 'app' in request.form else ''}"
                    i18n:translate=""
                 >Open sidebar</a>
               </div>
@@ -161,7 +161,7 @@
           <nav class="navigation workspace-tabs"
                id="workspace-tabs"
                data-tile="${logical_parent_url}/@@workspace.tabs.tile"
-               tal:condition="nocall:view/workspace"
+               tal:condition="not:is_in_app"
           />
         </div>
       </div>

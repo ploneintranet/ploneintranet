@@ -30,6 +30,13 @@ class BaseView(ContentView):
 @implementer(IBlocksTransformEnabled, IDiazoAppTemplate)
 class TodoView(BaseView):
 
+    @memoize
+    def is_in_app(self):
+        ''' Check if we should render this todo inside the app context
+        or inside the workspace context
+        '''
+        return bool('app' in self.request.form or not self.workspace)
+
     @property
     @memoize
     def app_view(self):
@@ -171,14 +178,14 @@ class TodoSidebar(TodoView):
     def __call__(self):
         ''' Choose the proper sidebar to render
         '''
-        if self.workspace:
+        if self.is_in_app():
+            view = self.app_view
+        else:
             view = api.content.get_view(
                 'sidebar.default',
                 self.workspace,
                 self.request,
             )
-        else:
-            view = self.app_view
         return view()
 
 
