@@ -26,7 +26,6 @@
           <div class="${python:plone_view.normalizeString(logical_parent.getId())}"
                id="project-body"
           >
-
             <div id="document-body">
               <form class="document pat-inject ${python:'pat-autosubmit' if view.autosave_enabled else ''}"
                     method="POST"
@@ -51,30 +50,23 @@
                       >${context/title}</textarea>
                     </span>
                     <div class="quick-functions">
-                      <a tal:condition="not: read_only"
-                         href="${context/absolute_url}/delete_confirmation"
-                         class="pat-modal icon-trash iconified"
-                         title="Delete this document"
-                         data-pat-inject="source:#content; target:#content; loading-class: injecting"
+                      <a class="icon-ellipsis iconified pat-tooltip"
+                         href="${context/absolute_url}/context-menu#content"
+                         title="Show extra context actions"
+                         data-pat-tooltip="source: ajax"
                          i18n:attributes="title"
                          i18n:translate=""
-                      >Delete</a>
-                      <!--a href="" class="icon-copy iconified" title="Copy this document" i18n:attributes="title" i18n:translate="">
-                        Copy
-                      </a>
-                      <a href="#share-panel" class="icon-export iconified pat-modal" title="Share this document" i18n:attributes="title" i18n:translate="">
-                        Share
-                      </a-->
+                         tal:condition="not:read_only"
+                      >Show extra context actions</a>
                       <tal:bookmark replace="structure here/@@bookmark-link-iconified|nothing" />
-                      <tal:history tal:condition="exists:here/@@app-audit-button">
-                        <a tal:replace="structure here/@@app-audit-button" />
-                      </tal:history>
-                      <a class="icon-info-circle meta-data-toggle iconified" title="Show extra metadata fields" i18n:attributes="title" i18n:translate="">
-                        Toggle extra metadata
-                      </a>
+                      <a class="icon-down-open meta-data-toggle iconified pat-toggle"
+                         data-pat-toggle="selector: #document-form; value: more-metadata less-metadata"
+                         title="Show extra metadata fields"
+                         i18n:attributes="title"
+                         i18n:translate=""
+                      >Toggle extra metadata</a>
                       <tal:workflow replace="structure workflow_menu|nothing" />
                       <tal:saving_badge replace="structure here/@@saving_badge" />
-
                     </div>
                   </div>
                   <fieldset class="pat-collapsible closed meta-extra" data-pat-collapsible="trigger: .meta-data-toggle" id="meta-extra">
