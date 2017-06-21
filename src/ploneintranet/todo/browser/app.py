@@ -109,18 +109,22 @@ class View(BrowserView):
     def set_cookie_params(self, params):
         ''' Set the current search parameters into a cookie
         '''
-        if params:
-            self.request.response.setCookie(
-                self._cookie_name,
-                urlencode([
-                    (key, params[key])
-                    for key in sorted(params)
-                    if params[key] and key not in self._ignored__form_keys
-                ]),
-                path='/',
-            )
-        else:
-            pass  # import ipdb; ipdb.set_trace()
+        if not params and 'reset-filters' in self.request.form:
+                self.request.response.setCookie(
+                    self._cookie_name,
+                    '',
+                    path='/',
+                    expires='Thu, 01 Jan 1970 00:00:00 UTC',
+                )
+        self.request.response.setCookie(
+            self._cookie_name,
+            urlencode([
+                (key, params[key])
+                for key in sorted(params)
+                if params[key] and key not in self._ignored__form_keys
+            ]),
+            path='/',
+        )
 
     @property
     @memoize_contextless
