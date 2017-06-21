@@ -70,7 +70,9 @@ I create a task
     Click Element  css=#toggle-sidebar .open
 
 I delete the current document
-    Click Element  css=.quick-functions .icon-trash
+    Click Element  css=div.quick-functions a.icon-ellipsis
+    Wait for injection to be finished
+    Click Element  css=#extra-options a.icon-trash
     Wait for injection to be finished
     Click Button  I am sure, delete now
     Wait for injection to be finished
