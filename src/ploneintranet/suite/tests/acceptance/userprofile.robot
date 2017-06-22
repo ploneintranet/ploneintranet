@@ -206,7 +206,7 @@ I can log in with the new password
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password   ${pwd}
     Click button  Log in
-    Wait until page contains  Welcome! You are now logged in
+    Wait Until Page Contains Element  jquery=#user-avatar > img[alt="Dollie Nocera"]
 
 I can upload a new avatar from my profile
     # Make the file input visible otherwise "Choose file will not work"
