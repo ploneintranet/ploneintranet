@@ -23,6 +23,15 @@
       />
 
   <browser:page
+      name="context-menu"
+      for="..content.todo.ITodo"
+      permission="zope2.View"
+      class=".todo_view.TodoView"
+      template="templates/context-menu.pt"
+      layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
+
+  <browser:page
       name="todo_sidebar"
       for="..content.todo.ITodo"
       permission="zope2.View"

@@ -1,0 +1,23 @@
+<div id="content">
+  <div id="extra-options">
+    <ul class="menu"
+        i18n:domain="ploneintranet"
+    >
+      <li tal:condition="view/can_edit">
+        <a class="pat-modal icon-trash iconified close-panel"
+           href="${context/absolute_url}/delete_confirmation#content"
+           title="Delete this document"
+           data-pat-inject="source: #content; hooks:"
+           i18n:attributes="title"
+           i18n:translate=""
+        >Delete</a>
+      </li>
+      <li tal:define="
+            action here/@@app-audit-button|nothing;
+          "
+          tal:condition="action/strip|action"
+          tal:content="structure action"
+      ></li>
+    </ul>
+  </div>
+</div>
