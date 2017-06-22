@@ -107,7 +107,7 @@
           <nav class="user-cloud">
             <!-- Limit the following list of users to 21 users. -->
             <tal:user repeat="user python:following[:21]">
-              <tal:avatar replace="structure user/avatar_tag"/>
+              <tal:avatar replace="structure user/avatar_tag_linked"/>
             </tal:user>
           </nav>
           <!-- Only print the following p-tag and its content when the list of followees extends 14 users -->
@@ -132,7 +132,7 @@
           <nav class="user-cloud">
             <!-- Limit the following list of users to 21 users. -->
             <tal:user repeat="user python:followers[:21]">
-              <tal:avatar replace="structure user/avatar_tag"/>
+              <tal:avatar replace="structure user/avatar_tag_linked"/>
             </tal:user>
           </nav>
           <!-- Only print the following p-tag and its content when the list of followers extends 14 users -->
