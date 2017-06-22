@@ -2,8 +2,7 @@
 
     <article tal:attributes="id message/id">
         <p class="pat-notification" data-pat-notification="type: banner; class: ${message/type}; close-text: ${view/closetext}"
-           id="${message/id}-body" tal:content="message/message | nothing" i18n:translate="">This is a status message</p>
+           id="${message/id}-body" tal:content="structure message/message | nothing" i18n:translate="">This is a status message</p>
     </article>
 
 </tal:statusmsg>
-
