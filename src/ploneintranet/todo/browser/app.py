@@ -1,4 +1,5 @@
 # coding=utf-8
+from cgi import urlparse
 from collections import defaultdict
 from collections import OrderedDict
 from itertools import imap
@@ -21,6 +22,11 @@ from zope.interface import implementer
 
 
 logger = getLogger(__name__)
+
+
+class InvalidFiltersException(ValueError):
+    ''' Raise this if the search filters are invalid
+    '''
 
 
 @implementer(IAppView)
@@ -77,10 +83,59 @@ class View(BrowserView):
     )
 
     _search_tasks_limit = 100
-    _ignored_keys = {'_', 'app'}
+    _cookie_name = 'app-todo'
+    _ignored__form_keys = {
+        '_',
+        '_authenticator',
+        'app',
+        'reset-filters',
+    }
 
     show_initiators = True
     show_assignes = True
+
+    def get_cookie_params(self):
+        ''' Get the params stored in the cookie unless explicitely requested
+        '''
+        if 'reset-filters' in self.request.form:
+            return {}
+        cookie = self.request.cookies.get(self._cookie_name)
+        try:
+            params = dict(urlparse.parse_qsl(cookie))
+        except AttributeError:
+            params = {}
+        return params
+
+    def set_cookie_params(self, params):
+        ''' Set the current search parameters into a cookie
+        '''
+        if params:
+            self.request.response.setCookie(
+                self._cookie_name,
+                urlencode([
+                    (key, params[key])
+                    for key in sorted(params)
+                    if params[key] and key not in self._ignored__form_keys
+                ]),
+                path='/',
+            )
+        else:
+            pass  # import ipdb; ipdb.set_trace()
+
+    @property
+    @memoize_contextless
+    def form_params(self):
+        ''' Persist in a cookie the search options
+        '''
+        params = self.get_cookie_params()
+        for key, value in self.request.form.iteritems():
+            if key not in self._ignored__form_keys:
+                if value:
+                    params[key] = value
+                else:
+                    params.pop(key, None)
+        self.set_cookie_params(params)
+        return params
 
     @property
     @memoize_contextless
@@ -214,7 +269,7 @@ class View(BrowserView):
     def options2items(self, options, fieldname, default=''):
         ''' Make items that will be rendered in a page template
         '''
-        selected = self.request.form.get(fieldname, default)
+        selected = self.form_params.get(fieldname, default)
         return [
             {
                 'value': value,
@@ -239,7 +294,7 @@ class View(BrowserView):
     @property
     @memoize
     def browse_mode(self):
-        return self.request.form.get(
+        return self.form_params.get(
             'browse-mode',
             self._browse_mode_default,
         )
@@ -277,7 +332,7 @@ class View(BrowserView):
     def set_filters(self, filters):
         ''' Customizable filters for the view
         '''
-        form = self.request.form
+        form = self.form_params
         filters['portal_type'] = 'todo'
         filters['path'] = self.searched_paths
         state_mode = form.get('state-mode', self._state_mode_default)
@@ -286,11 +341,18 @@ class View(BrowserView):
         start = form.get('start', None)
         end = form.get('end', None)
         if start and end:
+            if start > end:
+                raise InvalidFiltersException(
+                    'Invalid date range: %r, %r' % (
+                        start,
+                        end,
+                    )
+                )
             filters['due__range'] = (solr_date(start), solr_date(end))
         elif start:
-            filters['due__ge'] = solr_date(start)
+            filters['due__gt'] = solr_date(start)
         elif end:
-            filters['due__le'] = solr_date(end)
+            filters['due__lt'] = solr_date(end)
         for key in (
             'assignee',
             'initiator',
@@ -304,9 +366,12 @@ class View(BrowserView):
         Search for specific content types
         """
         filters = filters.copy()
-        form = self.request.form
+        form = self.form_params
         keywords = form.get('SearchableText')
-        self.set_filters(filters)
+        try:
+            self.set_filters(filters)
+        except InvalidFiltersException:
+            return []
         search_util = getUtility(ISiteSearch)
         _params = {
             'sort': form.get('sort-mode', self._sort_mode_default),
@@ -561,8 +626,8 @@ class View(BrowserView):
     def show_reset_button(self):
         ''' Show the reset button if we have something in the query string
         '''
-        keys = set(self.request.form)
-        return keys - self._ignored_keys
+        keys = set(self.form_params)
+        return keys - self._ignored__form_keys
 
 
 class MyTasksView(View):

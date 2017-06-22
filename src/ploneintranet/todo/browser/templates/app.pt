@@ -13,6 +13,7 @@
          tal:define="
            userprofiles nocall:view/userprofiles;
            authenticator here/@@authenticator/authenticator;
+           form_params view/form_params;
          "
     >
       <div id="document-body">
@@ -222,7 +223,7 @@
                                    name="start"
                                    placeholder="YYYY-MM-DD"
                                    type="date"
-                                   value="${request/start|nothing}"
+                                   value="${form_params/start|nothing}"
                                    data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json"
                                    i18n:attributes="placeholder"
                             />
@@ -233,7 +234,7 @@
                                    name="end"
                                    placeholder="YYYY-MM-DD"
                                    type="date"
-                                   value="${request/end|nothing}"
+                                   value="${form_params/end|nothing}"
                                    data-pat-date-picker="i18n: ${context/portal_url}/@@date-picker-i18n.json"
                                    i18n:attributes="placeholder"
                             />
@@ -293,6 +294,7 @@
                          type="search"
                          i18n:attributes="placeholder;"
                          i18n:translate=""
+                         value="${form_params/SearchableText|nothing}"
                   />
                   <button type="submit"
                           i18n:translate=""
