@@ -657,15 +657,6 @@ class MyTasksView(View):
             return
         filters['assignee'] = self.user.username
 
-    @property
-    @memoize
-    def searched_paths(self):
-        ''' Return the tasks inside workspaces
-        '''
-        if self.user:
-            return '/'.join(self.user.getPhysicalPath())
-        return ''
-
 
 class PersonalTasksView(View):
     ''' My personal tasks
