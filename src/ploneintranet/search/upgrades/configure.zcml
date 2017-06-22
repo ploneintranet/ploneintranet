@@ -104,8 +104,8 @@
       title="Configure the solr fields for the todo app"
       description=""
       source="*"
-      destination="0011"
-      handler=".to0011.add_todo_app_solr_fields"
+      destination="0012"
+      handler=".to0012.add_todo_app_solr_fields"
       profile="ploneintranet.search:default" />
 
 </configure>

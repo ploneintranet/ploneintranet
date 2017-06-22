@@ -18,6 +18,7 @@
     <button class="icon-cancel-circle"
             formaction="${here/absolute_url}/@@${view/reset_url}#sidebar-content"
             type="submit"
+            name="reset-filters"
             i18n:translate=""
     >Reset search and filters</button>
   </p>

@@ -37,6 +37,11 @@ Allan can use the todo apps filters
      Then I can see that the first task is  Budget
      When I filter the results by state  Closed
      Then I can see that the first task is  Identify the requirements
+     [Documentation]  The filters are persistent through a cookie
+     Then I can go to the application  Todo
+      And I can see that the first task is  Identify the requirements
+     When I reset the filters
+     Then I can see that the first task is  Populate Metadata
 
 
 *** Keywords ***
@@ -85,7 +90,9 @@ I sort the results
     [arguments]  ${title}
     Select From List  sort-mode  ${title}
 
-
 I filter the results by state
     [arguments]  ${title}
     Select From List  state-mode  ${title} tasks
+
+I reset the filters
+    Click Button  Reset search and filters
