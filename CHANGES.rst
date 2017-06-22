@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.65 (unreleased)
+1.2.65 (2017-06-22)
 -------------------
 
 * Merge pull request #1388 from quaive/link-to-profile [GitHub]
