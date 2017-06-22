@@ -172,21 +172,40 @@ class ContentView(BrowserView):
 
     @property
     @memoize
-    def is_locked(self):
-        ''' If the document is locked by another user do not update it
+    def lock_info(self):
+        ''' Return the lock information about this user
         '''
         view = api.content.get_view(
             'toggle-lock',
             self.context,
             self.request,
         )
-        info = view.lock_info
+        return view.lock_info
+
+    @property
+    @memoize
+    def is_locked(self):
+        ''' If the document is locked by another user do not update it
+        '''
+        info = self.lock_info
         if not info:
             return False
         user = self.user
         if not user or user.username == info.get('creator'):
             return False
         return True
+
+    def get_lock_user_fullname(self):
+        ''' Get the fullname of the user who has the lock
+        '''
+        info = self.lock_info or {}
+        creator = info.get('creator')
+        if not creator:
+            return _('Anonymous User')
+        user = pi_api.userprofile.get(creator)
+        if not user:
+            return creator
+        return user.fullname or user.getId()
 
     @property
     @memoize
@@ -214,7 +233,13 @@ class ContentView(BrowserView):
         messages = []
         if self.is_locked:
             api.portal.show_message(
-                _('The document is locked by another user.'),
+                _(
+                    'document_locked_by_error',
+                    'The document is locked by ${user}.',
+                    mapping={
+                        'user': self.get_lock_user_fullname(),
+                    }
+                ),
                 self.request,
                 'error',
             )
@@ -226,8 +251,12 @@ class ContentView(BrowserView):
                     'It seems that this document was modified since '
                     'you loaded this form. '
                     'Your changes will be discarded. '
-                    'Please reload this page. '
+                    '<a href="${url}">'
+                    'Please reload this page by clicking here</a>.'
                 ),
+                mapping={
+                    'url': self.context.absolute_url(),
+                }
             )
             api.portal.show_message(
                 msg,
