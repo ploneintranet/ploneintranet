@@ -77,4 +77,38 @@
       layer=".interfaces.IPloneIntranetMicroblogLayer"
       />
 
+<!-- This is a very special admin view.
+
+It converts statusupdate attachments to content objects if:
+- the statusupdate has a microblog_context i.e. is in a workspace,
+  i.e. is not in the global stream
+- the statusupdate has no content context i.e. is not in the stream
+  of another content object
+
+You can either run this view against the portal root, and then it will
+run a global dump-and-extract. Or you can run it against a workspace,
+in which case it will limit itself to converting only attachments for
+statusupdates posted in that workspace.
+
+It requires 'manage portal' for obvious reasons.
+
+This view is idempotent, it can be ran repeatedly without problems.
+-->
+
+  <browser:view
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="extract-attachments"
+      class=".extract.ExtractAttachments"
+      permission="cmf.ManagePortal"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      />
+
+  <browser:view
+      for="ploneintranet.microblog.interfaces.IMicroblogContext"
+      name="extract-attachments"
+      class=".extract.ExtractAttachments"
+      permission="cmf.ManagePortal"
+      layer=".interfaces.IPloneIntranetMicroblogLayer"
+      />
+  
 </configure>
