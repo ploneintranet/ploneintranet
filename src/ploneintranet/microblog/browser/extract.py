@@ -82,14 +82,14 @@ class ExtractAttachments(BrowserView):
                 self.incoming_folder_id, self.incoming_folder_title)
 
     def extract_attachment(self, su, filename):
-        attachment = su.attachments.get(filename)
-        if hasattr(attachment, 'file'):
+        namedfile = su.attachments.get(filename)
+        if hasattr(namedfile, 'file'):
             _type = 'file'
         else:
             _type = 'image'
 
-        # file=attachment.file | image=attachment.image
-        data = {_type: getattr(attachment, _type)}
+        # file=namedfile.file | image=namedfile.image
+        data = {_type: getattr(namedfile, _type)}
 
         folder = self.get_or_create_incoming_folder(su)
         title = safe_unicode(filename).encode('utf8')
@@ -104,8 +104,6 @@ class ExtractAttachments(BrowserView):
         content = api.content.create(
             folder, _type.capitalize(), title=title, **data)
         self.apply_metadata(su, content)
-
-        content.content_type()
 
         # re-enable handlers and re-fire event
         piapi.events.enable_solr_indexing(self.request)
