@@ -31,17 +31,15 @@ class TestStatusContainerContentContext(unittest.TestCase):
             type='Document',
             title='My document Two',
         )
-        self.su1 = pi_api.microblog.statusupdate.create(
-            'foo',
-        )
+        self.su1 = pi_api.microblog.statusupdate.create('')
         self.su2 = pi_api.microblog.statusupdate.create(
-            'bar', content_context=self.doc1,
+            '', content_context=self.doc1,
         )
         self.su3 = pi_api.microblog.statusupdate.create(
-            'baz', content_context=self.doc2, tags=['barx', ],
+            '', content_context=self.doc2, tags=['barx', ],
         )
         self.su4 = pi_api.microblog.statusupdate.create(
-            'boo', content_context=self.doc2,
+            '', content_context=self.doc2,
         )
 
     def test_items_content(self):

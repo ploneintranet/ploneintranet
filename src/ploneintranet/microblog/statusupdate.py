@@ -211,9 +211,14 @@ class StatusUpdate(Persistent):
     def is_human_update(self):
         """
         A 'human' update is either a toplevel post without content_context,
-        or a reply (even a reply on a content update)
+        or a reply (even a reply on a content update). Or, possibly,
+        a stream post with attachment that got converted to a content update.
         """
-        return not self.is_content_update or self.thread_id is not None
+        if self.thread_id:
+            return True
+        if self.text.strip() != '':
+            return True
+        return not self.is_content_update
 
     @property
     def is_content_update(self):
