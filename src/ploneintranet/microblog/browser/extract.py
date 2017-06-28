@@ -114,6 +114,12 @@ class ExtractAttachments(BrowserView):
         # the request does not have a form.file
         if not api.env.test_mode():  # manually tested OK
             piapi.previews.generate_previews(content)
+            try:
+                api.content.transition(content, 'publish')
+            except api.exc.InvalidParameterError:
+                logger.error("Cannot publish {}".format(repr(content)))
+
+        logger.info("Extracted {}".format(repr(content)))
 
         # cleanup the statusupdate
         su.attachments.remove(filename)
