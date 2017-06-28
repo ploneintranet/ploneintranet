@@ -394,13 +394,25 @@ class TasksTile(Tile):
         for task in tasks:
             obj = task.getObject()
             workspace = parent_workspace(obj)
-            if workspace.id not in self.grouped_tasks:
-                self.grouped_tasks[workspace.id] = {
-                    'title': workspace.title,
-                    'url': workspace.absolute_url(),
-                    'tasks': [task],
-                }
+            # No workspace == personal task
+            if workspace is None:
+                personal_id = '_personal_tasks'
+                if personal_id not in self.grouped_tasks:
+                    portal = api.portal.get()
+                    self.grouped_tasks[personal_id] = {
+                        'title': _(u'Personal tasks'),
+                        'url': "{}/apps/todo/@@personal-tasks".format(
+                            portal.absolute_url()),
+                        'tasks': []
+                    }
+                self.grouped_tasks[personal_id]['tasks'].append(task)
             else:
+                if workspace.id not in self.grouped_tasks:
+                    self.grouped_tasks[workspace.id] = {
+                        'title': workspace.title,
+                        'url': workspace.absolute_url(),
+                        'tasks': [],
+                    }
                 self.grouped_tasks[workspace.id]['tasks'].append(task)
         return self.render()
 
