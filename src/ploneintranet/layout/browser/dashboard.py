@@ -382,6 +382,9 @@ class TasksTile(Tile):
         pc = api.portal.get_tool('portal_catalog')
         me = api.user.get_current().getId()
         form = self.request.form
+        portal = api.portal.get()
+        self.task_app = "{}/apps/todo/@@personal-tasks".format(
+            portal.absolute_url())
 
         if self.request.method == 'POST' and form:
             return update_task_status(self, return_status_message=True)
@@ -398,11 +401,10 @@ class TasksTile(Tile):
             if workspace is None:
                 personal_id = '_personal_tasks'
                 if personal_id not in self.grouped_tasks:
-                    portal = api.portal.get()
+
                     self.grouped_tasks[personal_id] = {
                         'title': _(u'Personal tasks'),
-                        'url': "{}/apps/todo/@@personal-tasks".format(
-                            portal.absolute_url()),
+                        'url': self.task_app,
                         'tasks': []
                     }
                 self.grouped_tasks[personal_id]['tasks'].append(task)
