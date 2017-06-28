@@ -281,15 +281,15 @@ class TestStatusContainer_Delete(unittest.TestCase):
     def test_is_human_mapping(self):
         container = UUIDStatusContainer()
         c_context = object()
-        su1 = ContextlessStatusUpdate('parent human')
+        su1 = ContextlessStatusUpdate('')
         container.add(su1)
-        su2 = ContextlessStatusUpdate('child human')
+        su2 = ContextlessStatusUpdate('')
         su2.thread_id = su1.id  # bypass normal __init__ lookup of parent
         container.add(su2)
-        su3 = UUIDStatusUpdate('parent content', content_context=c_context)
+        su3 = UUIDStatusUpdate('', content_context=c_context)
         uuid = su3._content_context_uuid
         container.add(su3)
-        su4 = UUIDStatusUpdate('child content')
+        su4 = UUIDStatusUpdate('')
         su4.thread_id = su3.id   # bypass normal __init__ lookup of parent
         su4._content_context_uuid = uuid  # bypass lookup of parent
         container.add(su4)
