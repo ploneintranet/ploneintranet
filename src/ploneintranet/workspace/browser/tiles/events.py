@@ -3,7 +3,9 @@ from plone.app.contenttypes.interfaces import IEvent
 from plone.app.event.base import localized_now
 from plone.tiles import Tile
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.search.interfaces import ISearchResult
 from ploneintranet.search.interfaces import ISiteSearch
+from Products.ZCatalog.interfaces import ICatalogBrain
 from scorched.dates import solr_date
 from zope.component import getUtility
 from zope.i18nmessageid import MessageFactory
@@ -20,7 +22,10 @@ def format_event_date_for_title(event):
     In case of a multi day event, we can show "2015-08-30 - 2015-08-31"
     """
     # whole_day isn't a metadata field (yet)
-    event_obj = event.getObject()
+    if ICatalogBrain.providedBy(event) or ISearchResult.providedBy(event):
+        event_obj = event.getObject()
+    else:
+        event_obj = event
     start = event_obj.start
     end = event_obj.end
     if not (start and end) or (start.date() != end.date()):
@@ -57,7 +62,7 @@ class EventsTile(Tile):
             filters=query,
             sort='start',
         )
-        return upcoming_events
+        return [ev.getObject() for ev in upcoming_events]
 
     def format_event_date(self, event):
         return format_event_date_for_title(event)
