@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from plone import api
 from plone.memoize.view import memoize
 from ploneintranet.workspace.browser.add_content import AddBase
+from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -62,9 +63,16 @@ class AppAddTask(AddTask):
         ''' List the possible containers,
         i.e. the workspaces where we can add tasks.
         '''
+        brains = api.content.find(
+            context=self.workspace_container,
+            object_provides=IWorkspaceFolder,
+        )
+        if len(brains) > 100:
+            return brains
+        workspaces = (brain.getObject() for brain in brains)
         return [
             workspace
-            for workspace in self.workspace_container.listFolderContents()
+            for workspace in workspaces
             if api.user.has_permission('Add portal content', obj=workspace)
         ]
 
@@ -86,7 +94,7 @@ class AppAddTask(AddTask):
         ''' Set up the proper container before creating the object
         '''
         if container == self.context:
-            # If the contaienr is the app we will want
+            # If the container is the app we will want
             # to create the task in the user
             container = self.user
         return super(AppAddTask, self).create(container=container)
