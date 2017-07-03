@@ -39,10 +39,9 @@
            "
       >
         <label tal:repeat="item tasks">
-          <fieldset class="pat-inject pat-autosubmit pat-subform"
-                    action="${item/absolute_url}"
-                    style="margin-bottom: 0; display: inline-block;"
-                    data-pat-inject="#document-body"
+          <span class="pat-inject pat-autosubmit pat-subform"
+                action="${item/absolute_url}"
+                data-pat-inject="#document-body"
           >
             <input checked="${python: 'checked' if is_done else None}"
                    name="task_action"
@@ -57,7 +56,7 @@
                    value="1"
             />
             <tal:authenticator replace="structure authenticator" />
-          </fieldset>
+          </span>
           <a class="pat-inject follow pat-switch ${python: view.get_prio_class(item.priority)}"
              href="${item/absolute_url}?app#document-body"
              title="${item/title}"
