@@ -8,7 +8,7 @@
     <div id="portlet-events" class="events portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          tal:define="
            events view/upcoming_events;
-           num_events python:len(list(events.results));
+           num_events python:len(events);
            date2month_name nocall:here/@@proto/date2month_name;
          ">
       <div class="content">
@@ -46,16 +46,16 @@
               <li class="event" title="${event/Title}: ${event/Description}"
                   tal:condition="python:repeat.event.index < 5"
                     tal:define="location event/location|nothing">
-                  <a href="${event/url}" class="link">
+                  <a href="${event/absolute_url}" class="link">
                     <h4 class="title"><time>${python:view.format_event_date(event)}</time> — ${event/Title}</h4>
                     <p class="byline" tal:condition="location">${location}</p>
 
                     <p class="date">
                       <time class="calendar-medium pat-auto-scale"
-                            tal:define="month_name python:date2month_name(event['start'])">
-                        <strong class="day">${python:event['start'].day}</strong>
+                            tal:define="month_name python:date2month_name(event.start)">
+                        <strong class="day">${python:event.start.day}</strong>
                         <strong class="month char-count-${python:len(month_name)}">${month_name}</strong>
-                        <strong class="year">${python:event['start'].year}</strong>
+                        <strong class="year">${python:event.start.year}</strong>
                       </time>
                     </p>
                     <p class="description">${event/Description}</p>
