@@ -6,6 +6,8 @@
         userprofiles nocall:view/userprofiles;
         authenticator here/@@authenticator/authenticator;
         allowed_columns view/allowed_columns;
+        toLocalizedtime nocall:here/@@plone/toLocalizedTime;
+        DateTime nocall:modules/DateTime/DateTime;
       "
 >
   <p class="pat-message notice"
@@ -80,10 +82,9 @@
             <tal:due condition="python: 'due' in allowed_columns">
               <time class="due-date meta-column icon-clock pat-display-time"
                     datetime="${item/due}"
-                    title="Due date"
-                    data-pat-display-time="from-now: true"
+                    title="${python: toLocalizedtime(DateTime(*item.due.timetuple()[:3]))}"
+                    data-pat-display-time="from-now: true; locale: ${context/plone_portal_state/language}"
                     tal:condition="item/due"
-                    i18n:attributes="title;"
               >${item/due}</time>
               <span class="meta-column"
                     tal:condition="not:item/due"
