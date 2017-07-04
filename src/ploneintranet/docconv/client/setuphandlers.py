@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from collective.documentviewer.settings import GlobalSettings
 from collective.documentviewer.config import CONVERTABLE_TYPES
+from collective.documentviewer.settings import GlobalSettings
 from logging import getLogger
 from plone import api
 from zope.site.hooks import getSite
+
 
 log = getLogger(__name__)
 
@@ -22,6 +23,7 @@ def configure(context):
     global_settings = GlobalSettings(getSite())
     global_settings.enable_indexation = False
     global_settings.auto_select_layout = False
+    global_settings.thumb_size = 460
     global_settings.auto_layout_file_types = CONVERTABLE_TYPES.keys()
     commit()
     log.info("document conversion configuration: done.")

@@ -13,6 +13,7 @@
     <include package="plone.app.contenttypes"/>
     <include package="ploneintranet.attachments"/>
     <include package=".browser"/>
+    <include package=".upgrades"/>
 
     <include file="handlers.zcml" />
 

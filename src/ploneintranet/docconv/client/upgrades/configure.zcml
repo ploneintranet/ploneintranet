@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
+
+  <genericsetup:upgradeStep
+      title="Increase the small thumbnail image size"
+      destination="0002"
+      handler=".to_0002.change_settings"
+      profile="ploneintranet.docconv.client:default"
+      source="*"
+      />
+
+</configure>
