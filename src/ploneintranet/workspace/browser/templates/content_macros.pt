@@ -86,7 +86,7 @@
               <option
                 selected="${python:'selected' if container_path == selected_container_path else None}"
                 value="${container_path}"
-                tal:define="container_path python:'/'.join(container.getPhysicalPath());"
+                tal:define="container_path container/getPath|python:'/'.join(container.getPhysicalPath());"
               >${container/Title}</option>
             </tal:options>
           </optgroup>
