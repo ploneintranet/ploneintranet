@@ -1720,12 +1720,20 @@ I can unbookmark the user
     Click Element  css=.icon-bookmark.active
     Wait Until Page Contains Element  css=.icon-bookmark-empty
 
-I can go to the application
-    [arguments]  ${name}
+I can go to the application overview page
     Go To  ${PLONE_URL}/apps
     Wait for injection to be finished
+
+I can go to the application
+    [arguments]  ${name}
+    I can go to the application overview page
     Click Element  jquery=.tile.app svg text:contains("${name}")
     Wait for injection to be finished
+
+I cannot go to the application
+    [arguments]  ${name}
+    I can go to the application overview page
+    Page should not contain element  jquery=.tile.app svg text:contains("${name}")
 
 I can filter bookmarked application
     Input text  jquery=.application-bookmarks [name=SearchableText]  bookmark
