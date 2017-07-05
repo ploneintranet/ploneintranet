@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.66 (unreleased)
+1.2.66 (2017-07-05)
 -------------------
 
 * Merge pull request #1403 from quaive/do-not-display-unauthorized-apps [GitHub]
