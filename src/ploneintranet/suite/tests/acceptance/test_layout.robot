@@ -23,9 +23,7 @@ Allan cannot access some apps
     Given I am logged in as the user allan_neece
      Then I can go to the application  App market
       And I see the modal  App not available
-     Then I can go to the application  Administrator Tool
-      And I see the modal  App unauthorized
-
+      But I cannot go to the application  Administrator Tool
 
 *** Keywords ***
 
