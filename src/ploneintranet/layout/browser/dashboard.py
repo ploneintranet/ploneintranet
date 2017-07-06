@@ -383,7 +383,7 @@ class TasksTile(Tile):
         me = api.user.get_current().getId()
         form = self.request.form
         portal = api.portal.get()
-        self.task_app = "{}/apps/todo/@@personal-tasks".format(
+        self.task_app = "{}/apps/todo/@@my-tasks".format(
             portal.absolute_url())
 
         if self.request.method == 'POST' and form:
