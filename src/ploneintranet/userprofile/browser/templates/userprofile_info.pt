@@ -11,6 +11,7 @@
            "
       >
         <article id="person-info" tal:define="is_me view/is_me">
+          <h1 hidden>${fullname}</h1>
           <figure class="user-info-header">
             <span class="pat-gallery" tal:omit-tag="not:here/portrait">
               <a tal:replace="structure view/get_avatar_tag" />
