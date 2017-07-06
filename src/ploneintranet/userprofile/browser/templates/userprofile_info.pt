@@ -34,10 +34,10 @@
           <tal:block condition="not:is_me">
             <dl class="pat-grid-list" tal:define="fields view/fields_for_display">
               <dt class="icon-user" i18n:translate="">
-                Name
+                User profile
               </dt>
               <dd>
-                <span tal:replace="context/fullname"/>
+                <a href="${absolute_url}">${absolute_url}</a>
               </dd>
               <tal:field repeat="field fields">
                 <tal:display condition="field/raw">
