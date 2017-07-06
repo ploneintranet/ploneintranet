@@ -4,7 +4,10 @@ Changelog
 1.2.67 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1404 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1405 from quaive/change-task-portlet-link [GitHub]
+* Change task portlet link [ale-rt]
+* Back to development: 1.2.67 [ale-rt]
 
 
 1.2.66 (2017-07-05)
