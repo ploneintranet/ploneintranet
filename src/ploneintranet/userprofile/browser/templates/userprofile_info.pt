@@ -40,10 +40,12 @@
                 <span tal:replace="context/fullname"/>
               </dd>
               <tal:field repeat="field fields">
-                <dt class="${field/icon_class}" i18n:translate="" tal:content="field/label"/>
-                <dd>
-                  <span tal:replace="structure field/html"/>
-                </dd>
+                <tal:display condition="field/raw">
+                  <dt class="${field/icon_class}" i18n:translate="" tal:content="field/label"/>
+                  <dd>
+                    <span tal:replace="structure field/html"/>
+                  </dd>
+                </tal:display>
               </tal:field>
             </dl>
             <article class="pat-rich" tal:condition="context/biography|nothing">
