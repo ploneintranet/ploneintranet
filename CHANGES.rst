@@ -1,10 +1,41 @@
 Changelog
 =========
 
-1.2.66 (unreleased)
+1.2.67 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.66 (2017-07-05)
+-------------------
+
+* Merge pull request #1403 from quaive/do-not-display-unauthorized-apps [GitHub]
+* Do not display unauthorized apps [ale-rt]
+* Merge pull request #1402 from quaive/increase-thumb-size [GitHub]
+* Merge pull request #1401 from quaive/due-date-fixes [GitHub]
+* Increase the generated thumbnail size [ale-rt]
+* Merge pull request #1399 from quaive/speed-up-add-task [GitHub]
+* Localize pat-display-time and add a meaningfull title [ale-rt]
+* Merge pull request #1400 from quaive/fix-issue-with-safari [GitHub]
+* Fix issue with safari [ale-rt]
+* Fix add task form speed [ale-rt]
+* Merge pull request #1398 from quaive/events-tile [GitHub]
+* Merge pull request #1397 from quaive/todo-portlet [GitHub]
+* Since for every event we're calling getObject anyways (via a call in the template), we might as well already return full objects in the method upcoming_events. This has the benefit that start date of our event already has the correct timezone. Before, the results came from solr, which have UTC as timezone. We would have needed to convert this to the local timezone, because in any TZ with a positive offset to UTC (like CET), whole day events (which have a start time of 00:00) were shown with a date one day too early. Instead, we now use the Zope object directly. [Wolfgang Thomas]
+* Tasks portlet: heading links to task app [Wolfgang Thomas]
+* Merge pull request #1396 from quaive/fix-todo-portlet [GitHub]
+* now that we have personal tasks (= without workspace as context), the portlet on the dashboard needs to be able to handle them, too [Wolfgang Thomas]
+* Merge pull request #1395 from quaive/stream_attachments_to_content2 [GitHub]
+* Publish extracted files automatically [Guido A.J. Stevens]
+* Adjust tests now that every statusupdate with a .text body is human [Guido A.J. Stevens]
+* cleanup [Guido A.J. Stevens]
+* Extract stream attachments to content, so they will be indexed. [Guido A.J. Stevens]
+* Merge pull request #1393 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1394 from quaive/update-modals [GitHub]
+* Update modals markup [ale-rt]
+* Update modals markup [ale-rt]
+* Back to development: 1.2.66 [ale-rt]
 
 
 1.2.65 (2017-06-22)
