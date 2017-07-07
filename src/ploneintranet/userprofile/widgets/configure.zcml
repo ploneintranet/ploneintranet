@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    >
+
+  <z3c:widgetTemplate
+      field="..content.userprofile.Email"
+      widget="z3c.form.interfaces.ITextWidget"
+      template="templates/email_display.pt"
+      mode="display"
+      layer="z3c.form.interfaces.IFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      field="..content.userprofile.GooglePlace"
+      widget="z3c.form.interfaces.ISelectWidget"
+      template="templates/google_place_display.pt"
+      mode="display"
+      layer="z3c.form.interfaces.IFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      field="..content.userprofile.Phone"
+      widget="z3c.form.interfaces.ITextWidget"
+      template="templates/phone_display.pt"
+      mode="display"
+      layer="z3c.form.interfaces.IFormLayer"
+      />
+
+</configure>

@@ -25,6 +25,7 @@
   <include package=".browser" />
   <include package=".content" />
   <include package=".upgrades" />
+  <include package=".widgets" />
 
   <!-- Allow users to edit their own profiles -->
   <adapter

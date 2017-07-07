@@ -1,17 +1,30 @@
-from z3c.form import validator
-from zope import schema
-from zope.interface import alsoProvides
-from zope.interface import implementer
-from zope.interface import Invalid
 from collective import dexteritytextindexer
-
 from plone import api as plone_api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Container
 from plone.directives import form
 from plone.namedfile.field import NamedBlobImage
-
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from z3c.form import validator
+from zope import schema
+from zope.interface import alsoProvides
+from zope.interface import implementer
+from zope.interface import Invalid
+
+
+class Email(schema.TextLine):
+    ''' An email field
+    '''
+
+
+class Phone(schema.TextLine):
+    ''' A phone field
+    '''
+
+
+class GooglePlace(schema.Choice):
+    ''' A field that is linked in the display view to a google place search
+    '''
 
 
 class IUserProfile(form.Schema):
@@ -45,7 +58,7 @@ class IUserProfile(form.Schema):
         required=True
     )
     dexteritytextindexer.searchable('email')
-    email = schema.TextLine(
+    email = Email(
         title=_(u"Email"),
         required=True
     )
@@ -73,11 +86,11 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Department"),
         required=False
     )
-    telephone = schema.TextLine(
+    telephone = Phone(
         title=_(u"Telephone Number"),
         required=False
     )
-    mobile = schema.TextLine(
+    mobile = Phone(
         title=_(u"Mobile Number"),
         required=False
     )
@@ -90,7 +103,7 @@ class IUserProfileAdditional(form.Schema):
         source=u'plone.app.vocabularies.CommonTimezones',
         required=False
     )
-    primary_location = schema.Choice(
+    primary_location = GooglePlace(
         title=_(u"Primary location"),
         source=u"ploneintranet.userprofile.locations_vocabulary",
         required=False
