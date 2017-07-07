@@ -67,10 +67,7 @@ class TestWorkSpaceWorkflow(BaseTestCase):
         self.assertTrue(msg['Subject'].startswith(u'invitees_members: 20'))
         self.assertEqual(msg['From'], 'None <None>')
         self.assertEqual(msg['To'], 'invitee <invitee@example.com>')
-        text, html = msg.get_payload()
-        self.assertTrue(
-            text.get_payload().startswith('Dear Mr./Ms. invitee,\n')
-        )
+        html = msg.get_payload()[0]
         self.assertTrue(
             html.get_payload().startswith('<p>Dear Mr./Ms. invitee,</p>\n')
         )
