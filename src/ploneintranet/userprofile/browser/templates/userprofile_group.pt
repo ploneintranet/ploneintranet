@@ -15,29 +15,32 @@
       ">
       <div id="document-content">
         <div id="person-groups">
-          <article class="pat-rich">
-            <p i18n:translate="user_member_of_groups">
-              <span tal:replace="context/fullname" i18n:name="name"/>
-              is a member of the following
-              <span tal:replace="num_groups" i18n:name="num_groups"/>
-              groups.
-            </p>
-          </article>
-          <ul class="group-table pat-equaliser">
-            <li class="group" tal:repeat="group groups">
-              <a href="${group/url}" class="two columns">
-                <img src="${group/img}" class="group-badge" alt="Image of ${group/title}"/>
-                <h4 class="title">
-                  ${group/title}
-                </h4>
-                <p class="byline">
-                  <tal:comment condition="nothing">
-                    Not implemented yet: 35 Members
-                  </tal:comment>
-                </p>
-              </a>
-            </li>
-          </ul>
+          <metal:macro define-macro="group_listing">
+            <article class="pat-rich">
+              <p i18n:translate="user_member_of_groups">
+                <span tal:replace="context/fullname" i18n:name="name"/>
+                is a member of the following
+                <span tal:replace="num_groups" i18n:name="num_groups"/>
+                groups.
+              </p>
+            </article>
+            <ul class="group-table pat-equaliser">
+              <li class="group" tal:repeat="group groups">
+                <a href="${group/url}" class="two columns">
+                  <img src="${group/img}" class="group-badge" alt="Image of ${group/title}"/>
+                  <h4 class="title">
+                    ${group/title}
+                  </h4>
+                  <p class="byline"
+                     i18n:translate=""
+                  >
+                    <tal:i18n i18n:name="members">${python:view.count_users(group['group'])}</tal:i18n>
+                    Members
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </metal:macro>
         </div>
       </div>
     </metal:content>

@@ -13,7 +13,6 @@
           <li><code>userprofile-following</code> to hide the "Following" tab</li>
           <li><code>userprofile-documents</code> to hide the "Documents" tab</li>
           <li><code>userprofile-workspaces</code> to hide the "Workspaces" tab</li>
-          <li><code>userprofile-group</code> to hide the "Groups" tab</li>
         </ul>
         <p>
           As a convenience, adding <code>userprofile-follow*</code>
