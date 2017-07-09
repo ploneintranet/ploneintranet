@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from plone.memoize.view import memoize_contextless
 from plone.protect.utils import safeWrite
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -52,7 +53,6 @@ class UserProfileView(UserProfileViewForm):
         u'userprofile-following',
         u'userprofile-documents',
         u'userprofile-workspaces',
-        u'userprofile-group',
     )
 
     @property
@@ -127,8 +127,7 @@ class UserProfileView(UserProfileViewForm):
 
     def update(self):
         if (
-            u'userprofile-workspaces' in self.allowed_tabs or
-            u'userprofile-group' in self.allowed_tabs
+            u'userprofile-workspaces' in self.allowed_tabs
         ):
             # BBB: this is setting two attributes my_workspaces and my_groups
             # it would be better to not call this function and
@@ -156,6 +155,14 @@ class UserProfileView(UserProfileViewForm):
             graph.get_followers('user', self.context.username)
         )
 
+    @property
+    @memoize_contextless
+    def group_container(self):
+        ''' Retuns the group_container or an empty dict
+        '''
+        portal = plone_api.portal.get()
+        return portal.get('groups', {})
+
     def _get_my_groups_and_workspaces(self):
         """
             Find all the groups and all the workspaces the user is a member of.
@@ -168,12 +175,11 @@ class UserProfileView(UserProfileViewForm):
             my_groups, key=lambda x: x is not None and x.id.find(':'))
         workspaces = {}
         groups = []
-        portal_url = plone_api.portal.get().absolute_url()
+        portal = plone_api.portal.get()
+        portal_url = portal.absolute_url()
         g_icon = '/++theme++ploneintranet.theme/generated/media/icon-group.svg'
 
-        portal = plone_api.portal.get()
-
-        group_container = portal.get('groups', {})
+        group_container = self.group_container
         group_url_template = '%s/{}' % (
             group_container.absolute_url() if group_container else ''
         )
@@ -229,6 +235,8 @@ class UserProfileView(UserProfileViewForm):
                 img = portal_url + g_icon
 
                 groups.append(dict(
+                    id=group.id,
+                    group=group,
                     url=url,
                     title=shorten(title, length=30),
                     img=img,
@@ -236,6 +244,11 @@ class UserProfileView(UserProfileViewForm):
 
         self.my_groups = groups
         self.my_workspaces = workspaces.values()
+
+    def count_users(self, group):
+        ''' Count the users in this group
+        '''
+        return len(group.getGroupMemberIds())
 
     def _user_details(self, userids):
         """Basic user details for the given userids"""

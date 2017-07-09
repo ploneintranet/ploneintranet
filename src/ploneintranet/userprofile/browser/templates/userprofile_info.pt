@@ -8,6 +8,8 @@
            tal:define="
              fullname here/fullname;
              absolute_url here/absolute_url;
+             groups view/my_groups;
+             num_groups python: len(groups);
            "
       >
         <article id="person-info" tal:define="is_me view/is_me">
@@ -49,6 +51,13 @@
                 </tal:display>
               </tal:field>
             </dl>
+            <tal:show_groups condition="groups"
+                             define="
+                                userprofile_group nocall:here/userprofile-group;
+                             "
+            >
+              <metal:macro use-macro="userprofile_group/macros/group_listing" />
+            </tal:show_groups>
             <article class="pat-rich" tal:condition="context/biography|nothing">
               <p tal:content="context/biography">
                 Some content goes here on Jeff
