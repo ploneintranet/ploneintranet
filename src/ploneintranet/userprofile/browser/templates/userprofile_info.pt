@@ -4,10 +4,28 @@
 
   <body class="view-secure">
     <metal:content fill-slot="content-core">
-      <div id="document-content">
+      <div id="document-content"
+           tal:define="
+             fullname here/fullname;
+             absolute_url here/absolute_url;
+           "
+      >
         <article id="person-info" tal:define="is_me view/is_me">
+          <h1 hidden>${fullname}</h1>
+          <figure class="user-info-header">
+            <span class="pat-gallery" tal:omit-tag="not:here/portrait">
+              <a tal:replace="structure view/get_avatar_tag" />
+            </span>
+            <figcaption>
+              <a href="${absolute_url}"
+                 title="Visit the profile of ${fullname}"
+                >
+                <span tal:replace="fullname"/>
+              </a>
+            </figcaption>
+          </figure>
           <tal:block condition="is_me">
-            <a href="${here/absolute_url}/@@edit"
+            <a href="${absolute_url}/@@edit"
                class="pat-inject"
                i18n:translate=""
                data-pat-inject="source: #user-edit-form::element; target: #person-info; trigger: autoload">
@@ -17,16 +35,18 @@
           <tal:block condition="not:is_me">
             <dl class="pat-grid-list" tal:define="fields view/fields_for_display">
               <dt class="icon-user" i18n:translate="">
-                Name
+                User profile
               </dt>
               <dd>
-                <span tal:replace="context/fullname"/>
+                <a href="${absolute_url}">${absolute_url}</a>
               </dd>
               <tal:field repeat="field fields">
-                <dt class="${field/icon_class}" i18n:translate="" tal:content="field/label"/>
-                <dd>
-                  <span tal:replace="structure field/html"/>
-                </dd>
+                <tal:display condition="field/raw">
+                  <dt class="${field/icon_class}" i18n:translate="" tal:content="field/label"/>
+                  <dd>
+                    <span tal:replace="structure field/html"/>
+                  </dd>
+                </tal:display>
               </tal:field>
             </dl>
             <article class="pat-rich" tal:condition="context/biography|nothing">
