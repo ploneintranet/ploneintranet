@@ -1,8 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="ploneintranet">
 
@@ -15,8 +13,6 @@
         description="Default additional fields for UserProfile."
         provides=".userprofile.IUserProfileAdditional"
         />
-
-
 
   <!-- Adapt dexterity group users to IMembraneGroupGroups so that the
   lookup of group->groups in PAS is working for our workspaces.
