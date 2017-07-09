@@ -70,18 +70,12 @@ class EmailInvitees(BrowserView):
     """ Email the invitees a message with a link to the event
     """
 
-    message_text = ViewPageTemplateFile('templates/email_invitees_text.pt')
     message_html = ViewPageTemplateFile('templates/email_invitees_html.pt')
 
     def get_message_html(self):
         ''' Get and compile an email message in html format
         '''
         return self.message_html().encode('utf-8')
-
-    def get_message_text(self):
-        ''' Get and compile an email message in plain text format
-        '''
-        return self.message_text().encode('utf-8')
 
     def get_sender(self):
         ''' Return the email sender
@@ -108,18 +102,17 @@ class EmailInvitees(BrowserView):
 
         for invitee in invitees:
             self.invitee_name = invitee['name']
+            if isinstance(self.invitee_name, unicode):
+                self.invitee_name = self.invitee_name.encode('utf8')
             recipient = '{} <{}>'.format(self.invitee_name, invitee['email'])
-
             msg = MIMEMultipart('alternative')
             msg['Subject'] = self.get_subject()
             msg['From'] = self.get_sender()
             msg['To'] = recipient
-            part1 = MIMEText(self.get_message_text(), 'plain')
-            part2 = MIMEText(self.get_message_html(), 'html')
-            part1.set_charset('utf-8')
-            part2.set_charset('utf-8')
-            msg.attach(part1)
-            msg.attach(part2)
+            html = self.get_message_html()
+            part = MIMEText(html, 'html')
+            part.set_charset('utf-8')
+            msg.attach(part)
             yield msg
 
     @memoize
