@@ -1,0 +1,47 @@
+<metal:page define-macro="master">
+  <metal:master use-macro="here/main_template/macros/master">
+    <metal:content fill-slot="content">
+      <div class="modal"
+           id="content"
+           tal:define="
+             panel_size view/panel_size|nothing;
+             form_action view/form_action|nothing;
+             form_data_pat_inject view/form_data_pat_inject|nothing;
+             form_data_pat_validation view/form_data_pat_validation|nothing;
+           "
+      >
+        <div class="pat-modal ${panel_size}"
+             id="document-content"
+        >
+          <h1>${view/title|nothing}</h1>
+          <form class="wizard-box ${python:form_data_pat_inject and 'pat-inject' or ''} panel-class-${panel_size} ${python:form_data_pat_validation and 'pat-validation' or ''}"
+                action="${form_action}"
+                data-pat-inject="${form_data_pat_inject|nothing}"
+                data-pat-validation="${form_data_pat_validation|nothing}"
+                tal:omit-tag="not:form_action"
+          >
+            <div class="panel-body">
+              <div class="container">
+                <metal:slot define-slot="body">
+                </metal:slot>
+              </div>
+            </div>
+            <div class="buttons panel-footer">
+              <div class="container">
+                <metal:slot define-slot="buttons">
+                </metal:slot>
+                <button class="close-panel icon-cancel-circle"
+                        type="button"
+                        tal:condition="view/show_default_cancel_button|nothing"
+                        i18n:translate=""
+                >
+                    Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </metal:content>
+  </metal:master>
+</metal:page>

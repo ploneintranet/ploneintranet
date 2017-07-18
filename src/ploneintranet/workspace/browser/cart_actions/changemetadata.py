@@ -14,6 +14,7 @@ log = logging.getLogger(__name__)
 
 class ChangemetadataView(BaseCartView):
 
+    title = _('Change metadata')
     checked_permission = 'Modify portal content'
 
     allowed_record_keys = [

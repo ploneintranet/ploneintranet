@@ -12,6 +12,7 @@ log = logging.getLogger(__name__)
 
 
 class RenameView(BaseCartView):
+    title = _('Batch rename')
 
     def confirm(self):
         index = ViewPageTemplateFile("templates/rename_confirmation.pt")

@@ -14,6 +14,9 @@ import zipfile
 
 class DownloadView(BaseCartView):
     """Download Action implementation for downloading items listed in cart."""
+    title = _('Download')
+    form_data_pat_inject = None
+    panel_size = 'large'
 
     def confirm(self):
         index = ViewPageTemplateFile("templates/download_confirmation.pt")

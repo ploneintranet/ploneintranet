@@ -1,66 +1,67 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
-      i18n:domain="ploneintranet">
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed generic application-workspace application- ">
-    <div id="content" class="modal">
-      <div id="document-content" class="pat-modal">
-        <h1 i18n:translate="">Batch change workflow</h1>
-
-        <form method="POST"
-              action="cart-change-workflow"
-              class="wizard-box pat-inject"
-              data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items &amp;&amp; source: #document-body; target: #document-body"
-
-        >
-        <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
-          <aside id="global-statusmessage">
-            <tal:message tal:content="structure provider:plone.globalstatusmessage" />
-          </aside>
-
-          <div class="panel-body"
-              tal:define="items view/items;
-                          transitions view/get_transitions;">
-
-            <fieldset>
-                <label class="pat-select bare workflow" title="Change the workflow state">
-                    <select name="transition">
-                      <option value="" i18n:translate="">-- Please select --</option>
-                      <option tal:repeat="trans transitions"
-                        tal:attributes="value trans/action"
-                        tal:content="trans/title" i18n:translate="">transition</option>
-                    </select>
-                </label>
-            </fieldset>
-            <article>
-                <p>
-                  <tal:selected i18n:translate="info_items_selected_workflow">
-                    The workflow state of the following <strong i18n:name="num_items">${python:len(items)}</strong> items will be changed (un-tick to exclude from this action).
-                  </tal:selected>
-                </p>
-            </article>
-            <fieldset class="pat-checklist">
-              <label tal:repeat="item items">
-                <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
-              </label>
-            </fieldset>
-          </div>
-
-          <div class="buttons panel-footer">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
-
-            <button type="submit" id="form-buttons-send" class="close-panel icon-ok-circle pat-shopping-cart" i18n:translate="">
-              OK, change workflow
-            </button>
-            <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
-              Cancel
-            </button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </body>
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <metal:body fill-slot="body"
+              tal:define="
+                items view/items;
+                transitions view/get_transitions;
+              "
+  >
+    <input name="groupname"
+           type="hidden"
+           value="${request/groupname|nothing}"
+    />
+    <fieldset>
+      <label class="pat-select bare workflow"
+             title="Change the workflow state"
+      >
+        <select name="transition">
+          <option value=""
+                  i18n:translate=""
+          >-- Please select --</option>
+          <option tal:repeat="trans transitions"
+                  tal:content="trans/title"
+                  tal:attributes="
+                    value trans/action;
+                  "
+                  i18n:translate=""
+          >transition</option>
+        </select>
+      </label>
+    </fieldset>
+    <article>
+      <p>
+        <tal:selected i18n:translate="info_items_selected_workflow">
+          The workflow state of the following
+          <strong i18n:name="num_items">${python:len(items)}</strong>
+          items will be changed (un-tick to exclude from this action).
+        </tal:selected>
+      </p>
+    </article>
+    <fieldset class="pat-checklist">
+      <label tal:repeat="item items">
+        <input checked="checked"
+               name="uids:list"
+               type="checkbox"
+               value="${item/UID}"
+        />
+        ${item/Title}
+      </label>
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <button class="close-panel icon-ok-circle pat-shopping-cart"
+            id="form-buttons-send"
+            type="submit"
+            i18n:translate=""
+    >
+      OK, change workflow
+    </button>
+  </metal:buttons>
 </html>

@@ -8,6 +8,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class DeleteView(BaseCartView):
+    title = _('Batch delete')
     checked_permission = 'Delete objects'
 
     def confirm(self):

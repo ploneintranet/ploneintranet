@@ -57,6 +57,13 @@ class IDiazoNoTemplate(Interface):
     """
 
 
+class IModalPanel(IDiazoNoTemplate):
+    """
+    Views marked by this interface will receive a "diazo off modal-panel" class
+    that will skip diazo transforms nad will render nicely the panel
+    """
+
+
 class IDiazoAppTemplate(Interface):
     """
     Views marked by this interface will receive a diazo-template-* class

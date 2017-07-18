@@ -6,6 +6,7 @@ from ploneintranet.layout.interfaces import IAppContainer
 from ploneintranet.layout.interfaces import IAppView
 from ploneintranet.layout.interfaces import IDiazoAppTemplate
 from ploneintranet.layout.interfaces import IDiazoNoTemplate
+from ploneintranet.layout.interfaces import IModalPanel
 from zope.component import getMultiAdapter
 from zope.interface import implements
 
@@ -20,6 +21,8 @@ class LayoutPolicy(PloneLayoutPolicy):
     def append_diazo_template(self, base, template, view):
         ''' Return classes to select a diazo template
         '''
+        if IModalPanel.providedBy(view):
+            base += ' modal-panel'
         if IDiazoNoTemplate.providedBy(view):
             base += ' diazo off'
             return base
