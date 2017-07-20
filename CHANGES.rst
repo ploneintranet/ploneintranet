@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.68 (unreleased)
+1.2.68 (2017-07-20)
 -------------------
 
 * Merge pull request #1411 from quaive/setuptools [GitHub]
