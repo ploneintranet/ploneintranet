@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-07-20 11:16+0000\n"
+"POT-Creation-Date: 2017-07-20 19:35+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -3243,7 +3243,7 @@ msgstr "Benutzer nicht gefunden"
 
 #: ../userprofile/browser/templates/userprofile_info.pt:39
 msgid "User profile"
-msgstr ""
+msgstr "Benutzerprofil"
 
 #: ../userprofile/browser/templates/user_import_form.pt:18
 msgid "User profile management"
@@ -3765,7 +3765,7 @@ msgstr "Dieses Dokument ist durch ${user} gesperrt."
 #. Default: "It seems that this document was modified since you loaded this form. Your changes will be discarded. <a href=\"${url}\">Please reload this page by clicking here</a>."
 #: ../workspace/basecontent/baseviews.py:248
 msgid "document_modified_error"
-msgstr "${url}\"
+msgstr 'Es scheint, dass dieses Dokument geändert wurde, nachdem Sie es geöffnet haben. Die von Ihnen vorgenommenen Änderungen werden nicht gespeichert. <a href=\"${url}\">Bitte laden Sie die Seite neu, indem Sie hier klicken.</a>'
 
 #: ../workspace/browser/templates/content_macros.pt:18
 msgid "down"
@@ -4041,7 +4041,7 @@ msgstr "${document} ist in der Bibliothek verfügbar."
 msgid "info_was_archived_on"
 msgstr "Dieser Arbeitsraum wurde am ${archival_date} archiviert. Archivierte Arbeitsräume werden auf der ${workspaces_page} nicht angezeigt, können aber durch aktivieren der Option \"Archiviert\" sichtbar gemacht werden."
 
-#. A unique token URL will be sent to the address."
+#. A unique token URL will be sent to th3757e address."
 #. Default: "Enter an email address below to invite someone to the plone site. A unique token URL will be sent to the address."
 #: ../invitations/invite_user.pt:22
 msgid "invitation_admin_para_1"
@@ -4186,7 +4186,6 @@ msgstr ""
 #. Default: "Expiration Date"
 #: ../network/behaviors/metadata.py:219
 #: ../news/browser/templates/edit.html:148
-#, fuzzy
 msgid "label_expiration_date"
 msgstr "Ablaufdatum"
 
