@@ -4,7 +4,21 @@ Changelog
 1.2.68 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Merge pull request #1411 from quaive/setuptools [GitHub]
+* bump setuptools [Wolfgang Thomas]
+* Merge pull request #1410 from quaive/custom-display-widgets [GitHub]
+* Merge pull request #1409 from quaive/event-email [GitHub]
+* Merge pull request #1408 from quaive/add-the-groups-overview [GitHub]
+* Merge pull request #1407 from quaive/add-figure-to-person-info [GitHub]
+* Merge pull request #1406 from quaive/release-1.2.x [GitHub]
+* Fix email for whole day events [ale-rt]
+* Smart display widgets for the user profile fields [ale-rt]
+* Add the groups overview [ale-rt]
+* Add an hidden element to fix a vatar in modals [ale-rt]
+* The first field should be the link to the user profile [ale-rt]
+* Do not display empty fields [ale-rt]
+* Display the user info header in the useprofile view [ale-rt]
+* Back to development: 1.2.68 [ale-rt]
 
 
 1.2.67 (2017-07-06)
