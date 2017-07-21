@@ -45,8 +45,6 @@ class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
     """View for user profile."""
 
-    my_groups = my_workspaces = []
-
     _default_tabs = (
         u'userprofile-view',
         u'userprofile-info',
@@ -126,14 +124,31 @@ class UserProfileView(UserProfileViewForm):
         '''
         self.request.response.setHeader('X-Theme-Disabled', '1')
 
-    def update(self):
-        if (
-            u'userprofile-workspaces' in self.allowed_tabs
-        ):
-            # BBB: this is setting two attributes my_workspaces and my_groups
-            # it would be better to not call this function and
-            # have two memoized properties that are lazy loaded on demand
+    @property
+    @memoize
+    def my_groups(self):
+        ''' Return the attribute _my_groups,
+        if needed invoke the function _get_my_groups_and_workspaces to set it
+        '''
+        try:
+            return self._my_groups
+        except AttributeError:
             self._get_my_groups_and_workspaces()
+        return self._my_groups
+
+    @property
+    @memoize
+    def my_workspaces(self):
+        ''' Return the attribute _my_groups,
+        if needed invoke the function _get_my_groups_and_workspaces to set it
+        '''
+        try:
+            return self._my_workspaces
+        except AttributeError:
+            self._get_my_groups_and_workspaces()
+        return self._my_workspaces
+
+    def update(self):
         self._update_recent_contacts()
 
     def is_me(self):
@@ -243,8 +258,8 @@ class UserProfileView(UserProfileViewForm):
                     img=img,
                 ))
 
-        self.my_groups = groups
-        self.my_workspaces = workspaces.values()
+        self._my_groups = groups
+        self._my_workspaces = workspaces.values()
 
     def count_users(self, group):
         ''' Count the users in this group
