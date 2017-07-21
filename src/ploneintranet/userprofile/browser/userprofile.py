@@ -1,5 +1,6 @@
 # coding=utf-8
 from AccessControl import Unauthorized
+from copy import copy
 from plone import api as plone_api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
@@ -43,8 +44,6 @@ def default_avatar(response):
 class UserProfileView(UserProfileViewForm):
     implements(IBlocksTransformEnabled)
     """View for user profile."""
-
-    my_groups = my_workspaces = []
 
     _default_tabs = (
         u'userprofile-view',
@@ -125,14 +124,31 @@ class UserProfileView(UserProfileViewForm):
         '''
         self.request.response.setHeader('X-Theme-Disabled', '1')
 
-    def update(self):
-        if (
-            u'userprofile-workspaces' in self.allowed_tabs
-        ):
-            # BBB: this is setting two attributes my_workspaces and my_groups
-            # it would be better to not call this function and
-            # have two memoized properties that are lazy loaded on demand
+    @property
+    @memoize
+    def my_groups(self):
+        ''' Return the attribute _my_groups,
+        if needed invoke the function _get_my_groups_and_workspaces to set it
+        '''
+        try:
+            return self._my_groups
+        except AttributeError:
             self._get_my_groups_and_workspaces()
+        return self._my_groups
+
+    @property
+    @memoize
+    def my_workspaces(self):
+        ''' Return the attribute _my_groups,
+        if needed invoke the function _get_my_groups_and_workspaces to set it
+        '''
+        try:
+            return self._my_workspaces
+        except AttributeError:
+            self._get_my_groups_and_workspaces()
+        return self._my_workspaces
+
+    def update(self):
         self._update_recent_contacts()
 
     def is_me(self):
@@ -242,8 +258,8 @@ class UserProfileView(UserProfileViewForm):
                     img=img,
                 ))
 
-        self.my_groups = groups
-        self.my_workspaces = workspaces.values()
+        self._my_groups = groups
+        self._my_workspaces = workspaces.values()
 
     def count_users(self, group):
         ''' Count the users in this group
@@ -269,16 +285,37 @@ class UserProfileView(UserProfileViewForm):
         return details
 
     def _update_recent_contacts(self):
+        ''' Update, if needed, the list of the last twenty profiles
+        that we have visited
+        '''
         my_profile = pi_api.userprofile.get_current()
-        if not my_profile or my_profile.username == self.context.username:
+        contact = self.context.username
+        if not my_profile or my_profile.username == contact:
+            return
+        recent_contacts = copy(my_profile.recent_contacts or [])
+
+        # If the contact is already the first on the list, we have nothing todo
+        try:
+            if recent_contacts.index(contact) == 0:
+                return
+        except ValueError:
+            pass
+
+        # Otherwise we want it to be the first on the list
+        try:
+            recent_contacts.remove(contact)
+        except ValueError:
+            pass
+        recent_contacts.insert(0, contact)
+
+        # We limit ourselves
+        recent_contacts = recent_contacts[:20]
+
+        # Do not touch the DB if nothing has changed
+        if my_profile.recent_contacts == recent_contacts:
             return
         safeWrite(my_profile, self.request)
-        if my_profile.recent_contacts is None:
-            my_profile.recent_contacts = []
-        if self.context.username in my_profile.recent_contacts:
-            my_profile.recent_contacts.remove(self.context.username)
-        my_profile.recent_contacts.insert(0, self.context.username)
-        my_profile.recent_contacts = my_profile.recent_contacts[:20]
+        my_profile.recent_contacts = recent_contacts
 
     def fields_for_display(self):
         return get_fields_for_template(self)
