@@ -1,0 +1,6 @@
+<a class="onscreen-help pat-tooltip"
+   id="osh-target-${options/bubbleid}"
+   href="${here/portal_url}/on-screen-help?q=${options/bubbleid}#osh-${options/bubbleid}"
+   data-pat-tooltip="trigger: click; source: ajax; class: rich info;"
+   i18n:translate=""
+>Help</a>

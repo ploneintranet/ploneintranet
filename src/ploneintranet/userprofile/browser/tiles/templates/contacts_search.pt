@@ -5,8 +5,13 @@
 
   <body>
 
-    <div class="contacts portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-contacts">
+    <div class="contacts portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-contacts"
+         tal:define="
+           osh_view nocall:here/on-screen-help;
+         "
+    >
       <div class="content">
+        <tal:bubble replace="structure python:osh_view.link_to('portlet-contacts')" />
         <h2 class="portlet-title">
           <a href="${view/header_link}" i18n:translate="">Contacts</a>
         </h2>

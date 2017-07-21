@@ -13,7 +13,9 @@
              bookmarks view/get_bookmarks;
              sort_by python:request.get('sort_by', 'recent');
              SearchableText request/SearchableText|nothing;
+             osh_view nocall:here/on-screen-help;
            ">
+        <tal:bubble replace="structure python:osh_view.link_to('portlet-bookmarks')" />
         <h2 class="portlet-title">
           <a href="${view/app_url}"
             i18n:translate=""

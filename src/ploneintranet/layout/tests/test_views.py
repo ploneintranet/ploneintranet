@@ -536,3 +536,31 @@ class TestViews(IntegrationTestCase):
         # Purge the cache
         view.request.__annotations__.pop('plone.memoize')
         self.assertEqual(view.lock_info, None)
+
+    def test_on_screen_help(self):
+        view = self.get_view('on-screen-help')
+        # Test that we can create bubble links if the bubble is well known
+        self.assertEqual(view.link_to(1), '')
+        self.assertIn('Help', view.link_to('hamburger'))
+
+        # Check if we have a default bubble with no or wrong parameters
+        self.assertIn(view._fallback_bubble['title'], view())
+        view = self.get_view('on-screen-help', q='1')
+        self.assertIn(view._fallback_bubble['title'], view())
+        view = self.get_view('on-screen-help', q='hamburger')
+        self.assertIn(view.bubbles['hamburger']['description'], view())
+
+        # check that we can set up custom bubbles
+        custom_bubbles_json = (
+            u'{"foo-bar": {'
+            u'    "title": "Foo", "description": "<p>Bar baz</p>"'
+            u'}}'
+        )
+        self.assertNotIn('foo-bar', view.bubbles)
+        with temporary_registry_record(
+            'ploneintranet.layout.custom_bubbles',
+            custom_bubbles_json,
+        ):
+            view = self.get_view('on-screen-help', q='foo-bar')
+            self.assertIn('foo-bar', view.bubbles)
+            self.assertIn('Bar baz', view())
