@@ -1,56 +1,64 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
-      i18n:domain="ploneintranet">
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed generic application-workspace application- ">
-    <div id="content" class="modal">
-      <div id="document-content" class="pat-modal">
-        <h1 i18n:translate="">Batch rename</h1>
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <metal:body fill-slot="body"
+              tal:define="
+                items view/items_by_permission;
+                modifiable python:items[0];
+                len_modifiable python:len(modifiable);
+                has_modifiable python:len_modifiable &gt; 0;
+                not_modifiable python:items[1];
+                len_not_modifiable python:len(not_modifiable);
+                has_not_modifiable python:len_not_modifiable &gt; 0;
+                none_modifiable python:has_not_modifiable and not(has_modifiable);
+              "
+  >
+    <input name="groupname"
+           type="hidden"
+           value="${request/groupname|nothing}"
+    />
+    <fieldset class="vertical rename">
 
-        <form method="POST" 
-              action="cart-rename" 
-              class="wizard-box pat-inject"
-              data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items &amp;&amp; source: #document-body; target: #document-body"
-              tal:define="items view/items_by_permission;
-                          modifiable python:items[0];
-                          len_modifiable python:len(modifiable);
-                          has_modifiable python:len_modifiable > 0;
-                          not_modifiable python:items[1];
-                          len_not_modifiable python:len(not_modifiable);
-                          has_not_modifiable python:len_not_modifiable > 0;
-                          none_modifiable python:has_not_modifiable and not(has_modifiable); ">
+      <tal:modifiable repeat="item modifiable">
+        <label>
+          <input name="${item/UID}"
+                 placeholder="${item/title}"
+                 type="text"
+          />
+        </label>
+        <input name="uids:list"
+               type="hidden"
+               value="${item/UID}"
+        />
+      </tal:modifiable>
 
-          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
+      <tal:unmodifiable repeat="item not_modifiable">
+        <label>
+          <input disabled="disabled"
+                 placeholder="${item/title}"
+                 type="text"
+          />
+          <dfn class="pat-message notice"
+               i18n:translate=""
+          >You cannot rename this item.</dfn>
+        </label>
+      </tal:unmodifiable>
 
-          <div class="panel-body">
-
-            <fieldset class="vertical rename">
-
-              <tal:modifiable repeat="item modifiable">
-                <label>
-		          <input type="text" name="${item/UID}" placeholder="${item/title}"/>
-	            </label>
-                <input type="hidden" name="uids:list" value="${item/UID}"/>
-              </tal:modifiable>
-
-              <tal:unmodifiable repeat="item not_modifiable">
-                <label>
-		          <input type="text" placeholder="${item/title}" disabled="disabled"/>
-                  <dfn class="pat-message notice" i18n:translate="">You cannot rename this item.</dfn>
-	            </label>
-              </tal:unmodifiable>
-
-            </fieldset>
-          </div>
-              <div class="buttons panel-footer">
-                <button i18n:translate="" id="form-buttons-send" type="submit" class="close-panel icon-ok-circle"> Rename </button>
-                <button i18n:translate="" type="button" class="close-panel icon-cancel-circle"> Cancel </button>
-              </div>
-
-        </form>
-      </div>
-    </div>
-  </body>
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <button class="close-panel icon-ok-circle"
+            id="form-buttons-send"
+            type="submit"
+            i18n:translate=""
+    >
+      Rename
+    </button>
+  </metal:buttons>
 </html>

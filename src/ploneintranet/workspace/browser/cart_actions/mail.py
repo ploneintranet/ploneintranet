@@ -22,6 +22,10 @@ log = logging.getLogger(__name__)
 
 class MailView(BaseCartView):
 
+    title = _('Batch send')
+    form_data_pat_inject = None
+    form_data_pat_validation = 'disable-selector: #form-buttons-send'
+
     def confirm(self):
         index = ViewPageTemplateFile("templates/mail_send_confirmation.pt")
         return index(self)

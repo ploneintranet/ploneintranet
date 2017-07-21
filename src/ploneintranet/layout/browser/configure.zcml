@@ -311,4 +311,12 @@
       layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
       />
 
+  <browser:page
+      for="*"
+      name="panel_template"
+      permission="zope.Public"
+      template="templates/panel_template.pt"
+      layer="quaive.resources.ploneintranet.interfaces.IThemeSpecific"
+      />
+
 </configure>

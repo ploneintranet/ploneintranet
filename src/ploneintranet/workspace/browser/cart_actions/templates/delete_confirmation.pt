@@ -1,79 +1,91 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
-      i18n:domain="ploneintranet">
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed generic application-workspace application- ">
-    <div id="content" class="modal">
-      <div id="document-content" class="pat-modal">
-        <h1 i18n:translate="">Batch delete</h1>
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <metal:body fill-slot="body"
+              tal:define="
+                items view/items_by_permission;
+                deleteable python:items[0];
+                len_deleteable python:len(deleteable);
+                has_deleteable python:len_deleteable &gt; 0;
+                not_deleteable python:items[1];
+                len_not_deleteable python:len(not_deleteable);
+                has_not_deleteable python:len_not_deleteable &gt; 0;
+                none_deleteable python:has_not_deleteable and not(has_deleteable);
+              "
+  >
+    <article>
+      <input name="groupname"
+             type="hidden"
+             value="${request/groupname|nothing}"
+      />
+      <p>
+        <tal:selected i18n:translate="info_items_selected">
+                  You've selected the following
+          <strong i18n:name="num_items">${python:len_deleteable + len_not_deleteable}</strong>
+           items to be deleted.
+        </tal:selected>
+        <tal:none_deleteable condition="none_deleteable"
+                             i18n:translate=""
+        >You don't have permission to delete any of them.
+        </tal:none_deleteable>
+        <tal:not_deleteable condition="python:has_not_deleteable and not none_deleteable"
+                            i18n:translate="info_has_not_deleteable_items"
+        ><strong i18n:name="num_not_deleteable">${len_not_deleteable}</strong>
+           of the items cannot be deleted because you don't have permission.
+        </tal:not_deleteable>
+        <tal:deleteable condition="has_deleteable">
+          <tal:not_deleteable condition="has_not_deleteable"
+                              i18n:translate="num_items_can_be_deleted"
+          >
+            <strong i18n:name="num_deleteable">${len_deleteable}</strong>
+             of the items can be deleted.
+          </tal:not_deleteable>
+          <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from deletion)</tal:ays>
+        </tal:deleteable>
+      </p>
+    </article>
 
-        <form class="wizard-box pat-inject" method="POST" action="${context/absolute_url}/@@cart-delete" data-pat-inject="source: #global-statusmessage; target: #global-statusmessage &amp;&amp; source: #items; target: #items;">
-          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
 
-          <aside id="global-statusmessage">
-            <tal:message tal:content="structure provider:plone.globalstatusmessage" />
-          </aside>
-
-          <div class="panel-body"
-               tal:define="items view/items_by_permission;
-                           deleteable python:items[0];
-                           len_deleteable python:len(deleteable);
-                           has_deleteable python:len_deleteable > 0;
-                           not_deleteable python:items[1];
-                           len_not_deleteable python:len(not_deleteable);
-                           has_not_deleteable python:len_not_deleteable > 0;
-                           none_deleteable python:has_not_deleteable and not(has_deleteable);
-                           ">
-            <article>
-              <p>
-                <tal:selected i18n:translate="info_items_selected">
-                  You've selected the following <strong i18n:name="num_items">${python:len_deleteable + len_not_deleteable}</strong> items to be deleted.
-                </tal:selected>
-                <tal:none_deleteable condition="none_deleteable" i18n:translate="">You don't have permission to delete any of them.
-                </tal:none_deleteable>
-                <tal:not_deleteable condition="python:has_not_deleteable and not none_deleteable" i18n:translate="info_has_not_deleteable_items"><strong i18n:name="num_not_deleteable">${len_not_deleteable}</strong> of the items cannot be deleted because you don't have permission.
-                </tal:not_deleteable>
-                <tal:deleteable condition="has_deleteable">
-                  <tal:not_deleteable condition="has_not_deleteable" i18n:translate="num_items_can_be_deleted">
-                    <strong i18n:name="num_deleteable">${len_deleteable}</strong> of the items can be deleted.
-                  </tal:not_deleteable>
-                  <tal:ays i18n:translate="">Are you sure? (un-tick to exclude from deletion)</tal:ays>
-                </tal:deleteable>
-              </p>
-            </article>
-
-
-            <fieldset class="pat-checklist">
-              <tal:deleteable repeat="item deleteable">
-                <label>
-                  <input type="checkbox" name="uids:list" value="${item/UID}" checked="checked"/> ${item/Title}
-                </label>
-                <br />
-              </tal:deleteable>
-              <tal:not_deleteable repeat="item not_deleteable">
-                <label>
-                  <input type="checkbox" name="uids:list" value="${item/UID}" disabled="disabled"/> ${item/Title}
-                  <dfn class="pat-message notice" i18n:translate="">You cannot delete this item.</dfn>
-                </label>
-                <br />
-              </tal:not_deleteable>
-            </fieldset>
-          </div>
-
-          <div class="buttons panel-footer">
-            <span tal:replace="structure context/@@authenticator/authenticator"/>
-
-            <button type="submit" class="close-panel icon-ok-circle pat-shopping-cart" i18n:translate="">
-              I am sure, delete now
-            </button>
-            <button type="button" class="close-panel icon-cancel-circle" i18n:translate="">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div> 
-  </body>
+    <fieldset class="pat-checklist">
+      <tal:deleteable repeat="item deleteable">
+        <label>
+          <input checked="checked"
+                 name="uids:list"
+                 type="checkbox"
+                 value="${item/UID}"
+          />
+           ${item/Title}
+        </label>
+        <br />
+      </tal:deleteable>
+      <tal:not_deleteable repeat="item not_deleteable">
+        <label>
+          <input disabled="disabled"
+                 name="uids:list"
+                 type="checkbox"
+                 value="${item/UID}"
+          />
+           ${item/Title}
+          <dfn class="pat-message notice"
+               i18n:translate=""
+          >You cannot delete this item.</dfn>
+        </label>
+        <br />
+      </tal:not_deleteable>
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <button class="close-panel icon-ok-circle pat-shopping-cart"
+            type="submit"
+            i18n:translate=""
+    >
+      I am sure, delete now
+    </button>
+  </metal:buttons>
 </html>

@@ -14,6 +14,8 @@ from ZODB.POSException import ConflictError
 class ChangeWorkflowView(BaseCartView):
     """Change Workflow Action implementation"""
 
+    title = _('Batch change workflow')
+
     def confirm(self):
         index = ViewPageTemplateFile("templates/change_workflow_confirmation.pt")  # noqa
         return index(self)

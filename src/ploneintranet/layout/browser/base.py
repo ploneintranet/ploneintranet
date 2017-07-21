@@ -1,7 +1,9 @@
 # coding=utf-8
 from plone import api
 from plone.memoize.view import memoize_contextless
+from ploneintranet.layout.interfaces import IModalPanel
 from Products.Five import BrowserView
+from zope.interface import implementer
 
 
 class BaseView(BrowserView):
@@ -49,3 +51,11 @@ class BaseView(BrowserView):
         '''
         self.maybe_disable_diazo()
         return super(BaseView, self).__call__()
+
+
+@implementer(IModalPanel)
+class BasePanel(BaseView):
+    ''' Inherit from this if you want to create a modal panel
+    '''
+    is_modal_panel = True
+    show_default_cancel_button = True

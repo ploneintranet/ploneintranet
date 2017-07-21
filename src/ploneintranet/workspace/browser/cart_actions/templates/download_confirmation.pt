@@ -1,66 +1,81 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
-      i18n:domain="ploneintranet">
-  <body class="stand-alone sidebar-normal gh-collapsed sidebar-left-open sidebar-right-closed generic application-workspace application- ">
-    <div id="content" class="modal">
-      <div id="document-content" class="pat-modal large">
-        <h1 i18n:translate="">Download</h1>
-
-        <form method="POST" 
-              action="cart-download" 
-              class="wizard-box">
-
-          <input type="hidden" name="groupname" value="${request/groupname|nothing}" />
-
-          <div class="panel-body"
-               tal:define="items view/downloadable_items;
-                           files items/files;
-                           pdfs items/pdfs;
-                           images items/images;
-                           no_pdfs items/no_pdfs;
-                           folders items/folders;
-                           num_downloads python:len(files) + len(images) + len(pdfs)">
-            <p tal:condition="num_downloads">
-              The following <strong>${num_downloads}</strong> will be downloaded as a ZIP-file (Un-tick to exclude from the download).
-            </p>
-            <p class="pat-message warning" tal:condition="not:num_downloads">
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <metal:body fill-slot="body"
+              tal:define="
+                items view/downloadable_items;
+                files items/files;
+                pdfs items/pdfs;
+                images items/images;
+                no_pdfs items/no_pdfs;
+                folders items/folders;
+                num_downloads python:len(files) + len(images) + len(pdfs);
+              "
+  >
+    <input name="groupname"
+           type="hidden"
+           value="${request/groupname|nothing}"
+    />
+    <p tal:condition="num_downloads">
+              The following
+      <strong>${num_downloads}</strong>
+       will be downloaded as a ZIP-file (Un-tick to exclude from the download).
+    </p>
+    <p class="pat-message warning"
+       tal:condition="not:num_downloads"
+    >
               None of the selected items could be downloaded.
-            </p>
-            <p class="pat-message warning" tal:condition="python:(folders or no_pdfs) and num_downloads">
-              Some objects could not be downloaded. 
-            </p>
+    </p>
+    <p class="pat-message warning"
+       tal:condition="python:(folders or no_pdfs) and num_downloads"
+    >
+              Some objects could not be downloaded.
+    </p>
 
-            <fieldset class="pat-checklist">
-              <tal:downloadable repeat="item python:files+images+pdfs">
-                <label>
-                  <input type="checkbox" name="items:list" value="${item/UID}" checked="checked"/> ${item/Title}
-                </label>
-              </tal:downloadable>
-              <tal:no_pdfs repeat="item no_pdfs">
-                <label>
-                  <input type="checkbox" disabled="disabled" /> ${item/Title}
-                  <em class="pat-message notice">A PDF version of this document has not yet been successfully generated.</em>
-                </label>
-              </tal:no_pdfs>
-              <tal:folders repeat="item folders">
-                <label>
-                  <input type="checkbox" disabled="disabled" /> ${item/Title}
-                  <em class="pat-message notice">This object is a folder and cannot be downloaded. Navigate to the folder contents and select the files you wish to download seperately.</em>
-                </label>
-              </tal:folders>
-            </fieldset>
-          </div>
-
-          <div class="buttons panel-footer">
-            <button i18n:translate="" id="form-buttons-send" type="submit" class="icon-ok-circle"> Download </button>
-            <button i18n:translate="" type="button" class="close-panel icon-cancel-circle"> Cancel </button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </body>
+    <fieldset class="pat-checklist">
+      <tal:downloadable repeat="item python:files+images+pdfs">
+        <label>
+          <input checked="checked"
+                 name="items:list"
+                 type="checkbox"
+                 value="${item/UID}"
+          />
+           ${item/Title}
+        </label>
+      </tal:downloadable>
+      <tal:no_pdfs repeat="item no_pdfs">
+        <label>
+          <input disabled="disabled"
+                 type="checkbox"
+          />
+           ${item/Title}
+          <em class="pat-message notice">A PDF version of this document has not yet been successfully generated.</em>
+        </label>
+      </tal:no_pdfs>
+      <tal:folders repeat="item folders">
+        <label>
+          <input disabled="disabled"
+                 type="checkbox"
+          />
+           ${item/Title}
+          <em class="pat-message notice">This object is a folder and cannot be downloaded. Navigate to the folder contents and select the files you wish to download seperately.</em>
+        </label>
+      </tal:folders>
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <button class="icon-download"
+            id="form-buttons-send"
+            type="submit"
+            i18n:translate=""
+    >
+      Download
+    </button>
+  </metal:buttons>
 </html>

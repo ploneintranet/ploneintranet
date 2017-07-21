@@ -13,6 +13,8 @@ log = logging.getLogger(__name__)
 
 class RetagView(BaseCartView):
 
+    _('Batch (re)tagging')
+
     def confirm(self):
         index = ViewPageTemplateFile("templates/retag_confirmation.pt")
         return index(self)
