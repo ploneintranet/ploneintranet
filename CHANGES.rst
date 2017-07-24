@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.69 (unreleased)
+1.2.69 (2017-07-24)
 -------------------
 
 * bump setuptools [Wolfgang Thomas]
