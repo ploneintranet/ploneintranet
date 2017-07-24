@@ -8,7 +8,7 @@ from plone.memoize.view import memoize_contextless
 from ploneintranet import api as pi_api
 from ploneintranet.admintool.browser.interfaces import IGeneratePWResetToken
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.layout.browser.base import BaseView
+from ploneintranet.layout.browser.base import BasePanel
 from ploneintranet.layout.interfaces import IAppView
 from Products.CMFPlone import PloneMessageFactory as _pmf
 from Products.Five import BrowserView
@@ -132,9 +132,12 @@ class View(BrowserView):
         return self.translate_review_state(user.review_state)
 
 
-class PanelAddUser(BaseView):
+class PanelAddUser(BasePanel):
     ''' Add a user
     '''
+    titles = []
+
+    checked_permission = 'Modify portal content'
     title = _('Create user account')
     description = _(
         'Once the user account is created, '
@@ -233,7 +236,7 @@ class PanelAddUser(BaseView):
         )
 
 
-class PanelToggleUserState(BaseView):
+class PanelToggleUserState(BasePanel):
     ''' Change the user review state
     '''
     title_mapping = {

@@ -1,5 +1,6 @@
 # coding=utf-8
 from plone import api
+from plone.memoize.view import memoize
 from plone.memoize.view import memoize_contextless
 from ploneintranet.layout.interfaces import IModalPanel
 from Products.Five import BrowserView
@@ -59,3 +60,26 @@ class BasePanel(BaseView):
     '''
     is_modal_panel = True
     show_default_cancel_button = True
+    form_method = 'post'
+    _form_data_pat_inject_parts = (
+        '#global-statusmessage; loading-class: \'\'',
+        '#document-content',
+    )
+
+    @property
+    @memoize
+    def form_action(self):
+        ''' The handler for this form
+        '''
+        return '{url}/@@{action}'.format(
+            url=self.context.absolute_url(),
+            action=self.__name__,
+        )
+
+    @property
+    @memoize
+    def form_data_pat_inject(self):
+        ''' Merge the data inject parts to populate
+        the form data-pat-inject attribute
+        '''
+        return ' && '.join(self._form_data_pat_inject_parts)

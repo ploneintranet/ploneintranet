@@ -3,43 +3,26 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
+      metal:use-macro="context/panel_template/macros/master"
       xml:lang="en"
       i18n:domain="ploneintranet"
 >
   <body>
-    <div id="document-content">
-      <div class="pat-modal"
-           tal:omit-tag="view/is_ajax"
-      >
-        <h1>${view/title}</h1>
-        <form class="wizard-box pat-inject"
-              action="${view/__name__}"
-              method="post"
-              data-pat-inject="#user-${python:here.UID()[:6]}::element &amp;&amp; #global-statusmessage; loading-class: ''"
-        >
-          <div class="panel-body">
-            <tal:block tal:replace="structure context/@@authenticator/authenticator" />
-            <input name="SearchableText"
-                   type="hidden"
-                   value="${request/SearchableText|nothing}"
-            />
-            <article>
-              <p>${view/description}</p>
-            </article>
-          </div>
-          <div class="buttons panel-footer">
-            <button class="icon-ok-circle close-panel"
-                    name="toggle_state"
-                    type="submit"
-                    value="1"
-            >${view/title}</button>
-            <button class="icon-cancel-circle close-panel"
-                    type="button"
-                    i18n:translate=""
-            >Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <metal:body fill-slot="body">
+      <input name="SearchableText"
+             type="hidden"
+             value="${request/SearchableText|nothing}"
+      />
+      <article>
+        <p>${view/description}</p>
+      </article>
+    </metal:body>
+    <metal:buttons fill-slot="buttons">
+      <button class="icon-ok-circle close-panel"
+              name="toggle_state"
+              type="submit"
+              value="1"
+      >${view/title}</button>
+    </metal:buttons>
   </body>
 </html>
