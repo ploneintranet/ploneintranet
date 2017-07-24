@@ -18,6 +18,7 @@
                 action="${form_action}"
                 data-pat-inject="${form_data_pat_inject|nothing}"
                 data-pat-validation="${form_data_pat_validation|nothing}"
+                method="${view/form_method|string:post}"
                 tal:omit-tag="not:form_action"
           >
             <div class="panel-body">
