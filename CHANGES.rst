@@ -1,10 +1,27 @@
 Changelog
 =========
 
-1.2.69 (unreleased)
+1.2.70 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.69 (2017-07-24)
+-------------------
+
+* bump setuptools [Wolfgang Thomas]
+* Merge pull request #1412 from quaive/fix-modals [GitHub]
+* Merge pull request #1413 from quaive/release-1.2.x [GitHub]
+* Merge pull request #1415 from quaive/userprofile-improvements [GitHub]
+* Speed up some userprofile views [ale-rt]
+* Load groups asynchronously [ale-rt]
+* Optimize the _update_recent_contacts method [ale-rt]
+* Merge pull request #1414 from quaive/translation_event_email [GitHub]
+* corrected deleted msgstr and added missing translations [Angela Steinhardt]
+* translated missing strings for email template [Angela Steinhardt]
+* Back to development: 1.2.69 [ale-rt]
+* Use a template for the modal panels [ale-rt]
 
 
 1.2.68 (2017-07-20)
