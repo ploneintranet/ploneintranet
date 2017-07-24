@@ -15,7 +15,7 @@
 
       <ul class="menu">
 	<li tal:repeat="action view/actions">
-	  <a class="icon-${action/icon} pat-modal"
+    <a class="icon-${action/icon} pat-modal close-panel"
              href="${action/url}#document-content"
              i18n:translate="">${action/title}</a>
 	</li>
