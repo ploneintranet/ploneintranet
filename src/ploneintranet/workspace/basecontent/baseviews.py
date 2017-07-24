@@ -383,7 +383,7 @@ class ContentView(BrowserView):
                 'source:#global-statusmessage; target:#global-statusmessage',
             ])
         }
-        return "%s/delete_confirmation?%s#content" % (
+        return "%s/delete_confirmation?%s#document-content" % (
             self.context.absolute_url(),
             urlencode(options)
         )

@@ -122,14 +122,14 @@ Member cannot see delete button on a read only document
     Click Element  jquery=#items .item.document .title:contains("Test Document")
     Wait Until Page Does Not Contain Element  css=.injecting-content
     Wait Until Page Contains  Published
-    Element should not be visible  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Element should not be visible  xpath=//a[contains(@href, 'delete_confirmation#document-content')]
 
 Member can see delete button on an editable document
     Given I am in a workspace as a workspace member
     And I browse to a document
     Wait Until Page Contains  Draft
     Click Element  css=div.quick-functions a.icon-ellipsis
-    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#document-content')]
 
 Member can steal the lock of a document
     Given I am logged in as the user allan_neece

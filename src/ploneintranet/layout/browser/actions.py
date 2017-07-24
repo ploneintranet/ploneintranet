@@ -2,11 +2,14 @@
 from plone.app.content.browser.actions import DeleteConfirmationForm
 from plone.memoize.view import memoize
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.interfaces import IModalPanel
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from zope.component import getMultiAdapter
+from zope.interface import implementer
 
 
+@implementer(IModalPanel)
 class PIDeleteConfirmationForm(DeleteConfirmationForm):
     ''' We need to override this
     because of some problems with the original delete_confirmation form
@@ -16,6 +19,26 @@ class PIDeleteConfirmationForm(DeleteConfirmationForm):
     because of the button.buttonAndHandler implementation
     '''
     template = ViewPageTemplateFile('templates/delete_confirmation.pt')
+
+    is_modal_panel = True
+    panel_size = 'small'
+    show_default_cancel_button = False
+    title = _('Delete confirmation')
+
+    @property
+    @memoize
+    def form_action(self):
+        ''' Return the z3c.form action
+        '''
+        return self.action
+
+    @property
+    @memoize
+    def form_data_pat_inject(self):
+        ''' Merge the data inject parts to populate
+        the form data-pat-inject attribute
+        '''
+        return self.request.get('pat-inject')
 
     @memoize
     def is_ajax(self):
