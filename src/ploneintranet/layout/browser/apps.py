@@ -5,7 +5,9 @@ from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.app import IApp
+from ploneintranet.layout.browser.base import BasePanel
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFCore.Expression import Expression
 from zope.interface import implementer
@@ -17,10 +19,14 @@ import json
 logger = getLogger(__name__)
 
 
-class AppNotAvailable(BrowserView):
+class AppNotAvailable(BasePanel):
 
     """ A nice not available page to be able to demo this beautifully
     """
+    title = _('App not available')
+    form_action = ''
+    panel_size = 'small'
+    show_default_cancel_button = False
 
 
 class Apps(BrowserView):
