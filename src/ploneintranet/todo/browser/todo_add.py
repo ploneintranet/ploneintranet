@@ -2,6 +2,7 @@
 from AccessControl import Unauthorized
 from plone import api
 from plone.memoize.view import memoize
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.workspace.browser.add_content import AddBase
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
 from Products.Five import BrowserView
@@ -11,10 +12,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 class AddTask(AddBase):
     ''' The base add task in workspace view
     '''
+    title = _('Create task')
     template = ViewPageTemplateFile('templates/add_task.pt')
-    form_class = 'pat-inject'
-    form_data_pat_inject = '#workspace-tickets'
-    ok_closes_panel = True
+    _form_data_pat_inject_parts = (
+        '#workspace-tickets',
+    )
     show_container_selector = True
 
     @property
@@ -52,7 +54,6 @@ class AppAddTask(AddTask):
 
     The task can be a personal task or a workspace task
     '''
-    form_class = None
     form_data_pat_inject = None
     ok_closes_panel = False
     show_container_selector = True

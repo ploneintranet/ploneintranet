@@ -35,7 +35,8 @@ class AddWorkspace(AddBase):
     you have access to the template, typically because you're a member
     of the template, possibly via an indirect group membership.
     """
-
+    title = _('Create workspace')
+    _form_data_pat_inject_parts = None
     template = ViewPageTemplateFile('templates/add_workspace.pt')
 
     TEMPLATES_FOLDER = TEMPLATES_FOLDER

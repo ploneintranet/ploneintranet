@@ -52,16 +52,16 @@
                 <ul class="menu">
                   <tal:can_add condition="can_add">
                     <li>
-                      <a href="@@add_content" tal:attributes="href string:${context/absolute_url}/add_content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
+                      <a href="${context/absolute_url}/@@add_content#document-content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                     </li>
                     <li>
-                      <a href="@@add_folder" tal:attributes="href string:${context/absolute_url}/add_folder" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                      <a href="${context/absolute_url}/@@add_folder#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
                     </li>
                     <li>
                       <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
                     </li>
                     <li>
-                      <a href="${context/absolute_url}/@@add_link" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
+                      <a href="${context/absolute_url}/@@add_link#document-content" class="icon-link create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create link</a>
                     </li>
                   </tal:can_add>
                   <!-- This is commented until the functionality will be completed -->
@@ -103,10 +103,7 @@
               <input type="hidden" name="grouping" value="${view/grouping}" />
             </form>
         </div>
-<!--                 <a class="selector-toggle-select more-menu-trigger"
-           tal:condition="python:view.can_add() or view.can_edit()">Functions</a> -->
-        <a tal:condition="can_add" title="Create document" href="/panel-create-document.html#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
-           tal:attributes="href string:${context/absolute_url}/add_content"
+        <a tal:condition="can_add" title="Create document" href="${context/absolute_url}/@@add_content#document-content" class="create-document pat-modal icon-doc-text" data-pat-modal="class: large"
            i18n:attributes="title" i18n:translate="">Create document</a>
         <a class="pat-toggle toggle-select" data-pat-toggle="selector: #selector; value: mode-select mode-follow" i18n:translate="">Select</a>
       </div>
