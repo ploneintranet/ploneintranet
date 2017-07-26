@@ -252,6 +252,18 @@ class PanelToggleUserState(BasePanel):
 
     @property
     @memoize
+    def _form_data_pat_inject_parts(self):
+        ''' Inject only the user that as the state changed
+        '''
+        return (
+            '#global-statusmessage; loading-class: \'\'',
+            '#user-{short_uid}::element'.format(
+                short_uid=self.context.UID()[:6],
+            ),
+        )
+
+    @property
+    @memoize
     def review_state(self):
         return api.content.get_state(self.context)
 
