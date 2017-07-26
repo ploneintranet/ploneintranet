@@ -1047,8 +1047,8 @@ Then I can delete an event
     ### and exception handling. I wouldn't know of an equivalent solution in robot.
     sleep  2
     Click Element  css=div.quick-functions a.icon-ellipsis
-    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
-    Click Element  xpath=//a[contains(@href, 'delete_confirmation#content')]
+    Wait until Page Contains Element  xpath=//a[contains(@href, 'delete_confirmation#document-content')]
+    Click Element  xpath=//a[contains(@href, 'delete_confirmation#document-content')]
     Wait until page contains element    xpath=//div[@class='panel-content']//button[@name='form.buttons.Delete']
     Click Button  I am sure, delete now
     Wait Until Page Contains  has been deleted
