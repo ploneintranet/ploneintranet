@@ -12,7 +12,7 @@ ldap/schema:
 	[ -L ldap/schema ] || ln -s /etc/ldap/schema ldap/schema
 
 clean:
-	rm bin/* .installed.cfg || true
+	rm -f bin/* .installed.cfg
 clean-proto:
 	cd prototype && make clean
 check-clean:
