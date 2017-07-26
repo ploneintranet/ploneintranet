@@ -1,167 +1,130 @@
 Changelog
 =========
 
+
+
 1.2.70 (unreleased)
 -------------------
 
-- Nothing changed yet.
+
+Added:
+
+
+Changed:
+
+
+Fixed:
+
+
+Deprecated:
+
+
+Removed:
+
+
 
 
 1.2.69 (2017-07-24)
 -------------------
 
-* bump setuptools [Wolfgang Thomas]
-* Merge pull request #1412 from quaive/fix-modals [GitHub]
-* Merge pull request #1413 from quaive/release-1.2.x [GitHub]
-* Merge pull request #1415 from quaive/userprofile-improvements [GitHub]
-* Speed up some userprofile views [ale-rt]
-* Load groups asynchronously [ale-rt]
-* Optimize the _update_recent_contacts method [ale-rt]
-* Merge pull request #1414 from quaive/translation_event_email [GitHub]
-* corrected deleted msgstr and added missing translations [Angela Steinhardt]
-* translated missing strings for email template [Angela Steinhardt]
-* Back to development: 1.2.69 [ale-rt]
-* Use a template for the modal panels [ale-rt]
+Changed:
+
+* Make it easier and more streamlined for developers to create modals #1412
+  Technical: modal panels now have their own base template `panel_template`
+* Speed improvements for the user profile page #1415
+  Technical: optimize use of `_update_recent_contacts` and `_get_my_groups_and_workspaces`
+* Translation changes (email template) #1414
+
 
 
 1.2.68 (2017-07-20)
 -------------------
 
-* Merge pull request #1411 from quaive/setuptools [GitHub]
-* bump setuptools [Wolfgang Thomas]
-* Merge pull request #1410 from quaive/custom-display-widgets [GitHub]
-* Merge pull request #1409 from quaive/event-email [GitHub]
-* Merge pull request #1408 from quaive/add-the-groups-overview [GitHub]
-* Merge pull request #1407 from quaive/add-figure-to-person-info [GitHub]
-* Merge pull request #1406 from quaive/release-1.2.x [GitHub]
-* Fix email for whole day events [ale-rt]
-* Smart display widgets for the user profile fields [ale-rt]
-* Add the groups overview [ale-rt]
-* Add an hidden element to fix a vatar in modals [ale-rt]
-* The first field should be the link to the user profile [ale-rt]
-* Do not display empty fields [ale-rt]
-* Display the user info header in the useprofile view [ale-rt]
-* Back to development: 1.2.68 [ale-rt]
+Changed:
+
+* #1411 Technical Setup: Improved Build
+  Bumped setuptools
+* #1410 User profile: Provide links for the mail, location and phone fields
+* #1407, #1408 User profile: Moved group overview to user info tab
+* #1407 User profile: Don't show empty fields. Show link to profile as first field.
+
+Fixed:
+
+* #1409 Events: Removed start/end time fom notification mail for all-day events
 
 
 1.2.67 (2017-07-06)
 -------------------
 
-* Merge pull request #1404 from quaive/release-1.2.x [GitHub]
-* Merge pull request #1405 from quaive/change-task-portlet-link [GitHub]
-* Change task portlet link [ale-rt]
-* Back to development: 1.2.67 [ale-rt]
+Fixed:
+
+
+* #1405 Change task portlet link
 
 
 1.2.66 (2017-07-05)
 -------------------
 
-* Merge pull request #1403 from quaive/do-not-display-unauthorized-apps [GitHub]
-* Do not display unauthorized apps [ale-rt]
-* Merge pull request #1402 from quaive/increase-thumb-size [GitHub]
-* Merge pull request #1401 from quaive/due-date-fixes [GitHub]
-* Increase the generated thumbnail size [ale-rt]
-* Merge pull request #1399 from quaive/speed-up-add-task [GitHub]
-* Localize pat-display-time and add a meaningfull title [ale-rt]
-* Merge pull request #1400 from quaive/fix-issue-with-safari [GitHub]
-* Fix issue with safari [ale-rt]
-* Fix add task form speed [ale-rt]
-* Merge pull request #1398 from quaive/events-tile [GitHub]
-* Merge pull request #1397 from quaive/todo-portlet [GitHub]
-* Since for every event we're calling getObject anyways (via a call in the template), we might as well already return full objects in the method upcoming_events. This has the benefit that start date of our event already has the correct timezone. Before, the results came from solr, which have UTC as timezone. We would have needed to convert this to the local timezone, because in any TZ with a positive offset to UTC (like CET), whole day events (which have a start time of 00:00) were shown with a date one day too early. Instead, we now use the Zope object directly. [Wolfgang Thomas]
-* Tasks portlet: heading links to task app [Wolfgang Thomas]
-* Merge pull request #1396 from quaive/fix-todo-portlet [GitHub]
-* now that we have personal tasks (= without workspace as context), the portlet on the dashboard needs to be able to handle them, too [Wolfgang Thomas]
-* Merge pull request #1395 from quaive/stream_attachments_to_content2 [GitHub]
-* Publish extracted files automatically [Guido A.J. Stevens]
-* Adjust tests now that every statusupdate with a .text body is human [Guido A.J. Stevens]
-* cleanup [Guido A.J. Stevens]
-* Extract stream attachments to content, so they will be indexed. [Guido A.J. Stevens]
-* Merge pull request #1393 from quaive/release-1.2.x [GitHub]
-* Merge pull request #1394 from quaive/update-modals [GitHub]
-* Update modals markup [ale-rt]
-* Update modals markup [ale-rt]
-* Back to development: 1.2.66 [ale-rt]
+
+Added:
+
+* #1401 Todo app: Localize pat-display-time for due date and add a meaningfull title (Due date)
+* #1395 Extract stream attachments to content, so they will be indexed
+
+
+Changed:
+
+* #1402 Increase the generated thumbnail size for documents
+* #1399 Fix add task form speed
+* #1397 Dashboard tasks portlet: add link from heading to task app
+* #1394 Update modal markup to match proto
+  This adds a class "container" to the modals panel
+
+
+Fixed:
+
+* #1403 Do not display unauthorized apps
+* #1400 Todo app: Fix issue with safari
+* #1398 Events tile: fixes a bug for whole-day events for all timezones east of UTC
+  Work with full objects everywhere.
+* #1396 (SLC #15523) Dashboard: Fix Tasks portlet for personal tasks assigned to me
+  Now that we have personal tasks (= without workspace as context), the portlet on the dashboard needs to be able to handle them, too.
 
 
 1.2.65 (2017-06-22)
 -------------------
 
-* Merge pull request #1388 from quaive/link-to-profile [GitHub]
-* Merge pull request #1392 from quaive/change-lock-message [GitHub]
-* Merge pull request #1391 from quaive/fix-personal-tasks-query [GitHub]
-* Merge pull request #1386 from quaive/stay-in-app-after-deleting [GitHub]
-* Add German translations [Wolfgang Thomas]
-* rerun message extraction [Wolfgang Thomas]
-* Modify the lock/outdated messages [ale-rt]
-* Structure the rendered messages [ale-rt]
-* Merge pull request #1389 from quaive/remove-login-message [GitHub]
-* The avatar of the following/followed users links to the profile [ale-rt]
-* Fix personal task query [ale-rt]
-* Merge branch 'master' into stay-in-app-after-deleting [GitHub]
-* Merge pull request #1390 from quaive/fix-contacts-portlet [GitHub]
-* Merge pull request #1387 from quaive/todo-app-improvements-3 [GitHub]
-* Merge pull request #1385 from quaive/todo-view-harmonization [GitHub]
-* Merge pull request #1383 from quaive/todo-app-improvements-2 [GitHub]
-* Check for the logged in avatar instead of the greeting message [ale-rt]
-* Update the delete keyword [ale-rt]
-* Update the delete keyword [ale-rt]
-* Added missing pat-auto-scale class [ale-rt]
-* Removed welcome message [ale-rt]
-* Copy of the template from Products/CMFPlone/skins/plone_login/login_next.cpy [ale-rt]
-* Properly unset the todo app cookie when resetting filters [ale-rt]
-* The delete form knows when a todo is opened inside an app [ale-rt]
-* Adds a context menu for the todo view, check icon for opening the metadata panel [ale-rt]
-* Added a missing close-panel class [ale-rt]
-* Adds a context menu for the todo view, check icon for opening the metadata panel [ale-rt]
-* Merge pull request #1379 from quaive/todo-app-improvements [GitHub]
-* Added a missing close-panel class [ale-rt]
-* Todo app improvements [ale-rt]
-* Understand when the todo view should be rendered in the app context [ale-rt]
-* Merge pull request #1382 from quaive/1381-sidebar-search [GitHub]
-* Merge pull request #1380 from quaive/1375_tasks_sidebar [GitHub]
-* Since the modificiation date can be both of type DateTime and type datetime, we cannot call asdatetime() on it without prior type check. Fixes #1381 [Wolfgang Thomas]
-* Use autoload to make sure task sidebar gets loaded correctly. Fixes #1375 [Wolfgang Thomas]
-* Merge pull request #1378 from quaive/fix-heisenbugs [GitHub]
-* Merge pull request #1376 from quaive/todo-app-improvements [GitHub]
-* Use the I save the document keyword [ale-rt]
-* Allow the milestone id to get converted into a name using an adapter [ale-rt]
-* missing translations for todo app added [Angela Steinhardt]
-* Translate calendars in the todo app [ale-rt]
-* Beautify the header when grouping by task state [ale-rt]
-* Make the milestone human readable [ale-rt]
-* Try once again to properly initialize pat-autosuggest [ale-rt]
-* Add a workspace selector to the add_task view in the context of the todo app [ale-rt]
-* Provide a marker interface for the todo app [ale-rt]
-* Merge pull request #1359 from quaive/1000_separate_checkouts [GitHub]
-* Merge pull request #1374 from quaive/1373_update_todo_dates [GitHub]
-* Merge pull request #1372 from quaive/translations_agenda_items_event [GitHub]
-* Fix the "due" attribute of all existing todos to make sure they are of type date, not datetime. Fixes #1373 [Wolfgang Thomas]
-* added translations and token for agenda item handling [Angela Steinhardt]
-* Merge pull request #1369 from quaive/release-1.2.x [GitHub]
-* Merge pull request #1367 from quaive/milestones-integration [GitHub]
-* Splitting ./dev/ from ./src/ simplifies code analysis [Guido A.J. Stevens]
-* Add fg target [Guido A.J. Stevens]
-* Fix broken tag [ale-rt]
-* fix milestone settings dialog [Harald Friessnegger]
-* Adapt robot tests to interface design change (Renaming of "Close milestone" to "Close") [Wolfgang Thomas]
-* re-activate injection that should never have been disabled [Wolfgang Thomas]
-* get rid of ugly tal:attributes, we use chameleon! [Wolfgang Thomas]
-* Revert "fix errors in test setup caused by q.a.milestones" This reverts commit 710124b4d2a0d568c44fcce104248bec25082ca4. Reason: does not seem necessary any more [Wolfgang Thomas]
-* Merge branch 'master' into milestones-integration [Wolfgang Thomas]
-* Continue fixing test setup: due_date of ToDo must be date, not datetime [Wolfgang Thomas]
-* todo.due shall be date not datetime [Harald Friessnegger]
-* fix errors in test setup caused by q.a.milestones [Harald Friessnegger]
-* Merge pull request #1368 from quaive/fix-typo [GitHub]
-* Back to development: 1.2.65 [ale-rt]
-* Fix typo [ale-rt]
-* improve q.a.milestones integration [Harald Friessnegger]
-* kill whitespace [Harald Friessnegger]
-* todo.due should be of type datetime.date [Harald Friessnegger]
-* show overdue tasks and milestones in metromap [Harald Friessnegger]
-* show ui elements if q.a.milestones is installed and enabled [Harald Friessnegger]
-* Move mr.developer sources to separate ./dev/ directory, leaving only ploneintranet itself in src. [Guido A.J. Stevens]
-* move dev-checkouts to separate folder (fixes #1000) [Harald Friessnegger]
+Added:
+
++++ MILESTONES IN CASES
+* # 1367
+* Cases can now be extended with a setting to enable milestone support. This will show due dates in the metro-map and overdue tasks.
+
+
++++ TODO APP
+* #1376 #1379 #1383 #1385 #1387
+* A new app that shows all Tasks that concern me in a structured and condensed way.
+* The concept of "personal tasks" is introduced; they are not located in any workspace, but directly in a user profile.
+
+
+
+Changed:
+
+* #1392 Usability: Give clearer feedback to users about locked documents & offer a link for reloading
+* Translation updates (Tasks, milestones, agenda items)
+* #1000 Technical: Split ./dev/ from ./src/ to simplify code analysis
+
+
+Fixed:
+
+* Link the avatar of following / followed users to the respective user profile #1388
+* Fix a bug in fetching personal tasks #1391
+* Usability: stay in the current context when a Task was deleted #1386
+* Usability: removed the unwanted "you have been logged in" message #1389
+* Usability: Make sure avatars have the correct size on user searches #1390
+* Fix a bug in the sidebar search in workpaces #1382
+* Fix a bug that caused the sidebar to disappear when a Task was viewed #1380
+* Typo in the documentation
 
 
 1.2.64 (2017-06-14)
