@@ -29,9 +29,9 @@ Removed:
 
 Changed:
 
-* Make it easier and more streamlined for developers to create modals #1412
+* Make it easier and more streamlined for developers to create modals #1412.
   Technical: modal panels now have their own base template `panel_template`
-* Speed improvements for the user profile page #1415
+* Speed improvements for the user profile page #1415.
   Technical: optimize use of `_update_recent_contacts` and `_get_my_groups_and_workspaces`
 * Translation changes (email template) #1414
 
@@ -42,7 +42,7 @@ Changed:
 
 Changed:
 
-* #1411 Technical Setup: Improved Build
+* #1411 Technical Setup: Improved Build.
   Bumped setuptools
 * #1410 User profile: Provide links for the mail, location and phone fields
 * #1407, #1408 User profile: Moved group overview to user info tab
