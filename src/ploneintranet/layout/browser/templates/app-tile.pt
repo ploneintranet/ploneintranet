@@ -3,6 +3,7 @@
        href="${view/url}"
        data-pat-switch="#app-space state-off state-on"
        data-pat-inject="${view/pat_inject_options}"
+       data-pat-modal="${python: view.modal and 'class: small' or None}"
     >
       <img class="icon"
            src="${context/portal_url}/++theme++ploneintranet.theme/generated/apps/${view/get_class}/icon.svg"
