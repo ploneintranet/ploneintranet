@@ -28,20 +28,6 @@ class TestAddContent(FunctionalBaseTestCase):
         import transaction
         transaction.commit()
 
-    def test_add_content_form(self):
-        form = api.content.get_view(
-            'add_content', self.workspace, self.request)
-        result = form()
-        self.assertIn('Create document', result)
-        self.assertIn('<button id="form-buttons-create"', result)
-
-    def test_add_folder_form(self):
-        form = api.content.get_view(
-            'add_folder', self.workspace, self.request)
-        result = form()
-        self.assertIn('Create folder', result)
-        self.assertIn('<button id="form-buttons-create"', result)
-
     def test_add_content_document(self):
         self.browser_login_as_site_administrator()
         self.browser.open('%s/@@add_content' % self.workspace.absolute_url())

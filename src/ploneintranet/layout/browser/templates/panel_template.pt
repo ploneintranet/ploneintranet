@@ -16,9 +16,9 @@
           <h1>${view/title|nothing}</h1>
           <form class="wizard-box ${python:form_data_pat_inject and 'pat-inject' or ''} panel-class-${panel_size} ${python:form_data_pat_validation and 'pat-validation' or ''}"
                 action="${form_action}"
-                data-pat-inject="${form_data_pat_inject|nothing}"
-                data-pat-validation="${form_data_pat_validation|nothing}"
                 method="${view/form_method|string:post}"
+                data-pat-inject="${form_data_pat_inject}"
+                data-pat-validation="${form_data_pat_validation}"
                 tal:omit-tag="not:form_action"
           >
             <div class="panel-body">
@@ -31,13 +31,16 @@
               <div class="container">
                 <metal:slot define-slot="buttons">
                 </metal:slot>
-                <button class="close-panel icon-cancel-circle"
+                <button class="close-panel icon-cancel-circle ${python:form_data_pat_validation and 'validate-ignore'}"
                         type="button"
                         tal:condition="view/show_default_cancel_button|nothing"
                         i18n:translate=""
                 >
                     Cancel
                 </button>
+                <tal:token tal:condition="form_action"
+                           tal:replace="structure context/@@authenticator/authenticator"
+                />
               </div>
             </div>
           </form>

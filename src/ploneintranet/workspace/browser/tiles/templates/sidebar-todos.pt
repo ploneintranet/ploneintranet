@@ -20,9 +20,8 @@
          i18n:translate=""
       >Expand sidebar</a>
       <a class="create-document pat-modal icon-doc-text"
-         href="${ws/absolute_url}/@@add_task"
+         href="${ws/absolute_url}/@@add_task#document-content"
          title="Create new task"
-         data-pat-inject="source:#content"
          data-pat-modal="class: large"
          tal:condition="can_add"
          i18n:attributes="title"
@@ -83,8 +82,7 @@
               </tal:task>
               <p class="button-bar">
                 <a class="icon-plus-circle small button pat-modal"
-                   href="${ws/absolute_url}/add_task?milestone=${milestone_id}"
-                   data-pat-inject="source:#content"
+                   href="${ws/absolute_url}/add_task?milestone=${milestone_id}#document-content"
                    data-pat-modal="class: large"
                    tal:condition="can_add"
                    i18n:translate=""

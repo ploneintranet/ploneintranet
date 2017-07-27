@@ -1,60 +1,41 @@
-<div id="content"
-     i18n:domain="ploneintranet"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
 >
-  <h1 i18n:translate="">
-    Create task
-  </h1>
-  <form class="${view/form_class} wizard-box pat-validation"
-        action="${request/URL}"
-        method="POST"
-        data-pat-inject="${view/form_data_pat_inject}"
-        data-pat-validation="disable-selector:#form-buttons-create"
-  >
-    <div class="panel-body">
-      <div class="container">
-        <fieldset class="vertical">
-          <input autofocus="autofocus"
-                 maxlength="70"
-                 name="title"
-                 placeholder="Task title"
-                 required="required"
-                 type="text"
-                 i18n:attributes="placeholder"
-          />
-          <br />
-          <input name="portal_type"
-                 type="hidden"
-                 value="todo"
-          />
-        </fieldset>
-
-        <fieldset class="vertical">
-          <metal:task_fields use-macro="context/content_macros/task_fields" />
-        </fieldset>
-      </div>
-    </div>
-    <div class="buttons panel-footer">
-      <div class="container">
-        <span tal:replace="structure context/@@authenticator/authenticator"></span>
-        <button class="icon-ok-circle focus ${python: view.ok_closes_panel and 'close-panel' or None}"
-                id="form-buttons-create"
-                name="form.buttons.create"
-                type="submit"
-                value="Create"
-                i18n:translate=""
-        >
-        Create
-        </button>
-        <button class="icon-cancel-circle close-panel validate-ignore"
-                id="form-buttons-cancel"
-                name="form.buttons.cancel"
-                type="button"
-                value="Cancel"
-                i18n:translate=""
-        >
-        Cancel
-        </button>
-      </div>
-    </div>
-  </form>
-</div>
+  <metal:body fill-slot="body">
+    <fieldset class="vertical">
+      <input autofocus="autofocus"
+             maxlength="70"
+             name="title"
+             placeholder="Task title"
+             required="required"
+             type="text"
+             i18n:attributes="placeholder"
+      />
+      <br />
+    </fieldset>
+    <fieldset class="vertical">
+      <metal:task_fields use-macro="context/content_macros/task_fields" />
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <input name="portal_type"
+           type="hidden"
+           value="todo"
+    />
+    <button class="icon-ok-circle focus ${python:form_data_pat_inject and 'close-panel' or None}"
+            id="form-buttons-create-${view/form_timestamp}"
+            name="form.buttons.create"
+            type="submit"
+            value="Create"
+            i18n:translate=""
+    >
+            Create
+    </button>
+  </metal:buttons>
+</html>

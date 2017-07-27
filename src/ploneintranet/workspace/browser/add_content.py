@@ -6,10 +6,10 @@ from plone.app.event.base import default_timezone
 from plone.memoize.view import memoize
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.browser.base import BasePanel
 from ploneintranet.workspace.basecontent.utils import dexterity_update
 from ploneintranet.workspace.basecontent.utils import get_selection_classes
 from ploneintranet.workspace.utils import parent_workspace
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.container.interfaces import INameChooser
 from zope.deprecation import deprecate
@@ -17,15 +17,33 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectCreatedEvent
 
 
-class AddBase(BrowserView):
+class AddBase(BasePanel):
     ''' Basic stuff for adding contents
     '''
+    title = _('Create document')
     template = ViewPageTemplateFile('templates/add_content.pt')
     can_edit = True
-    pat_inject = ' && '.join((
-        'source: #document-body; target: #document-body',
-        'source: #workspace-documents; target: #workspace-documents',
-    ))
+    _form_data_pat_inject_parts = (
+        '#document-body',
+        '#workspace-documents',
+        '#global-statusmessage; loading-class: \'\'',
+    )
+
+    @memoize
+    def form_timestamp(self):
+        ''' Return a timestamp, used in the form to create unique selectors
+        '''
+        return DateTime().strftime('%s')
+
+    @property
+    @memoize
+    def form_data_pat_validation(self):
+        ''' Proper pat-validation options.
+        We need to match the timestamp of the create button.
+        '''
+        return 'disable-selector:#form-buttons-create-{timestamp}'.format(
+            timestamp=self.form_timestamp()
+        )
 
     @property
     @memoize
@@ -47,12 +65,6 @@ class AddBase(BrowserView):
         ''' Return the parent workspace
         '''
         return parent_workspace(self.context)
-
-    @memoize
-    def form_timestamp(self):
-        ''' Return a timestamp, used in the form to create unique selectors
-        '''
-        return DateTime().strftime('%s')
 
     @property
     @memoize
@@ -219,6 +231,11 @@ class AddBase(BrowserView):
 class AddFolder(AddBase):
 
     template = ViewPageTemplateFile('templates/add_folder.pt')
+    title = _('Create folder')
+    _form_data_pat_inject_parts = (
+        '#workspace-documents',
+        'nav.breadcrumbs',
+    )
 
 
 class AddLink(AddBase):
@@ -226,7 +243,7 @@ class AddLink(AddBase):
     '''
     template = ViewPageTemplateFile('templates/add_form.pt')
 
-    form_title = _('Create link')
+    title = _('Create link')
     form_portal_type = 'Link'
     form_input_title_placeholder = _('Link name')
 
@@ -248,6 +265,7 @@ class AddLink(AddBase):
 class AddEvent(AddBase):
 
     template = ViewPageTemplateFile('templates/add_event.pt')
+    title = _('Create event')
 
     def fix_start_end(self):
         ''' If the start date is lower than the end one,
@@ -296,7 +314,9 @@ class AddEvent(AddBase):
 
         return True
 
-    def data_pat_inject(self):
+    @property
+    @memoize
+    def _form_data_pat_inject_parts(self):
         """ Returns the correct dpi config """
         selectors = []
         if self.request.get('app'):
@@ -323,7 +343,7 @@ class AddEvent(AddBase):
                 '#global-statusmessage',
             )
         )
-        return ' && '.join(parts)
+        return parts
 
     def redirect(self, url):
         ''' Try to find the proper redirect context.
