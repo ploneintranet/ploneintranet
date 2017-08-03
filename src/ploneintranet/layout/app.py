@@ -10,6 +10,7 @@ from ploneintranet.layout.layers import enable_app_layer
 from Products.CMFPlone.interfaces.breadcrumbs import IHideFromBreadcrumbs
 from zope.interface import implementer
 from zope.schema import ASCIILine
+from zope.schema import Bool
 from zope.schema import Text
 from ZPublisher.BeforeTraverse import registerBeforeTraverse
 
@@ -54,6 +55,16 @@ class IApp(form.Schema):
         ),
         default='',
         required=False,
+    )
+
+    external = Bool(
+        title=_('app_external_label', 'App external'),
+        description=_(
+            'app_external_description',
+            u'Is this an external app? If so it will not be injected via '
+            'ajax.',
+        ),
+        default=False,
     )
 
     css_class = ASCIILine(

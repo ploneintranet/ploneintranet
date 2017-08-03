@@ -153,7 +153,9 @@ class AppTile(BrowserView):
         '''
         if self.modal:
             return ''
-        if self.context.app == '@@external-app':
+        # XXX Get rid of the check for "@@external-app" and migrate to the
+        # "external" field
+        if self.context.external or self.context.app == '@@external-app':
             return ''
         return 'pat-inject pat-switch'
 
@@ -200,14 +202,6 @@ class AppNoBarcelonetaView(AppTile):
 
 class AppRedirect(BrowserView):
     """Redirect to a URL specified in the app_parameters"""
-
-    def __call__(self):
-        url = json.loads(self.context.app_parameters).get('url')
-        return self.request.response.redirect(url)
-
-
-class ExternalApp(BrowserView):
-    '''Redirect to an external app'''
 
     def __call__(self):
         url = json.loads(self.context.app_parameters).get('url')
