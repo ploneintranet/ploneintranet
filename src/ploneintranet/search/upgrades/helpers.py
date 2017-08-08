@@ -30,7 +30,7 @@ def update_registry_filter_fields(context, new_fields, obsolete_fields=[]):
         field for field in new_fields
         if field not in record
     ]
-    if not missing_fields or not obsolete_fields:
+    if not missing_fields and not obsolete_fields:
         logger.info('All records up to date')
         return
     if missing_fields:
