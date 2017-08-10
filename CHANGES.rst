@@ -4,7 +4,10 @@ Changelog
 1.2.70 (unreleased)
 -------------------
 
-- Nothing changed yet.
+Fixes:
+
+- activitystream attachement: fix UnicodeDecodeError when images have
+  a unicode id [deroiste]
 
 
 1.2.69 (2017-07-24)
