@@ -32,7 +32,7 @@ DocumentCleaner = PloneintranetLaundryCleaner(
     page_structure=False,
     remove_unknown_tags=False,
     allow_tags=[
-        'a', 'img', 'em', 'p', 'strong', 'del',
+        'a', 'img', 'em', 'p', 'strong', 'del', 'hr',
         'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'ol', 'li', 'sub', 'sup',
         'abbr', 'acronym', 'dl', 'dt', 'dd', 'cite',
         'iframe', 'dft', 'br', 'table', 'tr', 'td', 'th', 'thead',
