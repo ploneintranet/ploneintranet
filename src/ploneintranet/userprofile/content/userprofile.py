@@ -43,6 +43,7 @@ class IUserProfile(form.Schema):
         title=_(u"Username"),
         required=True
     )
+    dexteritytextindexer.searchable('person_title')
     person_title = schema.TextLine(
         title=_(u"Person title"),
         required=False
@@ -82,18 +83,22 @@ class IUserProfileAdditional(form.Schema):
         title=_(u"Job title"),
         required=False
     )
+    dexteritytextindexer.searchable('department')
     department = schema.TextLine(
         title=_(u"Department"),
         required=False
     )
+    dexteritytextindexer.searchable('telephone')
     telephone = Phone(
         title=_(u"Telephone Number"),
         required=False
     )
+    dexteritytextindexer.searchable('mobile')
     mobile = Phone(
         title=_(u"Mobile Number"),
         required=False
     )
+    dexteritytextindexer.searchable('address')
     address = schema.Text(
         title=_(u"Address"),
         required=False

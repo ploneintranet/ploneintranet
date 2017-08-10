@@ -5,7 +5,9 @@ from logging import getLogger
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.memoize.view import memoize
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.app import IApp
+from ploneintranet.layout.browser.base import BasePanel
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFCore.Expression import Expression
 from zope.interface import implementer
@@ -17,10 +19,14 @@ import json
 logger = getLogger(__name__)
 
 
-class AppNotAvailable(BrowserView):
+class AppNotAvailable(BasePanel):
 
     """ A nice not available page to be able to demo this beautifully
     """
+    title = _('App not available')
+    form_action = ''
+    panel_size = 'small'
+    show_default_cancel_button = False
 
 
 class Apps(BrowserView):
@@ -147,7 +153,9 @@ class AppTile(BrowserView):
         '''
         if self.modal:
             return ''
-        if self.context.app == '@@external-app':
+        # XXX Get rid of the check for "@@external-app" and migrate to the
+        # "external" field
+        if self.context.external or self.context.app == '@@external-app':
             return ''
         return 'pat-inject pat-switch'
 
@@ -194,14 +202,6 @@ class AppNoBarcelonetaView(AppTile):
 
 class AppRedirect(BrowserView):
     """Redirect to a URL specified in the app_parameters"""
-
-    def __call__(self):
-        url = json.loads(self.context.app_parameters).get('url')
-        return self.request.response.redirect(url)
-
-
-class ExternalApp(BrowserView):
-    '''Redirect to an external app'''
 
     def __call__(self):
         url = json.loads(self.context.app_parameters).get('url')

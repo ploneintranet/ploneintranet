@@ -123,7 +123,7 @@
            tal:condition="beautified_key/url|nothing"
         >
           <a class="icon-plus-circle small button pat-modal"
-             href="${beautified_key/url}?${beautified_key/add_params|nothing}#content"
+             href="${beautified_key/url}?${beautified_key/add_params|nothing}#document-content"
              title="Create new task"
              i18n:attributes="title"
              i18n:translate=""

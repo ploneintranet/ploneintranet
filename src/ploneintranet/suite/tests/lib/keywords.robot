@@ -365,6 +365,9 @@ The stream does not link to the document
 
 # *** Workspace related keywords ***
 
+Click the modal create button
+    Click Button  jquery=.wizard-box button[name='form.buttons.create']
+
 I can create a new workspace
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
@@ -372,7 +375,7 @@ I can create a new workspace
     Wait Until Element Is visible  css=div#pat-modal
     Input Text  xpath=//input[@name='title']  text=${title}
     Input Text  xpath=//textarea[@name='description']  text=Random description
-    Click Button  Create workspace
+    Click the modal create button
     Wait Until Page Contains  Item created
     Click Button  Close
     Wait Until Element Is visible  css=div#activity-stream
@@ -644,7 +647,7 @@ I create a task for
     Input Text  css=.wizard-box .assignee .select2-choices input  ${name}
     Wait Until Page Contains Element  jquery=span.select2-match:last
     Click Element  jquery=span.select2-match:last
-    Click Element  css=.wizard-box #form-buttons-create
+    Click the modal create button
     Wait Until Page Contains Element  css=a[title="Ciao ${name}"]
 
 Task is read only for user
@@ -856,7 +859,7 @@ I can create a new document
     Click link  Create document
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
-    Click Button  css=#form-buttons-create
+    Click the modal create button
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='${title}']
 
 # https://github.com/quaive/ploneintranet/issues/609
@@ -868,7 +871,7 @@ I can create a new link
     Wait Until Page Contains Element  css=.panel-content input[name=title]
     Input Text  css=.panel-content input[name=title]  text=${title}
     Input Text  css=.panel-content input[name=remoteUrl]  text=http://quaive.com/
-    Click Button  css=#form-buttons-create
+    Click the modal create button
     Wait Until Page Contains Element  jquery=.type-link a:contains('${title}')
 
 I can edit the new link
@@ -913,7 +916,7 @@ I can create a new folder
     Wait Until Page Contains Element  css=.panel-content form
     Input Text  css=.panel-content input[name=title]  text=My Humble Folder
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble folder
-    Click Button  css=#form-buttons-create
+    Click the modal create button
     # We cannot jet test the folders existence without reloading
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     # On reload the navbar is closed by default - open it
@@ -938,7 +941,7 @@ I can create a new image
     Input Text  css=.panel-content input[name=title]  text=My Image
     Input Text  css=.panel-content textarea[name=description]  text=The description of my humble image
     Click Element  css=label.icon-file-image
-    Click Button  css=#form-buttons-create
+    Click the modal create button
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div/span/textarea[text()='My Image']
 
 I can create a structure
@@ -947,7 +950,7 @@ I can create a structure
     Click link  Create folder
     Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Another Folder
-    Click Button  css=#form-buttons-create
+    Click the modal create button
     Go To  ${PLONE_URL}/workspaces/open-market-committee
     Wait Until Page Contains Element  css=#workspace-tabs a.current.landing
     Click link  Documents
@@ -958,7 +961,7 @@ I can create a structure
     Click link  Create document
     Wait Until Page Contains Element  css=#pat-modal .panel-content form
     Input Text  css=.panel-content input[name=title]  text=Document in subfolder
-    Click Button  css=#pat-modal #form-buttons-create
+    Click the modal create button
     Wait until page does not contain element   xpath=//div[@id='document-body']/div[contains(@class, 'injecting')]
     # This must actually test for the document content of the rendered view
     Wait Until Page Contains Element  xpath=//*[@id="meta"]/div[1]/span/textarea[text()='Document in subfolder']
@@ -985,7 +988,7 @@ I can create a new event
     Input text  xpath=//input[@placeholder='Invitees']/../div//input  ${invitees}
     Wait Until Element Is Visible  xpath=//span[@class='select2-match'][text()='${invitees}']
     Click Element  xpath=//span[@class='select2-match'][text()='${invitees}']
-    Click Button  jquery=button[name='form.buttons.create']
+    Click the modal create button
     Wait Until Page Contains  Item created
     Click Button  Close
 
@@ -1280,7 +1283,7 @@ I can create a new case
     [arguments]  ${title}
     Go To  ${PLONE_URL}/workspaces
     Click Link  link=Create workspace
-    Wait Until Element Is visible  css=div#pat-modal
+    Wait for injection to be finished
     Input Text  name=title  text=${title}
     Input Text  name=description  text=Let's get organized
     Select From List  workspace-type  case-template

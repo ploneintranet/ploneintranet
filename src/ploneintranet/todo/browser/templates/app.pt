@@ -277,7 +277,7 @@
                      i18n:translate=""
                   >Expand sidebar</a>
                   <a class="create-document pat-modal icon-doc-text"
-                     href="${view/add_task_url}#content"
+                     href="${view/add_task_url}#document-content"
                      title="Create new task"
                      data-pat-modal="class: large"
                      tal:condition="view/add_task_url"

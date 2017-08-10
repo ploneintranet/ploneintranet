@@ -1,23 +1,14 @@
+#!/bin/bash
+set -e
 # Default to jenkins.cfg if no config file passed in
 BUILDOUT_CONFIG=${1-jenkins.cfg}
 PATH=/opt/src/buildout.python/python-2.7/bin:$PATH
 make solr-clean clean
-if [ ! -f bin/activate ]
-then
-    virtualenv . -p python2.7
-fi
-mkdir -p buildout-cache/downloads || exit 1
-
-# NOTE: we need to use virtualenv --relocatable every time new
-# console_scripts have been created in ./bin to avoid running into the
-# problem where the shebang is > 127 characters long.
-
-virtualenv --relocatable .
+mkdir -p buildout-cache/downloads
+rm -rf bin/ include/ lib/ local/ share/
+virtualenv -p python2.7 .
 . bin/activate
-rm -rf local/lib/python2.7/site-packages/easy_install* local/lib/python2.7/site-packages/setuptools* 2>/dev/null || true
-./bin/pip install -UIr requirements.txt || exit 1
-virtualenv --no-setuptools --relocatable .
-./bin/buildout -N -t 30 -c $BUILDOUT_CONFIG || exit 1
-virtualenv --no-setuptools --relocatable .
+./bin/pip install -Ur requirements.txt
+./bin/pip install -UIr requirements.txt
+./bin/buildout -N -t 30 -c $BUILDOUT_CONFIG
 bundle install --path vendor/bundle --binstubs
-./bin/develop up -f || exit 1

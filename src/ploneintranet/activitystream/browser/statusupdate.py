@@ -161,7 +161,7 @@ class StatusUpdateView(BrowserView):
         '''
         item_url = '/'.join((
             self.attachment_base_url,
-            item.getId(),
+            safe_unicode(item.getId()),
         ))
         is_image = False
         if isinstance(item, Image):

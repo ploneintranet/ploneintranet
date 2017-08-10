@@ -1,45 +1,47 @@
-<div class="modal"
-     id="content"
-     i18n:domain="ploneintranet"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/panel_template/macros/master"
+      xml:lang="en"
+      i18n:domain="ploneintranet"
 >
-  <div class="pat-modal"
-       id="document-content"
-  >
-    <h1 i18n:translate="">
-      Create event
-    </h1>
-    <form method="POST"
-          action="${request/URL}"
-          class="wizard-box ${python:'pat-inject' if dpi else ''} pat-validation"
-          data-pat-inject="${dpi}"
-          data-pat-validation="disable-selector:#form-buttons-create-${view/form_timestamp}"
-          tal:define="dpi view/data_pat_inject;"
+  <metal:body fill-slot="body">
+    <fieldset class="vertical"
+              tal:define="
+                workspace here/content_helper_view/safe_get_workspace;
+                workspace_url workspace/absolute_url;
+              "
     >
-      <div class="panel-body">
-        <div class="container">
-          <fieldset class="vertical"
-                    tal:define="workspace here/content_helper_view/safe_get_workspace;
-                                workspace_url workspace/absolute_url">
-            <label>
-              <input name="title" placeholder="Event title" type="text" maxlength="70" required="required" class="required" i18n:attributes="placeholder" placeholder="Event title" autofocus="autofocus"/>
-            </label>
-            <br/>
-            <metal:task_fields use-macro="context/content_macros/event_fields"/>
-          </fieldset>
-        </div>
-      </div>
-      <div class="buttons panel-footer">
-        <div class="container">
-          <span tal:replace="structure context/@@authenticator/authenticator"/>
-          <button id="form-buttons-create-${view/form_timestamp}" name="form.buttons.create" type="submit" value="Create" class="icon-ok-circle focus close-panel" i18n:translate="" disabled="disabled">
-            Create event
-          </button>
-          <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" value="Cancel" class="icon-cancel-circle close-panel validate-ignore" i18n:translate="" i18n:domain="plone">
-            Cancel
-          </button>
-        </div>
-      </div>
-      <input type="hidden" name="portal_type" value="Event"/>
-    </form>
-  </div>
-</div>
+      <label>
+        <input class="required"
+               autofocus="autofocus"
+               maxlength="70"
+               name="title"
+               placeholder="Event title"
+               required="required"
+               type="text"
+               i18n:attributes="placeholder"
+        />
+      </label>
+      <br />
+      <metal:task_fields use-macro="context/content_macros/event_fields" />
+    </fieldset>
+  </metal:body>
+  <metal:buttons fill-slot="buttons">
+    <input name="portal_type"
+           type="hidden"
+           value="Event"
+    />
+    <button class="icon-ok-circle focus close-panel"
+            id="form-buttons-create-${view/form_timestamp}"
+            name="form.buttons.create"
+            type="submit"
+            value="Create"
+            i18n:translate=""
+    >
+      Create event
+    </button>
+  </metal:buttons>
+</html>
