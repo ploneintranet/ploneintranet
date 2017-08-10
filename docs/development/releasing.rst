@@ -12,13 +12,17 @@ We maintain two egg distributions:
 2. Ploneintranet community edition on pypi.python.org
 
 Each of those is managed on a separate release branch.
-Quaive is currently on branch 1.2.x, Community is on 1.0.x.
+Quaive is currently on branch 1.2.x, Community is on 1.1.x.
 
 These branches are needed so changes made during the release process
 are QA controlled via the normal pull request process.
 
-Since version 1.2.0a3,
-we depend on the pacakge `quaive.resources.ploneintranet`.
+.. note:: External theme resource package
+   Since version 1.2.0a3,
+   we depend on the pacakge `quaive.resources.ploneintranet`.
+
+.. note:: Changelog
+   Since version 1.2.69 we maintain the changelog manually, see https://github.com/quaive/ploneintranet/issues/1416 for details.
 
 Creating a release
 ==================
@@ -30,12 +34,14 @@ This shows how to cut a private 1.2.x release from master::
     user@host:~$ git checkout release-1.2.x
     user@host:~$ git pull
     user@host:~$ git merge master
-    user@host:~$ git fetch --tags  # pull doesn't refresh tag info    
-    user@host:~$ git tag --list
-    user@host:~$ # select right tag for command below
-    user@host:~$ git log --pretty='* %s [%cn]' 1.2.32.. > /tmp/changes
-    user@host:~$ sed -i '/- Nothing changed yet./ r /tmp/changes' CHANGES.rst
-    user@host:~$ sed -i '/- Nothing changed yet./d' CHANGES.rst
+
+Now take a look at the CHANGES.rst file and 
+
+- Crossread the changes for human readability
+- Update the version number
+
+Commit your changes and continue::
+
     user@host:~$ git commit -am 'Update changelog'
     user@host:~$ bin/check-manifest
     user@host:~$ # fix MANIFEST.in until check-manifest passes
@@ -63,12 +69,6 @@ Please make sure to *not* push a private release to pypi.python.org!
 
 The new release is now available on pypi.quaive.net and on Github.
 
-If you do this a lot, you probably want to add an alias into your .gitconfig::
-
-    [alias]
-	changelog = log --pretty='* %s [%cn]'
-
-So then you can do `git changelog` instead of `git log --pretty='* %s [%cn]'`. YMMV.
 
 Merge the release changes
 -------------------------
@@ -133,6 +133,7 @@ To your non-public project buildout.cfg::
 
 You can use the `gaia` egg based deployment as a template.
 
+
 Update `quaive.resources.ploneintranet`
 =======================================
 
@@ -153,6 +154,7 @@ in order to match it, e.g.::
   quaive.resources.ploneintranet = 1.2.0a1
 
 Make a pull request to `quaive/ploneintranet` with this changes.
+
 
 Managing users on pypi.quaive.net
 =================================
