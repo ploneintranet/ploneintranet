@@ -35,6 +35,13 @@ Fixed:
   with non ASCII charactes in the name was uploaded
   as a comment attachment.
 # 1431 a logical bug was preventing the upgrade step to run properly.
+* Translation: change title of a Case transition, to avoid a semantic
+  translation conflict
+
+Fixed:
+
+* activitystream attachement: fix UnicodeDecodeError when images have
+  a unicode id.
 
 Deprecated:
 
