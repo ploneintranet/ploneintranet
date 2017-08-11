@@ -117,7 +117,8 @@ class UserPropertyManager(object):
             # Special handling for portraits, they need wrapping
             if property_name == 'portrait' and \
                value is not None and value is not NO_VALUE:
-                current_value = self.context.portrait.data
+                current_value = self.context.portrait and \
+                    self.context.portrait.data or None
                 value = NamedBlobImage(
                     data=value,
                     filename=u'portrait-%s.jpg' % self.context.username)
