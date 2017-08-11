@@ -263,4 +263,14 @@
 
     </genericsetup:upgradeSteps>
 
+
+    <genericsetup:upgradeStep
+        title="Reread workflow"
+        description="In order to change the name of a transition"
+        source="0025"
+        destination="0026"
+        handler=".base.update_workflows"
+        profile="ploneintranet.workspace:default"
+      />
+
 </configure>
