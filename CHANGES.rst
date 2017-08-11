@@ -9,6 +9,7 @@ Changelog
 
 Added:
 
+- AD/LDAP sync can now also fetch portrait images
 
 Changed:
 

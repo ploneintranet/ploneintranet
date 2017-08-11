@@ -4,6 +4,7 @@ from .content.workgroup import IWorkGroup
 from Acquisition import aq_base
 from datetime import datetime
 from plone import api
+from plone.namedfile.file import NamedBlobImage
 from plone.protect.interfaces import IDisableCSRFProtection
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
@@ -112,6 +113,14 @@ class UserPropertyManager(object):
             value = sheet.getProperty(property_name, default=NO_VALUE)
             value = undouble_unicode_escape(value)
             current_value = getattr(self.context, property_name, None)
+
+            # Special handling for portraits, they need wrapping
+            if property_name == 'portrait':
+                current_value = self.context.portrait.data
+                value = NamedBlobImage(
+                    data=value,
+                    filename=u'portrait-%s.jpg' % self.context.username)
+
             if value is not NO_VALUE and value != current_value:
                 setattr(self.context, property_name, value)
                 changed = True
