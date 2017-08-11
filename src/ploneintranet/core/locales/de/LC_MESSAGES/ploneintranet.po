@@ -3765,7 +3765,7 @@ msgstr "Dieses Dokument ist durch ${user} gesperrt."
 #. Default: "It seems that this document was modified since you loaded this form. Your changes will be discarded. <a href=\"${url}\">Please reload this page by clicking here</a>."
 #: ../workspace/basecontent/baseviews.py:248
 msgid "document_modified_error"
-msgstr 'Es scheint, dass dieses Dokument geändert wurde, nachdem Sie es geöffnet haben. Die von Ihnen vorgenommenen Änderungen werden nicht gespeichert. <a href=\"${url}\">Bitte laden Sie die Seite neu, indem Sie hier klicken.</a>'
+msgstr "Es scheint, dass dieses Dokument geändert wurde, nachdem Sie es geöffnet haben. Die von Ihnen vorgenommenen Änderungen werden nicht gespeichert. <a href='${url}'>Bitte laden Sie die Seite neu, indem Sie hier klicken.</a>"
 
 #: ../workspace/browser/templates/content_macros.pt:18
 msgid "down"
