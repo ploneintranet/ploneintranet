@@ -115,7 +115,8 @@ class UserPropertyManager(object):
             current_value = getattr(self.context, property_name, None)
 
             # Special handling for portraits, they need wrapping
-            if property_name == 'portrait':
+            if property_name == 'portrait' and \
+               value is not None and value is not NO_VALUE:
                 current_value = self.context.portrait.data
                 value = NamedBlobImage(
                     data=value,
