@@ -35,7 +35,9 @@ Fixed:
 * #1430 Activitystream: fixed an encoding problem happening when a file
   with non ASCII charactes in the name was uploaded
   as a comment attachment.
-* # 1431 a logical bug was preventing the upgrade step to run properly.
+* #1431 a logical bug was preventing the upgrade step to run properly.
+* Translation: change title of a Case transition, to avoid a semantic
+  translation conflict
 
 Deprecated:
 
@@ -115,11 +117,13 @@ Fixed:
 Added:
 
 +++ MILESTONES IN CASES
+
 * # 1367
 * Cases can now be extended with a setting to enable milestone support. This will show due dates in the metro-map and overdue tasks.
 
 
 +++ TODO APP
+
 * #1376 #1379 #1383 #1385 #1387
 * A new app that shows all Tasks that concern me in a structured and condensed way.
 * The concept of "personal tasks" is introduced; they are not located in any workspace, but directly in a user profile.

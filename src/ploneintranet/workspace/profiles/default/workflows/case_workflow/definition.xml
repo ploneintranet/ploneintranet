@@ -126,7 +126,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="prepare" title="Prepare">
@@ -196,7 +196,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>        
+    </permission-map>
   </state>
 
   <state state_id="complete" title="Complete">
@@ -266,7 +266,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="audit" title="Audit">
@@ -336,7 +336,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="propose" title="Propose">
@@ -406,7 +406,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="decided" title="Decided">
@@ -475,7 +475,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="closed" title="Closed">
@@ -544,7 +544,7 @@
       <permission-role>Site Administrator</permission-role>
       <!--permission-role>TeamMember</permission-role-->
       <permission-role>TeamManager</permission-role>
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="archived" title="Archived">
@@ -612,7 +612,7 @@
       <!-- permission-role>Site Administrator</permission-role -->
       <!--permission-role>TeamMember</permission-role-->
       <!-- permission-role>TeamManager</permission-role -->
-    </permission-map>    
+    </permission-map>
   </state>
 
   <state state_id="frozen" title="Frozen">
@@ -828,18 +828,18 @@
     </guard>
   </transition>
 
-  <transition transition_id="close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
+  <transition transition_id="close" title="Close the Case" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Close the case.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close the Case</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
       <guard-expression>here/case_workflow_guard</guard-expression>
     </guard>
   </transition>
 
-  <transition transition_id="re_close" title="Close" new_state="closed" trigger="USER" before_script="" after_script="">
+  <transition transition_id="re_close" title="Close the Case" new_state="closed" trigger="USER" before_script="" after_script="">
     <description>Re-Close the case.</description>
-    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close</action>
+    <action url="%(content_url)s/content_status_modify?workflow_action=close" category="workflow" icon="">Close the Case</action>
     <guard>
       <guard-permission>ploneintranet.workspace: Manage workspace</guard-permission>
     </guard>
