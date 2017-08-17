@@ -554,6 +554,8 @@ class PermissionTestsBase(ContentSetup):
             util = self._make_utility()
             response = self._query(util, 'Test Doc')
             self.assertEqual(response.total_results, 0)
+            response = self._query(util, 'Test Doc', secure=False)
+            self.assertEqual(response.total_results, 3)
 
     def test_review_state_changes(self):
         """Does the search respect view permissions?"""
