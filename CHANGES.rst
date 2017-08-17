@@ -36,6 +36,7 @@ Fixed:
   with non ASCII charactes in the name was uploaded
   as a comment attachment.
 * # 1431 a logical bug was preventing the upgrade step to run properly.
+* Fix redactor <hr> button.
 
 Deprecated:
 
