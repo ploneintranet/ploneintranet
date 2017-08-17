@@ -9,18 +9,34 @@ Changelog
 
 Added:
 
-- AD/LDAP sync can now also fetch portrait images
+* #1435 AD/LDAP sync can now also fetch portrait images
+* #1427 The apps have now a new ``external`` boolean field.
+* #1429 The site search now looks in to more user profile fields:
+  (person_title, department, address, ...)
 
 Changed:
 
+* #1419 quaive.resources.ploneintranet is now updated to version 1.3.26.
+  This version contains the new prototype pages for the absence app,
+  improvements for handling panels and minor javascript fixes.
+* #1420, #1421, #1424, #1425 Continued the technical activity on modal panels
+  done in 1.2.69.
+* d6528a Technical Setup: Bumped setuptools
+* #1426 Technical Setup: Improved jenkins bootstrap script.
 
 Fixed:
 
-- activitystream attachement: fix UnicodeDecodeError when images have
-  a unicode id.
+* #1422 Fix a pop up in the post form that was not closing itself after
+  the user clicked on its actions.
+* #1423 In the Administrator Tools app,
+  the new user state was not displayed correctly.
+  The patch fixes the injection parameters.
+* #1430 Activitystream: fixed an encoding problem happening when a file
+  with non ASCII charactes in the name was uploaded
+  as a comment attachment.
+# 1431 a logical bug was preventing the upgrade step to run properly.
 
 Deprecated:
-
 
 Removed:
 
