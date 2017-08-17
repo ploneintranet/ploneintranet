@@ -383,6 +383,7 @@ class SiteSearch(object):
             sort=None,
             debug=False,
             restricted_filters=True,
+            secure=True,
     ):
         """Return a search response.
 
@@ -409,7 +410,9 @@ class SiteSearch(object):
                                 start=start,
                                 step=step,
                                 sort=sort,
-                                debug=debug)
+                                debug=debug,
+                                secure=secure,
+                                )
         return ISearchResponse(response)
 
 SiteSearchProtocol.register(SiteSearch)
