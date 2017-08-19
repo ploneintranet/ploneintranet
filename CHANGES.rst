@@ -35,9 +35,10 @@ Fixed:
 * #1430 Activitystream: fixed an encoding problem happening when a file
   with non ASCII charactes in the name was uploaded
   as a comment attachment.
-* #1431 a logical bug was preventing the upgrade step to run properly.
+* # 1431 a logical bug was preventing the upgrade step to run properly.
 * Translation: change title of a Case transition, to avoid a semantic
   translation conflict
+* Fix redactor <hr> button.
 
 Deprecated:
 
