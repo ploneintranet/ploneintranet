@@ -269,7 +269,7 @@
         description="In order to change the name of a transition"
         source="0025"
         destination="0026"
-        handler=".base.update_workflows"
+        handler=".base.update_workflows_no_reindex"
         profile="ploneintranet.workspace:default"
       />
 

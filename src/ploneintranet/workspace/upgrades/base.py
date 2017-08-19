@@ -66,6 +66,20 @@ def update_workflows(context):
     logger.info('Updated role mappings for %s objects', count)
 
 
+def update_workflows_no_reindex(context):
+    logger.info('Update Workflows')
+    context.runImportStepFromProfile(
+        default_profile,
+        'workflow',
+        run_dependencies=False,
+    )
+    context.runImportStepFromProfile(
+        default_profile,
+        'placeful_workflow',
+        run_dependencies=False,
+    )
+
+
 def import_catalog(context, indexes=[]):
     logger.info('Import Catalog')
     context.runImportStepFromProfile(default_profile, 'catalog')
