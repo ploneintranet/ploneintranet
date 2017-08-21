@@ -70,6 +70,19 @@ def get_users(
         return search_results
 
 
+def get_userids():
+    '''
+    For the moment it just returns all the ids of the userprofiles
+    we have in the site.
+
+    :returns: the userprofile ids
+    :rtype: iterator
+    '''
+    portal = plone_api.portal.get()
+    profiles = portal.get('profiles', {})
+    return profiles.keys()
+
+
 def get_user_suggestions(
     context=None,
     full_objects=True,
