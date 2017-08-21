@@ -29,6 +29,7 @@ Changed:
 
 Fixed:
 
+* Optimized a method in the todo utility that allows saving news faster.
 * #1422 Fix a pop up in the post form that was not closing itself after
   the user clicked on its actions.
 * #1423 In the Administrator Tools app,

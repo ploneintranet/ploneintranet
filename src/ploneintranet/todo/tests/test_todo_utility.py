@@ -1,13 +1,29 @@
-from datetime import datetime, timedelta
+from ..content.content_action import ContentAction
+from ..interfaces import ITodoUtility
+from ..interfaces import MUST_READ
+from ..interfaces import TODO
+from ..testing import IntegrationTestCase
+from ..todo_utility import TodoUtility
+from datetime import datetime
+from datetime import timedelta
 from faker import Factory
 from plone import api
 from zope.component import getUtility
 from zope.interface.verify import verifyClass
 
-from ..interfaces import ITodoUtility, TODO, MUST_READ
-from ..content.content_action import ContentAction
-from ..todo_utility import TodoUtility
-from ..testing import IntegrationTestCase
+
+class FakeProfiles(object):
+
+    def manage_fixupOwnershipAfterAdd(self):
+        pass
+
+    def keys(self):
+        return {
+            'admin',
+            'test_user_1_',
+            'user1',
+            'user2',
+        }
 
 
 class TestTodoUtility(IntegrationTestCase):
@@ -30,6 +46,7 @@ class TestTodoUtility(IntegrationTestCase):
             'admin',
             'test_user_1_',
         }
+        self.portal['profiles'] = FakeProfiles()
         self.doc1 = api.content.create(
             container=self.portal,
             type='Document',
