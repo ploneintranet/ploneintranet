@@ -156,7 +156,7 @@
                                        href="${ws/absolute_url}/delete_confirmation#document-content"
                                        i18n:attributes="title"
                                        i18n:translate=""
-                                       data-pat-inject="source: #content">Delete workspace</a>
+                                       data-pat-inject="source: #document-content">Delete workspace</a>
                                 </li>
                             </ul>
                         </div>
