@@ -8,6 +8,7 @@ Changelog
 
 Added:
 
+* #1417 Initial support for the user help bubbles
 * #1435 AD/LDAP sync can now also fetch portrait images
 * #1427 The apps have now a new ``external`` boolean field.
 * #1429 The site search now looks in to more user profile fields:
