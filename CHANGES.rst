@@ -41,6 +41,7 @@ Fixed:
   translation conflict
 * Fix redactor <hr> button.
 * User attributes synced from AD are now properly turned into unicode
+* Group members synced from AD don't break anymore if uids with unicode are within.
 
 Deprecated:
 
