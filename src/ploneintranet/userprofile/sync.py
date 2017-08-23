@@ -10,6 +10,7 @@ from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from Products.Five import BrowserView
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.CMFPlone.utils import safe_unicode
 from transaction import commit
 from zope.component import adapter
 from zope.interface import alsoProvides
@@ -124,7 +125,7 @@ class UserPropertyManager(object):
                     filename=u'portrait-%s.jpg' % self.context.username)
 
             if value is not NO_VALUE and value != current_value:
-                setattr(self.context, property_name, value)
+                setattr(self.context, property_name, safe_unicode(value))
                 changed = True
 
         if changed:
