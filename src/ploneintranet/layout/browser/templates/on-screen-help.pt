@@ -3,6 +3,7 @@
            tal:define="
              bubble view/get_bubble;
            "
+           i18n:domain="ploneintranet"
   >
     <h3>${bubble/title}</h3>
     <tal:p tal:replace="structure bubble/description" />
