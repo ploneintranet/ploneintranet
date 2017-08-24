@@ -5,7 +5,10 @@
 >
   <tal:bubble define="osh_view nocall:here/on-screen-help;"
               replace="structure python:osh_view.link_to('global-search')"
-  />
+              tal:condition="nothing"
+  >
+    Waiting for https://github.com/quaive/ploneintranet.prototype/issues/521
+  </tal:bubble>
   <label>
     <input class="search"
            name="SearchableText"

@@ -105,7 +105,10 @@
             <div class="content">
               <tal:bubble define="osh_view nocall:here/on-screen-help;"
                           replace="structure python:osh_view.link_to('portlet-stream')"
-              />
+                          condition="nothing"
+              >
+                Waiting for https://github.com/quaive/ploneintranet.prototype/issues/520
+              </tal:bubble>
               <h2 class="portlet-title" i18n:translate="">Activity stream</h2>
               <form class="state-toggle pat-inject xpat-autosubmit" action="#">
                   <label class="show-more pat-switch unchecked" data-pat-switch="selector: #portlet-activity-stream; remove: state-*; add: state-expanded">
