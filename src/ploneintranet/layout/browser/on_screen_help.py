@@ -37,8 +37,9 @@ class View(BaseView):
             'description': _(
                 'Here you can select different dashboards. '
                 'There is an activity centric and a task '
-                'centric dashboard available. Pick what '
-                'best fits your style of working.'
+                'centric dashboard available. You can also '
+                'configure your own dashboard using My view. '
+                'Pick what best fits your style of working.'
             ),
             'next': '',
         },
@@ -51,35 +52,59 @@ class View(BaseView):
             ),
             'next': '',
         },
-        'portal-apps': {
-            'title': _('Apps'),
+        'portal-suite': {
+            'title': _('Welcome!'),
             'description': _(
-                'This is the new Dashboard. The Dashboard is '
-                'the home for your personal shortcuts to your '
-                'most important places. You can add items to '
-                'your own dashboard yourself.'
+                'We would like to introduce you to the '
+                'Quaive Social Intranet Platform. Please try out!'
             ),
-            'next': '',
+            'next': 'portal-dashboard',
         },
         'portal-dashboard': {
             'title': _('Dashboard'),
             'description': _(
-                'This is the new Dashboard. The Dashboard '
-                'is the home for your personal shortcuts '
+                'This is the Dashboard. '
+                'Here is the home for your personal shortcuts '
                 'to your most important places. You can '
                 'add workspaces, contacts and apps to '
                 'your own dashboard.'
             ),
+            'next': 'portal-news',
+        },
+        'portal-news': {
+            'title': _('News'),
+            'description': _(
+                'Here is the news magazine. It gives you an overview '
+                "over your company's actual news."
+            ),
+            'next': 'portal-library',
+        },
+        'portal-library': {
+            'title': _('Library'),
+            'description': _(
+                'In the library you can find any documents '
+                'that are informational for all intranet users.'
+            ),
+            'next': 'portal-workspaces',
+        },
+        'portal-workspaces': {
+            'title': _('Workspaces'),
+            'description': _(
+                'This is workspaces section. Workspaces are '
+                'areas for creating, organizing and sharing '
+                'content. Go here to get an overview over the '
+                'workspaces you can access.'
+            ),
             'next': 'portal-apps',
         },
-        'portal-suite': {
-            'title': _('Welcome!'),
+        'portal-apps': {
+            'title': _('Apps'),
             'description': _(
-                'We would like to introduce you to the new '
-                'StarDesk. StarDesk has been redesigned so '
-                'that it now works on touch screens.'
+                'Apps are extra bits of functionality for your '
+                'Quaive site. Visit this section to find out what '
+                'apps are available.'
             ),
-            'next': 'portal-dashboard',
+            'next': '',
         },
         'portlet-bookmarks': {
             'title': _('Bookmarks portlet'),
@@ -123,6 +148,15 @@ class View(BaseView):
             ),
             'next': '',
         },
+        'portlet-news': {
+            'title': _('News portlet'),
+            'description': _(
+                'Stay informed - see the latest news articles listed here. '
+                "If you click the 'mark read' button of a news item "
+                'it disappears from the portlet.'
+            ),
+            'next': '',
+        },
         'portlet-tasks': {
             'title': _('Tasks portlet'),
             'description': _(
@@ -145,6 +179,34 @@ class View(BaseView):
             ),
             'next': '',
         },
+        'portlet-bookmarked-workspaces': {
+            'title': _('Bookmarked workspaces portlet'),
+            'description': _(
+                'Your bookmarked Workspaces! That are workspaces '
+                'you marked as important by bookmarking them. '
+                "You will never see any workspaces here that you can't "
+                'actually access.'
+            ),
+            'next': '',
+        },
+        'portlet-bookmarked-apps': {
+            'title': _('Bookmarked apps portlet'),
+            'description': _(
+                'Your bookmarked Apps! That are apps '
+                'you marked as important by bookmarking them.'
+            ),
+            'next': '',
+        },
+        'portlet-stream': {
+            'title': _('Activity stream portlet'),
+            'description': _(
+                "Read about what's going on in your company "
+                'in the activity stream portlet. You can filter '
+                'existing messages and also write a post '
+                'to your colleagues yourself.'
+            ),
+            'next': '',
+        },
         'post-message': {
             'title': _('Post a message'),
             'description': _(
@@ -153,6 +215,46 @@ class View(BaseView):
                 'important right now, let your colleagues '
                 'know. Upload attachments, mention specific '
                 'people and tag your post.'
+            ),
+            'next': '',
+        },
+        'global-search': {
+            'title': _('Portal search'),
+            'description': _(
+                'Use the search to find information within the Quaive portal.'
+            ),
+            'next': 'global-help-info',
+        },
+        'global-help-info': {
+            'title': _('Help'),
+            'description': _(
+                'Use this toggle to turn the help bubbles on or off.'
+            ),
+            'next': 'global-chat-info',
+        },
+        'global-chat-info': {
+            'title': _('Post a message'),
+            'description': _(
+                'Wanna chat with your collegues? Click here to open the '
+                'chat app. A number within a red circle shows that you '
+                'have unread chat messages.'
+            ),
+            'next': 'global-messages-info',
+        },
+        'global-messages-info': {
+            'title': _('Post a message'),
+            'description': _(
+                'Notifications about news posts are listed here. '
+                'A number within a red circle shows that you '
+                'have unread notifications.'
+            ),
+            'next': 'global-personal-menu',
+        },
+        'global-personal-menu': {
+            'title': _('Personal menu'),
+            'description': _(
+                'Your avatar image opens the personal menu with links to '
+                'your user profile, password change and logout actions.'
             ),
             'next': '',
         }
