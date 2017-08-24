@@ -27,6 +27,8 @@ Changed:
 
 Fixed:
 
+* Bookmarked projects did not have an icon in the bookmark app
+* Bookmark icon for word files in the "Documents" tab of the bookmark app
 * Issue #1445: the delete workspace modal panel was not displaying properly
 * #1422 Fix a pop up in the post form that was not closing itself after
   the user clicked on its actions.
