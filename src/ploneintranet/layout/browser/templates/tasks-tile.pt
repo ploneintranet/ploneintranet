@@ -7,6 +7,9 @@
     <div class="tasks portlet ${python:request.get('portletspan', 'span-1')} state-collapsed" id="portlet-tasks"
          tal:define="grouped_tasks view/grouped_tasks">
       <div class="content">
+        <tal:bubble define="osh_view nocall:here/on-screen-help;"
+                    replace="structure python:osh_view.link_to('portlet-tasks')"
+        />
         <h2 class="portlet-title"><a href="${view/task_app}" i18n:translate="">Tasks</a></h2>
         <form class="state-toggle pat-inject pat-autosubmit" action="/dashboard.html#user-avatar">
             <label class="show-more pat-switch" data-pat-switch="selector: #portlet-tasks; remove: state-*; add: state-expanded">
