@@ -16,7 +16,7 @@
                        osh_view nocall:here/on-screen-help;
                      "
         >
-          <tal:bubble replace="structure python:osh_view.link_to('portlet-workspaces')" />
+          <tal:bubble replace="structure python:osh_view.link_to('portlet-bookmarked-workspaces')" />
           <form class="state-toggle pat-inject pat-autosubmit"
                 action="${here/portal_url}/@@${view/__name__}#portlet-bookmarked-workspaces-injection-target"
                 tal:condition="python:len(view.get_bookmarks()) > min_items"
