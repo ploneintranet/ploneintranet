@@ -3,6 +3,9 @@
       action="${here/portal_url}/@@search"
       i18n:domain="ploneintranet"
 >
+  <tal:bubble define="osh_view nocall:here/on-screen-help;"
+              replace="structure python:osh_view.link_to('global-search')"
+  />
   <label>
     <input class="search"
            name="SearchableText"
