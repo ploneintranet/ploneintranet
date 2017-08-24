@@ -10,6 +10,7 @@ from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from Products.Five import BrowserView
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.CMFPlone.utils import safe_unicode
 from transaction import commit
 from zope.component import adapter
 from zope.interface import alsoProvides
@@ -124,7 +125,7 @@ class UserPropertyManager(object):
                     filename=u'portrait-%s.jpg' % self.context.username)
 
             if value is not NO_VALUE and value != current_value:
-                setattr(self.context, property_name, value)
+                setattr(self.context, property_name, safe_unicode(value))
                 changed = True
 
         if changed:
@@ -320,7 +321,8 @@ class WorkGroupPropertyManager(object):
         group = groups[0]
 
         def safe_set(data, key):
-            if data.get(key) and data[key] != getattr(self.context, key):
+            value = safe_unicode(data.get(key, ''))
+            if data.get(key) and value != getattr(self.context, key):
                 setattr(self.context, key, data[key])
                 return True
             return False
@@ -330,7 +332,11 @@ class WorkGroupPropertyManager(object):
 
         members = ext_source.getGroupMembers(self.context.canonical)
         if set(members) != set(self.context.members):
-            self.context.members = members
+            # Make sure all members are unicode
+            # AD allows unicode uids, we don't, and we break otherwise if such
+            # are included.
+            umembers = set([safe_unicode(x) for x in members])
+            self.context.members = umembers
             changed = True
 
         if changed:

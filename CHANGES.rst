@@ -9,6 +9,8 @@ Changelog
 Added:
 
 * #1417 Initial support for the user help bubbles
+* If ``quaive.app.onlyoffice`` is installed and configured
+  and the user has the right permissions, files can be edited with ONLYOFFICE.
 * #1435 AD/LDAP sync can now also fetch portrait images
 * #1427 The apps have now a new ``external`` boolean field.
 * #1429 The site search now looks in to more user profile fields:
@@ -28,7 +30,7 @@ Changed:
 
 Fixed:
 
-# Issue #1445: the delete workspace modal panel was not displaying properly
+* Issue #1445: the delete workspace modal panel was not displaying properly
 * #1422 Fix a pop up in the post form that was not closing itself after
   the user clicked on its actions.
 * #1423 In the Administrator Tools app,
@@ -41,6 +43,8 @@ Fixed:
 * Translation: change title of a Case transition, to avoid a semantic
   translation conflict
 * Fix redactor <hr> button.
+* User attributes synced from AD are now properly turned into unicode
+* Group members synced from AD don't break anymore if uids with unicode are within.
 
 Deprecated:
 
