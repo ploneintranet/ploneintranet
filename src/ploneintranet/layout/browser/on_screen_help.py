@@ -149,16 +149,12 @@ class View(BaseView):
             'next': '',
         },
         'portlet-library': {
-            'title': _('Library portlet'),
+            'title': _('Documents portlet'),
             'description': _(
                 'help-portlet-library',
-                default='See recent changes to the library. '
-                'Content listed here may be relevant for '
-                'your next holiday application, show '
-                'newest updates to the company manual or '
-                "show you the latest article in the CEO's "
-                'blog.'
-
+                default='See recent changes to documents. '
+                'Content listed here may come from the library '
+                'or from any of your workspaces.'
             ),
             'next': '',
         },

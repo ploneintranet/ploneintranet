@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-08-25 03:35+0000\n"
+"POT-Creation-Date: 2017-08-25 08:28+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -180,7 +180,7 @@ msgstr "Startseiten-Ansicht"
 msgid "Activity stream"
 msgstr "Aktivitäten"
 
-#: ../layout/browser/on_screen_help.py:220
+#: ../layout/browser/on_screen_help.py:216
 msgid "Activity stream portlet"
 msgstr "Portlet \"Aktivitäten\""
 
@@ -520,11 +520,11 @@ msgstr "Meine Dokumente"
 msgid "Bookmarked Workspaces"
 msgstr "Meine Arbeitsräume"
 
-#: ../layout/browser/on_screen_help.py:211
+#: ../layout/browser/on_screen_help.py:207
 msgid "Bookmarked apps portlet"
 msgstr "Portlet \"Meine Apps\""
 
-#: ../layout/browser/on_screen_help.py:200
+#: ../layout/browser/on_screen_help.py:196
 msgid "Bookmarked workspaces portlet"
 msgstr "Portlet \"Meine Arbeitsbereiche\""
 
@@ -965,6 +965,10 @@ msgstr "Inhaltstypen"
 msgid "Documents"
 msgstr "Dokumente"
 
+#: ../layout/browser/on_screen_help.py:152
+msgid "Documents portlet"
+msgstr "Portlet \"Dokumente\""
+
 #: ../layout/browser/templates/edit-dashboard.pt:39
 msgid "Don't show"
 msgstr "Nicht anzeigen"
@@ -1367,7 +1371,7 @@ msgstr "Gast"
 msgid "Guests are only used internally and cannot be assigned."
 msgstr "Gäste werden intern gesetzt und können nicht zugeteilt werden."
 
-#: ../layout/browser/on_screen_help.py:252
+#: ../layout/browser/on_screen_help.py:248
 msgid "Help"
 msgstr "Hilfe"
 
@@ -1615,10 +1619,6 @@ msgstr "Bibliotheksbereich"
 #: ../library/configure.zcml:20
 msgid "Library for PloneIntranet"
 msgstr "Die PloneIntranet Bibliothek"
-
-#: ../layout/browser/on_screen_help.py:152
-msgid "Library portlet"
-msgstr "Portlet \"Bibliothek\""
 
 #: ../network/browser/likes.py:95
 msgid "Like"
@@ -1936,7 +1936,7 @@ msgstr "Nachrichtenbereich"
 msgid "News item title"
 msgstr "Titel der Nachricht"
 
-#: ../layout/browser/on_screen_help.py:166
+#: ../layout/browser/on_screen_help.py:162
 msgid "News portlet"
 msgstr "Portlet \"Aktuelles\""
 
@@ -2232,7 +2232,7 @@ msgstr "Person, mit der eine Unterhaltung begonnen werden soll"
 msgid "Personal image updated. Keep browsing or reload the page to see the change."
 msgstr "Ihr Profilbild wurde aktualisiert. Laden Sie die Seite neu um die Änderungen sichtbar zu machen."
 
-#: ../layout/browser/on_screen_help.py:280
+#: ../layout/browser/on_screen_help.py:276
 msgid "Personal menu"
 msgstr "Persönlicher Bereich"
 
@@ -2393,11 +2393,11 @@ msgstr ""
 msgid "PloneIntranet Event Fields"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:243
+#: ../layout/browser/on_screen_help.py:239
 msgid "Portal search"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:231
+#: ../layout/browser/on_screen_help.py:227
 msgid "Post a message"
 msgstr "Nachricht verfassen"
 
@@ -2874,7 +2874,7 @@ msgstr "Aufgaben"
 msgid "Tasks finished"
 msgstr "Aufgaben erledigt"
 
-#: ../layout/browser/on_screen_help.py:176
+#: ../layout/browser/on_screen_help.py:172
 msgid "Tasks portlet"
 msgstr "Portlet \"Aufgaben\""
 
@@ -3488,7 +3488,7 @@ msgstr "Titel"
 msgid "Workspaces"
 msgstr "Arbeitsräume"
 
-#: ../layout/browser/on_screen_help.py:189
+#: ../layout/browser/on_screen_help.py:185
 msgid "Workspaces portlet"
 msgstr "Portlet \"Arbeitsräume\""
 
@@ -3962,27 +3962,27 @@ msgid "help-dashboard-view"
 msgstr "Hier können Sie die Konfigurationen für Ihre Startseite ändern. Sie können zwischen zwei vordefinierten Konfigurationen wählen, oder Ihre Startseite mit \"Meine Startseite\" nach eigenen Vorstellungen selbst gestalten."
 
 #. Default: "Wanna chat with your collegues? Click here to open  the chat app. A number within a red circle shows that you have unread chat messages."
-#: ../layout/browser/on_screen_help.py:261
+#: ../layout/browser/on_screen_help.py:257
 msgid "help-global-chat-info"
 msgstr "Lust mit einem Kollegen zu chatten? Klicken Sie hier um die Chat App zu starten. Eine Zahl in einem roten Kreis zeigt an, daß ungelesene Chat-Nachrichten für Sie vorliegen."
 
 #. Default: "Use this toggle to turn the help bubbles on or off."
-#: ../layout/browser/on_screen_help.py:253
+#: ../layout/browser/on_screen_help.py:249
 msgid "help-global-help-info"
 msgstr "Verwenden Sie diesen Umschalter, um die Hilfethemen ein- oder auszuschalten."
 
 #. Default: "Notifications about news posts are listed here. A number within a red circle shows that you have unread notifications."
-#: ../layout/browser/on_screen_help.py:271
+#: ../layout/browser/on_screen_help.py:267
 msgid "help-global-messages-info"
 msgstr "Hier werden Benachrichtigungen zu neuen Beiträgen gelistet. Eine Zahl in einem roten Kreis zeigt, dass für Sie neue, ungelesene Benachrichtigungen vorliegen."
 
 #. Default: "Your avatar image opens the personal menu with links to your user profile, password change and logout actions."
-#: ../layout/browser/on_screen_help.py:281
+#: ../layout/browser/on_screen_help.py:277
 msgid "help-global-personal-menu"
 msgstr "Ihr Benutzerbild öffnet das Bentzermenü mit Verweisen auf Ihr Benutzerprofil, Passwortänderungen und Logout."
 
 #. Default: "Use the search to find information within the Quaive portal."
-#: ../layout/browser/on_screen_help.py:244
+#: ../layout/browser/on_screen_help.py:240
 msgid "help-global-search"
 msgstr "Verwenden Sie die Suche, um Informationen in Ihrem Quaive Portal zu finden."
 
@@ -4022,12 +4022,12 @@ msgid "help-portal-workspaces"
 msgstr "Hier befinden sich die Arbeitesräume Ihres Portals. Arbeitsräume sind dafür da, um Inhalte zu erstellen, zu organisieren und zu teilen. In dieser Sektion erhalten Sie einen Überblick über die Arbeitsräume, zu denen Sie Zugang haben."
 
 #. Default: "Your bookmarked Apps! These are apps you have marked as important by bookmarking them."
-#: ../layout/browser/on_screen_help.py:212
+#: ../layout/browser/on_screen_help.py:208
 msgid "help-portlet-bookmarked-apps"
 msgstr "Ihre wichtigsten Apps! Diese Apps haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert."
 
 #. Default: "Your bookmarked Workspaces! These are workspaces you have marked as important by bookmarking them. You will never see any workspaces here that you can't actually access."
-#: ../layout/browser/on_screen_help.py:201
+#: ../layout/browser/on_screen_help.py:197
 msgid "help-portlet-bookmarked-workspaces"
 msgstr "Ihre wichtigsten Arbeitsräume. Diese Arbeitsräume haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert. Sie werden keinen Arbeitsraum hier finden, auf den Sie keinen Zugriff haben."
 
@@ -4046,33 +4046,33 @@ msgstr "Schneller Zugriff auf all Ihre Kontakte. Beginnen Sie, einen Namen, eine
 msgid "help-portlet-events"
 msgstr "Alle Termine, zu denen Sie eingeladen sind auf einen Blick. Nach Aktualität sortiert - der nächste Termin steht ganz oben in der Liste."
 
-#. Default: "See recent changes to the library. Content listed here may be relevant for your next holiday application, show newest updates to the company manual or show you the latest article in the CEO's blog."
+#. Default: "See recent changes to documents. Content listed here may come from the library or from any of your workspaces."
 #: ../layout/browser/on_screen_help.py:153
 msgid "help-portlet-library"
-msgstr "Hier sehen Sie aktuelle Änderungen zu Inhalten in der Bibliothek. Inhalte in der Bibliothek sind für alle Benutzer zugängig."
+msgstr "Hier sehen Sie aktuell geänderte Dokumente. Diese können Inhalte aus der Bibliothek sein oder zu einem der Arbeitsräume gehören, auf die Sie zugreifen können."
 
 #. Default: "Stay informed - see the latest news articles listed here. If you click the 'mark read' button of a news item, it will disappear from the portlet."
-#: ../layout/browser/on_screen_help.py:167
+#: ../layout/browser/on_screen_help.py:163
 msgid "help-portlet-news"
 msgstr "Bleiben Sie up to date. Hier finden Sie die neuesten Nachrichten aus Ihrem Unternehmen. Wenn Sie den Knopf \"Gelesen\" klicken, verschwindet der Artikel aus der Liste der Nachrichten."
 
 #. Default: "Read about what's going on in your company in the activity stream portlet. You can filter existing messages and also write a post to your colleagues yourself."
-#: ../layout/browser/on_screen_help.py:221
+#: ../layout/browser/on_screen_help.py:217
 msgid "help-portlet-stream"
 msgstr "Lesen Sie, was in Ihrem Unternehmen passiert in den Aktivitäten. Sie können existierende Beiträge filtern und auch selbst Beiträge an Ihre Kollegen verfassen."
 
 #. Default: "Your Tasks. This is what you need to work on, ordered by deadline. The topmost one is usually the one due first. If you just completed one, mark it as completed. If you don't yet know what to do, click it and read the description."
-#: ../layout/browser/on_screen_help.py:177
+#: ../layout/browser/on_screen_help.py:173
 msgid "help-portlet-tasks"
 msgstr "Ihre Aufgaben. Hier steht, was zu erledigen ist, sortiert nach Fälligkeit. Wenn Sie eine Aufgabe erledigt haben, setzen Sie den Haken im Kästchen. Falls nicht klar ist, was Sie zu tun haben, klicken Sie auf die Aufgabe um die Beschreibung zu lesen."
 
 #. Default: "Your Workspaces! These are workspaces that you can see. You will never see any workspaces here that you can't actually access."
-#: ../layout/browser/on_screen_help.py:190
+#: ../layout/browser/on_screen_help.py:186
 msgid "help-portlet-workspaces"
 msgstr "Ihre Arbeitsräume! Hier werden alle Arbeitsräume gelistet, auf die Sie zugreifen können. Es wird kein Arbeitsraum erscheinen, zu dem Sie keinen Zugang haben."
 
 #. Default: "Post a message to the team, to your colleagues, to the company. Share what is important right now, let your colleagues know. Upload attachments, mention specific people and tag your post."
-#: ../layout/browser/on_screen_help.py:232
+#: ../layout/browser/on_screen_help.py:228
 msgid "help-post-message"
 msgstr "Verfassen Sie eine Nachricht an Ihr Team, Ihre Kollegen, Ihr Unternehmen. Teilen Sie Ihren Kollegen mit, was gerade wichtig ist. Sie können Anhänge hinzufügen, Benutzer erwähnen und Ihren Beitrag verschlagworten."
 

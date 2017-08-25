@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-08-25 03:35+0000\n"
+"POT-Creation-Date: 2017-08-25 08:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,7 @@ msgstr ""
 msgid "Activity stream"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:220
+#: ../layout/browser/on_screen_help.py:216
 msgid "Activity stream portlet"
 msgstr ""
 
@@ -517,11 +517,11 @@ msgstr ""
 msgid "Bookmarked Workspaces"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:211
+#: ../layout/browser/on_screen_help.py:207
 msgid "Bookmarked apps portlet"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:200
+#: ../layout/browser/on_screen_help.py:196
 msgid "Bookmarked workspaces portlet"
 msgstr ""
 
@@ -962,6 +962,10 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
+#: ../layout/browser/on_screen_help.py:152
+msgid "Documents portlet"
+msgstr ""
+
 #: ../layout/browser/templates/edit-dashboard.pt:39
 msgid "Don't show"
 msgstr ""
@@ -1364,7 +1368,7 @@ msgstr ""
 msgid "Guests are only used internally and cannot be assigned."
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:252
+#: ../layout/browser/on_screen_help.py:248
 msgid "Help"
 msgstr ""
 
@@ -1611,10 +1615,6 @@ msgstr ""
 
 #: ../library/configure.zcml:20
 msgid "Library for PloneIntranet"
-msgstr ""
-
-#: ../layout/browser/on_screen_help.py:152
-msgid "Library portlet"
 msgstr ""
 
 #: ../network/browser/likes.py:95
@@ -1933,7 +1933,7 @@ msgstr ""
 msgid "News item title"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:166
+#: ../layout/browser/on_screen_help.py:162
 msgid "News portlet"
 msgstr ""
 
@@ -2229,7 +2229,7 @@ msgstr ""
 msgid "Personal image updated. Keep browsing or reload the page to see the change."
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:280
+#: ../layout/browser/on_screen_help.py:276
 msgid "Personal menu"
 msgstr ""
 
@@ -2390,11 +2390,11 @@ msgstr ""
 msgid "PloneIntranet Event Fields"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:243
+#: ../layout/browser/on_screen_help.py:239
 msgid "Portal search"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:231
+#: ../layout/browser/on_screen_help.py:227
 msgid "Post a message"
 msgstr ""
 
@@ -2871,7 +2871,7 @@ msgstr ""
 msgid "Tasks finished"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:176
+#: ../layout/browser/on_screen_help.py:172
 msgid "Tasks portlet"
 msgstr ""
 
@@ -3485,7 +3485,7 @@ msgstr ""
 msgid "Workspaces"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:189
+#: ../layout/browser/on_screen_help.py:185
 msgid "Workspaces portlet"
 msgstr ""
 
@@ -3956,27 +3956,27 @@ msgid "help-dashboard-view"
 msgstr ""
 
 #. Default: "Wanna chat with your collegues? Click here to open  the chat app. A number within a red circle shows that you have unread chat messages."
-#: ../layout/browser/on_screen_help.py:261
+#: ../layout/browser/on_screen_help.py:257
 msgid "help-global-chat-info"
 msgstr ""
 
 #. Default: "Use this toggle to turn the help bubbles on or off."
-#: ../layout/browser/on_screen_help.py:253
+#: ../layout/browser/on_screen_help.py:249
 msgid "help-global-help-info"
 msgstr ""
 
 #. Default: "Notifications about news posts are listed here. A number within a red circle shows that you have unread notifications."
-#: ../layout/browser/on_screen_help.py:271
+#: ../layout/browser/on_screen_help.py:267
 msgid "help-global-messages-info"
 msgstr ""
 
 #. Default: "Your avatar image opens the personal menu with links to your user profile, password change and logout actions."
-#: ../layout/browser/on_screen_help.py:281
+#: ../layout/browser/on_screen_help.py:277
 msgid "help-global-personal-menu"
 msgstr ""
 
 #. Default: "Use the search to find information within the Quaive portal."
-#: ../layout/browser/on_screen_help.py:244
+#: ../layout/browser/on_screen_help.py:240
 msgid "help-global-search"
 msgstr ""
 
@@ -4016,12 +4016,12 @@ msgid "help-portal-workspaces"
 msgstr ""
 
 #. Default: "Your bookmarked Apps! These are apps you have marked as important by bookmarking them."
-#: ../layout/browser/on_screen_help.py:212
+#: ../layout/browser/on_screen_help.py:208
 msgid "help-portlet-bookmarked-apps"
 msgstr ""
 
 #. Default: "Your bookmarked Workspaces! These are workspaces you have marked as important by bookmarking them. You will never see any workspaces here that you can't actually access."
-#: ../layout/browser/on_screen_help.py:201
+#: ../layout/browser/on_screen_help.py:197
 msgid "help-portlet-bookmarked-workspaces"
 msgstr ""
 
@@ -4040,33 +4040,33 @@ msgstr ""
 msgid "help-portlet-events"
 msgstr ""
 
-#. Default: "See recent changes to the library. Content listed here may be relevant for your next holiday application, show newest updates to the company manual or show you the latest article in the CEO's blog."
+#. Default: "See recent changes to documents. Content listed here may come from the library or from any of your workspaces."
 #: ../layout/browser/on_screen_help.py:153
 msgid "help-portlet-library"
 msgstr ""
 
 #. Default: "Stay informed - see the latest news articles listed here. If you click the 'mark read' button of a news item, it will disappear from the portlet."
-#: ../layout/browser/on_screen_help.py:167
+#: ../layout/browser/on_screen_help.py:163
 msgid "help-portlet-news"
 msgstr ""
 
 #. Default: "Read about what's going on in your company in the activity stream portlet. You can filter existing messages and also write a post to your colleagues yourself."
-#: ../layout/browser/on_screen_help.py:221
+#: ../layout/browser/on_screen_help.py:217
 msgid "help-portlet-stream"
 msgstr ""
 
 #. Default: "Your Tasks. This is what you need to work on, ordered by deadline. The topmost one is usually the one due first. If you just completed one, mark it as completed. If you don't yet know what to do, click it and read the description."
-#: ../layout/browser/on_screen_help.py:177
+#: ../layout/browser/on_screen_help.py:173
 msgid "help-portlet-tasks"
 msgstr ""
 
 #. Default: "Your Workspaces! These are workspaces that you can see. You will never see any workspaces here that you can't actually access."
-#: ../layout/browser/on_screen_help.py:190
+#: ../layout/browser/on_screen_help.py:186
 msgid "help-portlet-workspaces"
 msgstr ""
 
 #. Default: "Post a message to the team, to your colleagues, to the company. Share what is important right now, let your colleagues know. Upload attachments, mention specific people and tag your post."
-#: ../layout/browser/on_screen_help.py:232
+#: ../layout/browser/on_screen_help.py:228
 msgid "help-post-message"
 msgstr ""
 
