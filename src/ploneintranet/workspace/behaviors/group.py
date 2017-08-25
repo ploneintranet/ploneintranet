@@ -26,6 +26,9 @@ class MembraneWorkspaceGroup(object):
     def __init__(self, context):
         self.context = context
 
+    def getId(self):
+        return self.context.getId()
+
     def getGroupId(self):
         return self.context.getId()
 

@@ -12,6 +12,8 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.utils import get_record_from_registry
 from ploneintranet.search.interfaces import ISiteSearch
 from ploneintranet.todo.behaviors import ITodo
+from ploneintranet.workspace.behaviors.group import IMembraneGroup
+from ploneintranet.workspace.behaviors.group import MembraneWorkspaceGroup
 from ploneintranet.workspace.interfaces import IBaseWorkspaceFolder
 from ploneintranet.workspace.interfaces import IGroupingStorage
 from ploneintranet.workspace.interfaces import IWorkspaceFolder
@@ -104,7 +106,10 @@ class BaseWorkspaceView(BrowserView):
             principal = self.resolve_principalid(principal)
             if principal is None:
                 return principalid
-        if IGroupData.providedBy(principal):
+        if (
+                IGroupData.providedBy(principal) or
+                isinstance(principal, MembraneWorkspaceGroup)
+        ):
             return principal.getGroupName()
         if hasattr(principal, 'getGroupId'):
             return principal.Title() or principal.getGroupId()
@@ -121,7 +126,10 @@ class BaseWorkspaceView(BrowserView):
         '''
         if isinstance(principal, basestring):
             principal = self.resolve_principalid(principal)
-        if IGroupData.providedBy(principal):
+        if (
+                IGroupData.providedBy(principal) or
+                isinstance(principal, MembraneWorkspaceGroup)
+        ):
             portal = api.portal.get()
             p_url = portal.absolute_url()
             return "{0}/workspace-group-view?id={1}".format(
@@ -214,7 +222,7 @@ class BaseWorkspaceView(BrowserView):
         ''' Given a principal id, tries to get him for profile or groups folder
         and then look for him with pas.
         '''
-        return (
+        principal = (
             self.users_container.get(principalid) or
             self.workspaces_container.get(principalid) or
             self.groups_container.get(
@@ -223,6 +231,9 @@ class BaseWorkspaceView(BrowserView):
             api.user.get(principalid) or
             api.group.get(principalid)
         )
+        if IMembraneGroup.providedBy(principal):
+            principal = MembraneWorkspaceGroup(principal)
+        return principal
 
     @property
     @memoize

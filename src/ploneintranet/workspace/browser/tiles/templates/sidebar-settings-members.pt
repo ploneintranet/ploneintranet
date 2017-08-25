@@ -90,7 +90,7 @@
                 <tal:principals repeat="principal principals">
                   <label class="item ${python: groupid and 'group' or 'user'} ${python: description and 'has-description' or 'has-no-description'} ${python: roles and 'has-label' or ''}"
                       tal:define="
-                        principalid principal/id;
+                        principalid principal/getId;
                         groupid principal/getGroupId|nothing;
                         description python:workspace_view.get_principal_description(principal);
                         roles python:workspace_view.get_principal_roles(principal);
@@ -104,7 +104,7 @@
                        href="${python:workspace_view.get_principal_url(principal)}"
                        data-pat-inject="source: #document-body; target: #document-body"
                       >
-                      <img tal:replace="structure python:view.get_avatar_by_userid(principal.id)">
+                      <img tal:replace="structure python:view.get_avatar_by_userid(principal.getId())">
                       <strong class="title">${python:workspace_view.get_principal_title(principal)}</strong>
                       <tal:block condition="description"><br />
                       <dfn class="byline">${description}</dfn></tal:block>
