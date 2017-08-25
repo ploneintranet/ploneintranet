@@ -323,4 +323,13 @@
       layer="quaive.resources.ploneintranet.interfaces.IThemeSpecific"
       />
 
+  <browser:page
+      for="*"
+      name="on-screen-help"
+      class=".on_screen_help.View"
+      permission="zope2.View"
+      template="templates/on-screen-help.pt"
+      layer="ploneintranet.layout.interfaces.IPloneintranetLayoutLayer"
+      />
+
 </configure>

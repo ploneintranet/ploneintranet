@@ -4,7 +4,9 @@
       i18n:domain="ploneintranet">
 
   <body tal:define="my_documents view/my_documents;
-                    min_items python:context.portal_registry['ploneintranet.layout.num_library_items'] if 'ploneintranet.layout.num_library_items' in context.portal_registry else 10;">
+                    min_items python:context.portal_registry['ploneintranet.layout.num_library_items'] if 'ploneintranet.layout.num_library_items' in context.portal_registry else 10;
+                    osh_view nocall:here/on-screen-help;
+                    ">
     <div class="library portlet ${python:request.get('portletspan', 'span-1')} state-collapsed"
          id="portlet-library"
          tal:condition="my_documents">
@@ -19,6 +21,7 @@
                 Show less
             </label>
         </form>
+        <tal:bubble replace="structure python:osh_view.link_to('portlet-library')" />
         <h2 class="portlet-title" i18n:translate="">Documents</h2>
         <ul class="menu links">
           <tal:my_document repeat="my_document my_documents">

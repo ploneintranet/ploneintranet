@@ -6,6 +6,9 @@
   <body tal:define="workspaces view/workspaces">
     <div class="workspaces portlet ${python:request.get('portletspan', 'span-1')}" id="portlet-workspaces" tal:condition="workspaces">
       <div class="content">
+        <tal:bubble define="osh_view nocall:here/on-screen-help;"
+                    replace="structure python:osh_view.link_to('portlet-workspaces')"
+        />
         <h2 class="portlet-title">
           <a href="${view/workspaces_url}">${view/title}</a>
         </h2>

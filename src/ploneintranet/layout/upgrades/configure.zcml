@@ -216,4 +216,22 @@
         profile="ploneintranet.layout:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0017"
+        title="Registry record to customize the help bubbles"
+        description=""
+        directory="profiles/to_0017"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Registry record to customize the help bubbles"
+        description=""
+        source="*"
+        destination="0017"
+        handler=".to_0017.custom_help_bubbles"
+        profile="ploneintranet.layout:default"
+        />
+
 </configure>

@@ -48,6 +48,9 @@
                 Show less
             </label>
         </form>
+        <tal:bubble define="osh_view nocall:here/on-screen-help;"
+                    replace="structure python:osh_view.link_to('portlet-news')"
+        />
         <h2 class="portlet-title"><a href="${portal_url}/news" i18n:translate="label_news">News</a></h2>
 
         <div class="news-block" id="unread-news">

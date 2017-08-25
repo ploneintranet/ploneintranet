@@ -10,8 +10,10 @@
            events view/upcoming_events;
            num_events python:len(events);
            date2month_name nocall:here/@@proto/date2month_name;
+           osh_view nocall:here/on-screen-help;
          ">
       <div class="content">
+        <tal:bubble replace="structure python:osh_view.link_to('portlet-events')" />
   	    <h2 class="portlet-title">
   			 <a href="${here/@@plone_portal_state/navigation_root_url}/apps/calendar/" i18n:translate="">Events</a>
   		  </h2>

@@ -8,6 +8,7 @@ Changelog
 
 Added:
 
+* #1417 Initial support for the user help bubbles
 * If ``quaive.app.onlyoffice`` is installed and configured
   and the user has the right permissions, files can be edited with ONLYOFFICE.
 * #1435 AD/LDAP sync can now also fetch portrait images

@@ -1,0 +1,38 @@
+<html>
+  <article id="${bubble/id}"
+           tal:define="
+             bubble view/get_bubble;
+           "
+           i18n:domain="ploneintranet"
+  >
+    <h3>${bubble/title}</h3>
+    <tal:p tal:replace="structure bubble/description" />
+    <nav class="bubble-tour button-bar"
+         tal:condition="bubble/next|nothing"
+    >
+      <a class="pat-button pat-forward"
+         href="#osh-target-${bubble/next}"
+         data-pat-forward="selector: #osh-target-${bubble/next}"
+         i18n:translate=""
+      >Next tip&hellip;</a>
+    </nav>
+    <p class="footer">
+      <strong class="icon-lightbulb"
+              i18n:translate=""
+      >Tip:</strong>
+      <tal:i18n i18n:translate="">
+          You may switch this on screen help feature on or off at any time by clicking on the
+          <strong class="iconified icon-help-circle">?</strong>
+          at the top right on the toolbar.
+      </tal:i18n>
+      <br />
+      <br />
+      <a class="pat-forward"
+         href="#osh-toggle"
+         data-pat-forward="selector: #osh-toggle"
+         data-pat-switch="body osh-on osh-off"
+         i18n:translate=""
+      >Switch tips off now</a>.
+    </p>
+  </article>
+</html>
