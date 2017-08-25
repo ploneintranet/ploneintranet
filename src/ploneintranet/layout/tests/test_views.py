@@ -8,6 +8,7 @@ from ploneintranet.layout.interfaces import IPloneintranetLayoutLayer
 from ploneintranet.layout.testing import IntegrationTestCase
 from ploneintranet.layout.utils import in_app
 from Products.Five import BrowserView
+from zope.i18n import translate
 from zope.interface import alsoProvides
 
 
@@ -548,7 +549,8 @@ class TestViews(IntegrationTestCase):
         view = self.get_view('on-screen-help', q='1')
         self.assertIn(view._fallback_bubble['title'], view())
         view = self.get_view('on-screen-help', q='hamburger')
-        self.assertIn(view.bubbles['hamburger']['description'], view())
+        self.assertIn(
+            translate(view.bubbles['hamburger']['description']), view())
 
         # check that we can set up custom bubbles
         custom_bubbles_json = (
