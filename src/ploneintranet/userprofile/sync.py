@@ -124,7 +124,7 @@ class UserPropertyManager(object):
                     data=value,
                     filename=u'portrait-%s.jpg' % self.context.username)
 
-            if value is not NO_VALUE and value != current_value:
+            if value is not NO_VALUE and safe_unicode(value) != current_value:
                 setattr(self.context, property_name, safe_unicode(value))
                 changed = True
 
@@ -203,7 +203,7 @@ def create_membrane_profile(member):
         logger.info('Auto-creating membrane profile for {0}'.format(
             userid,
         ))
-        with api.env.adopt_roles(roles=('Manager', )):
+        with api.env.adopt_roles(roles=('Manager',)):
             profile = pi_api.userprofile.create(userid, approve=True)
             profile_manager = IUserProfileManager(profile)
             profile_manager.sync()
