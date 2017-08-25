@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-08-24 15:10+0000\n"
+"POT-Creation-Date: 2017-08-25 03:35+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -180,7 +180,7 @@ msgstr "Startseiten-Ansicht"
 msgid "Activity stream"
 msgstr "Aktivitäten"
 
-#: ../layout/browser/on_screen_help.py:201
+#: ../layout/browser/on_screen_help.py:220
 msgid "Activity stream portlet"
 msgstr "Portlet \"Aktivitäten\""
 
@@ -315,10 +315,6 @@ msgstr "Ganztägig"
 msgid "All day event"
 msgstr "Ganztägiger Termin"
 
-#: ../layout/browser/on_screen_help.py:131
-msgid "All events you are invited to - at your fingertips. They are ordered by upcoming first."
-msgstr "Alle Termine, zu denen Sie eingeladen sind auf einen Blick. Nach Aktualität sortiert - der nächste Termin steht ganz oben in der Liste."
-
 #: ../news/browser/magazine.py:33
 msgid "All news"
 msgstr "Alle Nachrichten"
@@ -387,7 +383,7 @@ msgid "App unauthorized"
 msgstr "Keine Berechtigung für die App"
 
 #: ../bookmarks/browser/templates/app.pt:20
-#: ../layout/browser/on_screen_help.py:101
+#: ../layout/browser/on_screen_help.py:110
 #: ../layout/profiles/default/actions.xml
 msgid "Apps"
 msgstr "Apps"
@@ -396,10 +392,6 @@ msgstr "Apps"
 #: ../layout/upgrades/profiles/to_0004/types/ploneintranet.layout.appscontainer.xml
 msgid "Apps Container"
 msgstr "Apps-Container"
-
-#: ../layout/browser/on_screen_help.py:102
-msgid "Apps are extra bits of functionality for your Quaive site. Visit this section to find out what apps are available."
-msgstr "Apps bieten zusätzliche Funktionalität für Ihr Quaive Portal. Hier finden Sie eine Übersicht über alle im Portal verfügbaren Apps."
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-advanced.pt:79
 msgid "Archival and freeze"
@@ -528,21 +520,17 @@ msgstr "Meine Dokumente"
 msgid "Bookmarked Workspaces"
 msgstr "Meine Arbeitsräume"
 
-#: ../layout/browser/on_screen_help.py:193
+#: ../layout/browser/on_screen_help.py:211
 msgid "Bookmarked apps portlet"
 msgstr "Portlet \"Meine Apps\""
 
-#: ../layout/browser/on_screen_help.py:183
+#: ../layout/browser/on_screen_help.py:200
 msgid "Bookmarked workspaces portlet"
 msgstr "Portlet \"Meine Arbeitsbereiche\""
 
 #: ../bookmarks/browser/templates/bookmarks.tile.pt:20
 msgid "Bookmarks"
 msgstr "Lesezeichen"
-
-#: ../layout/browser/on_screen_help.py:111
-msgid "Bookmarks are what matters most to you. While browsing through the intranet, you can mark interesting content with a bookmark. All that content will then appear here in your bookmark box."
-msgstr "Lesezeichen zeigen an, was Sie am meisten interessiert. Während Sie in den Portalseiten stöbern können Sie interessante Inhalte mit einem Lesezeichen versehen. All diese Inhalte erscheinen dann in diesem Portlet sowie in der Lesezeichen App."
 
 #: ../bookmarks/browser/configure.zcml:32
 msgid "Bookmarks of Apps tile"
@@ -556,7 +544,7 @@ msgstr ""
 msgid "Bookmarks of Workspaces tile"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:110
+#: ../layout/browser/on_screen_help.py:120
 msgid "Bookmarks portlet"
 msgstr "Portlet \"Lesezeichen\""
 
@@ -707,7 +695,7 @@ msgstr "Kontakt"
 msgid "Contacts"
 msgstr "Kontakte"
 
-#: ../layout/browser/on_screen_help.py:121
+#: ../layout/browser/on_screen_help.py:132
 msgid "Contacts portlet"
 msgstr "Portlet \"Kontakte\""
 
@@ -804,7 +792,7 @@ msgstr "Erstellungsdatum"
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: ../layout/browser/on_screen_help.py:64
+#: ../layout/browser/on_screen_help.py:67
 #: ../layout/profiles/default/actions.xml
 msgid "Dashboard"
 msgstr "Startseite"
@@ -1136,7 +1124,7 @@ msgstr "Termine"
 msgid "Events I'm invited to"
 msgstr "Termine, zu denen ich eingeladen bin"
 
-#: ../layout/browser/on_screen_help.py:130
+#: ../layout/browser/on_screen_help.py:142
 msgid "Events portlet"
 msgstr "Portlet \"Termine\""
 
@@ -1379,21 +1367,13 @@ msgstr "Gast"
 msgid "Guests are only used internally and cannot be assigned."
 msgstr "Gäste werden intern gesetzt und können nicht zugeteilt werden."
 
-#: ../layout/browser/on_screen_help.py:229
+#: ../layout/browser/on_screen_help.py:252
 msgid "Help"
 msgstr "Hilfe"
 
 #: ../layout/browser/on_screen_help.py:31
 msgid "Help unavailable"
 msgstr "Keine Hilfe verfügbar"
-
-#: ../layout/browser/on_screen_help.py:76
-msgid "Here is the news magazine. It gives you an overview over your company's actual news."
-msgstr "Hier ist der Nachrichtenbereich. Erhalten Sie eine Übersicht über die aktuellen Nachrichten in Ihrem Unternehmen."
-
-#: ../layout/browser/on_screen_help.py:37
-msgid "Here you can select different dashboards. There is an activity centric and a task centric dashboard available. You can also configure your own dashboard using My view. Pick what best fits your style of working."
-msgstr "Hier können Sie die Konfigurationen für Ihre Startseite ändern. Sie können zwischen zwei vordefinierten Konfigurationen wählen, oder Ihre Startseite mit \"Meine Startseite\" nach eigenen Vorstellungen selbst gestalten."
 
 #: ../workspace/interfaces.py:96
 msgid "Hero Image"
@@ -1469,10 +1449,6 @@ msgstr "Bilder"
 #: ../userprofile/browser/templates/user_import_form.pt:62
 msgid "Import users from file"
 msgstr "Benutzer aus Datei importieren"
-
-#: ../layout/browser/on_screen_help.py:84
-msgid "In the library you can find any documents that are informational for all intranet users."
-msgstr "In der Bibliothek finden Sie all jene Dokumente, die für alle Benutzer Ihres Portals informativ und zugängig sind."
 
 #: ../todo/browser/templates/app.pt:121
 msgid "Individuals"
@@ -1619,7 +1595,7 @@ msgstr "Aktuelle Nachrichten"
 msgid "Learn how this works"
 msgstr "Lesen Sie hier, wie das funktioniert"
 
-#: ../layout/browser/on_screen_help.py:83
+#: ../layout/browser/on_screen_help.py:89
 #: ../layout/profiles/default/actions.xml
 msgid "Library"
 msgstr "Bibliothek"
@@ -1640,7 +1616,7 @@ msgstr "Bibliotheksbereich"
 msgid "Library for PloneIntranet"
 msgstr "Die PloneIntranet Bibliothek"
 
-#: ../layout/browser/on_screen_help.py:139
+#: ../layout/browser/on_screen_help.py:152
 msgid "Library portlet"
 msgstr "Portlet \"Bibliothek\""
 
@@ -1785,7 +1761,7 @@ msgstr "Benutzer"
 msgid "Membrane Group (Workspace)"
 msgstr "Membrane Gruppe (Arbeitsraum)"
 
-#: ../layout/browser/on_screen_help.py:47
+#: ../layout/browser/on_screen_help.py:48
 msgid "Menu toggle"
 msgstr "Menü Umschalter"
 
@@ -1939,7 +1915,7 @@ msgstr "Neueste zuerst"
 msgid "Newest workspaces on top"
 msgstr "Neueste oben"
 
-#: ../layout/browser/on_screen_help.py:75
+#: ../layout/browser/on_screen_help.py:80
 #: ../layout/profiles/default/actions.xml
 #: ../todo/portlets/latest.pt:12
 msgid "News"
@@ -1960,7 +1936,7 @@ msgstr "Nachrichtenbereich"
 msgid "News item title"
 msgstr "Titel der Nachricht"
 
-#: ../layout/browser/on_screen_help.py:152
+#: ../layout/browser/on_screen_help.py:166
 msgid "News portlet"
 msgstr "Portlet \"Aktuelles\""
 
@@ -2065,7 +2041,7 @@ msgstr "Benutzer ${userid} nicht gefunden."
 msgid "No tag selected"
 msgstr "Kein Schlagwort ausgewählt"
 
-#: ../layout/browser/templates/tasks-tile.pt:21
+#: ../layout/browser/templates/tasks-tile.pt:24
 msgid "No tasks available"
 msgstr "Keine Aufgaben verfügbar"
 
@@ -2113,10 +2089,6 @@ msgstr "Nichts gefunden"
 #: ../notifications/browser/notificationsviewlet.pt:4
 msgid "Notifications"
 msgstr "Benachrichtigungen"
-
-#: ../layout/browser/on_screen_help.py:246
-msgid "Notifications about news posts are listed here. A number within a red circle shows that you have unread notifications."
-msgstr "Hier werden Benachrichtigungen zu neuen Beiträgen gelistet. Eine Zahl in einem roten Kreis zeigt, dass für Sie neue, ungelesene Benachrichtigungen vorliegen."
 
 #: ../todo/portlets/latest.py:22
 msgid "Number of items to display"
@@ -2260,7 +2232,7 @@ msgstr "Person, mit der eine Unterhaltung begonnen werden soll"
 msgid "Personal image updated. Keep browsing or reload the page to see the change."
 msgstr "Ihr Profilbild wurde aktualisiert. Laden Sie die Seite neu um die Änderungen sichtbar zu machen."
 
-#: ../layout/browser/on_screen_help.py:254
+#: ../layout/browser/on_screen_help.py:280
 msgid "Personal menu"
 msgstr "Persönlicher Bereich"
 
@@ -2421,17 +2393,13 @@ msgstr ""
 msgid "PloneIntranet Event Fields"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:222
+#: ../layout/browser/on_screen_help.py:243
 msgid "Portal search"
 msgstr ""
 
-#: ../layout/browser/on_screen_help.py:211
+#: ../layout/browser/on_screen_help.py:231
 msgid "Post a message"
 msgstr "Nachricht verfassen"
-
-#: ../layout/browser/on_screen_help.py:212
-msgid "Post a message to the team, to your colleagues, to the company. Share what is important right now, let your colleagues know. Upload attachments, mention specific people and tag your post."
-msgstr "Verfassen Sie eine Nachricht an Ihr Team, Ihre Kollegen, Ihr Unternehmen. Teilen Sie Ihren Kollegen mit, was gerade wichtig ist. Sie können Anhänge hinzufügen, Benutzer erwähnen und Ihren Beitrag verschlagworten."
 
 msgid "PowerPoint 2007 presentation"
 msgstr "PowerPoint 2007 Präsentation"
@@ -2508,17 +2476,9 @@ msgstr ""
 msgid "Published"
 msgstr "Veröffentlicht"
 
-#: ../layout/browser/on_screen_help.py:122
-msgid "Quick access to all your contacts. Start typing a name, a job title or a street. Matching contacts appear immediately."
-msgstr "Schneller Zugriff auf all Ihre Kontakte. Beginnen Sie, einen Namen, einen Berufstitel oder eine Adressangabe zu tippen. Passende Kontakte erscheinen während Sie tippen."
-
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:228
 msgid "Re-tag"
 msgstr "Schlagworte ändern"
-
-#: ../layout/browser/on_screen_help.py:202
-msgid "Read about what's going on in your company in the activity stream portlet. You can filter existing messages and also write a post to your colleagues yourself."
-msgstr "Lesen Sie, was in Ihrem Unternehmen passiert in den Aktivitäten. Sie können existierende Beiträge filtern und auch selbst Beiträge an Ihre Kollegen verfassen."
 
 #: ../todo/browser/templates/app.pt:311
 msgid "Read the manual"
@@ -2704,10 +2664,6 @@ msgstr "Titel des Bereichs"
 msgid "Security"
 msgstr "Sicherheit"
 
-#: ../layout/browser/on_screen_help.py:140
-msgid "See recent changes to the library. Content listed here may be relevant for your next holiday application, show newest updates to the company manual or show you the latest article in the CEO's blog."
-msgstr "Hier sehen Sie aktuelle Änderungen zu Inhalten in der Bibliothek. Inhalte in der Bibliothek sind für alle Benutzer zugängig."
-
 #: ../workspace/browser/tiles/templates/navigation.pt:33
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:108
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:43
@@ -2873,10 +2829,6 @@ msgstr "Status"
 msgid "Status updates by ${fullname}:"
 msgstr "Statusänderung von ${fullname}:"
 
-#: ../layout/browser/on_screen_help.py:153
-msgid "Stay informed - see the latest news articles listed here. If you click the 'mark read' button of a news item it disappears from the portlet."
-msgstr "Bleiben Sie up to date. Hier finden Sie die neuesten Nachrichten aus Ihrem Unternehmen. Wenn Sie den Knopf \"Gelesen\" klicken, verschwindet der Artikel aus der Liste der Nachrichten."
-
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:191
 msgid "Subscribe"
 msgstr "Abonnieren"
@@ -2913,7 +2865,7 @@ msgstr "Aufgabenstatus geändert"
 msgid "Task title"
 msgstr "Aufgabentitel"
 
-#: ../layout/browser/templates/tasks-tile.pt:10
+#: ../layout/browser/templates/tasks-tile.pt:13
 #: ../workspace/browser/tiles/templates/workspace-tabs-tile.pt:22
 msgid "Tasks"
 msgstr "Aufgaben"
@@ -2922,7 +2874,7 @@ msgstr "Aufgaben"
 msgid "Tasks finished"
 msgstr "Aufgaben erledigt"
 
-#: ../layout/browser/on_screen_help.py:161
+#: ../layout/browser/on_screen_help.py:176
 msgid "Tasks portlet"
 msgstr "Portlet \"Aufgaben\""
 
@@ -3022,10 +2974,6 @@ msgstr "Das Label für dieses Suchergebnis."
 #: ../invitations/events.py:9
 msgid "The id of the Token that was consumed"
 msgstr "Die ID des Tokens welches verbraucht wurde."
-
-#: ../layout/browser/on_screen_help.py:48
-msgid "The menu toggle lets you hide and show the global navigation which allows you to quickly jump to another section of the intranet."
-msgstr "Der Umschalter ermöglicht das Ein- und Ausblenden der globalen Navigation, die einen schnellen Zugriff auf die Bereiche des Quaive Portals ermöglicht."
 
 #: ../invitations/interfaces.py:27
 msgid "The number of uses for this token before it expires"
@@ -3130,14 +3078,6 @@ msgstr "Dieses Datum muss vor oder auf dem Enddatum liegen."
 #: ../layout/browser/templates/locking_panel.pt:11
 msgid "This document is currently locked for editing by"
 msgstr "Dieses Dokument ist gerade zum Editieren gesperrt von"
-
-#: ../layout/browser/on_screen_help.py:65
-msgid "This is the Dashboard. Here is the home for your personal shortcuts to your most important places. You can add workspaces, contacts and apps to your own dashboard."
-msgstr "Das ist die Startseite Ihres Quaive Portals. Die Startseite beinhaltet Shortcuts zu den wichtigsten Bereichen. Sie können Arbeitsräume, Kontakte und Apps zu Ihrer persönlichen Startseite hinzufügen."
-
-#: ../layout/browser/on_screen_help.py:92
-msgid "This is workspaces section. Workspaces are areas for creating, organizing and sharing content. Go here to get an overview over the workspaces you can access."
-msgstr "Hier befinden sich die Arbeitesräume Ihres Portals. Arbeitsräume sind dafür da, um Inhalte zu erstellen, zu organisieren und zu teilen. In dieser Sektion erhalten Sie einen Überblick über die Arbeitsräume, zu denen Sie Zugang haben."
 
 #: ../bookmarks/browser/templates/bookmark.pt:16
 msgid "This item has been added to your bookmarks."
@@ -3388,17 +3328,9 @@ msgstr ""
 msgid "Use the above URL to see this Workspace's calendar also in your Outlook calendar."
 msgstr "Verwenden Sie die oben genannte URL um den Kalender dieses Arbeitsraumes in Ihrem Outlook Kalender anzuzeigen."
 
-#: ../layout/browser/on_screen_help.py:223
-msgid "Use the search to find information within the Quaive portal."
-msgstr "Verwenden Sie die Suche, um Informationen in Ihrem Quaive Portal zu finden."
-
 #: ../workspace/behaviors/configure.zcml:55
 msgid "Use this content as a membrane group"
 msgstr "Diesen Inhalt als Membrane Gruppe verwenden"
-
-#: ../layout/browser/on_screen_help.py:230
-msgid "Use this toggle to turn the help bubbles on or off."
-msgstr "Verwenden Sie diesen Umschalter, um die Hilfethemen ein- oder auszuschalten."
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:323
 msgid "User not found"
@@ -3443,14 +3375,6 @@ msgstr "Ansehen"
 msgid "View this image"
 msgstr "Bild ansehen"
 
-#: ../layout/browser/on_screen_help.py:237
-msgid "Wanna chat with your collegues? Click here to open the chat app. A number within a red circle shows that you have unread chat messages."
-msgstr "Lust mit einem Kollegen zu chatten? Klicken Sie hier um die Chat App zu starten. Eine Zahl in einem roten Kreis zeigt an, daß ungelesene Chat-Nachrichten für Sie vorliegen."
-
-#: ../layout/browser/on_screen_help.py:57
-msgid "We would like to introduce you to the Quaive Social Intranet Platform. Please try out!"
-msgstr "Erkunden Sie die neue Quaive Intranet Plattform Ihres Unternehmens. Die Hilfethemen führen Sie durch die wichtigsten Elemente der Oberfläche."
-
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:381
 msgid "Weblink"
 msgstr "Weblink"
@@ -3463,7 +3387,7 @@ msgstr "Woche"
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
 
-#: ../layout/browser/on_screen_help.py:56
+#: ../layout/browser/on_screen_help.py:58
 msgid "Welcome!"
 msgstr "Herzlich willkommen!"
 
@@ -3559,12 +3483,12 @@ msgid "Workspace title"
 msgstr "Titel"
 
 #: ../bookmarks/browser/templates/app.pt:21
-#: ../layout/browser/on_screen_help.py:91
+#: ../layout/browser/on_screen_help.py:99
 #: ../layout/profiles/default/actions.xml
 msgid "Workspaces"
 msgstr "Arbeitsräume"
 
-#: ../layout/browser/on_screen_help.py:173
+#: ../layout/browser/on_screen_help.py:189
 msgid "Workspaces portlet"
 msgstr "Portlet \"Arbeitsräume\""
 
@@ -3671,26 +3595,6 @@ msgstr "Sie haben die maximale Anzahl an Ergebnissen erreicht, bitte filtern Sie
 #: ../workspace/browser/templates/email_invitees_html.pt:10
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr "Sie erhalten diese E-Mail von ${portal_title}, weil Sie zu folgendem Termin eingeladen sind:"
-
-#: ../layout/browser/on_screen_help.py:162
-msgid "Your Tasks. This is what you need to work on, ordered by deadline. The topmost one is usually the one due first. If you just completed one, check it. If you don't yet know what to do, click it and read the description."
-msgstr "Ihre Aufgaben. Hier steht, was zu erledigen ist, sortiert nach Fälligkeit. Wenn Sie eine Aufgabe erledigt haben, setzen Sie den Haken im Kästchen. Falls nicht klar ist, was Sie zu tun haben, klicken Sie auf die Aufgabe um die Beschreibung zu lesen."
-
-#: ../layout/browser/on_screen_help.py:174
-msgid "Your Workspaces! That are workspaces that you can see. You will never see any workspaces here that you can't actually access."
-msgstr "Ihre Arbeitsräume! Hier werden alle Arbeitsräume gelistet, auf die Sie zugreifen können. Es wird kein Arbeitsraum erscheinen, zu dem Sie keinen Zugang haben."
-
-#: ../layout/browser/on_screen_help.py:255
-msgid "Your avatar image opens the personal menu with links to your user profile, password change and logout actions."
-msgstr "Ihr Benutzerbild öffnet das Bentzermenü mit Verweisen auf Ihr Benutzerprofil, Passwortänderungen und Logout."
-
-#: ../layout/browser/on_screen_help.py:194
-msgid "Your bookmarked Apps! That are apps you marked as important by bookmarking them."
-msgstr "Ihre wichtigsten Apps! Diese Apps haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert."
-
-#: ../layout/browser/on_screen_help.py:184
-msgid "Your bookmarked Workspaces! That are workspaces you marked as important by bookmarking them. You will never see any workspaces here that you can't actually access."
-msgstr "Ihre wichtigsten Arbeitsräume. Diese Arbeitsräume haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert. Sie werden keinen Arbeitsraum hier finden, auf den Sie keinen Zugriff haben."
 
 #: ../workspace/basecontent/baseviews.py:293
 msgid "Your changes have been saved."
@@ -4051,6 +3955,126 @@ msgstr "veröffentlichte"
 #: ../workspace/browser/templates/roster-edit.pt:24
 msgid "heading_edit_roster"
 msgstr "Mitgliederliste für ${folder}"
+
+#. Default: "Here you can select different dashboards. There is an activity centric and a task centric dashboard available. You can also configure your own dashboard using My view. Pick what best fits your style of working."
+#: ../layout/browser/on_screen_help.py:37
+msgid "help-dashboard-view"
+msgstr "Hier können Sie die Konfigurationen für Ihre Startseite ändern. Sie können zwischen zwei vordefinierten Konfigurationen wählen, oder Ihre Startseite mit \"Meine Startseite\" nach eigenen Vorstellungen selbst gestalten."
+
+#. Default: "Wanna chat with your collegues? Click here to open  the chat app. A number within a red circle shows that you have unread chat messages."
+#: ../layout/browser/on_screen_help.py:261
+msgid "help-global-chat-info"
+msgstr "Lust mit einem Kollegen zu chatten? Klicken Sie hier um die Chat App zu starten. Eine Zahl in einem roten Kreis zeigt an, daß ungelesene Chat-Nachrichten für Sie vorliegen."
+
+#. Default: "Use this toggle to turn the help bubbles on or off."
+#: ../layout/browser/on_screen_help.py:253
+msgid "help-global-help-info"
+msgstr "Verwenden Sie diesen Umschalter, um die Hilfethemen ein- oder auszuschalten."
+
+#. Default: "Notifications about news posts are listed here. A number within a red circle shows that you have unread notifications."
+#: ../layout/browser/on_screen_help.py:271
+msgid "help-global-messages-info"
+msgstr "Hier werden Benachrichtigungen zu neuen Beiträgen gelistet. Eine Zahl in einem roten Kreis zeigt, dass für Sie neue, ungelesene Benachrichtigungen vorliegen."
+
+#. Default: "Your avatar image opens the personal menu with links to your user profile, password change and logout actions."
+#: ../layout/browser/on_screen_help.py:281
+msgid "help-global-personal-menu"
+msgstr "Ihr Benutzerbild öffnet das Bentzermenü mit Verweisen auf Ihr Benutzerprofil, Passwortänderungen und Logout."
+
+#. Default: "Use the search to find information within the Quaive portal."
+#: ../layout/browser/on_screen_help.py:244
+msgid "help-global-search"
+msgstr "Verwenden Sie die Suche, um Informationen in Ihrem Quaive Portal zu finden."
+
+#. Default: "The menu toggle lets you hide and show the global navigation which allows you to quickly jump to another section of the intranet."
+#: ../layout/browser/on_screen_help.py:49
+msgid "help-hamburger"
+msgstr "Der Umschalter ermöglicht das Ein- und Ausblenden der globalen Navigation, die einen schnellen Zugriff auf die Bereiche des Quaive Portals ermöglicht."
+
+#. Default: "Apps are extra bits of functionality for your Quaive site. Visit this section to find out what apps are available."
+#: ../layout/browser/on_screen_help.py:111
+msgid "help-portal-apps"
+msgstr "Apps bieten zusätzliche Funktionalität für Ihr Quaive Portal. Hier finden Sie eine Übersicht über alle im Portal verfügbaren Apps."
+
+#. Default: "This is your personal Dashboard. It is the home for shortcuts to your most important places and shows you an overview of recent activities. You can add workspaces, contacts and apps to your own dashboard."
+#: ../layout/browser/on_screen_help.py:68
+msgid "help-portal-dashboard"
+msgstr "Das ist die Startseite Ihres Quaive Portals. Die Startseite beinhaltet Shortcuts zu den wichtigsten Bereichen. Sie können Arbeitsräume, Kontakte und Apps zu Ihrer persönlichen Startseite hinzufügen."
+
+#. Default: "In the library you can find documents that are valid for all intranet users, organized by different topics."
+#: ../layout/browser/on_screen_help.py:90
+msgid "help-portal-library"
+msgstr "In der Bibliothek finden Sie all jene Dokumente, die für alle Benutzer Ihres Portals informativ und zugängig sind."
+
+#. Default: "Here is the news magazine. It gives you an overview over your organization's news."
+#: ../layout/browser/on_screen_help.py:81
+msgid "help-portal-news"
+msgstr "Hier ist der Nachrichtenbereich. Erhalten Sie eine Übersicht über die aktuellen Nachrichten in Ihrem Unternehmen."
+
+#. Default: "We would like to introduce you to the Quaive Social Intranet Platform. Please try out!"
+#: ../layout/browser/on_screen_help.py:59
+msgid "help-portal-suite"
+msgstr "Erkunden Sie die neue Quaive Intranet Plattform Ihres Unternehmens. Die Hilfethemen führen Sie durch die wichtigsten Elemente der Oberfläche."
+
+#. Default: "Workspaces are areas for creating, organizing and sharing content. Go here to get an overview over the workspaces you can access or create your own workspaces."
+#: ../layout/browser/on_screen_help.py:100
+msgid "help-portal-workspaces"
+msgstr "Hier befinden sich die Arbeitesräume Ihres Portals. Arbeitsräume sind dafür da, um Inhalte zu erstellen, zu organisieren und zu teilen. In dieser Sektion erhalten Sie einen Überblick über die Arbeitsräume, zu denen Sie Zugang haben."
+
+#. Default: "Your bookmarked Apps! These are apps you have marked as important by bookmarking them."
+#: ../layout/browser/on_screen_help.py:212
+msgid "help-portlet-bookmarked-apps"
+msgstr "Ihre wichtigsten Apps! Diese Apps haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert."
+
+#. Default: "Your bookmarked Workspaces! These are workspaces you have marked as important by bookmarking them. You will never see any workspaces here that you can't actually access."
+#: ../layout/browser/on_screen_help.py:201
+msgid "help-portlet-bookmarked-workspaces"
+msgstr "Ihre wichtigsten Arbeitsräume. Diese Arbeitsräume haben Sie mit einem Lesezeichen versehen und damit als besonders wichtig markiert. Sie werden keinen Arbeitsraum hier finden, auf den Sie keinen Zugriff haben."
+
+#. Default: "Bookmarks are what matters most to you. While browsing through the intranet, you can mark interesting content with a bookmark. All that content will then appear here in your bookmark box."
+#: ../layout/browser/on_screen_help.py:121
+msgid "help-portlet-bookmarks"
+msgstr "Lesezeichen zeigen an, was Sie am meisten interessiert. Während Sie in den Portalseiten stöbern können Sie interessante Inhalte mit einem Lesezeichen versehen. All diese Inhalte erscheinen dann in diesem Portlet sowie in der Lesezeichen App."
+
+#. Default: "Quick access to all your contacts. Start typing a name, a job title or a street. Matching contacts appear immediately."
+#: ../layout/browser/on_screen_help.py:133
+msgid "help-portlet-contacts"
+msgstr "Schneller Zugriff auf all Ihre Kontakte. Beginnen Sie, einen Namen, einen Berufstitel oder eine Adressangabe zu tippen. Passende Kontakte erscheinen während Sie tippen."
+
+#. Default: "All events you are invited to - at your fingertips. They are ordered by upcoming first."
+#: ../layout/browser/on_screen_help.py:143
+msgid "help-portlet-events"
+msgstr "Alle Termine, zu denen Sie eingeladen sind auf einen Blick. Nach Aktualität sortiert - der nächste Termin steht ganz oben in der Liste."
+
+#. Default: "See recent changes to the library. Content listed here may be relevant for your next holiday application, show newest updates to the company manual or show you the latest article in the CEO's blog."
+#: ../layout/browser/on_screen_help.py:153
+msgid "help-portlet-library"
+msgstr "Hier sehen Sie aktuelle Änderungen zu Inhalten in der Bibliothek. Inhalte in der Bibliothek sind für alle Benutzer zugängig."
+
+#. Default: "Stay informed - see the latest news articles listed here. If you click the 'mark read' button of a news item, it will disappear from the portlet."
+#: ../layout/browser/on_screen_help.py:167
+msgid "help-portlet-news"
+msgstr "Bleiben Sie up to date. Hier finden Sie die neuesten Nachrichten aus Ihrem Unternehmen. Wenn Sie den Knopf \"Gelesen\" klicken, verschwindet der Artikel aus der Liste der Nachrichten."
+
+#. Default: "Read about what's going on in your company in the activity stream portlet. You can filter existing messages and also write a post to your colleagues yourself."
+#: ../layout/browser/on_screen_help.py:221
+msgid "help-portlet-stream"
+msgstr "Lesen Sie, was in Ihrem Unternehmen passiert in den Aktivitäten. Sie können existierende Beiträge filtern und auch selbst Beiträge an Ihre Kollegen verfassen."
+
+#. Default: "Your Tasks. This is what you need to work on, ordered by deadline. The topmost one is usually the one due first. If you just completed one, mark it as completed. If you don't yet know what to do, click it and read the description."
+#: ../layout/browser/on_screen_help.py:177
+msgid "help-portlet-tasks"
+msgstr "Ihre Aufgaben. Hier steht, was zu erledigen ist, sortiert nach Fälligkeit. Wenn Sie eine Aufgabe erledigt haben, setzen Sie den Haken im Kästchen. Falls nicht klar ist, was Sie zu tun haben, klicken Sie auf die Aufgabe um die Beschreibung zu lesen."
+
+#. Default: "Your Workspaces! These are workspaces that you can see. You will never see any workspaces here that you can't actually access."
+#: ../layout/browser/on_screen_help.py:190
+msgid "help-portlet-workspaces"
+msgstr "Ihre Arbeitsräume! Hier werden alle Arbeitsräume gelistet, auf die Sie zugreifen können. Es wird kein Arbeitsraum erscheinen, zu dem Sie keinen Zugang haben."
+
+#. Default: "Post a message to the team, to your colleagues, to the company. Share what is important right now, let your colleagues know. Upload attachments, mention specific people and tag your post."
+#: ../layout/browser/on_screen_help.py:232
+msgid "help-post-message"
+msgstr "Verfassen Sie eine Nachricht an Ihr Team, Ihre Kollegen, Ihr Unternehmen. Teilen Sie Ihren Kollegen mit, was gerade wichtig ist. Sie können Anhänge hinzufügen, Benutzer erwähnen und Ihren Beitrag verschlagworten."
 
 #. Default: "Enable autosave for the selected portal types (works for edit forms inside workspaces)"
 #: ../workspace/profiles/default/registry.xml
