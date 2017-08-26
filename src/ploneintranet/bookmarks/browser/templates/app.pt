@@ -83,7 +83,10 @@
                           tal:repeat="item group_items"
                           title="${item/description|nothing}">
                           <a href="${item/url}"
-                             class="${python: friendly_type2icon_class(getattr(item, 'friendly_type_name', ''))}"
+                             class="${python: friendly_type2icon_class(item_type)}"
+                             tal:define="
+                               item_type item/friendly_type_name|item/portal_type|nothing;
+                             "
                             >${item/title}</a>
                         </li>
                       </ul>
@@ -176,13 +179,15 @@
                 <tal:repeat repeat="item view/my_bookmarked_documents">
                   <a href="${item/url}" class="item">
                     <figure tal:define="preview_small python:item.preview_image_url or '';
-                                        preview_large python:preview_small.replace('/small/', '/large/')">
+                                        preview_large python:preview_small.replace('/small/', '/large/');
+                                        item_type item/friendly_type_name|item/portal_type|nothing;
+                                        ">
                       <img src="${preview_large}"
                            alt="${item/title}"
                            title="${item/description}"
                            tal:condition="preview_large"
                         />
-                      <figcaption class="icon-document ${python:friendly_type2icon_class(item.portal_type)}">
+                      <figcaption class="icon-document ${python:friendly_type2icon_class(item_type)}">
                         ${item/title}
                       </figcaption>
                     </figure>

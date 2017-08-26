@@ -6,12 +6,12 @@
     i18n_domain="ploneintranet">
 
   <!-- LDAP-specific property syncing -->
-  
+
   <browser:page
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="sync-user-properties-ldap"
       class="..ldap.LDAPChangedUsersPropertySync"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 

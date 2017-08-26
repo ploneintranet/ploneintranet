@@ -41,6 +41,8 @@ class ProtoView(BrowserView):
             return 'powerpoint'
         if 'workspace' in value:
             return 'workspace'
+        if 'project' in value:
+            return 'workspace'
         if 'link' in value:
             return 'link'
         if 'question' in value:
@@ -105,6 +107,11 @@ class ProtoView(BrowserView):
         and return a class for displaying the correct icon.
         '''
         proto_type = self.translate_friendly_type(value)
+        if proto_type in (
+            'odt',
+            'word',
+        ):
+            return 'icon-doc-text'
         # files -> .icon-file-audio etc...
         if proto_type in (
             'archive',
@@ -115,7 +122,6 @@ class ProtoView(BrowserView):
             'pdf',
             'powerpoint',
             'video',
-            'word',
         ):
             return 'icon-file-%s' % proto_type
         # known documents

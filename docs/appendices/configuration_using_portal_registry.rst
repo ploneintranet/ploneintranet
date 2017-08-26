@@ -127,6 +127,20 @@ ploneintranet.layout.filter_news_by_published_state
     **default**: True
 
 
+
+
+ploneintranet.layout.custom_bubbles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: Custom help bubbles
+
+    **description**: Specify custom help bubbles in a json format, e.g.: {"foo-bar": {"title": "Foo", "description": "<p>Bar baz</p>"}}  (this may change in the future)
+
+    **type**: plone.registry.field.Text
+
+    **default**: None
+
+
 ploneintranet.library
 --------------------
 

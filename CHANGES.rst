@@ -10,6 +10,9 @@ Added:
 
 * Added the API method ``ploneintranet.api.get_userids`` that returns
   all the known userprofiles id in the site
+* #1417 Initial support for the user help bubbles
+* If ``quaive.app.onlyoffice`` is installed and configured
+  and the user has the right permissions, files can be edited with ONLYOFFICE.
 * #1435 AD/LDAP sync can now also fetch portrait images
 * #1427 The apps have now a new ``external`` boolean field.
 * #1429 The site search now looks in to more user profile fields:
@@ -26,11 +29,16 @@ Changed:
   done in 1.2.69.
 * d6528a Technical Setup: Bumped setuptools
 * #1426 Technical Setup: Improved jenkins bootstrap script.
+* AD/LDAP sync view use `Manage users` and `Manage Groups` permission
+  so they can be used w/o `Manage portal` permission.
 
 Fixed:
 
 * Optimized a method in the todo utility that allows saving news faster.
 * # Issue #1445: the delete workspace modal panel was not displaying properly
+* Bookmarked projects did not have an icon in the bookmark app
+* Bookmark icon for word files in the "Documents" tab of the bookmark app
+* Issue #1445: the delete workspace modal panel was not displaying properly
 * #1422 Fix a pop up in the post form that was not closing itself after
   the user clicked on its actions.
 * #1423 In the Administrator Tools app,
@@ -43,6 +51,8 @@ Fixed:
 * Translation: change title of a Case transition, to avoid a semantic
   translation conflict
 * Fix redactor <hr> button.
+* User attributes synced from AD are now properly turned into unicode
+* Group members synced from AD don't break anymore if uids with unicode are within.
 
 Deprecated:
 

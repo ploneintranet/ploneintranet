@@ -13,14 +13,17 @@
            ">
         <form class="state-toggle pat-inject xpat-autosubmit" action="/dashboard.html#user-avatar" tal:condition="python:len(bookmarks) > min_items">
             <label class="show-more pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-apps; remove: state-*; add: state-expanded">
-                <input type="radio" name="portlet-bookmarked-apps-state-expanded" value="on"> 
+                <input type="radio" name="portlet-bookmarked-apps-state-expanded" value="on">
                 Show more
             </label>
             <label class="show-less pat-switch checked" data-pat-switch="selector: #portlet-bookmarked-apps; remove: state-*; add: state-collapsed">
-                <input type="radio" name="portlet-bookmarked-apps-state-collapsed" value="on"> 
+                <input type="radio" name="portlet-bookmarked-apps-state-collapsed" value="on">
                 Show less
             </label>
         </form>
+        <tal:bubble define="osh_view nocall:here/on-screen-help;"
+                    replace="structure python:osh_view.link_to('portlet-bookmarked-apps')"
+        />
         <h2 class="portlet-title">
           <a href="${view/app_url}#directory-apps"
             i18n:translate=""
