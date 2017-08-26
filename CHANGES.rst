@@ -27,6 +27,8 @@ Changed:
   done in 1.2.69.
 * d6528a Technical Setup: Bumped setuptools
 * #1426 Technical Setup: Improved jenkins bootstrap script.
+* AD/LDAP sync view use `Manage users` and `Manage Groups` permission
+  so they can be used w/o `Manage portal` permission.
 
 Fixed:
 
