@@ -125,7 +125,7 @@ class UserPropertyManager(object):
                     data=value,
                     filename=u'portrait-%s.jpg' % self.context.username)
 
-            if value is not NO_VALUE and value != current_value:
+            if value is not NO_VALUE and safe_unicode(value) != current_value:
                 setattr(self.context, property_name, safe_unicode(value))
                 changed = True
 

@@ -11,6 +11,9 @@
 
   <include package="dexterity.membrane" />
 
+  <permission id="plonepas.ManageGroups"
+              title="Manage Groups" />
+
   <adapter name="Title"
            factory=".indexers.Title" />
 

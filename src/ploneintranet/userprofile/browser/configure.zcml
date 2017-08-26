@@ -118,7 +118,7 @@
       for="plone.dexterity.interfaces.IDexterityContainer"
       name="import-avatars"
       class=".user_import.ImportAvatarsView"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
@@ -134,7 +134,7 @@
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="import-users"
       class=".user_import.CSVImportView"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
@@ -142,7 +142,7 @@
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="sync-user-properties"
       class="..sync.AllUsersPropertySync"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
@@ -150,7 +150,7 @@
       for="ploneintranet.userprofile.content.userprofilecontainer.IUserProfileContainer"
       name="sync-users"
       class="..sync.AllUsersSync"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
@@ -158,7 +158,7 @@
       for="ploneintranet.userprofile.content.userprofile.IUserProfile"
       name="sync"
       class="..sync.UserPropertySync"
-      permission="cmf.ManagePortal"
+      permission="membrane.ManageUsers"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
@@ -166,7 +166,7 @@
       for="ploneintranet.userprofile.content.workgroup.IWorkGroup"
       name="sync"
       class="..sync.WorkGroupPropertySync"
-      permission="cmf.ManagePortal"
+      permission="plonepas.ManageGroups"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
      />
 
@@ -174,7 +174,7 @@
       for="ploneintranet.workspace.workspacecontainer.IWorkspaceContainer"
       name="sync-groups"
       class="..sync.AllWorkGroupsSync"
-      permission="cmf.ManagePortal"
+      permission="plonepas.ManageGroups"
       layer="ploneintranet.userprofile.interfaces.IPloneintranetUserprofileLayer"
       />
 
