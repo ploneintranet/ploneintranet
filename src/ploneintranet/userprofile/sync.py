@@ -211,7 +211,6 @@ def sync_many(profiles_container, users):
         logger.info('No users to sync')
 
 
-
 class AllUsersPropertySync(BaseSyncView):
 
     def _sync(self):
