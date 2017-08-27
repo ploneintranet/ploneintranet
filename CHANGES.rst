@@ -27,6 +27,9 @@ Changed:
   done in 1.2.69.
 * d6528a Technical Setup: Bumped setuptools
 * #1426 Technical Setup: Improved jenkins bootstrap script.
+* AD/LDAP sync views return logging information to give users detailed feedback
+  (can be turned off by appending `@@sync-users?quiet=True` or adding it as
+  parameter to the view's call method `view(quiet=True)`)
 * AD/LDAP sync view use `Manage users` and `Manage Groups` permission
   so they can be used w/o `Manage portal` permission.
 

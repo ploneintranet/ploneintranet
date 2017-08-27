@@ -11,6 +11,7 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from Products.Five import BrowserView
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
 from Products.CMFPlone.utils import safe_unicode
+from StringIO import StringIO
 from transaction import commit
 from zope.component import adapter
 from zope.interface import alsoProvides
@@ -138,6 +139,42 @@ class UserPropertyManager(object):
             self.turn_properties_plugin_off_again()
 
 
+class BaseSyncView(BrowserView):
+    """adds handler that stores logging information
+    in a stream and adds it to the response to give
+    users detailed feedback
+
+    call with ?quiet=True to not add logging information
+    """
+
+    def __call__(self, quiet=None):
+        alsoProvides(self.request, IDisableCSRFProtection)
+        if quiet is None:
+            quiet = self.request.get('quiet', 'False') in [
+                'true', 'True', 1, '1']
+
+        if not quiet:
+            stream = StringIO()
+            self.handler = logging.StreamHandler(stream)
+            logger.addHandler(self.handler)
+
+        result = self._sync()
+
+        if not quiet:
+            logger.removeHandler(self.handler)
+            logged = stream.getvalue()
+            stream.close()
+            self.request.response.setHeader('Content-type', 'text/plain')
+            return result + '\n\n' + logged
+        else:
+            return result
+
+    def _sync(self):
+        """do the sync job and return success message as string
+        """
+        raise NotImplementedError()
+
+
 class UserPropertySync(BrowserView):
 
     def __call__(self):
@@ -174,15 +211,13 @@ def sync_many(profiles_container, users):
         logger.info('No users to sync')
 
 
-class AllUsersPropertySync(BrowserView):
+class AllUsersPropertySync(BaseSyncView):
 
-    def __call__(self):
+    def _sync(self):
         """Sync properties from PAS into the membrane object for
         all users across the application.
         """
         purge_all_caches()
-        alsoProvides(self.request, IDisableCSRFProtection)
-
         users = self._get_users_to_sync()
         sync_many(self.context, users)
         return 'Property sync complete.'
@@ -209,7 +244,7 @@ def create_membrane_profile(member):
             profile_manager.sync()
 
 
-class AllUsersSync(BrowserView):
+class AllUsersSync(BaseSyncView):
     """Sync all users from the "canonical" source of external users.
 
     Compares local membrane profiles to the list of users found
@@ -217,12 +252,6 @@ class AllUsersSync(BrowserView):
     Removes any profiles for users no longer in the canonical source,
     and creates profiles for any new users found in the canonical source.
     """
-
-    def __call__(self):
-        purge_all_caches()
-        alsoProvides(self.request, IDisableCSRFProtection)
-        self._sync()
-        return 'User sync complete.'
 
     def _plugin_userids(self, plugin_id):
         acl_users = api.portal.get_tool(name='acl_users')
@@ -234,11 +263,13 @@ class AllUsersSync(BrowserView):
         return api.portal.get_registry_record(PRI_EXT_USERS_KEY)
 
     def _sync(self):
+        purge_all_caches()
         external_userids = set(self._plugin_userids(self.canonical_plugin_id))
         local_userids = set(self._plugin_userids('membrane_users'))
         self._disable_user_profiles(local_userids, external_userids)
         to_sync = self._create_user_profiles(local_userids, external_userids)
         sync_many(self.context, list(to_sync))
+        return 'User sync complete.'
 
     def _create_user_profiles(self, local_userids, external_userids):
         """Create user profiles for any external user
@@ -382,7 +413,7 @@ def sync_many_groups(group_container, groups):
         logger.info('No groups to sync')
 
 
-class AllWorkGroupsSync(BrowserView):
+class AllWorkGroupsSync(BaseSyncView):
     """Sync all groups from the "canonical" source of external groups.
 
     Compares local membrane groups to the list of groups found
@@ -390,12 +421,6 @@ class AllWorkGroupsSync(BrowserView):
     Removes any groups no longer in the canonical source,
     and creates groups for any new groups found in the canonical source.
     """
-
-    def __call__(self):
-        purge_all_caches()
-        alsoProvides(self.request, IDisableCSRFProtection)
-        self._sync()
-        return 'Group sync complete.'
 
     def get_groups_container(self):
         container = 'groups'
@@ -426,6 +451,7 @@ class AllWorkGroupsSync(BrowserView):
         return api.portal.get_registry_record(PRI_EXT_USERS_KEY)
 
     def _sync(self):
+        purge_all_caches()
         external_groupids = set(self._plugin_groupids(
             self.canonical_plugin_id))
         local_groupids = set(self._plugin_groupids('membrane_groups'))
@@ -433,6 +459,7 @@ class AllWorkGroupsSync(BrowserView):
         # _create_groups is unfortunately a generator, so we need to consume it
         tuple(self._create_groups(local_groupids, external_groupids))
         sync_many_groups(self.context, self.context.objectValues())
+        return 'Group sync complete.'
 
     def _create_groups(self, local_groupids, external_groupids):
         """Create user profiles for any external user
