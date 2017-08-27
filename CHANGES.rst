@@ -8,6 +8,8 @@ Changelog
 
 Added:
 
+* Added the API method ``ploneintranet.api.get_userids`` that returns
+  all the known userprofiles id in the site
 * #1417 Initial support for the user help bubbles
 * If ``quaive.app.onlyoffice`` is installed and configured
   and the user has the right permissions, files can be edited with ONLYOFFICE.
@@ -35,6 +37,8 @@ Changed:
 
 Fixed:
 
+* Optimized a method in the todo utility that allows saving news faster.
+* # Issue #1445: the delete workspace modal panel was not displaying properly
 * Bookmarked projects did not have an icon in the bookmark app
 * Bookmark icon for word files in the "Documents" tab of the bookmark app
 * Issue #1445: the delete workspace modal panel was not displaying properly

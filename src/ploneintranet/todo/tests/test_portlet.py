@@ -1,13 +1,13 @@
-from zope.component import getUtility
-from zope.component import getMultiAdapter
-from zope.lifecycleevent import modified
-from plone import api
-from plone.portlets.interfaces import IPortletRenderer
-from plone.portlets.interfaces import IPortletManager
-from plone.namedfile.file import NamedBlobImage
 from ..behaviors import IMustRead
 from ..portlets import latest
 from ..testing import IntegrationTestCase
+from plone import api
+from plone.namedfile.file import NamedBlobImage
+from plone.portlets.interfaces import IPortletManager
+from plone.portlets.interfaces import IPortletRenderer
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.lifecycleevent import modified
 
 
 LOGO = (
@@ -31,10 +31,24 @@ LOGO = (
 )
 
 
+class FakeProfiles(object):
+
+    def manage_fixupOwnershipAfterAdd(self):
+        pass
+
+    def keys(self):
+        return {
+            'admin',
+            'test_user_1_',
+        }
+
+
 class TestPortlet(IntegrationTestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.portal['profiles'] = FakeProfiles()
+
         self.folder = api.content.create(
             type='Folder',
             title=u'News test',

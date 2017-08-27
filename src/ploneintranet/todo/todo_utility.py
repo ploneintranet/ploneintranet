@@ -4,8 +4,10 @@ from .interfaces import ITodoUtility
 from BTrees.OOBTree import OOBTree
 from operator import itemgetter
 from plone import api
+from ploneintranet import api as pi_api
 from zope.annotation import IAnnotations
 from zope.interface import implements
+
 
 ANNOTATION_KEY = 'ploneintranet.todo.action_storage'
 
@@ -34,10 +36,8 @@ class TodoUtility(object):
 
         :return: The userids of all site users
         :rtype: list
-
-        BBB: use pi_api.userprofile.get_users?
         """
-        return [x.getId() for x in api.user.get_users() if x is not None]
+        return pi_api.userprofile.get_userids()
 
     def _user_in_storage(self, userid):
         """

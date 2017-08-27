@@ -314,6 +314,23 @@ class TestUserProfileGetUsers(IntegrationTestCase):
         self.folder.members = ['bobdoe', 'bobschmo']
         directlyProvides(self.folder, IMemberGroup)
 
+    def test_get_userids(self):
+        ''' Verify that the method returns a list.
+        Verify the list items.
+        Do not assert anything, at the moment, about the item order.
+        '''
+        userids = pi_api.userprofile.get_userids()
+        self.assertIsInstance(userids, list)
+        self.assertSetEqual(
+            set(pi_api.userprofile.get_userids()),
+            {
+                'bobdoe',
+                'bobschmo',
+                'celinedijon',
+                'janedoe',
+            },
+        )
+
     def test_get_users_rtype_user(self):
         """Verify default rtype for full_objects argument
         - this ought to change from objects to brains soon
