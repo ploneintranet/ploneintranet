@@ -10,8 +10,10 @@ Added:
 
 - The help bubbles behavior can now be controlled through the registry record
   ``ploneintranet.layout.bubbles_enabled`` (Refs. Syslab #15824).
-  [Alessandrop Pisa]
 
+Upgraded:
+
+- New Plone versions
 
 1.2.70 (2017-08-28)
 -------------------
