@@ -3,45 +3,50 @@ Changelog
 
 
 
-1.2.70 (unreleased)
+1.2.71 (unreleased)
+-------------------
+
+- Nothing changed yet.
+
+
+1.2.70 (2017-08-28)
 -------------------
 
 Added:
 
-* Added the API method ``ploneintranet.api.get_userids`` that returns
+* Techical: Added the API method ``ploneintranet.api.get_userids`` that returns
   all the known userprofiles id in the site
 * #1417 Initial support for the user help bubbles
-* If ``quaive.app.onlyoffice`` is installed and configured
+* Preparation for Quaive: If ``quaive.app.onlyoffice`` is installed and configured
   and the user has the right permissions, files can be edited with ONLYOFFICE.
 * #1435 AD/LDAP sync can now also fetch portrait images
-* #1427 The apps have now a new ``external`` boolean field.
-* #1429 The site search now looks in to more user profile fields:
+* #1427 More flexible external app apps. The apps have now a new ``external`` boolean field.
+* #1429 The site search now looks into more user profile fields:
   (person_title, department, address, ...)
-* Added an optional parameter in the search utility query method that allows
-  the backend to perform unsecure searches.
+* Technical: Added an optional parameter in the search utility query method that allows
+  the backend to perform unrestricted searches.
 
 Changed:
 
 * #1419 quaive.resources.ploneintranet is now updated to version 1.3.26.
   This version contains the new prototype pages for the absence app,
   improvements for handling panels and minor javascript fixes.
-* #1420, #1421, #1424, #1425 Continued the technical activity on modal panels
+* Technical: #1420, #1421, #1424, #1425 Continued the technical activity on modal panels
   done in 1.2.69.
 * d6528a Technical Setup: Bumped setuptools
 * #1426 Technical Setup: Improved jenkins bootstrap script.
-* AD/LDAP sync views return logging information to give users detailed feedback
+* Technical; AD/LDAP sync views return logging information to give users detailed feedback
   (can be turned off by appending `@@sync-users?quiet=True` or adding it as
   parameter to the view's call method `view(quiet=True)`)
-* AD/LDAP sync view use `Manage users` and `Manage Groups` permission
+* Technical: AD/LDAP sync view use `Manage users` and `Manage Groups` permission
   so they can be used w/o `Manage portal` permission.
 
 Fixed:
 
-* Optimized a method in the todo utility that allows saving news faster.
-* # Issue #1445: the delete workspace modal panel was not displaying properly
-* Bookmarked projects did not have an icon in the bookmark app
-* Bookmark icon for word files in the "Documents" tab of the bookmark app
+* Speed Improvement: #15789 Optimized a method in the todo utility that allows saving news faster.
 * Issue #1445: the delete workspace modal panel was not displaying properly
+* Bookmarked projects did not have an icon in the bookmark app.
+* Bookmark icon for word files in the "Documents" tab of the bookmark app.
 * #1422 Fix a pop up in the post form that was not closing itself after
   the user clicked on its actions.
 * #1423 In the Administrator Tools app,
@@ -50,16 +55,13 @@ Fixed:
 * #1430 Activitystream: fixed an encoding problem happening when a file
   with non ASCII charactes in the name was uploaded
   as a comment attachment.
-* # 1431 a logical bug was preventing the upgrade step to run properly.
+* Technical: #1431 a logical bug was preventing the upgrade step to run properly.
 * Translation: change title of a Case transition, to avoid a semantic
   translation conflict
-* Fix redactor <hr> button.
+* Fix redactor editor <hr> button.
 * User attributes synced from AD are now properly turned into unicode
 * Group members synced from AD don't break anymore if uids with unicode are within.
 
-Deprecated:
-
-Removed:
 
 
 1.2.69 (2017-07-24)
