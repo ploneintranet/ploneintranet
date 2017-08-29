@@ -234,4 +234,22 @@
         profile="ploneintranet.layout:default"
         />
 
+    <genericsetup:registerProfile
+        name="to_0018"
+        title="Registry record to toggle the help bubbles on and off"
+        description=""
+        directory="profiles/to_0018"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Registry record to toggle the help bubbles on and off"
+        description=""
+        source="*"
+        destination="0018"
+        handler=".to_0018.toggle_help_bubbles"
+        profile="ploneintranet.layout:default"
+        />
+
 </configure>

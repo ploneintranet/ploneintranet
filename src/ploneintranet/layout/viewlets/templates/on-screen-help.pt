@@ -1,0 +1,8 @@
+<button class="pat-forward icon iconified icon-help-circle osh-toggle pat-toggle"
+        id="osh-toggle"
+        title="Toggle the onscreen help system on or off"
+        data-pat-toggle="selector: body; value: osh-on osh-off; store: local"
+        tal:condition="view/available"
+        i18n:domain="ploneintranet"
+        i18n:translate=""
+>?</button>

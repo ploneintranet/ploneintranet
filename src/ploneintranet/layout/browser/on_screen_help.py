@@ -290,18 +290,24 @@ class View(BaseView):
         and can be optionally be overridden through a registry record.
         For the moment the record accepts a json string, but this may change
         '''
+        if api.portal.get_registry_record(
+            'ploneintranet.layout.bubbles_enabled',
+            default='Off',
+        ) == 'Disabled':
+            return {}
         bubbles = self._bubbles.copy()
         custom_bubbles_json = api.portal.get_registry_record(
             'ploneintranet.layout.custom_bubbles',
             default='{}'
         )
-        try:
-            bubbles.update(loads(custom_bubbles_json))
-        except:
-            logger.error(
-                'Invalid custom bubbles: check the registry record '
-                'ploneintranet.layout.custom_bubbles'
-            )
+        if custom_bubbles_json:
+            try:
+                bubbles.update(loads(custom_bubbles_json))
+            except:
+                logger.error(
+                    'Invalid custom bubbles: check the registry record '
+                    'ploneintranet.layout.custom_bubbles'
+                )
         return bubbles
 
     def link_to(self, bubbleid):

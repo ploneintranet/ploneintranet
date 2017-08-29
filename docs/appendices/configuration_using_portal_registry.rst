@@ -127,8 +127,6 @@ ploneintranet.layout.filter_news_by_published_state
     **default**: True
 
 
-
-
 ploneintranet.layout.custom_bubbles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -139,6 +137,18 @@ ploneintranet.layout.custom_bubbles
     **type**: plone.registry.field.Text
 
     **default**: None
+
+
+ploneintranet.layout.bubbles_enabled
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    title: Enable the help bubbles
+
+    **description**: Setting this value to "On" will show the help bubbles unless the user disables them. Setting this value to "Off" will not show the help bubbles unless the user enables them. Setting this value to "Disabled": will deactivate the help bubbles feature.
+
+    **type**: plone.registry.field.Choice (plone.registry.field.TextLine)
+
+    **default**: Off
 
 
 ploneintranet.library
