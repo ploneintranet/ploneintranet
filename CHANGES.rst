@@ -8,9 +8,11 @@ Changelog
 
 Added:
 
+- The time interval before autosaving a document can be configured through the
+  registry record ``ploneintranet.workspace.autosave_delay``
+  (Refs. Syslab #15821).
 - The help bubbles behavior can now be controlled through the registry record
   ``ploneintranet.layout.bubbles_enabled`` (Refs. Syslab #15824).
-  [Alessandrop Pisa]
 
 
 1.2.70 (2017-08-28)

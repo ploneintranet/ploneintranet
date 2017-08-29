@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet">
+  <record name="ploneintranet.workspace.autosave_delay">
+    <field type="plone.registry.field.Int">
+      <title i18n:translate="">Autosave delay</title>
+      <description i18n:translate="">Number of ms the client will wait before submitting a document</description>
+      <required>True</required>
+      <default>2000</default>
+      <min>1</min>
+    </field>
+  </record>
+</registry>

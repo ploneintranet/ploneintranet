@@ -64,7 +64,7 @@ ploneintranet.layout.dashboard_activity_tiles
 ploneintranet.layout.dashboard_task_tiles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: List of dashboard activity tiles
+    **title**: List of dashboard activity tiles
 
     **description**: This is the list of the tiles the user will see on the "Task centric view" dashboard.
 
@@ -79,9 +79,9 @@ ploneintranet.layout.dashboard_task_tiles
                  ./@@tasks.tile,
 
 ploneintranet.layout.dashboard_custom_tiles
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: List of dashboard custom tiles
+    **title**: List of dashboard custom tiles
 
     **description**: This is the list of the tiles the user will see on the "My view (customizable)" dashboard.
 
@@ -94,7 +94,7 @@ ploneintranet.layout.dashboard_custom_tiles
 ploneintranet.layout.dashboard_default
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Name of the default dashboard
+    **title**: Name of the default dashboard
 
     **description**: This is the name of the dashboard type that should be shown by default. Pick the values from the dropdown on the dashboard.
 
@@ -106,7 +106,7 @@ ploneintranet.layout.dashboard_default
 ploneintranet.layout.login_splash
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Splash image for the login form
+    **title**: Splash image for the login form
 
     **description**: This is the path, relative to the portal url, used to customize the login_form splash image
 
@@ -118,7 +118,7 @@ ploneintranet.layout.login_splash
 ploneintranet.layout.filter_news_by_published_state
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Filter news in portlet by published state
+    **title**: Filter news in portlet by published state
 
     **description**: When set to true (default), the news portlet will only search for items in workflow state published. You can turn that off to become more flexible in controlling the search by actual view permissions. This can come in handy when you use different published states.
 
@@ -130,7 +130,7 @@ ploneintranet.layout.filter_news_by_published_state
 ploneintranet.layout.custom_bubbles
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Custom help bubbles
+    **title**: Custom help bubbles
 
     **description**: Specify custom help bubbles in a json format, e.g.: {"foo-bar": {"title": "Foo", "description": "<p>Bar baz</p>"}}  (this may change in the future)
 
@@ -142,7 +142,7 @@ ploneintranet.layout.custom_bubbles
 ploneintranet.layout.bubbles_enabled
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Enable the help bubbles
+    **title**: Enable the help bubbles
 
     **description**: Setting this value to "On" will show the help bubbles unless the user disables them. Setting this value to "Off" will not show the help bubbles unless the user enables them. Setting this value to "Disabled": will deactivate the help bubbles feature.
 
@@ -152,12 +152,12 @@ ploneintranet.layout.bubbles_enabled
 
 
 ploneintranet.library
---------------------
+---------------------
 
 ploneintranet.library.order_by_modified
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    title: Re-order library folder after publishing widely
+    **title**: Re-order library folder after publishing widely
 
     **description**: If True (default), a library folder will be re-ordered so that the item modified last is on top every time a "Publish widely" action happens.
 
@@ -471,6 +471,7 @@ ploneintranet.workspace.sanitize_html
 
     **default**: True
 
+
 ploneintranet.workspace.autosave_portal_types
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -481,6 +482,18 @@ ploneintranet.workspace.autosave_portal_types
     **type**: plone.registry.field.Tuple composed of plone.registry.field.TextLine
 
     **default**: []
+
+
+ploneintranet.workspace.autosave_delay
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    **title**: Autosave delay
+
+    **description**: Number of ms the client will wait before submitting a document
+
+    **type**: plone.registry.field.Int
+
+    **default**: 2000
 
 
 ploneintranet.workspace.use_phase_due_dates

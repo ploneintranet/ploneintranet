@@ -137,7 +137,10 @@ class ContentView(BrowserView):
         ''' The delay before triggering the autosave injection
         '''
         if self.autosave_enabled:
-            return u'2000ms'
+            return api.portal.get_registry_record(
+                'ploneintranet.workspace.autosave_delay',
+                default=2000,
+            )
 
     @property
     @memoize
