@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="ploneintranet"
+>
+  <record name="ploneintranet.layout.bubbles_enabled">
+    <field type="plone.registry.field.Choice">
+      <title>Enable the help bubbles</title>
+      <description>
+        Setting this value to "On" will show the help bubbles unless the user disables them.
+        Setting this value to "Off" will not show the help bubbles unless the user enables them.
+        Setting this value to "Disabled": will deactivate the help bubbles feature.
+      </description>
+      <value_type type="plone.registry.field.TextLine" />
+      <values purge="true">
+        <element>On</element>
+        <element>Off</element>
+        <element>Disabled</element>
+      </values>
+      <required>True</required>
+    </field>
+    <value>Off</value>
+  </record>
+</registry>

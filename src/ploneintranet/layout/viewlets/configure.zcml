@@ -36,6 +36,15 @@
       />
 
     <browser:viewlet
+        name="ploneintranet.osh_toggle"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".on_screen_help.Viewlet"
+        permission="zope2.View"
+        template="templates/on-screen-help.pt"
+        layer="ploneintranet.layout.interfaces.INoBarcelonetaLayer"
+      />
+
+    <browser:viewlet
         name="ploneintranet.zopeuser_warning"
         manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".zopeuser.WarningViewlet"

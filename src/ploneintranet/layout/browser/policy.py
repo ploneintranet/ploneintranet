@@ -1,5 +1,6 @@
 # coding=utf-8
 from logging import getLogger
+from plone import api
 from plone.app.layout.globals.interfaces import ILayoutPolicy
 from plone.app.layout.globals.layout import LayoutPolicy as PloneLayoutPolicy
 from ploneintranet.layout.interfaces import IAppContainer
@@ -73,4 +74,9 @@ class LayoutPolicy(PloneLayoutPolicy):
         if getattr(view, 'show_splashpage', None):
             base += ' splash-active'
         base = self.append_diazo_template(base, template, view)
+        if api.portal.get_registry_record(
+            'ploneintranet.layout.bubbles_enabled',
+            default='Off',
+        ) == 'On':
+            base += ' osh-on'  # if the registry setting is on
         return base

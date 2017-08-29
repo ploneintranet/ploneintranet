@@ -1,6 +1,7 @@
 # coding=utf-8
 from contextlib import contextmanager
 from json import loads
+from lxml import html
 from mock import patch
 from plone import api
 from ploneintranet import api as pi_api
@@ -566,3 +567,22 @@ class TestViews(IntegrationTestCase):
             view = self.get_view('on-screen-help', q='foo-bar')
             self.assertIn('foo-bar', view.bubbles)
             self.assertIn('Bar baz', view())
+
+        # We can disable the bubbles through the registry
+        with temporary_registry_record(
+            'ploneintranet.layout.bubbles_enabled',
+            'Disabled',
+        ):
+            view = self.get_view('on-screen-help')
+            self.assertDictEqual(view.bubbles, {})
+
+        # We can force the bubbles through the registry
+        with temporary_registry_record(
+            'ploneintranet.layout.bubbles_enabled',
+            'On',
+        ):
+            page = self.portal.test_rendering()
+            self.assertIn(
+                'osh-on',
+                html.fromstring(page).find('.//body').attrib['class'],
+            )
