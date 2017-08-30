@@ -273,4 +273,22 @@
         profile="ploneintranet.workspace:default"
       />
 
+    <genericsetup:registerProfile
+        name="to_0027"
+        title="Upgrade profile that includes registry record to set the autosave delay"
+        description=""
+        directory="profiles/to_0027"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeStep
+        title="Install the upgrade profile that includes registry record to set the autosave delay"
+        description=""
+        source="*"
+        destination="0027"
+        handler=".to_0027.configure_autosave_delay"
+        profile="ploneintranet.workspace:default"
+        />
+
 </configure>
