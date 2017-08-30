@@ -171,8 +171,11 @@ def cleanup_default_content(context):
             delete_ids.append('news')
     default_content = [portal.get(c) for c in delete_ids
                        if c in portal.objectIds()]
-    api.content.delete(objects=default_content)
-    log.info('removed Plone default content')
+    if default_content:
+        api.content.delete(objects=default_content)
+        log.info('removed Plone default content')
+    else:
+        log.info('no Plone default content to remove')
 
 
 def users_spec(context):
