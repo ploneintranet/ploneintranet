@@ -5,7 +5,10 @@ Changelog
 1.2.72 (unreleased)
 -------------------
 
-- Nothing changed yet.
+Fixed:
+
+* Membership roster in workspace sidebar now also shows other workspaces that
+  are members correctly as groups
 
 
 1.2.71 (2017-08-30)
