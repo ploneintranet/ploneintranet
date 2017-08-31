@@ -17,6 +17,19 @@ def Title(ob, **kw):
 
 
 @indexer(IUserProfile)
+def sortable_title(ob, **kw):
+    """Sorting users happens by last name"""
+    user = IMembraneUserObject(ob, None)
+    if user:
+        names = [
+            ob.last_name,
+            ob.first_name,
+        ]
+        return u' '.join([name for name in names if name])
+    return ""
+
+
+@indexer(IUserProfile)
 def login_time(obj):
     ''' Return the userprofile login time
     '''

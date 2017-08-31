@@ -128,7 +128,9 @@ class TestViews(FunctionalTestCase):
         ]
         self.assertListEqual(
             found_profiles,
-            sorted(x.title for x in existing_profiles),
+            [
+                user.title for user in sorted(
+                    existing_profiles, key=lambda obj: obj.last_name)]
         )
 
         # Test sorting by reversed creation date

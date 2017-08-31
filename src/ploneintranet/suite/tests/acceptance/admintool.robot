@@ -18,7 +18,7 @@ Test Teardown  Close all browsers
 Admin can use the administrator tool app
     Given I'm logged in as a 'Site Administrator'
      Then I can go to the application  Administrator Tool
-      And I can see the first search result is  Alice Lindström
+      And I can see the first search result is  Esmeralda Claassen
       And I can deactivate  Jorge Primavera
       And I can activate  Jorge Primavera
       And I can filter the users

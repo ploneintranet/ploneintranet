@@ -14,6 +14,11 @@ Added:
 - The help bubbles behavior can now be controlled through the registry record
   ``ploneintranet.layout.bubbles_enabled`` (Refs. Syslab #15824).
 
+Changed:
+
+- The alphabetical sorting of users in the administrator app now happens by
+  last name, instead of by first name
+
 Upgraded:
 
 - New Plone versions
