@@ -2,8 +2,13 @@ Changelog
 =========
 
 
+1.2.72 (unreleased)
+-------------------
 
-1.2.71 (unreleased)
+- Nothing changed yet.
+
+
+1.2.71 (2017-08-30)
 -------------------
 
 Added:
@@ -16,7 +21,8 @@ Added:
 
 Upgraded:
 
-- New Plone versions
+- Upgrade to Plone 5.0.8
+
 
 1.2.70 (2017-08-28)
 -------------------
@@ -72,7 +78,6 @@ Fixed:
 * Group members synced from AD don't break anymore if uids with unicode are within.
 
 
-
 1.2.69 (2017-07-24)
 -------------------
 
@@ -83,7 +88,6 @@ Changed:
 * Speed improvements for the user profile page #1415.
   Technical: optimize use of `_update_recent_contacts` and `_get_my_groups_and_workspaces`
 * Translation changes (email template) #1414
-
 
 
 1.2.68 (2017-07-20)
