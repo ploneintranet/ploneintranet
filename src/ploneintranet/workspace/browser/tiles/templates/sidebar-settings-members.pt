@@ -11,7 +11,7 @@
            ws view/workspace;
            workspace_view nocall:ws/view;
            can_manage_roster view/can_manage_roster;
-           principals workspace_view/principals;
+           principals workspace_view/get_sorted_principals;
            guests workspace_view/guests;
          ">
       <div id="workspace-settings">

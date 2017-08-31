@@ -251,6 +251,10 @@ class BaseWorkspaceView(BrowserView):
         objs = map(self.resolve_principalid, self.member_ids)
         return objs
 
+    def get_sorted_principals(self, sort_by='last_name'):
+        objs = self.principals
+        return sorted(objs, key=lambda user: getattr(user, sort_by, None))
+
     @memoize
     def guests(self):
         ''' Return the list of principals which are guests in this context

@@ -18,6 +18,8 @@ Changed:
 
 - The alphabetical sorting of users in the administrator app now happens by
   last name, instead of by first name
+- In the workspace sidebar (members tab), users are now sorted alphabetically
+  by last name
 
 Upgraded:
 
