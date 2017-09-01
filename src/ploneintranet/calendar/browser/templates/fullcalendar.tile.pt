@@ -79,7 +79,7 @@
             <ul class="cal-events">
                 <tal:events repeat="event events">
                     <li class="${event/classes}">
-                        <a class="url external" tal:attributes="href string:${event/url}#content">
+                        <a class="url external" tal:attributes="href string:${event/url}#document-body">
                             <h4 class="title">${event/Title}</h4>
                             <p class="location" tal:condition="event/location|nothing">${event/location|nothing}</p>
                             <ul class="details">
