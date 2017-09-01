@@ -24,6 +24,11 @@ Fixed:
 * Translation: The email subject of the "Welcome to the site" mail can now
   be translated
 
+Upgraded:
+
+* Upgrade quaive.resources.ploneintranet to 2.0.1
+  to use the webpack generated bundle
+
 
 1.2.71 (2017-08-30)
 -------------------
