@@ -56,9 +56,7 @@ I can reload the page
 
 I open the Dashboard
     Go to  ${PLONE_URL}/dashboard.html
-    Comment  auto bypass CSRF errors, typically in bin/pybot manual tests
-    Run Keyword And Ignore Error  Click Element  xpath=//input[@name='form.button.confirm']
-    Wait Until Page Contains Element  css=#dashboard
+    Wait for injection to be finished
 
 I scroll the Dashboard
     Execute Javascript  jQuery('.activities .infinite-scrolling-trigger').focus()

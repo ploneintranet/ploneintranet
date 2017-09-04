@@ -22,9 +22,6 @@ Anonymous get redirected to login page
 
 *** Keywords ***
 
-I open the Dashboard
-    Go to  ${PLONE_URL}/dashboard.html
-
 I am on the login page
     Element should be visible  css=#__ac_name
 

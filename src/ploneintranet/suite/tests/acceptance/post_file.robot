@@ -62,9 +62,6 @@ Alice can submit a post with a file attachment and no text
 
 *** Keywords ***
 
-I open the Dashboard
-    Go to  ${PLONE_URL}/dashboard.html
-
 I create a new post
     Input Text      css=#post-box textarea  Look at this new doc
 

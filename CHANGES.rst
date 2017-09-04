@@ -7,6 +7,7 @@ Changelog
 
 Fixed:
 
+* Prevent possible write on read when adding status update attachments
 * Membership roster in workspace sidebar now also shows other workspaces that
   are members correctly as groups
 
