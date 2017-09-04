@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-08-25 08:28+0000\n"
+"POT-Creation-Date: 2017-09-04 10:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,6 +83,10 @@ msgstr ""
 msgid "<strong>Bookmark</strong> this page"
 msgstr ""
 
+#: ../layout/viewlets/templates/on-screen-help.pt:1
+msgid "?"
+msgstr ""
+
 #: ../layout/profiles/default/types/ploneintranet.layout.app.xml
 #: ../layout/upgrades/profiles/to_0005/types/ploneintranet.layout.app.xml
 msgid "A Plone Intranet application"
@@ -131,7 +135,7 @@ msgstr ""
 msgid "A mail content type"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:316
+#: ../admintool/browser/user_management.py:320
 msgid "A problem occurred while changing the user state"
 msgstr ""
 
@@ -151,7 +155,7 @@ msgstr ""
 msgid "A user (or a group) assigned to this task"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:213
+#: ../admintool/browser/user_management.py:217
 #: ../userprofile/content/userprofile.py:168
 msgid "A user with this username already exists"
 msgstr ""
@@ -161,11 +165,11 @@ msgstr ""
 msgid "About this environment"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:63
+#: ../admintool/browser/user_management.py:65
 msgid "Account status"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:243
+#: ../admintool/browser/user_management.py:247
 msgid "Activate user"
 msgstr ""
 
@@ -341,7 +345,7 @@ msgstr ""
 msgid "All workspace types"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:59
+#: ../admintool/browser/user_management.py:61
 #: ../workspace/profiles/default/registry.xml
 #: ../workspace/upgrades/profiles/to_0016/registry.xml
 msgid "Alphabetical"
@@ -357,7 +361,7 @@ msgstr ""
 msgid "Alright"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:204
+#: ../workspace/basecontent/baseviews.py:207
 msgid "Anonymous User"
 msgstr ""
 
@@ -457,6 +461,11 @@ msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:317
 msgid "Author of this document"
+msgstr ""
+
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0027/registry.xml
+msgid "Autosave delay"
 msgstr ""
 
 #: ../userprofile/browser/templates/user_import_form.pt:70
@@ -771,7 +780,7 @@ msgstr ""
 msgid "Create task"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:141
+#: ../admintool/browser/user_management.py:143
 msgid "Create user account"
 msgstr ""
 
@@ -831,7 +840,7 @@ msgstr ""
 msgid "Days running"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:245
+#: ../admintool/browser/user_management.py:249
 msgid "Deactivate user"
 msgstr ""
 
@@ -1154,7 +1163,7 @@ msgstr ""
 msgid "Extension profile for ploneintranet.layout."
 msgstr ""
 
-#: ../userprofile/sync.py:149
+#: ../userprofile/sync.py:186
 msgid "External property sync complete."
 msgstr ""
 
@@ -1369,6 +1378,7 @@ msgid "Guests are only used internally and cannot be assigned."
 msgstr ""
 
 #: ../layout/browser/on_screen_help.py:248
+#: ../layout/browser/templates/on-screen-help-link.pt:1
 msgid "Help"
 msgstr ""
 
@@ -1483,7 +1493,7 @@ msgstr ""
 msgid "Installs the ploneintranet.news package"
 msgstr ""
 
-#: ../userprofile/configure.zcml:59
+#: ../userprofile/configure.zcml:62
 msgid "Installs the ploneintranet.userprofile package"
 msgstr ""
 
@@ -1842,11 +1852,11 @@ msgstr ""
 msgid "Most popular"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:67
+#: ../admintool/browser/user_management.py:69
 msgid "Most recently added"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:71
+#: ../admintool/browser/user_management.py:73
 msgid "Most recently logged in"
 msgstr ""
 
@@ -2055,7 +2065,7 @@ msgstr ""
 msgid "No upcoming events."
 msgstr ""
 
-#: ../admintool/browser/user_management.py:309
+#: ../admintool/browser/user_management.py:313
 msgid "No user selected"
 msgstr ""
 
@@ -2091,6 +2101,11 @@ msgstr ""
 msgid "Number of items to display"
 msgstr ""
 
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0027/registry.xml
+msgid "Number of ms the client will wait before submitting a document"
+msgstr ""
+
 msgid "ODT document"
 msgstr ""
 
@@ -2120,7 +2135,7 @@ msgstr ""
 msgid "Oldest first"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:142
+#: ../admintool/browser/user_management.py:144
 msgid "Once the user account is created, the user will receive an e-mail containing a link to a page on which the account creation can be finalised."
 msgstr ""
 
@@ -2366,15 +2381,15 @@ msgstr ""
 msgid "Plone Intranet: -- [Themeswitcher]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:78
+#: ../userprofile/configure.zcml:81
 msgid "Plone Intranet: -- [User Profiles Testing]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:69
+#: ../userprofile/configure.zcml:72
 msgid "Plone Intranet: -- [User Profiles uninstall]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:59
+#: ../userprofile/configure.zcml:62
 msgid "Plone Intranet: -- [User Profiles]"
 msgstr ""
 
@@ -2495,6 +2510,10 @@ msgstr ""
 
 #: ../layout/upgrades/configure.zcml:226
 msgid "Registry record to customize the help bubbles"
+msgstr ""
+
+#: ../layout/upgrades/configure.zcml:244
+msgid "Registry record to toggle the help bubbles on and off"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:77
@@ -2891,7 +2910,7 @@ msgstr ""
 msgid "Tentative"
 msgstr ""
 
-#: ../userprofile/configure.zcml:78
+#: ../userprofile/configure.zcml:81
 msgid "Testing of the ploneintranet.userprofile package"
 msgstr ""
 
@@ -3008,7 +3027,7 @@ msgstr ""
 msgid "The userid this action is for"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:283
+#: ../workspace/basecontent/baseviews.py:286
 msgid "The workflow state has been changed."
 msgstr ""
 
@@ -3048,7 +3067,7 @@ msgstr ""
 msgid "There was a problem updating the content: %s."
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:300
+#: ../workspace/basecontent/baseviews.py:303
 msgid "There was a problem:"
 msgstr ""
 
@@ -3341,7 +3360,7 @@ msgstr ""
 msgid "User profile management"
 msgstr ""
 
-#: ../admintool/browser/user_management.py:313
+#: ../admintool/browser/user_management.py:317
 msgid "User state changed"
 msgstr ""
 
@@ -3380,6 +3399,10 @@ msgstr ""
 msgid "Week"
 msgstr ""
 
+#: ../admintool/browser/user_management.py:167
+msgid "Welcome to ${portal_title}!"
+msgstr ""
+
 #: ../workspace/subscribers.py:178
 msgid "Welcome to our family, Stranger"
 msgstr ""
@@ -3399,7 +3422,7 @@ msgstr ""
 msgid "Word 2007 document"
 msgstr ""
 
-#: ../userprofile/sync.py:357
+#: ../userprofile/sync.py:388
 msgid "WorkGroup property sync complete."
 msgstr ""
 
@@ -3593,7 +3616,7 @@ msgstr ""
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr ""
 
-#: ../workspace/basecontent/baseviews.py:293
+#: ../workspace/basecontent/baseviews.py:296
 msgid "Your changes have been saved."
 msgstr ""
 
@@ -3606,7 +3629,7 @@ msgid "abbreviation_number"
 msgstr ""
 
 #. Default: "The user account of '${fullname}' is deactivated. Would you like to activate this user account?"
-#: ../admintool/browser/user_management.py:290
+#: ../admintool/browser/user_management.py:294
 msgid "activate_user_panel_description"
 msgstr ""
 
@@ -3845,7 +3868,7 @@ msgid "dates_hijacked"
 msgstr ""
 
 #. Default: "Would you like to deactivate the account of '${fullname}'? After this, this user can no longer enter his account, but this action can be reversed at any time."
-#: ../admintool/browser/user_management.py:279
+#: ../admintool/browser/user_management.py:283
 msgid "deactivate_user_panel_description"
 msgstr ""
 
@@ -3870,12 +3893,12 @@ msgid "document type"
 msgstr ""
 
 #. Default: "The document is locked by ${user}."
-#: ../workspace/basecontent/baseviews.py:236
+#: ../workspace/basecontent/baseviews.py:239
 msgid "document_locked_by_error"
 msgstr ""
 
 #. Default: "It seems that this document was modified since you loaded this form. Your changes will be discarded. <a href=\"${url}\">Please reload this page by clicking here</a>."
-#: ../workspace/basecontent/baseviews.py:248
+#: ../workspace/basecontent/baseviews.py:251
 msgid "document_modified_error"
 msgstr ""
 
@@ -4720,7 +4743,7 @@ msgid "message_pwreset_success"
 msgstr ""
 
 #. Default: "Missing parameter: ${key}"
-#: ../admintool/browser/user_management.py:194
+#: ../admintool/browser/user_management.py:198
 msgid "missing_parameter_key"
 msgstr ""
 
@@ -4758,7 +4781,7 @@ msgid "num_items_can_be_retagged"
 msgstr ""
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:143
+#: ../workspace/browser/workspace.py:151
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr ""
