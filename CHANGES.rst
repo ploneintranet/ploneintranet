@@ -8,6 +8,9 @@ Changelog
 Fixed:
 
 * Prevent possible write on read when adding status update attachments
+* When clciking on the "Create new task" button in the sidebar,
+  the add task form was not appearing due to a broken injection
+  (Refs. Syslab #15847).
 * Membership roster in workspace sidebar now also shows other workspaces that
   are members correctly as groups
 
@@ -17,22 +20,22 @@ Fixed:
 
 Added:
 
-- The time interval before autosaving a document can be configured through the
+* The time interval before autosaving a document can be configured through the
   registry record ``ploneintranet.workspace.autosave_delay``
   (Refs. Syslab #15821).
-- The help bubbles behavior can now be controlled through the registry record
+* The help bubbles behavior can now be controlled through the registry record
   ``ploneintranet.layout.bubbles_enabled`` (Refs. Syslab #15824).
 
 Changed:
 
-- The alphabetical sorting of users in the administrator app now happens by
+* The alphabetical sorting of users in the administrator app now happens by
   last name, instead of by first name
-- In the workspace sidebar (members tab), users are now sorted alphabetically
+* In the workspace sidebar (members tab), users are now sorted alphabetically
   by last name
 
 Upgraded:
 
-- Upgrade to Plone 5.0.8
+* Upgrade to Plone 5.0.8
 
 
 1.2.70 (2017-08-28)
