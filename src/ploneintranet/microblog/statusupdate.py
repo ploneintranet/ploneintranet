@@ -1,6 +1,7 @@
 # -*- coding=utf-8 -*-
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from collective.documentviewer.settings import Settings
 from DateTime import DateTime
 from interfaces import IStatusUpdate
 from persistent import Persistent
@@ -297,6 +298,8 @@ class StatusUpdate(Persistent):
 
         """
         attachment = create_attachment(filename, data)
+        # Init document viewer settings (prevents writes on read)
+        Settings(attachment)
         add_attachments([attachment, ], self.attachments)
 
     def remove_attachment(self, filename):
