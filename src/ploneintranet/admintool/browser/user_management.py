@@ -11,8 +11,10 @@ from ploneintranet.core import ploneintranetCoreMessageFactory as _
 from ploneintranet.layout.browser.base import BasePanel
 from ploneintranet.layout.interfaces import IAppView
 from Products.CMFPlone import PloneMessageFactory as _pmf
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from urllib import urlencode
+from zope.i18n import translate
 from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.interface.exceptions import Invalid
@@ -162,7 +164,11 @@ class PanelAddUser(BasePanel):
         try:
             api.portal.send_email(
                 recipient=profile.email,
-                subject='Welcome to {}!'.format(portal.Title()),
+                subject=translate(_(
+                    'Welcome to ${portal_title}!',
+                    mapping={'portal_title': safe_unicode(portal.Title())}),
+                    target_language=api.portal.get_current_language(),
+                ),
                 body=message,
                 immediate=False,
             )

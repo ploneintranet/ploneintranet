@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Plone Intranet\n"
-"POT-Creation-Date: 2017-08-25 08:28+0000\n"
+"POT-Creation-Date: 2017-09-04 10:06+0000\n"
 "PO-Revision-Date: 2016-08-31 14:20+0200\n"
 "Last-Translator: Alexander Pilz <pilz@syslab.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/plone-intranet/language/de/)\n"
@@ -86,6 +86,10 @@ msgstr ""
 msgid "<strong>Bookmark</strong> this page"
 msgstr "<strong>Lesezeichen</strong> setzen"
 
+#: ../layout/viewlets/templates/on-screen-help.pt:1
+msgid "?"
+msgstr ""
+
 #: ../layout/profiles/default/types/ploneintranet.layout.app.xml
 #: ../layout/upgrades/profiles/to_0005/types/ploneintranet.layout.app.xml
 msgid "A Plone Intranet application"
@@ -134,7 +138,7 @@ msgstr "Eine eindeutige status id (longint)"
 msgid "A mail content type"
 msgstr "Ein E-Mail Inhaltstyp"
 
-#: ../admintool/browser/user_management.py:316
+#: ../admintool/browser/user_management.py:320
 msgid "A problem occurred while changing the user state"
 msgstr "Beim Versuch, den Status des Nutzeraccounts zu ändern, gab es ein Problem."
 
@@ -154,7 +158,7 @@ msgstr "Ein Titel für die Aufgabe"
 msgid "A user (or a group) assigned to this task"
 msgstr "Ein Benutzer (oder eine Gruppe), dem diese Aufgabe zugewiesen wurde."
 
-#: ../admintool/browser/user_management.py:213
+#: ../admintool/browser/user_management.py:217
 #: ../userprofile/content/userprofile.py:168
 msgid "A user with this username already exists"
 msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
@@ -164,11 +168,11 @@ msgstr "Es existiert bereits ein Nutzer mit diesem Namen"
 msgid "About this environment"
 msgstr "Was ist Plone Intranet?"
 
-#: ../admintool/browser/user_management.py:63
+#: ../admintool/browser/user_management.py:65
 msgid "Account status"
 msgstr "Status des Nutzeraccounts"
 
-#: ../admintool/browser/user_management.py:243
+#: ../admintool/browser/user_management.py:247
 msgid "Activate user"
 msgstr "Nutzer aktivieren"
 
@@ -344,7 +348,7 @@ msgstr "Alle Themen"
 msgid "All workspace types"
 msgstr "Alle Typen"
 
-#: ../admintool/browser/user_management.py:59
+#: ../admintool/browser/user_management.py:61
 #: ../workspace/profiles/default/registry.xml
 #: ../workspace/upgrades/profiles/to_0016/registry.xml
 msgid "Alphabetical"
@@ -360,7 +364,7 @@ msgstr "Alphabetisch"
 msgid "Alright"
 msgstr "Ok"
 
-#: ../workspace/basecontent/baseviews.py:204
+#: ../workspace/basecontent/baseviews.py:207
 msgid "Anonymous User"
 msgstr "Anonymer Benutzer"
 
@@ -461,6 +465,11 @@ msgstr "Name des Autors (für die Anzeige)"
 #: ../workspace/browser/tiles/templates/sidebar-documents.pt:317
 msgid "Author of this document"
 msgstr "Autor dieses Dokuments"
+
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0027/registry.xml
+msgid "Autosave delay"
+msgstr ""
 
 #: ../userprofile/browser/templates/user_import_form.pt:70
 msgid "Available fields/columns"
@@ -774,7 +783,7 @@ msgstr "Nachricht erstellen"
 msgid "Create task"
 msgstr "Aufgabe erstellen"
 
-#: ../admintool/browser/user_management.py:141
+#: ../admintool/browser/user_management.py:143
 msgid "Create user account"
 msgstr "Nutzeraccount erstellen"
 
@@ -834,7 +843,7 @@ msgstr "Tag"
 msgid "Days running"
 msgstr "Tage laufend"
 
-#: ../admintool/browser/user_management.py:245
+#: ../admintool/browser/user_management.py:249
 msgid "Deactivate user"
 msgstr "Nutzer deaktivieren"
 
@@ -1157,7 +1166,7 @@ msgstr ""
 msgid "Extension profile for ploneintranet.layout."
 msgstr "Erweiterungsprofil für ploneintranet.layout"
 
-#: ../userprofile/sync.py:149
+#: ../userprofile/sync.py:186
 msgid "External property sync complete."
 msgstr "Synchronisation der externen Eigenschaften beendet."
 
@@ -1372,6 +1381,7 @@ msgid "Guests are only used internally and cannot be assigned."
 msgstr "Gäste werden intern gesetzt und können nicht zugeteilt werden."
 
 #: ../layout/browser/on_screen_help.py:248
+#: ../layout/browser/templates/on-screen-help-link.pt:1
 msgid "Help"
 msgstr "Hilfe"
 
@@ -1486,7 +1496,7 @@ msgstr "Installiert testthemeA zum Testen"
 msgid "Installs the ploneintranet.news package"
 msgstr ""
 
-#: ../userprofile/configure.zcml:59
+#: ../userprofile/configure.zcml:62
 msgid "Installs the ploneintranet.userprofile package"
 msgstr "Installiert ploneintranet.userprofile"
 
@@ -1845,11 +1855,11 @@ msgstr "Nach Aktivität"
 msgid "Most popular"
 msgstr "Beliebt"
 
-#: ../admintool/browser/user_management.py:67
+#: ../admintool/browser/user_management.py:69
 msgid "Most recently added"
 msgstr "Zuletzt hinzugefügt"
 
-#: ../admintool/browser/user_management.py:71
+#: ../admintool/browser/user_management.py:73
 msgid "Most recently logged in"
 msgstr "Zuletzt eingeloggt"
 
@@ -2058,7 +2068,7 @@ msgstr "Keine Token ID übergeben in Teilpfad. Benutze .../@@accept-token/tokeni
 msgid "No upcoming events."
 msgstr "Keine anstehenden Termine."
 
-#: ../admintool/browser/user_management.py:309
+#: ../admintool/browser/user_management.py:313
 msgid "No user selected"
 msgstr "Keine Nutzer ausgewählt"
 
@@ -2094,6 +2104,11 @@ msgstr "Benachrichtigungen"
 msgid "Number of items to display"
 msgstr "Anzahl der Artikel"
 
+#: ../workspace/profiles/default/registry.xml
+#: ../workspace/upgrades/profiles/to_0027/registry.xml
+msgid "Number of ms the client will wait before submitting a document"
+msgstr ""
+
 msgid "ODT document"
 msgstr "ODT Dokument"
 
@@ -2123,7 +2138,7 @@ msgstr "Ältere Termine"
 msgid "Oldest first"
 msgstr "Älteste zuerst"
 
-#: ../admintool/browser/user_management.py:142
+#: ../admintool/browser/user_management.py:144
 msgid "Once the user account is created, the user will receive an e-mail containing a link to a page on which the account creation can be finalised."
 msgstr "Sobald der Nutzeraccount erstellt wurde, wird eine E-mail an den Nutzer geschickt. Diese enthält einen Link zu einer Seite, auf der weitere Details wie das Passwort eingetragen werden können."
 
@@ -2369,15 +2384,15 @@ msgstr ""
 msgid "Plone Intranet: -- [Themeswitcher]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:78
+#: ../userprofile/configure.zcml:81
 msgid "Plone Intranet: -- [User Profiles Testing]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:69
+#: ../userprofile/configure.zcml:72
 msgid "Plone Intranet: -- [User Profiles uninstall]"
 msgstr ""
 
-#: ../userprofile/configure.zcml:59
+#: ../userprofile/configure.zcml:62
 msgid "Plone Intranet: -- [User Profiles]"
 msgstr ""
 
@@ -2498,6 +2513,10 @@ msgstr "Freundliche Grüße"
 
 #: ../layout/upgrades/configure.zcml:226
 msgid "Registry record to customize the help bubbles"
+msgstr ""
+
+#: ../layout/upgrades/configure.zcml:244
+msgid "Registry record to toggle the help bubbles on and off"
 msgstr ""
 
 #: ../workspace/browser/tiles/templates/sidebar-settings-members.pt:77
@@ -2894,7 +2913,7 @@ msgstr "Telefonnummer"
 msgid "Tentative"
 msgstr "Unter Vorbehalt"
 
-#: ../userprofile/configure.zcml:78
+#: ../userprofile/configure.zcml:81
 msgid "Testing of the ploneintranet.userprofile package"
 msgstr ""
 
@@ -3011,7 +3030,7 @@ msgstr "Der Benutzer (oder die Gruppe), der diese Aufgabe angefordert hat."
 msgid "The userid this action is for"
 msgstr "Die Benutzer ID für diese Aktion"
 
-#: ../workspace/basecontent/baseviews.py:283
+#: ../workspace/basecontent/baseviews.py:286
 msgid "The workflow state has been changed."
 msgstr "Der Workflow-Status wurde geändert"
 
@@ -3051,7 +3070,7 @@ msgstr "Keine Termine vorhanden"
 msgid "There was a problem updating the content: %s."
 msgstr "Es gab ein Problem beim aktualisieren des Inhalts: %s."
 
-#: ../workspace/basecontent/baseviews.py:300
+#: ../workspace/basecontent/baseviews.py:303
 msgid "There was a problem:"
 msgstr "Es ist ein Problem aufgetreten:"
 
@@ -3344,7 +3363,7 @@ msgstr "Benutzerprofil"
 msgid "User profile management"
 msgstr "Verwaltung der Benutzerprofile"
 
-#: ../admintool/browser/user_management.py:313
+#: ../admintool/browser/user_management.py:317
 msgid "User state changed"
 msgstr "Status des Nutzeraccounts wurde geändert."
 
@@ -3383,6 +3402,10 @@ msgstr "Weblink"
 msgid "Week"
 msgstr "Woche"
 
+#: ../admintool/browser/user_management.py:167
+msgid "Welcome to ${portal_title}!"
+msgstr "Willkommen bei ${portal_title}!"
+
 #: ../workspace/subscribers.py:178
 msgid "Welcome to our family, Stranger"
 msgstr "Willkommen in unserer Familie, Fremder."
@@ -3402,7 +3425,7 @@ msgstr "Wenn die Sonder-Rolle dieses Mitglieds entfernt wird, erbt das Mitglied 
 msgid "Word 2007 document"
 msgstr "Word 2007 Dokument"
 
-#: ../userprofile/sync.py:357
+#: ../userprofile/sync.py:388
 msgid "WorkGroup property sync complete."
 msgstr ""
 
@@ -3596,7 +3619,7 @@ msgstr "Sie haben die maximale Anzahl an Ergebnissen erreicht, bitte filtern Sie
 msgid "You received this email from ${portal_title} because you are invited to the following date:"
 msgstr "Sie erhalten diese E-Mail von ${portal_title}, weil Sie zu folgendem Termin eingeladen sind:"
 
-#: ../workspace/basecontent/baseviews.py:293
+#: ../workspace/basecontent/baseviews.py:296
 msgid "Your changes have been saved."
 msgstr "Die Änderungen wurden gespeichert."
 
@@ -3609,7 +3632,7 @@ msgid "abbreviation_number"
 msgstr "Nr."
 
 #. Default: "The user account of '${fullname}' is deactivated. Would you like to activate this user account?"
-#: ../admintool/browser/user_management.py:290
+#: ../admintool/browser/user_management.py:294
 msgid "activate_user_panel_description"
 msgstr "Der Nutzeraccount von '${fullname}' ist deaktiviert. Möchten Sie ihn aktivieren?"
 
@@ -3636,7 +3659,7 @@ msgstr "Bevor Sie sich einloggen können, muss Ihr Nutzeraccount noch aktiviert 
 #. Default: "Thank you for joining ${site_name}!"
 #: ../admintool/browser/templates/mail-user-created.pt:7
 msgid "admintool_info_intro"
-msgstr "Vielen Dank, dass Sie ${site_name} beigetreten sind!"
+msgstr 'Vielen Dank, dass Sie "${site_name}" beigetreten sind!'
 
 #. Default: "You can set at any time your password following this link"
 #: ../admintool/browser/templates/mail-user-created.pt:21
@@ -3851,7 +3874,7 @@ msgid "dates_hijacked"
 msgstr "Anfangszeit sollte früher sein als Enddzeit. Das System setzt die Endzeit auf: ${date}."
 
 #. Default: "Would you like to deactivate the account of '${fullname}'? After this, this user can no longer enter his account, but this action can be reversed at any time."
-#: ../admintool/browser/user_management.py:279
+#: ../admintool/browser/user_management.py:283
 msgid "deactivate_user_panel_description"
 msgstr "Möchten Sie den Nutzeraccount von '${fullname}' deaktivieren? Danach wird er / sie sich nicht mehr einloggen können. Die Deaktivierung kann aber jederzeit rückgängig gemacht werden."
 
@@ -3876,12 +3899,12 @@ msgid "document type"
 msgstr "Dokumenttyp"
 
 #. Default: "The document is locked by ${user}."
-#: ../workspace/basecontent/baseviews.py:236
+#: ../workspace/basecontent/baseviews.py:239
 msgid "document_locked_by_error"
 msgstr "Dieses Dokument ist durch ${user} gesperrt."
 
 #. Default: "It seems that this document was modified since you loaded this form. Your changes will be discarded. <a href=\"${url}\">Please reload this page by clicking here</a>."
-#: ../workspace/basecontent/baseviews.py:248
+#: ../workspace/basecontent/baseviews.py:251
 msgid "document_modified_error"
 msgstr "Es scheint, dass dieses Dokument geändert wurde, nachdem Sie es geöffnet haben. Die von Ihnen vorgenommenen Änderungen werden nicht gespeichert. <a href='${url}'>Bitte laden Sie die Seite neu, indem Sie hier klicken.</a>"
 
@@ -4744,7 +4767,7 @@ msgid "message_pwreset_success"
 msgstr "Ihr Passwort wurde erfolgreich gesetzt. Sie können sich nun unter ${login_link} mit Ihrem neuen Passwort einloggen."
 
 #. Default: "Missing parameter: ${key}"
-#: ../admintool/browser/user_management.py:194
+#: ../admintool/browser/user_management.py:198
 msgid "missing_parameter_key"
 msgstr "Fehlender Wert: ${key}"
 
@@ -4782,7 +4805,7 @@ msgid "num_items_can_be_retagged"
 msgstr "Die Schlagworte von ${num_modifiable} Objekten können geändert werden."
 
 #. Default: "${no_users} Users / ${no_groups} Groups"
-#: ../workspace/browser/workspace.py:143
+#: ../workspace/browser/workspace.py:151
 #: ../workspace/workspacefolder.py:142
 msgid "number_of_members"
 msgstr "${no_users} Mitglieder / ${no_groups} Gruppen"
