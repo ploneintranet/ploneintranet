@@ -383,6 +383,8 @@
 
       </label>
 
+      <metal:extra-fields-top define-slot="extra-fields-bottom"/>
+
     </metal:event_fields>
 
   </body>

@@ -5,6 +5,11 @@ Changelog
 1.2.72 (unreleased)
 -------------------
 
+Added:
+
+* Added an ``extra-fields-bottom`` slot to the ``event_fields`` macro
+  to allow form customizations in custom packages (Refs. Syslab #15842).
+
 Fixed:
 
 * Prevent possible write on read when adding status update attachments
