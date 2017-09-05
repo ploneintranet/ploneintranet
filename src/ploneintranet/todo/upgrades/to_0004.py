@@ -10,7 +10,7 @@ def create_todo_app(context):
     '''
     portal = api.portal.get()
     apps = portal.apps
-    app = apps['todo']
+    app = apps.get('todo')
     if app:
         if not app.app:
             # Once there was a placeholder for the todo app that had app = None
