@@ -18,6 +18,7 @@ Site Administrator can access dashboard
      and I see the Dashboard
 
 Allan can view the custom dashboard
+    [Tags]  Heisenbug
     Given I am logged in as the user allan_neece
      When I open the Dashboard
       And I select the dashboard  custom
