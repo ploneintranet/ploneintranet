@@ -2,7 +2,7 @@
 
 # first responsive breakpoint is already at 1292px
 Prepare test browser
-    Open test browser
+    Open browser  ${START_URL}/login_form  ${BROWSER}
     Set window size  1300  1024
 
 I'm logged in as a '${ROLE}'
@@ -12,10 +12,16 @@ I am logged in as site administrator
     Element should be visible  css=body.userrole-site-administrator
 
 I am logged in as the user ${userid}
-    Go To  ${PLONE_URL}/login
+    ${IN_LOGIN_FORM} =  Get Matching Xpath Count  //form[@id='login-panel']
+    RunKeywordIf  ${IN_LOGIN_FORM} == 0  Logout And Go To Login
     Input text  name=__ac_name  ${userid}
     Input text  name=__ac_password  secret
     Submit Form  css=#login-panel
+    Wait until page contains  You are now logged in
+
+Logout And Go To Login
+    Go To  ${PLONE_URL}/logout
+    Go To  ${PLONE_URL}/login_form
 
 Wait for injection to be finished
     Wait Until Page Does Not Contain Element  css=.injecting-content
