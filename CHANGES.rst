@@ -18,6 +18,8 @@ Fixed:
   (Refs. Syslab #15847).
 * Membership roster in workspace sidebar now also shows other workspaces that
   are members correctly as groups
+* Translation: The email subject of the "Welcome to the site" mail can now
+  be translated
 
 
 1.2.71 (2017-08-30)
