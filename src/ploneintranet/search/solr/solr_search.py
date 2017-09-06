@@ -316,9 +316,12 @@ class SiteSearch(base.SiteSearch):
         sort = kw.get('sort')
         if sort:
             # valid sort values:
-            #  - 'created': sort results ascending by creation date
-            #  - '-created': sort results descending by creation date
-            query = query.sort_by(kw['sort'])
+            #  - 'field': sort results ascending by field
+            #  - '-field': sort results descending by field
+            if isinstance(sort, basestring):
+                sort = [sort]
+            for field in sort:
+                query = query.sort_by(field)
         if self.field_limit:
             query = query.field_limit(self.field_limit)
 
