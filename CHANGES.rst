@@ -7,6 +7,7 @@ Changelog
 
 Added:
 
+* We can sort for more than one field when querying Solr
 * Added an ``extra-fields-bottom`` slot to the ``event_fields`` macro
   to allow form customizations in custom packages (Refs. Syslab #15842).
 
