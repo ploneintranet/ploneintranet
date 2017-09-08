@@ -1,10 +1,11 @@
-import logging
-
-from plone import api
+# coding=utf-8
 from plone.dexterity.utils import safe_unicode
+from ploneintranet.search.interfaces import ISearchResponse
+from ploneintranet.search.interfaces import ISiteSearch
 from zope.component import getUtility
 
-from ploneintranet.search.interfaces import ISiteSearch, ISearchResponse
+import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ def sections_of(context):
             # to add: collection, newsitem, event, link, file
             type_ = 'unsupported'
             log.error("Unsupported type %s", item.portal_type)
-        child = result2object(item)
+        child = item.getObject()
         section = dict(title=item.title,
                        id=item.getId(),
                        description=item.description,
@@ -78,9 +79,16 @@ def children_of(context):
     return content
 
 
-def query(path=None, path_depth=None, tags=[], portal_types=None,
-          facet_by=None, sort_by=None,
-          debug=False):
+def query(
+    path=None,
+    path_depth=None,
+    tags=[],
+    portal_types=None,
+    facet_by=None,
+    sort_by=None,
+    searchable_text=None,
+    debug=False,
+):
     """Helper method for Solr power search:
     - adds request_tag to search phrase
     - sorts on title
@@ -92,8 +100,16 @@ def query(path=None, path_depth=None, tags=[], portal_types=None,
     if path:
         lucene_query &= Q(path_parents=path)
     if path_depth:
-        lucene_query &= Q(path_depth=path_depth)
+        if not isinstance(path_depth, (list, tuple)):
+            lucene_query &= Q(path_depth=path_depth)
+        else:
+            subquery = Q()
+            for pd in path_depth:
+                subquery |= Q(path_depth=pd)
+            lucene_query &= subquery
     tags = tags or []
+    if isinstance(tags, basestring):
+        tags = [tags]
     for tag in tags:
         lucene_query &= Q(tags=safe_unicode(tag))
     if portal_types:
@@ -101,13 +117,17 @@ def query(path=None, path_depth=None, tags=[], portal_types=None,
         for pt in portal_types:
             subquery |= Q(portal_type=pt)
         lucene_query &= subquery
-
+    if searchable_text:
+        lucene_query &= Q(SearchableText=safe_unicode(searchable_text))
     solr_query = sitesearch._create_query_object(None)
     solr_query = solr_query.filter(lucene_query)
     if facet_by:
         solr_query = solr_query.facet_by(facet_by)
     if sort_by:
-        solr_query = solr_query.sort_by(sort_by)
+        if isinstance(sort_by, basestring):
+            sort_by = [sort_by]
+        for sb in sort_by:
+            solr_query = solr_query.sort_by(sb)
     if debug:
         solr_query = sitesearch._apply_debug(solr_query)
 
@@ -116,24 +136,3 @@ def query(path=None, path_depth=None, tags=[], portal_types=None,
         debug=debug
     )
     return ISearchResponse(response)
-
-
-def result2object(searchresult):
-    """Return the object for this ISearchResult.
-
-    This method mimicks a subset of what publisher's traversal does,
-    so it allows access if the final object can be accessed even
-    if intermediate objects cannot.
-
-    Analogous to Products.ZCatalog.CatalogBrain.getObject()
-    but without the fallbacks needed when there is no request
-    i.e. in tests.
-    """
-    path = searchresult.path.split('/')
-    root = api.portal.get()
-    if len(path) > 1:
-        parent = root.unrestrictedTraverse(path[:-1])
-    else:
-        parent = root
-    # CatalogBrain has path[-1] without colon - breaks for me
-    return parent.restrictedTraverse(path[-1:])
