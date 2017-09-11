@@ -13,6 +13,7 @@ Added:
 
 Fixed:
 
+* Library navigation was not highlighting the proper tab (Refs. Syslab #15869)
 * The upgrade step to create the todo app could break
   if the original dummy app was deleted
 * Prevent possible write on read when adding status update attachments

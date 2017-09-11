@@ -1,17 +1,17 @@
-import urllib
-
+# coding=utf-8
 from logging import getLogger
-from Products.Five import BrowserView
 from plone import api
 from plone.app.layout.globals.interfaces import IViewView
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import view
+from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.library.browser import utils
+from Products.Five import BrowserView
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
-from ploneintranet.core import ploneintranetCoreMessageFactory as _
-from ploneintranet.library.browser import utils
-from ploneintranet.search.interfaces import ISearchResult
+import urllib
+
 
 log = getLogger(__name__)
 
@@ -87,32 +87,26 @@ class LibraryBaseView(BrowserView):
     def sections(self):
         """Return toplevel section navigation"""
         app = self.app()
-        path = '/'.join(app.getPhysicalPath())
-        sections = utils.query(path,
-                               portal_types=['ploneintranet.library.section'])
-        current_url = self.request['ACTUAL_URL']
-        current_path = current_url.split('/')
-        current_nav = app
-        for s in sections:
-            # /foo/bar/baz is in /foo/bar BUT
-            # /foo/bar-1 is not in /foo/bar
-            if current_url.startswith(s.url) \
-               and (set(current_path) >= set(s.path.split('/'))):
-                current_nav = s
-                break
-        app_current = (app == current_nav) and 'current' or ''
+        # The first navigation entry is always the app.
+        # It is highlighted with the "current class"
+        # if the context is equal to that app
         menu = [dict(title=_("All topics"),
                      absolute_url=app.absolute_url(),
-                     current=app_current)]
-
-        for s in sections:
-            current_path = (
-                ISearchResult.providedBy(current_nav) and current_nav.path or
-                "/".join(current_nav.getPhysicalPath()))
-            s_current = (s.path == current_path) and 'current' or ''
-            menu.append(dict(title=s.title,
-                             absolute_url=s.url,
-                             current=s_current))
+                     current='current' if self.context == app else None)]
+        # Then we look for the contained sections
+        # and create the other navigation items
+        sections = utils.query(
+            '/'.join(app.getPhysicalPath()),
+            portal_types=['ploneintranet.library.section']
+        )
+        context_url = self.context.absolute_url()
+        menu.extend([
+            dict(
+                title=section.title,
+                absolute_url=section.url,
+                current='current' if section.url in context_url else None,
+            ) for section in sections
+        ])
         return menu
 
     @view.memoize
