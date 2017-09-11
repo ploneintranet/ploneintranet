@@ -10,7 +10,7 @@ Library  DebugLibrary
 
 Variables  variables.py
 
-Test Setup  Open test browser
+Test Setup  Open browser  ${START_URL}/login_form  ${BROWSER}
 Test Teardown  Close all browsers
 
 
