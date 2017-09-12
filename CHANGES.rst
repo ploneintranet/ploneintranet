@@ -13,6 +13,11 @@ Added:
 
 Fixed:
 
+* The activity stream modals for editing a post or a comment
+  are now compliant with prototype and displays a title (Refs. Syslab #15824)
+* The activity stream modals for deleting a post or a comment
+  are now compliant with prototype (Refs. Syslab #15824)
+* The add user modal now displays the title (Refs. Syslab #15824)
 * The "Info" tab of "My profile" displays also the groups I belong to
   (Refs. Syslab #15688)
 * Library navigation was not highlighting the proper tab (Refs. Syslab #15869)
