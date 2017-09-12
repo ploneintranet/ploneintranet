@@ -102,6 +102,7 @@ Dollie can change her password
     And I open the change passord form
     Then I change my password to  new_password
     And I can log in with the new password  dollie_nocera  new_password
+    Then I see the avatar of  Dollie Nocera
 
 Dollie can change her avatar from her profile page
     Given I am logged in as the user dollie_nocera
@@ -203,10 +204,11 @@ I can log in with the new password
     [arguments]  ${userid}  ${pwd}
     I can open the personal tools menu
     I can follow the link to logout
-    Input text  name=__ac_name  ${userid}
-    Input text  name=__ac_password   ${pwd}
-    Click button  Log in
-    Wait Until Page Contains Element  jquery=#user-avatar > img[alt="Dollie Nocera"]
+    Enter the Credentials  ${userid}  ${pwd}
+
+I see the avatar of
+    [arguments]  ${fullname}
+    Wait Until Page Contains Element  jquery=#user-avatar > img[alt="${fullname}"]
 
 I can upload a new avatar from my profile
     # Make the file input visible otherwise "Choose file will not work"
