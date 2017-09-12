@@ -33,6 +33,7 @@
                 <a class="icon create pat-modal"
                    href="${view/profiles/absolute_url}/panel-create-user-account#document-content"
                    title="Create a new user account"
+                   data-pat-modal="panel-header-content: none"
                    i18n:attributes="title"
                    i18n:translate=""
                 >Create a new user account</a>
