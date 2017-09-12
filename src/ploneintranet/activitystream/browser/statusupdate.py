@@ -11,8 +11,10 @@ from ploneintranet.activitystream.browser.utils import link_urls
 from ploneintranet.activitystream.browser.utils import link_users
 from ploneintranet.attachments.utils import IAttachmentStorage
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from ploneintranet.layout.interfaces import IDiazoNoTemplate
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
+from zope.interface import implementer
 
 import logging
 
@@ -237,34 +239,28 @@ class StatusUpdateView(BrowserView):
     @property
     def actions(self):
         actions = []
-
         if self.context.can_delete:
             if self.context.thread_id:
-                actions.append(dict(
-                    icon='trash',
-                    title='Delete comment',
-                    url=self.traverse + '/panel-delete-comment.html'
-                ))
+                title = _('Delete comment')
             else:
-                actions.append(dict(
-                    icon='trash',
-                    title='Delete post',
-                    url=self.traverse + '/panel-delete-post.html'
-                ))
-
+                title = _('Delete post')
+            actions.append({
+                'icon': 'trash',
+                'title': title,
+                'data_pat_modal': 'class: small',
+                'url': self.traverse + '/panel-delete-post.html',
+            })
         if self.context.can_edit:
             if self.context.thread_id:
-                actions.append(dict(
-                    icon='edit',
-                    title='Edit comment',
-                    url=self.traverse + '/panel-edit-comment.html'
-                ))
+                title = _('Edit comment')
             else:
-                actions.append(dict(
-                    icon='edit',
-                    title='Edit post',
-                    url=self.traverse + '/panel-edit-post.html'
-                ))
+                title = _('Edit post')
+            actions.append({
+                'icon': 'edit',
+                'title': title,
+                'url': self.traverse + '/panel-edit-post.html',
+                'data_pat_modal': 'panel-header-content: none',
+            })
 
         # edit_tags not implemented yet
         # edit_mentions not implemented yet
@@ -334,6 +330,85 @@ class StatusUpdateView(BrowserView):
             return '{}/view'.format(self.content_context.absolute_url())
         elif self.is_content_update:
             return self.content_context.absolute_url()
+
+
+@implementer(IDiazoNoTemplate)
+class StatusUpdateEditPanel(StatusUpdateView):
+    ''' Render the edit panel for posts or comments
+    '''
+    @property
+    @memoize
+    def title(self):
+        if self.context.thread_id:
+            return _('Edit comment')
+        return _('Edit post')
+
+    @property
+    @memoize
+    def form_action(self):
+        if self.context.thread_id:
+            return self.traverse + '/comment-edited.html'
+        return self.traverse + '/post-edited.html'
+
+    @property
+    def selector_template(self):
+        if self.context.thread_id:
+            return '#{thread_id}-comment-{context_id} .comment-content'
+        return '#post-{context_id} .post-content'
+
+    @property
+    @memoize
+    def data_pat_inject(self):
+        selector = self.selector_template.format(
+            context_id=self.context.id,
+            thread_id=self.context.thread_id,
+        )
+        return 'source: {selector}; target: {selector};'.format(
+            selector=selector
+        )
+
+
+@implementer(IDiazoNoTemplate)
+class StatusUpdateDeletePanel(StatusUpdateView):
+    ''' Render the delete panel for posts or comments
+    '''
+    @property
+    @memoize
+    def title(self):
+        if self.context.thread_id:
+            return _('Delete comment')
+        return _('Delete post')
+
+    @property
+    @memoize
+    def description(self):
+        if self.context.thread_id:
+            return _('You are about to delete this comment. Are you sure?')
+        return _('You are about to delete this post. Are you sure?')
+
+    @property
+    @memoize
+    def form_action(self):
+        if self.context.thread_id:
+            return self.traverse + '/comment-deleted.html'
+        return self.traverse + '/post-deleted.html'
+
+    @property
+    def selector_template(self):
+        if self.context.thread_id:
+            return '#{thread_id}-comment-{context_id}::element'
+        return '#post-{context_id}::element'
+
+    @property
+    @memoize
+    def data_pat_inject(self):
+        selector = self.selector_template.format(
+            context_id=self.context.id,
+            thread_id=self.context.thread_id,
+        )
+        return 'source: #document-content; target: {selector};'.format(
+            selector=selector
+        )
 
 
 class StatusUpdateModify(StatusUpdateView):

@@ -1,11 +1,10 @@
 from AccessControl import Unauthorized
-from Products.Five.browser import BrowserView
 from plone import api
+from ploneintranet.microblog.interfaces import IMicroblogTool
+from Products.Five.browser import BrowserView
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-
-from ploneintranet.microblog.interfaces import IMicroblogTool
 
 
 @implementer(IPublishTraverse)
@@ -30,9 +29,7 @@ class StatusUpdateTraverse(BrowserView):
         'post-deleted.html',
         'panel-edit-post.html',
         'post-edited.html',
-        'panel-delete-comment.html',
         'comment-deleted.html',
-        'panel-edit-comment.html',
         'comment-edited.html',
     ]
 
