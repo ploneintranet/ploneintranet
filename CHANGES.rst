@@ -30,6 +30,13 @@ Upgraded:
 * Upgrade quaive.resources.ploneintranet to 2.0.1
   to use the webpack generated bundle
 
+Changed:
+
+* Technical: in workflow drop-downs, the `value` property for the current state,
+  which used to be empty (nothing to do) is now filled with the id of the current
+  state, which in turn will land in the data-option-value property of the select.
+  This means that it can be used for styling, independently of translations.
+
 
 1.2.71 (2017-08-30)
 -------------------
