@@ -37,18 +37,26 @@
 			    <input tal:condition="not:field/read_only"
 				   tal:replace="structure field/html" />
 			</label>
-			<section class="help" 
+			<section class="help"
 				 tal:condition="field/error_html">
-			    <div class="pat-message warning" 
+			    <div class="pat-message warning"
 				 tal:content="structure field/error_html" />
 			</section>
 		    </tal:field>
 		    <p>
-			<input type="submit" 
+			<input type="submit"
 			       i18n:attributes="value"
-			       value="Save" 
+			       value="Save"
 			       name="form.buttons.save" />
 		    </p>
+        <div id="person-groups">
+          <a class="pat-inject"
+            href="${here/absolute_url}/@@userprofile-group#person-groups"
+            data-pat-inject="trigger:autoload-visible; loading-class: none"
+            i18n:translate=""
+            >Loading group information...
+          </a>
+        </div>
 	    </form>
 	    </div>
 

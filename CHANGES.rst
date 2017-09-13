@@ -13,6 +13,8 @@ Added:
 
 Fixed:
 
+* The "Info" tab of "My profile" displays also the groups I belong to
+  (Refs. Syslab #15688)
 * Library navigation was not highlighting the proper tab (Refs. Syslab #15869)
 * The upgrade step to create the todo app could break
   if the original dummy app was deleted
