@@ -14,14 +14,18 @@ I am logged in as site administrator
 I am logged in as the user ${userid}
     ${IN_LOGIN_FORM} =  Get Matching Xpath Count  //form[@id='login-panel']
     RunKeywordIf  ${IN_LOGIN_FORM} == 0  Logout And Go To Login
-    Input text  name=__ac_name  ${userid}
-    Input text  name=__ac_password  secret
-    Submit Form  css=#login-panel
+    Enter the Credentials  ${userid}  secret
     Wait until page contains  You are now logged in
 
 Logout And Go To Login
     Go To  ${PLONE_URL}/logout
     Go To  ${PLONE_URL}/login_form
+
+Enter the Credentials
+    [arguments]  ${username}  ${password}
+    Input text for sure  name=__ac_name  ${username}
+    Input text for sure  name=__ac_password  ${password}
+    Submit Form  css=#login-panel
 
 Wait for injection to be finished
     Wait Until Page Does Not Contain Element  css=.injecting-content
