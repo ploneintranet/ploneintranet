@@ -15,7 +15,7 @@
     >
       <option
         title="${state/title}"
-        value="${state/action}"
+        value="${state/current_state_id|state/action}"
         selected="${state/selected|nothing}"
         tal:repeat="state view/get_workflow_transitions"
         i18n:translate=""

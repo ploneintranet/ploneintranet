@@ -71,6 +71,7 @@ class WorkflowMenu(BrowserView):
         current_state = getattr(available_states, current_state_id).title
         states = [dict(
             action='',
+            current_state_id=current_state_id,
             title=current_state or current_state_id,
             new_state_id='',
             selected='selected')]
