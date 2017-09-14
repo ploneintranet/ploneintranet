@@ -155,9 +155,9 @@ The page is not found
 I cannot reset my password with an illegal request posing as
     [arguments]    ${user_name}
     Page should contain  Set your password
-    Input text  css=input#userid  ${user_name}
-    Input text  css=input#password  impostor
-    Input text  css=input#password2  impostor
+    Input text for sure  css=input#userid  ${user_name}
+    Input text for sure  css=input#password  impostor
+    Input text for sure  css=input#password2  impostor
     Click button  Set my password
     Wait until page contains  Error setting password
 
