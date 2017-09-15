@@ -17,6 +17,7 @@
 	<li tal:repeat="action view/actions">
     <a class="icon-${action/icon} pat-modal close-panel"
              href="${action/url}#document-content"
+             data-pat-modal="${action/data_pat_modal|nothing}"
              i18n:translate="">${action/title}</a>
 	</li>
       </ul>
