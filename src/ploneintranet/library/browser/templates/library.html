@@ -1,165 +1,185 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="ploneintranet">
+      xml:lang="en"
+      i18n:domain="ploneintranet"
+>
+  <metal:content fill-slot="content">
+    <div class="container"
+         id="portal-content"
+         tal:define="
+           selected_groupby python:request.get('groupby', view.groupby);
+           info view/info;
+         "
+    >
+      <nav class="canvas-subnav">
+        <a class="${section/current}"
+           href="${section/absolute_url}"
+           tal:repeat="section view/sections"
+        >${section/title}</a>
+      </nav>
+      <article class="pat-rich canvas-intro"
+               tal:condition="info"
+      >
+        <h1 class="${info/klass|nothing}"
+            tal:condition="info/title|nothing"
+        >${info/title}</h1>
+        <h1 tal:condition="info/chain|nothing">
+          <nav class="pat-breadcrumbs">
+            <a href="${item/absolute_url}"
+               tal:repeat="item info/chain"
+            >${item/title}</a>
+          </nav>
+        </h1>
+        <p class="description"
+           tal:condition="info/description|nothing"
+        >
+        ${info/description}
+        </p>
+      </article>
 
-  <tal:comment condition="nothing">based on prototype/library.html and other library-* variants</tal:comment>
+      <form class="canvas-toolbar pat-inject pat-autosubmit"
+            action="${here/absolute_url}/@@${view/__name__}#lib-groups"
+            method="get"
+      >
+        <label class="bare pat-select"
+               tal:condition="view/groupby_menu_enabled"
+        >
+          <select name="groupby"
+                  tal:define="
+                    selected_groupby python:request.get('groupby', view.groupby);
+                  "
+          >
+            <option selected="${python:'selected' if selected_groupby == 'section' else None}"
+                    value="section"
+                    i18n:translate=""
+            >
+              Group by section
+            </option>
+            <option selected="${python:'selected' if selected_groupby == 'tag' else None}"
+                    value="tag"
+                    i18n:translate=""
+            >
+              Group by tag
+            </option>
+          </select>
+        </label>
 
-    <metal:content fill-slot="content">
-      <div class="container" id="portal-content"
-           tal:define="groupby string:group-by-${view/groupby}">
-
-        <nav class="canvas-subnav">
-	  <a tal:repeat="section view/sections"
-             tal:attributes="href section/absolute_url; class section/current"
-             tal:content="section/title">HR</a>
-        </nav>
-
-        <article class="pat-rich canvas-intro"
-                 tal:define="info view/info"
-                 tal:condition="info">
-          <h1 tal:condition="info/title|nothing"
-              tal:attributes="class info/klass|nothing"
-              tal:content="info/title">unlinked title</h1>
-	  <h1 tal:condition="info/chain|nothing">
-	    <nav class="pat-breadcrumbs">
-	      <a href="#"
-                 tal:repeat="item info/chain"
-                 tal:attributes="href item/absolute_url"
-                 tal:content="item/title">HR</a>
-	    </nav>
-	  </h1>
-	  <p class="description"
-             tal:condition="info/description|nothing"
-             tal:content="info/description">
-	    Praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
-	  </p>
-        </article>
-
-        <form class="canvas-toolbar pat-autosubmit"
-              method="post">
-	  <label class="bare pat-select"
-                 tal:condition="view/groupby_menu_enabled">
-	    <select name="groupby">
-	      <option value="section"
-                      tal:attributes="selected python:view.selected('groupby')" i18n:translate="">
-		Group by section
-	      </option>
-	      <option value="tag"
-                      tal:attributes="selected python:view.selected('tag')" i18n:translate="">
-		Group by tag
-	      </option>
-	    </select>
-	</label>
-
-	<div class="icons">
-		<!-- Link to external CMS -->
-		<a href="@@switch_theme"
-                   tal:condition="view/can_add"
-                   tal:attributes="href string:${context/absolute_url}/@@switch_theme"
-                   class="icon create"
-                   title="Create a new page or section"
-                   i18n:attributes="title"
-                   i18n:translate="">Create a new page or section</a>
-	</div>
-
-	<!-- Search is out of scope? -->
-	<input type="search" placeholder="Search library items"
-               tal:condition="nothing"/>
-
-        </form>
-
-        <div class="lib-groups pat-masonry" data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;" id="lib-groups">
-	  <div class="grid-sizer"></div>
-
-          <tal:children repeat="child view/children">
-
-	    <div class="tile group-by-section"
-                 tal:define="itemtype child/type"
-                 tal:condition="python: itemtype=='container'"
-                 tal:attributes="class string: tile ${groupby}">
-	      <div class="content">
-	        <h3>
-	          <a href="#"
-                     tal:attributes="href child/absolute_url"
-                     tal:content="child/title">HR</a>
-	        </h3>
-	        <p class="description"
-                   tal:condition="child/description|nothing"
-                   tal:content="child/description">
-	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
-	        </p>
-	        <ul class="menu group-by-section"
-                    tal:attributes="class string:menu ${groupby}">
-	          <li tal:attributes="class item/follow"
-                      tal:repeat="item child/content">
-		    <a tal:attributes="class item/icon; href item/absolute_url"
-                       tal:content="item/title"
-                       href="#">Valenpedicis palemtuem</a>
-	          </li>
-	        </ul>
-	      </div>
-            </div>
-
-            <div class="tile group-by-tag"
-                 tal:define="itemtype child/type"
-                 tal:condition="python: itemtype=='tag'">
-              <div class="content">
-                <h3><a tal:attributes="href child/absolute_url"
-                       tal:content="child/title">main tag</a></h3>
-                <ul class="menu group-by-tag">
-                  <li class="follow-tag"
-                      tal:repeat="subtag child/subtags">
-                    <a tal:attributes="href subtag/absolute_url"
-                       tal:content="subtag/title">sub tag</a>
-                  </li>
-                  <li class="follow-page"
-                      tal:repeat="page child/content">
-                    <a tal:attributes="href page/absolute_url"
-                       tal:content="page/title">sub tag</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-	    <div class="tile type-page"
-                 tal:define="itemtype child/type"
-                 tal:condition="python: itemtype=='document'">
-	      <a href="#" class="content"
-                 tal:attributes="href child/absolute_url">
-	        <h3 tal:content="child/title">page title</h3>
-                <p class="hero"
-                   tal:condition="child/preview">
-                  <img tal:attributes="src string:${child/preview}" title="preview image"/>
-                </p>
-	        <p class="summary" tal:content="child/description">
-	          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum.
-	        </p>
-                <p class="footer"
-                   tal:define="portal_type child/context/portal_type">
-                  <em class="read-more"
-                      i18n:translate="read-more"
-                      tal:condition="python:portal_type != 'File'">Read more...</em>
-                  <em class="read-more"
-                      i18n:translate="download"
-                      tal:condition="python:portal_type == 'File'">Download</em>
-                </p>
-              </a>
-	    </div>
-
-          </tal:children>
-
+        <div class="icons">
+          <!-- Link to external CMS -->
+          <a class="icon create"
+             href="${context/absolute_url}/@@switch_theme"
+             title="Create a new page or section"
+             tal:condition="view/can_add"
+             i18n:attributes="title"
+             i18n:translate=""
+          >Create a new page or section</a>
         </div>
 
-        <p tal:condition="not:view/enabled">
-          Tag views are only supported with Solr.
-          Please deploy with Solr.
+        <input minlength="2"
+               name="SearchableText"
+               placeholder="Search library items"
+               title="Search library items"
+               type="search"
+               value="${request/SearchableText|nothing}"
+               tal:condition="view/show_searchbox|nothing"
+               i18n:attributes="placeholder;title;"
+        />
+
+      </form>
+
+      <div class="lib-groups pat-masonry"
+           id="lib-groups"
+           data-pat-masonry="column-width: .grid-sizer; gutter: 0; item-selector: .tile;"
+           tal:define="
+             children view/children;
+           "
+      >
+        <div class="grid-sizer"></div>
+        <p class="pat-message notice"
+           tal:condition="not:children"
+           i18n:translate=""
+        >
+          No results found matching your query
         </p>
-
+        <tal:children repeat="child children">
+          <div class="tile ${python:view.get_child_class(child)}"
+               tal:define="
+                 portal_type child/portal_type;
+                 is_pageish python:portal_type in view.pageish_portal_types;
+                 preview child/preview_image_path|nothing;
+               "
+          >
+            <div class="content">
+              <tal:container tal:condition="not:is_pageish">
+                <a href="${child/url|child/absolute_url}"
+                   tal:condition="not:is_pageish"
+                >
+                  <h3>${child/title}</h3>
+                  <p class="description"
+                     tal:condition="child/description|nothing"
+                  >
+                  ${child/description}
+                  </p>
+                </a>
+              </tal:container>
+              <a href="${child/url|child/absolute_url}"
+                 tal:condition="is_pageish"
+              >
+                <h3>${child/title}</h3>
+                <p class="hero"
+                   tal:condition="preview"
+                >
+                  <img src="${preview}"
+                       title="preview image"
+                  />
+                </p>
+                <p class="summary"
+                   tal:condition="child/description|nothing"
+                >
+                  ${child/description}
+                </p>
+                <p class="footer"
+                   tal:condition="is_pageish"
+                >
+                  <em class="read-more"
+                      tal:condition="python:portal_type != 'File'"
+                      i18n:translate="read-more"
+                  >Read more...</em>
+                  <em class="read-more"
+                      tal:condition="python:portal_type == 'File'"
+                      i18n:translate="download"
+                  >Download</em>
+                </p>
+              </a>
+              <ul class="menu group-by-${view/groupby}"
+                  tal:define="
+                    nephews python:children[child];
+                  "
+                  tal:condition="nephews"
+              >
+                <tal:nephew repeat="nephew nephews">
+                  <li class="${python: 'follow-page' if is_nephew_pageish else 'follow-section'}"
+                      tal:define="
+                        is_nephew_pageish python:nephew.portal_type in view.pageish_portal_types;
+                      "
+                  >
+                    <a class="${python: 'icon-page' if is_nephew_pageish else 'icon-squares'}"
+                       href="${nephew/url}"
+                    >${nephew/title}</a>
+                  </li>
+                </tal:nephew>
+              </ul>
+            </div>
+          </div>
+        </tal:children>
       </div>
-    </metal:content>
-
+      <p tal:condition="not:view/enabled">
+        Tag views are only supported with Solr. Please deploy with Solr.
+      </p>
+    </div>
+  </metal:content>
 </html>
