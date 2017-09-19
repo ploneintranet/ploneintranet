@@ -68,7 +68,7 @@
                     id="user-${python:user.UID[:6]}"
                 >
                   <a class="user-name pat-modal"
-                     href="${user/getURL}/@@userprofile-info#person-info"
+                     href="${user/getURL}/@@userprofile-info#person-info::element"
                      title="${user/title}"
                      data-pat-modal="class: large"
                   >
