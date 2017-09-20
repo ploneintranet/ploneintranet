@@ -15,6 +15,7 @@ Added:
 
 Fixed:
 
+* The user sync was failing when logging the sync informations (#1491)
 * The activity stream modals for editing a post or a comment
   are now compliant with prototype and displays a title (Refs. Syslab #15824)
 * The activity stream modals for deleting a post or a comment
