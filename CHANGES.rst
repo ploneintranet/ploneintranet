@@ -34,6 +34,8 @@ Fixed:
   are members correctly as groups
 * Translation: The email subject of the "Welcome to the site" mail can now
   be translated
+* AD/LDAP sync only (re-)sets profile image when it changed (previously a new blob
+  has been created on every sync bloating the database)
 
 Upgraded:
 
