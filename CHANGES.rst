@@ -27,7 +27,7 @@ Fixed:
 * The upgrade step to create the todo app could break
   if the original dummy app was deleted
 * Prevent possible write on read when adding status update attachments
-* When clciking on the "Create new task" button in the sidebar,
+* When clicking on the "Create new task" button in the sidebar,
   the add task form was not appearing due to a broken injection
   (Refs. Syslab #15847).
 * Membership roster in workspace sidebar now also shows other workspaces that
