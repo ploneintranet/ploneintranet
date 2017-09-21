@@ -86,6 +86,8 @@ Dollie can change her details
     Given I am logged in as the user dollie_nocera
     And I can view the profile for user dollie_nocera
     Then I can change my name to Mickey
+    And I can view the profile for user dollie_nocera
+    Then I can see my name is Mickey Nocera
 
 Dollie cannot change Guy's details
     Given I am logged in as the user dollie_nocera
@@ -175,8 +177,10 @@ I can change my name to ${NAME}
     Click Element  link=Info
     Wait Until Page Contains Element  css=#user-edit-form
     Input Text  name=form.widgets.first_name  Mickey
-    Click button  name=form.buttons.save
-    Page should contain Element  xpath=//figcaption//a[contains(text(), "Mickey")]
+    Wait Until Page Contains  Changes saved  2
+
+I can see my name is ${NAME}
+    Wait until page contains element  jquery=[title="Visit the profile of ${NAME}"]  2
 
 I cannot edit personal details
     I open the profile tab  Info
