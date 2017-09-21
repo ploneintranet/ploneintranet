@@ -1,9 +1,16 @@
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+# coding=utf-8
+from plone import api
 from plone.dexterity.browser import edit
 from plone.dexterity.browser import view
-from plone import api as plone_api
-from z3c.form.browser.textarea import TextAreaWidget
+from plone.dexterity.events import EditFinishedEvent
+from plone.dexterity.i18n import MessageFactory as __
+from ploneintranet.layout.interfaces import IModalPanel
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import button
 from z3c.form.browser.text import TextWidget
+from z3c.form.browser.textarea import TextAreaWidget
+from zope.event import notify
+from zope.interface import implementer
 
 
 def icon_for_field(fieldname):
@@ -56,7 +63,7 @@ class UserProfileBaseForm(object):
 
     def _hidden_fields(self):
         """Look up hidden fields from registry"""
-        hidden = plone_api.portal.get_registry_record(
+        hidden = api.portal.get_registry_record(
             'ploneintranet.userprofile.hidden_fields')
         # Portrait is edited elsewhere; contact history is auto-managed
         hidden = hidden + ('portrait', 'recent_contacts', )
@@ -64,7 +71,7 @@ class UserProfileBaseForm(object):
 
     def _read_only_fields(self):
         """Look up read-only fields from registry"""
-        read_only = plone_api.portal.get_registry_record(
+        read_only = api.portal.get_registry_record(
             'ploneintranet.userprofile.read_only_fields')
         return read_only
 
@@ -94,7 +101,21 @@ class UserProfileBaseForm(object):
 class UserProfileEditForm(UserProfileBaseForm, edit.DefaultEditForm):
 
     """Editable user profile form"""
-    pass
+
+    @button.buttonAndHandler(__(u'Save'), name='save')
+    def handleApply(self, action):
+        self.request.response
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        self.applyChanges(data)
+        api.portal.show_message(
+            self.success_message,
+            self.request,
+            'success',
+        )
+        notify(EditFinishedEvent(self.context))
 
 
 class UserProfileViewForm(UserProfileBaseForm, view.DefaultView):
@@ -112,6 +133,7 @@ class UserProfileViewForm(UserProfileBaseForm, view.DefaultView):
                          'IUserProfileAdditional.biography', )
 
 
+@implementer(IModalPanel)
 class UserProfileEditView(edit.DefaultEditView):
 
     """Custom profile edit page that renders the edit form
@@ -119,6 +141,7 @@ class UserProfileEditView(edit.DefaultEditView):
 
     form = UserProfileEditForm
     index = ViewPageTemplateFile('templates/userprofile-edit.pt')
+    is_modal_panel = True
 
     def fields_for_edit(self):
         return get_fields_for_template(self.form_instance)
