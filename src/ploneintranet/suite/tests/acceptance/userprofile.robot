@@ -193,9 +193,9 @@ I open the change passord form
 
 I change my password to
     [arguments]  ${pwd}
-    input text  name=form.widgets.current_password  secret
-    input text  name=form.widgets.new_password  ${pwd}
-    input text  name=form.widgets.new_password_ctl  ${pwd}
+    Input text for sure  name=form.widgets.current_password  secret
+    Input text for sure  name=form.widgets.new_password  ${pwd}
+    Input text for sure  name=form.widgets.new_password_ctl  ${pwd}
     Click button  Change password
     Wait until page contains  Password changed
     Click button  Close
