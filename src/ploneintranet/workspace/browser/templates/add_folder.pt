@@ -13,19 +13,23 @@
              type="hidden"
              value="Folder"
       />
-      <input autofocus=""
-             maxlength="70"
-             name="title"
-             placeholder="Folder name"
-             required="required"
-             type="text"
-             i18n:attributes="placeholder"
-      />
-      <textarea name="description"
-                placeholder="Description for search results (Optional)"
-                rows="6"
-                i18n:attributes="placeholder"
-      ></textarea>
+      <label>
+        <input autofocus=""
+               maxlength="70"
+               name="title"
+               placeholder="Folder name"
+               required="required"
+               type="text"
+               i18n:attributes="placeholder"
+        />
+      </label>
+      <label>
+        <textarea name="description"
+                  placeholder="Description for search results (Optional)"
+                  rows="6"
+                  i18n:attributes="placeholder"
+        ></textarea>
+      </label>
     </fieldset>
   </metal:body>
   <metal:buttons fill-slot="buttons">

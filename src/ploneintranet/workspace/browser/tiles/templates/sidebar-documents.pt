@@ -55,7 +55,11 @@
                       <a href="${context/absolute_url}/@@add_content#document-content" class="icon-doc-text create-document pat-modal" data-pat-modal="class: large" i18n:translate="">Create document</a>
                     </li>
                     <li>
-                      <a href="${context/absolute_url}/@@add_folder#document-content" class="icon-folder create-folder pat-modal" data-pat-modal="class: large" i18n:translate="">Create folder</a>
+                      <a href="${context/absolute_url}/@@add_folder#document-content"
+                         class="icon-folder create-folder pat-modal"
+                         data-pat-modal="class: large; panel-header-content: none"
+                         i18n:translate=""
+                      >Create folder</a>
                     </li>
                     <li>
                       <label class=" icon-upload-cloud"><input multiple="multiple" type="file"/> <span tal:omit-tag="" i18n:translate="">Upload file(s)</span></label>
