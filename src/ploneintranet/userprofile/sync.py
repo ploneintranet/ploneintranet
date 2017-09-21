@@ -8,9 +8,9 @@ from plone.namedfile.file import NamedBlobImage
 from plone.protect.interfaces import IDisableCSRFProtection
 from ploneintranet import api as pi_api
 from ploneintranet.core import ploneintranetCoreMessageFactory as _
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five import BrowserView
 from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
-from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from transaction import commit
 from zope.component import adapter
@@ -161,7 +161,7 @@ class BaseSyncView(BrowserView):
             self.handler = logging.StreamHandler(stream)
             logger.addHandler(self.handler)
 
-        result = self._sync()
+        result = self._sync() or ''
 
         if not quiet:
             logger.removeHandler(self.handler)
