@@ -121,6 +121,9 @@ class UserPropertyManager(object):
                value is not None and value is not NO_VALUE:
                 current_value = self.context.portrait and \
                     self.context.portrait.data or None
+                if current_value == value:
+                    # profile image is the same, no need to save new image
+                    continue
                 value = NamedBlobImage(
                     data=value,
                     filename=u'portrait-%s.jpg' % self.context.username)
