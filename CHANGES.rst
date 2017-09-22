@@ -15,6 +15,7 @@ Added:
 
 Fixed:
 
+* The workspace calendar is accessible also on mobile
 * The add folder modal panel has now a title and some padding
   that improves the look and feel (Refs. #15905)
 * The user sync was failing when logging the sync informations (#1491)

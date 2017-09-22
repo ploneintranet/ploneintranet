@@ -22,7 +22,11 @@
   </div>
   <div class="content">
     <p class="action-buttons">
-        <a class="call-to-action icon-grid pat-inject" href="${ws/absolute_url}/@@workspace-calendar#document-body" i18n:translate="">Workspace calendar</a>
+        <a class="call-to-action icon-grid pat-inject pat-switch"
+           href="${ws/absolute_url}/@@workspace-calendar#document-body"
+           data-pat-switch="#application-body focus-* focus-document"
+           i18n:translate=""
+        >Workspace calendar</a>
     </p>
     <div class="pat-collapsible" data-pat-collapsible="store: local" id="upcoming-events" tal:condition="events/upcoming">
       <h3 i18n:translate="">Upcoming events</h3>
