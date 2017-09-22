@@ -24,7 +24,9 @@
                 groups.
               </p>
             </article>
-            <ul class="group-table pat-equaliser">
+            <ul class="group-table pat-equaliser"
+                id="person-grouplist"
+            >
               <li class="group" tal:repeat="group groups">
                 <a href="${group/url}" class="two columns">
                   <img src="${group/img}" class="group-badge" alt="Image of ${group/title}"/>
