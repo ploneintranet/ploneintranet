@@ -15,6 +15,7 @@ Added:
 
 Fixed:
 
+* The workspace calendar is accessible also on mobile
 * The add folder modal panel has now a title and some padding
   that improves the look and feel (Refs. #15905)
 * The user edit form autosaves changes (Refs. Syslab #15688)
