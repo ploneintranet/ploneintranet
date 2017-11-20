@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.1.0rc3 (unreleased)
----------------------
+1.1.2 (2017-11-20)
+------------------
 
-- Nothing changed yet.
+- Public release
 
 
 1.1.0rc2 (2017-05-11)
