@@ -35,7 +35,7 @@ extensions = [
     #'sphinxcontrib.contributors',
     #'sphinxcontrib_robotframework',
     'sphinx.ext.autosummary',
-    'sphinxcontrib.spelling',
+    #'sphinxcontrib.spelling',
     'sphinxcontrib.zopeext.autointerface',
 ]
 
@@ -77,7 +77,7 @@ trademark_name = "Plone"
 # built documents.
 #
 # The short X.Y version.
-version = ['1.2']
+version = '1.2'
 # The full version, including alpha/beta/rc tags.
 release = '1.2.69'
 
