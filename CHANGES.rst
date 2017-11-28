@@ -2,10 +2,12 @@ Changelog
 =========
 
 
-1.2.73 (unreleased)
--------------------
+1.2.72.1 (unreleased)
+---------------------
 
-- Nothing changed yet.
+Fixed:
+
+* Applied the patch Products.PloneHotfix20171128==1.0
 
 
 1.2.72 (2017-09-22)
