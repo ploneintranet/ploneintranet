@@ -169,7 +169,7 @@ We manage our bower dependencies in :doc:`prototype` - see install instructions 
 Using bower to make the pattern available
 -----------------------------------------
 
-We use `bower <http://bower.io>`_ for mananging our front-end Javascript
+We use `bower <http://bower.io>`_ for managing our front-end Javascript
 dependencies.
 
 In order to use bower, it needs to know about where to fetch your pattern.
@@ -194,7 +194,7 @@ Note, you need to have bower installed, which you can do with::
     sudo npm install -g bower
 
 Which of course means you need to have the Node Package manager installed. This
-will be left as an excercise to the reader. :)
+will be left as an exercise to the reader. :)
 
 Then, navigate to ``ploneintranet/prototype``, where we manage our bower
 dependencies, and run::
@@ -402,9 +402,9 @@ Intranet build does, with the additional step of running ``r.js`` to build a
 bundle of all the individual javascripts.
 
 
----------------------
-Definitition of done.
----------------------
+-------------------
+Definition of done.
+-------------------
 
 When can a newly created pattern be considered done?
 ====================================================

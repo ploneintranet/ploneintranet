@@ -111,7 +111,7 @@ If you're changing this in an existing site, you then need to either reindex the
 
 .. warning::
 
-   In addition to the dexterity ``use_email_as_username`` setting, there's a plone setting ``use_email_as_login`` as well. You should not touch this when using LDAP: it has an event handler which is not LDAP aware and will error out trying to update non-existant ZODB acl_users.
+   In addition to the dexterity ``use_email_as_username`` setting, there's a plone setting ``use_email_as_login`` as well. You should not touch this when using LDAP: it has an event handler which is not LDAP aware and will error out trying to update non-existent ZODB acl_users.
 
 Our login and password page overrides retrieve the dexterity setting, not the plone setting to determine whether logging in by email is enabled. This will result in some textual adjustments on those pages.
 

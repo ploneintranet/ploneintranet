@@ -15,7 +15,7 @@ Case Management
 Introduction
 ============
 
-The main distinction between Adaptive Case Management (ACM) and “normal” workflows as used in Business Process Modeling (BPM), is that the traditional BPM paradigm uses workflows to enforce proscribed end-to-end processes, whereas ACM focuses not on constraining the full process, but rather provides “process snippets” which can be recombined by knowledge workers on the fly.
+The main distinction between Adaptive Case Management (ACM) and "normal" workflows as used in Business Process Modeling (BPM), is that the traditional BPM paradigm uses workflows to enforce proscribed end-to-end processes, whereas ACM focuses not on constraining the full process, but rather provides “process snippets” which can be recombined by knowledge workers on the fly.
 
 We can conceive of Cases as being composed of Tasks. A Case process is not completely proscribed at the Case level. **Tasks are the core process objects**.
 
@@ -63,7 +63,7 @@ The Case Manager App
 Technical Architecture and Implementation
 =========================================
 
-The case object inherits from - and assumes to provide all functionality of - a :doc:`workspace`. In addition to that it usually gets a differend DCWorkflow assigned to represent the specific business process that it is meant to implement. 
+The case object inherits from - and assumes to provide all functionality of - a :doc:`workspace`. In addition to that it usually gets a different DCWorkflow assigned to represent the specific business process that it is meant to implement. 
 
 The Metro Map
 -------------

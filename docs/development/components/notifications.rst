@@ -21,7 +21,7 @@ Events
 in the system, to inform users about those changes.
 
 Because Plone Intranet provides a rich social user experience, there's a lot of social
-activitity going on that we should tell users about.
+activity going on that we should tell users about.
 
 Microblog
 ---------

@@ -47,7 +47,7 @@ In any case you need to change the *listen* and *server_name* values which occur
        }
     }
 
-Make sure to spot all occurences of 'intranet.example.com', not just the ones following a *server_name* statement. Also, state the correct path to your ssl certificate and key::
+Make sure to spot all occurrences of 'intranet.example.com', not just the ones following a *server_name* statement. Also, state the correct path to your ssl certificate and key::
 
     ssl_certificate /etc/ssl/intranet.example.com.crt;
     ssl_certificate_key /etc/ssl/intranet.example.com.key;
