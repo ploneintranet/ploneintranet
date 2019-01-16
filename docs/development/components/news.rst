@@ -164,7 +164,7 @@ Considerations
 The main design decisions and their driving considerations for the must-read implementation are:
 
 Use a SQL backend
-   This much better suits these datastructure for writes, for queries, and for reporting.
+   This much better suits these data structure for writes, for queries, and for reporting.
 
    The SQL implementation used is largely copied over from ``collective.auditlog``.
    We're using a different table so that ``collective.mustread`` and ``collective.auditlog`` can co-exist

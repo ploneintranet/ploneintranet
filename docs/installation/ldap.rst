@@ -61,7 +61,7 @@ If you installed ldapvi you can verify that the users have been added by running
 
     ldapvi -b "dc=ploneintranet,dc=com" -D "cn=root,dc=ploneintranet,dc=com" -h ldap://localhost:8389
 
-You will be promted for the password, which is 'secret' by default. If you have not installed ldapvi, you can use ldapsearch instead.
+You will be prompted for the password, which is 'secret' by default. If you have not installed ldapvi, you can use ldapsearch instead.
 
 Using a different ldap ldif
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,7 +96,7 @@ Now that LDAP itself is ready, you can go on to connect it to Ploneintranet. To 
 
 After that you still need to configure the port of the ldap server manually. To this end, navigate to acl_users/ldap-plugin/acl_users tab 'LDAP Servers' in the ZMI (Typical direct URL: http://localhost:8080/Plone/acl_users/ldap-plugin/acl_users/manage_servers ), delete the existing ldap server and create a new one with the host 'localhost' and the port '8389'.
 
-The LDAP conntection is now set up and you can log into your Plone site as elda_pearson using the password 'secret' (or as any of the Ploneintranet test users, such as christian_stoney, etc.)
+The LDAP connection is now set up and you can log into your Plone site as elda_pearson using the password 'secret' (or as any of the Ploneintranet test users, such as christian_stoney, etc.)
 
 
 Using a different ldif

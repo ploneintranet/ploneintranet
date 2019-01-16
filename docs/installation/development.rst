@@ -186,7 +186,7 @@ issue:
 
 .. note::
 
-    If you accidentially doing something wrong outside the container / before you started the container shell, e.g. a "make" command, this may mess up your docker image.
+    If you accidentally doing something wrong outside the container / before you started the container shell, e.g. a "make" command, this may mess up your docker image.
 
 You can clean this up by invoking a::
 
@@ -223,7 +223,7 @@ To create the docker build, instead use:
 4. `make boot2docker-build` will prepare the docker image
 5. `make boot2docker-run` will launch the docker image and give you a shell inside
 
-boot2docker – docker environment not intialized
+boot2docker – docker environment not initialized
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 issue:
@@ -243,7 +243,7 @@ Export the boot2docker environment properly to run the docker-build process
 
 # continue with the build as described above
 
-boot2docker – Service not accesible
+boot2docker – Service not accessible
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 issue:

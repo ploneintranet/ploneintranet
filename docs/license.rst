@@ -3,7 +3,7 @@
 ================
 
 The Plone Intranet Consortium is committed to working in an open way
-and to stengthen the Plone community dynamic.
+and to strengthen the Plone community dynamic.
 
 We release all our source codes under the OSI certified GPLv2.
 We also transfer the copyrights on all our source codes to the Plone Foundation

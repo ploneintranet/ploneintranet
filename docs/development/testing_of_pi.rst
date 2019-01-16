@@ -230,7 +230,7 @@ In case a filepath is in the changeset which does not match any of the
 optimization strategies, optimization will be enabled and the full default
 test suite gets run.
 
-Additionally, it's possible to specifiy ``wildcard`` strategies that will
+Additionally, it's possible to specify ``wildcard`` strategies that will
 force a full test run, even if all changed file paths were matched by
 a test strategy.
 

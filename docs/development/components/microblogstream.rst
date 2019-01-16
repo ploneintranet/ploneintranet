@@ -77,7 +77,7 @@ This diagram presents an overview of the prototype injection and composition:
 
 The dotted arrows show the AJAX HTTP POST targets for the two types of ``update-social.html`` input forms: the standalone box targets ``post-well-done.html`` whereas the inline reply form targets ``comment-well-said.html``.
 
-Those helper pages are fetched in the background and then ``pat-inject`` inserts the elements as indicated by the colored arrows, always replacing the orginal ``update-social.html`` input box with a new version as returned by the helper view.
+Those helper pages are fetched in the background and then ``pat-inject`` inserts the elements as indicated by the colored arrows, always replacing the original ``update-social.html`` input box with a new version as returned by the helper view.
 
 The nested colored boxes show how each of the pages and all the elements in there are composed from templates that delegate to sub-templates for inner elements. So ``activity-stream.html`` is composed of posts rendered by ``post.html`` which in turn has comments (``comment.html``) and a reply box ``update-social.html``.
 
@@ -97,7 +97,7 @@ This lead to problems, because:
 - It is unclear which python view is, via acquisition, bound to ``view``
 - Re-using templates via many indirections is a nightmare to comprehend
 - Re-using templates against different view classes leads to excessive code complexity,
-  where these views start delegating calls to eachother.
+  where these views start delegating calls to each other.
 
 Instead, any template now has a matching view class that encapsulates state.
 All view composition is done by delegating to full view calls.
@@ -202,7 +202,7 @@ The form with id "postbox-tags" lists all available tags as ``input`` fields wit
   data-pat-inject="source: #post-box-selected-tags; target:#post-box-selected-tags &&
                    source: #selected-tags-data; target: #selected-tags-data"
 
-The first replacemement is done on the "update-social" template into the ``content-mirror``. It causes the *text* of the tag to be written into the content-mirror (thereby appearing as visible inside the text-area to the user), and it causes the *value* of the tag to be placed into a hidden input field with the id ``tags:list``. It is from this input that the handling method of ``UpdateSocialHandler`` takes the tag(s) to be added to the status update.
+The first replacement is done on the "update-social" template into the ``content-mirror``. It causes the *text* of the tag to be written into the content-mirror (thereby appearing as visible inside the text-area to the user), and it causes the *value* of the tag to be placed into a hidden input field with the id ``tags:list``. It is from this input that the handling method of ``UpdateSocialHandler`` takes the tag(s) to be added to the status update.
 
 The second replacement done by ``pat-inject`` targets a span with the id "selected-tags-data", also in the "update-social" template, that is filled with hidden inputs for every tag. But *those* inputs land, via injection, in the form that lets the user search for tags in the *current* "panel-tags". Since searching for and selecting tags is handled in two separate forms, this is how we hand-over already selected tags to the search form.
 

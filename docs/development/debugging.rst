@@ -28,7 +28,7 @@ It will stop the task execution with a message like::
     Type `exit` in session to continue.
     Remote Debugger:6901: Waiting for client...
 
-We have to open a telnet session on the mentionned port to access the debugger::
+We have to open a telnet session on the mentioned port to access the debugger::
 
     $ telnet localhost 6901
 

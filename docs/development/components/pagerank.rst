@@ -33,7 +33,7 @@ a single number for each page: that page's PageRank.
 PageRank is a recursive algorithm, where the PageRank of a given page X is derived from the
 PageRank of other pages that link to page X. The calculation usually stabilizes after enough
 iterations, typically 30. The algorithm is well understood and implementations typically
-use map-reduce parrallel calculations.
+use map-reduce parallel calculations.
 
 Intuitively, the PageRank of a given page can be understood as the probability that a web surfer
 randomly following links, will be visiting that specific page on a random moment.
@@ -51,7 +51,7 @@ To summarize:
 - incorporates human intent through link "voting"
 - hologram-like reflection of overall web structure
 - useful to sort search results
-- well-known map-reduce algoritm
+- well-known map-reduce algorithm
 
 
 Intranet search
@@ -67,11 +67,11 @@ strategies of users are: browsing and search.
 
 With regards to browsing, the information architecture in large intranets
 can be daunting, a problem that is compounded as the architecture
-is ad-hoc changed to accomodate changing organizational realities, resulting in
+is ad-hoc changed to accommodate changing organizational realities, resulting in
 information architectures that are both out-of-sync with the organization as
 perceived by the employees, and moreover become confusing because of ad-hoc
 inconsistencies. Link structures are poor, the browsing experience sucks,
-and the intranet perenially risks lack of maintenance and a spiral into
+and the intranet perennially risks lack of maintenance and a spiral into
 irrelevance.
 
 Search in intranets is typically keyword based. It's like a throwback to
@@ -116,7 +116,7 @@ Personalized PageRank
 A personalized PageRank approach calculates, for every user individually,
 the PageRank of all intranet pages.
 
-In this approach we interpret every resouce on the intranet as a node.
+In this approach we interpret every resource on the intranet as a node.
 This applies not only to pages, but also to people, group spaces, and tags.
 Doing this gives us a far denser node and link network than considering just pages,
 especially taking into account the resource and link creation elicited by implementing
@@ -161,7 +161,7 @@ In other words, we decouple personalized PageRank index-time calculation from qu
 
 Note that index-time means *any* change in the system, since changes propagate because of the
 hologram-like property of the algorithm. This becomes an ongoing computation that should leverage
-the availablility of sharding and optimizations algorithms developed for PageRank calculations.
+the availability of sharding and optimizations algorithms developed for PageRank calculations.
 
 Query-time lookup can probably_ be implemented in Solr by crafting the right index_.
 

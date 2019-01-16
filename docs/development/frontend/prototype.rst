@@ -17,7 +17,7 @@ The whole product is centered on providing the best possible user experience.
 Technical choices and architectures are driven by user experience priorities.
 
 Contrast this with traditional Plone development, in which the backend data
-strutures and form generation constrains much of the user experience.
+structures and form generation constrains much of the user experience.
 
 This design-first philosophy has some very practical consequences:
 
